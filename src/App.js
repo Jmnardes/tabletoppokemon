@@ -30,6 +30,30 @@ const App = () => {
     getPokemon()
   }
 
+  const pokemonBaseStat = (stats) => {
+    let baseAtk = 1
+    let baseHp = 2
+    let baseCa = 4
+    let tier = pokemonTier(stats)
+    let highestStat = higherPokemonStat(stats)
+
+    if (highestStat === 'attack' || highestStat === 'special-attack') {
+      baseAtk += 1
+    } else if (highestStat === 'hp') {
+      baseHp += 1
+    } else if (highestStat === 'defense' || highestStat === 'special-defense' || highestStat === 'speed') {
+      baseCa += 1
+    }
+
+    let atkTierUp = Number((tier/2).toFixed(0))
+    baseAtk = baseAtk + atkTierUp
+
+    let caTierUp = Number((tier/2).toFixed(0))
+    baseCa = baseCa + caTierUp
+
+    return (`${baseAtk}/${baseHp+tier}/${baseCa}`)
+  }
+
   const higherPokemonStat = (stats) => {
     let array = [
         stats[0].base_stat,
@@ -39,9 +63,16 @@ const App = () => {
         stats[4].base_stat,
         stats[5].base_stat,
       ]
-    
+
     let higher = Math.max(...array)
     higher = array.indexOf(higher)
+
+    if(higher === 3) {
+      higher = 1
+    } else if(higher === 4){
+      higher = 2
+    }
+
     return stats[higher].stat.name
   }
 
@@ -112,20 +143,16 @@ const App = () => {
             <div className="divTable">
               <div className="divTableBody">
                 <div className="divTableRow">
+                  <div className="divTableCell">Name</div>
+                  <div className="divTableCell">{data.name}</div>
+                </div>
+                <div className="divTableRow">
                   <div className="divTableCell">Type</div>
                   <div className="divTableCell">{pokemonType}</div>
                 </div>
                 <div className="divTableRow">
-                  <div className="divTableCell">{data.stats[0].stat.name}</div>
-                  <div className="divTableCell">{data.stats[0].base_stat}</div>
-                </div>
-                <div className="divTableRow">
-                  <div className="divTableCell">{data.stats[1].stat.name}</div>
-                  <div className="divTableCell">{(data.stats[1].base_stat + data.stats[3].base_stat)/2}</div>
-                </div>
-                <div className="divTableRow">
-                  <div className="divTableCell">{data.stats[2].stat.name}</div>
-                  <div className="divTableCell">{(data.stats[2].base_stat + data.stats[4].base_stat)/2}</div>
+                  <div className="divTableCell">Stats</div>
+                  <div className="divTableCell">{pokemonBaseStat(data.stats)}</div>
                 </div>
                 <div className="divTableRow">
                   <div className="divTableCell">{data.stats[5].stat.name}</div>

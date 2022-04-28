@@ -3,7 +3,7 @@ import axios from "axios"
 import './App.css'
 
 const App = () => {
-  const [pokemon, setPokemon] = useState("pikachu")
+  const [pokemon, setPokemon] = useState("")
   const [pokemonData, setPokemonData] = useState([])
   const [pokemonType, setPokemonType] = useState("")
 
@@ -30,28 +30,42 @@ const App = () => {
     getPokemon()
   }
 
-  const pokemonBaseStat = (stats) => {
+  const pokemonBaseStat = (stats, whichStat) => {
     let baseAtk = 1
-    let baseHp = 2
-    let baseCa = 4
+    let baseHp = 3
+    let baseCa = 5
+    let baseHpArrayStats = [3,5,7,10,13,16,16,20,24,28,32,37,47]
     let tier = pokemonTier(stats)
     let highestStat = higherPokemonStat(stats)
 
+    // get base hp for level
+    baseHp = baseHpArrayStats[tier]
+    
+    // leveling up stats based on tier
+    baseAtk += tier
+
+    let caTierUp = Number((tier/2).toFixed(0)) - 1
+    if(caTierUp < 0) {
+      caTierUp = 0
+    }
+    baseCa += caTierUp
+
+    // conditions to upgrade stat based on highest pokemon stats
     if (highestStat === 'attack' || highestStat === 'special-attack') {
       baseAtk += 1
     } else if (highestStat === 'hp') {
-      baseHp += 1
+      baseHp += 2
     } else if (highestStat === 'defense' || highestStat === 'special-defense' || highestStat === 'speed') {
       baseCa += 1
     }
 
-    let atkTierUp = Number((tier/2).toFixed(0))
-    baseAtk = baseAtk + atkTierUp
-
-    let caTierUp = Number((tier/2).toFixed(0))
-    baseCa = baseCa + caTierUp
-
-    return (`${baseAtk}/${baseHp+tier}/${baseCa}`)
+    if (whichStat === 'atk') {
+      return baseAtk
+    } else if (whichStat === 'hp') {
+      return baseHp
+    } else if (whichStat === 'ca') {
+      return baseCa
+    }
   }
 
   const higherPokemonStat = (stats) => {
@@ -151,24 +165,26 @@ const App = () => {
                   <div className="divTableCell">{pokemonType}</div>
                 </div>
                 <div className="divTableRow">
-                  <div className="divTableCell">Stats</div>
-                  <div className="divTableCell">{pokemonBaseStat(data.stats)}</div>
-                </div>
-                <div className="divTableRow">
-                  <div className="divTableCell">{data.stats[5].stat.name}</div>
-                  <div className="divTableCell">{data.stats[5].base_stat}</div>
-                </div>
-                <div className="divTableRow">
                   <div className="divTableCell">Tier</div>
                   <div className="divTableCell">
                     {pokemonTier(data.stats)}
                   </div>
                 </div>
                 <div className="divTableRow">
-                  <div className="divTableCell">Higher Stat</div>
-                  <div className="divTableCell">
-                    {higherPokemonStat(data.stats)}
-                  </div>
+                  <div className="divTableCell">Attack</div>
+                  <div className="divTableCell">{pokemonBaseStat(data.stats, 'atk')}</div>
+                </div>
+                <div className="divTableRow">
+                  <div className="divTableCell">Hp</div>
+                  <div className="divTableCell">{pokemonBaseStat(data.stats, 'hp')}</div>
+                </div>
+                <div className="divTableRow">
+                  <div className="divTableCell">CA</div>
+                  <div className="divTableCell">{pokemonBaseStat(data.stats, 'ca')}</div>
+                </div>
+                <div className="divTableRow">
+                  <div className="divTableCell">{data.stats[5].stat.name}</div>
+                  <div className="divTableCell">{data.stats[5].base_stat}</div>
                 </div>
               </div>
             </div>

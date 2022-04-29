@@ -52,15 +52,24 @@ img {
   height: 16em;
 }
 
-input {
-  box-sizing: border-box;
-  font-size: 2rem;
-  padding: 1rem;
-  display: block;
-  margin: 2rem auto;
-}
-
 body {
   background-image: url("https://images.unsplash.com/photo-1542779283-429940ce8336?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
   background-size: 150%;
+}
+
+.pokemonRollBtn {
+  background: url(../image/pokeball.png) no-repeat;
+  background-position: center center;
+  background-size: 100px 100px;
+  border: 2px solid black;
+  border-radius: 100px;
+  width: 80px;
+  height: 90px;
+  transition: 1s;
+  margin: 20px;
+}
+
+.pokemonRollBtn:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }

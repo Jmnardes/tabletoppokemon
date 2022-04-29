@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import './App.css'
 
@@ -21,12 +21,9 @@ const App = () => {
     }
   }
 
-  const handleChange = (e) => {
-    setPokemon(e.target.value.toLowerCase())
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleChange = () => {
+    let sort = Math.floor(Math.random() * 898);
+    setPokemon(sort)
     getPokemon()
   }
 
@@ -141,15 +138,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="text"
-            onChange={handleChange}
-            placeholder="Digite o pokemon"
-          />
-        </label>
-      </form>
+      <button
+        className="pokemonRollBtn"
+        type="button"
+        onClick={handleChange}
+      />
       {pokemonData.map((data) => {
         return(
           <div className="container">

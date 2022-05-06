@@ -62,15 +62,16 @@ const App = () => {
                 <input
                   type="text"
                   placeholder="Pokemon name"
-                  onChange={e => setPokemon(e.target.value)}
+                  onChange={(e) => setPokemon(e.target.value)}
                 />
               </label>
+              <button className="button" onClick={handleSubmit}>Go</button>
             </form>
           )}
         </div>
 
         <button 
-          className="randomSwitchBtn" 
+          className="randomSwitchBtn button" 
           onClick={handleRandomSwitch}
         >
           Change to {randomSwitch ? 'write pokemon name' : 'random roll'}

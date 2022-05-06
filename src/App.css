@@ -87,14 +87,18 @@ body {
 .randomSwitchBtn {
   margin: 8px;
   width: 250px;
-  background-color: gainsboro;
   border-radius: 5px;
   margin: 8px auto;
   transition: 1s;
 }
 
-.randomSwitchBtn:hover {
-  background: #99aaab;
+.button {
+  background-color: gainsboro;
+  border-color: lightgoldenrodyellow;
+}
+
+.button:hover {
+  background-color: lightgoldenrodyellow;
 }
 
 .buttonsContainer {

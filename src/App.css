@@ -144,4 +144,9 @@ body {
     justify-content: center;
     margin-bottom: 2rem;
   }
+
+  img {
+    width: 16rem;
+    align-self: center;
+  }
 }

@@ -14,7 +14,7 @@ const App = () => {
   const [pokemon, setPokemon] = useState(Math.floor(Math.random() * 898))
   const [pokemonData, setPokemonData] = useState([])
   const [randomSwitch, setRandomSwitch] = useState(false)
-  const [pokemonTier, setPokemonTier] = useState(1)
+  const [pokemonTier, setPokemonTier] = useState('')
   const [pokeNature, setPokeNature] = useState('Jolly')
   const [isShiny, setIsShiny] = useState(false)
 
@@ -34,7 +34,7 @@ const App = () => {
 
   const sortPokemon = (tier) => {
     let tierMatch = false
-    let sort = 1
+    let sort = Math.floor((Math.random() * 898) + 1)
     let shiny = 0
     let tierVariance = 0
 
@@ -49,26 +49,28 @@ const App = () => {
       tierVariance = 2 // 1 tier up
 
     // test if the tier of the sorted pokemon match the tier selected
-    while (!tierMatch) {
-      let pokemonSortedTier = 0
-      sort = Math.floor((Math.random() * 898) + 1)
-      pokemonSortedTier = pokemonTiersJson[sort-1].pokeTier
+    if (pokemonTier !== '') {
+      while (!tierMatch) {
+        let pokemonSortedTier = 0
+        sort = Math.floor((Math.random() * 898) + 1)
+        pokemonSortedTier = pokemonTiersJson[sort-1].pokeTier
 
-      // testing if the sorted poke tier matches the tier variance
-      if (tierVariance) {
-        if (tierVariance === 1) {
-          if (tier !== 0 && (pokemonSortedTier === (Number(tier) - 1) || pokemonSortedTier === Number(tier))) {
-            tierMatch = true
-          }
-        } else if (tierVariance === 2) {
-          if (pokemonSortedTier === (Number(tier) + 1) || pokemonSortedTier === Number(tier)) {
-            tierMatch = true
+        // testing if the sorted poke tier matches the tier variance
+        if (tierVariance) {
+          if (tierVariance === 1) {
+            if (tier !== 0 && (pokemonSortedTier === (Number(tier) - 1) || pokemonSortedTier === Number(tier))) {
+              tierMatch = true
+            }
+          } else if (tierVariance === 2) {
+            if (pokemonSortedTier === (Number(tier) + 1) || pokemonSortedTier === Number(tier)) {
+              tierMatch = true
+            }
           }
         }
-      }
 
-      if (pokemonSortedTier === Number(tier)) {
-        tierMatch = true
+        if (pokemonSortedTier === Number(tier)) {
+          tierMatch = true
+        }
       }
     }
 
@@ -95,6 +97,7 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setPokemon(pokemon.toLowerCase())
     setIsShiny(false)
     setPokeNature('')
     getPokemon()

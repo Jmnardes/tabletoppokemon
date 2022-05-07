@@ -36,14 +36,40 @@ const App = () => {
     let tierMatch = false
     let sort = 1
     let shiny = 0
+    let tierVariance = 0
+
+    // getting percentage to roll pokemon from tier up or down
+    tierVariance = Math.floor(Math.random() * 100) // 0 to 99
+    // console.log(tierVariance)
+    if (tierVariance < 70) // 0-69 70%
+      tierVariance = 0
+    else if (tierVariance < 95) // 70-94 25%
+      tierVariance = 1 // 1 tier down
+    else // 95-99 5%
+      tierVariance = 2 // 1 tier up
 
     // test if the tier of the sorted pokemon match the tier selected
     while (!tierMatch) {
-      sort = Math.floor(Math.random() * 898)
-      if(pokemonTiersJson[sort-1].pokeTier !== Number(tier)) {
-        continue;
+      let pokemonSortedTier = 0
+      sort = Math.floor((Math.random() * 898) + 1)
+      pokemonSortedTier = pokemonTiersJson[sort-1].pokeTier
+
+      // testing if the sorted poke tier matches the tier variance
+      if (tierVariance) {
+        if (tierVariance === 1) {
+          if (tier !== 0 && (pokemonSortedTier === (Number(tier) - 1) || pokemonSortedTier === Number(tier))) {
+            tierMatch = true
+          }
+        } else if (tierVariance === 2) {
+          if (pokemonSortedTier === (Number(tier) + 1) || pokemonSortedTier === Number(tier)) {
+            tierMatch = true
+          }
+        }
       }
-      tierMatch = true
+
+      if (pokemonSortedTier === Number(tier)) {
+        tierMatch = true
+      }
     }
 
     shiny = Math.floor((Math.random() * 20) + 1)

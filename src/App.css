@@ -34,8 +34,8 @@
 .divTableHead {
   border: 1px solid #999999;
   display: table-cell;
-  padding: 3px 10px;
-  width: 7rem;
+  padding: 3px 0;
+  width: 8rem;
 }
 
 .divTableFoot {

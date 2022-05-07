@@ -38,21 +38,21 @@ function hpPerTier(tier) {
   }
 }
 
-export function pokemonBaseStat (stats, whichStat, nature) {
+export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     let tier = whatPokemonTierIs(stats)
-    let highestStat = highestPokemonStat(stats)
     let baseAtk = 1
-    let baseHpArrayStats = [3,5,7,10,13,16,20,24,28,32,37,47]
-    let baseHp = baseHpArrayStats[tier]
+    let baseHp = 3
     let baseCa = 5
+    let highestStat = highestPokemonStat(stats)
+    let baseHpArrayStats = [3,5,7,10,13,16,20,24,28,32,37,47]
+    let caTierUp = Number((tier/2).toFixed(0))
 
     // get base hp for level
     
     // leveling up stats based on tier
     baseAtk += tier
-
-    let caTierUp = Number((tier/2).toFixed(0))
     baseCa += caTierUp
+    baseHp = baseHpArrayStats[tier]
 
     // conditions to upgrade stat based on highest pokemon stats
     if (highestStat === 'attack' || highestStat === 'special-attack') {
@@ -71,12 +71,20 @@ export function pokemonBaseStat (stats, whichStat, nature) {
     if (nature.statUp === 'ca') {baseCa += 1}
     if (nature.statDown === 'ca') {baseCa -= 1}
 
+    // up shiny status
+    if (shiny) {
+      let shinySort = Math.floor((Math.random() * 3) + 1)
+      if (shinySort === 1) {baseAtk += 1}
+      if (shinySort === 2) {baseHp += hpPerTier(tier)}
+      if (shinySort === 3) {baseCa += 1}
+    }
+
     if (whichStat === 'atk') {
-      return baseAtk
+      return baseAtk < 1 ? 1 : baseAtk
     } else if (whichStat === 'hp') {
-      return baseHp
+      return baseHp < 1 ? 1 : baseHp
     } else if (whichStat === 'ca') {
-      return baseCa
+      return baseCa < 1 ? 1 : baseCa
     }
 }
 

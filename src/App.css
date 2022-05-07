@@ -35,6 +35,7 @@
   border: 1px solid #999999;
   display: table-cell;
   padding: 3px 10px;
+  width: 7rem;
 }
 
 .divTableFoot {
@@ -53,9 +54,15 @@
 
 .container {
   display: flex;
+  flex-direction: column;
   opacity: 0.9;
   background-color: #99aaab;
+}
+
+.dex-container {
+  display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
 img {
@@ -122,6 +129,11 @@ body {
 .pokemonTierBtn {
   width: 3rem;
   height: 2rem;
+}
+
+.shiny {
+  color: gold;
+  letter-spacing: 0.5rem;
 }
 
 @media(max-width: 768px) {

@@ -37,6 +37,7 @@ const App = () => {
     let sort = 1
     let shiny = 0
 
+    // test if the tier of the sorted pokemon match the tier selected
     while (!tierMatch) {
       sort = Math.floor(Math.random() * 898)
       if(pokemonTiersJson[sort-1].pokeTier !== Number(tier)) {
@@ -56,6 +57,7 @@ const App = () => {
   }
 
   const handleChange = (e) => {
+    // if the input target has value, set pokemon state the value and return (to wait form submit)
     if (e.target.value) {
       setPokemon(e.target.value)
       return
@@ -68,7 +70,7 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsShiny(false)
-    setPokeNature(whatNaturePokemonIs())
+    setPokeNature('')
     getPokemon()
   }
 
@@ -125,8 +127,13 @@ const App = () => {
           return(
             <>
               <div className="container">
-                <img alt={data.forms[0].name} src={data.sprites[`front_${isShiny ? 'shiny' : 'default'}`]} />
-                <Table data={data} pokeNature={pokeNature} isShiny={isShiny} />
+                <h1 className={isShiny ? 'shiny' : ''}>
+                  {(isShiny ? '★' : '') + data.name + (isShiny ? '★' : '')}
+                </h1>
+                <div class="dex-container">
+                  <img alt={data.forms[0].name} src={data.sprites[`front_${isShiny ? 'shiny' : 'default'}`]} />
+                  <Table data={data} pokeNature={pokeNature} isShiny={isShiny} />
+                </div>
               </div>
             </>
           )

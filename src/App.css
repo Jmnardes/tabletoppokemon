@@ -69,7 +69,7 @@ body {
 }
 
 .pokemonRollBtn {
-  background: url(../image/pokeball.png) no-repeat;
+  background: url(./assets/images/pokeball.png) no-repeat;
   background-position: center center;
   background-size: 50px 40px;
   border: 2px solid black;
@@ -117,12 +117,6 @@ body {
 .pokemonRollBtn:hover {
   cursor: pointer;
   opacity: 0.5;
-}
-
-.pokemonTierBtnLabel {
-  color: white;
-  font-size: 18px;
-  margin-bottom: 4px;
 }
 
 .pokemonTierBtn {

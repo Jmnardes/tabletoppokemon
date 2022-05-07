@@ -2,13 +2,13 @@ import { TableRow } from "./TableRow";
 
 import { highestPokemonStat, pokemonBaseStat, pokemonTypes, whatPokemonTierIs } from "../pokemonFunctions";
 
-export function Table({ data }) {
+export function Table({ data, pokeNature, isShiny }) {
     return (
         <div className="divTable">
             <div className="divTableBody">
                 <TableRow
                     tableTitle="Name"
-                    tableValue={data.name} 
+                    tableValue={data.name + (isShiny ? '★' : '')} 
                 />
                 <TableRow 
                     tableTitle="Type"
@@ -20,15 +20,15 @@ export function Table({ data }) {
                 />
                 <TableRow
                     tableTitle="Attack"
-                    tableValue={pokemonBaseStat(data.stats, 'atk')}
+                    tableValue={pokemonBaseStat(data.stats, 'atk', pokeNature)}
                 />
                 <TableRow
                     tableTitle="Hp"
-                    tableValue={pokemonBaseStat(data.stats, 'hp')}
+                    tableValue={pokemonBaseStat(data.stats, 'hp', pokeNature)}
                 />
                 <TableRow
                     tableTitle="CA"
-                    tableValue={pokemonBaseStat(data.stats, 'ca')}
+                    tableValue={pokemonBaseStat(data.stats, 'ca', pokeNature)}
                 />
                 <TableRow
                     tableTitle={data.stats[5].stat.name}
@@ -37,6 +37,10 @@ export function Table({ data }) {
                 <TableRow
                     tableTitle="Highest Stat"
                     tableValue={highestPokemonStat(data.stats)}
+                />
+                <TableRow
+                    tableTitle="Nature"
+                    tableValue={pokeNature.nature}
                 />
             </div>
         </div>

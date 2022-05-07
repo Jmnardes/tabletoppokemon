@@ -1,3 +1,5 @@
+import { pokemonNature } from "../util/util"
+
 export function highestPokemonStat (stats) {
     let array = [
         stats[0].base_stat,
@@ -20,7 +22,23 @@ export function highestPokemonStat (stats) {
     return stats[higher].stat.name
 }
 
-export function pokemonBaseStat (stats, whichStat) {
+export function whatNaturePokemonIs() {
+  return pokemonNature[Math.floor(Math.random() * 13)]
+}
+
+function hpPerTier(tier) {
+  if (tier <= 2) {
+    return 2
+  } else if (tier <= 5) {
+    return 3
+  } else if (tier <= 9) {
+    return 4
+  } else if (tier > 9) {
+    return 5
+  }
+}
+
+export function pokemonBaseStat (stats, whichStat, nature) {
     let tier = whatPokemonTierIs(stats)
     let highestStat = highestPokemonStat(stats)
     let baseAtk = 1
@@ -40,18 +58,18 @@ export function pokemonBaseStat (stats, whichStat) {
     if (highestStat === 'attack' || highestStat === 'special-attack') {
       baseAtk += 1
     } else if (highestStat === 'hp') {
-      if (tier <= 2) {
-        baseHp += 2
-      } else if (tier <= 5) {
-        baseHp += 3
-      } else if (tier <= 9) {
-        baseHp += 4
-      } else if (tier > 9) {
-        baseHp += 5
-      }
+      baseHp += hpPerTier(tier)
     } else if (highestStat === 'defense' || highestStat === 'special-defense' || highestStat === 'speed') {
       baseCa += 1
     }
+
+    // up nature status
+    if (nature.statUp === 'atk') {baseAtk += 1}
+    if (nature.statDown === 'atk') {baseAtk -= 1} 
+    if (nature.statUp === 'hp') {baseHp += hpPerTier(tier)}
+    if (nature.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
+    if (nature.statUp === 'ca') {baseCa += 1}
+    if (nature.statDown === 'ca') {baseCa -= 1}
 
     if (whichStat === 'atk') {
       return baseAtk

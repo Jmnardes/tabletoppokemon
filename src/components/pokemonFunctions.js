@@ -45,7 +45,7 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     let baseCa = 5
     let highestStat = highestPokemonStat(stats)
     let baseHpArrayStats = [3,5,7,10,13,16,20,24,28,32,37,47]
-    let caTierUp = Number((tier/2).toFixed(0))
+    let caTierUp = Number(Math.floor(tier/2).toFixed(0))
 
     // get base hp for level
     

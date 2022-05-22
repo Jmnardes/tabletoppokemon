@@ -30,7 +30,7 @@ export function Table({ data, pokeNature, isShiny }) {
                     tableValue={pokemonTypes(data)}
                 />
                 <TableRow
-                    tableTitle={data.stats[5].stat.name}
+                    tableTitle="Speed"
                     tableValue={data.stats[5].base_stat}
                 />
                 {pokeNature ? (

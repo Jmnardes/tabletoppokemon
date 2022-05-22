@@ -11,11 +11,12 @@ import { options } from './util/util'
 import './App.css'
 
 const App = () => {
-  const [pokemon, setPokemon] = useState(Math.floor(Math.random() * 898))
+  const howMuchPokemonsRandomRoll = 898
+  const [pokemon, setPokemon] = useState(Math.floor(Math.random() * howMuchPokemonsRandomRoll))
   const [pokemonData, setPokemonData] = useState([])
   const [randomSwitch, setRandomSwitch] = useState(false)
   const [pokemonTier, setPokemonTier] = useState('')
-  const [pokeNature, setPokeNature] = useState('Jolly')
+  const [pokeNature, setPokeNature] = useState('')
   const [isShiny, setIsShiny] = useState(false)
 
   const getPokemon = async () => {
@@ -26,7 +27,7 @@ const App = () => {
       
       toArray.push(res.data)
       setPokemonData(toArray)
-      console.log(res.data)
+      // console.log(res.data)
     } catch(e) {
       console.log(e)
     }
@@ -34,7 +35,7 @@ const App = () => {
 
   const sortPokemon = (tier) => {
     let tierMatch = false
-    let sort = Math.floor((Math.random() * 898) + 1)
+    let sort = Math.floor((Math.random() * howMuchPokemonsRandomRoll) + 1)
     let shiny = 0
     let tierVariance = 0
 

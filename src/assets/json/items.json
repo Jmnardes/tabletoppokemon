@@ -1,0 +1,17 @@
+[
+    {
+        "name": "great ball",
+        "picture" : "",
+        "description" : "Adds 2 on roll catch"
+    },
+    {
+        "name": "super ball",
+        "picture" : "",
+        "description" : "Adds 3 on roll catch"
+    },
+    {
+        "name": "ultra ball",
+        "picture" : "",
+        "description" : "Adds 5 on roll catch"
+    }
+]

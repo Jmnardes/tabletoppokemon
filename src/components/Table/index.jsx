@@ -8,7 +8,7 @@ export function Table({ data, pokeNature, isShiny }) {
         <div className="divTable">
             <div className="stats">
                 <div>
-                    <Sword size={24} color="#1c1669" weight="fill" />
+                    <Sword size={24} color="#2b2ebb" weight="fill" />
                     {pokemonBaseStat(data.stats, 'atk', pokeNature, isShiny)}
                 </div>
                 <div>

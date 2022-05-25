@@ -29,3 +29,6 @@ export const pokemonNature = [
     { nature: 'Docile', statUp: '', statDown: 'hp'},
     { nature: 'Messy', statUp: '', statDown: 'ca'},
 ]
+
+// pokemon base hp array
+export const baseHpArray = [3,5,7,10,13,16,20,24,28,32,37,47]

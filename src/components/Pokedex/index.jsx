@@ -2,15 +2,15 @@ import React, { useState } from "react"
 import axios from "axios"
 import Select from 'react-select'
 
-import { Table } from "./components/Table"
-import { pokemonTypes, whatNaturePokemonIs } from "./components/pokemonFunctions"
+import { Table } from "../Table"
+import { pokemonTypes, whatNaturePokemonIs } from "../pokemonFunctions"
 
-import pokemonTiersJson from "./assets/json/pokemonTiers"
-import { options } from './util/util'
+import pokemonTiersJson from "../../assets/json/pokemonTiers.json"
+import { options } from '../../util'
 
-import './App.css'
+import '../../App.css'
 
-const App = () => {
+const Pokedex = () => {
   const howMuchPokemonsRandomRoll = 898
   const [pokemon, setPokemon] = useState(Math.floor(Math.random() * howMuchPokemonsRandomRoll))
   const [pokemonData, setPokemonData] = useState([])
@@ -41,7 +41,6 @@ const App = () => {
 
     // getting percentage to roll pokemon from tier up or down
     tierVariance = Math.floor(Math.random() * 100) // 0 to 99
-    // console.log(tierVariance)
     if (tierVariance < 70) // 0-69 70%
       tierVariance = 0
     else if (tierVariance < 95) // 70-94 25%
@@ -173,4 +172,4 @@ const App = () => {
   );
 }
 
-export default App
+export default Pokedex

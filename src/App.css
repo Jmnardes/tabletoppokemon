@@ -27,7 +27,7 @@
   width: 226px;
   margin-bottom: 1px;
   padding: 1rem;
-  background: gainsboro;
+  background: #333
 }
 
 .stats div {
@@ -44,21 +44,19 @@
 }
 
 .divTableHeading {
-  background-color: #eee;
   display: table-header-group;
   font-weight: bold;
 }
 
 .divTableCell,
 .divTableHead {
-  border: 1px solid #999999;
+  border: 1px solid lightgrey;
   display: table-cell;
   padding: 3px 0;
   width: 8rem;
 }
 
 .divTableFoot {
-  background-color: #eee;
   display: table-footer-group;
   font-weight: bold;
 }
@@ -68,17 +66,20 @@
 }
 
 .divTableCell:nth-child(1n) {
-  background-color: gainsboro;
+  background-color: #333
 }
 
 .container {
   display: flex;
   flex-direction: column;
   opacity: 0.9;
-  background-color: #99aaab;
+  color: lightgrey;
+  font: bold;
+  background-color: lightgrey;
 }
 
 .container h1 {
+  color: #333;
   margin: 0.5rem 0;
 }
 
@@ -93,9 +94,7 @@ img {
 }
 
 body {
-  background-color: #404300;
-  /* background-image: url("https://images.unsplash.com/photo-1542779283-429940ce8336?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"); */
-  background-size: 150%;
+  background-color: #333;
 }
 
 .pokemonRollBtn {
@@ -122,12 +121,22 @@ body {
   transition: 1s;
 }
 
+.rollSwitchBtn {
+  width: 80px;
+  height: 40px;
+  margin: 8px;
+  border-radius: 5px;
+  transition: 1s;
+  position: absolute;
+}
+
 .button {
   background-color: gainsboro;
   border-color: lightgoldenrodyellow;
 }
 
 .button:hover {
+  cursor: pointer;
   background-color: lightgoldenrodyellow;
 }
 

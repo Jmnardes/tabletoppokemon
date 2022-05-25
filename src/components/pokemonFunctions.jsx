@@ -1,4 +1,4 @@
-import { pokemonNature } from "../util/util"
+import { pokemonNature, baseHpArray } from "../util"
 
 export function highestPokemonStat (stats) {
     let array = [
@@ -23,18 +23,21 @@ export function highestPokemonStat (stats) {
 }
 
 export function whatNaturePokemonIs() {
-  return pokemonNature[Math.floor(Math.random() * 13)]
+  return pokemonNature[Math.floor(Math.random() * pokemonNature.length)]
 }
 
 function hpPerTier(tier) {
+  let basePerLvl = [2, 3, 4, 5, 10]
   if (tier <= 2) {
-    return 2
+    return basePerLvl[0]
   } else if (tier <= 5) {
-    return 3
+    return basePerLvl[1]
   } else if (tier <= 9) {
-    return 4
-  } else if (tier > 9) {
-    return 5
+    return basePerLvl[2]
+  } else if (tier <= 10) {
+    return basePerLvl[3]
+  } else if (tier > 10) {
+    return basePerLvl[4]
   }
 }
 
@@ -44,15 +47,12 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     let baseHp = 3
     let baseCa = 5
     let highestStat = highestPokemonStat(stats)
-    let baseHpArrayStats = [3,5,7,10,13,16,20,24,28,32,37,47]
     let caTierUp = Number(Math.floor(tier/2).toFixed(0))
-
-    // get base hp for level
     
     // leveling up stats based on tier
     baseAtk += tier
     baseCa += caTierUp
-    baseHp = baseHpArrayStats[tier]
+    baseHp = baseHpArray[tier]
 
     // conditions to upgrade stat based on highest pokemon stats
     if (highestStat === 'attack' || highestStat === 'special-attack') {

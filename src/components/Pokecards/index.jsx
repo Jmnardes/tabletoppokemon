@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 
 import items from '../../assets/json/items.json'
+import treasures from '../../assets/json/treasures.json'
 
 import '../../App.css'
 import './pokecards.css'
@@ -19,17 +20,17 @@ const Pokecards = () => {
         //     setCard(events[sort])
         // }
 
-        // if ( type === 'treasure') {
-        //     let sort = Math.floor(Math.random() * treasures.length)
-        //     setCard(treasures[sort])
-        // }
+        if ( type === 'treasure') {
+            let sort = Math.floor(Math.random() * treasures.length)
+            setCard(treasures[sort])
+        }
     }
 
     return (
         <>
             <div className="App">
                 <div className="content">
-                    <div className="buttonsContainer">
+                    <div className="cardsButton">
                         <button className="button" onClick={() => handleDrawCard('item')}>draw item</button>
                         <button className="button" onClick={() => handleDrawCard('event')}>draw event</button>
                         <button className="button" onClick={() => handleDrawCard('treasure')}>draw treasure</button>
@@ -38,7 +39,7 @@ const Pokecards = () => {
                         <div className="draw-name">
                             {card.name}
                         </div>
-                        <a className="draw-image" href={card.picture} />
+                        <img className="draw-image" src={card.picture} alt={card.name} />
                         <div className="draw-description">
                             {card.description}
                         </div>

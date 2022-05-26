@@ -1,17 +1,164 @@
 [
     {
-        "name": "great ball",
-        "picture" : "",
-        "description" : "Adds 2 on roll catch"
+        "id": 0,
+        "name": "Great ball",
+        "picture" : "http://www.pokemongobrasil.com/wp-content/uploads/2016/08/great_ball_by_peetzaahhh2010-d93nt17.png",
+        "description" : "Adds 2 in roll catch"
     },
     {
-        "name": "super ball",
-        "picture" : "",
-        "description" : "Adds 3 on roll catch"
+        "id": 1,
+        "name": "Super ball",
+        "picture" : "http://www.pokemongobrasil.com/wp-content/uploads/2016/08/pokebola-go.png",
+        "description" : "Adds 3 in roll catch"
     },
     {
-        "name": "ultra ball",
-        "picture" : "",
-        "description" : "Adds 5 on roll catch"
+        "id": 2,
+        "name": "Ultra ball",
+        "picture" : "https://static.wikia.nocookie.net/pokemon/images/f/f1/UltraBallArt.png/revision/latest/scale-to-width/360?cb=20101106022319",
+        "description" : "Adds 5 in roll catch"
+    },
+    {
+        "id": 3,
+        "name": "X - Attack",
+        "picture" : "https://archives.bulbagarden.net/media/upload/d/df/Dream_X_Attack_Sprite.png",
+        "description" : "Tier up attack stat for next battle"
+    },
+    {
+        "id": 4,
+        "name": "X - Defense",
+        "picture" : "https://archives.bulbagarden.net/media/upload/d/d4/Dream_X_Defense_Sprite.png",
+        "description" : "Tier up defense stat for next battle"
+    },
+    {
+        "id": 5,
+        "name": "X - Health",
+        "picture" : "https://archives.bulbagarden.net/media/upload/e/e0/Dream_Guard_Spec._Sprite.png",
+        "description" : "Tier up health stat for next battle"
+    },
+    {
+        "id": 6,
+        "name": "X - Critical",
+        "picture" : "https://archives.bulbagarden.net/media/upload/d/d3/Dream_Dire_Hit_Sprite.png",
+        "description" : "Tier up critical chance for next battle (crit 20 go to 19)"
+    },
+    {
+        "id": 7,
+        "name": "X - Speed",
+        "picture" : "https://archives.bulbagarden.net/media/upload/b/ba/Dream_X_Speed_Sprite.png",
+        "description" : "Tier up speed(tier) for next battle"
+    },
+    {
+        "id": 8,
+        "name": "X - Accuracy",
+        "picture" : "https://archives.bulbagarden.net/media/upload/1/18/Dream_X_Accuracy_Sprite.png",
+        "description" : "Adds 1 to hit dice roll for next battle"
+    },
+    {
+        "id": 9,
+        "name": "White flute",
+        "picture" : "https://archives.bulbagarden.net/media/upload/3/31/Dream_White_Flute_Sprite.png",
+        "description" : "Search 2 pokemons for block, lasts 3 turns"
+    },
+    {
+        "id": 10,
+        "name": "Awakening",
+        "picture" : "https://archives.bulbagarden.net/media/upload/7/7b/Dream_Awakening_Sprite.png",
+        "description" : "Wake up sleeping pokemon"
+    },
+    {
+        "id": 11,
+        "name": "Catch charm",
+        "picture" : "https://archives.bulbagarden.net/media/upload/6/65/Bag_Catching_Charm_Sprite.png",
+        "description" : "Adds 1 to catch rolls, lasts for 3 turns"
+    },
+    {
+        "id": 12,
+        "name": "Bike",
+        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/3/31/Omega_Ruby_Alpha_Sapphire_Acro_Bike.png/200px-Omega_Ruby_Alpha_Sapphire_Acro_Bike.png",
+        "description" : "Doubles next move"
+    },
+    {
+        "id": 13,
+        "name": "Escape rope",
+        "picture" : "https://archives.bulbagarden.net/media/upload/c/c0/Dream_Escape_Rope_Sprite.png",
+        "description" : "If you fall in a hole, you don't lose a turn"
+    },
+    {
+        "id": 14,
+        "name": "Pokemon egg",
+        "picture" : "https://i.pinimg.com/originals/02/c7/05/02c70572482476ba3ec8c4962f883705.png",
+        "description" : "In 3 turns you hatch a pokemon from the tier you found it"
+    },
+    {
+        "id": 15,
+        "name": "S.S. Ticket",
+        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/7/76/RG_SS_Ticket.png/200px-RG_SS_Ticket.png",
+        "description" : "Allow you to travel on SS. Anne route"
+    },
+    {
+        "id": 16,
+        "name": "Evolution stone",
+        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/d/de/Dream_Dawn_Stone_Sprite.png/59px-Dream_Dawn_Stone_Sprite.png",
+        "description" : "Used to evolve a pokemon"
+    },
+    {
+        "id": 17,
+        "name": "Burn heal",
+        "picture" : "https://archives.bulbagarden.net/media/upload/f/f4/Dream_Burn_Heal_Sprite.png",
+        "description" : "Heal burn status"
+    },
+    {
+        "id": 18,
+        "name": "Ice heal",
+        "picture" : "https://archives.bulbagarden.net/media/upload/2/2a/Dream_Ice_Heal_Sprite.png",
+        "description" : "Heal freeze status"
+    },
+    {
+        "id": 19,
+        "name": "Full heal",
+        "picture" : "https://archives.bulbagarden.net/media/upload/0/07/Dream_Full_Heal_Sprite.png",
+        "description" : "Heal all negative status"
+    },
+    {
+        "id": 20,
+        "name": "Antidote",
+        "picture" : "https://archives.bulbagarden.net/media/upload/4/42/Dream_Antidote_Sprite.png",
+        "description" : "Heal poison status"
+    },
+    {
+        "id": 21,
+        "name": "Elixir",
+        "picture" : "https://archives.bulbagarden.net/media/upload/2/29/Dream_Elixir_Sprite.png",
+        "description" : "Heal curse status"
+    },
+    {
+        "id": 22,
+        "name": "Paralyze heal",
+        "picture" : "https://archives.bulbagarden.net/media/upload/2/2a/Dream_Paralyze_Heal_Sprite.png",
+        "description" : "Heal paralyze status"
+    },
+    {
+        "id": 23,
+        "name": "Saffari ticket",
+        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/e/e5/Member_Card.png/150px-Member_Card.png",
+        "description" : "Allow you to enter on saffari route"
+    },
+    {
+        "id": 24,
+        "name": "Thief",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToY9FQYzJ9uwAKvdBBv3jv3rASY18fM_S-_nyX7V7PNfFY-xm8kWedHlzUCT4DUE6rwxc&usqp=CAU",
+        "description" : "Choose a trainer and steal one item"
+    },
+    {
+        "id": 25,
+        "name": "Backpack",
+        "picture" : "https://cdn.iconscout.com/icon/free/png-256/backpack-50-129941.png",
+        "description" : "Adds 1 more slot on your backpack"
+    },
+    {
+        "id": 26,
+        "name": "Random effect",
+        "picture" : "https://cdn-icons-png.flaticon.com/128/6662/6662934.png",
+        "description" : "Your pokemon receive a random negative status"
     }
 ]

@@ -11,7 +11,7 @@ import { options } from '../../util'
 import '../../App.css'
 
 const Pokedex = () => {
-  const howMuchPokemonsRandomRoll = 898
+  const howMuchPokemonsRandomRoll = 386
   const [pokemon, setPokemon] = useState(Math.floor(Math.random() * howMuchPokemonsRandomRoll))
   const [pokemonData, setPokemonData] = useState([])
   const [randomSwitch, setRandomSwitch] = useState(false)
@@ -52,7 +52,7 @@ const Pokedex = () => {
     if (pokemonTier !== '') {
       while (!tierMatch) {
         let pokemonSortedTier = 0
-        sort = Math.floor((Math.random() * 898) + 1)
+        sort = Math.floor((Math.random() * howMuchPokemonsRandomRoll) + 1)
         pokemonSortedTier = pokemonTiersJson[sort-1].pokeTier
 
         // testing if the sorted poke tier matches the tier variance

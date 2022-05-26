@@ -1,0 +1,56 @@
+[
+    {
+        "id": 0,
+        "name": "Master Ball",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWXlXoU5dQGGT21DR5Fl21kGDyhr0kmv6FlvGIART2A&s",
+        "description" : "Catch pokemon without dice roll"
+    },
+    {
+        "id": 1,
+        "name": "Shiny Charm",
+        "picture" : "https://archives.bulbagarden.net/media/upload/b/bd/Key_Shiny_Charm_Sprite.png",
+        "description" : "Next pokemon is shiny (you roll wich status increase)"
+    },
+    {
+        "id": 2,
+        "name": "Hp up",
+        "picture" : "https://archives.bulbagarden.net/media/upload/c/ce/Dream_HP_Up_Sprite.png",
+        "description" : "Increase pokemon Hp (depends on tier)"
+    },
+    {
+        "id": 3,
+        "name": "Iron",
+        "picture" : "https://archives.bulbagarden.net/media/upload/8/8b/Dream_Iron_Sprite.png",
+        "description" : "Increase pokemon Defense permanently"
+    },
+    {
+        "id": 4,
+        "name": "Protein",
+        "picture" : "https://archives.bulbagarden.net/media/upload/f/fa/Dream_Protein_Sprite.png",
+        "description" : "Increase pokemon Attack permanently"
+    },
+    {
+        "id": 5,
+        "name": "Carbos",
+        "picture" : "https://archives.bulbagarden.net/media/upload/9/95/Dream_Carbos_Sprite.png",
+        "description" : "Increase pokemon Speed permanently (1 tier up, but just for who atacks first)"
+    },
+    {
+        "id": 6,
+        "name": "Pirate",
+        "picture" : "https://www.clipartmax.com/png/middle/6-64860_pirate-ship-free-icon-pirate-ship-icon.png",
+        "description" : "Choose a trainer and steal a random treasure"
+    },
+    {
+        "id": 7,
+        "name": "Rare candy",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhsIjEekCBkvkQrQmezHoce6-4XXX4Jb3VNgMUpr17qumFWCVP-NGPPI0qiCnfP26MBDE&usqp=CAU",
+        "description" : "Tier up a random pokemon stat"
+    },
+    {
+        "id": 8,
+        "name": "Fly",
+        "picture" : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/018.png",
+        "description" : "You choose where to go (max: next gym)"
+    }
+]

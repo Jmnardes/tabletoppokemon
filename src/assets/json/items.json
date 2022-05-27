@@ -2,163 +2,247 @@
     {
         "id": 0,
         "name": "Great ball",
-        "picture" : "http://www.pokemongobrasil.com/wp-content/uploads/2016/08/great_ball_by_peetzaahhh2010-d93nt17.png",
+        "picture" : "http://pa1.narvii.com/6171/65bffc98a772fbe267b94f63e3f025a1881abf20_00.gif",
         "description" : "Adds 2 in roll catch"
     },
     {
         "id": 1,
         "name": "Super ball",
-        "picture" : "http://www.pokemongobrasil.com/wp-content/uploads/2016/08/pokebola-go.png",
+        "picture" : "https://i.gifer.com/C7qq.gif",
         "description" : "Adds 3 in roll catch"
     },
     {
         "id": 2,
         "name": "Ultra ball",
-        "picture" : "https://static.wikia.nocookie.net/pokemon/images/f/f1/UltraBallArt.png/revision/latest/scale-to-width/360?cb=20101106022319",
+        "picture" : "https://64.media.tumblr.com/b426a5765ea8aaa2001a7b5d2cfa6eef/dce8f77ebbcf59eb-a6/s500x750/ce2f207bf23c363661d54f281790633a32d27710.gifv",
         "description" : "Adds 5 in roll catch"
     },
     {
         "id": 3,
         "name": "X - Attack",
-        "picture" : "https://archives.bulbagarden.net/media/upload/d/df/Dream_X_Attack_Sprite.png",
+        "picture" : "https://www.pokemonunite.jp/assets/img/item/img-battleitem_02.png",
         "description" : "Tier up attack stat for next battle"
     },
     {
         "id": 4,
         "name": "X - Defense",
-        "picture" : "https://archives.bulbagarden.net/media/upload/d/d4/Dream_X_Defense_Sprite.png",
+        "picture" : "https://wiki.pokemon3d.net/images/7/7c/X_Defensebig.png",
         "description" : "Tier up defense stat for next battle"
     },
     {
         "id": 5,
         "name": "X - Health",
-        "picture" : "https://archives.bulbagarden.net/media/upload/e/e0/Dream_Guard_Spec._Sprite.png",
+        "picture" : "https://cdn.ome.lt/QwZwv0J1hN6gZOjvSk70Yiz_BMo=/770x0/smart/uploads/conteudo/fotos/potion.png",
         "description" : "Tier up health stat for next battle"
     },
     {
         "id": 6,
         "name": "X - Critical",
-        "picture" : "https://archives.bulbagarden.net/media/upload/d/d3/Dream_Dire_Hit_Sprite.png",
+        "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19080_00_256.ktx_.png",
         "description" : "Tier up critical chance for next battle (crit 20 go to 19)"
     },
     {
         "id": 7,
         "name": "X - Speed",
-        "picture" : "https://archives.bulbagarden.net/media/upload/b/ba/Dream_X_Speed_Sprite.png",
+        "picture" : "https://www.pokemonunite.gg/res/img/battleitem/xspeed.png",
         "description" : "Tier up speed(tier) for next battle"
     },
     {
         "id": 8,
         "name": "X - Accuracy",
-        "picture" : "https://archives.bulbagarden.net/media/upload/1/18/Dream_X_Accuracy_Sprite.png",
+        "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19031_00_256.ktx_.png",
         "description" : "Adds 1 to hit dice roll for next battle"
     },
     {
         "id": 9,
-        "name": "White flute",
-        "picture" : "https://archives.bulbagarden.net/media/upload/3/31/Dream_White_Flute_Sprite.png",
+        "name": "Poke flute",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF_H2-j-jCy9kvd_36jQmdW9CyxDFbUhqvkM9Ta3iaIb5l2wWw_nPeHOdx1KIwybsT72E&usqp=CAU",
         "description" : "Search 2 pokemons for block, lasts 3 turns"
     },
     {
         "id": 10,
         "name": "Awakening",
-        "picture" : "https://archives.bulbagarden.net/media/upload/7/7b/Dream_Awakening_Sprite.png",
+        "picture" : "http://pa1.narvii.com/6848/9bc04cd1ec25ffcbff1649d3b3eb07f086ec890f_00.gif",
         "description" : "Wake up sleeping pokemon"
     },
     {
         "id": 11,
         "name": "Catch charm",
-        "picture" : "https://archives.bulbagarden.net/media/upload/6/65/Bag_Catching_Charm_Sprite.png",
+        "picture" : "https://www.media.pokekalos.fr/img/pokemon/objets/big/charme-stabilite.png",
         "description" : "Adds 1 to catch rolls, lasts for 3 turns"
     },
     {
         "id": 12,
         "name": "Bike",
-        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/3/31/Omega_Ruby_Alpha_Sapphire_Acro_Bike.png/200px-Omega_Ruby_Alpha_Sapphire_Acro_Bike.png",
+        "picture" : "https://rothecyclist.files.wordpress.com/2017/11/us-2.gif",
         "description" : "Doubles next move"
     },
     {
         "id": 13,
         "name": "Escape rope",
-        "picture" : "https://archives.bulbagarden.net/media/upload/c/c0/Dream_Escape_Rope_Sprite.png",
+        "picture" : "https://i.pinimg.com/originals/f7/ea/74/f7ea74ae86695fe268fd469664f4db7b.gif",
         "description" : "If you fall in a hole, you don't lose a turn"
     },
     {
         "id": 14,
         "name": "Pokemon egg",
-        "picture" : "https://i.pinimg.com/originals/02/c7/05/02c70572482476ba3ec8c4962f883705.png",
+        "picture" : "https://thinkdm.files.wordpress.com/2019/07/egg-hatch.gif",
         "description" : "In 3 turns you hatch a pokemon from the tier you found it"
     },
     {
         "id": 15,
         "name": "S.S. Ticket",
-        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/7/76/RG_SS_Ticket.png/200px-RG_SS_Ticket.png",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrQn7MtemZ3w6xj75bjacwaKyCkCdzl8qBRmZG4ES__udgCz_p2uhlHkivBzkiVjScbHI&usqp=CAU",
         "description" : "Allow you to travel on SS. Anne route"
     },
     {
         "id": 16,
         "name": "Evolution stone",
-        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/d/de/Dream_Dawn_Stone_Sprite.png/59px-Dream_Dawn_Stone_Sprite.png",
+        "picture" : "https://64.media.tumblr.com/da5e9411ec126ca391bcc3acb2fd44ff/tumblr_okporvUv9f1sox2ufo4_400.gifv",
         "description" : "Used to evolve a pokemon"
     },
     {
         "id": 17,
         "name": "Burn heal",
-        "picture" : "https://archives.bulbagarden.net/media/upload/f/f4/Dream_Burn_Heal_Sprite.png",
+        "picture" : "https://i1.sndcdn.com/artworks-000117633740-5cwgr8-t500x500.jpg",
         "description" : "Heal burn status"
     },
     {
         "id": 18,
         "name": "Ice heal",
-        "picture" : "https://archives.bulbagarden.net/media/upload/2/2a/Dream_Ice_Heal_Sprite.png",
+        "picture" : "https://static.wikia.nocookie.net/ethereal-gates/images/6/61/Ice_Heal_Art.png/revision/latest?cb=20161128150650",
         "description" : "Heal freeze status"
     },
     {
         "id": 19,
         "name": "Full heal",
-        "picture" : "https://archives.bulbagarden.net/media/upload/0/07/Dream_Full_Heal_Sprite.png",
+        "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19090_00_256.ktx_.png",
         "description" : "Heal all negative status"
     },
     {
         "id": 20,
         "name": "Antidote",
-        "picture" : "https://archives.bulbagarden.net/media/upload/4/42/Dream_Antidote_Sprite.png",
+        "picture" : "https://external-preview.redd.it/2furDNJgaZa6ALBSOCCzCz4pgGaFkL32MAWPe0PyclQ.png?auto=webp&s=4584dfed068ff3e17f1d74ff46c7181ce78886ec",
         "description" : "Heal poison status"
     },
     {
         "id": 21,
         "name": "Elixir",
-        "picture" : "https://archives.bulbagarden.net/media/upload/2/29/Dream_Elixir_Sprite.png",
+        "picture" : "https://pm1.narvii.com/6280/6629d7bc2ba4da58fc9daa86fa32b309e4796a29_hq.jpg",
         "description" : "Heal curse status"
     },
     {
         "id": 22,
         "name": "Paralyze heal",
-        "picture" : "https://archives.bulbagarden.net/media/upload/2/2a/Dream_Paralyze_Heal_Sprite.png",
+        "picture" : "https://cdn.iconscout.com/icon/premium/png-256-thumb/paralyze-heal-674583.png",
         "description" : "Heal paralyze status"
     },
     {
         "id": 23,
         "name": "Saffari ticket",
-        "picture" : "https://archives.bulbagarden.net/media/upload/thumb/e/e5/Member_Card.png/150px-Member_Card.png",
+        "picture" : "https://pbs.twimg.com/media/E-S_dgbXoAMpkTI.jpg",
         "description" : "Allow you to enter on saffari route"
     },
     {
         "id": 24,
-        "name": "Thief",
-        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToY9FQYzJ9uwAKvdBBv3jv3rASY18fM_S-_nyX7V7PNfFY-xm8kWedHlzUCT4DUE6rwxc&usqp=CAU",
+        "name": "Item thief",
+        "picture" : "https://64.media.tumblr.com/672362f16a3c5c1d1db9d0876f87a25d/90b75dc21d90ac60-75/s640x960/c0814824f9c65622bb5d6fd9fb48caa6a93f2277.gifv",
         "description" : "Choose a trainer and steal one item"
     },
     {
         "id": 25,
         "name": "Backpack",
-        "picture" : "https://cdn.iconscout.com/icon/free/png-256/backpack-50-129941.png",
+        "picture" : "https://64.media.tumblr.com/bafd63a24fafa78e6a69b7cdce6ef6ec/tumblr_n3rqt340HH1sfeoupo1_500.gifv",
         "description" : "Adds 1 more slot on your backpack"
     },
     {
         "id": 26,
         "name": "Random effect",
-        "picture" : "https://cdn-icons-png.flaticon.com/128/6662/6662934.png",
+        "picture" : "https://i.pinimg.com/originals/bd/9b/4e/bd9b4e222885a996ed309a4a50eb1fd8.gif",
         "description" : "Your pokemon receive a random negative status"
+    },
+    {
+        "id": 27,
+        "name": "Great ball",
+        "picture" : "http://pa1.narvii.com/6171/65bffc98a772fbe267b94f63e3f025a1881abf20_00.gif",
+        "description" : "Adds 2 in roll catch"
+    },
+    {
+        "id": 27,
+        "name": "Great ball",
+        "picture" : "http://pa1.narvii.com/6171/65bffc98a772fbe267b94f63e3f025a1881abf20_00.gif",
+        "description" : "Adds 2 in roll catch"
+    },
+    {
+        "id": 27,
+        "name": "Great ball",
+        "picture" : "http://pa1.narvii.com/6171/65bffc98a772fbe267b94f63e3f025a1881abf20_00.gif",
+        "description" : "Adds 2 in roll catch"
+    },
+    {
+        "id": 27,
+        "name": "Great ball",
+        "picture" : "http://pa1.narvii.com/6171/65bffc98a772fbe267b94f63e3f025a1881abf20_00.gif",
+        "description" : "Adds 2 in roll catch"
+    },
+    {
+        "id": 28,
+        "name": "Super ball",
+        "picture" : "https://i.gifer.com/C7qq.gif",
+        "description" : "Adds 3 in roll catch"
+    },
+    {
+        "id": 28,
+        "name": "Super ball",
+        "picture" : "https://i.gifer.com/C7qq.gif",
+        "description" : "Adds 3 in roll catch"
+    },
+    {
+        "id": 28,
+        "name": "Super ball",
+        "picture" : "https://i.gifer.com/C7qq.gif",
+        "description" : "Adds 3 in roll catch"
+    },
+    {
+        "id": 29,
+        "name": "Ultra ball",
+        "picture" : "https://64.media.tumblr.com/b426a5765ea8aaa2001a7b5d2cfa6eef/dce8f77ebbcf59eb-a6/s500x750/ce2f207bf23c363661d54f281790633a32d27710.gifv",
+        "description" : "Adds 5 in roll catch"
+    },
+    {
+        "id": 30,
+        "name": "Evolution stone",
+        "picture" : "https://64.media.tumblr.com/da5e9411ec126ca391bcc3acb2fd44ff/tumblr_okporvUv9f1sox2ufo4_400.gifv",
+        "description" : "Used to evolve a pokemon"
+    },
+    {
+        "id": 31,
+        "name": "Burn heal",
+        "picture" : "https://i1.sndcdn.com/artworks-000117633740-5cwgr8-t500x500.jpg",
+        "description" : "Heal burn status"
+    },
+    {
+        "id": 32,
+        "name": "Ice heal",
+        "picture" : "https://static.wikia.nocookie.net/ethereal-gates/images/6/61/Ice_Heal_Art.png/revision/latest?cb=20161128150650",
+        "description" : "Heal freeze status"
+    },
+    {
+        "id": 33,
+        "name": "Antidote",
+        "picture" : "https://external-preview.redd.it/2furDNJgaZa6ALBSOCCzCz4pgGaFkL32MAWPe0PyclQ.png?auto=webp&s=4584dfed068ff3e17f1d74ff46c7181ce78886ec",
+        "description" : "Heal poison status"
+    },
+    {
+        "id": 34,
+        "name": "Elixir",
+        "picture" : "https://pm1.narvii.com/6280/6629d7bc2ba4da58fc9daa86fa32b309e4796a29_hq.jpg",
+        "description" : "Heal curse status"
+    },
+    {
+        "id": 35,
+        "name": "Paralyze heal",
+        "picture" : "https://cdn.iconscout.com/icon/premium/png-256-thumb/paralyze-heal-674583.png",
+        "description" : "Heal paralyze status"
     }
 ]

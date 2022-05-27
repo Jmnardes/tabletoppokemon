@@ -2,55 +2,61 @@
     {
         "id": 0,
         "name": "Master Ball",
-        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPWXlXoU5dQGGT21DR5Fl21kGDyhr0kmv6FlvGIART2A&s",
+        "picture" : "https://c.tenor.com/jc7s2YjLxfYAAAAC/pokemon-ash.gif",
         "description" : "Catch pokemon without dice roll"
     },
     {
         "id": 1,
         "name": "Shiny Charm",
-        "picture" : "https://archives.bulbagarden.net/media/upload/b/bd/Key_Shiny_Charm_Sprite.png",
+        "picture" : "http://pa1.narvii.com/6435/b73b02ac9b1a1b7376a80ad1344dafb45180c288_00.gif",
         "description" : "Next pokemon is shiny (you roll wich status increase)"
     },
     {
         "id": 2,
         "name": "Hp up",
-        "picture" : "https://archives.bulbagarden.net/media/upload/c/ce/Dream_HP_Up_Sprite.png",
+        "picture" : "https://i.ytimg.com/vi/ooNN2t7DQUg/hqdefault.jpg",
         "description" : "Increase pokemon Hp (depends on tier)"
     },
     {
         "id": 3,
         "name": "Iron",
-        "picture" : "https://archives.bulbagarden.net/media/upload/8/8b/Dream_Iron_Sprite.png",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm9lpKxe672LEf1PhaW-FxHYcBMXOEeJTsKIseLlcjYDRrW4F3WXP0Yc_xFZY47sqj&usqp=CAU",
         "description" : "Increase pokemon Defense permanently"
     },
     {
         "id": 4,
         "name": "Protein",
-        "picture" : "https://archives.bulbagarden.net/media/upload/f/fa/Dream_Protein_Sprite.png",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkYkagaqU2Ux9Lzypu4xwV2qsFNlFBm9mrwj1A0APbHbEUGm5EHmyLZ4Ht_VwL5ls&usqp=CAU",
         "description" : "Increase pokemon Attack permanently"
     },
     {
         "id": 5,
         "name": "Carbos",
-        "picture" : "https://archives.bulbagarden.net/media/upload/9/95/Dream_Carbos_Sprite.png",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEe-MHRcJJBYdlMinsnDA4O0YaPaDV7ex7mg&usqp=CAU",
         "description" : "Increase pokemon Speed permanently (1 tier up, but just for who atacks first)"
     },
     {
         "id": 6,
-        "name": "Pirate",
-        "picture" : "https://www.clipartmax.com/png/middle/6-64860_pirate-ship-free-icon-pirate-ship-icon.png",
+        "name": "Treasure steal",
+        "picture" : "https://i.gifer.com/2HqP.gif",
         "description" : "Choose a trainer and steal a random treasure"
     },
     {
         "id": 7,
         "name": "Rare candy",
-        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhsIjEekCBkvkQrQmezHoce6-4XXX4Jb3VNgMUpr17qumFWCVP-NGPPI0qiCnfP26MBDE&usqp=CAU",
+        "picture" : "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2021/11/Pokemon-TCG-Rare-Candy-Card-Art.jpg",
         "description" : "Tier up a random pokemon stat"
     },
     {
         "id": 8,
         "name": "Fly",
-        "picture" : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/018.png",
+        "picture" : "https://c.tenor.com/A_Lup63HOeIAAAAC/pidgeot-pokemon.gif",
         "description" : "You choose where to go (max: next gym)"
+    },
+    {
+        "id": 9,
+        "name": "Rare pokemon egg",
+        "picture" : "https://media.tumblr.com/b609aa8c9dd7dd6c41bf88b926af2175/tumblr_inline_mw4j8thySS1rws35y.gif",
+        "description" : "In 3 turns you hatch a pokemon a tier up from where you found it"
     }
 ]

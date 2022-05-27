@@ -27,7 +27,7 @@ const App = () => {
           className="rollSwitchBtn button" 
           onClick={handleSetRollSwitch}
         >
-          {rollSwitch ? "CARDS" : "POKEDEX"}
+          {rollSwitch ? "POKEDEX" : "CARDS"}
         </button>
 
         <div class="roundsCounter">
@@ -54,9 +54,9 @@ const App = () => {
         
         {
           rollSwitch ? (
-            <Pokedex />
-          ) : (
             <Pokecards />
+          ) : (
+            <Pokedex />
           )
         }
       </>

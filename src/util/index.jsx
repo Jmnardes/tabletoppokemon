@@ -32,3 +32,8 @@ export const pokemonNature = [
 
 // pokemon base hp array
 export const baseHpArray = [3,5,7,10,13,16,20,24,28,32,37,47]
+
+// string to upper case
+export const stringToUpperCase = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}

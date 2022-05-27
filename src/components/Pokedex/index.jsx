@@ -6,7 +6,7 @@ import { Table } from "../Table"
 import { pokemonTypes, whatNaturePokemonIs } from "../pokemonFunctions"
 
 import pokemonTiersJson from "../../assets/json/pokemonTiers.json"
-import { options } from '../../util'
+import { options, stringToUpperCase } from '../../util'
 
 import '../../App.css'
 
@@ -97,7 +97,7 @@ const Pokedex = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPokemon(pokemon.toLowerCase())
+    setPokemon(() => pokemon.toLowerCase())
     setIsShiny(false)
     setPokeNature('')
     getPokemon()
@@ -108,14 +108,14 @@ const Pokedex = () => {
   }
 
   const handleTierOption = (e) => {
-    setPokemonTier(e.value)
+    setPokemonTier(() => e.value)
   }
 
   return (
     <div className="App">
       <div className="content">
         <div className="buttonsContainer">
-          {randomSwitch ? (
+          {!randomSwitch ? (
             <>
               <div className="pokemonTier">
                 <Select
@@ -157,7 +157,7 @@ const Pokedex = () => {
             <>
               <div className="container">
                 <h1 className={isShiny ? 'shiny' : ''}>
-                  {(isShiny ? '★' : '') + data.name + (isShiny ? '★' : '')}
+                  {(isShiny ? '★' : '') + stringToUpperCase(data.name) + (isShiny ? '★' : '')}
                 </h1>
                 <div class="dex-container">
                   <img alt={data.forms[0].name} src={data.sprites[`front_${isShiny ? 'shiny' : 'default'}`]} />

@@ -1,4 +1,4 @@
-import { pokemonNature, baseHpArray } from "../util"
+import { pokemonNature, baseHpArray, stringToUpperCase } from "../util"
 
 export function highestPokemonStat (stats) {
     let array = [
@@ -135,9 +135,9 @@ export function pokemonTypes(data) {
     data.types.forEach((types) => {
         if (types.type.name) {
             types.slot === 1 ? (
-                pokemonTypes = `${types.type.name}`
+                pokemonTypes = `${stringToUpperCase(types.type.name)}`
             ) : (
-                pokemonTypes += ` / ${types.type.name}`
+                pokemonTypes += ` / ${stringToUpperCase(types.type.name)}`
             )
         }
     })

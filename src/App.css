@@ -164,8 +164,46 @@ body {
 }
 
 .shiny {
-  color: gold;
+  color: gold !important;
   letter-spacing: 0.5rem;
+}
+
+.roundsCounterBtn {
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+}
+
+.roundsCounter {
+  position: absolute;
+  margin: 8px;
+  right: 0;
+}
+
+.roundsCounter p {
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0;
+  color: lightgrey;
+}
+
+.content-body {
+  color: lightgrey;
+}
+
+.draw-name {
+  font-size: 3rem;
+  margin-bottom: 4px;
+}
+
+.draw-image {
+  min-height: 16rem;
+}
+
+.draw-description {
+  margin: 4px auto 0;
+  width: 50%;
 }
 
 @media(max-width: 768px) {

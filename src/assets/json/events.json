@@ -1,0 +1,122 @@
+[
+    {
+        "id": 0,
+        "name": "Arbok's nest",
+        "picture" : "https://iili.io/X0W3b9.png",
+        "description" : "All pokemons of your team are poisoned"
+    },
+    {
+        "id": 1,
+        "name": "Insect swarm",
+        "picture" : "https://static.wikia.nocookie.net/pokemon/images/4/46/Caterpie_Weedle_Spinarak_GS111.png/revision/latest?cb=20150713033914",
+        "description" : "One pokemon is poisoned"
+    },
+    {
+        "id": 2,
+        "name": "Magmar's cave",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnb31YOOoyrnqb59dOYIYwbAiEbaAXGAvAMFRripSkhyFMXThTilqJVEX1nOEJNGLOy7w&usqp=CAU",
+        "description" : "All pokemons of your team are on burn"
+    },
+    {
+        "id": 3,
+        "name": "Cyndaquil's overheat",
+        "picture" : "https://cdn.anime-planet.com/characters/primary/dawns-cyndaquil-1.jpg?t=1625914342",
+        "description" : "One pokemon is on burn"
+    },
+    {
+        "id": 4,
+        "name": "Magnemite gang",
+        "picture" : "https://image.tmdb.org/t/p/original/pZ6hVJh28cjGM1imNJA4s7bpL5L.jpg",
+        "description" : "All pokemons of your team are paralyzed"
+    },
+    {
+        "id": 5,
+        "name": "Elekid discharge",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1RcnAe2d42SpUyrHoMfuz5vKaJY_LDe2INpR6aXvUbwteA4W9zawJlzRoEH9pX5gKAlI&usqp=CAU",
+        "description" : "One pokemon is paralyzed"
+    },
+    {
+        "id": 6,
+        "name": "Hoopa's curse",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm1sMPks1bqpg76QbGKjsU270CbR0-uHXR7w&usqp=CAU",
+        "description" : "All pokemons of your team are cursed"
+    },
+    {
+        "id": 7,
+        "name": "Haunter's lick",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0D5f9bobNLfR0g-kbQQg2Razb3hsZXJHwVQ&usqp=CAU",
+        "description" : "One pokemon is cursed"
+    },
+    {
+        "id": 8,
+        "name": "Jigglypuff sing",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYj1N8eYrJ6F1jPFaA30ezRPeuc8S5dwCQvg&usqp=CAU",
+        "description" : "All pokemons of your team sleeps"
+    },
+    {
+        "id": 9,
+        "name": "Hypno's hypnosis",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXuqg-JqR9UY8_vJCkywS-oidjTJ3EWgbjUw&usqp=CAU",
+        "description" : "One pokemon sleeps"
+    },
+    {
+        "id": 10,
+        "name": "Jynx blizzard",
+        "picture" : "https://static.wikia.nocookie.net/pokemon/images/9/9d/Prima_Jynx_Blizzard.png/revision/latest/scale-to-width-down/250?cb=20180110220741",
+        "description" : "All pokemons of your team freezes"
+    },
+    {
+        "id": 11,
+        "name": "Snorunt's icy passive",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRKqaldZ9xbLZEjRS7lnRr5tsyMNfkkuruzkkUat_GVvuV-2_hDdCvq8W9p7qOAFTDnDo&usqp=CAU",
+        "description" : "One pokemon freeze"
+    },
+    {
+        "id": 12,
+        "name": "Psyduck's headache",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlKskYTElQX2dQjswgJJdoob6q8-QqMechWw&usqp=CAU",
+        "description" : "All pokemons of your team gets confused"
+    },
+    {
+        "id": 13,
+        "name": "Drowzee's confusion",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT_Y-wF1R2UCC1zJybIbsRD9JPGxWp_dagpg&usqp=CAU",
+        "description" : "One pokemon get confused"
+    },
+    {
+        "id": 14,
+        "name": "Team Rocket",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0pb_OJwn-mGCIzp9ExUGzWlh2YDegQ-iHk_zVVuCAzoNT1Md6JyWHeuKTV9L_9RFzgJU&usqp=CAU",
+        "description" : "Roll d20: 1: They steal a pokemon from your team. 2-4: They steal a random treasure from you. 5-10: They steal a random item from you. 11-19: You escape. 20: You earn a treasure."
+    },
+    {
+        "id": 15,
+        "name": "Horde of Taurus",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXmYEo7up-dTlJODyt5enAxhLhcvnKL1VgDTN2Km608FXBdZci0iZUEiMK2reJV__4CCk&usqp=CAU",
+        "description" : "if you don't have a pokemon that can fly or ride, your first pokemon is defeated"
+    },
+    {
+        "id": 16,
+        "name": "Crawdaunt surf",
+        "picture" : "https://static.wikia.nocookie.net/pokemon/images/9/92/Kyle_Crawdaunt_Surf.png/revision/latest/scale-to-width-down/250?cb=20150110220117",
+        "description" : "if you don't have a pokemon that can swim, go back 1d6"
+    },
+    {
+        "id": 17,
+        "name": "Sleeping Snorlax",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp8MgrzW_9GVGaTfXYuj9j-2kBazjxrZlj-Q&usqp=CAU",
+        "description" : "Take another route, wake him or wait 3 turns"
+    },
+    {
+        "id": 18,
+        "name": "Ground hole",
+        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS81sAo4MNEwYoAUG9evI6I7HH1_5M4f9T5Db4VtbMaj5gTCcRaq4GpPGZMj8jIMKNhyDs&usqp=CAU",
+        "description" : "If you don't have a rope, lose a turn"
+    },
+    {
+        "id": 19,
+        "name": "Blocking path rock",
+        "picture" : "https://www.ihikesandiego.com/wp-content/uploads/2016/01/ken-making-his-own-path-past-the-rock-blocking-the-way.jpg",
+        "description" : "If you don't have a fighter/earth/rock pokemon on your team you lose a turn"
+    }
+]

@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 
 import items from '../../assets/json/items.json'
+import events from '../../assets/json/events.json'
 import treasures from '../../assets/json/treasures.json'
 
 import '../../App.css'
@@ -15,10 +16,10 @@ const Pokecards = () => {
             setCard(items[sort])
         }
 
-        // if ( type === 'event') {
-        //     let sort = Math.floor(Math.random() * events.length)
-        //     setCard(events[sort])
-        // }
+        if ( type === 'event') {
+            let sort = Math.floor(Math.random() * events.length)
+            setCard(events[sort])
+        }
 
         if ( type === 'treasure') {
             let sort = Math.floor(Math.random() * treasures.length)

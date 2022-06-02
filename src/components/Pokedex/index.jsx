@@ -3,18 +3,15 @@ import axios from "axios"
 import Select from 'react-select'
 
 import { Table } from "../Table"
-import { pokemonTypes } from "../pokemonFunctions"
 import pokemonJSON from '../../assets/json/pokemons.json'
 
 import { options, stringToUpperCase, generation } from '../../util'
-
-import '../../App.css'
 
 const Pokedex = () => {
   const [pokemon, setPokemon] = useState(Math.floor(Math.random() * generation(4)) + 1)
   const [pokemonData, setPokemonData] = useState([])
   const [randomSwitch, setRandomSwitch] = useState(false)
-  const [pokeType, setPokeType] = useState('')
+  // const [pokeType, setPokeType] = useState('')
   const [pokemonTier, setPokemonTier] = useState('')
 
   const getPokemon = async () => {
@@ -24,7 +21,7 @@ const Pokedex = () => {
       const res = await axios.get(url)
       
       toArray.push(res.data)
-      setPokeType(pokemonTypes(pokemonJSON[res.data.order].type))
+      // setPokeType(pokemonTypes(pokemonJSON[res.data.order].type))
       setPokemonData(toArray)
       // console.log(res.data)
     } catch(e) {
@@ -87,7 +84,7 @@ const Pokedex = () => {
                 <h1>{stringToUpperCase(data.name)}</h1>
                 <div className="dex-container">
                   <img alt={data.name} src={data.sprites[`front_default`]} />
-                  <Table data={pokemonJSON[(data.id) - 1]} pokemonType={pokeType} />
+                  <Table data={pokemonJSON[(data.id) - 1]} />
                 </div>
               </div>
             </>

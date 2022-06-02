@@ -4,9 +4,6 @@ import items from '../../assets/json/items.json'
 import events from '../../assets/json/events.json'
 import treasures from '../../assets/json/treasures.json'
 
-import '../../App.css'
-import './pokecards.css'
-
 const Pokecards = () => {
     const [card, setCard] = useState([])
 

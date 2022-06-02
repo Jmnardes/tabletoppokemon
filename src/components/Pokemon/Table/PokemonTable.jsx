@@ -1,44 +1,39 @@
-import { TableRow } from "../../Table/TableRow";
-import { Sword, Shield, Heart } from "phosphor-react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import Types from "./Types";
 
-function PokemonTable({ health, attack, defense, tier, type, speed, nature }) {
+import { 
+    GiWingfoot,
+    GiBroadsword,
+    GiHearts,
+    GiShield
+} from "react-icons/gi";
+
+function PokemonTable({ health, attack, defense, type, speed, nature }) {
     return (
-        <div className="divTable">
-            <div className="stats">
-                <div>
-                    <Heart size={24} color="#d81313" weight="fill" />
+        <>
+            <Flex w='100%' justifyContent="space-between" px={2}>
+                <Text fontSize='xs' textAlign="center">{ nature ? `(${nature})` : null }</Text>
+                <Types types={type} />
+            </Flex>
+            <Flex>
+                <Box display="flex" p={2}>
+                    <GiHearts color="red" size={20} style={{marginRight: 4}}/>
                     {health}
-                </div>
-                <div>
-                    <Sword size={24} color="#2b2ebb" weight="fill" />
+                </Box>
+                <Box display="flex" p={2}>
+                    <GiBroadsword size={20} style={{marginRight: 4}}/>
                     {attack}
-                </div>
-                <div>
-                    <Shield size={24} color="#02690e" weight="fill" />
+                </Box>
+                <Box display="flex" p={2}>
+                    <GiShield color="gold" size={20} style={{marginRight: 4}}/>
                     {defense}
-                </div>
-            </div>
-            <div className="divTableBody">
-                <TableRow 
-                    tableTitle="Tier"
-                    tableValue={tier}
-                />
-                <TableRow 
-                    tableTitle="Type"
-                    tableValue={type}
-                />
-                <TableRow
-                    tableTitle="Speed"
-                    tableValue={speed}
-                />
-                {nature ? (
-                    <TableRow
-                        tableTitle="Nature"
-                        tableValue={nature}
-                    />
-                ) : null}
-            </div>
-        </div>
+                </Box>
+                <Box display="flex" p={2}>
+                    <GiWingfoot color="aquamarine" size={20} style={{marginRight: 4}}/>
+                    {speed}
+                </Box>
+            </Flex>
+        </>
     )
 }
 

@@ -28,7 +28,7 @@ export function whatNaturePokemonIs() {
 }
 
 function hpPerTier(tier) {
-  let basePerLvl = [2, 3, 4, 5, 10]
+  let basePerLvl = [2, 3, 4, 5, 6]
   if (tier <= 2) {
     return basePerLvl[0]
   } else if (tier <= 5) {
@@ -46,22 +46,26 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     let tier = whatPokemonTierIs(stats)
     let baseAtk = 1
     let baseHp = 3
-    let baseCa = 5
+    let baseDef = 5
+    let baseSpd = 0
     let highestStat = highestPokemonStat(stats)
-    let caTierUp = Number(Math.floor(tier/2).toFixed(0))
+    let defTierUp = Number(Math.floor(tier/2).toFixed(0))
     
     // leveling up stats based on tier
     baseAtk += tier
-    baseCa += caTierUp
+    baseDef += defTierUp
     baseHp = baseHpArray[tier]
+    baseSpd += tier
 
     // conditions to upgrade stat based on highest pokemon stats
     if (highestStat === 'attack' || highestStat === 'special-attack') {
       baseAtk += 1
     } else if (highestStat === 'hp') {
       baseHp += hpPerTier(tier)
-    } else if (highestStat === 'defense' || highestStat === 'special-defense' || highestStat === 'speed') {
-      baseCa += 1
+    } else if (highestStat === 'defense' || highestStat === 'special-defense') {
+      baseDef += 1
+    } else if (highestStat === 'speed') {
+      baseSpd += 1
     }
 
     // up nature status
@@ -69,23 +73,28 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     if (nature?.statDown === 'atk') {baseAtk -= 1} 
     if (nature?.statUp === 'hp') {baseHp += hpPerTier(tier)}
     if (nature?.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
-    if (nature?.statUp === 'ca') {baseCa += 1}
-    if (nature?.statDown === 'ca') {baseCa -= 1}
+    if (nature?.statUp === 'def') {baseDef += 1}
+    if (nature?.statDown === 'def') {baseDef -= 1}
+    if (nature?.statUp === 'spd') {baseSpd += 1}
+    if (nature?.statDown === 'spd') {baseSpd -= 1}
 
     // up shiny status
     if (shiny) {
-      let shinySort = Math.floor((Math.random() * 3) + 1)
-      if (shinySort === 1) {baseAtk += 1}
-      if (shinySort === 2) {baseHp += hpPerTier(tier)}
-      if (shinySort === 3) {baseCa += 1}
+      let shinySort = diceRoll(4)
+      if (shinySort === 0) {baseAtk += 1}
+      if (shinySort === 1) {baseHp += hpPerTier(tier)}
+      if (shinySort === 2) {baseDef += 1}
+      if (shinySort === 3) {baseSpd += 1}
     }
 
     if (whichStat === 'atk') {
       return baseAtk < 1 ? 1 : baseAtk
     } else if (whichStat === 'hp') {
       return baseHp < 1 ? 1 : baseHp
-    } else if (whichStat === 'ca') {
-      return baseCa < 1 ? 1 : baseCa
+    } else if (whichStat === 'def') {
+      return baseDef < 1 ? 1 : baseDef
+    } else if (whichStat === 'spd') {
+      return baseSpd <= -1 ? 0 : baseSpd
     }
 }
 
@@ -131,14 +140,14 @@ export function whatPokemonTierIs (stats) {
   }
 }
 
-export function pokemonTypes(types) {
-    let pokemonTypes = ''
-    types.forEach((type, index) => {
-      if ( index === 0 ) {
-        pokemonTypes = stringToUpperCase(type)
-      } else {
-        pokemonTypes = pokemonTypes + ' / ' + stringToUpperCase(type)
-      }
-    })
-    return pokemonTypes
-}
+// export function pokemonTypes(types) {
+//     let pokemonTypes = ''
+//     types.forEach((type, index) => {
+//       if ( index === 0 ) {
+//         pokemonTypes = stringToUpperCase(type)
+//       } else {
+//         pokemonTypes = pokemonTypes + ' / ' + stringToUpperCase(type)
+//       }
+//     })
+//     return pokemonTypes
+// }

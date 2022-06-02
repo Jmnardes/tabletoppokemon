@@ -5,7 +5,7 @@ import { Button, Box, Flex, Text } from '@chakra-ui/react'
 
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { options, generationOptions, natureOptions } from '../../util'
+import { options, generationOptions, natureOptions, colorsByType } from '../../util'
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 
 function Pokemon() {
@@ -72,9 +72,17 @@ function Pokemon() {
                     />
                 </Box>
                 <Box mx={2} textAlign="center">
-                    <Text>Generation</Text>
+                    <Text>Type</Text>
                     <Select
-                        isDisabled
+                        placeholder={'Type'}
+                        size='sm'
+                        options={colorsByType}
+                        onChange={(e) => handleGeneration(e)}
+                    />
+                </Box>
+                <Box mx={2} textAlign="center">
+                    <Text>Nature</Text>
+                    <Select
                         placeholder={'Nat'}
                         size='sm'
                         options={natureOptions}

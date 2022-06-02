@@ -4,48 +4,17 @@
   display: flex;
 }
 
-.content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 10rem;
-}
-
-.divTable{
-  max-width: 20em;
-  float: right;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .stats {
   display: flex;
   justify-content: space-evenly;
   width: 226px;
   margin-bottom: 1px;
   padding: 1rem;
-  background: #333
+  margin: auto;
 }
 
 .stats div {
   display: flex;
-  align-items: center;
-}
-
-.stats div svg {
-  margin: 0 0.5rem;
-}
-
-.divTableRow {
-  display: table-row;
-}
-
-.divTableHeading {
-  display: table-header-group;
-  font-weight: bold;
 }
 
 .divTableCell,
@@ -56,111 +25,10 @@
   width: 8rem;
 }
 
-.divTableFoot {
-  display: table-footer-group;
-  font-weight: bold;
-}
-
-.divTableBody {
-  display: table-row-group;
-}
-
-.divTableCell:nth-child(1n) {
-  background-color: #333
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  opacity: 0.9;
-  color: lightgrey;
-  font: bold;
-  background-color: lightgrey;
-}
-
 .container h1 {
   color: #333;
   margin: 0.5rem 0;
-}
-
-.dex-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-img {
-  height: 16em;
-}
-
-body {
-  background-color: #333;
-}
-
-.pokemonRollBtn {
-  background: url(./assets/images/pokeball.png) no-repeat;
-  background-position: center center;
-  background-size: 50px 40px;
-  border: 2px solid black;
-  border-radius: 100px;
-  width: 40px;
-  height: 40px;
-  transition: 1s;
-  margin: 20px;
-}
-
-.inputForm {
-  margin: 28px;
-}
-
-.randomSwitchBtn {
-  margin: 8px;
-  width: 250px;
-  border-radius: 5px;
-  margin: 8px auto;
-  transition: 1s;
-}
-
-.rollSwitchBtn {
-  width: 80px;
-  height: 40px;
-  margin: 8px;
-  border-radius: 5px;
-  transition: 1s;
-  position: absolute;
-}
-
-.button {
-  background-color: gainsboro;
-  border-color: lightgoldenrodyellow;
-}
-
-.button:hover {
-  cursor: pointer;
-  background-color: lightgoldenrodyellow;
-}
-
-.buttonsContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.buttonsContainer .pokemonTier {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.pokemonRollBtn:hover {
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-.pokemonTierBtn {
-  width: 3rem;
-  height: 2rem;
+  text-align: center;
 }
 
 .shiny {
@@ -168,66 +36,11 @@ body {
   letter-spacing: 0.5rem;
 }
 
-.roundsCounterBtn {
-  height: 40px;
-  width: 40px;
-  border-radius: 4px;
+.dex-container {
+  margin: 4px;
 }
 
-.roundsCounter {
-  position: absolute;
-  margin: 8px;
-  right: 0;
-}
-
-.roundsCounter p {
-  display: flex;
-  justify-content: center;
-  font-size: 3rem;
-  margin: 0;
-  color: lightgrey;
-}
-
-.content-body {
-  color: lightgrey;
-}
-
-.draw-name {
-  font-size: 3rem;
-  margin-bottom: 4px;
-}
-
-.draw-image {
-  min-height: 16rem;
-}
-
-.draw-description {
-  margin: 4px auto 0;
-  width: 50%;
-}
-
-@media(max-width: 768px) {
-  .content {
-    margin-bottom: 0;
-  }
-
-  .container h1 {
-    font-size: 28px;
-  }
-
-  .dex-container {
-    flex-direction: column;
-  }
-
-  .divTable {
-    max-width: none;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-
-  img {
-    width: 12rem;
-    height: 12rem;
-    align-self: center;
-  }
+.dex-container img {
+  margin: 0 auto;
+  height: 8rem;
 }

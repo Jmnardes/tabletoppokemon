@@ -1,13 +1,13 @@
-import { pokemonNature, baseHpArray, stringToUpperCase } from "../util"
+import { pokemonNature, baseHpArray, stringToUpperCase, diceRoll } from "../util"
 
 export function highestPokemonStat (stats) {
     let array = [
-        stats[0].base_stat,
-        stats[1].base_stat,
-        stats[2].base_stat,
-        stats[3].base_stat,
-        stats[4].base_stat,
-        stats[5].base_stat,
+        stats[0].stat,
+        stats[1].stat,
+        stats[2].stat,
+        stats[3].stat,
+        stats[4].stat,
+        stats[5].stat,
       ]
 
     let higher = Math.max(...array)
@@ -23,7 +23,8 @@ export function highestPokemonStat (stats) {
 }
 
 export function whatNaturePokemonIs() {
-  return pokemonNature[Math.floor(Math.random() * pokemonNature.length)]
+  let roll = diceRoll(pokemonNature.length)
+  return pokemonNature[roll]
 }
 
 function hpPerTier(tier) {
@@ -64,12 +65,12 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     }
 
     // up nature status
-    if (nature.statUp === 'atk') {baseAtk += 1}
-    if (nature.statDown === 'atk') {baseAtk -= 1} 
-    if (nature.statUp === 'hp') {baseHp += hpPerTier(tier)}
-    if (nature.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
-    if (nature.statUp === 'ca') {baseCa += 1}
-    if (nature.statDown === 'ca') {baseCa -= 1}
+    if (nature?.statUp === 'atk') {baseAtk += 1}
+    if (nature?.statDown === 'atk') {baseAtk -= 1} 
+    if (nature?.statUp === 'hp') {baseHp += hpPerTier(tier)}
+    if (nature?.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
+    if (nature?.statUp === 'ca') {baseCa += 1}
+    if (nature?.statDown === 'ca') {baseCa -= 1}
 
     // up shiny status
     if (shiny) {
@@ -89,57 +90,55 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
 }
 
 export function whatPokemonTierIs (stats) {
-    let tier = ((stats[0].base_stat + 
-      stats[1].base_stat + 
-      stats[2].base_stat + 
-      stats[3].base_stat + 
-      stats[4].base_stat + 
-      stats[5].base_stat) / 6)
+  let tier = ((stats[0].stat + 
+  stats[1].stat + 
+  stats[2].stat + 
+  stats[3].stat + 
+  stats[4].stat + 
+  stats[5].stat) / 6)
 
-      tier = Math.abs(((tier/4).toFixed(0))-9)
-    
-      switch (tier) {
-        case 0:
-        case 1:
-          return tier = 0
-        case 2:
-        case 3:
-          return tier = 1
-        case 4:
-        case 5:
-          return tier = 2
-        case 6:
-        case 7:
-          return tier = 3
-        case 8:
-          return tier = 4
-        case 9:
-          return tier = 5
-        case 10:
-          return tier = 6
-        case 11:
-          return tier = 7
-        case 12:
-          return tier = 8
-        case 13:
-          return tier = 9
-        case 14:
-          return tier = 10
-        default:
-          return tier = 11
-    }
+  tier = Math.abs(((tier/4).toFixed(0))-9)
+
+  switch (tier) {
+    case 0:
+    case 1:
+      return tier = 0
+    case 2:
+    case 3:
+      return tier = 1
+    case 4:
+    case 5:
+      return tier = 2
+    case 6:
+    case 7:
+      return tier = 3
+    case 8:
+      return tier = 4
+    case 9:
+      return tier = 5
+    case 10:
+      return tier = 6
+    case 11:
+      return tier = 7
+    case 12:
+      return tier = 8
+    case 13:
+      return tier = 9
+    case 14:
+      return tier = 10
+    default:
+      return tier = 11
+  }
 }
 
-export function pokemonTypes(data) {
+export function pokemonTypes(types) {
     let pokemonTypes = ''
-    data.types.forEach((types) => {
-        if (types.type.name) {
-            types.slot === 1 ? (
-                pokemonTypes = `${stringToUpperCase(types.type.name)}`
-            ) : (
-                pokemonTypes += ` / ${stringToUpperCase(types.type.name)}`
-            )
-        }
+    types.forEach((type, index) => {
+      if ( index === 0 ) {
+        pokemonTypes = stringToUpperCase(type)
+      } else {
+        pokemonTypes = pokemonTypes + ' / ' + stringToUpperCase(type)
+      }
     })
     return pokemonTypes
 }

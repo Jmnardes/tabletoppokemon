@@ -1,44 +1,45 @@
-import { TableRow } from "./TableRow";
+import { TableRow } from "../../Table/TableRow";
 import { Sword, Shield, Heart } from "phosphor-react";
-import { pokemonBaseStat, whatPokemonTierIs } from "../pokemonFunctions";
 
-export function Table({ data, pokeNature, isShiny, pokemonType }) {
+function PokemonTable({ health, attack, defense, tier, type, speed, nature }) {
     return (
         <div className="divTable">
             <div className="stats">
                 <div>
                     <Heart size={24} color="#d81313" weight="fill" />
-                    {pokemonBaseStat(data.stats, 'hp', pokeNature, isShiny)}
+                    {health}
                 </div>
                 <div>
                     <Sword size={24} color="#2b2ebb" weight="fill" />
-                    {pokemonBaseStat(data.stats, 'atk', pokeNature, isShiny)}
+                    {attack}
                 </div>
                 <div>
                     <Shield size={24} color="#02690e" weight="fill" />
-                    {pokemonBaseStat(data.stats, 'ca', pokeNature, isShiny)}
+                    {defense}
                 </div>
             </div>
             <div className="divTableBody">
                 <TableRow 
                     tableTitle="Tier"
-                    tableValue={whatPokemonTierIs(data.stats)}
+                    tableValue={tier}
                 />
                 <TableRow 
                     tableTitle="Type"
-                    tableValue={pokemonType}
+                    tableValue={type}
                 />
                 <TableRow
                     tableTitle="Speed"
-                    tableValue={data.stats[5].stat}
+                    tableValue={speed}
                 />
-                {pokeNature ? (
+                {nature ? (
                     <TableRow
                         tableTitle="Nature"
-                        tableValue={pokeNature.nature}
+                        tableValue={nature}
                     />
                 ) : null}
             </div>
         </div>
     )
 }
+
+export default PokemonTable

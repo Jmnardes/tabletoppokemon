@@ -2,6 +2,7 @@ import { useState } from "react"
 
 import Pokedex from "./components/Pokedex"
 import Pokecards from "./components/Pokecards"
+import Pokemon from "./components/Pokemon/Pokemon"
 
 const App = () => {
   const [rollSwitch, setRollSwitch] = useState(false)
@@ -23,14 +24,15 @@ const App = () => {
 
   return (
       <>
-        <button 
+        <Pokemon/>
+        {/* <button 
           className="rollSwitchBtn button" 
           onClick={handleSetRollSwitch}
         >
           {rollSwitch ? "POKEDEX" : "CARDS"}
         </button>
 
-        <div class="roundsCounter">
+        <div className="roundsCounter">
           <button 
             className="roundsCounterBtn button" 
             onClick={() => handleCounter()}
@@ -51,14 +53,13 @@ const App = () => {
           </button>
           <p>{roundCounter}</p>
         </div>
-        
         {
           rollSwitch ? (
             <Pokecards />
           ) : (
             <Pokedex />
           )
-        }
+        } */}
       </>
     )
 }

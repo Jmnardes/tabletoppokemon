@@ -38,5 +38,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@chakra-ui/react": "^2.1.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "chakra-react-select": "^4.0.0",
+    "framer-motion": "^6.3.6"
   }
 }

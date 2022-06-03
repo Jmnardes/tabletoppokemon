@@ -12,10 +12,10 @@ function PokemonTable({ health, attack, defense, type, speed, nature }) {
     return (
         <>
             <Flex w='100%' justifyContent="space-between" px={2}>
-                <Text fontSize='xs' textAlign="center">{ nature ? `(${nature})` : null }</Text>
+                <Text fontSize='xs' display="flex" alignItems="center">{ nature ? `(${nature})` : null }</Text>
                 <Types types={type} />
             </Flex>
-            <Flex>
+            <Flex mt={4}>
                 <Box display="flex" p={2}>
                     <GiHearts color="red" size={20} style={{marginRight: 4}}/>
                     {health}

@@ -1,65 +1,37 @@
 import { useState } from "react"
 
-import Pokedex from "./components/Pokedex"
 import Pokecards from "./components/Pokecards"
 import Pokemon from "./components/Pokemon/Pokemon"
+import ThemeSwitch from "./components/Chakra/ThemeSwitch/ThemeSwitch"
+import { Box, Button } from "@chakra-ui/react"
 
 const App = () => {
   const [rollSwitch, setRollSwitch] = useState(false)
-  const [roundCounter, setRoundCounter] = useState(0)
 
   const handleSetRollSwitch = () => {
     setRollSwitch(!rollSwitch)
   }
 
-  const handleCounter = (where) => {
-    if ( where === 'up' ) {
-      setRoundCounter(() => roundCounter + 1)
-    } else if ( where === 'down'  && roundCounter > 0 ) {
-      setRoundCounter(() => roundCounter - 1)
-    } else {
-      setRoundCounter(0)
-    }
-  }
-
   return (
       <>
-        <Pokemon/>
-        {/* <button 
-          className="rollSwitchBtn button" 
-          onClick={handleSetRollSwitch}
-        >
-          {rollSwitch ? "POKEDEX" : "CARDS"}
-        </button>
-
-        <div className="roundsCounter">
-          <button 
-            className="roundsCounterBtn button" 
-            onClick={() => handleCounter()}
+        <Box h='calc(100vh)'>
+          <Button
+            m={2}
+            onClick={handleSetRollSwitch}
           >
-            0
-          </button>
-          <button 
-            className="roundsCounterBtn button" 
-            onClick={() => handleCounter('up')}
-          >
-            +1
-          </button>
-          <button 
-            className="roundsCounterBtn button" 
-            onClick={() => handleCounter('down')}
-          >
-            -1
-          </button>
-          <p>{roundCounter}</p>
-        </div>
-        {
-          rollSwitch ? (
-            <Pokecards />
-          ) : (
-            <Pokedex />
-          )
-        } */}
+            {rollSwitch ? "POKEDEX" : "CARDS"}
+          </Button>
+          {
+            rollSwitch ? (
+              <Pokecards />
+            ) : (
+              <Pokemon/>
+            )
+          }
+          <Box position='absolute' right={0} bottom={0}>
+            <ThemeSwitch/>
+          </Box>
+        </Box>
       </>
     )
 }

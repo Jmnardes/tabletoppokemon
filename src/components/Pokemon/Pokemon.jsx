@@ -6,7 +6,6 @@ import { Button, Box, Flex, Text } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { options, generationOptions, natureOptions, colorsByType } from '../../util'
-import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 
 function Pokemon() {
     const [tier, setTier] = useState(1)
@@ -50,8 +49,7 @@ function Pokemon() {
 
     return (
         <>
-            <Box w="25" p={4} display="flex">
-                <ThemeSwitch/>
+            <Box w="25" p={2} display="flex">
                 <Box mx={2} textAlign="center">
                     <Text>Tier</Text>
                     <Select

@@ -27,8 +27,10 @@ function ShowPokemon({ pokemonId }) {
             <Flex 
                 alignItems="center" 
                 flexDirection="column" 
-                border={ isShiny ? '6px groove #EBCA37' : `2px solid ${colorByType}`} 
-                borderRadius={4} m={1}
+                border={ isShiny ? '6px groove #EBCA37' : `2px solid ${colorByType}`}
+                borderRadius={4} 
+                m={1}
+                p={2}
                 backgroundColor={ isShiny ? '#FFFFFF50' : `${colorByType}20` }
             >
                 <Text fontSize='2xl' textAlign="center" color={isShiny ? '#EBCA37' : ''}>{(isShiny ? '★ ' : '') + stringToUpperCase(pokemon[pokemonId].name)}</Text>

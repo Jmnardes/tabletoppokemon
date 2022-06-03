@@ -5,11 +5,11 @@ function ThemeSwitch() {
     const { colorMode, toggleColorMode } = useColorMode()
     return (
       <header>
-        <Button h="14" onClick={toggleColorMode}>
+        <Button size="sm" m={2} onClick={toggleColorMode}>
           {colorMode === 'light' ? (
-            <Moon size={24} color="#020303" />
+            <Moon size={16} color="#020303" />
           ) : (
-            <Sun size={24} color="#020303" />
+            <Sun size={16} color="#020303" />
           )}
         </Button>
       </header>

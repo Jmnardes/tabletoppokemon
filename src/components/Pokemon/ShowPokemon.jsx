@@ -5,9 +5,8 @@ import { pokemonBaseStat, whatNaturePokemonIs } from '../pokemonFunctions'
 import { diceRoll, stringToUpperCase, typeColor } from '../../util'
 import pokemon from '../../assets/json/pokemons.json'
 import { Flex, Image, Text } from "@chakra-ui/react"
-import { mixColors } from '../../util/colorMix'
 
-function ShowPokemon({ pokemonId }) {
+function ShowPokemon({ pokemonId, nature, shiny, dex }) {
     const [pokemonNature, setPokemonNature] = useState('')
     const [isShiny, setIsShiny] = useState(false)
     const [colorByType, setColorByType] = useState('#000000')
@@ -20,11 +19,12 @@ function ShowPokemon({ pokemonId }) {
         setColorByType(color)
         setPokemonNature(whatNaturePokemonIs())
         shinyRoll === 0 ? setIsShiny(true) : setIsShiny(false)
+        if (dex) shiny ? setIsShiny(true) : setIsShiny(false)
     }, [pokemonId])
 
     return (
         <>
-            <Flex 
+            <Flex
                 alignItems="center" 
                 flexDirection="column" 
                 border={ isShiny ? '6px groove #EBCA37' : `2px solid ${colorByType}`}
@@ -32,6 +32,7 @@ function ShowPokemon({ pokemonId }) {
                 m={1}
                 p={2}
                 backgroundColor={ isShiny ? '#FFFFFF50' : `${colorByType}20` }
+                key={pokemonId}
             >
                 <Text fontSize='2xl' textAlign="center" color={isShiny ? '#EBCA37' : ''}>{(isShiny ? '★ ' : '') + stringToUpperCase(pokemon[pokemonId].name)}</Text>
                 <Image alt={pokemon[pokemonId].name} src={pokemon[pokemonId].sprite[`${isShiny ? 'shiny' : 'default'}`]} />
@@ -42,7 +43,7 @@ function ShowPokemon({ pokemonId }) {
                     speed={pokemonBaseStat(pokemon[pokemonId].stats, 'spd', pokemonNature, isShiny)}
                     tier={pokemon[pokemonId].tier}
                     type={pokemon[pokemonId].type}
-                    nature={pokemonNature.nature}
+                    nature={nature ? nature : pokemonNature.nature}
                 />
             </Flex>
         </>

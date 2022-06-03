@@ -19,11 +19,11 @@ const App = () => {
             m={2}
             onClick={handleSetRollSwitch}
           >
-            {rollSwitch ? "POKEDEX" : "CARDS"}
+            {rollSwitch ? "Pokedex" : "Cards"}
           </Button>
           {
             rollSwitch ? (
-              <Pokecards />
+              <Pokecards/>
             ) : (
               <Pokemon/>
             )

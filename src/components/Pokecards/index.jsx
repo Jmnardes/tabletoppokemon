@@ -39,7 +39,8 @@ const Pokecards = () => {
                     src={card.picture} 
                     alt={card.name}
                     m="4px auto"
-                    boxSize='16rem'
+                    height="16rem"
+                    objectFit='cover'
                 />
                 <Text 
                     backgroundColor="#2D3748"

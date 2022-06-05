@@ -71,7 +71,7 @@ export const natureOptions = [
 ]
 
 // pokemon base hp array
-export const baseHpArray = [3,5,7,10,13,16,20,24,28,32,37,43]
+export const baseHpArray = [5,7,8,12,15,18,22,26,30,34,39,45]
 
 // string to upper case
 export const stringToUpperCase = (str) => {
@@ -139,7 +139,7 @@ export const colorsByType = [
     { label: 'dragon', value: 'dragon', color: '#e5c67e' },
     { label: 'bug', value: 'bug', color: '#69ca47' },
     { label: 'dark', value: 'dark', color: '#170223' },
-    { label: 'electric', value: 'electric', color: '#fcfc05' },
+    { label: 'electric', value: 'electric', color: '#d5d20c' },
     { label: 'fairy', value: 'fairy', color: '#e390d8' },
     { label: 'fighting', value: 'fighting', color: '#f1883b' },
     { label: 'flying', value: 'flying', color: '#93d4d6' },
@@ -167,16 +167,17 @@ export const typeColor = (types) => {
                     counter++
                 } 
                 
-                if (counter == 2) {
-                    finalColor = mixColors(colorArray[0], colorArray[1])
+                if (counter === 2) {
+                    return finalColor = mixColors(colorArray[0], colorArray[1])
                 }
             })
+            return
         })
     } else {
         types.map((type) => {
             colorsByType.map(color => {
                 if(type === color.value) {
-                    finalColor = color.color
+                    return finalColor = color.color
                 }
             })
         })

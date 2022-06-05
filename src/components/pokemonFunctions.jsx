@@ -1,16 +1,9 @@
-import { pokemonNature, baseHpArray, stringToUpperCase, diceRoll } from "../util"
+import { pokemonNature, baseHpArray, diceRoll } from "../util"
 
 export function highestPokemonStat (stats) {
-    let array = [
-        stats[0].stat,
-        stats[1].stat,
-        stats[2].stat,
-        stats[3].stat,
-        stats[4].stat,
-        stats[5].stat,
-      ]
-
+    let array = [ stats[0].stat, stats[1].stat, stats[2].stat, stats[3].stat, stats[4].stat, stats[5].stat ]
     let higher = Math.max(...array)
+    
     higher = array.indexOf(higher)
 
     if(higher === 3) {
@@ -19,7 +12,22 @@ export function highestPokemonStat (stats) {
       higher = 2
     }
 
-    return stats[higher].stat.name
+    return stats[higher].name
+}
+
+export function lowestPokemonStat (stats) {
+  let array = [ stats[0].stat, stats[1].stat, stats[2].stat, stats[3].stat, stats[4].stat, stats[5].stat ]
+  let lower = Math.min(...array)
+
+  lower = array.indexOf(lower)
+
+  if(lower === 3) {
+    lower = 1
+  } else if(lower === 4){
+    lower = 2
+  }
+
+  return stats[lower].name
 }
 
 export function whatNaturePokemonIs() {
@@ -44,11 +52,12 @@ function hpPerTier(tier) {
 
 export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     let tier = whatPokemonTierIs(stats)
-    let baseAtk = 1
-    let baseHp = 3
+    let baseAtk = 3
+    let baseHp = 5
     let baseDef = 5
-    let baseSpd = 0
+    let baseSpd = 5
     let highestStat = highestPokemonStat(stats)
+    let lowestStat = lowestPokemonStat(stats)
     let defTierUp = Number(Math.floor(tier/2).toFixed(0))
     
     // leveling up stats based on tier
@@ -66,6 +75,17 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
       baseDef += 1
     } else if (highestStat === 'speed') {
       baseSpd += 1
+    }
+
+    // conditions to downgrade stat based on highest pokemon stats
+    if (lowestStat === 'attack' || lowestStat === 'special-attack') {
+      baseAtk -= 1
+    } else if (lowestStat === 'hp') {
+      baseHp -= hpPerTier(tier)
+    } else if (lowestStat === 'defense' || lowestStat === 'special-defense') {
+      baseDef -= 1
+    } else if (lowestStat === 'speed') {
+      baseSpd -= 1
     }
 
     // up nature status

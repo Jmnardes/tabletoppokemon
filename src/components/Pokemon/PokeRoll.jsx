@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import Select from '../Chakra/chakra-react-select'
-import { Button, Box, Flex, Text } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, SimpleGrid } from '@chakra-ui/react'
 
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
@@ -11,33 +11,12 @@ function PokeRoll() {
     const [tier, setTier] = useState(1)
     const [chosedGeneration, setChosedGeneration] = useState(3)
     const [howMuchPokemonToRoll, setHowMuchPokemonToRoll] = useState(1)
-    const [onePokemonRoll, setOnePokemonRoll] = useState(null)
-    const [twoPokemonRoll, setTwoPokemonRoll] = useState(null)
-    const [threePokemonRoll, setThreePokemonRoll] = useState(null)
-    const [howMuch, setHowMuch] = useState(0)
-    const [nature, setNature] = useState(0)
+    const [pokemonArray, setPokemonArray] = useState([])
 
-    const handlePokemonRoll = (howMuchBtn) => {
+    const handlePokemonRoll = () => {
         let pokemon = []
-        setHowMuch(howMuchBtn)
-
-        if ( howMuchBtn === 1) { 
-            pokemon = sortPokemon(tier, chosedGeneration, 1)
-            setOnePokemonRoll(pokemon[0])
-        }
-
-        if ( howMuchBtn === 2) { 
-            pokemon = sortPokemon(tier, chosedGeneration, 2)
-            setOnePokemonRoll(pokemon[0])
-            setTwoPokemonRoll(pokemon[1])
-        }
-
-        if ( howMuchBtn === 3) { 
-            pokemon = sortPokemon(tier, chosedGeneration, 3)
-            setOnePokemonRoll(pokemon[0])
-            setTwoPokemonRoll(pokemon[1])
-            setThreePokemonRoll(pokemon[2])
-        }
+        pokemon = sortPokemon(tier, chosedGeneration, 1)
+        setPokemonArray(() => [...pokemonArray, pokemon])
         
         return
     }
@@ -81,40 +60,30 @@ function PokeRoll() {
                 <Flex direction="column" textAlign="center">
                     <Text>Roll pokemon</Text>
                     <Flex direction="row">
-                        <Select
-                            placeholder={'Roll'}
-                            size='sm'
-                            options={[{label: 1, value: 1},{label: 2, value: 2},{label: 3, value: 3}]}
-                            onChange={(e) => setHowMuchPokemonToRoll(e.value)}
-                        />
+                        { pokemonArray.length < 8 &&
+                            <Button 
+                                size='sm'
+                                mx={2}
+                                onClick={() => handlePokemonRoll(howMuchPokemonToRoll)}
+                            >
+                                Roll
+                            </Button>
+                        }
                         <Button 
                             size='sm'
                             mx={2}
-                            onClick={() => handlePokemonRoll(howMuchPokemonToRoll)}
+                            onClick={() => setPokemonArray([])}
                         >
-                            Roll
+                            Clear
                         </Button>
                     </Flex>
                 </Flex>
             </Box>
-            <Flex>
-                { howMuch === 1  && (
-                    <ShowPokemon pokemonId={onePokemonRoll} />
-                )}
-                { howMuch === 2 && (
-                    <>
-                        <ShowPokemon pokemonId={onePokemonRoll} />
-                        <ShowPokemon pokemonId={twoPokemonRoll} />
-                    </>
-                )}
-                { howMuch === 3 && (
-                    <>
-                        <ShowPokemon pokemonId={onePokemonRoll} />
-                        <ShowPokemon pokemonId={twoPokemonRoll} />
-                        <ShowPokemon pokemonId={threePokemonRoll} />
-                    </>
-                )}
-            </Flex>
+            <SimpleGrid columns={4} spacing={1}>
+                {pokemonArray.length > 0 && pokemonArray.map((data) => {
+                    return <ShowPokemon pokemonId={data[0]} />
+                })}
+            </SimpleGrid>
         </>
     )
 }

@@ -28,7 +28,6 @@ function PokeDex() {
 
     const handleShiny = (e) => {
         setShiny(e.target.checked)
-        console.log(shiny)
     }
 
     const handleSearch = (e) => {

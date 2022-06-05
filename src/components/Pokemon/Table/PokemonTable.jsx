@@ -1,5 +1,4 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import Types from "./Types";
 
 import { 
     GiWingfoot,
@@ -7,30 +6,31 @@ import {
     GiHearts,
     GiShield
 } from "react-icons/gi";
+import { stringToUpperCase } from "../../../util";
 
-function PokemonTable({ health, attack, defense, type, speed, nature }) {
+function PokemonTable({ health, attack, defense, speed, nature, name, shiny }) {
     return (
         <>
-            <Flex w='100%' justifyContent="space-between" px={2}>
-                <Text fontSize='xs' display="flex" alignItems="center">{ nature ? `(${nature})` : null }</Text>
-                <Types types={type} />
-            </Flex>
-            <Flex mt={4}>
-                <Box display="flex" p={2}>
-                    <GiHearts color="red" size={20} style={{marginRight: 4}}/>
-                    {health}
+            <Box textAlign="center">
+                <Text fontSize='2xl' fontWeight={shiny ? 'bold' : ''}>{stringToUpperCase(name)}</Text>
+                <Text fontSize='xs'>{ nature ? `(${nature})` : null }</Text>
+            </Box>
+            <Flex mt={2}>
+                <Box display="flex" p={3}>
+                    <GiHearts color="#d61717" size={28} style={{marginRight: 6}}/>
+                    <Text fontSize="2x1" fontWeight="bold">{health}</Text>
                 </Box>
-                <Box display="flex" p={2}>
-                    <GiBroadsword size={20} style={{marginRight: 4}}/>
-                    {attack}
+                <Box display="flex" p={3}>
+                    <GiBroadsword color="#4b4b4b" size={28} style={{marginRight: 6}}/>
+                    <Text fontSize="2x1" fontWeight="bold">{attack}</Text>
                 </Box>
-                <Box display="flex" p={2}>
-                    <GiShield color="gold" size={20} style={{marginRight: 4}}/>
-                    {defense}
+                <Box display="flex" p={3}>
+                    <GiShield color="#c8c815" size={28} style={{marginRight: 6}}/>
+                    <Text fontSize="2x1" fontWeight="bold">{defense}</Text>
                 </Box>
-                <Box display="flex" p={2}>
-                    <GiWingfoot color="aquamarine" size={20} style={{marginRight: 4}}/>
-                    {speed}
+                <Box display="flex" p={3}>
+                    <GiWingfoot color="#d58a2f" size={28} style={{marginRight: 6}}/>
+                    <Text fontSize="2x1" fontWeight="bold">{speed}</Text>
                 </Box>
             </Flex>
         </>

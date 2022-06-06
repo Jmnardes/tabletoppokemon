@@ -10,7 +10,6 @@ import { options, generationOptions, colorsByType } from '../../util'
 function PokeRoll() {
     const [tier, setTier] = useState(1)
     const [chosedGeneration, setChosedGeneration] = useState(3)
-    const [howMuchPokemonToRoll, setHowMuchPokemonToRoll] = useState(1)
     const [pokemonArray, setPokemonArray] = useState([])
 
     const handlePokemonRoll = () => {
@@ -23,7 +22,7 @@ function PokeRoll() {
 
     const handleGeneration = (e) => {
         let gen = Number(e.value)
-        setChosedGeneration(gen + 1)
+        setChosedGeneration(() => gen + 1)
     }
 
     return (
@@ -60,15 +59,14 @@ function PokeRoll() {
                 <Flex direction="column" textAlign="center">
                     <Text>Roll pokemon</Text>
                     <Flex direction="row">
-                        { pokemonArray.length < 8 &&
-                            <Button 
-                                size='sm'
-                                mx={2}
-                                onClick={() => handlePokemonRoll(howMuchPokemonToRoll)}
-                            >
-                                Roll
-                            </Button>
-                        }
+                        <Button 
+                            size='sm'
+                            mx={2}
+                            isDisabled={ pokemonArray.length < 8 ? false : true}
+                            onClick={() => handlePokemonRoll()}
+                        >
+                            Roll
+                        </Button>
                         <Button 
                             size='sm'
                             mx={2}
@@ -79,7 +77,7 @@ function PokeRoll() {
                     </Flex>
                 </Flex>
             </Box>
-            <SimpleGrid columns={4} spacing={1}>
+            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1} autoFlow>
                 {pokemonArray.length > 0 && pokemonArray.map((data) => {
                     return <ShowPokemon pokemonId={data[0]} />
                 })}

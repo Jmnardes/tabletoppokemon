@@ -8,16 +8,13 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react"
 import Types from "./Table/Types"
 
 function ShowPokemon({ pokemonId, nature, shiny, dex }) {
-    const [pokemonNature, setPokemonNature] = useState('')
     const [isShiny, setIsShiny] = useState(false)
     const [colorByType, setColorByType] = useState('#000000')
     
     useEffect(() => {
-        let shinyRoll = diceRoll(50)
         let color = typeColor(pokemon[pokemonId].type)
         setColorByType(color)
-        setPokemonNature(whatNaturePokemonIs())
-        shinyRoll === 0 ? setIsShiny(true) : setIsShiny(false)
+        shiny ? setIsShiny(true) : setIsShiny(false)
         if (dex) shiny ? setIsShiny(true) : setIsShiny(false)
     }, [pokemonId])
 
@@ -36,7 +33,7 @@ function ShowPokemon({ pokemonId, nature, shiny, dex }) {
                 background={ isShiny ? `radial-gradient(ellipse at bottom, ${colorByType} 20%, #4a4a4a50 70%)` : ''}
                 key={pokemonId}
             >
-                <Box position="absolute"><Text fontSize="5xl" color={colorByType}>{(isShiny ? '★ ' : '')}</Text></Box>
+                <Box position="absolute"><Text fontSize="4xl" color={colorByType}>{(isShiny ? '★ ' : '')}</Text></Box>
                 <Flex width="100%" justifyContent="space-between" px={2} pt={1}>
                     <Box backgroundColor={colorByType} borderRadius="full" width={7} height={7} textAlign="center">
                         <Text fontSize="2x1" fontWeight="bold">{pokemon[pokemonId].tier}</Text>
@@ -45,13 +42,13 @@ function ShowPokemon({ pokemonId, nature, shiny, dex }) {
                 </Flex>
                 <Image width={40} alt={pokemon[pokemonId].tier} src={pokemon[pokemonId].sprite[`${isShiny ? 'shiny' : 'default'}`]} />
                 <PokemonTable
-                    health={pokemonBaseStat(pokemon[pokemonId].stats, 'hp', pokemonNature, isShiny)}
-                    attack={pokemonBaseStat(pokemon[pokemonId].stats, 'atk', pokemonNature, isShiny)}
-                    defense={pokemonBaseStat(pokemon[pokemonId].stats, 'def', pokemonNature, isShiny)}
-                    speed={pokemonBaseStat(pokemon[pokemonId].stats, 'spd', pokemonNature, isShiny)}
+                    health={pokemonBaseStat(pokemon[pokemonId].stats, 'hp', nature, isShiny)}
+                    attack={pokemonBaseStat(pokemon[pokemonId].stats, 'atk', nature, isShiny)}
+                    defense={pokemonBaseStat(pokemon[pokemonId].stats, 'def', nature, isShiny)}
+                    speed={pokemonBaseStat(pokemon[pokemonId].stats, 'spd', nature, isShiny)}
                     tier={pokemon[pokemonId].tier}
                     type={pokemon[pokemonId].type}
-                    nature={nature ? nature : pokemonNature.nature}
+                    nature={nature}
                     name={pokemon[pokemonId].name}
                     shiny={isShiny}
                 />

@@ -1,29 +1,47 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import Select from '../Chakra/chakra-react-select'
 import { Button, Box, Flex, Text, SimpleGrid } from '@chakra-ui/react'
 
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { options, generationOptions, colorsByType } from '../../util'
+import { options, generationOptions, colorsByType, diceRoll } from '../../util'
+import { whatNaturePokemonIs } from "../pokemonFunctions"
 
 function PokeRoll() {
     const [tier, setTier] = useState(1)
-    const [chosedGeneration, setChosedGeneration] = useState(3)
+    const [chosedGeneration, setChosedGeneration] = useState(1)
     const [pokemonArray, setPokemonArray] = useState([])
+    const [nature, setNature] = useState(0)
+    const [shiny, setShiny] = useState(0)
 
     const handlePokemonRoll = () => {
         let pokemon = []
-        pokemon = sortPokemon(tier, chosedGeneration, 1)
-        setPokemonArray(() => [...pokemonArray, pokemon])
-        
-        return
+
+        pokemon = sortPokemon(tier, chosedGeneration)
+        rollShinyPokemon()
+        setNature(() => whatNaturePokemonIs())
+        setPokemonArray(() => [...pokemonArray, {
+            pokemonId: pokemon,
+            nature: nature,
+            shiny: shiny
+        }])
+    }
+
+    const rollShinyPokemon = () => {
+        let shinyRoll = diceRoll(10)
+        shinyRoll === 0 ? setShiny(true) : setShiny(false)
     }
 
     const handleGeneration = (e) => {
         let gen = Number(e.value)
         setChosedGeneration(() => gen + 1)
     }
+
+    useEffect(() => {
+        rollShinyPokemon()
+        setNature(() => whatNaturePokemonIs())
+    }, [])
 
     return (
         <>
@@ -77,9 +95,9 @@ function PokeRoll() {
                     </Flex>
                 </Flex>
             </Box>
-            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1} autoFlow>
+            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1}>
                 {pokemonArray.length > 0 && pokemonArray.map((data) => {
-                    return <ShowPokemon pokemonId={data[0]} />
+                    return <ShowPokemon pokemonId={data.pokemonId} nature={data.nature.nature} shiny={data.shiny} />
                 })}
             </SimpleGrid>
         </>

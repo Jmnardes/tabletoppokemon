@@ -6,20 +6,21 @@ import { Button, Box, Flex, Text, SimpleGrid } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { options, generationOptions, colorsByType, diceRoll } from '../../util'
-import { whatNaturePokemonIs } from "../pokemonFunctions"
+import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 
 function PokeRoll() {
     const [tier, setTier] = useState(1)
     const [chosedGeneration, setChosedGeneration] = useState(1)
     const [pokemonArray, setPokemonArray] = useState([])
     const [nature, setNature] = useState(0)
-    const [shiny, setShiny] = useState(0)
+    const [shiny, setShiny] = useState([])
+    const shinyPercentage = 10
 
     const handlePokemonRoll = () => {
         let pokemon = []
 
         pokemon = sortPokemon(tier, chosedGeneration)
-        rollShinyPokemon()
+        setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
         setPokemonArray(() => [...pokemonArray, {
             pokemonId: pokemon,
@@ -28,18 +29,13 @@ function PokeRoll() {
         }])
     }
 
-    const rollShinyPokemon = () => {
-        let shinyRoll = diceRoll(10)
-        shinyRoll === 0 ? setShiny(true) : setShiny(false)
-    }
-
     const handleGeneration = (e) => {
         let gen = Number(e.value)
         setChosedGeneration(() => gen + 1)
     }
 
     useEffect(() => {
-        rollShinyPokemon()
+        setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
     }, [])
 

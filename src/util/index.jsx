@@ -150,7 +150,7 @@ export const colorsByType = [
     { label: 'poison', value: 'poison', color: '#b362bb' },
     { label: 'rock', value: 'rock', color: '#474747' },
     { label: 'steel', value: 'steel', color: '#a3a3a3' },
-    { label: 'normal', value: 'normal', color: '#f7ddba' },
+    { label: 'normal', value: 'normal', color: '#D2B89E' },
 ]
 
 // change color by pokemon type

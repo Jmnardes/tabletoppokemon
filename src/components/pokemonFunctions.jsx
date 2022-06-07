@@ -99,12 +99,11 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     if (nature?.statDown === 'spd') {baseSpd -= 1}
 
     // up shiny status
-    if (shiny) {
-      let shinySort = diceRoll(4)
-      if (shinySort === 0) {baseAtk += 1}
-      if (shinySort === 1) {baseHp += hpPerTier(tier)}
-      if (shinySort === 2) {baseDef += 1}
-      if (shinySort === 3) {baseSpd += 1}
+    if (shiny.shiny) {
+      if (shiny.stat[0] === 'atk' || shiny.stat[1] === 'atk') {baseAtk += 1}
+      if (shiny.stat[0] === 'hp' || shiny.stat[1] === 'hp') {baseHp += hpPerTier(tier)}
+      if (shiny.stat[0] === 'def' || shiny.stat[1] === 'def') {baseDef += 1}
+      if (shiny.stat[0] === 'spd' || shiny.stat[1] === 'spd') {baseSpd += 1}
     }
 
     if (whichStat === 'atk') {
@@ -159,6 +158,31 @@ export function whatPokemonTierIs (stats) {
       return tier = 11
   }
 }
+
+// roll shiny pokemon
+export function shinyRoll(number){
+  let shinyRoll = diceRoll(number)
+  let shinyStatusRoll = diceRoll(6)
+
+  if (shinyRoll === 0) {
+    shinyRoll = true
+  } else {
+    shinyRoll = false
+  }
+
+  return {shiny: shinyRoll, stat: shinyStatusUp[shinyStatusRoll]}
+}
+
+// shiny status
+const shinyStatusUp = [
+  ['atk', 'def'],
+  ['atk', 'hp'],
+  ['atk', 'spd'],
+  ['def', 'hp'],
+  ['def', 'spd'],
+  ['hp', 'spd'],
+]
+
 
 // export function pokemonTypes(types) {
 //     let pokemonTypes = ''

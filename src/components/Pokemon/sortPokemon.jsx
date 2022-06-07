@@ -3,10 +3,10 @@ import pokemon from '../../assets/json/pokemons.json'
 
 export function sortPokemon(tier, gen) {
     let sort = 0
-    tier = Number(tier)
-
     let tierMatch = false
     let tierVariance = 0
+    
+    tier = Number(tier)
 
     if (!gen) gen = 1
 

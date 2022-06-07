@@ -1,33 +1,23 @@
 import { useState } from "react"
 import axios from "axios"
 
-import Select from '../Chakra/chakra-react-select'
-import { Box, Button, Flex, Input, Switch, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react'
 
-import { natureOptions} from '../../util'
 import ShowPokemon from "./ShowPokemon"
 
 function PokeDex() {
     const [pokemon, setPokemon] = useState('')
     const [pokemonData, setPokemonData] = useState([])
-    const [nature, setNature] = useState(0)
-    const [shiny, setShiny] = useState(0)
 
     const getPokemon = async () => {
-        const toArray = []
         try {
           const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
           const res = await axios.get(url)
           
-          toArray.push(res.data)
-          setPokemonData(toArray)
+          setPokemonData([...pokemonData, res.data])
         } catch(e) {
           console.log(e)
         }
-    }
-
-    const handleShiny = (e) => {
-        setShiny(e.target.checked)
     }
 
     const handleSearch = (e) => {
@@ -35,22 +25,14 @@ function PokeDex() {
         getPokemon()
     }
 
+    const handleClear = (e) => {
+        e.preventDefault()
+        setPokemonData([])
+    }
+
     return (
         <>
             <Box w="25" p={2} display="flex">
-                <Box mx={2} textAlign="center">
-                    <Text>Nature</Text>
-                    <Select
-                        placeholder={'Nat'}
-                        size='sm'
-                        options={natureOptions}
-                        onChange={(e) => setNature(e.value)}
-                    />
-                </Box>
-                <Box mx={2} textAlign="center">
-                    <Text>Shiny</Text>
-                    <Switch mt={1} onChange={(e) => handleShiny(e)}/>
-                </Box>
                 <form onSubmit={handleSearch} style={{ display: 'flex' }}>
                     <Flex mx={2} direction="column" textAlign="center">
                         <Text>Pokemon name</Text>
@@ -61,22 +43,31 @@ function PokeDex() {
                         />
                     </Flex>
                     <Box mx={2} textAlign="center">
-                        <Button mt={6} size="sm" onClick={(e) => handleSearch(e)}>Search</Button>
+                        <Button 
+                            mt={6} 
+                            size="sm" 
+                            isDisabled={ pokemonData.length < 8 ? false : true} 
+                            onClick={(e) => handleSearch(e)}
+                        >
+                            Search
+                        </Button>
+                    </Box>
+                    <Box mx={2} textAlign="center">
+                        <Button mt={6} size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                     </Box>
                 </form>
             </Box>
-            <Flex>
+            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1}>
             {pokemonData && pokemonData.map((data) => {
                 return (
                     <ShowPokemon
                         pokemonId={data.id - 1}
-                        nature={nature}
-                        shiny={shiny}
-                        dex={true}
+                        nature={false}
+                        shiny={false}
                     />
                 )
             })}
-            </Flex>
+            </SimpleGrid>
         </>
     )
 }

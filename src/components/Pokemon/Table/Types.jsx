@@ -41,7 +41,7 @@ function Types({ types }) {
                 if (t === 'poison') return <Poison title={t} key={t} color="#b362bb" size={28} style={{marginLeft: 4}}/>
                 if (t === 'rock') return <Rock title={t} key={t} color="#474747" size={28} style={{marginLeft: 4}}/>
                 if (t === 'steel') return <Steel title={t} key={t} color="#a3a3a3" size={28} style={{marginLeft: 4}}/>
-                if (t === 'normal') return <Normal title={t} key={t} color="#f7ddba" size={28} style={{marginLeft: 4}}/>
+                if (t === 'normal') return <Normal title={t} key={t} color="#D2B89E" size={28} style={{marginLeft: 4}}/>
             })}
         </Box>
     )

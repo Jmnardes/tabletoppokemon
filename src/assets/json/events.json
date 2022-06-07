@@ -93,7 +93,7 @@
         "id": 15,
         "name": "Horde of Taurus",
         "picture" : "https://64.media.tumblr.com/cb97db59e723261b3078de718c8110fe/tumblr_owc1hobAlx1rd4ymxo5_500.gifv",
-        "description" : "if you don't have a pokemon that can fly or ride, your first pokemon is defeated"
+        "description" : "if you don't have a pokemon that can fly or ride, go back 1d6"
     },
     {
         "id": 16,
@@ -109,14 +109,8 @@
     },
     {
         "id": 18,
-        "name": "Ground hole",
-        "picture" : "https://i.kym-cdn.com/photos/images/newsfeed/001/423/129/fe0.gif",
-        "description" : "If you don't have a rope, lose a turn"
-    },
-    {
-        "id": 19,
-        "name": "Blocking path rock",
-        "picture" : "https://www.ihikesandiego.com/wp-content/uploads/2016/01/ken-making-his-own-path-past-the-rock-blocking-the-way.jpg",
-        "description" : "If you don't have a fighter/earth/rock pokemon on your team you lose a turn"
+        "name": "Team Rocket",
+        "picture" : "https://c.tenor.com/x23TdFVIGW4AAAAC/team-rocket-pokemon.gif",
+        "description" : "Roll d20: 1: They steal a pokemon from your team. 2-4: They steal a random treasure from you(if you don't have, 2 items then). 5-10: They steal a random item from you. 11-19: You escape. 20: You earn a treasure."
     }
 ]

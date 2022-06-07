@@ -109,7 +109,7 @@ export const generation = (gen) => {
     }
     
     if ( gen === 8 ) {
-        return 898
+        return 897
     }
 }
 

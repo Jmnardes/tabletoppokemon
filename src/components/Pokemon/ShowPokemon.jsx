@@ -7,7 +7,7 @@ import pokemon from '../../assets/json/pokemons.json'
 import { Box, Flex, Image, Text } from "@chakra-ui/react"
 import Types from "./Table/Types"
 
-function ShowPokemon({ pokemonId, nature, shiny }) {
+function ShowPokemon({ pokemonId, nature, shiny, type }) {
     const [colorByType, setColorByType] = useState('#000000')
     
     useEffect(() => {
@@ -28,7 +28,6 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                 p={ shiny.shiny ? 0 : 2}
                 backgroundColor={ shiny.shiny ? '#FFFFFF50' : `${colorByType}20` }
                 background={ shiny.shiny ? `radial-gradient(ellipse at bottom, ${colorByType} 20%, #4a4a4a50 70%)` : ''}
-                key={pokemonId}
             >
                 <Box position="absolute"><Text fontSize="4xl" color={colorByType}>{(shiny.shiny ? '★ ' : '')}</Text></Box>
                 <Flex width="100%" justifyContent="space-between" px={2} pt={1}>
@@ -45,7 +44,7 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                     speed={pokemonBaseStat(pokemon[pokemonId].stats, 'spd', nature, shiny)}
                     tier={pokemon[pokemonId].tier}
                     type={pokemon[pokemonId].type}
-                    nature={nature}
+                    nature={nature.nature}
                     name={pokemon[pokemonId].name}
                     shiny={shiny.shiny}
                 />

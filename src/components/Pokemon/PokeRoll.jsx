@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 
 import Select from '../Chakra/chakra-react-select'
-import { Button, Box, Flex, Text, SimpleGrid } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, SimpleGrid, Switch } from '@chakra-ui/react'
 
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { options, generationOptions, colorsByType, diceRoll } from '../../util'
+import { options, generationOptions, colorsByType } from '../../util'
 import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 
 function PokeRoll() {
@@ -14,12 +14,14 @@ function PokeRoll() {
     const [pokemonArray, setPokemonArray] = useState([])
     const [nature, setNature] = useState(0)
     const [shiny, setShiny] = useState([])
+    const [pokemonType, setPokemonType] = useState('')
+    const [halfTier, setHalfTier] = useState(false)
     const shinyPercentage = 10
 
     const handlePokemonRoll = () => {
         let pokemon = []
 
-        pokemon = sortPokemon(tier, chosedGeneration)
+        pokemon = sortPokemon(tier, chosedGeneration, pokemonType, halfTier)
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
         setPokemonArray(() => [...pokemonArray, {
@@ -32,6 +34,11 @@ function PokeRoll() {
     const handleGeneration = (e) => {
         let gen = Number(e.value)
         setChosedGeneration(() => gen + 1)
+    }
+
+    const handleType = (e) => {
+        let typ = e.value
+        setPokemonType(() => typ)
     }
 
     useEffect(() => {
@@ -53,6 +60,13 @@ function PokeRoll() {
                     />
                 </Box>
                 <Box mx={2} textAlign="center">
+                    <Text>Half Tier</Text>
+                    <Switch
+                        mx={2}
+                        onChange={(e) => setHalfTier(e.target.checked)}
+                    />
+                </Box>
+                <Box mx={2} textAlign="center">
                     <Text>Generation</Text>
                     <Select
                         placeholder={'Gen'}
@@ -67,7 +81,7 @@ function PokeRoll() {
                         placeholder={'Type'}
                         size='sm'
                         options={colorsByType}
-                        onChange={(e) => handleGeneration(e)}
+                        onChange={(e) => handleType(e)}
                     />
                 </Box>
                 <Flex direction="column" textAlign="center">
@@ -93,7 +107,14 @@ function PokeRoll() {
             </Box>
             <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1}>
                 {pokemonArray.length > 0 && pokemonArray.map((data) => {
-                    return <ShowPokemon pokemonId={data.pokemonId} nature={data.nature.nature} shiny={data.shiny} />
+                    return (
+                        <ShowPokemon 
+                            key={data.pokemonId + data.nature.nature} 
+                            pokemonId={data.pokemonId} 
+                            nature={data.nature} 
+                            shiny={data.shiny}
+                        />
+                    )
                 })}
             </SimpleGrid>
         </>

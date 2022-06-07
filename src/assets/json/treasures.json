@@ -57,6 +57,12 @@
         "id": 9,
         "name": "Rare pokemon egg",
         "picture" : "https://media.tumblr.com/b609aa8c9dd7dd6c41bf88b926af2175/tumblr_inline_mw4j8thySS1rws35y.gif",
-        "description" : "In 3 turns you hatch a pokemon a tier up from where you found it"
+        "description" : "In 3 turns you hatch a pokemon one tier up from where you found it"
+    },
+    {
+        "id": 10,
+        "name": "Evolution stone",
+        "picture" : "https://64.media.tumblr.com/da5e9411ec126ca391bcc3acb2fd44ff/tumblr_okporvUv9f1sox2ufo4_400.gifv",
+        "description" : "Used to evolve a pokemon"
     }
 ]

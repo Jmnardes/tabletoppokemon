@@ -99,7 +99,7 @@ export function pokemonBaseStat (stats, whichStat, nature, shiny) {
     if (nature?.statDown === 'spd') {baseSpd -= 1}
 
     // up shiny status
-    if (shiny.shiny) {
+    if (shiny?.shiny) {
       if (shiny.stat[0] === 'atk' || shiny.stat[1] === 'atk') {baseAtk += 1}
       if (shiny.stat[0] === 'hp' || shiny.stat[1] === 'hp') {baseHp += hpPerTier(tier)}
       if (shiny.stat[0] === 'def' || shiny.stat[1] === 'def') {baseDef += 1}

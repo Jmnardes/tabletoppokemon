@@ -16,7 +16,7 @@ function PokeRoll() {
     const [shiny, setShiny] = useState([])
     const [pokemonType, setPokemonType] = useState('')
     const [halfTier, setHalfTier] = useState(false)
-    const shinyPercentage = 10
+    const shinyPercentage = 40
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -60,9 +60,10 @@ function PokeRoll() {
                     />
                 </Box>
                 <Box mx={2} textAlign="center">
-                    <Text>Half Tier</Text>
+                    <Text>/Tier</Text>
                     <Switch
                         mx={2}
+                        mt={2}
                         onChange={(e) => setHalfTier(e.target.checked)}
                     />
                 </Box>
@@ -105,7 +106,7 @@ function PokeRoll() {
                     </Flex>
                 </Flex>
             </Box>
-            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1}>
+            <SimpleGrid columns={[1, 2, 3, 4, 5, 6, 7]} spacing={1}>
                 {pokemonArray.length > 0 && pokemonArray.map((data) => {
                     return (
                         <ShowPokemon 

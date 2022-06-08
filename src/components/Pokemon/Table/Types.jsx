@@ -1,47 +1,47 @@
-import { Box } from "@chakra-ui/react";
-import { AiFillEye as Psychic } from "react-icons/ai";
-import { 
-    GiSmallFire as Fire,
-    GiDrop as Water,
-    GiSpikedDragonHead as Dragon, 
-    GiSpottedBug as Bug,
-    GiMoon as Dark,
-    GiElectric as Electric,
-    GiFallingStar as Fairy,
-    GiFist as Fighter,
-    GiFluffyWing as Flying,
-    GiSnowflake1 as Ice,
-    GiGhost as Ghost,
-    GiLindenLeaf as Grass,
-    GiGroundbreaker as Ground,
-    GiPoisonGas as Poison,
-    GiStonePile as Rock,
-    GiMetalBar as Steel,
-    GiConcentricCrescents as Normal
-} from "react-icons/gi";
+import { Box, Image } from "@chakra-ui/react";
+
+import bug from '../../../assets/images/elements/bug.webp'
+import dark from '../../../assets/images/elements/dark.webp'
+import dragon from '../../../assets/images/elements/dragon.webp'
+import electric from '../../../assets/images/elements/electric.webp'
+import fairy from '../../../assets/images/elements/fairy.webp'
+import fighting from '../../../assets/images/elements/fighting.webp'
+import fire from '../../../assets/images/elements/fire.webp'
+import flying from '../../../assets/images/elements/flying.webp'
+import ghost from '../../../assets/images/elements/ghost.png'
+import grass from '../../../assets/images/elements/grass.png'
+import ground from '../../../assets/images/elements/ground.webp'
+import ice from '../../../assets/images/elements/ice.webp'
+import normal from '../../../assets/images/elements/normal.webp'
+import psychic from '../../../assets/images/elements/psychic.webp'
+import poison from '../../../assets/images/elements/poison.webp'
+import rock from '../../../assets/images/elements/rock.webp'
+import steel from '../../../assets/images/elements/steel.webp'
+import water from '../../../assets/images/elements/water.webp'
+import { stringToUpperCase } from "../../../util";
 
 function Types({ types }) {
     return (
         <Box display="flex" justifyContent="center">
             {types.map(t => {
-                if (t === 'psychic') return <Psychic title={t} key={t} color="#b43fe7" size={28} style={{marginLeft: 4}}/>
-                if (t === 'fire') return <Fire title={t} key={t} color="#CD5C5C" size={28} style={{marginLeft: 4}}/>
-                if (t === 'water') return <Water title={t} key={t} color=" #3498db" size={28} style={{marginLeft: 4}}/>
-                if (t === 'dragon') return <Dragon title={t} key={t} color="#e5c67e" size={28} style={{marginLeft: 4}}/>
-                if (t === 'bug') return <Bug title={t} key={t} color="#69ca47" size={28} style={{marginLeft: 4}}/>
-                if (t === 'dark') return <Dark title={t} key={t} color="#170223" size={28} style={{marginLeft: 4}}/>
-                if (t === 'electric') return <Electric title={t} key={t} color="#d5d20c" size={28} style={{marginLeft: 4}}/>
-                if (t === 'fairy') return <Fairy title={t} key={t} color="#e390d8" size={28} style={{marginLeft: 4}}/>
-                if (t === 'fighting') return <Fighter title={t} key={t} color="#f1883b" size={28} style={{marginLeft: 4}}/>
-                if (t === 'flying') return <Flying title={t} key={t} color="#93d4d6" size={28} style={{marginLeft: 4}}/>
-                if (t === 'ice') return <Ice title={t} key={t} color="#00f7ff" size={28} style={{marginLeft: 4}}/>
-                if (t === 'ghost') return <Ghost title={t} key={t} color="#600e92" size={28} style={{marginLeft: 4}}/>
-                if (t === 'grass') return <Grass title={t} key={t} color="#195827" size={28} style={{marginLeft: 4}}/>
-                if (t === 'ground') return <Ground title={t} key={t} color="#854e08" size={28} style={{marginLeft: 4}}/>
-                if (t === 'poison') return <Poison title={t} key={t} color="#b362bb" size={28} style={{marginLeft: 4}}/>
-                if (t === 'rock') return <Rock title={t} key={t} color="#474747" size={28} style={{marginLeft: 4}}/>
-                if (t === 'steel') return <Steel title={t} key={t} color="#a3a3a3" size={28} style={{marginLeft: 4}}/>
-                if (t === 'normal') return <Normal title={t} key={t} color="#D2B89E" size={28} style={{marginLeft: 4}}/>
+                if (t === 'bug') return <Image src={bug} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'dark') return <Image src={dark} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'dragon') return <Image src={dragon} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'electric') return <Image src={electric} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'fairy') return <Image src={fairy} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'fighting') return <Image src={fighting} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'fire') return <Image src={fire} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'flying') return <Image src={flying} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'ghost') return <Image src={ghost} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'grass') return <Image src={grass} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'ground') return <Image src={ground} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'ice') return <Image src={ice} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'normal') return <Image src={normal} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'psychic') return <Image src={psychic} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'poison') return <Image src={poison} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'rock') return <Image src={rock} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'steel') return <Image src={steel} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
+                if (t === 'water') return <Image src={water} title={stringToUpperCase(t)} w={6} h={6} ml={1}/>
             })}
         </Box>
     )

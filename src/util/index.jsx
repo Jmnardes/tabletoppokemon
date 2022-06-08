@@ -151,6 +151,7 @@ export const colorsByType = [
     { label: 'rock', value: 'rock', color: '#474747' },
     { label: 'steel', value: 'steel', color: '#a3a3a3' },
     { label: 'normal', value: 'normal', color: '#D2B89E' },
+    { label: 'none', value: '', color: '' },
 ]
 
 // change color by pokemon type
@@ -180,6 +181,7 @@ export const typeColor = (types) => {
                     return finalColor = color.color
                 }
             })
+            return
         })
     }
     

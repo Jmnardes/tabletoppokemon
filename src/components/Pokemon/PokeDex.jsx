@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 
 import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react'
@@ -8,7 +8,6 @@ import ShowPokemon from "./ShowPokemon"
 function PokeDex() {
     const [pokemon, setPokemon] = useState('')
     const [pokemonData, setPokemonData] = useState([])
-    const [keyIndex, setKeyIndex] = useState(100)
 
     const getPokemon = async () => {
         try {
@@ -60,7 +59,7 @@ function PokeDex() {
                     <Button mt={6} size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                 </Box>
             </Box>
-            <SimpleGrid columns={[1/2, 1, 2, 3, 4]} spacing={1}>
+            <SimpleGrid columns={[1, 2, 3, 4, 5, 6]} spacing={1}>
                 {pokemonData && pokemonData.map((data) => {
                     return (
                         <ShowPokemon

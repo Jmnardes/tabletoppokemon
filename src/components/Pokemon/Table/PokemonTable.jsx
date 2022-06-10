@@ -10,14 +10,14 @@ import { FaCaretUp, FaCaretDown, FaInfoCircle } from "react-icons/fa";
 import { stringToUpperCase } from "../../../util";
 import { useEffect, useState } from "react";
 
-function PokemonTable({ health, attack, defense, speed, nature, name }) {
+function PokemonTable({ health, attack, defense, speed, nature, name, tier }) {
     const [formatedNature, setFormatedNature] = useState('')
 
     const natureFormater = (data) => {
         setFormatedNature(() => {
             return (
                 <>
-                    <Text fontSize='sm' textAlign="center">{data.nature}</Text>
+                    <Text fontSize='sm' textAlign="center">{tier} - {data.nature}</Text>
                     <Flex alignItems="center" justifyContent="center">
                         <Text color="green">{data.statUp ? data.statUp : ''}</Text>
                         {data.statUp && (

@@ -10,7 +10,7 @@ import { FaCaretUp, FaCaretDown, FaInfoCircle } from "react-icons/fa";
 import { stringToUpperCase } from "../../../util";
 import { useEffect, useState } from "react";
 
-function PokemonTable({ health, attack, defense, speed, nature, name, tier }) {
+function PokemonTable({ health, attack, defense, speed, nature, name, tier, inventaryPoke, teamPoke }) {
     const [formatedNature, setFormatedNature] = useState('')
 
     const natureFormater = (data) => {
@@ -40,31 +40,31 @@ function PokemonTable({ health, attack, defense, speed, nature, name, tier }) {
 
     return (
         <>
-            <Box textAlign="center" display="flex" alignItems="center" mt={2}>
-                <Text mr={2} fontSize='xl' fontWeight="bold">{stringToUpperCase(name)}</Text>
+            <Box textAlign="center" display="flex" alignItems="center" mt={inventaryPoke ? 0 : 2}>
+                <Text mr={2} fontSize={inventaryPoke ? "sm" : 'xl'} fontWeight="bold">{stringToUpperCase(name)}</Text>
                 <Tooltip 
                     label={ nature ? formatedNature : null } 
                     fontSize='md'
                 >
-                    <Text mt={1}><FaInfoCircle size={14}/></Text>
+                    <Text mt={1}><FaInfoCircle size={inventaryPoke ? 10 : 14}/></Text>
                 </Tooltip>
             </Box>
-            <Flex mt={2}>
+            <Flex mt={inventaryPoke ? 0 : 2}>
                 <Box display="flex" alignItems="center" p={1}>
-                    <GiHearts title="Health" color="#d61717" size={24} style={{marginRight: 1}}/>
-                    <Text fontWeight="bold">{health}</Text>
+                    <GiHearts title="Health" color="#d61717" size={inventaryPoke ? 14 : 24} style={{marginRight: 1}}/>
+                    <Text fontSize={inventaryPoke && "sm"} fontWeight="bold">{health}</Text>
                 </Box>
                 <Box display="flex" alignItems="center" p={1}>
-                    <GiBroadsword title="Attack" color="#4b4b4b" size={24} style={{marginRight: 1}}/>
-                    <Text fontWeight="bold">{attack}</Text>
+                    <GiBroadsword title="Attack" color="#4b4b4b" size={inventaryPoke ? 14 : 24} style={{marginRight: 1}}/>
+                    <Text fontSize={inventaryPoke && "sm"} fontWeight="bold">{attack}</Text>
                 </Box>
                 <Box display="flex" alignItems="center" p={1}>
-                    <GiShield title="Defense" color="#c8c815" size={24} style={{marginRight: 1}}/>
-                    <Text fontWeight="bold">{defense}</Text>
+                    <GiShield title="Defense" color="#c8c815" size={inventaryPoke ? 14 : 24} style={{marginRight: 1}}/>
+                    <Text fontSize={inventaryPoke && "sm"} fontWeight="bold">{defense}</Text>
                 </Box>
                 <Box display="flex" alignItems="center" p={1}>
-                    <GiWingfoot title="Speed" color="#874B0F" size={24} style={{marginRight: 1}}/>
-                    <Text fontWeight="bold">{speed}</Text>
+                    <GiWingfoot title="Speed" color="#874B0F" size={inventaryPoke ? 14 : 24} style={{marginRight: 1}}/>
+                    <Text fontSize={inventaryPoke && "sm"} fontWeight="bold">{speed}</Text>
                 </Box>
             </Flex>
         </>

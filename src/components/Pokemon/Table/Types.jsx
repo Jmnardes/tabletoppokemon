@@ -1,4 +1,5 @@
-import { Box, Image } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Flex, Image, Text, Tooltip } from "@chakra-ui/react";
 
 import bug from '../../../assets/images/elements/bug.webp'
 import dark from '../../../assets/images/elements/dark.webp'
@@ -18,9 +19,39 @@ import poison from '../../../assets/images/elements/poison.webp'
 import rock from '../../../assets/images/elements/rock.webp'
 import steel from '../../../assets/images/elements/steel.webp'
 import water from '../../../assets/images/elements/water.webp'
-import { stringToUpperCase } from "../../../util";
 
-function Types({ types, inventaryPoke }) {
+import { stringToUpperCase } from "../../../util";
+import { FaStar, FaInfoCircle, FaCaretUp, FaCaretDown } from "react-icons/fa";
+
+function Types({ types, inventaryPoke, shiny, tier, nature, showingType }) {
+    const [formatedNature, setFormatedNature] = useState('')
+
+    const natureFormater = (data) => {
+        setFormatedNature(() => {
+            return (
+                <>
+                    <Text fontSize='sm' textAlign="center">{tier} - {data.nature}</Text>
+                    <Flex alignItems="center" justifyContent="center">
+                        <Text color="green">{data.statUp ? data.statUp : ''}</Text>
+                        {data.statUp && (
+                            <>
+                                <FaCaretUp/>
+                                {data.statDown ? ' | ' : ''}
+                            </>
+                        )}
+                        {data.statDown && <FaCaretDown/>}
+                        <Text color="red">{data.statDown ? data.statDown : ''}</Text>
+                    </Flex>
+                </>
+            )
+        })
+    }
+
+    /* eslint-disable */
+    useEffect(() => {
+        natureFormater(nature)
+    }, [])
+
     return (
         <Box display="flex" flexDirection="column" justifyContent="start">
             {types.map(t => {
@@ -43,6 +74,15 @@ function Types({ types, inventaryPoke }) {
                 if (t === 'steel') return <Image src={steel} title={stringToUpperCase(t)} w={inventaryPoke ? 5 : 6} h={inventaryPoke ? 5 : 6} ml={1} mb={1}/>
                 if (t === 'water') return <Image src={water} title={stringToUpperCase(t)} w={inventaryPoke ? 5 : 6} h={inventaryPoke ? 5 : 6} ml={1} mb={1}/>
             })}
+            {showingType !== 'inventary' &&
+                <Tooltip 
+                label={ nature ? formatedNature : null } 
+                fontSize='md'
+                >
+                    <Text ml={3/2} mb={1}><FaInfoCircle size={20}/></Text>
+                </Tooltip>
+            }
+            <Box ml={3/2}>{ shiny && <FaStar title="Shiny" color='#F3F313' size={20}/>}</Box>
         </Box>
     )
 }

@@ -2,10 +2,9 @@ import { useEffect, useState } from "react"
 
 import pokemon from '../../assets/json/pokemons.json'
 
-import { Box, Flex, Image } from "@chakra-ui/react"
+import { Box, Flex, Image, Text } from "@chakra-ui/react"
 import { pokemonBaseStat } from '../pokemonFunctions'
 import { stringToUpperCase, typeColor } from '../../util'
-import { FaStar } from "react-icons/fa";
 import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
 
@@ -23,33 +22,39 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
             <Flex
                 alignItems="center" 
                 flexDirection="column" 
-                border={ shiny.shiny ? `6px ridge ${colorByType}` : `4px solid ${colorByType}`}
+                border={ shiny.shiny ? `4px ridge ${colorByType}` : `4px solid ${colorByType}`}
                 borderRadius={6}
-                width={56}
-                height={48}
+                width={44}
+                height={40}
                 m={1}
-                p={ shiny.shiny ? 0 : 1}
+                p={1}
                 backgroundColor={ shiny.shiny ? '#FFFFFF50' : `${colorByType}35` }
                 background={ shiny.shiny ? `linear-gradient(165deg, ${colorByType}05 15%, ${colorByType} 50%, ${colorByType}05 85%)` : ''}
                 _hover={{
                     backgroundColor: `${colorByType}70`,
-                    border: `${shiny.shiny ? '8px ridge' : '6px outset'} ${colorByType}`,
+                    border: `${shiny.shiny ? '6px ridge' : '6px outset'} ${colorByType}`,
                     cursor: "pointer"
                 }}
             >
+                <Box textAlign="center" display="flex" alignItems="center">
+                    <Text mb={1} fontWeight="bold">{stringToUpperCase(pokemon[pokemonId].name)}</Text>
+                </Box>
                 <Flex width="100%" justifyContent="space-between">
-                    <Flex width="100%" justifyContent="space-between" px={2} pt={1}>
-                        <Box>{ shiny.shiny && <FaStar title="Shiny" color={colorByType} size={20}/>}</Box>
-                        {/* <Types types={pokemon[pokemonId].type} /> */}
-                    </Flex>
                     <Image 
-                        w={32}
-                        title={stringToUpperCase(pokemon[pokemonId].name)} 
-                        src={pokemon[pokemonId].sprite[`${shiny.shiny ? 'shiny' : 'default'}`]} 
+                        w={28}
+                        title={stringToUpperCase(pokemon[pokemonId].name)}
+                        backgroundColor={`${colorByType}90`}
+                        borderRadius="50%"
+                        src={pokemon[pokemonId].sprite[`${shiny.shiny ? 'shiny' : 'default'}`]}
                     />
-                    <Flex width="100%" justifyContent="end" px={2} pt={1}>
-                        {/* <Box>{ shiny.shiny && <FaStar title="Shiny" color={colorByType} size={20}/>}</Box> */}
-                        <Types types={pokemon[pokemonId].type} />
+                    <Flex justifyContent="end" px={2} pt={1}>
+                        <Types 
+                            types={pokemon[pokemonId].type} 
+                            shiny={shiny.shiny}
+                            tier={pokemon[pokemonId].tier} 
+                            nature={nature} 
+                            showingType={'roll'}
+                        />
                     </Flex>
                 </Flex>
 
@@ -63,6 +68,7 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                     nature={nature}
                     name={pokemon[pokemonId].name}
                     shiny={shiny.shiny}
+                    showingType={'roll'}
                 />
             </Flex>
         </>

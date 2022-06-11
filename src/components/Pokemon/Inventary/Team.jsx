@@ -38,19 +38,21 @@ function Team({ savedPokemon }) {
             >
 
                 <Flex width="100%" justifyContent="space-between">
-                    <Flex width="100%" px={1/2} pt={1/2}>
-                        <Box>{ savedPokemon.shiny.shiny && <FaStar title="Shiny" color={colorByType} size={24}/>}</Box>
-                    </Flex>
-                    <Flex width="100%" justifyContent="end" px={1/2} pt={1/2}>
-                        <Types types={pokemon[savedPokemon.pokemonId].type} />
+                    <Image
+                        width={36}
+                        title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
+                        src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
+                    />
+                    <Flex justifyContent="end" px={1/2} pt={1/2}>
+                        <Types
+                            types={pokemon[savedPokemon.pokemonId].type} 
+                            shiny={savedPokemon.shiny.shiny}
+                            tier={pokemon[savedPokemon.pokemonId].tier} 
+                            nature={savedPokemon.nature}
+                            showingType={'team'}
+                        />
                     </Flex>
                 </Flex>
-                <Image
-                    position="absolute"
-                    width={36}
-                    title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
-                    src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
-                />
                 
                 <PokemonTable
                     health={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)}
@@ -62,7 +64,7 @@ function Team({ savedPokemon }) {
                     nature={savedPokemon.nature}
                     name={pokemon[savedPokemon.pokemonId].name}
                     shiny={savedPokemon.shiny.shiny}
-                    teamPoke={true}
+                    showingType={'team'}
                 />
             </Flex>
         </>

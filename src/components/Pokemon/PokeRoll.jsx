@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 import Select from '../Chakra/chakra-react-select'
-import { Button, Box, Flex, Text, SimpleGrid, Switch, Stack } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Switch, Stack } from '@chakra-ui/react'
 
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
@@ -51,7 +51,7 @@ function PokeRoll() {
         setPokemonType(() => typ)
     }
         
-    const handleCard = (pokemonId, nature, shiny) => {
+    const handleAddInventory = ({pokemonId, nature, shiny}) => {
         setSavedPokemons(() => [{
             pokemonId,
             nature,
@@ -60,12 +60,18 @@ function PokeRoll() {
         setInventary(true)
     }
 
-    const handlePokemonTeam = ({pokemonId, nature, shiny}) => {
+    const handleAddPokemonTeam = ({pokemonId, nature, shiny}) => {
         setPokemonsTeam(() => [{
             pokemonId,
             nature,
             shiny,
         }, ...pokemonsTeam])
+
+        handleRemovePokeFromInventory({
+            pokemonId,
+            nature,
+            shiny,
+        })
     }
 
     const handleRemovePokeFromInventory = (poke) => {
@@ -76,10 +82,8 @@ function PokeRoll() {
                 array.splice(index, 1)
                 setSavedPokemons([...array])
 
-                return
+                return null
             }
-
-            return
         })
 
         if (savedPokemons.length === 0) {
@@ -95,11 +99,11 @@ function PokeRoll() {
                 array.splice(index, 1)
                 setPokemonsTeam([...array])
 
-                return
+                return null
             }
-
-            return
         })
+
+        handleAddInventory(poke)
     }
 
     useEffect(() => {
@@ -169,7 +173,7 @@ function PokeRoll() {
                 </Flex>
             </Box>
 
-            <Flex py={1} mt={1} minHeight="13rem">
+            <Flex py={1} mt={1} minHeight="11rem">
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1} 
@@ -190,7 +194,7 @@ function PokeRoll() {
                 >
                     {pokemonArray.length > 0 && pokemonArray.map((data) => {
                         return (
-                            <Box onClick={() => handleCard(data.pokemonId, data.nature, data.shiny)}>
+                            <Box onClick={() => handleAddInventory(data)}>
                                 <ShowPokemon 
                                     key={data.pokemonId + data.nature.nature} 
                                     pokemonId={data.pokemonId} 
@@ -249,7 +253,6 @@ function PokeRoll() {
                                         size="sm" 
                                         width="64%" 
                                         borderRadius="0 0 0 16px"
-                                        backgroundColor={`${typeColor(pokemonJSON[poke.pokemonId].type)}35`}
                                         borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         _hover={{
@@ -258,15 +261,15 @@ function PokeRoll() {
                                             borderLeft: "2px solid #2EC92E40",
                                             borderBottom: "2px solid #2EC92E40"
                                         }}
-                                        onClick={() => handlePokemonTeam(poke)}
+                                        isDisabled={pokemonsTeam.length > 5 ? true : false}
+                                        onClick={() => handleAddPokemonTeam(poke)}
                                     >
                                         <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/> Team
                                     </Button>
                                     <Button 
                                         size="sm" 
                                         width="36%" 
-                                        borderRadius="0 0 16px 0" 
-                                        backgroundColor={`${typeColor(pokemonJSON[poke.pokemonId].type)}35`}
+                                        borderRadius="0 0 16px 0"
                                         borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         _hover={{
@@ -285,19 +288,6 @@ function PokeRoll() {
                     })}
                 </Stack>
             </Flex>
-
-            {/* <Flex flexDir="column" py={2} mt={16} minHeight="360px">
-                <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Inventário</Text>
-                <SimpleGrid columns={[4, 6, 7, 8, 9, 10, 11]} spacing={1/2}>
-                    {inventary && savedPokemons.map((poke) => {
-                        return (
-                            <Box onClick={() => handleRemovePokeFromInventory(poke)}>
-                                <Inventary savedPokemon={poke} />
-                            </Box>
-                        )
-                    })}
-                </SimpleGrid>
-            </Flex> */}
         </>
     )
 }

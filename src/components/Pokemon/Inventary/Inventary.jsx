@@ -28,21 +28,22 @@ function Inventary({ savedPokemon }) {
                 width={40}
                 height={32}
                 p={1}
-                backgroundColor={ savedPokemon.shiny.shiny ? '#FFFFFF50' : `${colorByType}35` }
-                background={ savedPokemon.shiny.shiny ? `linear-gradient(165deg, ${colorByType}05 15%, ${colorByType} 50%, ${colorByType}05 85%)` : ''}
             >
 
                 <Flex width="100%" justifyContent="space-between">
-                    <Flex width="100%" px={1/2} pt={1/2}>
-                        <Box>{ savedPokemon.shiny.shiny && <FaStar title="Shiny" color={colorByType} size={16}/>}</Box>
-                    </Flex>
                     <Image 
                         width={16} 
                         title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
                         src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
                     />
-                    <Flex width="100%" justifyContent="end" px={1/2} pt={1/2}>
-                        <Types types={pokemon[savedPokemon.pokemonId].type} inventaryPoke={true} />
+                    <Flex justifyContent="end" px={1/2} pt={1/2}>
+                        <Types 
+                            types={pokemon[savedPokemon.pokemonId].type} 
+                            shiny={savedPokemon.shiny.shiny}
+                            tier={pokemon[savedPokemon.pokemonId].tier} 
+                            nature={savedPokemon.nature}
+                            showingType={'inventary'}
+                        />
                     </Flex>
                 </Flex>
                 
@@ -56,7 +57,7 @@ function Inventary({ savedPokemon }) {
                     nature={savedPokemon.nature}
                     name={pokemon[savedPokemon.pokemonId].name}
                     shiny={savedPokemon.shiny.shiny}
-                    inventaryPoke={true}
+                    showingType={'inventary'}
                 />
             </Flex>
         </>

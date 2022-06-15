@@ -29,11 +29,11 @@ const Pokecards = () => {
     return (
          <Container>
             <Box textAlign="center">
-                <Button m={2} onClick={() => handleDrawCard('item')}>draw item</Button>
-                <Button m={2} onClick={() => handleDrawCard('event')}>draw event</Button>
-                <Button m={2} onClick={() => handleDrawCard('treasure')}>draw treasure</Button>
+                <Button m={2} onClick={() => handleDrawCard('item')}>Item</Button>
+                <Button m={2} onClick={() => handleDrawCard('event')}>Event</Button>
+                <Button m={2} onClick={() => handleDrawCard('treasure')}>Treasure</Button>
             </Box>
-            <Box textAlign="center">
+            <Box textAlign="center" backgroundColor="#1A202C" borderRadius={8} p={2} mb={4}>
                 <Text fontSize='4xl' m={2}>{card.name}</Text>
                 <Image 
                     src={card.picture} 
@@ -41,10 +41,12 @@ const Pokecards = () => {
                     m="4px auto"
                     height="16rem"
                     objectFit='cover'
+                    borderRadius={8}
+                    mb={2}
                 />
                 <Text 
                     backgroundColor="#2D3748"
-                    borderRadius={4}
+                    borderRadius={8}
                     height={28}
                     p={2}
                 >{card.description}</Text>

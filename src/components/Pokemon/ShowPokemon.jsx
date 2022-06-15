@@ -22,22 +22,22 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
             <Flex
                 alignItems="center" 
                 flexDirection="column" 
-                border={ shiny.shiny ? `4px ridge ${colorByType}` : `4px solid ${colorByType}`}
+                border={ shiny.shiny ? `3px ridge ${colorByType}80` : `3px solid ${colorByType}50`}
                 borderRadius={6}
                 width={44}
                 height={40}
                 m={1}
                 p={1}
-                backgroundColor={ shiny.shiny ? '#FFFFFF50' : `${colorByType}35` }
+                backgroundColor='#FFFFFF30'
                 background={ shiny.shiny ? `linear-gradient(165deg, ${colorByType}05 15%, ${colorByType} 50%, ${colorByType}05 85%)` : ''}
                 _hover={{
-                    backgroundColor: `${colorByType}70`,
-                    border: `${shiny.shiny ? '6px ridge' : '6px outset'} ${colorByType}`,
+                    backgroundColor: `${colorByType}40`,
+                    border: `${shiny.shiny ? '4px outset' : '4px outset'} ${colorByType}`,
                     cursor: "pointer"
                 }}
             >
                 <Box textAlign="center" display="flex" alignItems="center">
-                    <Text mb={1} fontWeight="bold">{stringToUpperCase(pokemon[pokemonId].name)}</Text>
+                    <Text mb={1} fontWeight="bold">T: {pokemon[pokemonId].tier}{" "}{nature.statUp && `(+${nature.statUp})`}{" "}{nature.statDown && `(-${nature.statDown})`}</Text>
                 </Box>
                 <Flex width="100%" justifyContent="space-between">
                     <Image 
@@ -52,7 +52,7 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                             types={pokemon[pokemonId].type} 
                             shiny={shiny.shiny}
                             tier={pokemon[pokemonId].tier} 
-                            nature={nature} 
+                            nature={''} 
                             showingType={'roll'}
                         />
                     </Flex>

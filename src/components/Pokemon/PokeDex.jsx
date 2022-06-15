@@ -3,7 +3,7 @@ import axios from "axios"
 
 import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react'
 
-import ShowPokemon from "./ShowPokemon"
+import Team from "./Inventary/Team"
 
 function PokeDex() {
     const [pokemon, setPokemon] = useState('')
@@ -22,54 +22,60 @@ function PokeDex() {
 
     const handleSearch = (e) => {
         e.preventDefault()
-        
-        if (pokemonData.length < 8)
-        getPokemon()
+
+        if(pokemon !== '' && pokemon !== undefined && pokemonData.length < 4) {
+            getPokemon()
+        }
     }
 
     const handleClear = (e) => {
         e.preventDefault()
         setPokemonData([])
+        setPokemon('')
     }
 
     return (
         <>
-            <Box w="25" p={2} display="flex">
-                <form onSubmit={handleSearch} style={{ display: 'flex' }}>
-                    <Flex mx={2} direction="column" textAlign="center">
-                        <Text>Pokemon name</Text>
-                        <Input 
-                            placeholder="Pokemon name"
-                            size="sm"
-                            onChange={(e) => setPokemon((e.target.value).toLowerCase())}
-                        />
-                    </Flex>
+            <Flex flexDirection="column" justifyContent="center" alignItems="center" mb={4}>
+                <Box w="25" p={2} display="flex">
+                    <form onSubmit={handleSearch} style={{ display: 'flex' }}>
+                        <Flex mx={2} direction="column" textAlign="center">
+                            <Input 
+                                placeholder="Pokemon name"
+                                size="sm"
+                                onChange={(e) => setPokemon((e.target.value).toLowerCase())}
+                            />
+                        </Flex>
+                        <Box mx={2} textAlign="center">
+                            <Button
+                                size="sm" 
+                                isDisabled={ pokemonData.length < 4 ? false : true} 
+                                onClick={(e) => handleSearch(e)}
+                            >
+                                Search
+                            </Button>
+                        </Box>
+                    </form>
                     <Box mx={2} textAlign="center">
-                        <Button 
-                            mt={6} 
-                            size="sm" 
-                            isDisabled={ pokemonData.length < 8 ? false : true} 
-                            onClick={(e) => handleSearch(e)}
-                        >
-                            Search
-                        </Button>
+                        <Button size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                     </Box>
-                </form>
-                <Box mx={2} textAlign="center">
-                    <Button mt={6} size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                 </Box>
-            </Box>
-            <SimpleGrid columns={[1, 2, 3, 4, 5, 6]} spacing={1}>
-                {pokemonData && pokemonData.map((data) => {
-                    return (
-                        <ShowPokemon
-                            pokemonId={data.id - 1}
-                            nature={false}
-                            shiny={false}
-                        />
-                    )
-                })}
-            </SimpleGrid>
+                <SimpleGrid columns={[2]} spacing={1}>
+                    {pokemonData && pokemonData.map((data) => {
+                        data = {
+                            pokemonId: (data.id -1),
+                            nature: '',
+                            shiny: false,
+                        }
+                        return (
+                            <Team
+                                savedPokemon={data}
+                                pokedex={true}
+                            />
+                        )
+                    })}
+                </SimpleGrid>
+            </Flex>
         </>
     )
 }

@@ -6,7 +6,7 @@ import pokemon from '../../../assets/json/pokemons.json'
 import { Flex, Image } from "@chakra-ui/react"
 import Types from "../Table/Types"
 
-function Team({ savedPokemon }) {
+function Team({ savedPokemon, pokedex }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {

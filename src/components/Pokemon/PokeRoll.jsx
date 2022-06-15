@@ -184,7 +184,7 @@ function PokeRoll() {
                     overflowX="auto"
                     css={{
                         "&::-webkit-scrollbar": {
-                            height: "10px",
+                            height: "14px",
                             width: "2px",
                         },
                         "&::-webkit-scrollbar-track": {
@@ -211,7 +211,7 @@ function PokeRoll() {
                 </Stack>
             </Flex>
 
-            <Flex flexDir="column" py={2} mt={4} minHeight="12rem">
+            <Flex flexDir="column" py={2} mt={4} minHeight="9rem">
                 <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Inventário</Text>
                 <Stack 
                     direction={['column', 'row']} 
@@ -219,7 +219,7 @@ function PokeRoll() {
                     overflowX="auto"
                     css={{
                         "&::-webkit-scrollbar": {
-                            height: "10px",
+                            height: "14px",
                             width: "2px",
                         },
                         "&::-webkit-scrollbar-track": {
@@ -234,11 +234,11 @@ function PokeRoll() {
                     {inventary && savedPokemons.map((poke) => {
                         return (
                             <Box mb={2}>
-                                <Inventary savedPokemon={poke} />
+                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
                                 <Box display="flex" justifyContent="center">
                                     <Button 
                                         size="sm" 
-                                        width="64%" 
+                                        width="50%" 
                                         borderRadius="0 0 0 16px"
                                         borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
@@ -251,11 +251,11 @@ function PokeRoll() {
                                         isDisabled={pokemonsTeam.length > 5 ? true : false}
                                         onClick={() => handleAddPokemonTeam(poke)}
                                     >
-                                        <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/> Team
+                                        <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/>
                                     </Button>
                                     <Button 
                                         size="sm" 
-                                        width="36%" 
+                                        width="50%" 
                                         borderRadius="0 0 16px 0"
                                         borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
                                         borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}

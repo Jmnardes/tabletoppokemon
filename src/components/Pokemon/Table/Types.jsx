@@ -74,10 +74,10 @@ function Types({ types, inventaryPoke, shiny, tier, nature, showingType }) {
                 if (t === 'steel') return <Image src={steel} title={stringToUpperCase(t)} w={inventaryPoke ? 5 : 6} h={inventaryPoke ? 5 : 6} ml={1} mb={1}/>
                 if (t === 'water') return <Image src={water} title={stringToUpperCase(t)} w={inventaryPoke ? 5 : 6} h={inventaryPoke ? 5 : 6} ml={1} mb={1}/>
             })}
-            {showingType !== 'inventary' &&
+            {showingType !== 'inventary' && nature !== '' &&
                 <Tooltip 
-                label={ nature ? formatedNature : null } 
-                fontSize='md'
+                    label={ nature ? formatedNature : null } 
+                    fontSize='md'
                 >
                     <Text ml={3/2} mb={1}><FaInfoCircle size={20}/></Text>
                 </Tooltip>

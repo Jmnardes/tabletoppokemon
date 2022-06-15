@@ -8,6 +8,7 @@ import {
     Button,
     useDisclosure,
 } from "@chakra-ui/react"
+import { stringToUpperCase } from "../../../util"
 import Pokecards from "../../Pokecards"
 import PokeDex from "../PokeDex"
 
@@ -20,8 +21,8 @@ function PokeModal({ title }) {
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{title}</ModalHeader>
+                <ModalContent minWidth="35rem" minHeight="35rem">
+                    <ModalHeader textAlign="center">{stringToUpperCase(title)}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         {title === 'cards' ? (

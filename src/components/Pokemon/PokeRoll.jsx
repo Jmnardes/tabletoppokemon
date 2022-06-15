@@ -11,6 +11,7 @@ import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
 import { FaWindowClose, FaPlusSquare } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
+import PokeModal from "./Modal/Modal"
 
 function PokeRoll() {
     const [tier, setTier] = useState(1)
@@ -81,9 +82,8 @@ function PokeRoll() {
             if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
                 array.splice(index, 1)
                 setSavedPokemons([...array])
-
-                return null
             }
+            return null
         })
 
         if (savedPokemons.length === 0) {
@@ -98,9 +98,8 @@ function PokeRoll() {
             if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
                 array.splice(index, 1)
                 setPokemonsTeam([...array])
-
-                return null
             }
+            return null
         })
 
         handleAddInventory(poke)
@@ -171,6 +170,11 @@ function PokeRoll() {
                         </Button>
                     </Flex>
                 </Flex>
+                <Box mx={2} textAlign="center">
+                    <Text>Modals</Text>
+                    <PokeModal title={'cards'}/>
+                    <PokeModal title={'pokedex'}/>
+                </Box>
             </Box>
 
             <Flex py={1} mt={1} minHeight="11rem">
@@ -201,23 +205,6 @@ function PokeRoll() {
                                     nature={data.nature} 
                                     shiny={data.shiny}
                                 />
-                            </Box>
-                        )
-                    })}
-                </Stack>
-            </Flex>
-
-
-            <Flex flexDir="column" py={2} mt={2} minHeight="12rem">
-                <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Team</Text>
-                <Stack 
-                    direction={['column', 'row']} 
-                    spacing={1}
-                >
-                    {pokemonsTeam && pokemonsTeam.map((poke) => {
-                        return (
-                            <Box onClick={() => handleRemovePokeFromTeam(poke)} mb={2}>
-                                <Team savedPokemon={poke} />
                             </Box>
                         )
                     })}
@@ -283,6 +270,22 @@ function PokeRoll() {
                                         <FaWindowClose size="16px" style={{ color: "#D73737" }}/>
                                     </Button>
                                 </Box>
+                            </Box>
+                        )
+                    })}
+                </Stack>
+            </Flex>
+            
+            <Flex flexDir="column" py={2} mt={2} minHeight="12rem">
+                <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Team</Text>
+                <Stack 
+                    direction={['column', 'row']} 
+                    spacing={1}
+                >
+                    {pokemonsTeam && pokemonsTeam.map((poke) => {
+                        return (
+                            <Box onClick={() => handleRemovePokeFromTeam(poke)} mb={2}>
+                                <Team savedPokemon={poke} />
                             </Box>
                         )
                     })}

@@ -3,9 +3,8 @@ import PokemonTable from "../Table/PokemonTable"
 import { pokemonBaseStat } from '../../pokemonFunctions'
 import { stringToUpperCase, typeColor } from '../../../util'
 import pokemon from '../../../assets/json/pokemons.json'
-import { Box, Flex, Image } from "@chakra-ui/react"
+import { Flex, Image } from "@chakra-ui/react"
 import Types from "../Table/Types"
-import { FaStar } from "react-icons/fa";
 
 function Inventary({ savedPokemon }) {
     const [colorByType, setColorByType] = useState('#000000')

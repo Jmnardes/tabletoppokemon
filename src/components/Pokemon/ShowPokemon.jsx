@@ -37,7 +37,7 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                 }}
             >
                 <Box textAlign="center" display="flex" alignItems="center">
-                    <Text mb={1} fontWeight="bold">T: {pokemon[pokemonId].tier}{" "}{nature.statUp && `(+${nature.statUp})`}{" "}{nature.statDown && `(-${nature.statDown})`}</Text>
+                    <Text mb={1} fontWeight="bold">{stringToUpperCase(pokemon[pokemonId].name)}</Text>
                 </Box>
                 <Flex width="100%" justifyContent="space-between">
                     <Image 
@@ -52,8 +52,8 @@ function ShowPokemon({ pokemonId, nature, shiny }) {
                             types={pokemon[pokemonId].type} 
                             shiny={shiny.shiny}
                             tier={pokemon[pokemonId].tier} 
-                            nature={''} 
-                            showingType={'roll'}
+                            color={colorByType}
+                            nature={''}
                         />
                     </Flex>
                 </Flex>

@@ -19,9 +19,9 @@ export function sortPokemon(tier, gen, type, half) {
     
     // getting percentage to roll pokemon from tier up or down
     tierVariance = diceRoll(100) // 0 to 99
-    if (tierVariance < 70) // 0-69 70%
+    if (tierVariance < 65) // 0-69 70%
         tierVariance = 0
-    else if (tierVariance < 95) // 70-94 25%
+    else if (tierVariance < 90) // 70-94 25%
         tierVariance = 1 // 1 tier down
     else // 95-99 5%
         tierVariance = 2 // 1 tier up

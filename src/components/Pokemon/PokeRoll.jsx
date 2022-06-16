@@ -9,13 +9,13 @@ import { options, generationOptions, colorsByType, typeColor } from '../../util'
 import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
-import { FaWindowClose, FaPlusSquare } from "react-icons/fa";
+import { FaWindowClose, FaPlusSquare, FaDice, FaUndo, FaGift, FaSearch, FaUniversity, FaSkull } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import PokeModal from "./Modal/Modal"
 
 function PokeRoll() {
-    const [tier, setTier] = useState(1)
-    const [chosedGeneration, setChosedGeneration] = useState(1)
+    const [tier, setTier] = useState(10)
+    const [chosedGeneration, setChosedGeneration] = useState(8)
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
@@ -23,7 +23,6 @@ function PokeRoll() {
     const [shiny, setShiny] = useState([])
     const [pokemonType, setPokemonType] = useState('')
     const [halfTier, setHalfTier] = useState(false)
-    const [inventary, setInventary] = useState(false)
     const shinyPercentage = 40
 
     const handlePokemonRoll = () => {
@@ -58,7 +57,12 @@ function PokeRoll() {
             nature,
             shiny,
         }, ...savedPokemons])
-        setInventary(true)
+
+        handleRemovePokeFromSorted({
+            pokemonId,
+            nature,
+            shiny,
+        })
     }
 
     const handleAddPokemonTeam = ({pokemonId, nature, shiny}) => {
@@ -75,6 +79,18 @@ function PokeRoll() {
         })
     }
 
+    const handleRemovePokeFromSorted = (poke) => {
+        let array = pokemonArray
+
+        pokemonArray.filter((data, index) => {
+            if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
+                array.splice(index, 1)
+                setPokemonArray([...array])
+            }
+            return null
+        })
+    }
+
     const handleRemovePokeFromInventory = (poke) => {
         let array = savedPokemons
 
@@ -85,10 +101,6 @@ function PokeRoll() {
             }
             return null
         })
-
-        if (savedPokemons.length === 0) {
-            setInventary(false)
-        }
     }
 
     const handleRemovePokeFromTeam = (poke) => {
@@ -115,24 +127,22 @@ function PokeRoll() {
             <Box w="25" p={2} display="flex" backgroundColor={"gray.600"}>
 
                 <Box mx={2} textAlign="center">
-                    <Text>Tier</Text>
                     <Select
                         placeholder={'Tier'}
-                        size='sm'
                         mx={2}
                         options={options}
                         onChange={(e) => setTier(e.value)}
                     />
                 </Box>
-                <Box mx={2} textAlign="center">
+                {/* <Box mx={2} textAlign="center">
                     <Text>/Tier</Text>
                     <Switch
                         mx={2}
                         mt={2}
                         onChange={(e) => setHalfTier(e.target.checked)}
                     />
-                </Box>
-                <Box mx={2} textAlign="center">
+                </Box> */}
+                {/* <Box mx={2} textAlign="center">
                     <Text>Generation</Text>
                     <Select
                         placeholder={'Gen'}
@@ -140,8 +150,8 @@ function PokeRoll() {
                         options={generationOptions}
                         onChange={(e) => handleGeneration(e)}
                     />
-                </Box>
-                <Box mx={2} textAlign="center">
+                </Box> */}
+                {/* <Box mx={2} textAlign="center">
                     <Text>Type</Text>
                     <Select
                         placeholder={'Type'}
@@ -149,32 +159,43 @@ function PokeRoll() {
                         options={colorsByType}
                         onChange={(e) => handleType(e)}
                     />
-                </Box>
-                <Flex direction="column" textAlign="center">
-                    <Text>Roll pokemon</Text>
-                    <Flex direction="row">
-                        <Button 
-                            size='sm'
-                            mx={2}
-                            isDisabled={ pokemonArray.length < 10 ? false : true}
-                            onClick={() => handlePokemonRoll()}
-                        >
-                            Roll
-                        </Button>
-                        <Button 
-                            size='sm'
-                            mx={2}
-                            onClick={() => setPokemonArray([])}
-                        >
-                            Clear
-                        </Button>
+                </Box> */}
+                <Flex justifyContent="space-between" width="100%">
+                    <Flex direction="column" textAlign="center">
+                        <Flex direction="row">
+                            <Button
+                                mx={2}
+                                title="Roll"
+                                isDisabled={pokemonArray.length < 5 ? false : true}
+                                onClick={() => handlePokemonRoll()}
+                            >
+                                <FaDice size="24px"/>
+                            </Button>
+                            <Button 
+                                mx={2}
+                                title="Clear"
+                                isDisabled={pokemonArray.length === 0 ? true : false}
+                                onClick={() => setPokemonArray([])}
+                            >
+                                <FaUndo size="18px"/>
+                            </Button>
+                        </Flex>
                     </Flex>
+                    <Box mx={2} textAlign="center">
+                        <PokeModal title={'Team Rocket'}>
+                            <FaSkull size="20px"/>
+                        </PokeModal>
+                        <PokeModal title={'Gym'}>
+                            <FaUniversity size="22px"/>
+                        </PokeModal>
+                        <PokeModal title={'Cards'}>
+                            <FaGift size="22px"/>
+                        </PokeModal>
+                        <PokeModal title={'Pokedex'}>
+                            <FaSearch size="20px"/>
+                        </PokeModal>
+                    </Box>
                 </Flex>
-                <Box mx={2} textAlign="center">
-                    <Text>Modals</Text>
-                    <PokeModal title={'cards'}/>
-                    <PokeModal title={'pokedex'}/>
-                </Box>
             </Box>
 
             <Flex py={1} mt={1} minHeight="11rem">
@@ -196,7 +217,7 @@ function PokeRoll() {
                         },
                     }}
                 >
-                    {pokemonArray.length > 0 && pokemonArray.map((data) => {
+                    {pokemonArray?.map((data) => {
                         return (
                             <Box onClick={() => handleAddInventory(data)}>
                                 <ShowPokemon 
@@ -212,7 +233,7 @@ function PokeRoll() {
             </Flex>
 
             <Flex flexDir="column" py={2} mt={4} minHeight="9rem">
-                <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Inventário</Text>
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Inventário</Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1} 
@@ -231,7 +252,7 @@ function PokeRoll() {
                         },
                     }}
                 >
-                    {inventary && savedPokemons.map((poke) => {
+                    {savedPokemons?.map((poke) => {
                         return (
                             <Box mb={2}>
                                 <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
@@ -248,7 +269,7 @@ function PokeRoll() {
                                             borderLeft: "2px solid #2EC92E40",
                                             borderBottom: "2px solid #2EC92E40"
                                         }}
-                                        isDisabled={pokemonsTeam.length > 5 ? true : false}
+                                        isDisabled={pokemonsTeam.length > 2 ? true : false}
                                         onClick={() => handleAddPokemonTeam(poke)}
                                     >
                                         <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/>
@@ -277,12 +298,12 @@ function PokeRoll() {
             </Flex>
             
             <Flex flexDir="column" py={2} mt={2} minHeight="12rem">
-                <Text fontSize="2xl" lineHeight="48px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Team</Text>
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Team</Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1}
                 >
-                    {pokemonsTeam && pokemonsTeam.map((poke) => {
+                    {pokemonsTeam?.map((poke) => {
                         return (
                             <Box onClick={() => handleRemovePokeFromTeam(poke)} mb={2}>
                                 <Team savedPokemon={poke} />

@@ -85,30 +85,24 @@
     },
     {
         "id": 14,
-        "name": "Team Rocket",
-        "picture" : "https://c.tenor.com/x23TdFVIGW4AAAAC/team-rocket-pokemon.gif",
-        "description" : "Roll d20: 1: They steal a pokemon from your team. 2-4: They steal a random treasure from you(if you don't have, 2 items then). 5-10: They steal a random item from you. 11-19: You escape. 20: You earn a treasure."
-    },
-    {
-        "id": 15,
         "name": "Horde of Taurus",
         "picture" : "https://64.media.tumblr.com/cb97db59e723261b3078de718c8110fe/tumblr_owc1hobAlx1rd4ymxo5_500.gifv",
         "description" : "if you don't have a pokemon that can fly or ride, go back 1d6"
     },
     {
-        "id": 16,
+        "id": 15,
         "name": "Wild Gyarados",
         "picture" : "https://i.gifer.com/DiTk.gif",
         "description" : "if you don't have a pokemon that can swim, go back 1d6"
     },
     {
-        "id": 17,
+        "id": 16,
         "name": "Sleeping Snorlax",
         "picture" : "https://i.gifer.com/74iX.gif",
         "description" : "Take another route, wake him or wait 3 turns"
     },
     {
-        "id": 18,
+        "id": 17,
         "name": "Team Rocket",
         "picture" : "https://c.tenor.com/x23TdFVIGW4AAAAC/team-rocket-pokemon.gif",
         "description" : "Roll d20: 1: They steal a pokemon from your team. 2-4: They steal a random treasure from you(if you don't have, 2 items then). 5-10: They steal a random item from you. 11-19: You escape. 20: You earn a treasure."

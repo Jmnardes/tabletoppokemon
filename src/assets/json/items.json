@@ -99,7 +99,7 @@
         "id": 16,
         "name": "Catch charm",
         "picture" : "https://www.media.pokekalos.fr/img/pokemon/objets/big/charme-stabilite.png",
-        "description" : "Adds 1 to catch rolls, lasts for 3 turns"
+        "description" : "Adds 2 to catch rolls, lasts for 3 turns"
     },
     {
         "id": 17,
@@ -117,78 +117,66 @@
         "id": 19,
         "name": "Pokemon egg",
         "picture" : "https://thinkdm.files.wordpress.com/2019/07/egg-hatch.gif",
-        "description" : "In 3 turns you hatch a pokemon from the tier you found it"
+        "description" : "In 2 turns you hatch a pokemon two tier up from where you found it"
     },
     {
         "id": 20,
         "name": "Pokemon egg",
         "picture" : "https://thinkdm.files.wordpress.com/2019/07/egg-hatch.gif",
-        "description" : "In 3 turns you hatch a pokemon from the tier you found it"
+        "description" : "In 2 turns you hatch a pokemon two tier up from where you found it"
     },
     {
-        "id": 15,
-        "name": "S.S. Ticket",
-        "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrQn7MtemZ3w6xj75bjacwaKyCkCdzl8qBRmZG4ES__udgCz_p2uhlHkivBzkiVjScbHI&usqp=CAU",
-        "description" : "Allow you to travel on SS. Anne route. If you already passed SS. Anne route, re-roll"
-    },
-    {
-        "id": 16,
+        "id": 21,
         "name": "Heal",
         "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19090_00_256.ktx_.png",
         "description" : "Heal a negative status from one pokemon"
     },
     {
-        "id": 17,
+        "id": 22,
         "name": "Heal",
         "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19090_00_256.ktx_.png",
         "description" : "Heal a negative status from one pokemon"
     },
     {
-        "id": 18,
+        "id": 23,
         "name": "Heal",
         "picture" : "https://gamepress.gg/pokemonmasters/sites/pokemonmasters/files/2019-08/b001_19090_00_256.ktx_.png",
         "description" : "Heal a negative status from one pokemon"
     },
     {
-        "id": 19,
+        "id": 24,
         "name": "Super heal",
         "picture" : "https://pm1.narvii.com/6280/6629d7bc2ba4da58fc9daa86fa32b309e4796a29_hq.jpg",
         "description" : "Heal all of your pokemon team negative status"
     },
     {
-        "id": 20,
-        "name": "Saffari ticket",
-        "picture" : "https://pbs.twimg.com/media/E-S_dgbXoAMpkTI.jpg",
-        "description" : "Allow you to enter on Saffari route. If you already passed Saffari route, re-roll"
-    },
-    {
-        "id": 21,
+        "id": 25,
         "name": "Item thief",
         "picture" : "https://64.media.tumblr.com/672362f16a3c5c1d1db9d0876f87a25d/90b75dc21d90ac60-75/s640x960/c0814824f9c65622bb5d6fd9fb48caa6a93f2277.gifv",
         "description" : "Choose a trainer and steal one item"
     },
     {
-        "id": 22,
+        "id": 26,
         "name": "Backpack",
         "picture" : "https://64.media.tumblr.com/bafd63a24fafa78e6a69b7cdce6ef6ec/tumblr_n3rqt340HH1sfeoupo1_500.gifv",
         "description" : "Adds 1 more slot on your backpack"
     },
     {
-        "id": 23,
+        "id": 27,
         "name": "Backpack",
         "picture" : "https://64.media.tumblr.com/bafd63a24fafa78e6a69b7cdce6ef6ec/tumblr_n3rqt340HH1sfeoupo1_500.gifv",
         "description" : "Adds 1 more slot on your backpack"
     },
     {
-        "id": 24,
+        "id": 28,
         "name": "Treasure",
         "picture" : "https://i.pinimg.com/originals/bd/9b/4e/bd9b4e222885a996ed309a4a50eb1fd8.gif",
         "description" : "You have found a treasure"
     },
     {
-        "id": 25,
+        "id": 29,
         "name": "Rare pokemon egg",
         "picture" : "https://media.tumblr.com/b609aa8c9dd7dd6c41bf88b926af2175/tumblr_inline_mw4j8thySS1rws35y.gif",
-        "description" : "In 3 turns you hatch a pokemon one tier up from where you found it"
+        "description" : "In 3 turns you hatch a pokemon four tiers up from where you found it (max tier 10, if you are on route 8, you hatch in 2 turns one tier 10)"
     }
 ]

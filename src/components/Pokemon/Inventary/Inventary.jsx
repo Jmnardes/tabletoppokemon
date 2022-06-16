@@ -3,13 +3,15 @@ import {
     Image,
     Flex,
     Tooltip,
-    Text
+    Text,
+    Box
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
 import pokemon from '../../../assets/json/pokemons.json'
 import PokemonTable from "../Table/PokemonTable"
 import Types from "../Table/Types"
 import { pokemonBaseStat } from "../../pokemonFunctions"
+import { FaStar } from "react-icons/fa";
 
 function Inventary({ title, savedPokemon }) {
     const [colorByType, setColorByType] = useState('#000000')
@@ -21,19 +23,22 @@ function Inventary({ title, savedPokemon }) {
                 <>
                     <Flex flexDirection="column" justifyContent="center" alignItems="center">
                         <Flex justifyContent="space-between" width="100%">
-                            <Image
-                                w={28}
-                                width="80%"
-                                title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
-                                src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
-                            />
+                            <Box mb={48}>
+                                <Image
+                                    w={28}
+                                    width="80%"
+                                    position="absolute"
+                                    left="28px"
+                                    title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
+                                    src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
+                                />
+                            </Box>
                             <Flex justifyContent="end" px={1/2} pt={1/2} width="20%">
                                 <Types
                                     types={pokemon[savedPokemon.pokemonId].type} 
                                     shiny={savedPokemon.shiny.shiny}
                                     tier={pokemon[savedPokemon.pokemonId].tier} 
                                     nature={savedPokemon.nature}
-                                    showingType={'inventary'}
                                 />
                             </Flex>
                         </Flex>
@@ -84,7 +89,18 @@ function Inventary({ title, savedPokemon }) {
                         _hover={{
                             cursor: 'pointer'
                         }}
-                    >{`(${pokemon[savedPokemon.pokemonId].tier})` + ' ' + stringToUpperCase(title)}</Text>
+                    >
+                        <Flex>
+                            {(savedPokemon.shiny.shiny &&
+                                <Box mr={1} display="flex" alignItems="center" justifyContent="center">
+                                    <FaStar title="Shiny" size={10}/>
+                                </Box>
+                            )}
+                            {`(${pokemon[savedPokemon.pokemonId].tier})` + 
+                            ' ' + 
+                            stringToUpperCase(title)}
+                        </Flex>
+                    </Text>
                 </Tooltip>
             </Flex>
         </>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-import { Box, Button, Flex, Input, SimpleGrid, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, SimpleGrid } from '@chakra-ui/react'
 
 import Team from "./Inventary/Team"
 

@@ -9,7 +9,7 @@
         "id": 1,
         "name": "Shiny Charm",
         "picture" : "http://pa1.narvii.com/6435/b73b02ac9b1a1b7376a80ad1344dafb45180c288_00.gif",
-        "description" : "Next pokemon is shiny (you roll wich status increase)"
+        "description" : "Next shiny pokemon you have +10 on catch roll"
     },
     {
         "id": 2,
@@ -33,7 +33,7 @@
         "id": 5,
         "name": "Carbos",
         "picture" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEe-MHRcJJBYdlMinsnDA4O0YaPaDV7ex7mg&usqp=CAU",
-        "description" : "Increase pokemon Speed permanently (1 tier up, but just for who atacks first)"
+        "description" : "Increase pokemon Speed permanently"
     },
     {
         "id": 6,
@@ -57,7 +57,7 @@
         "id": 9,
         "name": "Rare pokemon egg",
         "picture" : "https://media.tumblr.com/b609aa8c9dd7dd6c41bf88b926af2175/tumblr_inline_mw4j8thySS1rws35y.gif",
-        "description" : "In 3 turns you hatch a pokemon one tier up from where you found it"
+        "description" : "In 3 turns you hatch a pokemon four tiers up from where you found it (max tier 10, if you are on route 8, you hatch in 2 turns one tier 10)"
     },
     {
         "id": 10,

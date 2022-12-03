@@ -22,7 +22,7 @@ function Team({ savedPokemon }) {
                 flexDirection="column" 
                 border={ savedPokemon.shiny.shiny ? `8px ridge ${colorByType}` : `8px ridge ${colorByType}`}
                 borderRadius={8}
-                width={96}
+                width={80}
                 height={52}
                 m={1}
                 p={1}
@@ -37,7 +37,7 @@ function Team({ savedPokemon }) {
                 <Text fontWeight="bold" letterSpacing={2}>{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>
                 <Flex width="100%" justifyContent="space-between">
                     <Image
-                        width={44}
+                        width={36}
                         title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
                         src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
                     />

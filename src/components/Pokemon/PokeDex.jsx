@@ -37,7 +37,7 @@ function PokeDex() {
     return (
         <>
             <Flex flexDirection="column" justifyContent="center" alignItems="center" mb={4}>
-                <Box w="25" p={2} display="flex">
+                <Box w="50" p={2} display="flex">
                     <form onSubmit={handleSearch} style={{ display: 'flex' }}>
                         <Flex mx={2} direction="column" textAlign="center">
                             <Input 
@@ -60,7 +60,7 @@ function PokeDex() {
                         <Button size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                     </Box>
                 </Box>
-                <SimpleGrid columns={[2]} spacing={1}>
+                <SimpleGrid columns={[1]}>
                     {pokemonData && pokemonData.map((data) => {
                         data = {
                             pokemonId: (data.id -1),

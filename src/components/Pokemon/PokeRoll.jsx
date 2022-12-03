@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react"
 
 import Select from '../Chakra/chakra-react-select'
-import { Button, Box, Flex, Text, Switch, Stack } from '@chakra-ui/react'
-
+import { Button, Box, Flex, Text, Switch, Stack, NumberInput } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { options, generationOptions, colorsByType, typeColor } from '../../util'
 import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
-import { FaWindowClose, FaPlusSquare, FaDice, FaUndo, FaGift, FaSearch, FaUniversity, FaSkull } from "react-icons/fa";
+import { FaWindowClose, FaPlusSquare, FaMinusSquare, FaDice, FaUndo, FaGift, FaSearch, FaUniversity, FaSkull } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import PokeModal from "./Modal/Modal"
+import { pokemonBaseStat } from '../pokemonFunctions'
 
 function PokeRoll() {
     const [tier, setTier] = useState(10)
@@ -23,6 +23,7 @@ function PokeRoll() {
     const [shiny, setShiny] = useState([])
     const [pokemonType, setPokemonType] = useState('')
     const [halfTier, setHalfTier] = useState(false)
+    const [life, setLife] = useState(0)
     const shinyPercentage = 40
 
     const handlePokemonRoll = () => {
@@ -117,6 +118,16 @@ function PokeRoll() {
         handleAddInventory(poke)
     }
 
+    const handleLifeSum = () => {
+        setLife(() => life + 1)
+    }
+
+    const handleLifeSub = () => {
+        if (life > 0) {
+            setLife(() => life - 1)
+        }
+    }
+
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -124,7 +135,7 @@ function PokeRoll() {
 
     return (
         <>
-            <Box w="25" p={2} display="flex" backgroundColor={"gray.600"}>
+            <Box p={2} display="flex" backgroundColor={"gray.600"}>
 
                 <Box mx={2} textAlign="center">
                     <Select
@@ -181,6 +192,31 @@ function PokeRoll() {
                             </Button>
                         </Flex>
                     </Flex>
+                    
+                    <Box mx={2}textAlign="center">
+                        <Flex direction="row">
+                            <Button
+                                mx={2}
+                                title="Life sum"
+                                onClick={() => handleLifeSum()}
+                            >
+                                <FaPlusSquare size="24px" color="green"/>
+                            </Button>
+
+                            <Box mx={2} textAlign="center">
+                                <Text fontSize='2xl'>{life}</Text>
+                            </Box>
+
+                            <Button
+                                mx={2}
+                                title="Life sub"
+                                onClick={() => handleLifeSub()}
+                            >
+                                <FaMinusSquare size="24px" color="red"/>
+                            </Button>
+                        </Flex>
+                    </Box>
+
                     <Box mx={2} textAlign="center">
                         <PokeModal title={'Team Rocket'}>
                             <FaSkull size="20px"/>
@@ -233,7 +269,7 @@ function PokeRoll() {
             </Flex>
 
             <Flex flexDir="column" py={2} mt={4} minHeight="9rem">
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Inventário</Text>
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Pokemon Catched</Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1} 
@@ -269,7 +305,7 @@ function PokeRoll() {
                                             borderLeft: "2px solid #2EC92E40",
                                             borderBottom: "2px solid #2EC92E40"
                                         }}
-                                        isDisabled={pokemonsTeam.length > 2 ? true : false}
+                                        isDisabled={pokemonsTeam.length > 3 ? true : false}
                                         onClick={() => handleAddPokemonTeam(poke)}
                                     >
                                         <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/>
@@ -298,7 +334,97 @@ function PokeRoll() {
             </Flex>
             
             <Flex flexDir="column" py={2} mt={2} minHeight="12rem">
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">Team</Text>
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} backgroundColor={"gray.600"} w="100%">
+                    Pokemon Team{' -> '} Stat sum: {' '}
+                    HP {
+                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
+                                'hp', 
+                                pokemonsTeam[0]?.nature, 
+                                pokemonsTeam[0]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
+                                'hp', 
+                                pokemonsTeam[1]?.nature, 
+                                pokemonsTeam[1]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
+                                'hp', 
+                                pokemonsTeam[2]?.nature, 
+                                pokemonsTeam[2]?.shiny
+                            )
+                        ) : null
+                    }{' / '}
+                    ATK {
+                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
+                                'atk', 
+                                pokemonsTeam[0]?.nature, 
+                                pokemonsTeam[0]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
+                                'atk', 
+                                pokemonsTeam[1]?.nature, 
+                                pokemonsTeam[1]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
+                                'atk', 
+                                pokemonsTeam[2]?.nature, 
+                                pokemonsTeam[2]?.shiny
+                            )
+                        ) : null
+                    }{' / '}
+                    DEF {
+                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
+                                'def', 
+                                pokemonsTeam[0]?.nature, 
+                                pokemonsTeam[0]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
+                                'def', 
+                                pokemonsTeam[1]?.nature, 
+                                pokemonsTeam[1]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
+                                'def', 
+                                pokemonsTeam[2]?.nature, 
+                                pokemonsTeam[2]?.shiny
+                            )
+                        ) : null
+                    }{' / '}
+                    SPD {
+                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
+                                'spd', 
+                                pokemonsTeam[0]?.nature, 
+                                pokemonsTeam[0]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
+                                'spd', 
+                                pokemonsTeam[1]?.nature, 
+                                pokemonsTeam[1]?.shiny
+                            ) +
+                            pokemonBaseStat(
+                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
+                                'spd', 
+                                pokemonsTeam[2]?.nature, 
+                                pokemonsTeam[2]?.shiny
+                            )
+                        ) : null
+                    }
+                </Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1}

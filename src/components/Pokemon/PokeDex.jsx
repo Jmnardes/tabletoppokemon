@@ -4,6 +4,8 @@ import axios from "axios"
 import { Box, Button, Flex, Input, SimpleGrid } from '@chakra-ui/react'
 
 import Team from "./Inventary/Team"
+import PokeModal from "./Modal/Modal"
+import { FaSearch } from "react-icons/fa";
 
 function PokeDex() {
     const [pokemon, setPokemon] = useState('')
@@ -35,7 +37,7 @@ function PokeDex() {
     }
 
     return (
-        <>
+        <PokeModal title={'Pokedex'} button={<FaSearch size="20px"/>}>
             <Flex flexDirection="column" justifyContent="center" alignItems="center" mb={4}>
                 <Box w="50" p={2} display="flex">
                     <form onSubmit={handleSearch} style={{ display: 'flex' }}>
@@ -76,7 +78,7 @@ function PokeDex() {
                     })}
                 </SimpleGrid>
             </Flex>
-        </>
+        </PokeModal>
     )
 }
 

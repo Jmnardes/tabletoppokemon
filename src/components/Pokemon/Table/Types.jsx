@@ -31,7 +31,7 @@ function Types({ types, shiny, tier, color, showingType }) {
             justifyContent={showingType === 'Team' && "space-between"}
             mt={showingType === 'Team' && 2}
         >
-            {tier && 
+            {(tier || tier === 0) && 
                 <Box
                     mb={1}
                     backgroundColor={color}

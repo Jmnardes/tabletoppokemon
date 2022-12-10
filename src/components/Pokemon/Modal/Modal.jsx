@@ -28,12 +28,12 @@ function PokeModal({ title, button, rollNewPokemon, cleanPokemonRoll, children }
             <Button 
                 title={title} 
                 mr={4} 
-                onClick={handleEventOnOpenModal}
+                onClick={rollNewPokemon ? handleEventOnOpenModal : onOpen}
             >
                 {button}
             </Button>
 
-            <Modal isOpen={isOpen} onClose={handleEventOnCloseModal}>
+            <Modal isOpen={isOpen} onClose={cleanPokemonRoll ? handleEventOnCloseModal : onClose}>
                 <ModalOverlay />
                 <ModalContent minWidth="35rem" minHeight="35rem">
                     <ModalHeader textAlign="center">{stringToUpperCase(title)}</ModalHeader>

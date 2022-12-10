@@ -14,6 +14,7 @@ import { pokemonBaseStat } from '../pokemonFunctions'
 import PokeDex from "./PokeDex"
 import { PokeRoll } from "./PokeRoll"
 import PokeItems from "./PokeItems"
+import { TeamRocket } from "./TeamRocket"
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
@@ -21,15 +22,16 @@ import { Select } from "chakra-react-select"
 function PokePage() {
     const [tier, setTier] = useState(10)
     const [chosedGeneration, setChosedGeneration] = useState(8)
+    const [nature, setNature] = useState(0)
+    const [catchDiceRoll, setCatchDiceRoll] = useState(0)
+    const [turn, setTurn] = useState(0)
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
-    const [nature, setNature] = useState(0)
-    const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [shiny, setShiny] = useState([])
-    const [pokemonType, setPokemonType] = useState('')
     const [halfTier, setHalfTier] = useState(false)
     const [disableDiceRoll, setDisableDiceRoll] = useState(false)
+    const [pokemonType, setPokemonType] = useState('')
     const shinyPercentage = 50
 
     const handlePokemonRoll = () => {
@@ -87,6 +89,8 @@ function PokePage() {
             nature,
             shiny,
         })
+
+
     }
 
     const handleRemovePokeFromSorted = (poke) => {
@@ -174,20 +178,21 @@ function PokePage() {
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
+                            <Box mx={2} textAlign="center" w={28}>
+                                <Select
+                                    placeholder={'Tier'}
+                                    mx={2}
+                                    variant='outline'
+                                    options={options}
+                                    onChange={(e) => setTier(e.value)}
+                                />
+                            </Box>
+
                             <PokeRoll 
                                 rollNewPokemon={() => handlePokemonRoll()}
                                 cleanPokemonRoll={() => handlePokemonRollClean()}
                             >
                                 <Flex justifyContent="center">
-                                    <Box mx={2} textAlign="center" w={28}>
-                                        <Select
-                                            placeholder={'Tier'}
-                                            mx={2}
-                                            variant='outline'
-                                            options={options}
-                                            onChange={(e) => setTier(e.value)}
-                                        />
-                                    </Box>
                                     <Button
                                         mx={2}
                                         title="Roll"
@@ -228,31 +233,32 @@ function PokePage() {
                                     <SimpleGrid columns={2} spacing={5} mt={4}>
                                         {pokemonArray?.map((data) => {
                                             return (
-                                                    // w={48} 
-                                                    // h={48} 
-                                                    // background="transparent" 
-                                                    // _hover="disabled"
-                                                    // disabled={cardRollDisabled}
-                                                    // onClick={() => handleAddInventory(data)}
-                                                    <ShowPokemon 
-                                                        key={data.pokemonId + data.nature.nature} 
-                                                        pokemonId={data.pokemonId} 
-                                                        nature={data.nature} 
-                                                        shiny={data.shiny}
-                                                        diceRollResult={catchDiceRoll}
-                                                        handleAddInventory={() => handleAddInventory(data)}
-                                                    />
+                                                <ShowPokemon 
+                                                    key={data.pokemonId + data.nature.nature} 
+                                                    pokemonId={data.pokemonId} 
+                                                    nature={data.nature} 
+                                                    shiny={data.shiny}
+                                                    diceRollResult={catchDiceRoll}
+                                                    handleAddInventory={() => handleAddInventory(data)}
+                                                />
                                             )
                                         })}
                                     </SimpleGrid>
                                 </Flex>
                             </PokeRoll>
+                            
+                            <Text
+                                fontSize='2xl'
+                                ml={2}
+                                borderRadius={4}
+                                textAlign="center"
+                            >Turnos: {turn}</Text>
                         </Flex>
                     </Flex>
 
                     <Box textAlign="center">
                         <Flex>
-                            {/* <TeamRocket /> */}
+                            <TeamRocket />
                             <PokeItems />
                             <PokeDex />
                             <ThemeSwitch />

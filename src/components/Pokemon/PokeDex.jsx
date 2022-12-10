@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 
-import { Box, Button, Flex, Input, SimpleGrid } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
 
 import Team from "./Inventary/Team"
 import PokeModal from "./Modal/Modal"
@@ -25,9 +25,11 @@ function PokeDex() {
     const handleSearch = (e) => {
         e.preventDefault()
 
-        if(pokemon !== '' && pokemon !== undefined && pokemonData.length < 4) {
+        if(pokemon !== '' && pokemon !== undefined && pokemonData.length < 1) {
             getPokemon()
         }
+
+        setPokemon('')
     }
 
     const handleClear = (e) => {
@@ -45,13 +47,14 @@ function PokeDex() {
                             <Input 
                                 placeholder="Pokemon name"
                                 size="sm"
-                                onChange={(e) => setPokemon((e.target.value).toLowerCase())}
+                                value={pokemon}
+                                onChange={(e) => {setPokemon((e.target.value).toLowerCase())}}
                             />
                         </Flex>
                         <Box mx={2} textAlign="center">
                             <Button
                                 size="sm" 
-                                isDisabled={ pokemonData.length < 4 ? false : true} 
+                                isDisabled={pokemonData.length > 1}
                                 onClick={(e) => handleSearch(e)}
                             >
                                 Search
@@ -62,7 +65,7 @@ function PokeDex() {
                         <Button size="sm" onClick={(e) => handleClear(e)}>Clear</Button>
                     </Box>
                 </Box>
-                <SimpleGrid columns={[1]}>
+                <Flex justifyContent="center">
                     {pokemonData && pokemonData.map((data) => {
                         data = {
                             pokemonId: (data.id -1),
@@ -76,7 +79,11 @@ function PokeDex() {
                             />
                         )
                     })}
-                </SimpleGrid>
+                </Flex>
+                <Flex justifyContent="center">
+                    <Text m={4}>IsShiny</Text>
+                    <Text m={4}>Nature</Text>
+                </Flex>
             </Flex>
         </PokeModal>
     )

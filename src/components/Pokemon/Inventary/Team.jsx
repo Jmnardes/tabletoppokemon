@@ -6,7 +6,7 @@ import pokemon from '../../../assets/json/pokemons.json'
 import { Flex, Image, Text } from "@chakra-ui/react"
 import Types from "../Table/Types"
 
-function Team({ savedPokemon }) {
+function Team({ savedPokemon, pokedex }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {
@@ -19,11 +19,12 @@ function Team({ savedPokemon }) {
         <>
             <Flex
                 alignItems="center" 
-                flexDirection="column" 
+                flexDirection="column"
+                justifyContent={pokedex ? 'center' : null}
                 border={ savedPokemon.shiny.shiny ? `8px ridge ${colorByType}` : `8px ridge ${colorByType}`}
                 borderRadius={8}
-                width={80}
-                height={52}
+                width={pokedex ? 96 : 80}
+                height={pokedex ? 80 : 52}
                 m={1}
                 p={1}
                 backgroundColor={ `${colorByType}90` }

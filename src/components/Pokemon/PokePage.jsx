@@ -3,18 +3,19 @@ import { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { options, typeColor } from '../../util'
+import { diceRoll, options, typeColor } from '../../util'
 import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
-import { FaWindowClose, FaPlusSquare } from "react-icons/fa";
+import { FaWindowClose, FaPlusSquare, FaDice, FaDiceD20 } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
-import PokeItems from "./PokeItems"
 import PokeDex from "./PokeDex"
 import { PokeRoll } from "./PokeRoll"
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
+import { Select } from "chakra-react-select"
 
 function PokePage() {
     const [tier, setTier] = useState(10)
@@ -23,13 +24,18 @@ function PokePage() {
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
     const [nature, setNature] = useState(0)
+    const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [shiny, setShiny] = useState([])
     const [pokemonType, setPokemonType] = useState('')
     const [halfTier, setHalfTier] = useState(false)
-    const shinyPercentage = 40
+    const [disableDiceRoll, setDisableDiceRoll] = useState(false)
+    const shinyPercentage = 50
 
     const handlePokemonRoll = () => {
         let pokemon = []
+
+        setCatchDiceRoll(0)
+        setDisableDiceRoll(false)
 
         pokemon = sortPokemon(tier, chosedGeneration, pokemonType, halfTier)
 
@@ -120,6 +126,12 @@ function PokePage() {
         handleAddInventory(poke)
     }
 
+    const handleCatchDiceRoll = () => {
+        let result = diceRoll(20)
+        setDisableDiceRoll(true)
+        setCatchDiceRoll(result + 1)
+    }
+
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -157,25 +169,71 @@ function PokePage() {
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
-                            <PokeRoll 
-                                handlePokeRoll={handlePokemonRoll} 
-                                rolledPokemon={pokemonArray.length}
-                                setPokemonArray={setPokemonArray}
-                                options={options}
-                                setTier={setTier}
-                            >
+                            <PokeRoll>
+                                <Flex justifyContent="center">
+                                    <Box mx={2} textAlign="center" w={28}>
+                                        <Select
+                                            placeholder={'Tier'}
+                                            mx={2}
+                                            variant='outline'
+                                            options={options}
+                                            onChange={(e) => setTier(e.value)}
+                                        />
+                                    </Box>
+                                    <Button
+                                        mx={2}
+                                        title="Roll"
+                                        isDisabled={pokemonArray.length < 4 ? false : true}
+                                        onClick={() => handlePokemonRoll()}
+                                    >
+                                        <FaDice size="18px"/>
+                                    </Button>
+                                    <Button 
+                                        mx={2}
+                                        title="Clear"
+                                        isDisabled={pokemonArray.length === 0 ? true : false}
+                                        onClick={() => setPokemonArray([])}
+                                    >
+                                        <AiFillDelete size="18px"/>
+                                    </Button>
+                                    <Button 
+                                        mx={2}
+                                        title="Rolld20"
+                                        disabled={disableDiceRoll}
+                                        onClick={() => handleCatchDiceRoll()}
+                                    >
+                                        <FaDiceD20 size="18px"/>
+                                    </Button>
+                                    <Text
+                                        background={
+                                            catchDiceRoll === 20 ? "#2EC92E" : "#4A5568"
+                                        }
+                                        fontSize='2xl'
+                                        ml={2}
+                                        w={12}
+                                        borderRadius={4}
+                                        textAlign="center"
+                                    >{catchDiceRoll}</Text>
+                                </Flex>
+
                                 <Flex py={1} mt={1} minHeight="11rem" justifyContent="center">
                                     <SimpleGrid columns={2} spacing={5} mt={4}>
                                         {pokemonArray?.map((data) => {
                                             return (
-                                                <Box onClick={() => handleAddInventory(data)}>
+                                                    // w={48} 
+                                                    // h={48} 
+                                                    // background="transparent" 
+                                                    // _hover="disabled"
+                                                    // disabled={cardRollDisabled}
+                                                    // onClick={() => handleAddInventory(data)}
                                                     <ShowPokemon 
                                                         key={data.pokemonId + data.nature.nature} 
                                                         pokemonId={data.pokemonId} 
                                                         nature={data.nature} 
                                                         shiny={data.shiny}
+                                                        diceRollResult={catchDiceRoll}
+                                                        handleAddInventory={() => handleAddInventory(data)}
                                                     />
-                                                </Box>
                                             )
                                         })}
                                     </SimpleGrid>
@@ -187,7 +245,7 @@ function PokePage() {
                     <Box textAlign="center">
                         <Flex>
                             {/* <TeamRocket /> */}
-                            <PokeItems />
+                            {/* <PokeItems /> */}
                             <PokeDex />
                             <ThemeSwitch />
                         </Flex>

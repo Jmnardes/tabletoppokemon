@@ -13,6 +13,7 @@ import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
 import PokeDex from "./PokeDex"
 import { PokeRoll } from "./PokeRoll"
+import PokeItems from "./PokeItems"
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
@@ -132,6 +133,10 @@ function PokePage() {
         setCatchDiceRoll(result + 1)
     }
 
+    const handlePokemonRollClean = () => {
+        setPokemonArray([])
+    }
+
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -169,7 +174,10 @@ function PokePage() {
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
-                            <PokeRoll>
+                            <PokeRoll 
+                                rollNewPokemon={() => handlePokemonRoll()}
+                                cleanPokemonRoll={() => handlePokemonRollClean()}
+                            >
                                 <Flex justifyContent="center">
                                     <Box mx={2} textAlign="center" w={28}>
                                         <Select
@@ -180,7 +188,7 @@ function PokePage() {
                                             onChange={(e) => setTier(e.value)}
                                         />
                                     </Box>
-                                    <Button
+                                    {/* <Button
                                         mx={2}
                                         title="Roll"
                                         isDisabled={pokemonArray.length < 4 ? false : true}
@@ -195,7 +203,7 @@ function PokePage() {
                                         onClick={() => setPokemonArray([])}
                                     >
                                         <AiFillDelete size="18px"/>
-                                    </Button>
+                                    </Button> */}
                                     <Button 
                                         mx={2}
                                         title="Rolld20"
@@ -245,7 +253,7 @@ function PokePage() {
                     <Box textAlign="center">
                         <Flex>
                             {/* <TeamRocket /> */}
-                            {/* <PokeItems /> */}
+                            <PokeItems />
                             <PokeDex />
                             <ThemeSwitch />
                         </Flex>

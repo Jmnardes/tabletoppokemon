@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-
 import { Button, Box, Flex, Text, Stack } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
@@ -21,7 +20,6 @@ import { Select } from "chakra-react-select"
 
 function PokePage() {
     const [tier, setTier] = useState(10)
-    const [chosedGeneration, setChosedGeneration] = useState(8)
     const [nature, setNature] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [turn, setTurn] = useState(0)
@@ -29,9 +27,7 @@ function PokePage() {
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
     const [shiny, setShiny] = useState([])
-    const [halfTier, setHalfTier] = useState(false)
     const [disableDiceRoll, setDisableDiceRoll] = useState(false)
-    const [pokemonType, setPokemonType] = useState('')
     const shinyPercentage = 50
 
     const handlePokemonRoll = () => {
@@ -40,7 +36,7 @@ function PokePage() {
         setCatchDiceRoll(0)
         setDisableDiceRoll(false)
 
-        pokemon = sortPokemon(tier, chosedGeneration, pokemonType, halfTier)
+        pokemon = sortPokemon(tier)
 
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -49,6 +45,12 @@ function PokePage() {
             nature: nature,
             shiny: shiny
         }])
+
+        if (pokemonArray.length === 3) {
+            setDisableDiceRoll(false)
+        } else {
+            setDisableDiceRoll(true)
+        }
     }
 
     // const handleGeneration = (e) => {
@@ -134,6 +136,7 @@ function PokePage() {
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
         setDisableDiceRoll(true)
+        setTurn(() => turn + 1)
         setCatchDiceRoll(result + 1)
     }
 
@@ -149,32 +152,6 @@ function PokePage() {
     return (
         <>
             <Box p={2} display="flex" backgroundColor={"gray.600"}>
-                {/* <Box mx={2} textAlign="center">
-                    <Text>/Tier</Text>
-                    <Switch
-                        mx={2}
-                        mt={2}
-                        onChange={(e) => setHalfTier(e.target.checked)}
-                    />
-                </Box> */}
-                {/* <Box mx={2} textAlign="center">
-                    <Text>Generation</Text>
-                    <Select
-                        placeholder={'Gen'}
-                        size='sm'
-                        options={generationOptions}
-                        onChange={(e) => handleGeneration(e)}
-                    />
-                </Box> */}
-                {/* <Box mx={2} textAlign="center">
-                    <Text>Type</Text>
-                    <Select
-                        placeholder={'Type'}
-                        size='sm'
-                        options={colorsByType}
-                        onChange={(e) => handleType(e)}
-                    />
-                </Box> */}
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
@@ -201,14 +178,14 @@ function PokePage() {
                                     >
                                         <FaDice size="18px"/>
                                     </Button>
-                                    <Button 
+                                    {/* <Button 
                                         mx={2}
                                         title="Clear"
                                         isDisabled={pokemonArray.length === 0 ? true : false}
                                         onClick={() => setPokemonArray([])}
                                     >
                                         <AiFillDelete size="18px"/>
-                                    </Button>
+                                    </Button> */}
                                     <Button 
                                         mx={2}
                                         title="Rolld20"

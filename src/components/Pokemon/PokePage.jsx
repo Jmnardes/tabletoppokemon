@@ -188,7 +188,7 @@ function PokePage() {
                                             onChange={(e) => setTier(e.value)}
                                         />
                                     </Box>
-                                    {/* <Button
+                                    <Button
                                         mx={2}
                                         title="Roll"
                                         isDisabled={pokemonArray.length < 4 ? false : true}
@@ -203,7 +203,7 @@ function PokePage() {
                                         onClick={() => setPokemonArray([])}
                                     >
                                         <AiFillDelete size="18px"/>
-                                    </Button> */}
+                                    </Button>
                                     <Button 
                                         mx={2}
                                         title="Rolld20"

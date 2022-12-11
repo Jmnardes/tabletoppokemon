@@ -59,18 +59,20 @@ function PokePage() {
         }
     }
         
-    const handleAddInventory = ({pokemonId, nature, shiny}) => {
+    const handleAddInventory = ({pokemonId, nature, shiny}, sorted) => {
         setSavedPokemons(() => [{
             pokemonId,
             nature,
             shiny,
         }, ...savedPokemons])
 
-        handleRemovePokeFromSorted({
-            pokemonId,
-            nature,
-            shiny,
-        })
+        if(sorted) {
+            handleRemovePokeFromSorted({
+                pokemonId,
+                nature,
+                shiny,
+            })
+        }
     }
 
     const handleAddPokemonTeam = ({pokemonId, nature, shiny}) => {
@@ -99,7 +101,6 @@ function PokePage() {
         })
         
         handlePokemonRollClean()
-        closeRollModal()
     }
 
     const handleRemovePokeFromInventory = (poke) => {
@@ -125,7 +126,7 @@ function PokePage() {
             return null
         })
 
-        handleAddInventory(poke)
+        handleAddInventory(poke, false)
     }
 
     const handleCatchDiceRoll = () => {
@@ -156,12 +157,6 @@ function PokePage() {
         }
 
         return total
-    }
-
-    const closeRollModal = () => {
-        return (
-            <PokeRoll></PokeRoll>
-        )
     }
 
     useEffect(() => {
@@ -233,7 +228,7 @@ function PokePage() {
                                                     nature={data.nature} 
                                                     shiny={data.shiny}
                                                     diceRollResult={catchDiceRoll}
-                                                    handleAddInventory={() => handleAddInventory(data)}
+                                                    handleAddInventory={() => handleAddInventory(data, true)}
                                                 />
                                             )
                                         })}
@@ -347,8 +342,8 @@ function PokePage() {
                 <SimpleGrid columns={3} spacingX={4} spacingY={2} mr={2} mt={2}>
                     {pokemonsTeam?.map((poke) => {
                         return (
-                            <Box onClick={() => handleRemovePokeFromTeam(poke)} mb={2}>
-                                <Team savedPokemon={poke} />
+                            <Box mb={2}>
+                                <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
                             </Box>
                         )
                     })}

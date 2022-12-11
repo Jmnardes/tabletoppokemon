@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaMinusSquare, FaPlusSquare } from "react-icons/fa";
 
 export function PokeLife({ total }) {
@@ -17,28 +17,34 @@ export function PokeLife({ total }) {
         }
     }
 
+    useEffect(() => {
+        setLife(total)
+    }, [])
+
     return ( 
         <Box mx={2}textAlign="center">
             <Flex direction="row">
                 <Button
-                    mx={2}
+                    mx={1}
+                    size="xs"
                     title="Life sum"
                     onClick={() => handleLifeSum()}
                 >
-                    <FaPlusSquare size="24px" color="green"/>
+                    <FaPlusSquare size="16px" color="green"/>
                 </Button>
 
-                <Box mx={2} textAlign="center">
-                    <Text fontSize='2xl'>{life}</Text>
-                </Box>
-
                 <Button
-                    mx={2}
+                    mx={1}
+                    size="xs"
                     title="Life sub"
                     onClick={() => handleLifeSub()}
                 >
-                    <FaMinusSquare size="24px" color="red"/>
+                    <FaMinusSquare size="16px" color="red"/>
                 </Button>
+
+                <Box mx={1} textAlign="center">
+                    <Text fontSize='1xl' fontWeight="bold">{life}</Text>
+                </Box>
             </Flex>
         </Box>
     )

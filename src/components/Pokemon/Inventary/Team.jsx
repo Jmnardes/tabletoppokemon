@@ -3,10 +3,11 @@ import PokemonTable from "../Table/PokemonTable"
 import { pokemonBaseStat } from '../../pokemonFunctions'
 import { stringToUpperCase, typeColor } from '../../../util'
 import pokemon from '../../../assets/json/pokemons.json'
-import { Flex, Image, Text } from "@chakra-ui/react"
+import { Flex, Image, Text, CloseButton } from "@chakra-ui/react"
 import Types from "../Table/Types"
+import { PokeLife } from "../PokeLife"
 
-function Team({ savedPokemon, pokedex }) {
+function Team({ savedPokemon, pokedex, removeFromTeam }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {
@@ -30,18 +31,24 @@ function Team({ savedPokemon, pokedex }) {
                 backgroundColor={ `${colorByType}90` }
                 background={ savedPokemon.shiny.shiny ? `linear-gradient(165deg, ${colorByType}15 15%, ${colorByType} 50%, ${colorByType}15 85%)` : ''}
                 shadow="dark-lg"
-                _hover={{
-                    backgroundColor: `${colorByType}70`,
-                    cursor: "pointer"
-                }}
+                // _hover={{
+                //     backgroundColor: `${colorByType}70`,
+                //     cursor: "pointer"
+                // }}
             >
-                <Text fontWeight="bold" letterSpacing={2}>{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>
+                <Flex flexDir="row" width="100%">
+                    <Text fontWeight="bold" letterSpacing={2} width="100%" textAlign="center">{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>
+                    <CloseButton onClick={removeFromTeam} size="sm" />
+                </Flex>
                 <Flex width="100%" justifyContent="space-between">
-                    <Image
-                        width={36}
-                        title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
-                        src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
-                    />
+                    <Flex flexDir="column" justifyContent="center" alignItems="center">
+                        <Image
+                            width={32}
+                            title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
+                            src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
+                        />
+                        <PokeLife total={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)} />
+                    </Flex>
                     <Flex flexDirection="column">
                         <Flex justifyContent="end" mr={2}>
                             <Types

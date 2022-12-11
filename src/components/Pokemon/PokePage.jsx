@@ -340,7 +340,7 @@ function PokePage() {
                     </Flex>
                     <PokeLife total={handleTeamStats('hp')} buttonSize={"md"} lifeSize={"2xl"} iconSize={"24px"} />
                 </Flex>
-                <SimpleGrid columns={3} spacingX={4} spacingY={2} mr={2} mt={2}>
+                <SimpleGrid columns={[2, 2, 2, 3, 3, 4, 5]} spacingX={4} spacingY={2} mr={2} mt={2}>
                     {pokemonsTeam?.map((poke) => {
                         return (
                             <Box mb={2}>

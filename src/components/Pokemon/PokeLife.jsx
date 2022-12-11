@@ -1,8 +1,8 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react"
+import { Button, Flex, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { FaMinusSquare, FaPlusSquare } from "react-icons/fa";
 
-export function PokeLife({ total }) {
+export function PokeLife({ total, buttonSize = 'xs', lifeSize = '1xl', iconSize = '16px' }) {
     const [life, setLife] = useState(0)
 
     const handleLifeSum = () => {
@@ -19,33 +19,35 @@ export function PokeLife({ total }) {
 
     useEffect(() => {
         setLife(total)
-    }, [])
+    }, [total])
 
     return ( 
-        <Box mx={2}textAlign="center">
-            <Flex direction="row">
-                <Button
-                    mx={1}
-                    size="xs"
-                    title="Life sum"
-                    onClick={() => handleLifeSum()}
-                >
-                    <FaPlusSquare size="16px" color="green"/>
-                </Button>
+        <Flex mx={2} direction="row" textAlign="center" alignItems="center" justifyContent="center">
+            <Button
+                mx={1}
+                size={buttonSize}
+                title="Life sum"
+                onClick={() => handleLifeSum()}
+            >
+                <FaPlusSquare size={iconSize} color="green"/>
+            </Button>
 
-                <Button
-                    mx={1}
-                    size="xs"
-                    title="Life sub"
-                    onClick={() => handleLifeSub()}
-                >
-                    <FaMinusSquare size="16px" color="red"/>
-                </Button>
+            <Button
+                mx={1}
+                size={buttonSize}
+                title="Life sub"
+                onClick={() => handleLifeSub()}
+            >
+                <FaMinusSquare size={iconSize} color="red"/>
+            </Button>
 
-                <Box mx={1} textAlign="center">
-                    <Text fontSize='1xl' fontWeight="bold">{life}</Text>
-                </Box>
-            </Flex>
-        </Box>
+            <Button
+                mx={1}
+                size={buttonSize}
+                _hover={false}
+            >
+                <Text fontSize={lifeSize} fontWeight="bold">{life}</Text>
+            </Button>
+        </Flex>
     )
 }

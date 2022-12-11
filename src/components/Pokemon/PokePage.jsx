@@ -22,6 +22,7 @@ import {
     GiHearts,
     GiShield,
 } from "react-icons/gi";
+import { PokeLife } from "./PokeLife"
 
 function PokePage() {
     const [tier, setTier] = useState(10)
@@ -322,9 +323,8 @@ function PokePage() {
             </Flex>
             
             <Flex flexDir="column" py={2} mt={2} minHeight="12rem" height="100%" backgroundColor={"gray.600"}>
-                <Flex flexDir="row" justifyContent="center">
-                    <Flex justifyContent="center" alignItems="center">
-                        <Text fontSize="2xl" fontWeight="bold" m={2}>Team stats: </Text>
+                <Flex flexDir="row" justifyContent="space-evenly">
+                    <Flex alignItems="center">
                         <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/> {
                             <Text fontSize="2xl" m={2}>{handleTeamStats('hp')}</Text>
                         }
@@ -338,6 +338,7 @@ function PokePage() {
                             <Text fontSize="2xl" m={2}>{handleTeamStats('spd')}</Text>
                         }
                     </Flex>
+                    <PokeLife total={handleTeamStats('hp')} buttonSize={"md"} lifeSize={"2xl"} iconSize={"24px"} />
                 </Flex>
                 <SimpleGrid columns={3} spacingX={4} spacingY={2} mr={2} mt={2}>
                     {pokemonsTeam?.map((poke) => {

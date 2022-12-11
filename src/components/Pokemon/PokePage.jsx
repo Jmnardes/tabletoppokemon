@@ -7,7 +7,6 @@ import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
 import { FaWindowClose, FaPlusSquare, FaDice, FaDiceD20 } from "react-icons/fa";
-import { AiFillDelete } from "react-icons/ai";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
 import PokeDex from "./PokeDex"
@@ -17,6 +16,12 @@ import { TeamRocket } from "./TeamRocket"
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
+import { 
+    GiWingfoot,
+    GiBroadsword,
+    GiHearts,
+    GiShield,
+} from "react-icons/gi";
 
 function PokePage() {
     const [tier, setTier] = useState(10)
@@ -27,6 +32,7 @@ function PokePage() {
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
     const [shiny, setShiny] = useState([])
+    const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(false)
     const shinyPercentage = 50
 
@@ -52,18 +58,6 @@ function PokePage() {
             setDisableDiceRoll(true)
         }
     }
-
-    // const handleGeneration = (e) => {
-    //     let gen = Number(e.value)
-
-    //     setChosedGeneration(() => gen + 1)
-    // }
-
-    // const handleType = (e) => {
-    //     let typ = e.value
-
-    //     setPokemonType(() => typ)
-    // }
         
     const handleAddInventory = ({pokemonId, nature, shiny}) => {
         setSavedPokemons(() => [{
@@ -91,8 +85,6 @@ function PokePage() {
             nature,
             shiny,
         })
-
-
     }
 
     const handleRemovePokeFromSorted = (poke) => {
@@ -105,6 +97,9 @@ function PokePage() {
             }
             return null
         })
+        
+        handlePokemonRollClean()
+        closeRollModal()
     }
 
     const handleRemovePokeFromInventory = (poke) => {
@@ -136,12 +131,37 @@ function PokePage() {
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
         setDisableDiceRoll(true)
-        setTurn(() => turn + 1)
+        setEndTurnButton(false)
         setCatchDiceRoll(result + 1)
     }
 
     const handlePokemonRollClean = () => {
+        setEndTurnButton(true)
+        setTurn(() => turn + 1)
         setPokemonArray([])
+    }
+
+    const handleTeamStats = (statType) => {
+        let total = 0
+
+        for(let i=0 ;i <= 5; i++) {
+            if(pokemonsTeam[i]) {
+                total += pokemonBaseStat(
+                    pokemonJSON[pokemonsTeam[i]?.pokemonId]?.stats, 
+                    statType, 
+                    pokemonsTeam[i]?.nature, 
+                    pokemonsTeam[i]?.shiny
+                )
+            }
+        }
+
+        return total
+    }
+
+    const closeRollModal = () => {
+        return (
+            <PokeRoll></PokeRoll>
+        )
     }
 
     useEffect(() => {
@@ -165,10 +185,7 @@ function PokePage() {
                                 />
                             </Box>
 
-                            <PokeRoll 
-                                rollNewPokemon={() => handlePokemonRoll()}
-                                cleanPokemonRoll={() => handlePokemonRollClean()}
-                            >
+                            <PokeRoll>
                                 <Flex justifyContent="center">
                                     <Button
                                         mx={2}
@@ -178,14 +195,6 @@ function PokePage() {
                                     >
                                         <FaDice size="18px"/>
                                     </Button>
-                                    {/* <Button 
-                                        mx={2}
-                                        title="Clear"
-                                        isDisabled={pokemonArray.length === 0 ? true : false}
-                                        onClick={() => setPokemonArray([])}
-                                    >
-                                        <AiFillDelete size="18px"/>
-                                    </Button> */}
                                     <Button 
                                         mx={2}
                                         title="Rolld20"
@@ -204,6 +213,14 @@ function PokePage() {
                                         borderRadius={4}
                                         textAlign="center"
                                     >{catchDiceRoll}</Text>
+                                    <Button 
+                                        mx={4}
+                                        title="Clean"
+                                        disabled={endTurnButton}
+                                        onClick={() => handlePokemonRollClean()}
+                                    >
+                                        End Turn!
+                                    </Button>
                                 </Flex>
 
                                 <Flex py={1} mt={1} minHeight="11rem" justifyContent="center">
@@ -281,7 +298,7 @@ function PokePage() {
                                             borderLeft: "2px solid #2EC92E40",
                                             borderBottom: "2px solid #2EC92E40"
                                         }}
-                                        isDisabled={pokemonsTeam.length > 3 ? true : false}
+                                        isDisabled={pokemonsTeam.length > 5 ? true : false}
                                         onClick={() => handleAddPokemonTeam(poke)}
                                     >
                                         <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/>
@@ -310,101 +327,24 @@ function PokePage() {
             </Flex>
             
             <Flex flexDir="column" py={2} mt={2} minHeight="12rem" height="100%" backgroundColor={"gray.600"}>
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%">
-                    Pokemon Team{' -> '} Stat sum: {' '}
-                    HP {
-                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
-                                'hp', 
-                                pokemonsTeam[0]?.nature, 
-                                pokemonsTeam[0]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
-                                'hp', 
-                                pokemonsTeam[1]?.nature, 
-                                pokemonsTeam[1]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
-                                'hp', 
-                                pokemonsTeam[2]?.nature, 
-                                pokemonsTeam[2]?.shiny
-                            )
-                        ) : null
-                    }{' / '}
-                    ATK {
-                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
-                                'atk', 
-                                pokemonsTeam[0]?.nature, 
-                                pokemonsTeam[0]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
-                                'atk', 
-                                pokemonsTeam[1]?.nature, 
-                                pokemonsTeam[1]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
-                                'atk', 
-                                pokemonsTeam[2]?.nature, 
-                                pokemonsTeam[2]?.shiny
-                            )
-                        ) : null
-                    }{' / '}
-                    DEF {
-                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
-                                'def', 
-                                pokemonsTeam[0]?.nature, 
-                                pokemonsTeam[0]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
-                                'def', 
-                                pokemonsTeam[1]?.nature, 
-                                pokemonsTeam[1]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
-                                'def', 
-                                pokemonsTeam[2]?.nature, 
-                                pokemonsTeam[2]?.shiny
-                            )
-                        ) : null
-                    }{' / '}
-                    SPD {
-                        pokemonsTeam[0] && pokemonsTeam[1] && pokemonsTeam[2] ? (
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[0]?.pokemonId]?.stats, 
-                                'spd', 
-                                pokemonsTeam[0]?.nature, 
-                                pokemonsTeam[0]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[1]?.pokemonId]?.stats, 
-                                'spd', 
-                                pokemonsTeam[1]?.nature, 
-                                pokemonsTeam[1]?.shiny
-                            ) +
-                            pokemonBaseStat(
-                                pokemonJSON[pokemonsTeam[2]?.pokemonId]?.stats, 
-                                'spd', 
-                                pokemonsTeam[2]?.nature, 
-                                pokemonsTeam[2]?.shiny
-                            )
-                        ) : null
-                    }
-                </Text>
-                <Stack 
-                    direction={['column', 'row']} 
-                    spacing={1}
-                >
+                <Flex flexDir="row" justifyContent="center">
+                    <Flex justifyContent="center" alignItems="center">
+                        <Text fontSize="2xl" fontWeight="bold" m={2}>Team stats: </Text>
+                        <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/> {
+                            <Text fontSize="2xl" m={2}>{handleTeamStats('hp')}</Text>
+                        }
+                        <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/> {
+                            <Text fontSize="2xl" m={2}>{handleTeamStats('atk')}</Text>
+                        }
+                        <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/> {
+                            <Text fontSize="2xl" m={2}>{handleTeamStats('def')}</Text>
+                        }
+                        <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/> {
+                            <Text fontSize="2xl" m={2}>{handleTeamStats('spd')}</Text>
+                        }
+                    </Flex>
+                </Flex>
+                <SimpleGrid columns={3} spacingX={4} spacingY={2} mr={2} mt={2}>
                     {pokemonsTeam?.map((poke) => {
                         return (
                             <Box onClick={() => handleRemovePokeFromTeam(poke)} mb={2}>
@@ -412,7 +352,7 @@ function PokePage() {
                             </Box>
                         )
                     })}
-                </Stack>
+                </SimpleGrid>
             </Flex>
         </>
     )

@@ -51,6 +51,7 @@ function hpPerTier(tier) {
 }
 
 export function pokemonBaseStat (stats, whichStat, nature, shiny) {
+    // if(!stats || !whichStat || !nature || !shiny) return 0
     let tier = whatPokemonTierIs(stats)
     let baseAtk = 3
     let baseHp = 5

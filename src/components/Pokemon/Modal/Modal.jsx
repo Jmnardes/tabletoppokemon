@@ -10,30 +10,20 @@ import {
 } from "@chakra-ui/react"
 import { stringToUpperCase } from "../../../util"
 
-function PokeModal({ title, button, rollNewPokemon, cleanPokemonRoll, children }) {
+function PokeModal({ title, button, children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const handleEventOnOpenModal = () => {
-        rollNewPokemon()
-        onOpen()
-    }
-
-    const handleEventOnCloseModal = () => {
-        cleanPokemonRoll()
-        onClose()
-    }
 
     return (
         <>
             <Button 
                 title={title} 
                 mr={4} 
-                onClick={rollNewPokemon ? handleEventOnOpenModal : onOpen}
+                onClick={onOpen}
             >
                 {button}
             </Button>
 
-            <Modal isOpen={isOpen} onClose={cleanPokemonRoll ? handleEventOnCloseModal : onClose}>
+            <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent minWidth="35rem" minHeight="35rem">
                     <ModalHeader textAlign="center">{stringToUpperCase(title)}</ModalHeader>

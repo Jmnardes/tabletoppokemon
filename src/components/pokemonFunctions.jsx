@@ -221,6 +221,55 @@ export const catchDifficulty = (tier, pokeball = false) => {
   }
 }
 
+export const endTurnExp = () => {
+  return 5
+}
+
+export const catchExp = () => {
+  return 10
+}
+
+export const experiencePerLevel = (exp) => {
+  if(exp < expToNextLevel(1)) return 0
+  if(exp < expToNextLevel(2)) return 1
+  if(exp < expToNextLevel(3)) return 2
+  if(exp < expToNextLevel(4)) return 3
+  if(exp < expToNextLevel(5)) return 4
+  if(exp < expToNextLevel(6)) return 5
+  if(exp < expToNextLevel(7)) return 6
+  if(exp < expToNextLevel(8)) return 7
+  if(exp < expToNextLevel(9)) return 8
+  if(exp < expToNextLevel(10)) return 9
+  if(exp > expToNextLevel(10)) return 'max'
+}
+
+export const expToNextLevel = (level) => {
+  switch(level) {
+    case 0:
+      return 0
+    case 1:
+      return 10
+    case 2:
+      return 25
+    case 3:
+      return 45
+    case 4:
+      return 70
+    case 5:
+      return 100
+    case 6:
+      return 135
+    case 7:
+      return 175
+    case 8:
+      return 220
+    case 9:
+      return 270
+    default:
+      return 325
+  }
+}
+
 // export function pokemonTypes(types) {
 //     let pokemonTypes = ''
 //     types.forEach((type, index) => {

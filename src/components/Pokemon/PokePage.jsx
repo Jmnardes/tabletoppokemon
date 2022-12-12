@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { diceRoll, options, typeColor } from '../../util'
-import { shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
+import { diceRoll, typeColor } from '../../util'
+import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
 import { FaWindowClose, FaPlusSquare, FaDice, FaDiceD20 } from "react-icons/fa";
@@ -15,7 +15,6 @@ import PokeItems from "./PokeItems"
 import { TeamRocket } from "./TeamRocket"
 import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
-import { Select } from "chakra-react-select"
 import { 
     GiWingfoot,
     GiBroadsword,
@@ -23,9 +22,13 @@ import {
     GiShield,
 } from "react-icons/gi";
 import { PokeLife } from "./PokeLife"
+import { TrainerBar } from "./TreinerBar"
 
 function PokePage() {
-    const [tier, setTier] = useState(10)
+    const [tier, setTier] = useState(0)
+    const [level, setLevel] = useState(0)
+    const [experience, setExperience] = useState(0)
+    const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
     const [nature, setNature] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [turn, setTurn] = useState(0)
@@ -34,7 +37,7 @@ function PokePage() {
     const [pokemonsTeam, setPokemonsTeam] = useState([])
     const [shiny, setShiny] = useState([])
     const [endTurnButton, setEndTurnButton] = useState(true)
-    const [disableDiceRoll, setDisableDiceRoll] = useState(false)
+    const [disableDiceRoll, setDisableDiceRoll] = useState(true)
     const shinyPercentage = 50
 
     const handlePokemonRoll = () => {
@@ -72,7 +75,7 @@ function PokePage() {
                 pokemonId,
                 nature,
                 shiny,
-            })
+            }, true)
         }
     }
 
@@ -90,7 +93,7 @@ function PokePage() {
         })
     }
 
-    const handleRemovePokeFromSorted = (poke) => {
+    const handleRemovePokeFromSorted = (poke, pokemonCaught) => {
         let array = pokemonArray
 
         pokemonArray.filter((data, index) => {
@@ -101,7 +104,7 @@ function PokePage() {
             return null
         })
         
-        handlePokemonRollClean()
+        handlePokemonRollClean(pokemonCaught)
     }
 
     const handleRemovePokeFromInventory = (poke) => {
@@ -133,13 +136,20 @@ function PokePage() {
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
         setDisableDiceRoll(true)
-        setEndTurnButton(false)
         setCatchDiceRoll(result + 1)
+        setEndTurnButton(false)
     }
 
-    const handlePokemonRollClean = () => {
+    const handlePokemonRollClean = (pokemonCaught) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
+
+        if(pokemonCaught) {
+            setExperience(() => catchExp() + experience)
+        } else {
+            setExperience(() => endTurnExp() + experience)
+        }
+
         setPokemonArray([])
     }
 
@@ -163,7 +173,11 @@ function PokePage() {
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
-    }, [])
+
+        setLevel(experiencePerLevel(experience))
+        setExperienceToNextLevel(expToNextLevel(level + 1))
+        setTier(level)
+    }, [experience, level, setExperience])
 
     return (
         <>
@@ -171,78 +185,66 @@ function PokePage() {
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
-                            <Box mx={2} textAlign="center" w={28}>
-                                <Select
-                                    placeholder={'Tier'}
-                                    mx={2}
-                                    variant='outline'
-                                    options={options}
-                                    onChange={(e) => setTier(e.value)}
-                                />
-                            </Box>
-
-                            <PokeRoll>
-                                <Flex justifyContent="center">
-                                    <Button
-                                        mx={2}
-                                        title="Roll"
-                                        isDisabled={pokemonArray.length < 4 ? false : true}
-                                        onClick={() => handlePokemonRoll()}
-                                    >
-                                        <FaDice size="18px"/>
-                                    </Button>
-                                    <Button 
-                                        mx={2}
-                                        title="Rolld20"
-                                        disabled={disableDiceRoll}
-                                        onClick={() => handleCatchDiceRoll()}
-                                    >
-                                        <FaDiceD20 size="18px"/>
-                                    </Button>
-                                    <Text
-                                        background={
-                                            catchDiceRoll === 20 ? "#2EC92E" : "#4A5568"
-                                        }
-                                        fontSize='2xl'
-                                        ml={2}
-                                        w={12}
-                                        borderRadius={4}
-                                        textAlign="center"
-                                    >{catchDiceRoll}</Text>
-                                    <Button 
-                                        mx={4}
-                                        title="Clean"
-                                        disabled={endTurnButton}
-                                        onClick={() => handlePokemonRollClean()}
-                                    >
-                                        End Turn!
-                                    </Button>
-                                </Flex>
-
-                                <Flex py={1} mt={1} minHeight="11rem" justifyContent="center">
-                                    <SimpleGrid columns={2} spacing={5} mt={4}>
-                                        {pokemonArray?.map((data) => {
-                                            return (
-                                                <ShowPokemon 
-                                                    key={data.pokemonId + data.nature.nature} 
-                                                    pokemonId={data.pokemonId} 
-                                                    nature={data.nature} 
-                                                    shiny={data.shiny}
-                                                    diceRollResult={catchDiceRoll}
-                                                    handleAddInventory={() => handleAddInventory(data, true)}
-                                                />
-                                            )
-                                        })}
-                                    </SimpleGrid>
-                                </Flex>
-                            </PokeRoll>
-                            
-                            <Text
-                                fontSize='2xl'
-                                ml={2}
-                                borderRadius={4}
-                                textAlign="center"
-                            >Turnos: {turn}</Text>
+                            {turn < 40 ? (
+                                <PokeRoll>
+                                    <Flex justifyContent="center">
+                                        <Button
+                                            mx={2}
+                                            title="Roll"
+                                            isDisabled={pokemonArray.length < 4 ? false : true}
+                                            onClick={() => handlePokemonRoll()}
+                                        >
+                                            <FaDice size="18px"/>
+                                        </Button>
+                                        <Button 
+                                            mx={2}
+                                            title="Rolld20"
+                                            disabled={disableDiceRoll}
+                                            onClick={() => handleCatchDiceRoll()}
+                                        >
+                                            <FaDiceD20 size="18px"/>
+                                        </Button>
+                                        <Text
+                                            background={
+                                                catchDiceRoll === 20 ? "#2EC92E" : "#4A5568"
+                                            }
+                                            fontSize='2xl'
+                                            ml={2}
+                                            w={12}
+                                            borderRadius={4}
+                                            textAlign="center"
+                                        >{catchDiceRoll}</Text>
+                                        <Button 
+                                            mx={4}
+                                            title="Clean"
+                                            disabled={endTurnButton}
+                                            onClick={() => handlePokemonRollClean()}
+                                        >
+                                            End Turn!
+                                        </Button>
+                                    </Flex>
+    
+                                    <Flex py={1} mt={1} minHeight="11rem" justifyContent="center">
+                                        <SimpleGrid columns={2} spacing={5} mt={4}>
+                                            {pokemonArray?.map((data) => {
+                                                return (
+                                                    <ShowPokemon 
+                                                        key={data.pokemonId + data.nature.nature} 
+                                                        pokemonId={data.pokemonId} 
+                                                        nature={data.nature} 
+                                                        shiny={data.shiny}
+                                                        diceRollResult={catchDiceRoll}
+                                                        handleAddInventory={() => handleAddInventory(data, true)}
+                                                    />
+                                                )
+                                            })}
+                                        </SimpleGrid>
+                                    </Flex>
+                                </PokeRoll>
+    
+                            ) : null}
+                            {/* FAZER APARECER O BOSS */}
+                            <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} />
                         </Flex>
                     </Flex>
 

@@ -30,6 +30,7 @@ function PokePage() {
     const [experience, setExperience] = useState(0)
     const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
     const [nature, setNature] = useState(0)
+    const [resultDiceRoll, setResultDiceRoll] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [turn, setTurn] = useState(0)
     const [pokemonArray, setPokemonArray] = useState([])
@@ -38,7 +39,11 @@ function PokePage() {
     const [shiny, setShiny] = useState([])
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
-    const shinyPercentage = 50
+    const [bonusOnCatch, setBonusOnCatch] = useState(0)
+    const [greatBall, setGreatBall] = useState(true)
+    const [superBall, setSuperBall] = useState(true)
+    const [ultraBall, setUltraBall] = useState(true)
+    const shinyPercentage = 100
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -135,8 +140,10 @@ function PokePage() {
 
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
+
         setDisableDiceRoll(true)
         setCatchDiceRoll(result + 1)
+        setResultDiceRoll(bonusOnCatch + result + 1)
         setEndTurnButton(false)
     }
 
@@ -149,6 +156,13 @@ function PokePage() {
         } else {
             setExperience(() => endTurnExp() + experience)
         }
+
+
+        setGreatBall(true)
+        setSuperBall(true)
+        setUltraBall(true)
+        setBonusOnCatch(0)
+        setResultDiceRoll(0)
 
         setPokemonArray([])
     }
@@ -198,6 +212,39 @@ function PokePage() {
                                         </Button>
                                         <Button 
                                             mx={2}
+                                            title="Great Ball"
+                                            disabled={!greatBall}
+                                            onClick={() => {
+                                                setGreatBall(false)
+                                                setBonusOnCatch(2)
+                                            }}
+                                        >
+                                            +2
+                                        </Button>
+                                        <Button 
+                                            mx={2}
+                                            title="Super Ball"
+                                            disabled={!superBall}
+                                            onClick={() => {
+                                                setSuperBall(false)
+                                                setBonusOnCatch(3)
+                                            }}
+                                        >
+                                            +3
+                                        </Button>
+                                        <Button 
+                                            mx={2}
+                                            title="Ultra Ball"
+                                            disabled={!ultraBall}
+                                            onClick={() => {
+                                                setUltraBall(false)
+                                                setBonusOnCatch(5)
+                                            }}
+                                        >
+                                            +5
+                                        </Button>
+                                        <Button 
+                                            mx={2}
                                             title="Rolld20"
                                             disabled={disableDiceRoll}
                                             onClick={() => handleCatchDiceRoll()}
@@ -213,19 +260,11 @@ function PokePage() {
                                             w={12}
                                             borderRadius={4}
                                             textAlign="center"
-                                        >{catchDiceRoll}</Text>
-                                        <Button 
-                                            mx={4}
-                                            title="Clean"
-                                            disabled={endTurnButton}
-                                            onClick={() => handlePokemonRollClean()}
-                                        >
-                                            End Turn!
-                                        </Button>
+                                        >{resultDiceRoll}</Text>
                                     </Flex>
     
-                                    <Flex py={1} mt={1} minHeight="11rem" justifyContent="center">
-                                        <SimpleGrid columns={2} spacing={5} mt={4}>
+                                    <Flex justifyContent="center">
+                                        <SimpleGrid columns={2} mt={2}>
                                             {pokemonArray?.map((data) => {
                                                 return (
                                                     <ShowPokemon 
@@ -233,12 +272,24 @@ function PokePage() {
                                                         pokemonId={data.pokemonId} 
                                                         nature={data.nature} 
                                                         shiny={data.shiny}
-                                                        diceRollResult={catchDiceRoll}
+                                                        diceRollResult={resultDiceRoll}
                                                         handleAddInventory={() => handleAddInventory(data, true)}
                                                     />
                                                 )
                                             })}
                                         </SimpleGrid>
+                                    </Flex>
+                                    
+                                    <Flex justifyContent="center" alignItems="center" mt={4} mb={4}>
+                                        <Button 
+                                            mx={4}
+                                            w={40}
+                                            title="Clean"
+                                            disabled={endTurnButton}
+                                            onClick={() => handlePokemonRollClean()}
+                                            >
+                                                End Turn!
+                                        </Button>
                                     </Flex>
                                 </PokeRoll>
     

@@ -1,90 +1,77 @@
 import { diceRoll, generation } from "../../util"
 import pokemon from '../../assets/json/pokemons.json'
 
-export function sortPokemon(tier, gen, type, half) {
-    let sort = 0
-    let tierMatch = false
-    let typeMatch = false
+export function sortPokemon(tier, gen = 1) {
     let tierVariance = 0
     
     tier = Number(tier)
 
-    if (!gen) gen = 1
-    if (type) gen = 8
-    if (half) {
-        if(tier%2 === 0 && tier !== 0) {
+    tierVariance = diceRoll(100) // 0 - 99
+    if(tierVariance < 5) { // 0 - 5
+        tierVariance = 1 // 5% três tier abaixo
+    } else if(tierVariance < 15) {
+        tierVariance = 2 // 10% dois tiers abaixo
+    } else if(tierVariance < 40) {
+        tierVariance = 3 // 25% um tier abaixo
+    } else if(tierVariance < 90) {
+        tierVariance = 0 // 55% tier atual
+    } else {
+        tierVariance = 4 // 5% tier pra cima
+    }
+
+    // testing if the sorted poke tier matches the tier variance
+    if (tierVariance) {
+
+        if (tierVariance === 1) {
+
+            if (tier === 0) {
+                return sortSelectedTier(0, gen)
+            } else if (tier === 1) {
+                return sortSelectedTier(1, gen)
+            } else if (tier === 2) {
+                return sortSelectedTier(2, gen)
+            } else {
+                tier = tier - 3
+                return sortSelectedTier(tier, gen)
+            }
+
+        } else if (tierVariance === 2 ) {
+
+            if (tier === 0) {
+                return sortSelectedTier(0, gen)
+            } else if (tier === 1) {
+                return sortSelectedTier(1, gen)
+            } else {
+                tier = tier - 2
+                return sortSelectedTier(tier, gen)
+            }
+
+        } else if (tierVariance === 3) {
+
+            if (tier === 0) {
+                return sortSelectedTier(0, gen)
+            } else {
+                tier = tier - 1
+                return sortSelectedTier(tier, gen)
+            }
+
+        } else if (tierVariance === 4) {
+
             tier = tier - 1
+            return sortSelectedTier(tier, gen)
+
         }
+    } else {
+        return sortSelectedTier(tier, gen)
     }
-    
-    // getting percentage to roll pokemon from tier up or down
-    tierVariance = diceRoll(100) // 0 to 99
-    if (tierVariance < 65) // 0-69 70%
-        tierVariance = 0
-    else if (tierVariance < 90) // 70-94 25%
-        tierVariance = 1 // 1 tier down
-    else // 95-99 5%
-        tierVariance = 2 // 1 tier up
+}
 
-    // test if the tier of the sorted pokemon match the tier selected
-    while (!tierMatch) {
-        sort = Number(diceRoll(generation(gen)) + 1)
-        typeMatch = false
-        
-        if (type) {
-            pokemon[sort].type.forEach(t => {
-                if (t === type) typeMatch = true
-            })
-            
-            if (!typeMatch) continue
-        }
+function sortSelectedTier(tier, gen) {
+    let sortedPoke = Number(diceRoll(generation(gen)) + 1)
 
-        
-        if (half) {
-            
-            if (tierVariance === 1) {
-
-                if (pokemon[sort].tier === (tier - 1) || pokemon[sort].tier === tier || pokemon[sort].tier === (tier + 1) ) {
-                    tierMatch = true
-                }
-
-            } else if (tierVariance === 2) {
-
-                if ( pokemon[sort].tier === tier || pokemon[sort].tier === (tier + 1) || pokemon[sort].tier === (tier + 2)) {
-                    tierMatch = true
-                }
-
-            }
-
-            if (pokemon[sort].tier === tier || pokemon[sort].tier === (tier + 1)) {
-                tierMatch = true
-            }
-
-            continue
-        }
-        
-        // testing if the sorted poke tier matches the tier variance
-        if (tierVariance) {
-
-            if (tierVariance === 1) {
-
-                if (pokemon[sort].tier === (tier - 1) || pokemon[sort].tier === tier) {
-                    tierMatch = true
-                }
-
-            } else if (tierVariance === 2) {
-
-                if (pokemon[sort].tier === (tier + 1) || pokemon[sort].tier === tier) {
-                    tierMatch = true
-                }
-
-            }
-        }
-
-        if (pokemon[sort].tier === tier) {
-            tierMatch = true
-        }
+    while(pokemon[sortedPoke].tier !== tier) {
+        sortedPoke = Number(diceRoll(generation(gen)) + 1)
     }
 
-    return sort
+    return sortedPoke
 }

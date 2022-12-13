@@ -23,8 +23,13 @@ import {
 } from "react-icons/gi";
 import { PokeLife } from "./PokeLife"
 import { TrainerBar } from "./TreinerBar"
+import { Coins } from "./Coins"
 
 function PokePage() {
+    const [pokemonArray, setPokemonArray] = useState([])
+    const [savedPokemons, setSavedPokemons] = useState([])
+    const [pokemonsTeam, setPokemonsTeam] = useState([])
+    const [shiny, setShiny] = useState([])
     const [tier, setTier] = useState(0)
     const [level, setLevel] = useState(0)
     const [experience, setExperience] = useState(0)
@@ -33,17 +38,15 @@ function PokePage() {
     const [resultDiceRoll, setResultDiceRoll] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [turn, setTurn] = useState(0)
-    const [pokemonArray, setPokemonArray] = useState([])
-    const [savedPokemons, setSavedPokemons] = useState([])
-    const [pokemonsTeam, setPokemonsTeam] = useState([])
-    const [shiny, setShiny] = useState([])
+    const [bonusOnCatch, setBonusOnCatch] = useState(0)
+    const [coins, setCoins] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
-    const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [greatBall, setGreatBall] = useState(true)
     const [superBall, setSuperBall] = useState(true)
     const [ultraBall, setUltraBall] = useState(true)
     const shinyPercentage = 100
+    const maxTurns = 60
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -122,6 +125,8 @@ function PokePage() {
             }
             return null
         })
+
+        setCoins(() => coins + 1)
     }
 
     const handleRemovePokeFromTeam = (poke) => {
@@ -199,7 +204,7 @@ function PokePage() {
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
-                            {turn < 40 ? (
+                            {turn < maxTurns ? (
                                 <PokeRoll>
                                     <Flex justifyContent="center">
                                         <Button
@@ -301,6 +306,7 @@ function PokePage() {
 
                     <Box textAlign="center">
                         <Flex>
+                            <Coins coins={coins} />
                             <TeamRocket />
                             <PokeItems />
                             <PokeDex />

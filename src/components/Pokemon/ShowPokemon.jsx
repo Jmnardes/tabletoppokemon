@@ -98,7 +98,7 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
                 w={48} 
                 h={48} 
                 background="transparent" 
-                _hover="disabled"
+                // _hover="disabled"
                 disabled={disableCard}
                 onClick={handleAddInventory}
             >

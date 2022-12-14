@@ -198,6 +198,17 @@ function PokePage() {
         setTier(level)
     }, [experience, level, setExperience])
 
+    useEffect(() => {
+        localStorage.setItem('pokemonTeam', JSON.stringify(pokemonsTeam));
+    }, [pokemonsTeam])
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem('pokemonsTeam'));
+        if (data) {
+            setPokemonsTeam(data);
+        }
+      }, []);
+
     return (
         <>
             <Box p={2} display="flex" backgroundColor={"gray.600"}>

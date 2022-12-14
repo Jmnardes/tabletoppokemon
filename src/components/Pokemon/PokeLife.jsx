@@ -44,7 +44,7 @@ export function PokeLife({ total, buttonSize = 'xs', lifeSize = '1xl', iconSize 
             <Button
                 mx={1}
                 size={buttonSize}
-                _hover={false}
+                // _hover={false}
             >
                 <Text fontSize={lifeSize} fontWeight="bold">{life}</Text>
             </Button>

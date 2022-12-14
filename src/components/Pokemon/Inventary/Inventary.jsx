@@ -13,14 +13,14 @@ import Types from "../Table/Types"
 import { pokemonBaseStat } from "../../pokemonFunctions"
 import { FaStar } from "react-icons/fa";
 
-function Inventary({ title, savedPokemon, key }) {
+function Inventary({ title, savedPokemon }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
     const PokemonTooltip = () => {
         setpokeStatsTooltip(() => {
             return (
-                <Flex key={key} flexDirection="column" justifyContent="center" alignItems="center">
+                <Flex flexDirection="column" justifyContent="center" alignItems="center">
                     <Flex justifyContent="space-between" width="100%">
                         <Box mb={48}>
                             <Image

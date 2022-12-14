@@ -99,8 +99,6 @@ function PokePage() {
             nature,
             shiny,
         })
-
-        localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam));
     }
 
     const handleRemovePokeFromSorted = (poke, pokemonCaught) => {
@@ -151,6 +149,9 @@ function PokePage() {
         setDisableDiceRoll(true)
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
+        setGreatBall(false)
+        setSuperBall(false)
+        setUltraBall(false)
         setEndTurnButton(false)
     }
 
@@ -198,14 +199,29 @@ function PokePage() {
         setLevel(experiencePerLevel(experience))
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
-    }, [experience, level, setExperience])
+
+        if(pokemonsTeam.length > 0) localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam))
+        if(savedPokemons.length > 0) localStorage.setItem('inventory', JSON.stringify(savedPokemons))
+        if(turn > 0) localStorage.setItem('turn', JSON.stringify(turn))
+        if(level > 0) localStorage.setItem('level', JSON.stringify(level))
+        if(experience > 0) localStorage.setItem('experience', JSON.stringify(experience))
+        if(coins > 0) localStorage.setItem('coins', JSON.stringify(coins))
+    }, [experience, level, turn, coins, setExperience,pokemonsTeam, savedPokemons])
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('pokeTeam'));
-        console.log(data)
-        if (data) {
-            setPokemonsTeam([...data]);
-        }
+        const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
+        const pokeInventory = JSON.parse(localStorage.getItem('inventory'));
+        const pokeTurn = JSON.parse(localStorage.getItem('turn'));
+        const pokeLevel = JSON.parse(localStorage.getItem('level'));
+        const pokeExp = JSON.parse(localStorage.getItem('experience'));
+        const pokeCoins = JSON.parse(localStorage.getItem('coins'));
+
+        if (pokeTeam) setPokemonsTeam([...pokeTeam]);
+        if (pokeInventory) setSavedPokemons([...pokeInventory]);
+        if (pokeTurn) setTurn(pokeTurn);
+        if (pokeLevel) setLevel(pokeLevel);
+        if (pokeExp) setExperience(pokeExp);
+        if (pokeCoins) setCoins(pokeCoins);
       }, []);
 
     return (
@@ -308,7 +324,9 @@ function PokePage() {
                                     </Flex>
                                 </PokeRoll>
     
-                            ) : null}
+                            ) : (
+                                <Button onClick={() => setTurn(0)}>Reset Turns!</Button>
+                            )}
                             {/* FAZER APARECER O BOSS */}
                             <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} />
                         </Flex>
@@ -411,9 +429,7 @@ function PokePage() {
                 </Flex>
                 <SimpleGrid columns={[2, 2, 2, 3, 3, 4, 5]} spacingX={4} spacingY={2} mr={2} mt={2}>
                     {pokemonsTeam?.map((poke, i) => {
-                        // return (<Box mb={2} key={poke+diceRoll(1000)}>
                         return <Team key={poke+i} savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
-                        // </Box>)
                     })}
                 </SimpleGrid>
             </Flex>

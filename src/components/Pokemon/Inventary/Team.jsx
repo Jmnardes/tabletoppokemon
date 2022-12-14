@@ -7,7 +7,7 @@ import { Flex, Image, Text, CloseButton } from "@chakra-ui/react"
 import Types from "../Table/Types"
 import { PokeLife } from "../PokeLife"
 
-function Team({ savedPokemon, pokedex, removeFromTeam, key }) {
+function Team({ savedPokemon, pokedex, removeFromTeam }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {
@@ -18,7 +18,6 @@ function Team({ savedPokemon, pokedex, removeFromTeam, key }) {
 
     return (
         <Flex
-            key={key}
             alignItems="center" 
             flexDirection="column"
             justifyContent={pokedex ? 'center' : null}
@@ -31,10 +30,10 @@ function Team({ savedPokemon, pokedex, removeFromTeam, key }) {
             backgroundColor={ `${colorByType}90` }
             background={ savedPokemon.shiny.shiny ? `linear-gradient(165deg, ${colorByType}15 15%, ${colorByType} 50%, ${colorByType}15 85%)` : ''}
             shadow="dark-lg"
-            // _hover={{
-            //     backgroundColor: `${colorByType}70`,
-            //     cursor: "pointer"
-            // }}
+            _hover={{
+                backgroundColor: `${colorByType}70`,
+                cursor: "pointer"
+            }}
         >
             <Flex flexDir="row" width="100%">
                 <Text fontWeight="bold" letterSpacing={2} width="100%" textAlign="center">{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>

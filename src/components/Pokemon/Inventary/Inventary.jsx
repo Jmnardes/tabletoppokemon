@@ -13,50 +13,48 @@ import Types from "../Table/Types"
 import { pokemonBaseStat } from "../../pokemonFunctions"
 import { FaStar } from "react-icons/fa";
 
-function Inventary({ title, savedPokemon }) {
+function Inventary({ title, savedPokemon, key }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
     const PokemonTooltip = () => {
         setpokeStatsTooltip(() => {
             return (
-                <>
-                    <Flex flexDirection="column" justifyContent="center" alignItems="center">
-                        <Flex justifyContent="space-between" width="100%">
-                            <Box mb={48}>
-                                <Image
-                                    w={28}
-                                    width="80%"
-                                    position="absolute"
-                                    left="28px"
-                                    title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
-                                    src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
-                                />
-                            </Box>
-                            <Flex justifyContent="end" px={1/2} pt={1/2} width="20%">
-                                <Types
-                                    types={pokemon[savedPokemon.pokemonId].type} 
-                                    shiny={savedPokemon.shiny.shiny}
-                                    tier={pokemon[savedPokemon.pokemonId].tier} 
-                                    nature={savedPokemon.nature}
-                                />
-                            </Flex>
+                <Flex key={key} flexDirection="column" justifyContent="center" alignItems="center">
+                    <Flex justifyContent="space-between" width="100%">
+                        <Box mb={48}>
+                            <Image
+                                w={28}
+                                width="80%"
+                                position="absolute"
+                                left="28px"
+                                title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
+                                src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
+                            />
+                        </Box>
+                        <Flex justifyContent="end" px={1/2} pt={1/2} width="20%">
+                            <Types
+                                types={pokemon[savedPokemon.pokemonId].type} 
+                                shiny={savedPokemon.shiny.shiny}
+                                tier={pokemon[savedPokemon.pokemonId].tier} 
+                                nature={savedPokemon.nature}
+                            />
                         </Flex>
-        
-                        <PokemonTable
-                            health={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)}
-                            attack={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'atk', savedPokemon.nature, savedPokemon.shiny)}
-                            defense={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'def', savedPokemon.nature, savedPokemon.shiny)}
-                            speed={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'spd', savedPokemon.nature, savedPokemon.shiny)}
-                            tier={pokemon[savedPokemon.pokemonId].tier}
-                            type={pokemon[savedPokemon.pokemonId].type}
-                            nature={savedPokemon.nature}
-                            name={pokemon[savedPokemon.pokemonId].name}
-                            shiny={savedPokemon.shiny.shiny}
-                            showingType={'inventary'}
-                        />
                     </Flex>
-                </>
+    
+                    <PokemonTable
+                        health={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)}
+                        attack={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'atk', savedPokemon.nature, savedPokemon.shiny)}
+                        defense={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'def', savedPokemon.nature, savedPokemon.shiny)}
+                        speed={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'spd', savedPokemon.nature, savedPokemon.shiny)}
+                        tier={pokemon[savedPokemon.pokemonId].tier}
+                        type={pokemon[savedPokemon.pokemonId].type}
+                        nature={savedPokemon.nature}
+                        name={pokemon[savedPokemon.pokemonId].name}
+                        shiny={savedPokemon.shiny.shiny}
+                        showingType={'inventary'}
+                    />
+                </Flex>
             )
         })
     }

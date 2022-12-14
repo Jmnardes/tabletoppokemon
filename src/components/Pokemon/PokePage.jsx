@@ -99,6 +99,8 @@ function PokePage() {
             nature,
             shiny,
         })
+
+        localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam));
     }
 
     const handleRemovePokeFromSorted = (poke, pokemonCaught) => {
@@ -199,13 +201,10 @@ function PokePage() {
     }, [experience, level, setExperience])
 
     useEffect(() => {
-        localStorage.setItem('pokemonTeam', JSON.stringify(pokemonsTeam));
-    }, [pokemonsTeam])
-
-    useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('pokemonsTeam'));
+        const data = JSON.parse(localStorage.getItem('pokeTeam'));
+        console.log(data)
         if (data) {
-            setPokemonsTeam(data);
+            setPokemonsTeam([...data]);
         }
       }, []);
 
@@ -281,10 +280,10 @@ function PokePage() {
     
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
-                                            {pokemonArray?.map((data) => {
+                                            {pokemonArray?.map((data, i) => {
                                                 return (
                                                     <ShowPokemon 
-                                                        key={data.pokemonId + data.nature.nature} 
+                                                        key={data.pokemonId + i} 
                                                         pokemonId={data.pokemonId} 
                                                         nature={data.nature} 
                                                         shiny={data.shiny}
@@ -347,10 +346,10 @@ function PokePage() {
                         },
                     }}
                 >
-                    {savedPokemons?.map((poke) => {
+                    {savedPokemons?.map((poke, i) => {
                         return (
-                            <Box mb={2}>
-                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
+                            <Box mb={2} key={poke+i}>
+                                <Inventary key={poke+i} title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
                                 <Box display="flex" justifyContent="center">
                                     <Button 
                                         size="sm" 
@@ -411,12 +410,10 @@ function PokePage() {
                     <PokeLife total={handleTeamStats('hp')} buttonSize={"md"} lifeSize={"2xl"} iconSize={"24px"} />
                 </Flex>
                 <SimpleGrid columns={[2, 2, 2, 3, 3, 4, 5]} spacingX={4} spacingY={2} mr={2} mt={2}>
-                    {pokemonsTeam?.map((poke) => {
-                        return (
-                            <Box mb={2}>
-                                <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
-                            </Box>
-                        )
+                    {pokemonsTeam?.map((poke, i) => {
+                        // return (<Box mb={2} key={poke+diceRoll(1000)}>
+                        return <Team key={poke+i} savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
+                        // </Box>)
                     })}
                 </SimpleGrid>
             </Flex>

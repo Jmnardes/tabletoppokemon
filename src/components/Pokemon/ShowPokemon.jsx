@@ -6,7 +6,7 @@ import { diceRoll, stringToUpperCase, typeColor } from '../../util'
 import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
 
-function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory }) {
+function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, key }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [rollDifficulty, setRollDifficulty] = useState(0)
     const [disableCard, setDisableCard] = useState(true)
@@ -81,10 +81,10 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
         setColorByType(color)
         handleDifficulty(pokemon[pokemonId].tier, shiny.shiny)
         handleCard()
-    }, [pokemonId, diceRollResult, rollDifficulty])
+    }, [pokemonId, diceRollResult, rollDifficulty, handleCard, shiny.shiny])
 
     return (
-        <Flex flexDirection="column" justifyContent="center">
+        <Flex key={key} flexDirection="column" justifyContent="center">
             <Text textAlign="center">
                 {diceRollResult !== 0 ? (
                     diceRollResult >= rollDifficulty ? (

@@ -334,7 +334,13 @@ function PokePage() {
 
                     <Box textAlign="center">
                         <Flex>
-                            <Coins coins={coins} />
+                            <Coins 
+                                coins={coins} 
+                                handleAddOneCoin={() => setCoins(coins + 1)} 
+                                handleRemoveOneCoin={() => setCoins(coins - 1)} 
+                                handleAddFiveCoins={() => setCoins(coins + 5)} 
+                                handleRemoveFiveCoins={() => setCoins(coins - 5)} 
+                            />
                             <TeamRocket />
                             <PokeItems />
                             <PokeDex />

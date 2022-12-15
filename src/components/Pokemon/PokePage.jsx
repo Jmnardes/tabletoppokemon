@@ -98,7 +98,7 @@ function PokePage() {
             pokemonId,
             nature,
             shiny,
-        })
+        }, false)
     }
 
     const handleRemovePokeFromSorted = (poke, pokemonCaught) => {
@@ -115,7 +115,7 @@ function PokePage() {
         handlePokemonRollClean(pokemonCaught)
     }
 
-    const handleRemovePokeFromInventory = (poke) => {
+    const handleRemovePokeFromInventory = (poke, addCoin) => {
         let array = savedPokemons
 
         savedPokemons.filter((data, index) => {
@@ -126,7 +126,7 @@ function PokePage() {
             return null
         })
 
-        setCoins(() => coins + 1)
+        if (addCoin) setCoins(() => coins + 1)
     }
 
     const handleRemovePokeFromTeam = (poke) => {
@@ -404,7 +404,7 @@ function PokePage() {
                                             borderRight: "2px solid #D7373750",
                                             borderBottom: "2px solid #D7373750"
                                         }}
-                                        onClick={() => handleRemovePokeFromInventory(poke)}
+                                        onClick={() => handleRemovePokeFromInventory(poke, true)}
                                     >
                                         <FaWindowClose size="16px" style={{ color: "#D73737" }}/>
                                     </Button>

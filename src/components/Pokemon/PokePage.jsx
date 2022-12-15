@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack } from '@chakra-ui/react'
+import React, { useEffect, useState } from "react"
+import { Button, Box, Flex, Text, Stack, Image } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { diceRoll, typeColor } from '../../util'
@@ -25,6 +25,10 @@ import { PokeLife } from "./PokeLife"
 import { TrainerBar } from "./TreinerBar"
 import { Economy } from "./Economy"
 
+import greatballIcon from '../../assets/images/pokeballs/poke.png'
+import superballIcon from '../../assets/images/pokeballs/golden.png'
+import ultraballIcon from '../../assets/images/pokeballs/ultra.png'
+
 function PokePage() {
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -44,9 +48,9 @@ function PokePage() {
     const [trophy, setTrophy] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
-    const [greatBall, setGreatBall] = useState(true)
-    const [superBall, setSuperBall] = useState(true)
-    const [ultraBall, setUltraBall] = useState(true)
+    const [greatball, setGreatBall] = useState(0)
+    const [superball, setSuperBall] = useState(0)
+    const [ultraball, setUltraBall] = useState(0)
     const shinyPercentage = 100
     const maxTurns = 60
 
@@ -151,9 +155,6 @@ function PokePage() {
         setDisableDiceRoll(true)
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
-        setGreatBall(false)
-        setSuperBall(false)
-        setUltraBall(false)
         setEndTurnButton(false)
     }
 
@@ -167,10 +168,6 @@ function PokePage() {
             setExperience(() => endTurnExp() + experience)
         }
 
-
-        setGreatBall(true)
-        setSuperBall(true)
-        setUltraBall(true)
         setBonusOnCatch(0)
         setResultDiceRoll(0)
 
@@ -251,39 +248,6 @@ function PokePage() {
                                         </Button>
                                         <Button 
                                             mx={2}
-                                            title="Great Ball"
-                                            disabled={!greatBall}
-                                            onClick={() => {
-                                                setGreatBall(false)
-                                                setBonusOnCatch(2)
-                                            }}
-                                        >
-                                            +2
-                                        </Button>
-                                        <Button 
-                                            mx={2}
-                                            title="Super Ball"
-                                            disabled={!superBall}
-                                            onClick={() => {
-                                                setSuperBall(false)
-                                                setBonusOnCatch(3)
-                                            }}
-                                        >
-                                            +3
-                                        </Button>
-                                        <Button 
-                                            mx={2}
-                                            title="Ultra Ball"
-                                            disabled={!ultraBall}
-                                            onClick={() => {
-                                                setUltraBall(false)
-                                                setBonusOnCatch(5)
-                                            }}
-                                        >
-                                            +5
-                                        </Button>
-                                        <Button 
-                                            mx={2}
                                             title="Rolld20"
                                             disabled={disableDiceRoll}
                                             onClick={() => handleCatchDiceRoll()}
@@ -300,26 +264,6 @@ function PokePage() {
                                             borderRadius={4}
                                             textAlign="center"
                                         >{resultDiceRoll}</Text>
-                                    </Flex>
-    
-                                    <Flex justifyContent="center">
-                                        <SimpleGrid columns={2} mt={2}>
-                                            {pokemonArray?.map((data, i) => {
-                                                return (
-                                                    <ShowPokemon 
-                                                        key={data.pokemonId + i} 
-                                                        pokemonId={data.pokemonId} 
-                                                        nature={data.nature} 
-                                                        shiny={data.shiny}
-                                                        diceRollResult={resultDiceRoll}
-                                                        handleAddInventory={() => handleAddInventory(data, true)}
-                                                    />
-                                                )
-                                            })}
-                                        </SimpleGrid>
-                                    </Flex>
-                                    
-                                    <Flex justifyContent="center" alignItems="center" mt={4} mb={4}>
                                         <Button 
                                             mx={4}
                                             w={40}
@@ -329,6 +273,76 @@ function PokePage() {
                                             >
                                                 End Turn!
                                         </Button>
+                                    </Flex>
+                                    <Flex justifyContent="center" my={4}>
+                                        <Button 
+                                            mx={4}
+                                            title="Great Ball"
+                                            disabled={greatball === 0}
+                                            onClick={() => {
+                                                if(greatball > 0) {
+                                                    setGreatBall(greatball - 1)
+                                                    setBonusOnCatch(2)
+                                                }
+                                            }}
+                                        >
+                                            <Image
+                                                src={greatballIcon} 
+                                                alt={'greatball'}
+                                                w="38px"
+                                            ></Image>
+                                        </Button>
+                                        <Button 
+                                            mx={4}
+                                            title="Super Ball"
+                                            disabled={superball === 0}
+                                            onClick={() => {
+                                                if(superball > 0) {
+                                                    setSuperBall(superball - 1)
+                                                    setBonusOnCatch(3)
+                                                }
+                                            }}
+                                        >
+                                            <Image
+                                                src={superballIcon} 
+                                                alt={'superball'}
+                                                w="38px"
+                                            ></Image>
+                                        </Button>
+                                        <Button 
+                                            mx={4}
+                                            title="Ultra Ball"
+                                            disabled={ultraball === 0}
+                                            onClick={() => {
+                                                if(ultraball > 0) {
+                                                    setUltraBall(ultraball - 1)
+                                                    setBonusOnCatch(5)
+                                                }
+                                            }}
+                                        >
+                                            <Image
+                                                src={ultraballIcon} 
+                                                alt={'ultraball'}
+                                                w="38px"
+                                            ></Image>
+                                        </Button>
+                                    </Flex>
+    
+                                    <Flex justifyContent="center">
+                                        <SimpleGrid columns={2} mt={2}>
+                                            {pokemonArray?.map((data, i) => {
+                                                return (
+                                                    <ShowPokemon
+                                                        key={turn + i}
+                                                        pokemonId={data.pokemonId}
+                                                        nature={data.nature} 
+                                                        shiny={data.shiny}
+                                                        diceRollResult={resultDiceRoll}
+                                                        handleAddInventory={() => handleAddInventory(data, true)}
+                                                    />
+                                                )
+                                            })}
+                                        </SimpleGrid>
                                     </Flex>
                                 </PokeRoll>
     
@@ -351,7 +365,10 @@ function PokePage() {
                             <Economy 
                                 coins={coins} 
                                 medal={medal} 
-                                trophy={trophy} 
+                                trophy={trophy}
+                                greatball={greatball}
+                                superball={superball}
+                                ultraball={ultraball}
                                 handleAddOneCoin={() => setCoins(coins + 1)} 
                                 handleRemoveOneCoin={() => setCoins(coins - 1)} 
                                 handleAddFiveCoins={() => setCoins(coins + 5)} 
@@ -359,7 +376,10 @@ function PokePage() {
                                 handleAddMedal={() => setMedal(medal + 1)} 
                                 handleRemoveMedal={() => setMedal(medal - 1)} 
                                 handleAddTrophy={() => setTrophy(trophy + 1)} 
-                                handleRemoveTrophy={() => setTrophy(trophy - 1)} 
+                                handleRemoveTrophy={() => setTrophy(trophy - 1)}
+                                handleAddGreatball={() => setGreatBall(greatball + 1)}
+                                handleAddSuperball={() => setSuperBall(superball + 1)}
+                                handleAddUltraball={() => setUltraBall(ultraball + 1)}
                             />
                             <TeamRocket />
                             <PokeItems />

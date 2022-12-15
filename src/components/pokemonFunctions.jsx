@@ -184,40 +184,32 @@ const shinyStatusUp = [
   ['hp', 'spd'],
 ]
 
-export const catchDifficulty = (tier, pokeball = false) => {
-  if(pokeball) {
-    if(tier > 5) {
-      return tier * 2
-    } else {
-      return tier + 5
-    }
-  } else {
-    switch (tier) {
-      case 0:
-        return tier = 1
-      case 1:
-        return tier = 2
-      case 2:
-        return tier = 3
-      case 3:
-        return tier = 4
-      case 4:
-        return tier = 5
-      case 5:
-        return tier = 6
-      case 6:
-        return tier = 8
-      case 7:
-        return tier = 10
-      case 8:
-        return tier = 12
-      case 9:
-        return tier = 14
-      case 10:
-        return tier = 16
-      default:
-        return tier = 18
-    }
+export const catchDifficulty = (tier, difficulty = 0) => {
+  switch (tier) {
+    case 0:
+      return tier = 3 + difficulty
+    case 1:
+      return tier = 4 + difficulty
+    case 2:
+      return tier = 5 + difficulty
+    case 3:
+      return tier = 6 + difficulty
+    case 4:
+      return tier = 7 + difficulty
+    case 5:
+      return tier = 8 + difficulty
+    case 6:
+      return tier = 10 + difficulty
+    case 7:
+      return tier = 12 + difficulty
+    case 8:
+      return tier = 14 + difficulty
+    case 9:
+      return tier = 16 + difficulty
+    case 10:
+      return tier = 18 + difficulty
+    default:
+      return tier = 20 + difficulty
   }
 }
 
@@ -240,7 +232,7 @@ export const experiencePerLevel = (exp) => {
   if(exp < expToNextLevel(8)) return 7
   if(exp < expToNextLevel(9)) return 8
   if(exp < expToNextLevel(10)) return 9
-  if(exp > expToNextLevel(10)) return 'max'
+  if(exp > expToNextLevel(10)) return 10
 }
 
 export const expToNextLevel = (level) => {

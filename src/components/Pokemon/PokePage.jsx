@@ -23,7 +23,7 @@ import {
 } from "react-icons/gi";
 import { PokeLife } from "./PokeLife"
 import { TrainerBar } from "./TreinerBar"
-import { Coins } from "./Coins"
+import { Economy } from "./Economy"
 
 function PokePage() {
     const [pokemonArray, setPokemonArray] = useState([])
@@ -40,6 +40,8 @@ function PokePage() {
     const [turn, setTurn] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
+    const [medal, setMedal] = useState(0)
+    const [trophy, setTrophy] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
     const [greatBall, setGreatBall] = useState(true)
@@ -206,6 +208,8 @@ function PokePage() {
         if(level > 0) localStorage.setItem('level', JSON.stringify(level))
         if(experience > 0) localStorage.setItem('experience', JSON.stringify(experience))
         if(coins > 0) localStorage.setItem('coins', JSON.stringify(coins))
+        if(medal > 0) localStorage.setItem('medal', JSON.stringify(medal))
+        if(trophy > 0) localStorage.setItem('trophy', JSON.stringify(trophy))
     }, [experience, level, turn, coins, setExperience,pokemonsTeam, savedPokemons])
 
     useEffect(() => {
@@ -215,6 +219,8 @@ function PokePage() {
         const pokeLevel = JSON.parse(localStorage.getItem('level'));
         const pokeExp = JSON.parse(localStorage.getItem('experience'));
         const pokeCoins = JSON.parse(localStorage.getItem('coins'));
+        const pokeMedal = JSON.parse(localStorage.getItem('medal'));
+        const pokeTrophy = JSON.parse(localStorage.getItem('trophy'));
 
         if (pokeTeam) setPokemonsTeam([...pokeTeam]);
         if (pokeInventory) setSavedPokemons([...pokeInventory]);
@@ -222,6 +228,8 @@ function PokePage() {
         if (pokeLevel) setLevel(pokeLevel);
         if (pokeExp) setExperience(pokeExp);
         if (pokeCoins) setCoins(pokeCoins);
+        if (pokeMedal) setMedal(pokeMedal);
+        if (pokeTrophy) setTrophy(pokeTrophy);
       }, []);
 
     return (
@@ -340,12 +348,18 @@ function PokePage() {
                     }}>RESET!</Button>                                    
                     <Box textAlign="center">
                         <Flex>
-                            <Coins 
+                            <Economy 
                                 coins={coins} 
+                                medal={medal} 
+                                trophy={trophy} 
                                 handleAddOneCoin={() => setCoins(coins + 1)} 
                                 handleRemoveOneCoin={() => setCoins(coins - 1)} 
                                 handleAddFiveCoins={() => setCoins(coins + 5)} 
                                 handleRemoveFiveCoins={() => setCoins(coins - 5)} 
+                                handleAddMedal={() => setMedal(medal + 1)} 
+                                handleRemoveMedal={() => setMedal(medal - 1)} 
+                                handleAddTrophy={() => setTrophy(trophy + 1)} 
+                                handleRemoveTrophy={() => setTrophy(trophy - 1)} 
                             />
                             <TeamRocket />
                             <PokeItems />

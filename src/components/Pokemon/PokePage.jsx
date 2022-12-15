@@ -325,13 +325,16 @@ function PokePage() {
                                 </PokeRoll>
     
                             ) : (
-                                <Button onClick={() => setTurn(0)}>Reset Turns!</Button>
+                                <Button onClick={() => setTurn(0)}>RESET</Button>
                             )}
                             {/* FAZER APARECER O BOSS */}
                             <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} />
                         </Flex>
                     </Flex>
-
+                    <Button color="red" onClick={() => {
+                        localStorage.clear()
+                        document.location.reload(true)
+                    }}>RESET!</Button>                                    
                     <Box textAlign="center">
                         <Flex>
                             <Coins 

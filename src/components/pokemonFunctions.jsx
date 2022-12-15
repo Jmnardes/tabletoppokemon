@@ -246,27 +246,27 @@ export const experiencePerLevel = (exp) => {
 export const expToNextLevel = (level) => {
   switch(level) {
     case 0:
-      return 35
+      return 0
     case 1:
-      return 80
+      return 10
     case 2:
-      return 135
+      return 25
     case 3:
-      return 195
+      return 45
     case 4:
-      return 255
+      return 70
     case 5:
-      return 315
+      return 100
     case 6:
-      return 370
+      return 135
     case 7:
-      return 415
+      return 175
     case 8:
-      return 450
+      return 220
     case 9:
-      return 475
+      return 270
     default:
-      return 10000
+      return 1000
   }
 }
 

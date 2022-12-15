@@ -248,23 +248,23 @@ export const expToNextLevel = (level) => {
     case 0:
       return 0
     case 1:
-      return 10
+      return 35
     case 2:
-      return 25
+      return 80
     case 3:
-      return 45
-    case 4:
-      return 70
-    case 5:
-      return 100
-    case 6:
       return 135
+    case 4:
+      return 195
+    case 5:
+      return 255
+    case 6:
+      return 315
     case 7:
-      return 175
+      return 370
     case 8:
-      return 220
+      return 415
     case 9:
-      return 270
+      return 450
     default:
       return 1000
   }

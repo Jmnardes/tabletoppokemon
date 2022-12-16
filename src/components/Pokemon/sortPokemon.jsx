@@ -57,7 +57,7 @@ export function sortPokemon(tier, gen = 1) {
 
         } else if (tierVariance === 4) {
 
-            tier = tier - 1
+            tier = tier + 1
             return sortSelectedTier(tier, gen)
 
         }

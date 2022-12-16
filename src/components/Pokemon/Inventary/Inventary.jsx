@@ -78,27 +78,27 @@ function Inventary({ title, savedPokemon }) {
                 borderRadius="8px 8px 0 0"
             >
                 <Tooltip label={pokeStatsTooltip} borderRadius={16}>
-                    <Text 
-                        borderRadius={0} 
-                        width="max-content"
-                        textAlign="center" 
-                        fontWeight="bold" 
-                        p={1}
-                        _hover={{
-                            cursor: 'pointer'
-                        }}
-                    >
-                        <Flex>
-                            {(savedPokemon.shiny.shiny &&
-                                <Box mr={1} display="flex" alignItems="center" justifyContent="center">
-                                    <FaStar title="Shiny" size={10}/>
-                                </Box>
-                            )}
-                            {`(${pokemon[savedPokemon.pokemonId].tier})` + 
-                            ' ' + 
-                            stringToUpperCase(title)}
-                        </Flex>
-                    </Text>
+                    <Flex>
+                        <Text 
+                            borderRadius={0} 
+                            width="max-content"
+                            textAlign="center" 
+                            fontWeight="bold" 
+                            p={1}
+                            _hover={{
+                                cursor: 'pointer'
+                            }}
+                        >
+                                {(savedPokemon.shiny.shiny &&
+                                    <Box mr={1} display="flex" alignItems="center" justifyContent="center">
+                                        <FaStar title="Shiny" size={10}/>
+                                    </Box>
+                                )}
+                                {`(${pokemon[savedPokemon.pokemonId].tier})` + 
+                                ' ' + 
+                                stringToUpperCase(title)}
+                        </Text>
+                    </Flex>
                 </Tooltip>
             </Flex>
         </>

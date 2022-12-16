@@ -9,10 +9,10 @@ import Team from "./Inventary/Team"
 import { FaWindowClose, FaPlusSquare, FaDice, FaDiceD20 } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
-import PokeDex from "./PokeDex"
+// import PokeDex from "./PokeDex"
 import { PokeRoll } from "./PokeRoll"
-import PokeItems from "./PokeItems"
-import { TeamRocket } from "./TeamRocket"
+// import PokeItems from "./PokeItems"
+// import { TeamRocket } from "./TeamRocket"
 import { SimpleGrid } from "@chakra-ui/react"
 import { 
     GiWingfoot,
@@ -59,7 +59,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
         setCatchDiceRoll(0)
         setDisableDiceRoll(false)
 
-        pokemon = sortPokemon(tier)
+        pokemon = sortPokemon(tier, 8)
 
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -336,14 +336,15 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
                                         <SimpleGrid columns={2} mt={2}>
                                             {pokemonArray?.map((data, i) => {
                                                 return (
-                                                    <ShowPokemon
-                                                        key={(turn * 100) + i + data.pokemonId}
-                                                        pokemonId={data.pokemonId}
-                                                        nature={data.nature} 
-                                                        shiny={data.shiny}
-                                                        diceRollResult={resultDiceRoll}
-                                                        handleAddInventory={() => handleAddInventory(data, true)}
-                                                    />
+                                                    <React.Fragment key={(turn * 100) + i + data.pokemonId}>
+                                                        <ShowPokemon
+                                                            pokemonId={data.pokemonId}
+                                                            nature={data.nature} 
+                                                            shiny={data.shiny}
+                                                            diceRollResult={resultDiceRoll}
+                                                            handleAddInventory={() => handleAddInventory(data, true)}
+                                                        />
+                                                    </React.Fragment>
                                                 )
                                             })}
                                         </SimpleGrid>
@@ -378,9 +379,9 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
                                 handleAddSuperball={() => setSuperBall(superball + 1)}
                                 handleAddUltraball={() => setUltraBall(ultraball + 1)}
                             />
-                            <TeamRocket />
-                            <PokeItems />
-                            <PokeDex />
+                            {/* <TeamRocket /> */}
+                            {/* <PokeItems /> */}
+                            {/* <PokeDex /> */}
                             <ResetGame handleGameReset={handleGameReset} />
                         </Flex>
                     </Box>

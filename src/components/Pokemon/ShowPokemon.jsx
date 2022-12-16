@@ -86,13 +86,13 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
     return (
         <Flex flexDirection="column" justifyContent="center">
             <Text textAlign="center">
-                {diceRollResult !== 0 ? (
+                {diceRollResult !== 0 && (
                     diceRollResult >= rollDifficulty ? (
                         positiveMessage()
                     ) : (
                         negativeMessage()
                     )
-                ) : null}
+                )}
             </Text>
             <Button
                 w={48} 

@@ -162,10 +162,10 @@ export function whatPokemonTierIs (stats) {
 
 // roll shiny pokemon
 export function shinyRoll(number){
-  let shinyRoll = diceRoll(number)
+  let shinyRoll = diceRoll(100)
   let shinyStatusRoll = diceRoll(6)
 
-  if (shinyRoll === 0) {
+  if (shinyRoll < number) {
     shinyRoll = true
   } else {
     shinyRoll = false

@@ -13,7 +13,6 @@ import PokeDex from "./PokeDex"
 import { PokeRoll } from "./PokeRoll"
 import PokeItems from "./PokeItems"
 import { TeamRocket } from "./TeamRocket"
-import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import { SimpleGrid } from "@chakra-ui/react"
 import { 
     GiWingfoot,
@@ -28,8 +27,9 @@ import { Economy } from "./Economy"
 import greatballIcon from '../../assets/images/pokeballs/poke.png'
 import superballIcon from '../../assets/images/pokeballs/golden.png'
 import ultraballIcon from '../../assets/images/pokeballs/ultra.png'
+import { ResetGame } from "./ResetGame"
 
-function PokePage() {
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, trainerName }) {
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
@@ -48,11 +48,10 @@ function PokePage() {
     const [trophy, setTrophy] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
+    const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
-    const shinyPercentage = 100
-    const maxTurns = 60
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -153,6 +152,7 @@ function PokePage() {
         let result = diceRoll(20)
 
         setDisableDiceRoll(true)
+        setDisablePokeballs(true)
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
         setEndTurnButton(false)
@@ -170,6 +170,7 @@ function PokePage() {
 
         setBonusOnCatch(0)
         setResultDiceRoll(0)
+        setDisablePokeballs(false)
 
         setPokemonArray([])
     }
@@ -207,7 +208,7 @@ function PokePage() {
         if(coins > 0) localStorage.setItem('coins', JSON.stringify(coins))
         if(medal > 0) localStorage.setItem('medal', JSON.stringify(medal))
         if(trophy > 0) localStorage.setItem('trophy', JSON.stringify(trophy))
-    }, [experience, level, turn, coins, setExperience,pokemonsTeam, savedPokemons])
+    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
@@ -278,11 +279,12 @@ function PokePage() {
                                         <Button 
                                             mx={4}
                                             title="Great Ball"
-                                            disabled={greatball === 0}
+                                            disabled={greatball === 0 || disablePokeballs}
                                             onClick={() => {
                                                 if(greatball > 0) {
                                                     setGreatBall(greatball - 1)
                                                     setBonusOnCatch(2)
+                                                    setDisablePokeballs(true)
                                                 }
                                             }}
                                         >
@@ -295,11 +297,12 @@ function PokePage() {
                                         <Button 
                                             mx={4}
                                             title="Super Ball"
-                                            disabled={superball === 0}
+                                            disabled={superball === 0 || disablePokeballs}
                                             onClick={() => {
                                                 if(superball > 0) {
                                                     setSuperBall(superball - 1)
                                                     setBonusOnCatch(3)
+                                                    setDisablePokeballs(true)
                                                 }
                                             }}
                                         >
@@ -312,11 +315,12 @@ function PokePage() {
                                         <Button 
                                             mx={4}
                                             title="Ultra Ball"
-                                            disabled={ultraball === 0}
+                                            disabled={ultraball === 0 || disablePokeballs}
                                             onClick={() => {
                                                 if(ultraball > 0) {
                                                     setUltraBall(ultraball - 1)
                                                     setBonusOnCatch(5)
+                                                    setDisablePokeballs(true)
                                                 }
                                             }}
                                         >
@@ -333,7 +337,7 @@ function PokePage() {
                                             {pokemonArray?.map((data, i) => {
                                                 return (
                                                     <ShowPokemon
-                                                        key={turn + i}
+                                                        key={(turn * 100) + i + data.pokemonId}
                                                         pokemonId={data.pokemonId}
                                                         nature={data.nature} 
                                                         shiny={data.shiny}
@@ -347,19 +351,12 @@ function PokePage() {
                                 </PokeRoll>
     
                             ) : (
-                                <Button color="red" onClick={() => {
-                                    localStorage.clear()
-                                    document.location.reload(true)
-                                }}>RESET!</Button>
+                                <Text fontSize="2xl">END GAME!</Text> 
                             )}
-                            {/* FAZER APARECER O BOSS */}
                             <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} />
                         </Flex>
                     </Flex>
-                    <Button color="red" onClick={() => {
-                        localStorage.clear()
-                        document.location.reload(true)
-                    }}>RESET!</Button>                                    
+                    <Text fontSize="2xl">{trainerName}</Text>                                    
                     <Box textAlign="center">
                         <Flex>
                             <Economy 
@@ -384,7 +381,7 @@ function PokePage() {
                             <TeamRocket />
                             <PokeItems />
                             <PokeDex />
-                            <ThemeSwitch />
+                            <ResetGame handleGameReset={handleGameReset} />
                         </Flex>
                     </Box>
                 </Flex>
@@ -413,7 +410,7 @@ function PokePage() {
                     {savedPokemons?.map((poke, i) => {
                         return (
                             <Box mb={2} key={poke+i}>
-                                <Inventary key={poke+i} title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
+                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
                                 <Box display="flex" justifyContent="center">
                                     <Button 
                                         size="sm" 
@@ -455,8 +452,8 @@ function PokePage() {
                 </Stack>
             </Flex>
             
-            <Flex flexDir="column" py={2} mt={2} minHeight="12rem" height="100%" backgroundColor={"gray.600"}>
-                <Flex flexDir="row" justifyContent="space-evenly">
+            <Flex flexDir="column" py={2} mt={2}>
+                <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={"gray.600"}>
                     <Flex alignItems="center">
                         <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/> {
                             <Text fontSize="2xl" m={2}>{handleTeamStats('hp')}</Text>

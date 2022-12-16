@@ -4,7 +4,7 @@ import { Sun, Moon } from "phosphor-react";
 function ThemeSwitch() {
     const { colorMode, toggleColorMode } = useColorMode()
     return (
-      <header>
+      <>
         <Button size="md" onClick={toggleColorMode}>
           {colorMode === 'light' ? (
             <Moon size={18} weight="bold" color="#020303" />
@@ -12,7 +12,7 @@ function ThemeSwitch() {
             <Sun size={18} weight="bold" color="#ffffff" />
           )}
         </Button>
-      </header>
+      </>
     )
 }
 

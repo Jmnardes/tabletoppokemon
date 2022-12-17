@@ -89,7 +89,7 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
         setColorByType(color)
         handleDifficulty(pokemon[pokemonId].tier, shiny.shiny)
         handleCard()
-    },  [pokemonId, diceRollResult, rollDifficulty, shiny.shiny])
+    },  [pokemonId, diceRollResult, rollDifficulty, shiny.shiny, handleCard])
 
     return (
         <Flex flexDirection="column" justifyContent="center">

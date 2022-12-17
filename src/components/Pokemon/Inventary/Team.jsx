@@ -32,7 +32,6 @@ function Team({ savedPokemon, pokedex, removeFromTeam }) {
             shadow="dark-lg"
             _hover={{
                 backgroundColor: `${colorByType}70`,
-                cursor: "pointer"
             }}
         >
             <Flex flexDir="row" width="100%">

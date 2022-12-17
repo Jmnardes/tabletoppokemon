@@ -23,7 +23,7 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                     <Text fontSize="3xl" m={4}>
                         Turns 
                     </Text>
-                    <NumberInput mx={4} w={20} step={5} defaultValue={45} min={30} max={100} allowMouseWheel onChange={(e) => {handleMaxTurns(e)}}>
+                    <NumberInput mx={4} w={20} step={5} defaultValue={45} min={30} max={200} allowMouseWheel onChange={(e) => {handleMaxTurns(e)}}>
                         <NumberInputField />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
@@ -31,6 +31,18 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                         </NumberInputStepper>
                     </NumberInput>
                 </Flex>
+
+                <Text fontSize="2xl" mt={8}>
+                    Shiny Percentage
+                </Text>
+
+                <NumberInput mt={1} w={20} step={1} defaultValue={5} min={1} max={50} allowMouseWheel onChange={(e) => {handleShinyChance(e)}}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
 
                 <Text fontSize="2xl" mt={4}>
                     Choose the difficulty
@@ -41,18 +53,6 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                     <Button mx={2} disabled={gameDifficulty === 2} _disabled={{border: '2px #ffffff solid', opacity: 0.7}} onClick={() => handleGameDifficulty(2)}>Champion</Button>
                     <Button mx={2} disabled={gameDifficulty === 3} _disabled={{border: '2px #ffffff solid', opacity: 0.7}} onClick={() => handleGameDifficulty(3)}>Elite</Button>
                 </Flex>
-
-                <Text fontSize="2xl" mt={8}>
-                    Choose Shiny percentage
-                </Text>
-                
-                <NumberInput mt={1} w={20} step={1} defaultValue={5} min={1} max={50} allowMouseWheel onChange={(e) => {handleShinyChance(e)}}>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
 
                 <Button w="100%" fontSize="3xl" h={12} mt={8} onClick={() => handleGameStart(true)}>Start</Button>
             </Flex>

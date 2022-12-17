@@ -48,24 +48,24 @@ function Types({ types, shiny, tier, color, showingType }) {
                 <Box ml={3/2} mb={1}>{<FaStar title="Shiny" size={20}/>}</Box>
             }
             {types.map(t => {
-                if (t === 'bug') return <Image src={bug} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'dark') return <Image src={dark} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'dragon') return <Image src={dragon} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'electric') return <Image src={electric} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'fairy') return <Image src={fairy} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'fighting') return <Image src={fighting} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'fire') return <Image src={fire} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'flying') return <Image src={flying} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'ghost') return <Image src={ghost} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'grass') return <Image src={grass} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'ground') return <Image src={ground} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'ice') return <Image src={ice} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'normal') return <Image src={normal} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'psychic') return <Image src={psychic} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'poison') return <Image src={poison} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'rock') return <Image src={rock} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'steel') return <Image src={steel} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
-                if (t === 'water') return <Image src={water} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'bug') return <Image key={'bug'} src={bug} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'dark') return <Image key={'dark'} src={dark} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'dragon') return <Image key={'dragon'} src={dragon} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'electric') return <Image key={'electric'} src={electric} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'fairy') return <Image key={'fairy'} src={fairy} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'fighting') return <Image key={'fighting'} src={fighting} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'fire') return <Image key={'fire'} src={fire} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'flying') return <Image key={'flying'} src={flying} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'ghost') return <Image key={'ghost'} src={ghost} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'grass') return <Image key={'grass'} src={grass} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'ground') return <Image key={'ground'} src={ground} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'ice') return <Image key={'ice'} src={ice} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'normal') return <Image key={'normal'} src={normal} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'psychic') return <Image key={'psychic'} src={psychic} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'poison') return <Image key={'poison'} src={poison} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'rock') return <Image key={'rock'} src={rock} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'steel') return <Image key={'steel'} src={steel} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
+                if (t === 'water') return <Image key={'water'} src={water} title={stringToUpperCase(t)} w={6} h={6} ml={1} mb={1}/>
             })}
         </Box>
     )

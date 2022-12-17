@@ -10,7 +10,8 @@ const App = () => {
   const [gameDifficulty, setGameDifficulty] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [gameReset, setGameReset] = useState(false)
-  const [trainerName, setTrainerName] = useState('')
+  const [trainerName, setTrainerName] = useState('Trainer')
+  const teamLength = 3
 
   useEffect(() => {
     if(gameReset) {
@@ -30,7 +31,14 @@ const App = () => {
   return (
       <Box h='100vh' m={0}>
         {gameStarted ? (
-          <PokePage shinyPercentage={shinyChance} maxTurns={maxTurns} handleGameReset={setGameReset} hasGameStarted={gameStarted} trainerName={trainerName} />
+          <PokePage 
+            shinyPercentage={shinyChance} 
+            maxTurns={maxTurns} 
+            handleGameReset={setGameReset} 
+            hasGameStarted={gameStarted} 
+            trainerName={trainerName}
+            teamLength={teamLength}
+          />
         ): (
           <InitialMenu
             handleMaxTurns={setMaxTurns}

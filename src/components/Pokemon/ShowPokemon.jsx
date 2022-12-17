@@ -75,25 +75,29 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
         }
     }
 
+    function handleMessage(dice, dif) {
+        if(dice >= dif) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     useEffect(() => {
         let color = typeColor(pokemon[pokemonId].type)
 
         setColorByType(color)
         handleDifficulty(pokemon[pokemonId].tier, shiny.shiny)
         handleCard()
-    }, [pokemonId, diceRollResult, rollDifficulty, shiny.shiny])
+    },  [pokemonId, diceRollResult, rollDifficulty, shiny.shiny])
 
     return (
         <Flex flexDirection="column" justifyContent="center">
-            <Text textAlign="center">
-                {diceRollResult !== 0 && (
-                    diceRollResult >= rollDifficulty ? (
-                        positiveMessage()
-                    ) : (
-                        negativeMessage()
-                    )
-                )}
-            </Text>
+            {diceRollResult  !== 0 && (
+                <Text textAlign="center" color={handleMessage(diceRollResult, rollDifficulty) ? 'green' : 'red'}>
+                    {handleMessage(diceRollResult, rollDifficulty) ? positiveMessage() : negativeMessage()}
+                </Text>
+            )}
             <Button
                 w={48} 
                 h={48} 

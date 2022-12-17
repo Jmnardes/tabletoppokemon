@@ -19,6 +19,14 @@ const App = () => {
     }
   }, [gameReset])
 
+  useEffect(() => {
+    const hasTurnInitiated = localStorage.getItem('turn')
+
+    if(hasTurnInitiated > 0) {
+      setGameStarted(true)
+    }
+  }, [])
+
   return (
       <Box h='100vh' m={0}>
         {gameStarted ? (

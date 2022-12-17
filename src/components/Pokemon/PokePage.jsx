@@ -56,9 +56,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
     const handlePokemonRoll = () => {
         let pokemon = []
 
-        setCatchDiceRoll(0)
-        setDisableDiceRoll(false)
-
         pokemon = sortPokemon(tier, 8)
 
         setShiny(() => shinyRoll(shinyPercentage))
@@ -69,7 +66,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
             shiny: shiny
         }])
 
-        if (pokemonArray.length === 3) {
+        if (pokemonArray.length > 0 && catchDiceRoll === 0) {
             setDisableDiceRoll(false)
         } else {
             setDisableDiceRoll(true)
@@ -170,6 +167,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
 
         setBonusOnCatch(0)
         setResultDiceRoll(0)
+        setCatchDiceRoll(0)
         setDisablePokeballs(false)
 
         setPokemonArray([])

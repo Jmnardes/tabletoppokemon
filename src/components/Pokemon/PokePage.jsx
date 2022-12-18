@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, Image } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Stack, useColorMode } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { diceRoll, typeColor } from '../../util'
@@ -10,17 +10,17 @@ import { FaWindowClose, FaPlusSquare } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
 // import PokeDex from "./PokeDex"
-import { PokeRoll } from "./PokeRoll"
 // import PokeItems from "./PokeItems"
 // import { TeamRocket } from "./TeamRocket"
+import { PlayTurn } from "./PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
 import { TrainerBar } from "./TreinerBar"
 import { Economy } from "./Economy"
 import { ResetGame } from "./ResetGame"
-import BlockController from "./BlockController"
 import TeamTitle from "./Team/TeamTitle"
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, trainerName, teamLength }) {
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
+    const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
@@ -37,17 +37,20 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
     const [coins, setCoins] = useState(0)
     const [medal, setMedal] = useState(0)
     const [trophy, setTrophy] = useState(0)
-    const [endTurnButton, setEndTurnButton] = useState(true)
-    const [disableDiceRoll, setDisableDiceRoll] = useState(true)
-    const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
+    const [walkedBlocks, setWalkedBlocks] = useState(0)
+    const [endTurnButton, setEndTurnButton] = useState(true)
+    const [disableDiceRoll, setDisableDiceRoll] = useState(true)
+    const [disablePokeballs, setDisablePokeballs] = useState(false)
+    const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
+    const [closeModal, setCloseModal] = useState(false)
 
     const handlePokemonRoll = () => {
         let pokemon = []
 
-        pokemon = sortPokemon(tier, 8)
+        pokemon = sortPokemon(tier, generation)
 
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
@@ -160,6 +163,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
         setResultDiceRoll(0)
         setCatchDiceRoll(0)
         setDisablePokeballs(false)
+        setIsPokemonEncounter(false)
+        setCloseModal(true)
 
         setPokemonArray([])
     }
@@ -189,15 +194,18 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
 
-        if(pokemonsTeam.length > 0) localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam))
-        if(savedPokemons.length > 0) localStorage.setItem('inventory', JSON.stringify(savedPokemons))
-        if(turn > 0) localStorage.setItem('turn', JSON.stringify(turn))
-        if(level > 0) localStorage.setItem('level', JSON.stringify(level))
-        if(experience > 0) localStorage.setItem('experience', JSON.stringify(experience))
-        if(coins > 0) localStorage.setItem('coins', JSON.stringify(coins))
-        if(medal > 0) localStorage.setItem('medal', JSON.stringify(medal))
-        if(trophy > 0) localStorage.setItem('trophy', JSON.stringify(trophy))
-    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage])
+        if(turn > 0) {
+            localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam))
+            localStorage.setItem('inventory', JSON.stringify(savedPokemons))
+            localStorage.setItem('turn', JSON.stringify(turn))
+            localStorage.setItem('level', JSON.stringify(level))
+            localStorage.setItem('experience', JSON.stringify(experience))
+            localStorage.setItem('coins', JSON.stringify(coins))
+            localStorage.setItem('medal', JSON.stringify(medal))
+            localStorage.setItem('trophy', JSON.stringify(trophy))
+            localStorage.setItem('walkedBlocks', JSON.stringify(walkedBlocks))
+        }
+    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
@@ -208,6 +216,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
         const pokeCoins = JSON.parse(localStorage.getItem('coins'));
         const pokeMedal = JSON.parse(localStorage.getItem('medal'));
         const pokeTrophy = JSON.parse(localStorage.getItem('trophy'));
+        const pokeBlocks = JSON.parse(localStorage.getItem('walkedBlocks'));
 
         if (pokeTeam) setPokemonsTeam([...pokeTeam]);
         if (pokeInventory) setSavedPokemons([...pokeInventory]);
@@ -217,17 +226,17 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
         if (pokeCoins) setCoins(pokeCoins);
         if (pokeMedal) setMedal(pokeMedal);
         if (pokeTrophy) setTrophy(pokeTrophy);
+        if (pokeBlocks) setWalkedBlocks(pokeBlocks);
       }, []);
 
     return (
         <>
-            <Box p={2} display="flex" backgroundColor={"gray.600"}>
+            <Box p={2} display="flex" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
-                        <Flex direction="row">
-                            {turn < maxTurns ? (
-
-                                <PokeRoll
+                        {turn < maxTurns ? (
+                            <Flex direction="row">
+                                <PlayTurn
                                     pokemonArrayLength={pokemonArray.length}
                                     handlePokemonRoll={handlePokemonRoll}
                                     disableDiceRoll={disableDiceRoll}
@@ -245,6 +254,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
                                     setSuperBall={setSuperBall}
                                     ultraball={ultraball}
                                     setUltraBall={setUltraBall}
+                                    isPokemonEncounter={isPokemonEncounter}
+                                    setIsPokemonEncounter={setIsPokemonEncounter}
+                                    closeModal={closeModal}
+                                    setCloseModal={setCloseModal}
+                                    walkedBlocks={walkedBlocks}
+                                    setWalkedBlocks={setWalkedBlocks}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -263,18 +278,17 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, hasGameStarted, 
                                             })}
                                         </SimpleGrid>
                                     </Flex>
-                                </PokeRoll>
+                                </PlayTurn>
     
-                            ) : (
-                                <Text fontSize="2xl">GAME END!</Text> 
-                            )}
-                            <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} />
-                        </Flex>
+                                <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} walked={walkedBlocks} />
+                            </Flex>
+                        ) : (
+                            <Text fontSize="2xl">GAME END!</Text> 
+                        )}
                     </Flex>
                     <Text fontSize="2xl">{trainerName}</Text>                                    
                     <Box textAlign="center">
                         <Flex>
-                            <BlockController />
                             <Economy 
                                 coins={coins} 
                                 medal={medal} 

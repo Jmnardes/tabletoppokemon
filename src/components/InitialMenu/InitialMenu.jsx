@@ -1,13 +1,23 @@
-import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react";
+import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, useColorMode } from "@chakra-ui/react";
 
-export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, gameDifficulty, handleShinyChance, handleGameStart, handleTrainerName }) {
+export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, gameDifficulty, handleShinyChance, handleGameStart, handleTrainerName, setGeneration }) {
+    const { colorMode } = useColorMode()
+
     return (
         <Flex 
             justifyContent="center" 
             alignItems="center"
             mx="0 auto"
         >
-            <Flex mt={24} flexDirection="column" justifyContent="center" alignItems="center" maxWidth="600px" background="gray.600" borderRadius={8} p={8}>
+            <Flex 
+                mt={8} 
+                flexDirection="column" 
+                justifyContent="center" 
+                alignItems="center" 
+                maxWidth="600px" 
+                background={colorMode === 'light' ? "purple.300" : "gray.700"} 
+                borderRadius={8} p={8}
+            >
                 <Text fontSize="4xl">
                     Welcome to Im'a Pokémon!
                 </Text>
@@ -37,6 +47,18 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                 </Text>
 
                 <NumberInput mt={1} w={20} step={1} defaultValue={5} min={1} max={50} allowMouseWheel onChange={(e) => {handleShinyChance(e)}}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+
+                <Text fontSize="2xl" mt={8}>
+                    Pokemon Generation
+                </Text>
+
+                <NumberInput mt={1} w={20} step={1} defaultValue={8} min={1} max={8} allowMouseWheel onChange={(e) => {setGeneration(e)}}>
                     <NumberInputField />
                     <NumberInputStepper>
                         <NumberIncrementStepper />

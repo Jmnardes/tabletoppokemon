@@ -11,14 +11,15 @@ import {
 import { useEffect } from "react"
 import { stringToUpperCase } from "../../../util"
 
-function PokeModal({ title, button, children, size, modalClose }) {
+function PokeModal({ title, button, children, size, modalClose, disableModalClose, setCloseModal }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
         if(modalClose) {
             onClose()
+            setCloseModal(false)
         }
-    }, [modalClose, onClose])
+    }, [modalClose, onClose, setCloseModal])
 
     return (
         <>
@@ -30,11 +31,11 @@ function PokeModal({ title, button, children, size, modalClose }) {
                 {button}
             </Button>
 
-            <Modal isOpen={isOpen} onClose={onClose} size={size}>
+            <Modal isOpen={isOpen} onClose={disableModalClose ? null : onClose} size={size}>
                 <ModalOverlay />
                 <ModalContent minWidth={size ? "" : "35rem"} minHeight={size ? "" : "35rem"}>
                     <ModalHeader textAlign="center">{stringToUpperCase(title)}</ModalHeader>
-                    <ModalCloseButton />
+                    {!disableModalClose && <ModalCloseButton />}
                     <ModalBody>
                         {children}
                     </ModalBody>

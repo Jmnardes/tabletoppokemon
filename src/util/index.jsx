@@ -162,7 +162,7 @@ export const typeColor = (types) => {
 
     if(types.length > 1) {
         types.map((type) => {
-            colorsByType.map((color) => {
+            return colorsByType.map((color) => {
                 if(type === color.value) {
                     colorArray[counter] = color.color
                     counter++
@@ -171,17 +171,18 @@ export const typeColor = (types) => {
                 if (counter === 2) {
                     return finalColor = mixColors(colorArray[0], colorArray[1])
                 }
+                // eslint-disable-next-line array-callback-return
+                return
             })
-            return
         })
     } else {
         types.map((type) => {
-            colorsByType.map(color => {
+            // eslint-disable-next-line array-callback-return
+            return colorsByType.map(color => {
                 if(type === color.value) {
                     return finalColor = color.color
                 }
             })
-            return
         })
     }
     

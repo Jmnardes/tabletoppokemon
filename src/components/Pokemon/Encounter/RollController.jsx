@@ -32,7 +32,7 @@ export default function RollController({
             </Button>
             <Text
                 background={
-                    catchDiceRoll === 20 ? "#2EC92E" : "#4A5568"
+                    catchDiceRoll === 20 && "#2EC92E"
                 }
                 fontSize='2xl'
                 ml={2}

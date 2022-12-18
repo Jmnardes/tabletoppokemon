@@ -3,7 +3,6 @@ import {
     Image,
     Flex,
     Tooltip,
-    Text,
     Box
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
@@ -79,7 +78,7 @@ function Inventary({ title, savedPokemon }) {
             >
                 <Tooltip label={pokeStatsTooltip} borderRadius={16}>
                     <Flex>
-                        <Text 
+                        <Flex 
                             borderRadius={0} 
                             width="max-content"
                             textAlign="center" 
@@ -97,7 +96,7 @@ function Inventary({ title, savedPokemon }) {
                                 {`(${pokemon[savedPokemon.pokemonId].tier})` + 
                                 ' ' + 
                                 stringToUpperCase(title)}
-                        </Text>
+                        </Flex>
                     </Flex>
                 </Tooltip>
             </Flex>

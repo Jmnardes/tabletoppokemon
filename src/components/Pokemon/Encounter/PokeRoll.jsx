@@ -1,34 +1,28 @@
-import PokeModal from "./Modal/Modal";
-import { FaPlay } from "react-icons/fa";
-import Pokeballs from "./Encounter/Pokeballs";
-import RollController from "./Encounter/RollController";
+import Pokeballs from "./Pokeballs";
+import RollController from "./RollController";
 
-export function PokeRoll({ 
+export default function PokeRoll({
         children,
-        handlePokemonRoll,
         pokemonArrayLength,
+        handlePokemonRoll,
         disableDiceRoll,
         handleCatchDiceRoll,
         catchDiceRoll,
         resultDiceRoll,
         endTurnButton,
         handlePokemonRollClean,
-        disablePokeballs,
-        setBonusOnCatch,
-        setDisablePokeballs,
         greatball,
+        superball, 
+        ultraball, 
+        disablePokeballs,
         setGreatBall,
-        superball,
         setSuperBall,
-        ultraball,
         setUltraBall,
+        setBonusOnCatch,
+        setDisablePokeballs
     }) {
-
     return (
-        <PokeModal 
-            title={'Pokemon encounter'} 
-            button={<FaPlay size="24px"/>}
-        >
+        <>
             <RollController
                 pokemonArrayLength={pokemonArrayLength}
                 handlePokemonRoll={handlePokemonRoll}
@@ -40,7 +34,7 @@ export function PokeRoll({
                 handlePokemonRollClean={handlePokemonRollClean}
             />
             
-            <Pokeballs 
+            <Pokeballs
                 greatball={greatball}
                 superball={superball} 
                 ultraball={ultraball} 
@@ -51,8 +45,7 @@ export function PokeRoll({
                 setBonusOnCatch={setBonusOnCatch}
                 setDisablePokeballs={setDisablePokeballs}
             />
-
             {children}
-        </PokeModal>
+        </>
     )
 }

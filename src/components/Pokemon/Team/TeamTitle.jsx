@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useColorMode } from "@chakra-ui/react";
 import { PokeLife } from "../PokeLife";
 import { 
     GiWingfoot,
@@ -8,8 +8,10 @@ import {
 } from "react-icons/gi";
 
 export default function TeamTitle({ trainerName, handleTeamStats }) {
+    const { colorMode } = useColorMode()
+
     return (
-        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={"gray.600"}>
+        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
             <Flex alignItems="center">
                 <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/> {
                     <Text fontSize="2xl" m={2}>{handleTeamStats('hp')}</Text>

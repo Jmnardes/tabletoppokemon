@@ -1136,7 +1136,7 @@
     "@chakra-ui/react-use-merge-refs" "2.0.5"
     "@chakra-ui/spinner" "2.0.11"
 
-"@chakra-ui/card@2.1.2", "@chakra-ui/card@^2.1.2":
+"@chakra-ui/card@2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@chakra-ui/card/-/card-2.1.2.tgz#6a8b58d365557fd33da8e257e207fd8ba3640919"
   integrity sha512-zLfrLe7NP14xWgzS+vVz07yapZNOTm3W0Gh9RCwwoQz7l4FNFNjGPmbktQGGp3fLqDUk9n9ugdFCNmxEcQ8wXA==

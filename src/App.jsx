@@ -8,6 +8,7 @@ const App = () => {
   const [maxTurns, setMaxTurns] = useState(45)
   const [shinyChance, setShinyChance] = useState(1)
   const [gameDifficulty, setGameDifficulty] = useState(0)
+  const [genaration, setGeneration] = useState(1)
   const [gameStarted, setGameStarted] = useState(false)
   const [gameReset, setGameReset] = useState(false)
   const [trainerName, setTrainerName] = useState('Trainer')
@@ -34,10 +35,10 @@ const App = () => {
           <PokePage 
             shinyPercentage={shinyChance} 
             maxTurns={maxTurns} 
-            handleGameReset={setGameReset} 
-            hasGameStarted={gameStarted} 
+            handleGameReset={setGameReset}
             trainerName={trainerName}
             teamLength={teamLength}
+            genaration={genaration}
           />
         ): (
           <InitialMenu
@@ -47,6 +48,7 @@ const App = () => {
             handleShinyChance={setShinyChance}
             handleGameStart={setGameStarted}
             handleTrainerName={setTrainerName}
+            setGeneration={setGeneration}
           />
         )}
         <Box position='absolute' right={0} bottom={0}>

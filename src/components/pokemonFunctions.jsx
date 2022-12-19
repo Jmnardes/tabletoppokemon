@@ -262,11 +262,11 @@ export const expToNextLevel = (level) => {
     case 7:
       return 105
     case 8:
-      return 138
+      return 148
     case 9:
-      return 190
+      return 225
     case 10:
-      return 235
+      return 300
     default:
       return 1000
   }

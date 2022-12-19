@@ -82,7 +82,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 pokemonId,
                 nature,
                 shiny,
-            }, catchExp(pokemonJSON[pokemonId].tier))
+            }, pokemonJSON[pokemonId].tier)
         }
     }
 

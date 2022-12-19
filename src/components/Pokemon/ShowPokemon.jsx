@@ -15,6 +15,7 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
         setRollDifficulty(() => catchDifficulty(isShiny ? tier + 1 : tier))
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleCard = () => {
         if (diceRollResult >= rollDifficulty) {
             setDisableCard(false)

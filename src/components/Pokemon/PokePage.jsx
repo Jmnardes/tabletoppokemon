@@ -18,6 +18,7 @@ import { TrainerBar } from "./TreinerBar"
 import { Economy } from "./Economy"
 import { ResetGame } from "./ResetGame"
 import TeamTitle from "./Team/TeamTitle"
+import PokeShop from "./Shop/PokeShop"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -79,7 +80,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 pokemonId,
                 nature,
                 shiny,
-            }, true)
+            }, catchExp(pokemonJSON[pokemonId].tier))
         }
     }
 
@@ -97,7 +98,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         }, false)
     }
 
-    const handleRemovePokeFromSorted = (poke, pokemonCaught) => {
+    const handleRemovePokeFromSorted = (poke, pokemonTier) => {
         let array = pokemonArray
 
         pokemonArray.filter((data, index) => {
@@ -108,7 +109,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             return null
         })
         
-        handlePokemonRollClean(pokemonCaught)
+        handlePokemonRollClean(pokemonTier)
     }
 
     const handleRemovePokeFromInventory = (poke, addCoin) => {
@@ -149,12 +150,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setEndTurnButton(false)
     }
 
-    const handlePokemonRollClean = (pokemonCaught) => {
+    const handlePokemonRollClean = (pokemonTier) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
 
-        if(pokemonCaught) {
-            setExperience(() => catchExp() + experience)
+        if(pokemonTier) {
+            setExperience(() => catchExp(pokemonTier) + experience)
         } else {
             setExperience(() => endTurnExp() + experience)
         }
@@ -285,8 +286,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                         ) : (
                             <Text fontSize="2xl">GAME END!</Text> 
                         )}
-                    </Flex>
-                    <Text fontSize="2xl">{trainerName}</Text>                                    
+                    </Flex>                               
                     <Box textAlign="center">
                         <Flex>
                             <Economy 
@@ -311,6 +311,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                             {/* <TeamRocket /> */}
                             {/* <PokeItems /> */}
                             {/* <PokeDex /> */}
+                            <PokeShop />
                             <ResetGame handleGameReset={handleGameReset} />
                         </Flex>
                     </Box>

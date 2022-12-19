@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { Box, Image } from "@chakra-ui/react";
 
 import bug from '../../../assets/images/elements/bug.webp'

@@ -214,11 +214,19 @@ export const catchDifficulty = (tier, difficulty = 0) => {
 }
 
 export const endTurnExp = () => {
-  return 5
+  return 1
 }
 
-export const catchExp = () => {
-  return 10
+export const catchExp = (tier) => {
+  if(tier === 0 || tier === 1 || tier === 2) return 2
+  if(tier === 3 || tier === 4) return 3
+  if(tier === 5) return 4
+  if(tier === 6) return 5
+  if(tier === 7) return 6
+  if(tier === 8) return 7
+  if(tier === 9) return 8
+  if(tier === 10) return 11
+  if(tier === 11) return 16
 }
 
 export const experiencePerLevel = (exp) => {
@@ -232,7 +240,7 @@ export const experiencePerLevel = (exp) => {
   if(exp < expToNextLevel(8)) return 7
   if(exp < expToNextLevel(9)) return 8
   if(exp < expToNextLevel(10)) return 9
-  if(exp > expToNextLevel(10)) return 10
+  if(exp >= expToNextLevel(10)) return 10
 }
 
 export const expToNextLevel = (level) => {
@@ -240,23 +248,25 @@ export const expToNextLevel = (level) => {
     case 0:
       return 0
     case 1:
-      return 35
+      return 9
     case 2:
-      return 80
+      return 18
     case 3:
-      return 135
+      return 30
     case 4:
-      return 195
+      return 42
     case 5:
-      return 255
+      return 57
     case 6:
-      return 315
+      return 73
     case 7:
-      return 370
+      return 105
     case 8:
-      return 415
+      return 138
     case 9:
-      return 450
+      return 190
+    case 10:
+      return 235
     default:
       return 1000
   }

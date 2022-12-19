@@ -82,7 +82,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 pokemonId,
                 nature,
                 shiny,
-            }, pokemonJSON[pokemonId].tier)
+            }, catchExp(pokemonJSON[pokemonId].tier))
         }
     }
 
@@ -100,7 +100,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         }, false)
     }
 
-    const handleRemovePokeFromSorted = (poke, pokemonTier) => {
+    const handleRemovePokeFromSorted = (poke, pokemonExp) => {
         let array = pokemonArray
 
         pokemonArray.filter((data, index) => {
@@ -111,7 +111,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             return null
         })
         
-        handlePokemonRollClean(pokemonTier)
+        handlePokemonRollClean(pokemonExp)
     }
 
     const handleRemovePokeFromInventory = (poke, addCoin) => {
@@ -152,12 +152,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setEndTurnButton(false)
     }
 
-    const handlePokemonRollClean = (pokemonTier) => {
+    const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
 
-        if(pokemonTier) {
-            setExperience(() => catchExp(pokemonTier) + experience)
+        if(pokemonCatchExp) {
+            setExperience(() => endTurnExp() + pokemonCatchExp + experience)
         } else {
             setExperience(() => endTurnExp() + experience)
         }

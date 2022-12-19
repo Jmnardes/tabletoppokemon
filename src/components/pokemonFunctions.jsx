@@ -218,15 +218,15 @@ export const endTurnExp = () => {
 }
 
 export const catchExp = (tier) => {
-  if(tier === 0 || tier === 1) return 2
-  if(tier === 2 || tier === 3) return 3
-  if(tier === 4 || tier === 5) return 4
-  if(tier === 6) return 5
-  if(tier === 7) return 6
-  if(tier === 8) return 7
-  if(tier === 9) return 8
-  if(tier === 10) return 11
-  if(tier === 11) return 16
+  if(tier === 0 || tier === 1) return 1
+  if(tier === 2 || tier === 3) return 2
+  if(tier === 4 || tier === 5) return 3
+  if(tier === 6) return 4
+  if(tier === 7) return 5
+  if(tier === 8) return 6
+  if(tier === 9) return 7
+  if(tier === 10) return 10
+  if(tier === 11) return 15
 }
 
 export const experiencePerLevel = (exp) => {

@@ -1,7 +1,6 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
-import { FaGift } from "react-icons/fa";
-import { GiTwoCoins, GiRibbonMedal, GiTrophyCup } from "react-icons/gi";
+import { GiTwoCoins, GiRibbonMedal, GiTrophyCup, GiShop } from "react-icons/gi";
 import greatballIcon from '../../../assets/images/pokeballs/poke.png'
 import superballIcon from '../../../assets/images/pokeballs/golden.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultra.png'
@@ -21,7 +20,7 @@ export default function PokeShop({
     setTrophy
 }) {
     return (
-        <PokeModal title={'Shop'} button={<FaGift size="22px"/>}>
+        <PokeModal title={'Shop'} button={<GiShop size="22px"/>}>
             <Flex justifyContent="center" alignItems="center" mb={8}>
 
                 <Flex justifyContent="center" alignItems="center" mx={4}>

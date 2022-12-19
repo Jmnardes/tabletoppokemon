@@ -17,13 +17,13 @@ export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks,
     return (
         <Flex justifyContent="center" alignItems="center">
             <Flex flexDirection="column" w="100%">
-                <Button mt={4} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
+                {rollBlockDisabed ? (
+                    <Button mt={4} onClick={() => setIsPokemonEncounter(true)}>Go to encounter!</Button>
+                ) : (
+                    <Button mt={4} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
+                )}
 
                 <BlockController block={block} />
-
-                {rollBlockDisabed && (
-                    <Button onClick={() => setIsPokemonEncounter(true)}>Go to encounter!</Button>
-                )}
             </Flex>
         </Flex>
     )

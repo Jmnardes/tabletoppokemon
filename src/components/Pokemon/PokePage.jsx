@@ -301,7 +301,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 handleAddFiveCoins={() => setCoins(coins + 5)} 
                                 handleRemoveFiveCoins={() => setCoins(coins - 5)} 
                                 handleAddMedal={() => setMedal(medal + 1)} 
-                                handleRemoveMedal={() => setMedal(medal - 1)} 
+                                handleRemoveMedal={() => setMedal( - 1)} 
                                 handleAddTrophy={() => setTrophy(trophy + 1)} 
                                 handleRemoveTrophy={() => setTrophy(trophy - 1)}
                                 handleAddGreatball={() => setGreatBall(greatball + 1)}
@@ -311,7 +311,20 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                             {/* <TeamRocket /> */}
                             {/* <PokeItems /> */}
                             {/* <PokeDex /> */}
-                            <PokeShop />
+                            <PokeShop 
+                                coins={coins}
+                                setCoins={setCoins}
+                                greatball={greatball}
+                                setGreatBall={setGreatBall}
+                                superball={superball}
+                                setSuperBall={setSuperBall}
+                                ultraball={ultraball}
+                                setUltraBall={setUltraBall}
+                                medal={medal}
+                                setMedal={setMedal}
+                                trophy={trophy}
+                                setTrophy={setTrophy}
+                            />
                             <ResetGame handleGameReset={handleGameReset} />
                         </Flex>
                     </Box>

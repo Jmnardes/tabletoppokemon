@@ -17,7 +17,7 @@ export default function ExperienceBar({
                     borderRadius={4} 
                     w="80%"
                 />
-                <Text mr={2}>{previousLevel}/{exp}/{nextLevel}</Text>
+                {/* <Text mr={2}>{previousLevel}/{exp}/{nextLevel}</Text> */}
             </Flex>
         </>
     )

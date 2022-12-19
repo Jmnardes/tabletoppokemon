@@ -19,6 +19,7 @@ import { Economy } from "./Economy"
 import { ResetGame } from "./ResetGame"
 import TeamTitle from "./Team/TeamTitle"
 import PokeShop from "./Shop/PokeShop"
+import ExperienceBar from "./Treiner/ExperienceBar"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -30,6 +31,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [level, setLevel] = useState(0)
     const [experience, setExperience] = useState(0)
     const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
+    const [experiencePreviousLevel, setExperiencePreviousLevel] = useState(0)
     const [nature, setNature] = useState(0)
     const [resultDiceRoll, setResultDiceRoll] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
@@ -192,6 +194,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setNature(() => whatNaturePokemonIs())
 
         setLevel(experiencePerLevel(experience))
+        setExperiencePreviousLevel(expToNextLevel(level))
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
 
@@ -281,12 +284,23 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     </Flex>
                                 </PlayTurn>
     
-                                <TrainerBar turn={turn} level={level} exp={experience} nextLevel={experienceToNextLevel} walked={walkedBlocks} />
+                                <TrainerBar 
+                                    turn={turn}
+                                    walked={walkedBlocks}
+                                    medal={medal}
+                                    trophy={trophy}
+                                />
                             </Flex>
                         ) : (
                             <Text fontSize="2xl">GAME END!</Text> 
                         )}
-                    </Flex>                               
+                    </Flex>
+                    <ExperienceBar
+                        level={level} 
+                        exp={experience} 
+                        nextLevel={experienceToNextLevel}
+                        previousLevel={experiencePreviousLevel}
+                    />                   
                     <Box textAlign="center">
                         <Flex>
                             <Economy 

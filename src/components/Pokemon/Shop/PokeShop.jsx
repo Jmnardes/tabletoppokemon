@@ -114,7 +114,7 @@ export default function PokeShop({
                 </Flex>
                 <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
                     <Text w="200px">Medal</Text>
-                    <Text w="80px">$ 20</Text>
+                    <Text w="80px">$ 10</Text>
                     <Button 
                         w="60px"
                         disabled={coins < 9}

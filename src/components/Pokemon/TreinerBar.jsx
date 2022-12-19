@@ -15,16 +15,16 @@ export function TrainerBar({
                 <Text ml={2}>{turn}</Text>
             </Flex>
             <Flex alignItems="center" mx={2}>
+                <FaWalking title="Distance" size={20} />
+                <Text ml={2}>{walked}</Text>
+            </Flex>
+            <Flex alignItems="center" mx={2}>
                 <GiRibbonMedal title="Medal" size={20} />
                 <Text ml={2}>{medal}</Text>
             </Flex>
             <Flex alignItems="center" mx={2}>
                 <GiTrophyCup title="Trophy" size={20} />
                 <Text ml={2}>{trophy}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={2}>
-                <FaWalking title="Distance" size={20} />
-                <Text ml={2}>{walked}</Text>
             </Flex>
         </>
     )

@@ -218,9 +218,9 @@ export const endTurnExp = () => {
 }
 
 export const catchExp = (tier) => {
-  if(tier === 0 || tier === 1 || tier === 2) return 2
-  if(tier === 3 || tier === 4) return 3
-  if(tier === 5) return 4
+  if(tier === 0 || tier === 1) return 2
+  if(tier === 2 || tier === 3) return 3
+  if(tier === 4 || tier === 5) return 4
   if(tier === 6) return 5
   if(tier === 7) return 6
   if(tier === 8) return 7

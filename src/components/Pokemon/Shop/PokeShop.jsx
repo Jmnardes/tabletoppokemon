@@ -80,7 +80,7 @@ export default function PokeShop({
                     <Text w="80px">$ 5</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < 4}
+                        disabled={coins < 5}
                         onClick={() => {
                             setCoins(coins - 5)
                             setGreatBall(greatball + 1)
@@ -92,7 +92,7 @@ export default function PokeShop({
                     <Text w="80px">$ 10</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < 9}
+                        disabled={coins < 10}
                         onClick={() => {
                             setCoins(coins - 10)
                             setSuperBall(superball + 1)
@@ -104,7 +104,7 @@ export default function PokeShop({
                     <Text w="80px">$ 15</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < 14}
+                        disabled={coins < 15}
                         onClick={() => {
                             setCoins(coins - 15)
                             setUltraBall(ultraball + 1)
@@ -116,7 +116,7 @@ export default function PokeShop({
                     <Text w="80px">$ 10</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < 9}
+                        disabled={coins < 10}
                         onClick={() => {
                             setCoins(coins - 10)
                             setMedal(medal + 1)
@@ -128,7 +128,7 @@ export default function PokeShop({
                     <Text w="80px">$ 30</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < 29}
+                        disabled={coins < 30}
                         onClick={() => {
                             setCoins(coins - 30)
                             setTrophy(trophy + 1)

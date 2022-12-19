@@ -13,7 +13,7 @@ export function sortPokemon(tier, gen = 1) {
         tierVariance = 2 // 10% dois tiers abaixo
     } else if(tierVariance < 40) {
         tierVariance = 3 // 25% um tier abaixo
-    } else if(tierVariance < 97) {
+    } else if(tierVariance < 98) {
         tierVariance = 0 // 57% tier atual
     } else {
         tierVariance = 4 // 2% tier pra cima

@@ -13,6 +13,7 @@ import { diceRoll } from "../../../util";
 export default function TeamTitle({ trainerName, handleTeamStats }) {
     const { colorMode } = useColorMode()
     const [teamDiceRoll, setTeamDiceRoll] = useState(0)
+    const [previousTeamDiceRoll, setPreviousTeamDiceRoll] = useState(0)
 
     return (
         <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
@@ -37,7 +38,10 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                 <Button
                     mx={2}
                     title="Rolld20"
-                    onClick={() => setTeamDiceRoll(diceRoll(20) + 1)}
+                    onClick={() => {
+                        setPreviousTeamDiceRoll(teamDiceRoll)
+                        setTeamDiceRoll(diceRoll(20) + 1)
+                    }}
                 >
                     <FaDiceD20 size="18px"/>
                 </Button>
@@ -51,6 +55,12 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                     borderRadius={4}
                     textAlign="center"
                 >{teamDiceRoll}</Text>
+                <Text
+                    fontSize='1xl'
+                    w={8}
+                    borderRadius={4}
+                    textAlign="center"
+                >{previousTeamDiceRoll}</Text>
             </Flex>
             <PokeLife total={handleTeamStats('hp')} buttonSize={"md"} lifeSize={"2xl"} iconSize={"24px"} />
         </Flex>

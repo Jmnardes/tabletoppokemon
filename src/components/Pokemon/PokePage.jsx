@@ -121,11 +121,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
                 array.splice(index, 1)
                 setSavedPokemons([...array])
+                
+                if (addCoin) setCoins(() => coins + pokemonJSON[poke.pokemonId].tier)
             }
             return null
         })
-
-        if (addCoin) setCoins(() => coins + 1)
     }
 
     const handleRemovePokeFromTeam = (poke) => {
@@ -155,6 +155,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
+        setCoins(() => diceRoll(5) + coins)
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
@@ -307,20 +308,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 coins={coins} 
                                 medal={medal} 
                                 trophy={trophy}
-                                greatball={greatball}
-                                superball={superball}
-                                ultraball={ultraball}
                                 handleAddOneCoin={() => setCoins(coins + 1)} 
                                 handleRemoveOneCoin={() => setCoins(coins - 1)} 
                                 handleAddFiveCoins={() => setCoins(coins + 5)} 
-                                handleRemoveFiveCoins={() => setCoins(coins - 5)} 
-                                handleAddMedal={() => setMedal(medal + 1)} 
-                                handleRemoveMedal={() => setMedal( - 1)} 
-                                handleAddTrophy={() => setTrophy(trophy + 1)} 
+                                handleRemoveFiveCoins={() => setCoins(coins - 5)}
+                                handleRemoveMedal={() => setMedal(medal - 1)}
                                 handleRemoveTrophy={() => setTrophy(trophy - 1)}
-                                handleAddGreatball={() => setGreatBall(greatball + 1)}
-                                handleAddSuperball={() => setSuperBall(superball + 1)}
-                                handleAddUltraball={() => setUltraBall(ultraball + 1)}
                             />
                             {/* <TeamRocket /> */}
                             {/* <PokeItems /> */}

@@ -79,7 +79,12 @@ export const stringToUpperCase = (str) => {
 }
 
 // which generation you want to roll
-export const generation = (gen) => {
+export const generationPokeNumbers = (gen) => {
+    gen = Number(gen)
+    if ( gen === 0 ) {
+        return 897
+    }
+
     if ( gen === 1 ) {
         return 151
     }
@@ -108,7 +113,7 @@ export const generation = (gen) => {
         return 809
     }
     
-    if ( gen === 8 ) {
+    if ( gen >= 8 ) {
         return 897
     }
 }

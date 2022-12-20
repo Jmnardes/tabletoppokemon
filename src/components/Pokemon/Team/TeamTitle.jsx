@@ -1,5 +1,5 @@
 import { Button, Flex, Text, useColorMode } from "@chakra-ui/react";
-import { PokeLife } from "../PokeLife";
+import { PokeLife } from "../Game/PokeLife";
 import { 
     GiWingfoot,
     GiBroadsword,
@@ -62,7 +62,7 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                     textAlign="center"
                 >{previousTeamDiceRoll}</Text>
             </Flex>
-            <PokeLife total={handleTeamStats('hp')} buttonSize={"md"} lifeSize={"2xl"} iconSize={"24px"} />
+            <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/>
         </Flex>
     )
 }

@@ -1,7 +1,7 @@
-import { diceRoll, generation } from "../../util"
-import pokemon from '../../assets/json/pokemons.json'
+import { diceRoll, generationPokeNumbers } from "../util"
+import pokemon from '../assets/json/pokemons.json'
 
-export function sortPokemon(tier, gen = 1) {
+export function sortPokemon(tier, gen) {
     let tierVariance = 0
     
     tier = Number(tier)
@@ -67,10 +67,10 @@ export function sortPokemon(tier, gen = 1) {
 }
 
 function sortSelectedTier(tier, gen) {
-    let sortedPoke = Number(diceRoll(generation(gen)) + 1)
+    let sortedPoke = Number(diceRoll(generationPokeNumbers(gen)) + 1)
 
     while(pokemon[sortedPoke].tier !== tier) {
-        sortedPoke = Number(diceRoll(generation(gen)) + 1)
+        sortedPoke = Number(diceRoll(generationPokeNumbers(gen)) + 1)
     }
 
     return sortedPoke

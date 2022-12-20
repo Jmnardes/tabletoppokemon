@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
-import { sortPokemon } from "./sortPokemon"
+import { sortPokemon } from "../sortPokemon"
 import { diceRoll, typeColor } from '../../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
@@ -14,12 +14,13 @@ import { pokemonBaseStat } from '../pokemonFunctions'
 // import { TeamRocket } from "./TeamRocket"
 import { PlayTurn } from "./PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
-import { TrainerBar } from "./TreinerBar"
-import { Economy } from "./Economy"
-import { ResetGame } from "./ResetGame"
+import { TrainerBar } from "./Treiner/TreinerBar"
+import { Economy } from "./Shop/Economy"
+import { ResetGame } from "./Game/ResetGame"
 import TeamTitle from "./Team/TeamTitle"
 import PokeShop from "./Shop/PokeShop"
 import ExperienceBar from "./Treiner/ExperienceBar"
+import { TreinerStats } from "./Treiner/TreinerStats"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -35,6 +36,9 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [nature, setNature] = useState(0)
     const [resultDiceRoll, setResultDiceRoll] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
+    const [totalCatches, setTotalCatches] = useState(0)
+    const [shinyCatches, setShinyCatches] = useState(0)
+    const [criticals, setCriticals] = useState(0)
     const [turn, setTurn] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
@@ -49,10 +53,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
+    const [disableShop, setDisableShop] = useState(true)
 
     const handlePokemonRoll = () => {
         let pokemon = []
-
+        
         pokemon = sortPokemon(tier, generation)
 
         setShiny(() => shinyRoll(shinyPercentage))
@@ -83,6 +88,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 nature,
                 shiny,
             }, catchExp(pokemonJSON[pokemonId].tier))
+            
+            if(shiny.shiny) {
+                setShinyCatches(shinyCatches + 1)
+            } else {
+                setTotalCatches(totalCatches + 1)
+            }
         }
     }
 
@@ -122,7 +133,13 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 array.splice(index, 1)
                 setSavedPokemons([...array])
                 
-                if (addCoin) setCoins(() => coins + pokemonJSON[poke.pokemonId].tier)
+                if (addCoin) {
+                    if(data.shiny.shiny) {
+                        setCoins(() => coins + pokemonJSON[poke.pokemonId].tier + 1)
+                    } else {
+                        setCoins(() => coins + pokemonJSON[poke.pokemonId].tier)
+                    }
+                }
             }
             return null
         })
@@ -145,6 +162,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
 
+        if(result === 20) setCriticals(criticals + 1)
         setDisableDiceRoll(true)
         setDisablePokeballs(true)
         setCatchDiceRoll(result + 1)
@@ -156,6 +174,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setEndTurnButton(true)
         setTurn(() => turn + 1)
         setCoins(() => diceRoll(5) + coins)
+
+        if(turn%10 !== 0) setDisableShop(true)
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
@@ -193,6 +213,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
+
+        if(turn%10 === 0) setDisableShop(false)
 
         setLevel(experiencePerLevel(experience))
         setExperiencePreviousLevel(expToNextLevel(level))
@@ -287,7 +309,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     
                                 <TrainerBar 
                                     turn={turn}
-                                    walked={walkedBlocks}
                                     medal={medal}
                                     trophy={trophy}
                                 />
@@ -304,6 +325,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                     />                   
                     <Box textAlign="center">
                         <Flex>
+                            <TreinerStats 
+                                walked={walkedBlocks}
+                                totalCatches={totalCatches}
+                                shinyCatches={shinyCatches}
+                                totalCriticals={criticals}
+                            />
                             <Economy 
                                 coins={coins} 
                                 medal={medal} 
@@ -331,6 +358,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 setMedal={setMedal}
                                 trophy={trophy}
                                 setTrophy={setTrophy}
+                                turn={turn}
+                                disableShop={disableShop}
                             />
                             <ResetGame handleGameReset={handleGameReset} />
                         </Flex>
@@ -392,6 +421,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                             borderRight: "2px solid #D7373750",
                                             borderBottom: "2px solid #D7373750"
                                         }}
+                                        disabled={disableShop}
                                         onClick={() => handleRemovePokeFromInventory(poke, true)}
                                     >
                                         <FaWindowClose size="16px" style={{ color: "#D73737" }}/>

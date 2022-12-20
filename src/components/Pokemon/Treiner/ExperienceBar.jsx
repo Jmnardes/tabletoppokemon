@@ -9,7 +9,7 @@ export default function ExperienceBar({
     return (
         <>
             <Flex w="100%" justifyContent="center" alignItems="center" mx={24}>
-                <Text mr={2}>Tier {level}</Text>
+                <Text mr={2}>{level}</Text>
                 <Progress 
                     value={exp} 
                     min={previousLevel} 

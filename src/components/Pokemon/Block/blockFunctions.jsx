@@ -5,17 +5,17 @@ function blockCategory() {
 
     if(blockCategoryPercentage < 5) { // 5% gym leader
         return 'gym'
-    } else if(blockCategoryPercentage < 15) { // 10% events
+    } else if(blockCategoryPercentage < 30) { // 15% events
         return 'event'
-    } else if(blockCategoryPercentage < 25) { // 10% interaction
+    } else if(blockCategoryPercentage < 55) { // 10% interaction
         return 'interaction'
-    } else if(blockCategoryPercentage < 37) { // 12% shop
-        return 'shop'
-    } else if(blockCategoryPercentage < 50) { // 13% itens and treasure
-        return 'item'
-    } else if(blockCategoryPercentage < 72) { // 22% Economy
+    // } else if(blockCategoryPercentage < 45) { // 15% shop
+    //     return 'shop'
+    // } else if(blockCategoryPercentage < 60) { // 15% itens and treasure
+    //     return 'item'
+    } else if(blockCategoryPercentage < 80) { // 20% Economy
         return 'economy'
-    } else { // 28% Nothing
+    } else { // 20% Nothing
         return 'default'
     }
 }
@@ -24,10 +24,15 @@ export function blockType() {
     let blockTypePercentage = diceRoll(100)
     let category = blockCategory()
 
-    if(category === 'gym') return 'You gotta face a Gym Leader!'
+    if(category === 'gym') return ({
+        type: 'gym',
+        title: 'Gym Leader',
+        label: 'You gotta face a Gym Leader to get a Trophy!',
+        rules: 'Roll a d20, if the result is higher than 15 you win'
+    })
 
     if(category === 'event') {
-        if(blockTypePercentage < 80) {
+        if(blockTypePercentage < 85) {
             return event()
         } else {
             return specialEvent()
@@ -36,23 +41,35 @@ export function blockType() {
 
     if(category === 'interaction') {
         if(blockTypePercentage < 15) {
-            return 'Choose a enemy to battle, the winner gets a medal'
+            return ({
+                type: 'interaction',
+                title: 'Battle',
+                label: 'Choose a enemy to battle, the winner gets a medal'
+            })
         } else if (blockTypePercentage < 50) {
-            return 'Roll to face a enemy on a battle, the winner gets a medal'
+            return ({
+                type: 'interaction',
+                title: 'Battle',
+                label: 'Roll to face a enemy on a battle, the winner gets a medal'
+            })
         } else {
             return stealer()
         }
     }
 
-    if(category === 'shop') return 'Buy items from the shop'
+    if(category === 'shop') return ({
+        type: 'shop',
+        title: 'Shop',
+        label: "If you have cash you're welcome"
+    })
 
-    if(category === 'item') {
-        if(blockTypePercentage < 85) {
-            return item()
-        } else {
-            return treasure()
-        }
-    }
+    // if(category === 'item') {
+    //     if(blockTypePercentage < 85) {
+    //         return item()
+    //     } else {
+    //         return treasure()
+    //     }
+    // }
 
     if(category === 'economy') {
         if(blockTypePercentage < 50) {
@@ -62,18 +79,22 @@ export function blockType() {
         }
     }
 
-    if(category === 'default') return 'Nothing happens'
+    if(category === 'default') return ({
+        type: 'default',
+        title: 'Nothing',
+        label: "It's really nothing, sorry"
+    })
 }
 
 function stealer() {
     let stealerPercentage = diceRoll(100)
 
     if(stealerPercentage < 65) {
-        return 'Steal 5 coins from a trainer'
+        return ({type:'interaction', title:'Pickpocket', label:'Steal 5 coins from a trainer'})
     } else if(stealerPercentage < 90) {
-        return 'Steal 1 medal or 10 coins from a trainer'
+        return ({type:'interaction', title:'Thief', label:'Steal 1 medal or 10 coins from a trainer'})
     } else {
-        return 'Steal 1 trophy or 1 medal or 20 coins from a trainer'
+        return ({type:'interaction', title:'Burglar', label:'Steal 1 trophy or 1 medal or 20 coins from a trainer'})
     }
 }
 
@@ -81,9 +102,9 @@ function positiveEconomy() {
     let positivePercentage = diceRoll(100)
 
     if(positivePercentage < 90) {
-        return 'Lucky day: you have found 5 coins!'
+        return ({type:'economy', title:'Lucky day', label:'You have found 5 coins laying on the ground!'})
     } else {
-        return 'Lottery ticket: you received 20 coins!'
+        return ({type:'economy', title:'Lottery ticket', label:'What a lucky, you won 20 coins in the lotery!'})
     }
 }
 
@@ -91,9 +112,9 @@ function negativeEconomy() {
     let negativePercentage = diceRoll(100)
 
     if(negativePercentage < 85) {
-        return 'Holed pocket: you have lost 3 coins'
+        return ({type:'economy', title:'Holed pocket', label:'You found a hole in your pocket, bad news, you lost 3 coins'})
     } else {
-        return 'Bankrupcy: you have lost 10 coins'
+        return ({type:'economy', title:'Bankrupcy', label:'You have to be more careful with your money, you lost 10 coins'})
     }
 }
 
@@ -101,25 +122,25 @@ function event() {
     let eventPercentage = diceRoll(100)
 
     if(eventPercentage < 10) {
-        return 'Single racer, the winner gets 5 coins'
+        return ({type:'event', title:'Single race', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest speed'})
     } else if(eventPercentage < 20) {
-        return 'Marathon, the winner gets a Medal'
+        return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
     } else if(eventPercentage < 30) {
-        return 'Arm werstler, the winner gets 5 coins'
+        return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
     } else if(eventPercentage < 40) {
-        return 'Tug of war, the winner gets a Medal'
+        return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team attacks'})
     } else if(eventPercentage < 50) {
-        return 'Slap contest, the winner gets 5 coins'
+        return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
     } else if(eventPercentage < 60) {
-        return 'Resistance test, the winner gets a Medal'
+        return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team lifes'})
     } else if(eventPercentage < 70) {
-        return 'Block contest, the winner gets 5 coins'
+        return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
     } else if(eventPercentage < 80) {
-        return 'Dodge ball, the winner gets a Medal'
+        return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
     } else if(eventPercentage < 90) {
-        return `If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`
+        return ({type:'event', title:'Nature Check', label:`If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`, rules:'If the nature repeat, double reward'})
     } else {
-        return `If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`
+        return ({type:'event', title:'Element Check', label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, rules:'If the nature repeat, double reward'})
     }
 }
 
@@ -127,25 +148,25 @@ function specialEvent() {
     let specialEventPercentage = diceRoll(100)
 
     if(specialEventPercentage < 10) {
-        return 'Single racer, the winner gets a Trophy'
+        return ({type:'event', title:'Single race', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest speed'})
     } else if(specialEventPercentage < 20) {
-        return 'Marathon, the winner gets a Trophy'
+        return ({type:'event', title:'Marathon', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
     } else if(specialEventPercentage < 30) {
-        return 'Arm werstler, the winner gets a Trophy'
+        return ({type:'event', title:'Arm werstler', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest attack'})
     } else if(specialEventPercentage < 40) {
-        return 'Tug of war, the winner gets a Trophy'
+        return ({type:'event', title:'Tug of war', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team attacks'})
     } else if(specialEventPercentage < 50) {
-        return 'Slap contest, the winner gets a Trophy'
+        return ({type:'event', title:'Slap contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest life'})
     } else if(specialEventPercentage < 60) {
-        return 'Resistance test, the winner gets a Trophy'
+        return ({type:'event', title:'Resistance test', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team lifes'})
     } else if(specialEventPercentage < 70) {
-        return 'Tier contest, the winner gets a Trophy'
+        return ({type:'event', title:'Block contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest defense'})
     } else if(specialEventPercentage < 80) {
-        return 'Dodge ball, the winner gets a Trophy'
+        return ({type:'event', title:'Dodge ball', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
     } else if(specialEventPercentage < 90) {
-        return `If you have a ${nature()} or a ${nature()} pokemon, get a Trophy`
+        return ({type:'event', title:'Nature Check', label:`If you have a ${nature()} pokemon, get a Trophy`})
     } else {
-        return `If you have a ${element()} or a ${element()} pokemon, get a Trophy`
+        return ({type:'event', title:'Element Check', label:`If you have a ${element()} pokemon, get a Trophy`})
     }
 }
 
@@ -198,28 +219,28 @@ function nature() {
     if(nature === 20) return 'Serious'
 }
 
-function item() {
-    let item = diceRoll(8)
+// function item() {
+//     let item = diceRoll(8)
 
-    if(item === 0) return 'You have found a Great Ball'
-    if(item === 1) return 'You have found two Great Balls'
-    if(item === 2) return 'You have found three Great Balls'
-    if(item === 3) return 'You have found a Super Ball'
-    if(item === 4) return 'You have found two Super Balls'
-    if(item === 5) return 'You have found a Ultra Ball'
-    if(item === 6) return 'You have found 5 coins'
-    if(item === 7) return 'You have found a Medal'
-}
+//     if(item === 0) return ({type:'item', title: 'Great Ball', label:'You have found a Great Ball'})
+//     if(item === 1) return 'You have found two Great Balls'
+//     if(item === 2) return 'You have found three Great Balls'
+//     if(item === 3) return 'You have found a Super Ball'
+//     if(item === 4) return 'You have found two Super Balls'
+//     if(item === 5) return 'You have found a Ultra Ball'
+//     if(item === 6) return 'You have found 5 coins'
+//     if(item === 7) return 'You have found a Medal'
+// }
 
-function treasure() {
-    let treasure = diceRoll(8)
+// function treasure() {
+//     let treasure = diceRoll(8)
 
-    if(treasure === 0) return 'You have found three Super Balls'
-    if(treasure === 1) return 'You have found a Ultra Ball'
-    if(treasure === 2) return 'You have found two Ultra Balls'
-    if(treasure === 3) return 'You have found 15 coins'
-    if(treasure === 4) return 'You have found 20 coins'
-    if(treasure === 5) return 'You have found a Medal'
-    if(treasure === 6) return 'You have found two Medals'
-    if(treasure === 7) return 'You have found a Trophy'
-}
+//     if(treasure === 0) return 'You have found three Super Balls'
+//     if(treasure === 1) return 'You have found a Ultra Ball'
+//     if(treasure === 2) return 'You have found two Ultra Balls'
+//     if(treasure === 3) return 'You have found 20 coins'
+//     if(treasure === 4) return 'You have found 25 coins'
+//     if(treasure === 5) return 'You have found a Medal'
+//     if(treasure === 6) return 'You have found two Medals'
+//     if(treasure === 7) return 'You have found a Trophy'
+// }

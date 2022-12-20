@@ -8,7 +8,7 @@ const App = () => {
   const [maxTurns, setMaxTurns] = useState(45)
   const [shinyChance, setShinyChance] = useState(4)
   const [gameDifficulty, setGameDifficulty] = useState(0)
-  const [genaration, setGeneration] = useState(8)
+  const [generation, setGeneration] = useState(3)
   const [gameStarted, setGameStarted] = useState(false)
   const [gameReset, setGameReset] = useState(false)
   const [trainerName, setTrainerName] = useState('Trainer')
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     const hasTurnInitiated = localStorage.getItem('turn')
-
+    
     if(hasTurnInitiated > 0) {
       setGameStarted(true)
     }
@@ -38,7 +38,7 @@ const App = () => {
             handleGameReset={setGameReset}
             trainerName={trainerName}
             teamLength={teamLength}
-            genaration={genaration}
+            generation={generation}
           />
         ): (
           <InitialMenu

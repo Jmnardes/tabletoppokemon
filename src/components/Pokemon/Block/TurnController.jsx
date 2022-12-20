@@ -5,7 +5,7 @@ import BlockController from "./BlockController";
 import { blockType } from "./blockFunctions";
 
 export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks, walkedBlocks }) {
-    const [block, setBlock] = useState('')
+    const [block, setBlock] = useState([])
     const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
 
     function handleBlockRoll() {
@@ -17,11 +17,10 @@ export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks,
     return (
         <Flex justifyContent="center" alignItems="center">
             <Flex flexDirection="column" w="100%">
-                {rollBlockDisabed ? (
-                    <Button mt={4} onClick={() => setIsPokemonEncounter(true)}>Go to encounter!</Button>
-                ) : (
-                    <Button mt={4} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
-                )}
+                <Flex mt={4} w="100%">
+                    <Button w="100%" mx={2} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
+                    <Button w="100%" mx={2} onClick={() => setIsPokemonEncounter(true)} disabled={block === ''}>Go to encounter!</Button>
+                </Flex>
 
                 <BlockController block={block} />
             </Flex>

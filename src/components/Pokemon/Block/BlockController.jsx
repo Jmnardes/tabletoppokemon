@@ -4,7 +4,11 @@ function BlockController({ block }) {
 
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" my={12} mt={8} h="100%">
-            <Text fontSize="3xl" textAlign="center">{block}</Text>
+            <Text mb={12} fontSize="4xl" textAlign="center">{block.title}</Text>
+            <Text mb={12} fontSize="3xl" textAlign="center">{block.label}</Text>
+            {block.rules && (
+                <Text fontSize="1xl" textAlign="center">({block.rules})</Text>
+            )}
         </Flex>
     )
 }

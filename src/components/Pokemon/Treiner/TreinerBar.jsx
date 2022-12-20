@@ -1,12 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { FaClock, FaWalking } from "react-icons/fa";
+import { FaClock } from "react-icons/fa";
 import { GiRibbonMedal, GiTrophyCup } from "react-icons/gi";
 
 export function TrainerBar({ 
     turn,
-    walked,
     medal,
-    trophy
+    trophy,
 }) {
     return (
         <>
@@ -15,16 +14,12 @@ export function TrainerBar({
                 <Text ml={2}>{turn}</Text>
             </Flex>
             <Flex alignItems="center" mx={2}>
-                <FaWalking title="Distance" size={20} />
-                <Text ml={2}>{walked}</Text>
+                <GiTrophyCup title="Trophy" size={20} />
+                <Text ml={2}>{trophy}</Text>
             </Flex>
             <Flex alignItems="center" mx={2}>
                 <GiRibbonMedal title="Medal" size={20} />
                 <Text ml={2}>{medal}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={2}>
-                <GiTrophyCup title="Trophy" size={20} />
-                <Text ml={2}>{trophy}</Text>
             </Flex>
         </>
     )

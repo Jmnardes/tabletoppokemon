@@ -3,8 +3,8 @@ import axios from "axios"
 
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react'
 
-import Team from "./Inventary/Team"
-import PokeModal from "./Modal/Modal"
+import Team from "../Inventary/Team"
+import PokeModal from "../Modal/Modal"
 import { FaSearch } from "react-icons/fa";
 
 function PokeDex() {

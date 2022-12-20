@@ -1,4 +1,4 @@
-import PokeModal from "./Modal/Modal";
+import PokeModal from "../Modal/Modal";
 import { FaRegWindowClose } from "react-icons/fa";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 

@@ -5,7 +5,7 @@ import { stringToUpperCase, typeColor } from '../../../util'
 import pokemon from '../../../assets/json/pokemons.json'
 import { Flex, Image, Text, CloseButton } from "@chakra-ui/react"
 import Types from "../Table/Types"
-import { PokeLife } from "../PokeLife"
+import { PokeLife } from "../Game/PokeLife"
 
 function Team({ savedPokemon, pokedex, removeFromTeam }) {
     const [colorByType, setColorByType] = useState('#000000')

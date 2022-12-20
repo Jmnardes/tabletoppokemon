@@ -1,4 +1,4 @@
-import PokeModal from '../Pokemon/Modal/Modal'
+import PokeModal from '../Modal/Modal'
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { GiTwoCoins, GiRibbonMedal, GiTrophyCup } from "react-icons/gi";
 import { FaMinusSquare, FaPlusSquare } from "react-icons/fa";

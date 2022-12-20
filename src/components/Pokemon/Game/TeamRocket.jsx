@@ -1,5 +1,5 @@
 import { Image, Text } from "@chakra-ui/react";
-import PokeModal from "./Modal/Modal";
+import PokeModal from "../Modal/Modal";
 import { FaSkull } from "react-icons/fa";
 
 export function TeamRocket({ title }) {

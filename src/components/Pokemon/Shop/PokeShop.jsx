@@ -22,7 +22,7 @@ export default function PokeShop({
     turn
 }) {
 
-    function coinPerTurn(turn) {return (Number.parseFloat(turn/10).toFixed(0)) * 5}
+    function coinPerTurn(turn, multiple) {return (Number.parseFloat(turn/10).toFixed(0)) * multiple}
 
     return (
         <PokeModal title={'Shop'} button={<GiShop size="22px"/>} disableButton={disableShop}>
@@ -82,60 +82,60 @@ export default function PokeShop({
                 </Flex>
                 <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
                     <Text w="200px">Great Ball</Text>
-                    <Text w="80px">$ {5 + coinPerTurn(turn)}</Text>
+                    <Text w="80px">$ {5 + coinPerTurn(turn, 1)}</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < (5 + coinPerTurn(turn))}
+                        disabled={coins < (5 + coinPerTurn(turn, 1))}
                         onClick={() => {
-                            setCoins(coins - (5 + coinPerTurn(turn)))
+                            setCoins(coins - (5 + coinPerTurn(turn, 1)))
                             setGreatBall(greatball + 1)
                         }}
                     >Buy</Button>
                 </Flex>
                 <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
-                    <Text w="200px">Medal</Text>
-                    <Text w="80px">$ {5 + coinPerTurn(turn)}</Text>
-                    <Button 
-                        w="60px"
-                        disabled={coins < (5 + coinPerTurn(turn))}
-                        onClick={() => {
-                            setCoins(coins - (5 + coinPerTurn(turn)))
-                            setMedal(medal + 1)
-                        }}
-                    >Buy</Button>
-                </Flex>
-                <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
                     <Text w="200px">Super Ball</Text>
-                    <Text w="80px">$ {10 + coinPerTurn(turn)}</Text>
+                    <Text w="80px">$ {10 + coinPerTurn(turn, 2)}</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < (10 + coinPerTurn(turn))}
+                        disabled={coins < (10 + coinPerTurn(turn, 2))}
                         onClick={() => {
-                            setCoins(coins - (10 + coinPerTurn(turn)))
+                            setCoins(coins - (10 + coinPerTurn(turn, 2)))
                             setSuperBall(superball + 1)
                         }}
                     >Buy</Button>
                 </Flex>
                 <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
                     <Text w="200px">Ultra Ball</Text>
-                    <Text w="80px">$ {15 + coinPerTurn(turn)}</Text>
+                    <Text w="80px">$ {15 + coinPerTurn(turn, 3)}</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < (15 + coinPerTurn(turn))}
+                        disabled={coins < (15 + coinPerTurn(turn, 3))}
                         onClick={() => {
-                            setCoins(coins - (15 + coinPerTurn(turn)))
+                            setCoins(coins - (15 + coinPerTurn(turn, 3)))
                             setUltraBall(ultraball + 1)
                         }}
                     >Buy</Button>
                 </Flex>
                 <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
-                    <Text w="200px">Trophy</Text>
-                    <Text w="80px">$ {30 + coinPerTurn(turn)}</Text>
+                    <Text w="200px">Medal</Text>
+                    <Text w="80px">$ {25 + coinPerTurn(turn, 5)}</Text>
                     <Button 
                         w="60px"
-                        disabled={coins < (30 + coinPerTurn(turn))}
+                        disabled={coins < (25 + coinPerTurn(turn, 5))}
                         onClick={() => {
-                            setCoins(coins - (30 + coinPerTurn(turn)))
+                            setCoins(coins - (25 + coinPerTurn(turn, 5)))
+                            setMedal(medal + 1)
+                        }}
+                    >Buy</Button>
+                </Flex>
+                <Flex flexDirection="row" w="100%" justifyContent="space-around" alignItems="center" mb={2}>
+                    <Text w="200px">Trophy</Text>
+                    <Text w="80px">$ {50 + coinPerTurn(turn, 10)}</Text>
+                    <Button 
+                        w="60px"
+                        disabled={coins < (50 + coinPerTurn(turn, 10))}
+                        onClick={() => {
+                            setCoins(coins - (50 + coinPerTurn(turn, 10)))
                             setTrophy(trophy + 1)
                         }}
                     >Buy</Button>

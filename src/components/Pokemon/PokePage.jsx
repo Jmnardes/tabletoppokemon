@@ -175,8 +175,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setTurn(() => turn + 1)
         setCoins(() => diceRoll(5) + coins)
 
-        if(turn%10 !== 0) setDisableShop(true)
-
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
         } else {
@@ -214,7 +212,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
 
-        if(turn%10 === 0) setDisableShop(false)
+        if(turn%10 === 0) {
+            setDisableShop(false)
+        } else {
+            setDisableShop(true)
+        }
 
         setLevel(experiencePerLevel(experience))
         setExperiencePreviousLevel(expToNextLevel(level))

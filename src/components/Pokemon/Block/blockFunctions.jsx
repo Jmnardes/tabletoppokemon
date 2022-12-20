@@ -140,7 +140,7 @@ function event() {
     } else if(eventPercentage < 90) {
         return ({type:'event', title:'Nature Check', label:`If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`, rules:'If the nature repeat, double reward'})
     } else {
-        return ({type:'event', title:'Element Check', label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, rules:'If the nature repeat, double reward'})
+        return ({type:'event', title:'Element Check', label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, rules:'If the element repeat, double reward'})
     }
 }
 

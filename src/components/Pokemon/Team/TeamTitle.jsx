@@ -16,6 +16,14 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
     const [teamSixRoll, setTeamSixRoll] = useState(0)
     const [previousTeamDiceRoll, setPreviousTeamDiceRoll] = useState(0)
 
+    const statMedium = (stat) => {
+        let mediumStat = Number.parseFloat(stat/3).toFixed(0)
+
+        if(mediumStat === '0') mediumStat = 1
+
+        return `${mediumStat}/${stat}`
+    }
+
     return (
         <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
             <Flex alignItems="center">
@@ -28,11 +36,11 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
                     <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
-                    <Text ml={-1} fontSize="2xl">{`${Number.parseFloat(handleTeamStats('atk')/3).toFixed(0)}/${handleTeamStats('atk')}`}</Text>
+                    <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text>
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
                     <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
-                    <Text ml={-1} fontSize="2xl">{`${Number.parseFloat(handleTeamStats('def')/3).toFixed(0)}/${handleTeamStats('def')}`}</Text>
+                    <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text>
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
                     <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>

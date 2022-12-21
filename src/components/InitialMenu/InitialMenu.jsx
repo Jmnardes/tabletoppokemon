@@ -46,7 +46,7 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                     Shiny Percentage
                 </Text>
 
-                <NumberInput mt={1} w={20} step={1} defaultValue={4} min={1} max={10} allowMouseWheel onChange={(e) => {handleShinyChance(e)}}>
+                <NumberInput mt={1} w={20} step={1} defaultValue={2} min={1} max={10} allowMouseWheel onChange={(e) => {handleShinyChance(e)}}>
                     <NumberInputField />
                     <NumberInputStepper>
                         <NumberIncrementStepper />

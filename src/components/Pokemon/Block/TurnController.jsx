@@ -4,7 +4,16 @@ import { diceRoll } from "../../../util";
 import BlockController from "./BlockController";
 import { blockType } from "./blockFunctions";
 
-export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks, walkedBlocks, setDisableShop, rollBlockDisabed, setRollBlockDisabed }) {
+export default function TurnController({ 
+    setIsPokemonEncounter, 
+    setWalkedBlocks, 
+    walkedBlocks, 
+    setDisableShop, 
+    rollBlockDisabed, 
+    setRollBlockDisabed, 
+    setCoins,
+    coins
+}) {
     const [block, setBlock] = useState([])
 
     function handleBlockRoll() {
@@ -29,7 +38,12 @@ export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks,
                     >Go to encounter!</Button>
                 </Flex>
 
-                <BlockController block={block} setDisableShop={setDisableShop} />
+                <BlockController 
+                    block={block} 
+                    setDisableShop={setDisableShop} 
+                    setCoins={setCoins}
+                    coins={coins}
+                />
             </Flex>
         </Flex>
     )

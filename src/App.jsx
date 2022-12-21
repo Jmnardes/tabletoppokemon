@@ -6,7 +6,7 @@ import PokePage from "./components/Pokemon/PokePage"
 
 const App = () => {
   const [maxTurns, setMaxTurns] = useState(45)
-  const [shinyChance, setShinyChance] = useState(4)
+  const [shinyChance, setShinyChance] = useState(2)
   const [gameDifficulty, setGameDifficulty] = useState(0)
   const [generation, setGeneration] = useState(3)
   const [gameStarted, setGameStarted] = useState(false)

@@ -31,7 +31,7 @@ export function blockType() {
         rules: 'Roll a d20, if the result is higher than 15 you win',
         change: {
             category: 'trophy',
-            type: 'passive',
+            type: 'button',
             value: '1'
         }
     })
@@ -65,7 +65,8 @@ export function blockType() {
     if(category === 'shop') return ({
         type: 'shop',
         title: 'Shop',
-        label: "If you have cash you're welcome"
+        label: "If you have cash you're welcome",
+        rules: "If you end your turn, the shop will be disabled"
     })
 
     // if(category === 'item') {
@@ -141,7 +142,8 @@ function positiveEconomy() {
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '5'
+                value: '5',
+                isPositive: true
             }
         })
     } else {
@@ -152,7 +154,8 @@ function positiveEconomy() {
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '20'
+                value: '20',
+                isPositive: true
             }
         })
     }
@@ -170,7 +173,7 @@ function negativeEconomy() {
                 category: 'coin',
                 type: 'passive',
                 value: '3',
-                negative: true
+                isPositive: false
             }
         })
     } else {
@@ -182,7 +185,7 @@ function negativeEconomy() {
                 category: 'coin',
                 type: 'passive',
                 value: '10',
-                negative: true
+                isPositive: false
             }
         })
     }

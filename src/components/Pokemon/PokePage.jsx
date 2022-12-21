@@ -309,6 +309,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     walkedBlocks={walkedBlocks}
                                     setWalkedBlocks={setWalkedBlocks}
                                     setDisableShop={setDisableShop}
+                                    setCoins={setCoins}
+                                    coins={coins}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>

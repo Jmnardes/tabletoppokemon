@@ -454,11 +454,15 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             
             <Flex flexDir="column" py={2} mt={2}>
                 <TeamTitle trainerName={trainerName} handleTeamStats={handleTeamStats} />
-                <SimpleGrid columns={[2, 2, 2, 3, 3, 4, 5]} spacingX={4} spacingY={2} mr={2} mt={2}>
+                <Flex justifyContent="center" alignItems="center">
                     {pokemonsTeam?.map((poke, i) => {
-                        return <Team key={(turn * 100) + poke + i} savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
+                        return (
+                            <Box m={8} key={(turn * 100) + poke + i}>
+                                <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
+                            </Box>
+                        )
                     })}
-                </SimpleGrid>
+                </Flex>
             </Flex>
         </>
     )

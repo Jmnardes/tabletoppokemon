@@ -22,18 +22,22 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                 <Text fontSize="2xl">{trainerName}'s Team</Text>
             </Flex>
             <Flex alignItems="center">
-                <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/> {
-                    <Text fontSize="2xl" m={2}>{handleTeamStats('hp')}</Text>
-                }
-                <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/> {
-                    <Text fontSize="2xl" m={2}>{handleTeamStats('atk')}</Text>
-                }
-                <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/> {
-                    <Text fontSize="2xl" m={2}>{handleTeamStats('def')}</Text>
-                }
-                <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/> {
-                    <Text fontSize="2xl" m={2}>{handleTeamStats('spd')}</Text>
-                }
+                <Flex mx={4} justifyContent="center" alignItems="center">
+                    <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/>
+                    <Text ml={-1} fontSize="2xl">{handleTeamStats('hp')}</Text>
+                </Flex>
+                <Flex mx={4} justifyContent="center" alignItems="center">
+                    <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
+                    <Text ml={-1} fontSize="2xl">{`${Number.parseFloat(handleTeamStats('atk')/3).toFixed(0)}/${handleTeamStats('atk')}`}</Text>
+                </Flex>
+                <Flex mx={4} justifyContent="center" alignItems="center">
+                    <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
+                    <Text ml={-1} fontSize="2xl">{`${Number.parseFloat(handleTeamStats('def')/3).toFixed(0)}/${handleTeamStats('def')}`}</Text>
+                </Flex>
+                <Flex mx={4} justifyContent="center" alignItems="center">
+                    <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>
+                    <Text ml={-1} fontSize="2xl">{handleTeamStats('spd')}</Text>
+                </Flex>
             </Flex>
             <Flex>
                 <Flex alignItems="center">

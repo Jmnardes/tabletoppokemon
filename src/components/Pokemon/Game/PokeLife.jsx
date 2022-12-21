@@ -1,9 +1,10 @@
-import { Button, Flex, Text } from "@chakra-ui/react"
+import { Button, Flex, Input, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { FaMinusSquare, FaPlusSquare, FaAngleDoubleUp, FaAngleDoubleDown } from "react-icons/fa";
 
 export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) {
     const [life, setLife] = useState(0)
+    const [oponentAttack, setOponentAttack] = useState(1)
 
     const handleLifeSum = () => {
         if (life < total) {
@@ -12,8 +13,8 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
     }
 
     const handleLifeSub = () => {
-        if (life > 0) {
-            setLife(() => life - 1)
+        if (life >= oponentAttack) {
+            setLife(() => life - oponentAttack)
         }
     }
 
@@ -31,10 +32,23 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
 
     return ( 
         <Flex mx={2} direction="row" textAlign="center" alignItems="center" justifyContent="center">
+            <Button
+                m={1}
+                size='xs'
+                height={title? "40px" : "24px"}
+                width={title? "40px" : "12px"}
+                _hover={{
+                    cursor: 'inherit'
+                }}
+            >
+                <Text fontSize={lifeSize} fontWeight="bold">{life}</Text>
+            </Button>
+            
             <Flex flexDirection={title ? 'column' : 'row'}>
                 <Button
                     m={title ? 0.25 : 1}
-                    size='xs'
+                    size={title ? '12px' : 'xs'}
+                    p={title ? 1 : 0}
                     title="Life sum"
                     onClick={() => handleLifeSum()}
                 >
@@ -43,7 +57,8 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
 
                 <Button
                     m={title ? 0.25 : 1}
-                    size='xs'
+                    size={title ? '12px' : 'xs'}
+                    p={title ? 1 : 0}
                     title="Life sub"
                     onClick={() => handleLifeSub()}
                 >
@@ -51,22 +66,12 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
                 </Button>
             </Flex>
 
-            <Button
-                m={1}
-                size='xs'
-                height={title? "90%" : "70%"}
-                _hover={{
-                    cursor: 'inherit'
-                }}
-            >
-                <Text fontSize={lifeSize} fontWeight="bold">{life}</Text>
-            </Button>
-
             {title && (
                 <Flex flexDirection={title ? 'column' : 'row'}>
                     <Button
                         m={0.25}
-                        size='xs'
+                        size={title ? '12px' : 'xs'}
+                        p={title ? 1 : 0}
                         title="Life sum"
                         onClick={() => handleMaxLife()}
                     >
@@ -75,13 +80,33 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
 
                     <Button
                         m={0.25}
-                        size='xs'
+                        size={title ? '12px' : 'xs'}
+                        p={title ? 1 : 0}
                         title="Life sub"
                         onClick={() => handleZeroLife()}
                     >
                         <FaAngleDoubleDown size={iconSize} color="red"/>
                     </Button>
                 </Flex>
+            )}
+
+            {title && (
+                <Input 
+                    type="number" 
+                    title="Oponent Attack" 
+                    size="xs" 
+                    ml={1}
+                    w={8} 
+                    h={10}
+                    defaultValue={1}
+                    min={1}
+                    max={30}
+                    onChange={e => {
+                        if(e.target.value > 0 && e.target.value <= 30) {
+                            setOponentAttack(e.target.value)
+                        }
+                    }}
+                />
             )}
         </Flex>
     )

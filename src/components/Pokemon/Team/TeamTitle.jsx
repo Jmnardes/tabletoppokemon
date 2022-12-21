@@ -6,13 +6,14 @@ import {
     GiHearts,
     GiShield
 } from "react-icons/gi";
-import { FaDiceD20 } from "react-icons/fa";
+import { FaDiceD20, FaDiceSix } from "react-icons/fa";
 import { useState } from "react";
 import { diceRoll } from "../../../util";
 
 export default function TeamTitle({ trainerName, handleTeamStats }) {
     const { colorMode } = useColorMode()
-    const [teamDiceRoll, setTeamDiceRoll] = useState(0)
+    const [teamTwentyRoll, setTeamTwentyRoll] = useState(0)
+    const [teamSixRoll, setTeamSixRoll] = useState(0)
     const [previousTeamDiceRoll, setPreviousTeamDiceRoll] = useState(0)
 
     return (
@@ -34,33 +35,51 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
                     <Text fontSize="2xl" m={2}>{handleTeamStats('spd')}</Text>
                 }
             </Flex>
-            <Flex alignItems="center">
-                <Button
-                    mx={2}
-                    title="Rolld20"
-                    onClick={() => {
-                        setPreviousTeamDiceRoll(teamDiceRoll)
-                        setTeamDiceRoll(diceRoll(20) + 1)
-                    }}
-                >
-                    <FaDiceD20 size="18px"/>
-                </Button>
-                <Text
-                    background={
-                        teamDiceRoll === 20 && "#2EC92E"
-                    }
-                    fontSize='2xl'
-                    ml={2}
-                    w={12}
-                    borderRadius={4}
-                    textAlign="center"
-                >{teamDiceRoll}</Text>
-                <Text
-                    fontSize='1xl'
-                    w={8}
-                    borderRadius={4}
-                    textAlign="center"
-                >{previousTeamDiceRoll}</Text>
+            <Flex>
+                <Flex alignItems="center">
+                    <Button
+                        title="Rolld20"
+                        onClick={() => {
+                            setPreviousTeamDiceRoll(teamTwentyRoll)
+                            setTeamTwentyRoll(diceRoll(20) + 1)
+                        }}
+                    >
+                        <FaDiceD20 size="18px"/>
+                    </Button>
+                    <Text
+                        background={
+                            teamTwentyRoll === 20 && "#2EC92E"
+                        }
+                        fontSize='2xl'
+                        w={12}
+                        borderRadius={4}
+                        textAlign="center"
+                    >{teamTwentyRoll}</Text>
+                    <Text
+                        fontSize='1xl'
+                        w={8}
+                        borderRadius={4}
+                        textAlign="center"
+                    >{previousTeamDiceRoll}</Text>
+                </Flex>
+                <Flex alignItems="center">
+                    <Text
+                        fontSize='2xl'
+                        ml={-2}
+                        w={12}
+                        borderRadius={4}
+                        textAlign="center"
+                    >{teamSixRoll}</Text>
+                    <Button
+                        title="Rolld20"
+                        onClick={() => {
+                            setPreviousTeamDiceRoll(teamSixRoll)
+                            setTeamSixRoll(diceRoll(6) + 1)
+                        }}
+                    >
+                        <FaDiceSix size="18px"/>
+                    </Button>
+                </Flex>
             </Flex>
             <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/>
         </Flex>

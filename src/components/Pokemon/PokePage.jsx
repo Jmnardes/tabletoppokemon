@@ -39,6 +39,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [totalCatches, setTotalCatches] = useState(0)
     const [shinyCatches, setShinyCatches] = useState(0)
     const [criticals, setCriticals] = useState(0)
+    const [highestAmount, setHighestAmount] = useState(0)
     const [turn, setTurn] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
@@ -218,6 +219,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             setDisableShop(true)
         }
 
+        if(coins > highestAmount) setHighestAmount(coins)
+
         setLevel(experiencePerLevel(experience))
         setExperiencePreviousLevel(expToNextLevel(level))
         setExperienceToNextLevel(expToNextLevel(level + 1))
@@ -234,7 +237,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             localStorage.setItem('trophy', JSON.stringify(trophy))
             localStorage.setItem('walkedBlocks', JSON.stringify(walkedBlocks))
         }
-    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks])
+    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
@@ -332,6 +335,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 totalCatches={totalCatches}
                                 shinyCatches={shinyCatches}
                                 totalCriticals={criticals}
+                                highestAmount={highestAmount}
                             />
                             <Economy 
                                 coins={coins} 

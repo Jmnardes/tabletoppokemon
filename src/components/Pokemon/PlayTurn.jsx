@@ -27,7 +27,8 @@ export function PlayTurn({
         closeModal,
         setCloseModal,
         walkedBlocks,
-        setWalkedBlocks
+        setWalkedBlocks,
+        setDisableShop
     }) {
 
     return (
@@ -61,7 +62,12 @@ export function PlayTurn({
                     {children}
                 </PokeRoll>
             ) : (
-                <TurnController setIsPokemonEncounter={setIsPokemonEncounter} walkedBlocks={walkedBlocks} setWalkedBlocks={setWalkedBlocks} />
+                <TurnController 
+                    setIsPokemonEncounter={setIsPokemonEncounter} 
+                    walkedBlocks={walkedBlocks} 
+                    setWalkedBlocks={setWalkedBlocks}
+                    setDisableShop={setDisableShop}
+                />
             )}
         </PokeModal>
     )

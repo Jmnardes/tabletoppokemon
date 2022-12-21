@@ -33,7 +33,7 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                     <Text fontSize="3xl" m={4}>
                         Turns 
                     </Text>
-                    <NumberInput mx={4} w={20} step={5} defaultValue={45} min={30} max={200} allowMouseWheel onChange={(e) => {handleMaxTurns(e)}}>
+                    <NumberInput mx={4} w={20} step={5} defaultValue={45} min={20} max={200} allowMouseWheel onChange={(e) => {handleMaxTurns(e)}}>
                         <NumberInputField />
                         <NumberInputStepper>
                             <NumberIncrementStepper />

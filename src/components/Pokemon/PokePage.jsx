@@ -21,6 +21,7 @@ import TeamTitle from "./Team/TeamTitle"
 import PokeShop from "./Shop/PokeShop"
 import ExperienceBar from "./Treiner/ExperienceBar"
 import { TreinerStats } from "./Treiner/TreinerStats"
+import EndGame from "./Game/EndGame"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -266,8 +267,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             <Box p={2} display="flex" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
-                        {turn < maxTurns ? (
-                            <Flex direction="row">
+                        <Flex direction="row">
+                            {turn < maxTurns ? (
                                 <PlayTurn
                                     pokemonArrayLength={pokemonArray.length}
                                     handlePokemonRoll={handlePokemonRoll}
@@ -292,6 +293,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setCloseModal={setCloseModal}
                                     walkedBlocks={walkedBlocks}
                                     setWalkedBlocks={setWalkedBlocks}
+                                    setDisableShop={setDisableShop}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -311,16 +313,27 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                         </SimpleGrid>
                                     </Flex>
                                 </PlayTurn>
-    
-                                <TrainerBar 
-                                    turn={turn}
+                            ) : (
+                                <EndGame
                                     medal={medal}
                                     trophy={trophy}
-                                />
-                            </Flex>
-                        ) : (
-                            <Text fontSize="2xl">GAME END!</Text> 
-                        )}
+                                    setTrophy={setTrophy}
+                                >
+                                    <TreinerStats 
+                                        walked={walkedBlocks}
+                                        totalCatches={totalCatches}
+                                        shinyCatches={shinyCatches}
+                                        totalCriticals={criticals}
+                                        highestAmount={highestAmount}
+                                    />
+                                </EndGame>
+                            )}
+                            <TrainerBar 
+                                turn={turn}
+                                medal={medal}
+                                trophy={trophy}
+                            />
+                        </Flex>
                     </Flex>
                     <ExperienceBar
                         level={level} 
@@ -330,13 +343,13 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                     />                   
                     <Box textAlign="center">
                         <Flex>
-                            <TreinerStats 
+                            {/* <TreinerStats 
                                 walked={walkedBlocks}
                                 totalCatches={totalCatches}
                                 shinyCatches={shinyCatches}
                                 totalCriticals={criticals}
                                 highestAmount={highestAmount}
-                            />
+                            /> */}
                             <Economy 
                                 coins={coins} 
                                 medal={medal} 

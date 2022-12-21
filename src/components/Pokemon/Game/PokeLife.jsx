@@ -93,7 +93,8 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
             {title && (
                 <Input 
                     type="number" 
-                    title="Oponent Attack" 
+                    title="Oponent Attack"
+                    textAlign="center"
                     size="xs" 
                     ml={1}
                     w={8} 
@@ -101,6 +102,7 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
                     defaultValue={1}
                     min={1}
                     max={30}
+                    borderRadius={4}
                     onChange={e => {
                         if(e.target.value > 0 && e.target.value <= 30) {
                             setOponentAttack(e.target.value)

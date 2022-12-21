@@ -3,19 +3,19 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 5) { // 5% gym leader
+    if(blockCategoryPercentage < 5) { // 5
         return 'gym'
-    } else if(blockCategoryPercentage < 30) { // 15% events
+    } else if(blockCategoryPercentage < 25) { // 20
         return 'event'
-    } else if(blockCategoryPercentage < 55) { // 10% interaction
+    } else if(blockCategoryPercentage < 40) { // 15
         return 'interaction'
-    // } else if(blockCategoryPercentage < 45) { // 15% shop
-    //     return 'shop'
-    // } else if(blockCategoryPercentage < 60) { // 15% itens and treasure
+    } else if(blockCategoryPercentage < 55) { // 15
+        return 'shop'
+    // } else if(blockCategoryPercentage < 60) {
     //     return 'item'
-    } else if(blockCategoryPercentage < 80) { // 20% Economy
+    } else if(blockCategoryPercentage < 80) { // 25
         return 'economy'
-    } else { // 20% Nothing
+    } else { // 20
         return 'default'
     }
 }
@@ -28,7 +28,12 @@ export function blockType() {
         type: 'gym',
         title: 'Gym Leader',
         label: 'You gotta face a Gym Leader to get a Trophy!',
-        rules: 'Roll a d20, if the result is higher than 15 you win'
+        rules: 'Roll a d20, if the result is higher than 15 you win',
+        change: {
+            category: 'trophy',
+            type: 'passive',
+            value: '1'
+        }
     })
 
     if(category === 'event') {
@@ -90,11 +95,38 @@ function stealer() {
     let stealerPercentage = diceRoll(100)
 
     if(stealerPercentage < 65) {
-        return ({type:'interaction', title:'Pickpocket', label:'Steal 5 coins from a trainer'})
+        return ({
+            type:'interaction', 
+            title:'Pickpocket', 
+            label:'Steal 5 coins from a trainer',
+            change: {
+                category: 'coin',
+                type: 'button',
+                value: '5'
+            }
+        })
     } else if(stealerPercentage < 90) {
-        return ({type:'interaction', title:'Thief', label:'Steal 1 medal or 10 coins from a trainer'})
+        return ({
+            type:'interaction', 
+            title:'Thief', 
+            label:'Steal 1 medal from a trainer',
+            change: {
+                category: 'medal',
+                type: 'button',
+                value: '1'
+            }
+        })
     } else {
-        return ({type:'interaction', title:'Burglar', label:'Steal 1 trophy or 1 medal or 20 coins from a trainer'})
+        return ({
+            type:'interaction', 
+            title:'Burglar', 
+            label:'Steal 1 trophy from a trainer',
+            change: {
+                category: 'trophy',
+                type: 'button',
+                value: '1'
+            }
+        })
     }
 }
 
@@ -102,9 +134,27 @@ function positiveEconomy() {
     let positivePercentage = diceRoll(100)
 
     if(positivePercentage < 90) {
-        return ({type:'economy', title:'Lucky day', label:'You have found 5 coins laying on the ground!'})
+        return ({
+            type:'economy', 
+            title:'Lucky day', 
+            label:'You have found 5 coins laying on the ground!',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '5'
+            }
+        })
     } else {
-        return ({type:'economy', title:'Lottery ticket', label:'What a lucky, you won 20 coins in the lotery!'})
+        return ({
+            type:'economy', 
+            title:'Lottery ticket', 
+            label:'What a lucky, you won 20 coins in the lotery!',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '20'
+            }
+        })
     }
 }
 
@@ -112,9 +162,29 @@ function negativeEconomy() {
     let negativePercentage = diceRoll(100)
 
     if(negativePercentage < 85) {
-        return ({type:'economy', title:'Holed pocket', label:'You found a hole in your pocket, bad news, you lost 3 coins'})
+        return ({
+            type:'economy', 
+            title:'Holed pocket', 
+            label:'You found a hole in your pocket, bad news, you lost 3 coins',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '3',
+                negative: true
+            }
+        })
     } else {
-        return ({type:'economy', title:'Bankrupcy', label:'You have to be more careful with your money, you lost 10 coins'})
+        return ({
+            type:'economy', 
+            title:'Bankrupcy', 
+            label:'You have to be more careful with your money, you lost 10 coins',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '10',
+                negative: true
+            }
+        })
     }
 }
 
@@ -122,7 +192,12 @@ function event() {
     let eventPercentage = diceRoll(100)
 
     if(eventPercentage < 10) {
-        return ({type:'event', title:'Single race', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest speed'})
+        return ({
+            type:'event', 
+            title:'Single race', 
+            label:'The winner gets 5 coins', 
+            rules:'Roll a d6 and sum the highest speed'
+        })
     } else if(eventPercentage < 20) {
         return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
     } else if(eventPercentage < 30) {
@@ -138,9 +213,29 @@ function event() {
     } else if(eventPercentage < 80) {
         return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
     } else if(eventPercentage < 90) {
-        return ({type:'event', title:'Nature Check', label:`If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`, rules:'If the nature repeat, double reward'})
+        return ({
+            type:'event', 
+            title:'Nature Check', 
+            label:`If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`, 
+            rules:'If the nature repeat, double reward',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '10'
+            }
+        })
     } else {
-        return ({type:'event', title:'Element Check', label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, rules:'If the element repeat, double reward'})
+        return ({
+            type:'event', 
+            title:'Element Check', 
+            label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, 
+            rules:'If the element repeat, double reward',
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: '10'
+            }
+        })
     }
 }
 
@@ -164,9 +259,27 @@ function specialEvent() {
     } else if(specialEventPercentage < 80) {
         return ({type:'event', title:'Dodge ball', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
     } else if(specialEventPercentage < 90) {
-        return ({type:'event', title:'Nature Check', label:`If you have a ${nature()} pokemon, get a Trophy`})
+        return ({
+            type:'event', 
+            title:'Nature Check', 
+            label:`If you have a ${nature()} pokemon, get a Trophy`,
+            change: {
+                category: 'trophy',
+                type: 'passive',
+                value: '1'
+            }
+        })
     } else {
-        return ({type:'event', title:'Element Check', label:`If you have a ${element()} pokemon, get a Trophy`})
+        return ({
+            type:'event', 
+            title:'Element Check', 
+            label:`If you have a ${element()} pokemon, get a Trophy`,
+            change: {
+                category: 'trophy',
+                type: 'passive',
+                value: '1'
+            }
+        })
     }
 }
 

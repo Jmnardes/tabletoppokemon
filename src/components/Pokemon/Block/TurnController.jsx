@@ -4,7 +4,7 @@ import { diceRoll } from "../../../util";
 import BlockController from "./BlockController";
 import { blockType } from "./blockFunctions";
 
-export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks, walkedBlocks }) {
+export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks, walkedBlocks, setDisableShop }) {
     const [block, setBlock] = useState([])
     const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
 
@@ -19,10 +19,10 @@ export default function TurnController({ setIsPokemonEncounter, setWalkedBlocks,
             <Flex flexDirection="column" w="100%">
                 <Flex mt={4} w="100%">
                     <Button w="100%" mx={2} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
-                    <Button w="100%" mx={2} onClick={() => setIsPokemonEncounter(true)} disabled={block === ''}>Go to encounter!</Button>
+                    <Button w="100%" mx={2} onClick={() => setIsPokemonEncounter(true)} disabled={block.length === 0}>Go to encounter!</Button>
                 </Flex>
 
-                <BlockController block={block} />
+                <BlockController block={block} setDisableShop={setDisableShop} />
             </Flex>
         </Flex>
     )

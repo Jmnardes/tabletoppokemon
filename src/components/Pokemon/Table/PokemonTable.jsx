@@ -26,7 +26,17 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                 <>
                     {showingType === 'Team' ? (
                         <>
-                            <Text fontWeight="bold" textAlign="center">{nature.nature}</Text>
+                            <Text 
+                                cursor="default" 
+                                title={(
+                                    nature.statUp && `+${nature.statUp} `
+                                ) +
+                                (
+                                    nature.statDown && `-${nature.statDown}`
+                                )}
+                                fontWeight="bold" 
+                                textAlign="center"
+                            >{nature.nature}</Text>
                             <SimpleGrid columns={[1, 2]} spacingX={4} spacingY={2} mr={2} mt={2}>
                                     <Box display="flex" alignItems="center" p={1}>
                                         <Box mr={2}>
@@ -35,12 +45,6 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                         </Box>
                                         <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/>
                                         <Text
-                                            title={
-                                                `${(Number.parseFloat(health/2).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(health/1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(health*1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(health*2).toFixed(0))}`
-                                            }
                                             cursor="default"
                                             fontSize={"lg"} 
                                             fontWeight="bold"
@@ -71,12 +75,6 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                         </Box>
                                         <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
                                         <Text
-                                            title={
-                                                `${(Number.parseFloat(defense/2).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(defense/1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(defense*1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(defense*2).toFixed(0))}`
-                                            } 
                                             cursor="default"
                                             fontSize={"lg"} 
                                             fontWeight="bold"
@@ -89,12 +87,6 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                         </Box>
                                         <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>
                                         <Text
-                                            title={
-                                                `${(Number.parseFloat(speed/2).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(speed/1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(speed*1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(speed*2).toFixed(0))}`
-                                            } 
                                             cursor="default"
                                             fontSize={"lg"} 
                                             fontWeight="bold"
@@ -111,7 +103,7 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                 (
                                     <Text fontSize="lg">{nature.nature}{" "}{nature.statUp && `(+${nature.statUp})`}{" "}{nature.statDown && `(-${nature.statDown})`}</Text>
                                 ):(
-                                    <Text fontSize="lg">{nature.nature}</Text>
+                                    <Text fontSize="lg" >{nature.nature}</Text>
                                 )
                                     
                                 }

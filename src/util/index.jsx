@@ -193,3 +193,45 @@ export const typeColor = (types) => {
     
     return finalColor
 }
+
+export const typePositives = (type) => {
+    if (type === 'psychic') return ['']
+    if (type === 'fire') return ['']
+    if (type === 'water') return ['']
+    if (type === 'dragon') return ['']
+    if (type === 'bug') return ['psychic', 'grass']
+    if (type === 'dark') return ['']
+    if (type === 'electric') return ['']
+    if (type === 'fairy') return ['']
+    if (type === 'fighting') return ['']
+    if (type === 'flying') return ['']
+    if (type === 'ice') return ['']
+    if (type === 'ghost') return ['']
+    if (type === 'grass') return ['']
+    if (type === 'ground') return ['']
+    if (type === 'poison') return ['']
+    if (type === 'rock') return ['']
+    if (type === 'steel') return ['']
+    if (type === 'normal') return ['']
+}
+
+export const typeNegatives = (type) => {
+    if (type === 'psychic') return ['']
+    if (type === 'fire') return ['']
+    if (type === 'water') return ['']
+    if (type === 'dragon') return ['']
+    if (type === 'bug') return ['fire', 'flying']
+    if (type === 'dark') return ['']
+    if (type === 'electric') return ['']
+    if (type === 'fairy') return ['']
+    if (type === 'fighting') return ['']
+    if (type === 'flying') return ['']
+    if (type === 'ice') return ['']
+    if (type === 'ghost') return ['']
+    if (type === 'grass') return ['']
+    if (type === 'ground') return ['']
+    if (type === 'poison') return ['']
+    if (type === 'rock') return ['']
+    if (type === 'steel') return ['']
+    if (type === 'normal') return ['']
+}

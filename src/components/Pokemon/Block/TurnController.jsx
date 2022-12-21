@@ -12,7 +12,10 @@ export default function TurnController({
     rollBlockDisabed, 
     setRollBlockDisabed, 
     setCoins,
-    coins
+    coins,
+    pokemonsTeam,
+    setTrophy,
+    trophy
 }) {
     const [block, setBlock] = useState([])
 
@@ -43,6 +46,9 @@ export default function TurnController({
                     setDisableShop={setDisableShop} 
                     setCoins={setCoins}
                     coins={coins}
+                    pokemonsTeam={pokemonsTeam}
+                    setTrophy={setTrophy}
+                    trophy={trophy}
                 />
             </Flex>
         </Flex>

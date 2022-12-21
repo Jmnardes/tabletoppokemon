@@ -32,7 +32,10 @@ export function PlayTurn({
     isPokemonEncounter,
     setIsPokemonEncounter,
     setCoins,
-    coins
+    coins,
+    pokemonsTeam,
+    setTrophy,
+    trophy
 }) {
     return (
         <PokeModal 
@@ -74,6 +77,9 @@ export function PlayTurn({
                     setRollBlockDisabed={setRollBlockDisabed}
                     setCoins={setCoins}
                     coins={coins}
+                    pokemonsTeam={pokemonsTeam}
+                    setTrophy={setTrophy}
+                    trophy={trophy}
                 />
             )}
         </PokeModal>

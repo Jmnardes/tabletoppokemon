@@ -3,9 +3,7 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 5) { // 5
-        return 'gym'
-    } else if(blockCategoryPercentage < 25) { // 20
+    if(blockCategoryPercentage < 25) { // 25
         return 'event'
     } else if(blockCategoryPercentage < 40) { // 15
         return 'interaction'
@@ -13,9 +11,9 @@ function blockCategory() {
         return 'shop'
     // } else if(blockCategoryPercentage < 60) {
     //     return 'item'
-    } else if(blockCategoryPercentage < 80) { // 25
+    } else if(blockCategoryPercentage < 75) { // 20
         return 'economy'
-    } else { // 20
+    } else { // 25
         return 'default'
     }
 }
@@ -23,18 +21,6 @@ function blockCategory() {
 export function blockType() {
     let blockTypePercentage = diceRoll(100)
     let category = blockCategory()
-
-    if(category === 'gym') return ({
-        type: 'gym',
-        title: 'Gym Leader',
-        label: 'You gotta face a Gym Leader to get a Trophy!',
-        rules: 'Roll a d20, if the result is higher than 15 you win',
-        change: {
-            category: 'trophy',
-            type: 'button',
-            value: '1'
-        }
-    })
 
     if(category === 'event') {
         if(blockTypePercentage < 85) {
@@ -45,13 +31,13 @@ export function blockType() {
     }
 
     if(category === 'interaction') {
-        if(blockTypePercentage < 15) {
+        if(blockTypePercentage < 20) {
             return ({
                 type: 'interaction',
                 title: 'Battle',
                 label: 'Choose a enemy to battle, the winner gets a medal'
             })
-        } else if (blockTypePercentage < 50) {
+        } else if (blockTypePercentage < 60) {
             return ({
                 type: 'interaction',
                 title: 'Battle',
@@ -66,7 +52,7 @@ export function blockType() {
         type: 'shop',
         title: 'Shop',
         label: "If you have cash you're welcome",
-        rules: "If you end your turn, the shop will be disabled"
+        rules: "If you end your turn or catch a pokemon, the shop will be disabled"
     })
 
     // if(category === 'item') {
@@ -78,7 +64,7 @@ export function blockType() {
     // }
 
     if(category === 'economy') {
-        if(blockTypePercentage < 50) {
+        if(blockTypePercentage < 60) {
             return positiveEconomy()
         } else {
             return negativeEconomy()
@@ -94,38 +80,54 @@ export function blockType() {
 
 function stealer() {
     let stealerPercentage = diceRoll(100)
-
+    let stealRoll = 0
+    
     if(stealerPercentage < 65) {
+        stealRoll = diceRoll(6) + 2
         return ({
             type:'interaction', 
             title:'Pickpocket', 
-            label:'Steal 5 coins from a trainer',
+            label:`You can steal ${stealRoll} coins from another player`,
+            rules:"If he doesn't have this amount you take what he has",
             change: {
                 category: 'coin',
                 type: 'button',
-                value: '5'
+                value: stealRoll
             }
         })
-    } else if(stealerPercentage < 90) {
+    } else if(stealerPercentage < 85) {
+        stealRoll = diceRoll(6) + 10
         return ({
             type:'interaction', 
             title:'Thief', 
-            label:'Steal 1 medal from a trainer',
+            label:`You can steal ${stealRoll} coins from another player`,
+            rules:"If he doesn't have this amount you take what he has",
+            change: {
+                category: 'coin',
+                type: 'button',
+                value: stealRoll
+            }
+        })
+    } else if(stealerPercentage < 95) {
+        return ({
+            type:'interaction', 
+            title:'Robber', 
+            label:`You can steal a medal from another player`,
             change: {
                 category: 'medal',
                 type: 'button',
-                value: '1'
+                value: 1
             }
         })
     } else {
         return ({
             type:'interaction', 
             title:'Burglar', 
-            label:'Steal 1 trophy from a trainer',
+            label:'You can steal a trophy from another player',
             change: {
                 category: 'trophy',
                 type: 'button',
-                value: '1'
+                value: 1
             }
         })
     }
@@ -133,28 +135,44 @@ function stealer() {
 
 function positiveEconomy() {
     let positivePercentage = diceRoll(100)
+    let positiveRoll = 0
 
-    if(positivePercentage < 90) {
+    if(positivePercentage < 65) {
+        positiveRoll = diceRoll(4) + 2
         return ({
             type:'economy', 
-            title:'Lucky day', 
-            label:'You have found 5 coins laying on the ground!',
+            title:'Lost penny', 
+            label:`You have found ${positiveRoll} coins laying on the ground`,
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '5',
+                value: positiveRoll,
+                isPositive: true
+            }
+        })
+    } else if(positivePercentage < 90) {
+        positiveRoll = diceRoll(10) + 5
+        return ({
+            type:'economy', 
+            title:'Profit', 
+            label:`You have earned ${positiveRoll} coins profit from one of your investments`,
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: positiveRoll,
                 isPositive: true
             }
         })
     } else {
+        positiveRoll = diceRoll(6) + 15
         return ({
             type:'economy', 
             title:'Lottery ticket', 
-            label:'What a lucky, you won 20 coins in the lotery!',
+            label:`You won ${positiveRoll} coins in the lottery, how lucky!`,
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '20',
+                value: positiveRoll,
                 isPositive: true
             }
         })
@@ -163,28 +181,44 @@ function positiveEconomy() {
 
 function negativeEconomy() {
     let negativePercentage = diceRoll(100)
+    let negativeRoll = 0
 
-    if(negativePercentage < 85) {
+    if(negativePercentage < 60) {
+        negativeRoll = diceRoll(6) + 1
         return ({
             type:'economy', 
             title:'Holed pocket', 
-            label:'You found a hole in your pocket, bad news, you lost 3 coins',
+            label:`You found a hole in your pocket, bad news, you lost ${negativeRoll} coins`,
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '3',
+                value: negativeRoll,
+                isPositive: false
+            }
+        })
+    } else if(negativePercentage < 85) {
+        negativeRoll = diceRoll(10) + 5
+        return ({
+            type:'economy', 
+            title:'Taxes', 
+            label:`Team rocket is taxing this path, you have to pay ${negativeRoll} coins`,
+            change: {
+                category: 'coin',
+                type: 'passive',
+                value: negativeRoll,
                 isPositive: false
             }
         })
     } else {
+        negativeRoll = diceRoll(10) + 10
         return ({
             type:'economy', 
             title:'Bankrupcy', 
-            label:'You have to be more careful with your money, you lost 10 coins',
+            label:`Some of your investments gone wrong, you lost ${negativeRoll} coins`,
             change: {
                 category: 'coin',
                 type: 'passive',
-                value: '10',
+                value: negativeRoll,
                 isPositive: false
             }
         })
@@ -193,6 +227,8 @@ function negativeEconomy() {
 
 function event() {
     let eventPercentage = diceRoll(100)
+    let sortedElement = element()
+    let sortedNature = nature()
 
     if(eventPercentage < 10) {
         return ({
@@ -219,24 +255,24 @@ function event() {
         return ({
             type:'event', 
             title:'Nature Check', 
-            label:`If you have a ${nature()} or a ${nature()} pokemon, get 10 coins for each pokemon you have`, 
-            rules:'If the nature repeat, double reward',
+            label:`If you have a ${sortedNature} pokemon on your team, you'll get 20 coins!`,
             change: {
                 category: 'coin',
-                type: 'passive',
-                value: '10'
+                type: 'nature',
+                value: 20,
+                nature: `${sortedNature}`
             }
         })
     } else {
         return ({
             type:'event', 
             title:'Element Check', 
-            label:`If you have a ${element()} or a ${element()} pokemon, get 10 coins for each pokemon you have`, 
-            rules:'If the element repeat, double reward',
+            label:`If you have a ${sortedElement} pokemon on your team, you'll get 20 coins!`,
             change: {
                 category: 'coin',
-                type: 'passive',
-                value: '10'
+                type: 'element',
+                value: 20,
+                element: `${sortedElement}`
             }
         })
     }
@@ -244,6 +280,8 @@ function event() {
 
 function specialEvent() {
     let specialEventPercentage = diceRoll(100)
+    let sortedElement = element()
+    let sortedNature = nature()
 
     if(specialEventPercentage < 10) {
         return ({type:'event', title:'Single race', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest speed'})
@@ -265,22 +303,24 @@ function specialEvent() {
         return ({
             type:'event', 
             title:'Nature Check', 
-            label:`If you have a ${nature()} pokemon, get a Trophy`,
+            label:`If you have a ${sortedNature} pokemon on your team, you'll get a Trophy!`,
             change: {
                 category: 'trophy',
-                type: 'passive',
-                value: '1'
+                type: 'nature',
+                value: 1,
+                element: `${sortedNature}`
             }
         })
     } else {
         return ({
             type:'event', 
             title:'Element Check', 
-            label:`If you have a ${element()} pokemon, get a Trophy`,
+            label:`If you have a ${sortedElement} pokemon on your team, you'll get a Trophy!`,
             change: {
                 category: 'trophy',
-                type: 'passive',
-                value: '1'
+                type: 'element',
+                value: 1,
+                element: `${sortedElement}`
             }
         })
     }

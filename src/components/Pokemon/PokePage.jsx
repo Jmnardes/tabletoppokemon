@@ -187,7 +187,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
-        setCoins(() => diceRoll(5) + coins)
+        setCoins(() => diceRoll(4) + coins)
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
@@ -311,6 +311,9 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setDisableShop={setDisableShop}
                                     setCoins={setCoins}
                                     coins={coins}
+                                    pokemonsTeam={pokemonsTeam}
+                                    setTrophy={setTrophy}
+                                    trophy={trophy}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>

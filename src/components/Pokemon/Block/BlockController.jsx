@@ -1,27 +1,54 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
+import pokemonJSON from '../../../assets/json/pokemons.json'
 
 function BlockController({ 
     block,
     setDisableShop,
     coins,
-    setCoins
+    setCoins,
+    setTrophy,
+    trophy,
+    pokemonsTeam
 }) {
     const handlePassiveCoins = (value, isPositive) => {
-        value = Number(value)
+        console.log(value)
 
         if (isPositive) {
-            setCoins(() => coins + value)
+            setCoins(coins + value)
         } else {
-            setCoins(() => coins - value)
+            setCoins(coins - value)
         }
     }
 
     useEffect(() => {
-        {block?.type === 'shop' && setDisableShop(false)}
+        block?.type === 'economy' && handlePassiveCoins(block?.change?.value, block?.change?.isPositive)
 
-        {block?.type === 'economy' && handlePassiveCoins(block?.change?.value, block?.change?.isPositive)}
-    }, [block, setDisableShop])
+        if(block?.type === 'event') {
+            if(block?.change?.type === 'element') {
+                //eslint-disable-next-line array-callback-return
+                pokemonsTeam?.map((data) => {
+                    let types = pokemonJSON[data.pokemonId].type
+
+                    // eslint-disable-next-line array-callback-return
+                    types.map((element) => {
+                        if (element.toLowerCase() === (block?.change?.element).toLowerCase()) {
+                            block?.change?.category === 'coin' ? setCoins(coins + block?.change?.value) : setTrophy(trophy + 1)
+                        }
+                    })
+                })
+            } else if(block?.change?.type === 'nature') {
+                // eslint-disable-next-line array-callback-return
+                pokemonsTeam?.map((data) => {
+                    if ((data.nature.nature).toLowerCase() === (block?.change?.nature).toLowerCase()) {
+                        block?.change?.category === 'coin' ? setCoins(coins + block?.change?.value) : setTrophy(trophy + 1)
+                    }
+                })
+            }
+        }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [block])
 
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" my={12} mt={8} h="100%">
@@ -31,11 +58,7 @@ function BlockController({
                 <Text fontSize="1xl" textAlign="center" color={'red'} fontWeight="bold">({block?.rules})</Text>
             )}
 
-            {/* {console.log(block)}
-            {block?.change?.category}
-            {block?.change?.type}
-            {block?.change?.value}
-            {block?.change?.negative} */}
+            {block?.type === 'shop' && setDisableShop(false)}
         </Flex>
     )
 }

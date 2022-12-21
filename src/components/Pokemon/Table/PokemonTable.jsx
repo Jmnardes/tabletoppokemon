@@ -34,7 +34,17 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statDown === 'hp' && pokemonStat('Health', false)}
                                         </Box>
                                         <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/>
-                                        <Text fontSize={"lg"} fontWeight="bold">{health}</Text>
+                                        <Text
+                                            title={
+                                                `${(Number.parseFloat(health/2).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(health/1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(health*1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(health*2).toFixed(0))}`
+                                            }
+                                            cursor="default"
+                                            fontSize={"lg"} 
+                                            fontWeight="bold"
+                                        >{health}</Text>
                                     </Box>
                                     <Box display="flex" alignItems="center" p={1}>
                                         <Box mr={2}>
@@ -42,7 +52,17 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statDown === 'atk' && pokemonStat('Attack', false)}
                                         </Box>
                                         <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
-                                        <Text fontSize={"lg"} fontWeight="bold">{attack}</Text>
+                                        <Text 
+                                            title={
+                                                `${(Number.parseFloat(attack/2).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(attack/1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(attack*1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(attack*2).toFixed(0))}`
+                                            } 
+                                            cursor="default"
+                                            fontSize={"lg"} 
+                                            fontWeight="bold"
+                                        >{attack}</Text>
                                     </Box>
                                     <Box display="flex" alignItems="center" p={1}>
                                         <Box mr={2}>
@@ -50,7 +70,17 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statDown === 'def' && pokemonStat('Defense', false)}
                                         </Box>
                                         <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
-                                        <Text fontSize={"lg"} fontWeight="bold">{defense}</Text>
+                                        <Text
+                                            title={
+                                                `${(Number.parseFloat(defense/2).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(defense/1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(defense*1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(defense*2).toFixed(0))}`
+                                            } 
+                                            cursor="default"
+                                            fontSize={"lg"} 
+                                            fontWeight="bold"
+                                        >{defense}</Text>
                                     </Box>
                                     <Box display="flex" alignItems="center" p={1}>
                                         <Box mr={2}>
@@ -58,7 +88,17 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statDown === 'spd' && pokemonStat('Speed', false)}
                                         </Box>
                                         <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>
-                                        <Text fontSize={"lg"} fontWeight="bold">{speed}</Text>
+                                        <Text
+                                            title={
+                                                `${(Number.parseFloat(speed/2).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(speed/1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(speed*1.5).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(speed*2).toFixed(0))}`
+                                            } 
+                                            cursor="default"
+                                            fontSize={"lg"} 
+                                            fontWeight="bold"
+                                        >{speed}</Text>
                                     </Box>
                             </SimpleGrid>
                         </>

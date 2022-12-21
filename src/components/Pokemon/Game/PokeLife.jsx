@@ -95,9 +95,10 @@ export function PokeLife({ total, lifeSize = '1xl', iconSize = '16px', title }) 
                     type="number" 
                     title="Oponent Attack"
                     textAlign="center"
-                    size="xs" 
+                    size="xs"
+                    fontSize="1xl"
                     ml={1}
-                    w={8} 
+                    w="35px" 
                     h={10}
                     defaultValue={1}
                     min={1}

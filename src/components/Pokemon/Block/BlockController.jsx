@@ -12,8 +12,8 @@ function BlockController({
                 <Text fontSize="1xl" textAlign="center">({block?.rules})</Text>
             )}
 
-            {/* {block.type === 'shop' && setDisableShop(false)}
-            {console.log(block)}
+            {block.type === 'shop' && setDisableShop(false)}
+            {/* {console.log(block)}
             {block?.change?.category}
             {block?.change?.type}
             {block?.change?.value}

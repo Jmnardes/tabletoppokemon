@@ -60,8 +60,8 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             title={
                                                 `${(Number.parseFloat(attack/2).toFixed(0))} / ` +
                                                 `${(Number.parseFloat(attack/1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(attack*1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(attack*2).toFixed(0))}`
+                                                `${(Number.parseFloat(attack*1.25).toFixed(0))} / ` +
+                                                `${(Number.parseFloat(attack*1.5).toFixed(0))}`
                                             } 
                                             cursor="default"
                                             fontSize={"lg"} 

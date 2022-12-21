@@ -53,6 +53,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
     const [disablePokeballs, setDisablePokeballs] = useState(false)
+    const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
     const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
@@ -135,13 +136,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 array.splice(index, 1)
                 setSavedPokemons([...array])
                 
-                if (addCoin) {
-                    if(data.shiny.shiny) {
-                        setCoins(() => coins + pokemonJSON[poke.pokemonId].tier + 1)
-                    } else {
-                        setCoins(() => coins + pokemonJSON[poke.pokemonId].tier)
-                    }
-                }
+                if (addCoin) handleSellingPokemonPrice(pokemonJSON[poke.pokemonId].tier, data.shiny.shiny)
             }
             return null
         })
@@ -161,10 +156,27 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         handleAddInventory(poke, false)
     }
 
+    const handleSellingPokemonPrice = (tier, shiny) => {
+        if(shiny) {
+            setCoins(() => coins + tierSellingPrice(tier) + 1)
+        } else {
+            setCoins(() => coins + tierSellingPrice(tier))
+        }
+    }
+
+    const tierSellingPrice = (tier) => {
+        if ( tier === 0 || tier === 1 ) return 1
+        if ( tier === 2 || tier === 3 ) return 2
+        if ( tier === 4 || tier === 5 ) return 3
+        if ( tier === 6 || tier === 7 ) return 4
+        if ( tier === 8 || tier === 9 ) return 5
+        if ( tier === 10 || tier === 11 ) return 6
+    }
+
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
 
-        if(result === 20) setCriticals(criticals + 1)
+        if(result === 19) setCriticals(criticals + 1)
         setDisableDiceRoll(true)
         setDisablePokeballs(true)
         setCatchDiceRoll(result + 1)
@@ -187,6 +199,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setResultDiceRoll(0)
         setCatchDiceRoll(0)
         setDisablePokeballs(false)
+        setRollBlockDisabed(false)
         setIsPokemonEncounter(false)
         setCloseModal(true)
 
@@ -287,6 +300,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setSuperBall={setSuperBall}
                                     ultraball={ultraball}
                                     setUltraBall={setUltraBall}
+                                    rollBlockDisabed={rollBlockDisabed}
+                                    setRollBlockDisabed={setRollBlockDisabed}
                                     isPokemonEncounter={isPokemonEncounter}
                                     setIsPokemonEncounter={setIsPokemonEncounter}
                                     closeModal={closeModal}

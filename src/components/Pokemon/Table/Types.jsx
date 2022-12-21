@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image, Tooltip } from "@chakra-ui/react";
 
 import bug from '../../../assets/images/elements/bug.webp'
 import dark from '../../../assets/images/elements/dark.webp'
@@ -20,23 +20,26 @@ import rock from '../../../assets/images/elements/rock.webp'
 import steel from '../../../assets/images/elements/steel.webp'
 import water from '../../../assets/images/elements/water.webp'
 
-import { stringToUpperCase, typeNegatives, typePositives } from "../../../util";
+import { stringToUpperCase, typeDisadvantage, typeAdvantage } from "../../../util";
 import { FaStar } from "react-icons/fa";
+// import { useEffect, useState } from "react";
 
 function Types({ types, shiny, tier, color, showingType }) {
+    // const [elementsTooltip, setElementsTooltip] = useState('')
+
     function elementTitle(type) {
         return (
-            `${stringToUpperCase(type)}${'\n\n'}+${'\n'}`+
-            `${positiveElements(type)}${'\n\n'}-${'\n'}`+
-            `${negativeElements(type)}`
+            `${stringToUpperCase(type)}${'\n\n'} * Advantages${'\n'}`+
+            `${elementsTable(type, true)}${'\n\n'} * Disadvantages${'\n'}`+
+            `${elementsTable(type, false)}`
         )
     }
 
-    function positiveElements(type) {
+    function elementsTable(type, isAdvantage) {
         let types = ''
 
         if(type) {
-            type = typePositives(type)
+            isAdvantage ? type = typeAdvantage(type) : type = typeDisadvantage(type)
             type.map((t, index, array) => {
                 if(index === (array.length - 1)) {
                     types += `${t}`
@@ -49,22 +52,15 @@ function Types({ types, shiny, tier, color, showingType }) {
         return types
     }
 
-    function negativeElements(type) {
-        let types = ''
-
-        if(type) {
-            type = typeNegatives(type)
-            type.map((t, index, array) => {
-                if(index === (array.length - 1)) {
-                    types += `${t}`
-                } else {
-                    types += `${t} / `
-                }
-            })
-        }
-
-        return types
-    }
+    // const ElementTooltip = (type) => {
+    //     setElementsTooltip(() => {
+    //         return (
+    //             `${stringToUpperCase(type)}${'\n\n'} * Advantages${'\n'}`+
+    //             `${elementsTable(type, true)}${'\n\n'} * Disadvantages${'\n'}`+
+    //             `${elementsTable(type, false)}`
+    //         )
+    //     })
+    // }
 
     return (
         <Box 
@@ -92,19 +88,21 @@ function Types({ types, shiny, tier, color, showingType }) {
             }
             {types.map(t => {
                 if(t !== '') {
-                    // return <Image 
-                    //     key={t} 
-                    //     src={`../../../assets/images/elements/` + t + `.webp`}
-                    //     title={elementTitle(t)} 
-                    //     w={6} 
-                    //     h={6} 
-                    //     ml={1} 
-                    //     mb={1}
-                    // />
+                    // return <Tooltip label={elementsTooltip}>
+                    //     <Image 
+                    //         key={t} 
+                    //         src={`../../../assets/images/elements/` + t + `.webp`}
+                    //         onChange={() => ElementTooltip(t)}
+                    //         w={6} 
+                    //         h={6} 
+                    //         ml={1} 
+                    //         mb={1}
+                    //     />
+                    // </Tooltip>
                     if (t === 'bug') return <Image 
                     key={'bug'} 
                     src={bug} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -113,7 +111,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'dark') return <Image 
                     key={'dark'} 
                     src={dark} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -122,7 +120,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'dragon') return <Image 
                     key={'dragon'} 
                     src={dragon} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -131,7 +129,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'electric') return <Image 
                     key={'electric'} 
                     src={electric} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -140,7 +138,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'fairy') return <Image 
                     key={'fairy'} 
                     src={fairy} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -149,7 +147,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'fighting') return <Image 
                     key={'fighting'} 
                     src={fighting} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -158,7 +156,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'fire') return <Image 
                     key={'fire'} 
                     src={fire} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -167,7 +165,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'flying') return <Image 
                     key={'flying'} 
                     src={flying} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -176,7 +174,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'ghost') return <Image 
                     key={'ghost'} 
                     src={ghost} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -185,7 +183,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'grass') return <Image 
                     key={'grass'} 
                     src={grass} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -194,7 +192,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'ground') return <Image 
                     key={'ground'} 
                     src={ground} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -203,7 +201,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'ice') return <Image 
                     key={'ice'} 
                     src={ice} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -212,7 +210,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'normal') return <Image 
                     key={'normal'} 
                     src={normal} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -221,7 +219,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'psychic') return <Image 
                     key={'psychic'} 
                     src={psychic} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -230,7 +228,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'poison') return <Image 
                     key={'poison'} 
                     src={poison} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -239,7 +237,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'rock') return <Image 
                     key={'rock'} 
                     src={rock} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -248,7 +246,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'steel') return <Image 
                     key={'steel'} 
                     src={steel} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 
@@ -257,7 +255,7 @@ function Types({ types, shiny, tier, color, showingType }) {
                     if (t === 'water') return <Image 
                     key={'water'} 
                     src={water} 
-                    title={stringToUpperCase(t)} 
+                    title={elementTitle(t)} 
                     w={6} 
                     h={6} 
                     ml={1} 

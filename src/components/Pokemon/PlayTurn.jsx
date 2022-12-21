@@ -4,38 +4,39 @@ import TurnController from "./Block/TurnController";
 import PokeRoll from "./Encounter/PokeRoll";
 
 export function PlayTurn({ 
-        children,
-        handlePokemonRoll,
-        pokemonArrayLength,
-        disableDiceRoll,
-        handleCatchDiceRoll,
-        catchDiceRoll,
-        resultDiceRoll,
-        endTurnButton,
-        handlePokemonRollClean,
-        disablePokeballs,
-        setBonusOnCatch,
-        setDisablePokeballs,
-        greatball,
-        setGreatBall,
-        superball,
-        setSuperBall,
-        ultraball,
-        setUltraBall,
-        isPokemonEncounter,
-        setIsPokemonEncounter,
-        closeModal,
-        setCloseModal,
-        walkedBlocks,
-        setWalkedBlocks,
-        setDisableShop
-    }) {
-
+    children,
+    handlePokemonRoll,
+    pokemonArrayLength,
+    disableDiceRoll,
+    handleCatchDiceRoll,
+    catchDiceRoll,
+    resultDiceRoll,
+    endTurnButton,
+    handlePokemonRollClean,
+    disablePokeballs,
+    setBonusOnCatch,
+    setDisablePokeballs,
+    greatball,
+    setGreatBall,
+    superball,
+    setSuperBall,
+    ultraball,
+    setUltraBall,
+    closeModal,
+    setCloseModal,
+    walkedBlocks,
+    setWalkedBlocks,
+    setDisableShop,
+    rollBlockDisabed,
+    setRollBlockDisabed,
+    isPokemonEncounter,
+    setIsPokemonEncounter
+}) {
     return (
         <PokeModal 
             title={isPokemonEncounter ? 'Pokemon encounter' : 'Turn roll'} 
             button={<FaPlay size="24px"/>}
-            disableModalClose={!isPokemonEncounter}
+            disableModalClose={rollBlockDisabed}
             modalClose={closeModal}
             setCloseModal={setCloseModal}
         >
@@ -67,6 +68,8 @@ export function PlayTurn({
                     walkedBlocks={walkedBlocks} 
                     setWalkedBlocks={setWalkedBlocks}
                     setDisableShop={setDisableShop}
+                    rollBlockDisabed={rollBlockDisabed}
+                    setRollBlockDisabed={setRollBlockDisabed}
                 />
             )}
         </PokeModal>

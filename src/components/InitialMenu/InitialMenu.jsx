@@ -15,7 +15,7 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                 justifyContent="center" 
                 alignItems="center" 
                 maxWidth="600px" 
-                background={colorMode === 'light' ? "purple.300" : "gray.700"} 
+                background={colorMode === 'light' ? "gray.400" : "gray.700"} 
                 borderRadius={8} p={8}
             >
                 <Text fontSize="4xl">

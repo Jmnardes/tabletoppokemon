@@ -12,8 +12,6 @@ function BlockController({
     pokemonsTeam
 }) {
     const handlePassiveCoins = (value, isPositive) => {
-        console.log(value)
-
         if (isPositive) {
             setCoins(coins + value)
         } else {

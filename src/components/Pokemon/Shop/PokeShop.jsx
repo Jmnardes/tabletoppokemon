@@ -4,6 +4,7 @@ import { GiTwoCoins, GiRibbonMedal, GiTrophyCup, GiShop } from "react-icons/gi";
 import greatballIcon from '../../../assets/images/pokeballs/poke.png'
 import superballIcon from '../../../assets/images/pokeballs/golden.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultra.png'
+import { parseNumberToNatural } from "../../../util";
 
 export default function PokeShop({
     coins,
@@ -22,7 +23,7 @@ export default function PokeShop({
     turn
 }) {
 
-    function coinPerTurn(turn, multiple) {return (Number.parseFloat(turn/10).toFixed(0)) * multiple}
+    function coinPerTurn(turn, multiple) {return parseNumberToNatural(turn, 10) * multiple}
 
     return (
         <PokeModal title={'Shop'} button={<GiShop size="22px"/>} disableButton={disableShop}>
@@ -57,7 +58,7 @@ export default function PokeShop({
                     <Image
                         mr={2}
                         src={superballIcon} 
-                        alt={'greatball'}
+                        alt={'superball'}
                         w="24px"
                     ></Image>
                     <Text>{superball}</Text>
@@ -67,7 +68,7 @@ export default function PokeShop({
                     <Image
                         mr={2}
                         src={ultraballIcon} 
-                        alt={'greatball'}
+                        alt={'ultraball'}
                         w="24px"
                     ></Image>
                     <Text>{ultraball}</Text>

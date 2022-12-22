@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "../sortPokemon"
-import { diceRoll, typeColor } from '../../util'
+import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
-import { FaWindowClose, FaPlusSquare } from "react-icons/fa";
+import { FaPlusSquare, FaDollarSign, FaAngleLeft } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
 // import PokeDex from "./PokeDex"
@@ -22,6 +22,7 @@ import PokeShop from "./Shop/PokeShop"
 import ExperienceBar from "./Treiner/ExperienceBar"
 import { TreinerStats } from "./Treiner/TreinerStats"
 import EndGame from "./Game/EndGame"
+import PokeballStats from "./Treiner/PokeballStats"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -164,15 +165,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         }
     }
 
-    const tierSellingPrice = (tier) => {
-        if ( tier === 0 || tier === 1 ) return 1
-        if ( tier === 2 || tier === 3 ) return 2
-        if ( tier === 4 || tier === 5 ) return 3
-        if ( tier === 6 || tier === 7 ) return 4
-        if ( tier === 8 || tier === 9 ) return 5
-        if ( tier === 10 || tier === 11 ) return 6
-    }
-
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
 
@@ -187,7 +179,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
-        setCoins(() => diceRoll(3) + coins)
+        setCoins(() => diceRoll(3) + coins + Number(parseNumberToNatural(turn, 10)))
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
@@ -277,7 +269,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
     return (
         <>
-            <Box p={2} display="flex" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
+            <Box p={2} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
@@ -370,6 +362,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 totalCriticals={criticals}
                                 highestAmount={highestAmount}
                             /> */}
+                            <PokeballStats 
+                                greatball={greatball}
+                                superball={superball}
+                                ultraball={ultraball}
+                            />
                             <Economy 
                                 coins={coins} 
                                 medal={medal} 
@@ -428,45 +425,63 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 >
                     {savedPokemons?.map((poke, i) => {
                         return (
-                            <Box mb={2} key={(turn * 100) + poke + i}>
-                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
-                                <Box display="flex" justifyContent="center">
-                                    <Button 
-                                        size="sm" 
-                                        width="50%" 
-                                        borderRadius="0 0 0 16px"
-                                        borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                        _hover={{
-                                            backgroundColor: `#2EC92E40`,
-                                            cursor: "pointer",
-                                            borderLeft: "2px solid #2EC92E40",
-                                            borderBottom: "2px solid #2EC92E40"
-                                        }}
-                                        isDisabled={pokemonsTeam.length >= teamLength ? true : false}
-                                        onClick={() => handleAddPokemonTeam(poke)}
-                                    >
-                                        <FaPlusSquare size="16px" style={{ color: "#2EC92E", marginRight: "4px" }}/>
-                                    </Button>
-                                    <Button 
-                                        size="sm" 
-                                        width="50%" 
-                                        borderRadius="0 0 16px 0"
-                                        borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                        _hover={{
-                                            backgroundColor: "#D7373750",
-                                            cursor: "pointer",
-                                            borderRight: "2px solid #D7373750",
-                                            borderBottom: "2px solid #D7373750"
-                                        }}
-                                        disabled={disableShop}
-                                        onClick={() => handleRemovePokeFromInventory(poke, true)}
-                                    >
-                                        <FaWindowClose size="16px" style={{ color: "#D73737" }}/>
-                                    </Button>
+                            <>
+                                <Box mb={2} key={(turn * 100) + poke + i}>
+                                    <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
+                                    <Box display="flex" justifyContent="center">
+                                        <Button 
+                                            size="sm" 
+                                            width="50%" 
+                                            borderRadius="0 0 0 16px"
+                                            borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                            borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                            _hover={{
+                                                backgroundColor: `#327ae64c`,
+                                                cursor: "pointer",
+                                                borderLeft: "2px solid #327ae64c",
+                                                borderBottom: "2px solid #327ae64c"
+                                            }}
+                                            isDisabled={pokemonsTeam.length >= teamLength ? true : false}
+                                            onClick={() => handleAddPokemonTeam(poke)}
+                                        >
+                                            <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
+                                        </Button>
+                                        <Button 
+                                            size="sm" 
+                                            width="50%"
+                                            title={
+                                                poke.shiny.shiny 
+                                                ? tierSellingPrice(pokemonJSON[poke.pokemonId].tier + 1) 
+                                                : tierSellingPrice(pokemonJSON[poke.pokemonId].tier)
+                                            }
+                                            borderRadius="0 0 16px 0"
+                                            borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                            borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                            _hover={{
+                                                backgroundColor: "#52d73750",
+                                                cursor: "pointer",
+                                                borderRight: "2px solid #52d73750",
+                                                borderBottom: "2px solid #52d73750"
+                                            }}
+                                            disabled={disableShop}
+                                            onClick={() => handleRemovePokeFromInventory(poke, true)}
+                                        >
+                                            <FaDollarSign size="16px" style={{ color: "green" }}/>
+                                        </Button>
+                                    </Box>
                                 </Box>
-                            </Box>
+                                {i + pokemonsTeam.length === 5 && (
+                                    <Flex justifyContent="center" alignItems="center" px={1} border="solid 2px" borderRadius={8} h="68px">
+                                        <FaAngleLeft />
+                                        <Flex flexDirection="column" p={1}>
+                                            <Text fontSize="15px" fontWeight="bold" lineHeight={1.1} textAlign="center">T</Text>
+                                            <Text fontSize="14px" fontWeight="bold" lineHeight={1.1} textAlign="center">E</Text>
+                                            <Text fontSize="12px" fontWeight="bold" lineHeight={1.2} textAlign="center">A</Text>
+                                            <Text fontSize="12px" fontWeight="bold" lineHeight={1.2} textAlign="center">M</Text>
+                                        </Flex>
+                                    </Flex>
+                                )}
+                            </>
                         )
                     })}
                 </Stack>

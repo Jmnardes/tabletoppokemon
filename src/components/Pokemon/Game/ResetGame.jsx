@@ -1,10 +1,10 @@
 import PokeModal from "../Modal/Modal";
-import { FaRegWindowClose } from "react-icons/fa";
+import { FaDungeon } from "react-icons/fa";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 
 export function ResetGame({ handleGameReset }) {
     return (
-        <PokeModal title={'Reiniciar Jogo'} button={<FaRegWindowClose size="20px"/>} size="sm">
+        <PokeModal title={'Reiniciar Jogo'} button={<FaDungeon size="20px"/>} size="sm">
             <Flex justifyContent="center" alignItems="center" flexDirection="column">
                 <Box>
                     <Text m={4} fontSize="2xl" textAlign="center">Tem certeza que deseja reiniciar o jogo?</Text>

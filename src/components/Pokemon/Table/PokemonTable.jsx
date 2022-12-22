@@ -7,7 +7,7 @@ import {
     GiShield,
     GiUpgrade
 } from "react-icons/gi";
-import { stringToUpperCase } from "../../../util";
+import { parseNumberMultToNatural, parseNumberToNatural, stringToUpperCase } from "../../../util";
 
 function PokemonTable({ health, attack, defense, speed, nature, name, showingType }) {
     const pokemonStat = (title, up) => {
@@ -58,10 +58,10 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                         <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
                                         <Text 
                                             title={
-                                                `${(Number.parseFloat(attack/2).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(attack/1.5).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(attack*1.25).toFixed(0))} / ` +
-                                                `${(Number.parseFloat(attack*1.5).toFixed(0))}`
+                                                `${parseNumberToNatural(attack, 2)} / ` +
+                                                `${parseNumberToNatural(attack, 1.5)} / ` +
+                                                `${parseNumberMultToNatural(attack, 1.25)} / ` +
+                                                `${parseNumberMultToNatural(attack, 1.5)}`
                                             } 
                                             cursor="default"
                                             fontSize={"lg"} 

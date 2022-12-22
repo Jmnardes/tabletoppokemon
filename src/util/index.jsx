@@ -235,3 +235,20 @@ export const typeDisadvantage = (type) => {
     if (type === 'steel') return ['steel', 'fire', 'water', 'electric']
     if (type === 'normal') return ['rock', 'ghost', 'steel']
 }
+
+export const parseNumberToNatural = (number, division) => {
+    return Number.parseFloat(number/division).toFixed(0)
+}
+
+export const parseNumberMultToNatural = (number, multiply) => {
+    return Number.parseFloat(number*multiply).toFixed(0)
+}
+
+export const tierSellingPrice = (tier) => {
+    if ( tier === 0 || tier === 1 ) return 1
+    if ( tier === 2 || tier === 3 ) return 2
+    if ( tier === 4 || tier === 5 ) return 3
+    if ( tier === 6 || tier === 7 ) return 4
+    if ( tier === 8 || tier === 9 ) return 5
+    if ( tier === 10 || tier === 11 ) return 6
+}

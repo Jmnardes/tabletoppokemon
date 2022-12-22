@@ -8,7 +8,7 @@ import {
 } from "react-icons/gi";
 import { FaDiceD20, FaDiceSix } from "react-icons/fa";
 import { useState } from "react";
-import { diceRoll } from "../../../util";
+import { diceRoll, parseNumberToNatural } from "../../../util";
 
 export default function TeamTitle({ trainerName, handleTeamStats }) {
     const { colorMode } = useColorMode()
@@ -17,7 +17,7 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
     const [previousTeamDiceRoll, setPreviousTeamDiceRoll] = useState(0)
 
     const statMedium = (stat) => {
-        let mediumStat = Number.parseFloat(stat/3).toFixed(0)
+        let mediumStat = parseNumberToNatural(stat, 3)
 
         if(mediumStat === '0') mediumStat = 1
 
@@ -25,7 +25,7 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
     }
 
     return (
-        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "purple.300" : "gray.700"}>
+        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
             <Flex alignItems="center">
                 <Text fontSize="2xl">{trainerName}'s Team</Text>
             </Flex>

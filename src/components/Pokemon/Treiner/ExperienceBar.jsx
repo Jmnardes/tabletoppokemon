@@ -8,14 +8,14 @@ export default function ExperienceBar({
 }) {
     return (
         <>
-            <Flex w="100%" justifyContent="center" alignItems="center" mx={24}>
+            <Flex justifyContent="center" alignItems="center">
                 <Text mr={2}>{level}</Text>
                 <Progress 
                     value={exp} 
                     min={previousLevel} 
                     max={nextLevel} 
-                    borderRadius={4} 
-                    w="80%"
+                    borderRadius={4}
+                    w="400px"
                 />
                 {/* <Text mr={2}>{previousLevel}/{exp}/{nextLevel}</Text> */}
             </Flex>

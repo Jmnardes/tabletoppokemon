@@ -3,17 +3,17 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 25) { // 25
+    if(blockCategoryPercentage < 20) { // 20
         return 'event'
-    } else if(blockCategoryPercentage < 40) { // 15
+    } else if(blockCategoryPercentage < 35) { // 15
         return 'interaction'
-    } else if(blockCategoryPercentage < 55) { // 15
+    } else if(blockCategoryPercentage < 50) { // 15
         return 'shop'
-    // } else if(blockCategoryPercentage < 60) {
-    //     return 'item'
-    } else if(blockCategoryPercentage < 75) { // 20
+    } else if(blockCategoryPercentage < 60) {
+        return 'item'
+    } else if(blockCategoryPercentage < 70) { // 20
         return 'economy'
-    } else { // 25
+    } else { // 30
         return 'default'
     }
 }
@@ -184,7 +184,7 @@ function negativeEconomy() {
     let negativeRoll = 0
 
     if(negativePercentage < 60) {
-        negativeRoll = diceRoll(6) + 1
+        negativeRoll = diceRoll(3) + 1
         return ({
             type:'economy', 
             title:'Holed pocket', 
@@ -197,7 +197,7 @@ function negativeEconomy() {
             }
         })
     } else if(negativePercentage < 85) {
-        negativeRoll = diceRoll(10) + 5
+        negativeRoll = diceRoll(6) + 3
         return ({
             type:'economy', 
             title:'Taxes', 
@@ -210,7 +210,7 @@ function negativeEconomy() {
             }
         })
     } else {
-        negativeRoll = diceRoll(10) + 10
+        negativeRoll = diceRoll(10) + 5
         return ({
             type:'economy', 
             title:'Bankrupcy', 
@@ -238,19 +238,19 @@ function event() {
             rules:'Roll a d6 and sum the highest speed'
         })
     } else if(eventPercentage < 20) {
-        return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
+        return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team speeds'})
     } else if(eventPercentage < 30) {
         return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
     } else if(eventPercentage < 40) {
-        return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team attacks'})
+        return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
     } else if(eventPercentage < 50) {
         return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
     } else if(eventPercentage < 60) {
-        return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team lifes'})
+        return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
     } else if(eventPercentage < 70) {
         return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
     } else if(eventPercentage < 80) {
-        return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
+        return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
     } else if(eventPercentage < 90) {
         return ({
             type:'event', 
@@ -284,21 +284,21 @@ function specialEvent() {
     let sortedNature = nature()
 
     if(specialEventPercentage < 10) {
-        return ({type:'event', title:'Single race', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest speed'})
+        return ({type:'event', title:'Single race', label:'The winner gets a Trophy', rules:'Roll a d20 and sum the highest speed'})
     } else if(specialEventPercentage < 20) {
         return ({type:'event', title:'Marathon', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
     } else if(specialEventPercentage < 30) {
-        return ({type:'event', title:'Arm werstler', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest attack'})
+        return ({type:'event', title:'Arm werstler', label:'The winner gets a Trophy', rules:'Roll a d20 and sum the highest attack'})
     } else if(specialEventPercentage < 40) {
-        return ({type:'event', title:'Tug of war', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team attacks'})
+        return ({type:'event', title:'Tug of war', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
     } else if(specialEventPercentage < 50) {
         return ({type:'event', title:'Slap contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest life'})
     } else if(specialEventPercentage < 60) {
-        return ({type:'event', title:'Resistance test', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team lifes'})
+        return ({type:'event', title:'Resistance test', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
     } else if(specialEventPercentage < 70) {
         return ({type:'event', title:'Block contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest defense'})
     } else if(specialEventPercentage < 80) {
-        return ({type:'event', title:'Dodge ball', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team defenses'})
+        return ({type:'event', title:'Dodge ball', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
     } else if(specialEventPercentage < 90) {
         return ({
             type:'event', 

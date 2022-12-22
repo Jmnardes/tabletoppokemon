@@ -37,7 +37,7 @@ export default function TurnController({
                             setIsPokemonEncounter(true)
                             setRollBlockDisabed(false)
                         }} 
-                        disabled={block.length === 0}
+                        disabled={block?.length === 0}
                     >Go to encounter!</Button>
                 </Flex>
 

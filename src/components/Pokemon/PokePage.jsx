@@ -187,7 +187,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
-        setCoins(() => diceRoll(4) + coins)
+        setCoins(() => diceRoll(3) + coins)
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)

@@ -83,7 +83,7 @@ function stealer() {
     let stealRoll = 0
     
     if(stealerPercentage < 65) {
-        stealRoll = diceRoll(6) + 2
+        stealRoll = diceRoll(5) + 1
         return ({
             type:'interaction', 
             title:'Pickpocket', 
@@ -96,7 +96,7 @@ function stealer() {
             }
         })
     } else if(stealerPercentage < 85) {
-        stealRoll = diceRoll(6) + 10
+        stealRoll = diceRoll(6) + 5
         return ({
             type:'interaction', 
             title:'Thief', 
@@ -151,7 +151,7 @@ function positiveEconomy() {
             }
         })
     } else if(positivePercentage < 90) {
-        positiveRoll = diceRoll(10) + 5
+        positiveRoll = diceRoll(6) + 5
         return ({
             type:'economy', 
             title:'Profit', 
@@ -164,7 +164,7 @@ function positiveEconomy() {
             }
         })
     } else {
-        positiveRoll = diceRoll(6) + 15
+        positiveRoll = diceRoll(10) + 10
         return ({
             type:'economy', 
             title:'Lottery ticket', 

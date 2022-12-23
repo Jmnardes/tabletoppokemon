@@ -33,29 +33,58 @@ function BlockController({
         }
     }
 
+    const itemFunction = (block) => {
+        if (block?.change?.category === 'coin') {
+            setCoins(coins + block?.change?.value)
+        }
+
+        if (block?.change?.category === 'item') {
+            if(block?.change?.item === 'superball') setSuperBall(superball + 1)
+            if(block?.change?.item === 'ultraball') setUltraBall(ultraball + 1)
+            if(block?.change?.item === 'steal') setSteal(steal + 1)
+            if(block?.change?.item === 'fight') setFight(fight + 1)
+            if(block?.change?.item === 'medal') setMedal(medal + 1)
+        }
+
+        if (block?.change?.category === 'treasure') {
+            if(block?.change?.item === 'ultraball') setUltraBall(ultraball + 2)
+            if(block?.change?.item === 'masterball') setMasterBall(masterball + 1)
+            if(block?.change?.item === 'medal') setMedal(medal + 1)
+            if(block?.change?.item === 'trophy') setTrophy(trophy + 1)
+        }
+    }
+
     useEffect(() => {
         block?.type === 'economy' && handlePassiveCoins(block?.change?.value, block?.change?.isPositive)
 
         if(block?.type === 'event') {
-            if(block?.change?.type === 'element') {
-                //eslint-disable-next-line array-callback-return
-                pokemonsTeam?.map((data) => {
-                    let types = pokemonJSON[data.pokemonId].type
+            if(block?.change?.category === 'coin') {
+                
+                if(block?.change?.type === 'element') {
+                    //eslint-disable-next-line array-callback-return
+                    pokemonsTeam?.map((data) => {
+                        let types = pokemonJSON[data.pokemonId].type
 
+                        // eslint-disable-next-line array-callback-return
+                        types.map((element) => {
+                            if (element.toLowerCase() === (block?.change?.element).toLowerCase()) {
+                                
+                                itemFunction(block)
+
+                            }
+                        })
+                    })
+                } else if(block?.change?.type === 'nature') {
                     // eslint-disable-next-line array-callback-return
-                    types.map((element) => {
-                        if (element.toLowerCase() === (block?.change?.element).toLowerCase()) {
-                            block?.change?.category === 'coin' ? setCoins(coins + block?.change?.value) : setTrophy(trophy + 1)
+                    pokemonsTeam?.map((data) => {
+                        if ((data.nature.nature).toLowerCase() === (block?.change?.nature).toLowerCase()) {
+
+                            itemFunction(block)
+
                         }
                     })
-                })
-            } else if(block?.change?.type === 'nature') {
-                // eslint-disable-next-line array-callback-return
-                pokemonsTeam?.map((data) => {
-                    if ((data.nature.nature).toLowerCase() === (block?.change?.nature).toLowerCase()) {
-                        block?.change?.category === 'coin' ? setCoins(coins + block?.change?.value) : setTrophy(trophy + 1)
-                    }
-                })
+                }
+
             }
         }
 

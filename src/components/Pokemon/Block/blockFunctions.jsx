@@ -3,13 +3,13 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 10) { // 10
+    if(blockCategoryPercentage < 15) { // 15
         return 'event'
-    } else if(blockCategoryPercentage < 25) { // 15
+    } else if(blockCategoryPercentage < 35) { // 15
         return 'shop'
-    } else if(blockCategoryPercentage < 45) { // 20
+    } else if(blockCategoryPercentage < 40) { // 10
         return 'item'
-    } else if(blockCategoryPercentage < 70) { // 25
+    } else if(blockCategoryPercentage < 70) { // 30
         return 'economy'
     } else { // 30
         return 'default'
@@ -242,17 +242,18 @@ function event(type) {
     let eventPercentage = diceRoll(100)
     let sortedElement = element()
     let sortedNature = nature()
+    let sortedCoins = diceRoll(6) + 10
 
     if(!type) {
         if(eventPercentage < 50) {
             return ({
                 type:'event', 
                 title:'Nature Check', 
-                label:`If you have a ${sortedNature} pokemon on your team, you'll get 20 coins!`,
+                label:`If you have a ${sortedNature} pokemon on your team, you'll get ${sortedCoins} coins!`,
                 change: {
                     category: 'coin',
                     type: 'nature',
-                    value: (diceRoll(15) + 1),
+                    value: sortedCoins,
                     nature: `${sortedNature}`
                 }
             })
@@ -260,11 +261,11 @@ function event(type) {
             return ({
                 type:'event', 
                 title:'Element Check', 
-                label:`If you have a ${sortedElement} pokemon on your team, you'll get 20 coins!`,
+                label:`If you have a ${sortedElement} pokemon on your team, you'll get ${sortedCoins} coins!`,
                 change: {
                     category: 'coin',
                     type: 'element',
-                    value: (diceRoll(15) + 1),
+                    value: sortedCoins,
                     element: `${sortedElement}`
                 }
             })
@@ -281,7 +282,6 @@ function event(type) {
                     category: 'item',
                     type: 'nature',
                     item: itemRoll(),
-                    value: 1,
                     nature: `${sortedNature}`
                 }
             })
@@ -294,7 +294,6 @@ function event(type) {
                     category: 'item',
                     type: 'element',
                     item: itemRoll(),
-                    value: 1,
                     element: `${sortedElement}`
                 }
             })
@@ -306,12 +305,11 @@ function event(type) {
             return ({
                 type:'event', 
                 title:'Nature Check', 
-                label:`If you have a ${sortedNature} pokemon on your team, you'll get a '${itemRoll()}'`,
+                label:`If you have a ${sortedNature} pokemon on your team, you'll get a '${treasureRoll()}'`,
                 change: {
-                    category: 'coin',
+                    category: 'treasure',
                     type: 'nature',
                     item: treasureRoll(),
-                    value: 2,
                     nature: `${sortedNature}`
                 }
             })
@@ -319,12 +317,11 @@ function event(type) {
             return ({
                 type:'event', 
                 title:'Element Check', 
-                label:`If you have a ${sortedElement} pokemon on your team, you'll get a '${itemRoll()}'`,
+                label:`If you have a ${sortedElement} pokemon on your team, you'll get a '${treasureRoll()}'`,
                 change: {
-                    category: 'coin',
+                    category: 'treasure',
                     type: 'element',
                     item: treasureRoll(),
-                    value: 2,
                     element: `${sortedElement}`
                 }
             })
@@ -335,10 +332,9 @@ function event(type) {
 function itemRoll() {
     let itemPercentage = diceRoll(100)
 
-    if(itemPercentage < 45) return 'greatball'
-    if(itemPercentage < 75) return 'superball'
-    if(itemPercentage < 85) return 'ultraball'
-    if(itemPercentage < 90) return 'steal'
+    if(itemPercentage < 45) return 'superball'
+    if(itemPercentage < 65) return 'ultraball'
+    if(itemPercentage < 80) return 'steal'
     if(itemPercentage < 95) {
         return 'fight'
     } else {
@@ -349,9 +345,10 @@ function itemRoll() {
 function treasureRoll() {
     let treasurePercentage = diceRoll(100)
 
-    if(treasurePercentage < 45) return 'ultraball'
+    if(treasurePercentage < 40) return 'ultraball'
+    if(treasurePercentage < 75) return 'medal'
     if(treasurePercentage < 90) {
-        return 'medal'
+        return 'masterball'
     } else {
         return 'trophy'
     }

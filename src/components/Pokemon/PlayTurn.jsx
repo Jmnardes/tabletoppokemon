@@ -1,7 +1,8 @@
 import PokeModal from "./Modal/Modal";
-import { FaPlay } from "react-icons/fa";
 import TurnController from "./Block/TurnController";
 import PokeRoll from "./Encounter/PokeRoll";
+import locationIcon from '../../assets/images/game/location.png'
+import { Image } from "@chakra-ui/react";
 
 export function PlayTurn({ 
     children,
@@ -40,7 +41,13 @@ export function PlayTurn({
     return (
         <PokeModal 
             title={isPokemonEncounter ? 'Pokemon encounter' : 'Turn roll'} 
-            button={<FaPlay size="24px"/>}
+            button={
+                <Image
+                    src={locationIcon} 
+                    title={'Go!'}
+                    w="28px"
+                ></Image>
+            }
             disableModalClose={rollBlockDisabed}
             modalClose={closeModal}
             setCloseModal={setCloseModal}

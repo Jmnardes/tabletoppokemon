@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, useColorMode } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "../sortPokemon"
 import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
 import Inventary from "./Inventary/Inventary"
 import Team from "./Inventary/Team"
-import { FaPlusSquare, FaDollarSign, FaAngleLeft } from "react-icons/fa";
+import { FaPlusSquare, FaDollarSign } from "react-icons/fa";
 import pokemonJSON from '../../assets/json/pokemons.json'
 import { pokemonBaseStat } from '../pokemonFunctions'
-// import PokeDex from "./PokeDex"
-// import PokeItems from "./PokeItems"
-// import { TeamRocket } from "./TeamRocket"
 import { PlayTurn } from "./PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
-import { TrainerBar } from "./Treiner/TreinerBar"
+import { TrainerBar } from "./Treiner/TrainerBar"
 import { Economy } from "./Shop/Economy"
-import { ResetGame } from "./Game/ResetGame"
+import { Settings } from "./Game/Settings"
 import TeamTitle from "./Team/TeamTitle"
 import PokeShop from "./Shop/PokeShop"
 import ExperienceBar from "./Treiner/ExperienceBar"
 import { TreinerStats } from "./Treiner/TreinerStats"
 import EndGame from "./Game/EndGame"
 import PokeballStats from "./Treiner/PokeballStats"
+import Items from "./Inventary/Items"
+import arrowIcon from '../../assets/images/game/arrow.png'
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
     const { colorMode } = useColorMode()
@@ -269,7 +268,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
     return (
         <>
-            <Box p={2} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
+            <Box py={3} pr={2} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
                 <Flex justifyContent="space-between" width="100%">
                     <Flex direction="column" textAlign="center">
                         <Flex direction="row">
@@ -344,43 +343,15 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 turn={turn}
                                 medal={medal}
                                 trophy={trophy}
+                                coin={coins}
                             />
                         </Flex>
                     </Flex>
-                    <ExperienceBar
-                        level={level} 
-                        exp={experience} 
-                        nextLevel={experienceToNextLevel}
-                        previousLevel={experiencePreviousLevel}
-                    />                   
+                    <Box background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} px={3} borderRadius={4}>
+                        <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
+                    </Box>
                     <Box textAlign="center">
                         <Flex>
-                            {/* <TreinerStats 
-                                walked={walkedBlocks}
-                                totalCatches={totalCatches}
-                                shinyCatches={shinyCatches}
-                                totalCriticals={criticals}
-                                highestAmount={highestAmount}
-                            /> */}
-                            <PokeballStats 
-                                greatball={greatball}
-                                superball={superball}
-                                ultraball={ultraball}
-                            />
-                            <Economy 
-                                coins={coins} 
-                                medal={medal} 
-                                trophy={trophy}
-                                handleAddOneCoin={() => setCoins(coins + 1)} 
-                                handleRemoveOneCoin={() => setCoins(coins - 1)} 
-                                handleAddFiveCoins={() => setCoins(coins + 5)} 
-                                handleRemoveFiveCoins={() => setCoins(coins - 5)}
-                                handleRemoveMedal={() => setMedal(medal - 1)}
-                                handleRemoveTrophy={() => setTrophy(trophy - 1)}
-                            />
-                            {/* <TeamRocket /> */}
-                            {/* <PokeItems /> */}
-                            {/* <PokeDex /> */}
                             <PokeShop 
                                 coins={coins}
                                 setCoins={setCoins}
@@ -397,14 +368,28 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 turn={turn}
                                 disableShop={disableShop}
                             />
-                            <ResetGame handleGameReset={handleGameReset} />
+                            <Settings handleGameReset={handleGameReset}>
+                                <Economy
+                                    coins={coins} 
+                                    medal={medal} 
+                                    trophy={trophy}
+                                    handleAddOneCoin={() => setCoins(coins + 1)} 
+                                    handleRemoveOneCoin={() => setCoins(coins - 1)} 
+                                    handleAddFiveCoins={() => setCoins(coins + 5)} 
+                                    handleRemoveFiveCoins={() => setCoins(coins - 5)}
+                                    handleRemoveMedal={() => setMedal(medal - 1)}
+                                    handleRemoveTrophy={() => setTrophy(trophy - 1)}
+                                    handleAddTrophy={() => setTrophy(trophy + 1)}
+                                    handleAddMedal={() => setMedal(medal + 1)}
+                                />
+                            </Settings>
                         </Flex>
                     </Box>
                 </Flex>
             </Box>
 
-            <Flex flexDir="column" py={2} mt={4} minHeight="9rem">
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%">Inventary</Text>
+            <Flex flexDir="column" py={2} minHeight="9rem">
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1} 
@@ -471,24 +456,37 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     </Box>
                                 </Box>
                                 {i + pokemonsTeam.length === 5 && (
-                                    <Flex justifyContent="center" alignItems="center" px={1} border="solid 2px" borderRadius={8} h="68px">
-                                        <FaAngleLeft />
-                                        <Flex flexDirection="column" p={1}>
-                                            <Text fontSize="15px" fontWeight="bold" lineHeight={1.1} textAlign="center">T</Text>
-                                            <Text fontSize="14px" fontWeight="bold" lineHeight={1.1} textAlign="center">E</Text>
-                                            <Text fontSize="12px" fontWeight="bold" lineHeight={1.2} textAlign="center">A</Text>
-                                            <Text fontSize="12px" fontWeight="bold" lineHeight={1.2} textAlign="center">M</Text>
-                                        </Flex>
-                                    </Flex>
+                                    <Center px={2}>
+                                        <Image
+                                            src={arrowIcon} 
+                                            title={'Pokemon team'}
+                                            w="36px"
+                                            style={{ transform: 'rotate(270deg)' }}
+                                        ></Image>
+                                    </Center>
                                 )}
                             </>
                         )
                     })}
                 </Stack>
             </Flex>
+
+            <Items>
+                <PokeballStats 
+                    greatball={greatball}
+                    superball={superball}
+                    ultraball={ultraball}
+                />
+            </Items>
             
-            <Flex flexDir="column" py={2} mt={2}>
-                <TeamTitle trainerName={trainerName} handleTeamStats={handleTeamStats} />
+            <ExperienceBar
+                exp={experience} 
+                nextLevel={experienceToNextLevel}
+                previousLevel={experiencePreviousLevel}
+            />
+            
+            <Flex flexDir="column">
+                <TeamTitle handleTeamStats={handleTeamStats} />
                 <Flex justifyContent="center" alignItems="center">
                     {pokemonsTeam?.map((poke, i) => {
                         return (

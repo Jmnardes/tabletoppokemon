@@ -1,15 +1,16 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
-import greatballIcon from '../../../assets/images/pokeballs/poke.png'
-import superballIcon from '../../../assets/images/pokeballs/golden.png'
-import ultraballIcon from '../../../assets/images/pokeballs/ultra.png'
-import premierballIcon from '../../../assets/images/pokeballs/premier.png'
-import masterballIcon from '../../../assets/images/pokeballs/master.png'
+import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
+import superballIcon from '../../../assets/images/pokeballs/greatball.png'
+import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
+import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
+import lureIcon from '../../../assets/images/items/lure.png'
+import stealIcon from '../../../assets/images/items/steal.png'
+import fightIcon from '../../../assets/images/items/fight.png'
 
 export default function PokeballStats({
     greatball,
     superball,
     ultraball,
-    premierball,
     masterball
 }) {
     return (
@@ -40,15 +41,31 @@ export default function PokeballStats({
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
-                    src={premierballIcon} 
-                    title={'+7'}
+                    src={masterballIcon} 
+                    title={'+10'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{premierball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
-                    src={masterballIcon} 
+                    src={lureIcon} 
+                    title={'+10'}
+                    w="28px"
+                ></Image>
+                <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
+            </Flex>
+            <Flex alignItems="center" mx={3}>
+                <Image
+                    src={stealIcon} 
+                    title={'+10'}
+                    w="28px"
+                ></Image>
+                <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
+            </Flex>
+            <Flex alignItems="center" mx={3}>
+                <Image
+                    src={fightIcon} 
                     title={'+10'}
                     w="28px"
                 ></Image>

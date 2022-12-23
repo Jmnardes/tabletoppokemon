@@ -1,6 +1,6 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
-import { FaDiceD20 } from "react-icons/fa";
-import { GiHighGrass } from "react-icons/gi";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import stepsIcon from '../../../assets/images/game/steps.png'
+import pokeballIcon from '../../../assets/images/game/pokeball.png'
 
 export default function RollController({
         pokemonArrayLength,
@@ -20,7 +20,11 @@ export default function RollController({
                 isDisabled={pokemonArrayLength >= 4}
                 onClick={() => handlePokemonRoll()}
             >
-                <GiHighGrass size="24px"/>
+                <Image
+                    src={stepsIcon} 
+                    title={'Find pokemon'}
+                    w="34px"
+                ></Image>
             </Button>
             <Button 
                 mx={2}
@@ -28,7 +32,12 @@ export default function RollController({
                 disabled={disableDiceRoll}
                 onClick={() => handleCatchDiceRoll()}
             >
-                <FaDiceD20 size="18px"/>
+                <Image
+                    src={pokeballIcon} 
+                    title={'Catch roll!'}
+                    _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
+                    w="28px"
+                ></Image>
             </Button>
             <Text
                 background={

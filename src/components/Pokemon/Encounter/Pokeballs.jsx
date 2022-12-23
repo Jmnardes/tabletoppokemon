@@ -1,7 +1,7 @@
 import { Button, Flex, Image } from "@chakra-ui/react"
-import greatballIcon from '../../../assets/images/pokeballs/poke.png'
-import superballIcon from '../../../assets/images/pokeballs/golden.png'
-import ultraballIcon from '../../../assets/images/pokeballs/ultra.png'
+import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
+import superballIcon from '../../../assets/images/pokeballs/greatball.png'
+import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
 
 export default function Pokeballs({ 
         greatball, 
@@ -32,6 +32,7 @@ export default function Pokeballs({
                     src={greatballIcon} 
                     alt={'greatball'}
                     w="38px"
+                    _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
             <Button 
@@ -50,6 +51,7 @@ export default function Pokeballs({
                     src={superballIcon} 
                     alt={'superball'}
                     w="38px"
+                    _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
             <Button 
@@ -68,6 +70,7 @@ export default function Pokeballs({
                     src={ultraballIcon} 
                     alt={'ultraball'}
                     w="38px"
+                    _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
         </Flex>

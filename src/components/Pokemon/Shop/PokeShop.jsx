@@ -1,9 +1,10 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
 import { GiTwoCoins, GiRibbonMedal, GiTrophyCup, GiShop } from "react-icons/gi";
-import greatballIcon from '../../../assets/images/pokeballs/poke.png'
-import superballIcon from '../../../assets/images/pokeballs/golden.png'
-import ultraballIcon from '../../../assets/images/pokeballs/ultra.png'
+import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
+import superballIcon from '../../../assets/images/pokeballs/greatball.png'
+import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
+import shopIcon from '../../../assets/images/game/shop.png'
 import { parseNumberToNatural } from "../../../util";
 
 export default function PokeShop({
@@ -26,7 +27,13 @@ export default function PokeShop({
     function coinPerTurn(turn, multiple) {return parseNumberToNatural(turn, 10) * multiple}
 
     return (
-        <PokeModal title={'Shop'} button={<GiShop size="22px"/>} disableButton={disableShop}>
+        <PokeModal title={'Shop'} button={
+            <Image
+                src={shopIcon} 
+                title={'Shop'}
+                w="32px"
+            ></Image>
+        } disableButton={disableShop}>
             <Flex justifyContent="center" alignItems="center" mb={8}>
 
                 <Flex justifyContent="center" alignItems="center" mx={4}>

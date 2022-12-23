@@ -1,16 +1,14 @@
-import { Button, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
 import { PokeLife } from "../Game/PokeLife";
-import { 
-    GiWingfoot,
-    GiBroadsword,
-    GiHearts,
-    GiShield
-} from "react-icons/gi";
 import { FaDiceD20, FaDiceSix } from "react-icons/fa";
 import { useState } from "react";
 import { diceRoll, parseNumberToNatural } from "../../../util";
+import swordIcon from '../../../assets/images/stats/sword.png'
+import shieldIcon from '../../../assets/images/stats/shield.png'
+import speedIcon from '../../../assets/images/stats/speed.png'
+import healthIcon from '../../../assets/images/stats/health.png'
 
-export default function TeamTitle({ trainerName, handleTeamStats }) {
+export default function TeamTitle({ handleTeamStats }) {
     const { colorMode } = useColorMode()
     const [teamTwentyRoll, setTeamTwentyRoll] = useState(0)
     const [teamSixRoll, setTeamSixRoll] = useState(0)
@@ -25,25 +23,42 @@ export default function TeamTitle({ trainerName, handleTeamStats }) {
     }
 
     return (
-        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-            <Flex alignItems="center">
-                <Text fontSize="2xl">{trainerName}'s Team</Text>
-            </Flex>
+        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}  py={3}>
             <Flex alignItems="center">
                 <Flex mx={4} justifyContent="center" alignItems="center">
-                    <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/>
+                    <Image
+                        mr={4}
+                        src={healthIcon} 
+                        title={'Health'}
+                        w="32px"
+                    ></Image>
                     <Text ml={-1} fontSize="2xl">{handleTeamStats('hp')}</Text>
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
-                    <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
+                    <Image
+                        mr={4}
+                        src={swordIcon} 
+                        title={'Attack'}
+                        w="28px"
+                    ></Image>
                     <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text>
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
-                    <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
+                    <Image
+                        mr={4}
+                        src={shieldIcon} 
+                        title={'Defense'}
+                        w="28px"
+                    ></Image>
                     <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text>
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
-                    <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>
+                    <Image
+                        mr={4}
+                        src={speedIcon} 
+                        title={'Speed'}
+                        w="28px"
+                    ></Image>
                     <Text ml={-1} fontSize="2xl">{handleTeamStats('spd')}</Text>
                 </Flex>
             </Flex>

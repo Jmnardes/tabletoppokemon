@@ -1,13 +1,10 @@
-import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
-
-import { 
-    GiWingfoot,
-    GiBroadsword,
-    GiHearts,
-    GiShield,
-    GiUpgrade
-} from "react-icons/gi";
+import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import { GiUpgrade } from "react-icons/gi";
 import { parseNumberMultToNatural, parseNumberToNatural, stringToUpperCase } from "../../../util";
+import swordIcon from '../../../assets/images/stats/sword.png'
+import shieldIcon from '../../../assets/images/stats/shield.png'
+import speedIcon from '../../../assets/images/stats/speed.png'
+import healthIcon from '../../../assets/images/stats/health.png'
 
 function PokemonTable({ health, attack, defense, speed, nature, name, showingType }) {
     const pokemonStat = (title, up) => {
@@ -43,7 +40,12 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statUp === 'hp' && pokemonStat('Health', true)}
                                             {nature.statDown === 'hp' && pokemonStat('Health', false)}
                                         </Box>
-                                        <GiHearts title="Health" color="#d61717" size={32} style={{marginRight: 4}}/>
+                                        <Image
+                                            mr={1}
+                                            src={healthIcon} 
+                                            title={'Health'}
+                                            w="28px"
+                                        ></Image>
                                         <Text
                                             cursor="default"
                                             fontSize={"lg"} 
@@ -55,7 +57,12 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statUp === 'atk' && pokemonStat('Attack', true)}
                                             {nature.statDown === 'atk' && pokemonStat('Attack', false)}
                                         </Box>
-                                        <GiBroadsword title="Attack" color="#4b4b4b" size={32} style={{marginRight: 4}}/>
+                                        <Image
+                                            mr={1}
+                                            src={swordIcon} 
+                                            title={'Attack'}
+                                            w="28px"
+                                        ></Image>
                                         <Text 
                                             title={
                                                 `${parseNumberToNatural(attack, 2)} / ` +
@@ -73,7 +80,12 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statUp === 'def' && pokemonStat('Defense', true)}
                                             {nature.statDown === 'def' && pokemonStat('Defense', false)}
                                         </Box>
-                                        <GiShield title="Defense" color="#c8c815" size={32} style={{marginRight: 4}}/>
+                                        <Image
+                                            mr={1}
+                                            src={shieldIcon} 
+                                            title={'Defense'}
+                                            w="28px"
+                                        ></Image>
                                         <Text
                                             cursor="default"
                                             fontSize={"lg"} 
@@ -85,7 +97,12 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                             {nature.statUp === 'spd' && pokemonStat('Speed', true)}
                                             {nature.statDown === 'spd' && pokemonStat('Speed', false)}
                                         </Box>
-                                        <GiWingfoot title="Speed" color="#874B0F" size={32} style={{marginRight: 4}}/>
+                                        <Image
+                                            mr={1}
+                                            src={speedIcon} 
+                                            title={'Speed'}
+                                            w="28px"
+                                        ></Image>
                                         <Text
                                             cursor="default"
                                             fontSize={"lg"} 
@@ -108,20 +125,40 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                                     
                                 }
                                 <Flex mt={showingType === 'inventary' ? 0 : 2}>
-                                    <Box display="flex" alignItems="center" p={1}>
-                                        <GiHearts title="Health" color="#d61717" size={showingType === 'inventary' ? 28 : 24} style={{marginRight: 1}}/>
+                                    <Box display="flex" alignItems="center" p={2}>
+                                        <Image
+                                            mr={2}
+                                            src={healthIcon} 
+                                            title={'Health'}
+                                            w="32px"
+                                        ></Image>
                                         <Text fontSize={showingType === 'inventary' && "lg"} fontWeight="bold">{health}</Text>
                                     </Box>
-                                    <Box display="flex" alignItems="center" p={1}>
-                                        <GiBroadsword title="Attack" color="#4b4b4b" size={showingType === 'inventary' ? 28 : 24} style={{marginRight: 1}}/>
+                                    <Box display="flex" alignItems="center" p={2}>
+                                        <Image
+                                            mr={2}
+                                            src={swordIcon} 
+                                            title={'Attack'}
+                                            w="28px"
+                                        ></Image>
                                         <Text fontSize={showingType === 'inventary' && "lg"} fontWeight="bold">{attack}</Text>
                                     </Box>
-                                    <Box display="flex" alignItems="center" p={1}>
-                                        <GiShield title="Defense" color="#c8c815" size={showingType === 'inventary' ? 28 : 24} style={{marginRight: 1}}/>
+                                    <Box display="flex" alignItems="center" p={2}>
+                                        <Image
+                                            mr={2}
+                                            src={shieldIcon} 
+                                            title={'Defense'}
+                                            w="28px"
+                                        ></Image>
                                         <Text fontSize={showingType === 'inventary' && "lg"} fontWeight="bold">{defense}</Text>
                                     </Box>
-                                    <Box display="flex" alignItems="center" p={1}>
-                                        <GiWingfoot title="Speed" color="#874B0F" size={showingType === 'inventary' ? 28 : 24} style={{marginRight: 1}}/>
+                                    <Box display="flex" alignItems="center" p={2}>
+                                        <Image
+                                            mr={2}
+                                            src={speedIcon} 
+                                            title={'Speed'}
+                                            w="28px"
+                                        ></Image>
                                         <Text fontSize={showingType === 'inventary' && "lg"} fontWeight="bold">{speed}</Text>
                                     </Box>
                                 </Flex>

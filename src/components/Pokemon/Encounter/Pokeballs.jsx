@@ -2,15 +2,18 @@ import { Button, Flex, Image } from "@chakra-ui/react"
 import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
 import superballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
+import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
 
 export default function Pokeballs({ 
         greatball, 
         superball, 
         ultraball, 
+        masterball, 
         disablePokeballs,
         setGreatBall,
         setSuperBall,
         setUltraBall,
+        setMasterBall,
         setBonusOnCatch,
         setDisablePokeballs
     }) {
@@ -31,7 +34,7 @@ export default function Pokeballs({
                 <Image
                     src={greatballIcon} 
                     alt={'greatball'}
-                    w="38px"
+                    w="32px"
                     _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
@@ -50,10 +53,11 @@ export default function Pokeballs({
                 <Image
                     src={superballIcon} 
                     alt={'superball'}
-                    w="38px"
+                    w="32px"
                     _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
+
             <Button 
                 mx={4}
                 title="Ultra Ball"
@@ -69,7 +73,27 @@ export default function Pokeballs({
                 <Image
                     src={ultraballIcon} 
                     alt={'ultraball'}
-                    w="38px"
+                    w="32px"
+                    _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
+                ></Image>
+            </Button>
+
+            <Button 
+                mx={4}
+                title="Master Ball"
+                disabled={masterball === 0 || disablePokeballs}
+                onClick={() => {
+                    if(masterball > 0) {
+                        setMasterBall(masterball - 1)
+                        setBonusOnCatch(5)
+                        setDisablePokeballs(true)
+                    }
+                }}
+            >
+                <Image
+                    src={masterballIcon} 
+                    alt={'masterball'}
+                    w="32px"
                     _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>

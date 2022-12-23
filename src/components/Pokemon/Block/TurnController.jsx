@@ -1,8 +1,10 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Image } from "@chakra-ui/react";
 import {  useState } from "react";
 import { diceRoll } from "../../../util";
 import BlockController from "./BlockController";
 import { blockType } from "./blockFunctions";
+import swarmIcon from '../../../assets/images/game/swarm.png'
+import directionIcon from '../../../assets/images/game/direction.png'
 
 export default function TurnController({ 
     setIsPokemonEncounter, 
@@ -29,8 +31,16 @@ export default function TurnController({
         <Flex justifyContent="center" alignItems="center">
             <Flex flexDirection="column" w="100%">
                 <Flex mt={4} w="100%">
-                    <Button w="100%" mx={2} onClick={handleBlockRoll} disabled={rollBlockDisabed}>Go for a walk!</Button>
-                    <Button 
+                    <Button w="100%" mx={2} onClick={handleBlockRoll} disabled={rollBlockDisabed}>
+                        <Image
+                            mr={2}
+                            src={directionIcon} 
+                            title={'Route encounter'}
+                            w="34px"
+                        ></Image>
+                    </Button>
+                    <Button
+                        title="Go to pokemon encounter"
                         w="100%" 
                         mx={2} 
                         onClick={() => {
@@ -38,7 +48,22 @@ export default function TurnController({
                             setRollBlockDisabed(false)
                         }} 
                         disabled={block?.length === 0}
-                    >Go to encounter!</Button>
+                    >
+                        <Image
+                            mr={2}
+                            src={swarmIcon}
+                            w="34px"
+                        ></Image>
+                        <Image
+                            mr={2}
+                            src={swarmIcon}
+                            w="34px"
+                        ></Image>
+                        <Image
+                            src={swarmIcon}
+                            w="34px"
+                        ></Image>
+                    </Button>
                 </Flex>
 
                 <BlockController 

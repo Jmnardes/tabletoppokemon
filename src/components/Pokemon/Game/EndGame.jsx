@@ -3,10 +3,10 @@ import PokeModal from "../Modal/Modal";
 import { GiCheckeredFlag } from "react-icons/gi";
 import { TrainerBar } from "../Treiner/TrainerBar";
 
-export default function EndGame({ children, medal, trophy, setTrophy }) {
+export default function EndGame({ children, medal, trophy, setTrophy, coins }) {
     return (
         <PokeModal title={'End Game'} button={<GiCheckeredFlag size="22px"/>}>
-            <Flex justifyContent="center" alignItems="center" flexDirection="column">
+            <Flex justifyContent="center" alignItems="center" flexDirection="column" p={4}>
                 <Heading mb={12}>Congratulations, you did it!</Heading>
 
                 <Text fontSize="2xl" textAlign="center">If you have the highest stat in one of these, you gain a trophy</Text>
@@ -21,10 +21,11 @@ export default function EndGame({ children, medal, trophy, setTrophy }) {
                         medal={medal}
                         trophy={trophy}
                         isEndgame={true}
+                        coin={coins}
                     />
                 </Flex>
 
-                <Button mt={4} onClick={() => setTrophy(trophy + 1)}>Trophy</Button>
+                <Button mt={6} onClick={() => setTrophy(trophy + 1)}>Poke Crown</Button>
             </Flex>
         </PokeModal>
     )

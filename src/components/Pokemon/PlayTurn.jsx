@@ -23,6 +23,8 @@ export function PlayTurn({
     setSuperBall,
     ultraball,
     setUltraBall,
+    masterball,
+    setMasterBall,
     closeModal,
     setCloseModal,
     walkedBlocks,
@@ -65,10 +67,12 @@ export function PlayTurn({
                     greatball={greatball}
                     superball={superball} 
                     ultraball={ultraball} 
+                    masterball={masterball} 
                     disablePokeballs={disablePokeballs}
                     setGreatBall={setGreatBall}
                     setSuperBall={setSuperBall}
                     setUltraBall={setUltraBall}
+                    setMasterBall={setMasterBall}
                     setBonusOnCatch={setBonusOnCatch}
                     setDisablePokeballs={setDisablePokeballs}
                 >

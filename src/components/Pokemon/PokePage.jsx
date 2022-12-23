@@ -49,6 +49,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
+    const [masterball, setMasterBall] = useState(0)
     const [walkedBlocks, setWalkedBlocks] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
@@ -291,6 +292,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setSuperBall={setSuperBall}
                                     ultraball={ultraball}
                                     setUltraBall={setUltraBall}
+                                    masterball={masterball}
+                                    setMasterBall={setMasterBall}
                                     rollBlockDisabed={rollBlockDisabed}
                                     setRollBlockDisabed={setRollBlockDisabed}
                                     isPokemonEncounter={isPokemonEncounter}
@@ -329,6 +332,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     medal={medal}
                                     trophy={trophy}
                                     setTrophy={setTrophy}
+                                    coins={coins}
                                 >
                                     <TreinerStats 
                                         walked={walkedBlocks}
@@ -361,6 +365,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 setSuperBall={setSuperBall}
                                 ultraball={ultraball}
                                 setUltraBall={setUltraBall}
+                                masterball={masterball}
+                                setMasterBall={setMasterBall}
                                 medal={medal}
                                 setMedal={setMedal}
                                 trophy={trophy}

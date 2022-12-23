@@ -38,7 +38,13 @@ export function PlayTurn({
     coins,
     pokemonsTeam,
     setTrophy,
-    trophy
+    trophy,
+    medal,
+    setMedal,
+    steal,
+    setSteal,
+    fight,
+    setFight
 }) {
     return (
         <PokeModal 
@@ -91,6 +97,20 @@ export function PlayTurn({
                     pokemonsTeam={pokemonsTeam}
                     setTrophy={setTrophy}
                     trophy={trophy}
+                    medal={medal}
+                    setMedal={setMedal}
+                    greatball={greatball}
+                    setGreatBall={setGreatBall}
+                    superball={superball}
+                    setSuperBall={setSuperBall}
+                    ultraball={ultraball}
+                    setUltraBall={setUltraBall}
+                    masterball={masterball}
+                    setMasterBall={setMasterBall}
+                    steal={steal}
+                    setSteal={setSteal}
+                    fight={fight}
+                    setFight={setFight}
                 />
             )}
         </PokeModal>

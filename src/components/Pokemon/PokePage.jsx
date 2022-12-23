@@ -46,6 +46,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [coins, setCoins] = useState(0)
     const [medal, setMedal] = useState(0)
     const [trophy, setTrophy] = useState(0)
+    const [steal, setSteal] = useState(0)
+    const [fight, setFight] = useState(0)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
@@ -308,6 +310,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     pokemonsTeam={pokemonsTeam}
                                     setTrophy={setTrophy}
                                     trophy={trophy}
+                                    medal={medal}
+                                    setMedal={setMedal}
+                                    steal={steal}
+                                    setSteal={setSteal}
+                                    fight={fight}
+                                    setFight={setFight}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -351,7 +359,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                             />
                         </Flex>
                     </Flex>
-                    <Box background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} px={3} borderRadius={4}>
+                    <Box background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} px={4} borderRadius={4}>
                         <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
                     </Box>
                     <Box textAlign="center">
@@ -373,6 +381,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 setTrophy={setTrophy}
                                 turn={turn}
                                 disableShop={disableShop}
+                                fight={fight}
+                                steal={steal}
                             />
                             <Settings handleGameReset={handleGameReset}>
                                 <Economy
@@ -482,6 +492,9 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                     greatball={greatball}
                     superball={superball}
                     ultraball={ultraball}
+                    masterball={masterball}
+                    fight={fight}
+                    steal={steal}
                 />
             </Items>
             

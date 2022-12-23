@@ -17,7 +17,21 @@ export default function TurnController({
     coins,
     pokemonsTeam,
     setTrophy,
-    trophy
+    trophy,
+    medal,
+    setMedal,
+    greatball,
+    setGreatBall,
+    superball,
+    setSuperBall,
+    ultraball,
+    setUltraBall,
+    masterball,
+    setMasterBall,
+    steal,
+    setSteal,
+    fight,
+    setFight
 }) {
     const [block, setBlock] = useState([])
 
@@ -74,6 +88,20 @@ export default function TurnController({
                     pokemonsTeam={pokemonsTeam}
                     setTrophy={setTrophy}
                     trophy={trophy}
+                    medal={medal}
+                    setMedal={setMedal}
+                    greatball={greatball}
+                    setGreatBall={setGreatBall}
+                    superball={superball}
+                    setSuperBall={setSuperBall}
+                    ultraball={ultraball}
+                    setUltraBall={setUltraBall}
+                    masterball={masterball}
+                    setMasterBall={setMasterBall}
+                    steal={steal}
+                    setSteal={setSteal}
+                    fight={fight}
+                    setFight={setFight}
                 />
             </Flex>
         </Flex>

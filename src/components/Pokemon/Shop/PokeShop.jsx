@@ -11,7 +11,7 @@ import shopIcon from '../../../assets/images/game/shop.png'
 import buyIcon from '../../../assets/images/game/buy.png'
 import fightIcon from '../../../assets/images/items/fight.png'
 import stealIcon from '../../../assets/images/items/steal.png'
-import lureIcon from '../../../assets/images/items/lure.png'
+// import lureIcon from '../../../assets/images/items/lure.png'
 import { parseNumberToNatural } from "../../../util";
 
 export default function PokeShop({
@@ -30,7 +30,9 @@ export default function PokeShop({
     setMedal,
     setTrophy,
     disableShop,
-    turn
+    turn,
+    fight,
+    steal
 }) {
 
     function coinPerTurn(turn, multiple) {return parseNumberToNatural(turn, 10) * multiple}
@@ -95,11 +97,11 @@ export default function PokeShop({
 
                 <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={masterball} />
 
-                <ItemComponent icon={lureIcon} desc={'Lure'} />
+                {/* <ItemComponent icon={lureIcon} desc={'Lure'} /> */}
 
-                <ItemComponent icon={fightIcon} desc={'Fight'} />
+                <ItemComponent icon={fightIcon} desc={'Fight Glove'} counter={fight} />
 
-                <ItemComponent icon={stealIcon} desc={'Steal'} />
+                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} />
                 
             </Center>
             <Center flexDirection="column">

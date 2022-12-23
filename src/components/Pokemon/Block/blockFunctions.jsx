@@ -3,15 +3,13 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 20) { // 20
+    if(blockCategoryPercentage < 10) { // 10
         return 'event'
-    } else if(blockCategoryPercentage < 35) { // 15
-        return 'interaction'
-    } else if(blockCategoryPercentage < 50) { // 15
+    } else if(blockCategoryPercentage < 25) { // 15
         return 'shop'
-    } else if(blockCategoryPercentage < 60) {
+    } else if(blockCategoryPercentage < 45) { // 20
         return 'item'
-    } else if(blockCategoryPercentage < 70) { // 20
+    } else if(blockCategoryPercentage < 70) { // 25
         return 'economy'
     } else { // 30
         return 'default'
@@ -23,48 +21,32 @@ export function blockType() {
     let category = blockCategory()
 
     if(category === 'event') {
-        if(blockTypePercentage < 85) {
+        if(blockTypePercentage < 88) {
             return event()
+        } else if(blockTypePercentage < 98) {
+            return event('item')
         } else {
-            return specialEvent()
-        }
-    }
-
-    if(category === 'interaction') {
-        if(blockTypePercentage < 20) {
-            return ({
-                type: 'interaction',
-                title: 'Battle',
-                label: 'Choose a enemy to battle, the winner gets a medal'
-            })
-        } else if (blockTypePercentage < 60) {
-            return ({
-                type: 'interaction',
-                title: 'Battle',
-                label: 'Roll to face a enemy on a battle, the winner gets a medal'
-            })
-        } else {
-            return stealer()
+            return event('treasure')
         }
     }
 
     if(category === 'shop') return ({
         type: 'shop',
-        title: 'Shop',
-        label: "If you have cash you're welcome",
-        rules: "If you end your turn or catch a pokemon, the shop will be disabled"
+        title: 'Mercant',
+        label: "Hello stranger!",
+        rules: "Don't end the turn, and you can buy or sell just 1 thing!"
     })
 
-    // if(category === 'item') {
-    //     if(blockTypePercentage < 85) {
-    //         return item()
-    //     } else {
-    //         return treasure()
-    //     }
-    // }
+    if(category === 'item') {
+        if(blockTypePercentage < 95) {
+            return item()
+        } else {
+            return treasure()
+        }
+    }
 
     if(category === 'economy') {
-        if(blockTypePercentage < 60) {
+        if(blockTypePercentage < 70) {
             return positiveEconomy()
         } else {
             return negativeEconomy()
@@ -74,70 +56,91 @@ export function blockType() {
     if(category === 'default') return ({
         type: 'default',
         title: 'Nothing',
-        label: "It's really nothing, sorry"
+        label: defaultMessages()
     })
 }
 
-function stealer() {
-    let stealerPercentage = diceRoll(100)
-    let stealRoll = 0
+// function stealer() {
+//     let stealerPercentage = diceRoll(100)
+//     let stealRoll = 0
     
-    if(stealerPercentage < 65) {
-        stealRoll = diceRoll(5) + 1
-        return ({
-            type:'interaction', 
-            title:'Pickpocket', 
-            label:`You can steal ${stealRoll} coins from another player`,
-            rules:"If he doesn't have this amount you take what he has",
-            change: {
-                category: 'coin',
-                type: 'button',
-                value: stealRoll
-            }
-        })
-    } else if(stealerPercentage < 85) {
-        stealRoll = diceRoll(6) + 5
-        return ({
-            type:'interaction', 
-            title:'Thief', 
-            label:`You can steal ${stealRoll} coins from another player`,
-            rules:"If he doesn't have this amount you take what he has",
-            change: {
-                category: 'coin',
-                type: 'button',
-                value: stealRoll
-            }
-        })
-    } else if(stealerPercentage < 95) {
-        return ({
-            type:'interaction', 
-            title:'Robber', 
-            label:`You can steal a medal from another player`,
-            change: {
-                category: 'medal',
-                type: 'button',
-                value: 1
-            }
-        })
-    } else {
-        return ({
-            type:'interaction', 
-            title:'Burglar', 
-            label:'You can steal a trophy from another player',
-            change: {
-                category: 'trophy',
-                type: 'button',
-                value: 1
-            }
-        })
-    }
+//     if(stealerPercentage < 65) {
+//         stealRoll = diceRoll(5) + 1
+//         return ({
+//             type:'interaction', 
+//             title:'Pickpocket', 
+//             label:`You can steal ${stealRoll} coins from another player`,
+//             rules:"If he doesn't have this amount you take what he has",
+//             change: {
+//                 category: 'coin',
+//                 type: 'button',
+//                 value: stealRoll
+//             }
+//         })
+//     } else if(stealerPercentage < 85) {
+//         stealRoll = diceRoll(6) + 5
+//         return ({
+//             type:'interaction', 
+//             title:'Thief', 
+//             label:`You can steal ${stealRoll} coins from another player`,
+//             rules:"If he doesn't have this amount you take what he has",
+//             change: {
+//                 category: 'coin',
+//                 type: 'button',
+//                 value: stealRoll
+//             }
+//         })
+//     } else if(stealerPercentage < 95) {
+//         return ({
+//             type:'interaction', 
+//             title:'Robber', 
+//             label:`You can steal a medal from another player`,
+//             change: {
+//                 category: 'medal',
+//                 type: 'button',
+//                 value: 1
+//             }
+//         })
+//     } else {
+//         return ({
+//             type:'interaction', 
+//             title:'Burglar', 
+//             label:'You can steal a trophy from another player',
+//             change: {
+//                 category: 'trophy',
+//                 type: 'button',
+//                 value: 1
+//             }
+//         })
+//     }
+// }
+
+function defaultMessages() {
+    let message = diceRoll(16)
+
+    if (message === 0) return 'You swear you saw a Zapdos'
+    if (message === 1) return 'You swear you saw a Articuno'
+    if (message === 2) return 'You swear you saw a Moltres'
+    if (message === 3) return 'Nothing, really nothing, sorry'
+    if (message === 4) return "Looks like you've chosen an off-the-beaten path"
+    if (message === 5) return "Very quiet around here"
+    if (message === 6) return "Boring..."
+    if (message === 7) return "Maybe you are lost"
+    if (message === 8) return "Is it the right way?"
+    if (message === 9) return "Where was it again?"
+    if (message === 10) return "Is there anyone here?"
+    if (message === 11) return "I've been a little lonely"
+    if (message === 12) return "Someone here?"
+    if (message === 13) return "Helloooo?"
+    if (message === 14) return "Deadend, will have to go back"
+    if (message === 15) return "Still nothing"
 }
 
 function positiveEconomy() {
     let positivePercentage = diceRoll(100)
     let positiveRoll = 0
 
-    if(positivePercentage < 65) {
+    if(positivePercentage < 75) {
         positiveRoll = diceRoll(4) + 2
         return ({
             type:'economy', 
@@ -150,7 +153,7 @@ function positiveEconomy() {
                 isPositive: true
             }
         })
-    } else if(positivePercentage < 90) {
+    } else if(positivePercentage < 95) {
         positiveRoll = diceRoll(6) + 5
         return ({
             type:'economy', 
@@ -164,7 +167,7 @@ function positiveEconomy() {
             }
         })
     } else {
-        positiveRoll = diceRoll(10) + 10
+        positiveRoll = diceRoll(11) + 10
         return ({
             type:'economy', 
             title:'Lottery ticket', 
@@ -183,7 +186,7 @@ function negativeEconomy() {
     let negativePercentage = diceRoll(100)
     let negativeRoll = 0
 
-    if(negativePercentage < 60) {
+    if(negativePercentage < 75) {
         negativeRoll = diceRoll(3) + 1
         return ({
             type:'economy', 
@@ -196,7 +199,7 @@ function negativeEconomy() {
                 isPositive: false
             }
         })
-    } else if(negativePercentage < 85) {
+    } else if(negativePercentage < 95) {
         negativeRoll = diceRoll(6) + 3
         return ({
             type:'economy', 
@@ -210,7 +213,7 @@ function negativeEconomy() {
             }
         })
     } else {
-        negativeRoll = diceRoll(10) + 5
+        negativeRoll = diceRoll(11) + 5
         return ({
             type:'economy', 
             title:'Bankrupcy', 
@@ -225,104 +228,132 @@ function negativeEconomy() {
     }
 }
 
-function event() {
+/*
+            return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team speeds'})
+            return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
+            return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
+            return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
+            return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
+            return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
+            return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
+*/
+
+function event(type) {
     let eventPercentage = diceRoll(100)
     let sortedElement = element()
     let sortedNature = nature()
 
-    if(eventPercentage < 10) {
-        return ({
-            type:'event', 
-            title:'Single race', 
-            label:'The winner gets 5 coins', 
-            rules:'Roll a d6 and sum the highest speed'
-        })
-    } else if(eventPercentage < 20) {
-        return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team speeds'})
-    } else if(eventPercentage < 30) {
-        return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
-    } else if(eventPercentage < 40) {
-        return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
-    } else if(eventPercentage < 50) {
-        return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
-    } else if(eventPercentage < 60) {
-        return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
-    } else if(eventPercentage < 70) {
-        return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
-    } else if(eventPercentage < 80) {
-        return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
-    } else if(eventPercentage < 90) {
-        return ({
-            type:'event', 
-            title:'Nature Check', 
-            label:`If you have a ${sortedNature} pokemon on your team, you'll get 20 coins!`,
-            change: {
-                category: 'coin',
-                type: 'nature',
-                value: 20,
-                nature: `${sortedNature}`
-            }
-        })
-    } else {
-        return ({
-            type:'event', 
-            title:'Element Check', 
-            label:`If you have a ${sortedElement} pokemon on your team, you'll get 20 coins!`,
-            change: {
-                category: 'coin',
-                type: 'element',
-                value: 20,
-                element: `${sortedElement}`
-            }
-        })
+    if(!type) {
+        if(eventPercentage < 50) {
+            return ({
+                type:'event', 
+                title:'Nature Check', 
+                label:`If you have a ${sortedNature} pokemon on your team, you'll get 20 coins!`,
+                change: {
+                    category: 'coin',
+                    type: 'nature',
+                    value: (diceRoll(15) + 1),
+                    nature: `${sortedNature}`
+                }
+            })
+        } else {
+            return ({
+                type:'event', 
+                title:'Element Check', 
+                label:`If you have a ${sortedElement} pokemon on your team, you'll get 20 coins!`,
+                change: {
+                    category: 'coin',
+                    type: 'element',
+                    value: (diceRoll(15) + 1),
+                    element: `${sortedElement}`
+                }
+            })
+        }
+    }
+
+    if(type === 'item') {
+        if(eventPercentage < 50) {
+            return ({
+                type:'event', 
+                title:'Nature Check', 
+                label:`If you have a ${sortedNature} pokemon on your team, you'll get a '${itemRoll()}' item!`,
+                change: {
+                    category: 'item',
+                    type: 'nature',
+                    item: itemRoll(),
+                    value: 1,
+                    nature: `${sortedNature}`
+                }
+            })
+        } else {
+            return ({
+                type:'event', 
+                title:'Element Check', 
+                label:`If you have a ${sortedElement} pokemon on your team, you'll get a '${itemRoll()}' item!`,
+                change: {
+                    category: 'item',
+                    type: 'element',
+                    item: itemRoll(),
+                    value: 1,
+                    element: `${sortedElement}`
+                }
+            })
+        }
+    }
+
+    if(type === 'treasure') {
+        if(eventPercentage < 50) {
+            return ({
+                type:'event', 
+                title:'Nature Check', 
+                label:`If you have a ${sortedNature} pokemon on your team, you'll get a '${itemRoll()}'`,
+                change: {
+                    category: 'coin',
+                    type: 'nature',
+                    item: treasureRoll(),
+                    value: 2,
+                    nature: `${sortedNature}`
+                }
+            })
+        } else {
+            return ({
+                type:'event', 
+                title:'Element Check', 
+                label:`If you have a ${sortedElement} pokemon on your team, you'll get a '${itemRoll()}'`,
+                change: {
+                    category: 'coin',
+                    type: 'element',
+                    item: treasureRoll(),
+                    value: 2,
+                    element: `${sortedElement}`
+                }
+            })
+        }
     }
 }
 
-function specialEvent() {
-    let specialEventPercentage = diceRoll(100)
-    let sortedElement = element()
-    let sortedNature = nature()
+function itemRoll() {
+    let itemPercentage = diceRoll(100)
 
-    if(specialEventPercentage < 10) {
-        return ({type:'event', title:'Single race', label:'The winner gets a Trophy', rules:'Roll a d20 and sum the highest speed'})
-    } else if(specialEventPercentage < 20) {
-        return ({type:'event', title:'Marathon', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d6 and sum all team speeds'})
-    } else if(specialEventPercentage < 30) {
-        return ({type:'event', title:'Arm werstler', label:'The winner gets a Trophy', rules:'Roll a d20 and sum the highest attack'})
-    } else if(specialEventPercentage < 40) {
-        return ({type:'event', title:'Tug of war', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
-    } else if(specialEventPercentage < 50) {
-        return ({type:'event', title:'Slap contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest life'})
-    } else if(specialEventPercentage < 60) {
-        return ({type:'event', title:'Resistance test', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
-    } else if(specialEventPercentage < 70) {
-        return ({type:'event', title:'Block contest', label:'The winner gets a Trophy', rules:'Roll a d6 and sum the highest defense'})
-    } else if(specialEventPercentage < 80) {
-        return ({type:'event', title:'Dodge ball', label:'The winner gets a Trophy, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
-    } else if(specialEventPercentage < 90) {
-        return ({
-            type:'event', 
-            title:'Nature Check', 
-            label:`If you have a ${sortedNature} pokemon on your team, you'll get a Trophy!`,
-            change: {
-                category: 'trophy',
-                type: 'nature',
-                value: 1,
-                element: `${sortedNature}`
-            }
-        })
+    if(itemPercentage < 45) return 'greatball'
+    if(itemPercentage < 75) return 'superball'
+    if(itemPercentage < 85) return 'ultraball'
+    if(itemPercentage < 90) return 'steal'
+    if(itemPercentage < 95) {
+        return 'fight'
     } else {
-        return ({
-            type:'event', 
-            title:'Element Check', 
-            label:`If you have a ${sortedElement} pokemon on your team, you'll get a Trophy!`,
-            change: {
-                category: 'trophy',
-                type: 'element',
-                value: 1,
-                element: `${sortedElement}`
-            }
-        })
+        return 'medal'
+    }
+}
+
+function treasureRoll() {
+    let treasurePercentage = diceRoll(100)
+
+    if(treasurePercentage < 45) return 'ultraball'
+    if(treasurePercentage < 90) {
+        return 'medal'
+    } else {
+        return 'trophy'
     }
 }
 
@@ -375,28 +406,157 @@ function nature() {
     if(nature === 20) return 'Serious'
 }
 
-// function item() {
-//     let item = diceRoll(8)
+function item() {
+    let itemPercent = diceRoll(100)
 
-//     if(item === 0) return ({type:'item', title: 'Great Ball', label:'You have found a Great Ball'})
-//     if(item === 1) return 'You have found two Great Balls'
-//     if(item === 2) return 'You have found three Great Balls'
-//     if(item === 3) return 'You have found a Super Ball'
-//     if(item === 4) return 'You have found two Super Balls'
-//     if(item === 5) return 'You have found a Ultra Ball'
-//     if(item === 6) return 'You have found 5 coins'
-//     if(item === 7) return 'You have found a Medal'
-// }
+    if(itemPercent < 25) {
+        return {
+            type:'item', 
+            title: 'Great Ball', 
+            label:'You have found a Great Ball',
+            change: {
+                category: 'item',
+                type: 'greatball',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 35) {
+        return {
+            type:'item', 
+            title: 'Great Ball x2', 
+            label:'You have found two Great Balls',
+            change: {
+                category: 'item',
+                type: 'greatball',
+                value: 2
+            }
+        }
+    } else if(itemPercent < 50) {
+        return {
+            type:'item', 
+            title: 'Great Ball x3', 
+            label:'You have found three Great Balls',
+            change: {
+                category: 'item',
+                type: 'greatball',
+                value: 3
+            }
+        }
+    } else if(itemPercent < 55) {
+        return {
+            type:'item', 
+            title: 'Super Ball', 
+            label:'You have found a Super Ball',
+            change: {
+                category: 'item',
+                type: 'superball',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 70) {
+        return {
+            type:'item', 
+            title: 'Super Ball x2', 
+            label:'You have found two Super Ball',
+            change: {
+                category: 'item',
+                type: 'superball',
+                value: 2
+            }
+        }
+    } else if(itemPercent < 75) {
+        return {
+            type:'item', 
+            title: 'Ultra Ball', 
+            label:'You have found a Ultra Ball',
+            change: {
+                category: 'item',
+                type: 'ultraball',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 85) {
+        return {
+            type:'item', 
+            title: 'Fight Glove', 
+            label:'You have found a Fight Glove',
+            change: {
+                category: 'item',
+                type: 'fight',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 95) {
+        return {
+            type:'item', 
+            title: 'Team Rocket Pass',
+            label:'You have found a Team Rocket Pass',
+            change: {
+                category: 'item',
+                type: 'steal',
+                value: 1
+            }
+        }
+    } else {
+        return {
+            type:'item', 
+            title: 'Poke Star', 
+            label:'You have found a Poke Star',
+            change: {
+                category: 'item',
+                type: 'medal',
+                value: 1
+            }
+        }
+    }
+}
 
-// function treasure() {
-//     let treasure = diceRoll(8)
+function treasure() {
+    let itemPercent = diceRoll(100)
 
-//     if(treasure === 0) return 'You have found three Super Balls'
-//     if(treasure === 1) return 'You have found a Ultra Ball'
-//     if(treasure === 2) return 'You have found two Ultra Balls'
-//     if(treasure === 3) return 'You have found 20 coins'
-//     if(treasure === 4) return 'You have found 25 coins'
-//     if(treasure === 5) return 'You have found a Medal'
-//     if(treasure === 6) return 'You have found two Medals'
-//     if(treasure === 7) return 'You have found a Trophy'
-// }
+    if(itemPercent < 25) {
+        return {
+            type:'item', 
+            title: 'Ultra Ball x2', 
+            label:'You have found two Ultra Balls',
+            change: {
+                category: 'item',
+                type: 'ultraball',
+                value: 2
+            }
+        }
+    } else if(itemPercent < 75) {
+        return {
+            type:'item', 
+            title: 'Poke Star', 
+            label:'You have found a Poke Star',
+            change: {
+                category: 'item',
+                type: 'pokestar',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 90) {
+        return {
+            type:'item', 
+            title: 'Master Ball', 
+            label:'You have found a Master Ball',
+            change: {
+                category: 'item',
+                type: 'masterball',
+                value: 1
+            }
+        }
+    } else {
+        return {
+            type:'item', 
+            title: 'Poke Crown', 
+            label:'You have found a Poke Crown',
+            change: {
+                category: 'item',
+                type: 'trophy',
+                value: 1
+            }
+        }
+    }
+}

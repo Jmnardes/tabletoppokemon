@@ -85,7 +85,7 @@ export default function Pokeballs({
                 onClick={() => {
                     if(masterball > 0) {
                         setMasterBall(masterball - 1)
-                        setBonusOnCatch(5)
+                        setBonusOnCatch(10)
                         setDisablePokeballs(true)
                     }
                 }}

@@ -5,11 +5,25 @@ import pokemonJSON from '../../../assets/json/pokemons.json'
 function BlockController({ 
     block,
     setDisableShop,
+    pokemonsTeam,
     coins,
     setCoins,
-    setTrophy,
     trophy,
-    pokemonsTeam
+    setTrophy,
+    medal,
+    setMedal,
+    greatball,
+    setGreatBall,
+    superball,
+    setSuperBall,
+    ultraball,
+    setUltraBall,
+    masterball,
+    setMasterBall,
+    steal,
+    setSteal,
+    fight,
+    setFight
 }) {
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {

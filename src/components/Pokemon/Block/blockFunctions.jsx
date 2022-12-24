@@ -191,7 +191,7 @@ function negativeEconomy() {
         return ({
             type:'economy', 
             title:'Holed pocket', 
-            label:`You found a hole in your pocket, bad news, you lost ${negativeRoll} coins`,
+            label:`You found a hole in your pocket, you have lost ${negativeRoll} coins`,
             change: {
                 category: 'coin',
                 type: 'passive',
@@ -217,7 +217,7 @@ function negativeEconomy() {
         return ({
             type:'economy', 
             title:'Bankrupcy', 
-            label:`Some of your investments gone wrong, you lost ${negativeRoll} coins`,
+            label:`Some of your investments gone wrong, you have lost ${negativeRoll} coins`,
             change: {
                 category: 'coin',
                 type: 'passive',
@@ -412,7 +412,6 @@ function item() {
             title: 'Great Ball', 
             label:'You have found a Great Ball',
             change: {
-                category: 'item',
                 type: 'greatball',
                 value: 1
             }
@@ -423,7 +422,6 @@ function item() {
             title: 'Great Ball x2', 
             label:'You have found two Great Balls',
             change: {
-                category: 'item',
                 type: 'greatball',
                 value: 2
             }
@@ -434,7 +432,6 @@ function item() {
             title: 'Great Ball x3', 
             label:'You have found three Great Balls',
             change: {
-                category: 'item',
                 type: 'greatball',
                 value: 3
             }
@@ -445,7 +442,6 @@ function item() {
             title: 'Super Ball', 
             label:'You have found a Super Ball',
             change: {
-                category: 'item',
                 type: 'superball',
                 value: 1
             }
@@ -456,7 +452,6 @@ function item() {
             title: 'Super Ball x2', 
             label:'You have found two Super Ball',
             change: {
-                category: 'item',
                 type: 'superball',
                 value: 2
             }
@@ -467,7 +462,6 @@ function item() {
             title: 'Ultra Ball', 
             label:'You have found a Ultra Ball',
             change: {
-                category: 'item',
                 type: 'ultraball',
                 value: 1
             }
@@ -478,7 +472,6 @@ function item() {
             title: 'Fight Glove', 
             label:'You have found a Fight Glove',
             change: {
-                category: 'item',
                 type: 'fight',
                 value: 1
             }
@@ -489,7 +482,6 @@ function item() {
             title: 'Team Rocket Pass',
             label:'You have found a Team Rocket Pass',
             change: {
-                category: 'item',
                 type: 'steal',
                 value: 1
             }
@@ -500,7 +492,6 @@ function item() {
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
-                category: 'item',
                 type: 'medal',
                 value: 1
             }
@@ -517,7 +508,6 @@ function treasure() {
             title: 'Ultra Ball x2', 
             label:'You have found two Ultra Balls',
             change: {
-                category: 'item',
                 type: 'ultraball',
                 value: 2
             }
@@ -528,7 +518,6 @@ function treasure() {
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
-                category: 'item',
                 type: 'pokestar',
                 value: 1
             }
@@ -539,7 +528,6 @@ function treasure() {
             title: 'Master Ball', 
             label:'You have found a Master Ball',
             change: {
-                category: 'item',
                 type: 'masterball',
                 value: 1
             }
@@ -550,7 +538,6 @@ function treasure() {
             title: 'Poke Crown', 
             label:'You have found a Poke Crown',
             change: {
-                category: 'item',
                 type: 'trophy',
                 value: 1
             }

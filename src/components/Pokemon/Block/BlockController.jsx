@@ -35,49 +35,49 @@ function BlockController({
 
     const itemFunction = (block) => {
         if (block?.change?.category === 'coin') {
-            setCoins(coins + block?.change?.value)
+            setCoins(coins + block.change?.value)
         }
 
         if (block?.change?.category === 'item') {
-            if(block?.change?.item === 'superball') setSuperBall(superball + 1)
-            if(block?.change?.item === 'ultraball') setUltraBall(ultraball + 1)
-            if(block?.change?.item === 'steal') setSteal(steal + 1)
-            if(block?.change?.item === 'fight') setFight(fight + 1)
-            if(block?.change?.item === 'medal') setMedal(medal + 1)
+            if(block.change?.item === 'superball') setSuperBall(superball + 1)
+            if(block.change?.item === 'ultraball') setUltraBall(ultraball + 1)
+            if(block.change?.item === 'steal') setSteal(steal + 1)
+            if(block.change?.item === 'fight') setFight(fight + 1)
+            if(block.change?.item === 'medal') setMedal(medal + 1)
         }
 
         if (block?.change?.category === 'treasure') {
-            if(block?.change?.item === 'ultraball') setUltraBall(ultraball + 2)
-            if(block?.change?.item === 'masterball') setMasterBall(masterball + 1)
-            if(block?.change?.item === 'medal') setMedal(medal + 1)
-            if(block?.change?.item === 'trophy') setTrophy(trophy + 1)
+            if(block.change?.item === 'ultraball') setUltraBall(ultraball + 2)
+            if(block.change?.item === 'masterball') setMasterBall(masterball + 1)
+            if(block.change?.item === 'medal') setMedal(medal + 1)
+            if(block.change?.item === 'trophy') setTrophy(trophy + 1)
         }
     }
 
     useEffect(() => {
-        block?.type === 'economy' && handlePassiveCoins(block?.change?.value, block?.change?.isPositive)
+        block?.type === 'economy' && handlePassiveCoins(block.change?.value, block.change?.isPositive)
 
         if(block?.type === 'event') {
-            if(block?.change?.category === 'coin') {
+            if(block.change?.category === 'coin') {
                 
-                if(block?.change?.type === 'element') {
+                if(block.change?.type === 'element') {
                     //eslint-disable-next-line array-callback-return
                     pokemonsTeam?.map((data) => {
                         let types = pokemonJSON[data.pokemonId].type
 
                         // eslint-disable-next-line array-callback-return
                         types.map((element) => {
-                            if (element.toLowerCase() === (block?.change?.element).toLowerCase()) {
+                            if (element.toLowerCase() === (block.change?.element).toLowerCase()) {
                                 
                                 itemFunction(block)
 
                             }
                         })
                     })
-                } else if(block?.change?.type === 'nature') {
+                } else if(block.change?.type === 'nature') {
                     // eslint-disable-next-line array-callback-return
                     pokemonsTeam?.map((data) => {
-                        if ((data.nature.nature).toLowerCase() === (block?.change?.nature).toLowerCase()) {
+                        if ((data.nature.nature).toLowerCase() === (block.change?.nature).toLowerCase()) {
 
                             itemFunction(block)
 
@@ -85,6 +85,35 @@ function BlockController({
                     })
                 }
 
+            }
+        }
+
+        if(block?.type === 'item') {
+            switch(block?.change?.type) {
+                case 'superball':
+                    setSuperBall(superball + block.change?.value)
+                    return
+                case 'ultraball':
+                    setUltraBall(ultraball + block.change?.value)
+                    return
+                case 'fight':
+                    setFight(fight + block.change?.value)
+                    return
+                case 'steal':
+                    setSteal(steal + block.change?.value)
+                    return
+                case 'medal':
+                    setMedal(medal + block.change?.value)
+                    return
+                case 'masterball':
+                    setMasterBall(masterball + block.change?.value)
+                    return
+                case 'trophy':
+                    setTrophy(trophy + block.change?.value)
+                    return
+                default: //greatball
+                    setGreatBall(greatball + block.change?.value)
+                    return
             }
         }
 

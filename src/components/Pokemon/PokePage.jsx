@@ -221,7 +221,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setShiny(() => shinyRoll(shinyPercentage))
         setNature(() => whatNaturePokemonIs())
 
-        if(turn%10 === 0) {
+        if(turn%10 === 0 || turn === maxTurns) {
             setDisableShop(false)
         } else {
             setDisableShop(true)
@@ -245,7 +245,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             localStorage.setItem('trophy', JSON.stringify(trophy))
             localStorage.setItem('walkedBlocks', JSON.stringify(walkedBlocks))
         }
-    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount])
+    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount, maxTurns])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
@@ -359,9 +359,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                             />
                         </Flex>
                     </Flex>
+
                     <Box background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} px={4} borderRadius={4}>
                         <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
                     </Box>
+
                     <Box textAlign="center">
                         <Flex>
                             <PokeShop 

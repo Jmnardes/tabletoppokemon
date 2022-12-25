@@ -1,19 +1,45 @@
-import { Center, Heading, Image } from "@chakra-ui/react";
+import { Center, Heading, Image, Text } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
 import event1Icon from '../../../assets/images/game/event1.png'
+import { useEffect, useState } from "react";
+import { rollEventType } from "./events";
 
 export default function EventBlock({ disable }) {
-    const handleEvent = () => {
+    const [event, setEvent] = useState([])
 
+    const handleEvent = () => {
+        rollEventType()
+
+        setEvent(rollEventType())
     }
 
-    // const EventComponent = ({ title }) => {
-    //     return (
-    //         <Center>
-    //             <Heading>{title}</Heading>
-    //         <Center/>
-    //     )
-    // }
+    const EventComponent = ({ title, description, rules, prize1, prize2 }) => {
+        return (
+            <Center flexDirection="column">
+                <Heading mb={8}>{title}</Heading>
+                <Text m={4} fontSize="2xl">{description}</Text>
+                <Text mt={8} fontSize="1xl" color="red" fontWeight="bold">{rules}</Text>
+                <Center mt={12} flexDirection="column">
+                    <Center mb={8}>
+                        <Text mr={4} fontSize="2xl" fontWeight="bold">1st</Text>
+                        <Text>{prize1}</Text>
+                    </Center>
+                    <Center mb={8}>
+                        <Text mr={4} fontSize="2xl" fontWeight="bold">2nd</Text>
+                        <Text>{prize2}</Text>
+                    </Center>
+                    <Center mb={8}>
+                        <Text mr={4} fontSize="2xl" fontWeight="bold">3nd</Text>
+                        <Text>1 coin</Text>
+                    </Center>
+                </Center>
+            </Center>
+        )
+    }
+
+    useEffect(() => {
+        !disable && handleEvent()
+    }, [disable])
 
     return (
         <PokeModal title={'Event'} button={
@@ -23,19 +49,15 @@ export default function EventBlock({ disable }) {
                 w="24px"
             ></Image>
         } disableButton={disable}>
-            {/* <EventComponent /> */}
+            <Center>
+                <EventComponent 
+                    title={event?.title}
+                    description={event?.description}
+                    rules={event?.rules}
+                    prize1={event?.prize1}
+                    prize2={event?.prize2}
+                />
+            </Center>
         </PokeModal>
     )
 }
-
-
-
-/*
-    return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team speeds'})
-    return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
-    return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
-    return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
-    return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
-    return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
-    return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
-*/

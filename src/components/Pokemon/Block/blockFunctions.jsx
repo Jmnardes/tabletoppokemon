@@ -228,16 +228,6 @@ function negativeEconomy() {
     }
 }
 
-/*
-            return ({type:'event', title:'Marathon', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team speeds'})
-            return ({type:'event', title:'Arm werstler', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest attack'})
-            return ({type:'event', title:'Tug of war', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team attacks'})
-            return ({type:'event', title:'Slap contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest life'})
-            return ({type:'event', title:'Resistance test', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team lifes'})
-            return ({type:'event', title:'Block contest', label:'The winner gets 5 coins', rules:'Roll a d6 and sum the highest defense'})
-            return ({type:'event', title:'Dodge ball', label:'The winner gets a Medal, the second 5 coins', rules:'Roll a d20 and sum all team defenses'})
-*/
-
 function event(type) {
     let eventPercentage = diceRoll(100)
     let sortedElement = element()

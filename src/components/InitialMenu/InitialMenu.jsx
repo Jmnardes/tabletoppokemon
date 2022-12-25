@@ -26,7 +26,7 @@ export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, game
                     <Text fontSize="3xl" mb={2}>
                         Choose your name 
                     </Text>
-                    <Input textAlign="center" fontSize="2xl" onChange={(e) => {handleTrainerName(e.target.value)}} />
+                    <Input textAlign="center" fontSize="2xl" maxLength={14} onChange={(e) => {handleTrainerName(e.target.value)}} />
                 </Flex>
 
                 <Flex justifyContent="space-evenly" alignItems="center">

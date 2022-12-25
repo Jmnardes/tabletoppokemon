@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./ShowPokemon"
 import { sortPokemon } from "../sortPokemon"
 import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../../util'
@@ -21,9 +21,17 @@ import { TreinerStats } from "./Treiner/TreinerStats"
 import EndGame from "./Game/EndGame"
 import PokeballStats from "./Treiner/PokeballStats"
 import Items from "./Inventary/Items"
-import arrowIcon from '../../assets/images/game/arrow.png'
+import FightBlock from "./Block/FightBlock"
+import StealBlock from "./Block/StealBlock"
+import EventBlock from "./Event/EventBlock"
+import GymBlock from "./Event/GymBlock"
+import TournamentBlock from "./Event/TournamentBlock"
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation }) {
+import arrowIcon from '../../assets/images/game/arrow.png'
+import shopIcon from '../../assets/images/game/shop.png'
+import event1Icon from '../../assets/images/game/event1.png'
+
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -60,6 +68,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
+    const [disableEvent, setDisableEvent] = useState(true)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -218,14 +227,34 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     }
 
     useEffect(() => {
-        setShiny(() => shinyRoll(shinyPercentage))
-        setNature(() => whatNaturePokemonIs())
-
         if(turn%10 === 0 || turn === maxTurns) {
             setDisableShop(false)
+            handleToast(
+                'shop', 
+                'Shop', 
+                'You can use de shop until the end of this turn',
+                <Image src={shopIcon} w="36px"></Image>
+            )
         } else {
             setDisableShop(true)
         }
+
+        if(turn%3 === 0) {
+            setDisableEvent(false)
+            handleToast(
+                'event', 
+                'Event', 
+                'The event button is abled, you can roll a event now!',
+                <Image src={event1Icon} w="36px"></Image>
+            )
+        } else {
+            setDisableEvent(true)
+        }
+    }, [handleToast, maxTurns, turn])
+
+    useEffect(() => {
+        setShiny(() => shinyRoll(shinyPercentage))
+        setNature(() => whatNaturePokemonIs())
 
         if(coins > highestAmount) setHighestAmount(coins)
 
@@ -271,10 +300,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
     return (
         <>
-            <Box py={3} pr={2} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-                <Flex justifyContent="space-between" width="100%">
-                    <Flex direction="column" textAlign="center">
-                        <Flex direction="row">
+            <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
+
+                <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
+                    <GridItem colSpan={2}>
+                        <Center justifyContent="left">
                             {turn < maxTurns ? (
                                 <PlayTurn
                                     pokemonArrayLength={pokemonArray.length}
@@ -357,16 +387,33 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 trophy={trophy}
                                 coin={coins}
                             />
-                        </Flex>
-                    </Flex>
+                        </Center>
+                    </GridItem>
 
-                    <Box background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} px={4} borderRadius={4}>
-                        <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
-                    </Box>
+                    <GridItem>
+                        <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} borderRadius={4}>
+                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
+                        </Center>
+                    </GridItem>
 
-                    <Box textAlign="center">
-                        <Flex>
-                            <PokeShop 
+                    <GridItem colSpan={2}>
+                        <Center justifyContent="right">
+                            <TournamentBlock
+                                disable={steal <= 0}
+                            />
+                            <GymBlock
+                                disable={steal <= 0}
+                            />
+                            <EventBlock
+                                disable={disableEvent}
+                            />
+                            <StealBlock 
+                                disable={steal <= 0}
+                            />
+                            <FightBlock 
+                                disable={fight <= 0}
+                            />
+                            <PokeShop
                                 coins={coins}
                                 setCoins={setCoins}
                                 greatball={greatball}
@@ -401,10 +448,10 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     handleAddMedal={() => setMedal(medal + 1)}
                                 />
                             </Settings>
-                        </Flex>
-                    </Box>
-                </Flex>
-            </Box>
+                        </Center>
+                    </GridItem>
+                </Grid>
+            </Center>
 
             <Flex flexDir="column" py={2} minHeight="9rem">
                 <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>

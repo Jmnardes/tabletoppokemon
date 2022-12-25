@@ -30,8 +30,9 @@ import TournamentBlock from "./Event/TournamentBlock"
 import arrowIcon from '../../assets/images/game/arrow.png'
 import shopIcon from '../../assets/images/game/shop.png'
 import event1Icon from '../../assets/images/game/event1.png'
+import event3Icon from '../../assets/images/game/event3.png'
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast }) {
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -69,6 +70,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
     const [disableEvent, setDisableEvent] = useState(true)
+    const [disableTournament, setDisableTournament] = useState(true)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -227,7 +229,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     }
 
     useEffect(() => {
-        if(turn%10 === 0 || turn === maxTurns) {
+        if((turn%10 === 0 || turn === maxTurns) && turn !== 0) {
             setDisableShop(false)
             handleToast(
                 'shop', 
@@ -239,18 +241,34 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             setDisableShop(true)
         }
 
-        if(turn%3 === 0) {
-            setDisableEvent(false)
-            handleToast(
-                'event', 
-                'Event', 
-                'The event button is abled, you can roll a event now!',
-                <Image src={event1Icon} w="36px"></Image>
-            )
-        } else {
-            setDisableEvent(true)
+        if (gameHost) {
+            if(turn%3 === 0 && turn !== 0) {
+                setDisableEvent(false)
+                handleToast(
+                    'event', 
+                    'Event', 
+                    'The event button is abled, you can roll a event now!',
+                    <Image src={event1Icon} w="32px"></Image>
+                )
+            } else {
+                setDisableEvent(true)
+            }
+            
+            if(turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 && turn !== 0) {
+                setDisableTournament(false)
+                handleToast(
+                    'tournament', 
+                    'Pokemon Tournament', 
+                    "It's time for the Pokemon Tournament, get ready!",
+                    <Image src={event3Icon} w="32px"></Image>
+                )
+            } else {
+                setDisableTournament(true)
+            }
         }
-    }, [handleToast, maxTurns, turn])
+
+
+    }, [gameHost, handleToast, maxTurns, turn, walkedBlocks])
 
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
@@ -274,7 +292,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             localStorage.setItem('trophy', JSON.stringify(trophy))
             localStorage.setItem('walkedBlocks', JSON.stringify(walkedBlocks))
         }
-    }, [experience, level, turn, coins, medal, trophy, setExperience,pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount, maxTurns])
+    }, [experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount, maxTurns])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
@@ -301,7 +319,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     return (
         <>
             <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
                     <GridItem colSpan={2}>
                         <Center justifyContent="left">
@@ -392,26 +409,32 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
                     <GridItem>
                         <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} borderRadius={4}>
-                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>    
+                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>
                         </Center>
                     </GridItem>
 
                     <GridItem colSpan={2}>
                         <Center justifyContent="right">
-                            <TournamentBlock
-                                disable={steal <= 0}
-                            />
+                            {gameHost && (
+                                <TournamentBlock
+                                    disable={disableTournament}
+                                />
+                            )}
                             <GymBlock
-                                disable={steal <= 0}
+                                disable={true}
                             />
-                            <EventBlock
-                                disable={disableEvent}
-                            />
+                            {gameHost && (
+                                <EventBlock
+                                    disable={disableEvent}
+                                />
+                            )}
                             <StealBlock 
-                                disable={steal <= 0}
+                                steal={steal}
+                                setSteal={setSteal}
                             />
                             <FightBlock 
-                                disable={fight <= 0}
+                                fight={fight}
+                                setFight={setFight}
                             />
                             <PokeShop
                                 coins={coins}

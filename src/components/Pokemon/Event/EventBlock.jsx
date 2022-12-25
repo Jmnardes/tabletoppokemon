@@ -15,7 +15,7 @@ export default function EventBlock({ disable }) {
         return (
             <Center flexDirection="column">
                 <Heading mb={8}>{title}</Heading>
-                <Text m={4} fontSize="2xl">{description}</Text>
+                <Text m={4} fontSize="2xl" textAlign="center">{description}</Text>
                 <Text mt={8} fontSize="1xl" color="red" fontWeight="bold">{rules}</Text>
                 <Center mt={12} flexDirection="column">
                     <Center mb={6}>

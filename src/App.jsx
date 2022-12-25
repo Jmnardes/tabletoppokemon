@@ -12,6 +12,7 @@ const App = () => {
   const [generation, setGeneration] = useState(3)
   const [gameStarted, setGameStarted] = useState(false)
   const [gameReset, setGameReset] = useState(false)
+  const [gameHost, setGameHost] = useState(false)
   const [trainerName, setTrainerName] = useState('Trainer')
   const teamLength = 3
 
@@ -54,6 +55,7 @@ const App = () => {
             teamLength={teamLength}
             generation={generation}
             handleToast={handleToast}
+            gameHost={gameHost}
           />
         ): (
           <InitialMenu
@@ -64,6 +66,8 @@ const App = () => {
             handleGameStart={setGameStarted}
             handleTrainerName={setTrainerName}
             setGeneration={setGeneration}
+            gameHost={gameHost}
+            setGameHost={setGameHost}
           />
         )}
         <Box position='absolute' right={0} bottom={0}>

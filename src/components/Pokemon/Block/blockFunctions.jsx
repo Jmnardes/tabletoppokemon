@@ -3,15 +3,15 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 15) { // 15
+    if(blockCategoryPercentage < 10) { // 10
         return 'event'
-    } else if(blockCategoryPercentage < 35) { // 15
+    } else if(blockCategoryPercentage < 20) { // 10
         return 'shop'
-    } else if(blockCategoryPercentage < 40) { // 10
+    } else if(blockCategoryPercentage < 30) { // 10
         return 'item'
-    } else if(blockCategoryPercentage < 70) { // 30
+    } else if(blockCategoryPercentage < 65) { // 35
         return 'economy'
-    } else { // 30
+    } else { // 35
         return 'default'
     }
 }
@@ -141,7 +141,7 @@ function positiveEconomy() {
     let positiveRoll = 0
 
     if(positivePercentage < 75) {
-        positiveRoll = diceRoll(4) + 2
+        positiveRoll = diceRoll(3) + 1
         return ({
             type:'economy', 
             title:'Lost penny', 
@@ -154,7 +154,7 @@ function positiveEconomy() {
             }
         })
     } else if(positivePercentage < 95) {
-        positiveRoll = diceRoll(6) + 5
+        positiveRoll = diceRoll(8) + 3
         return ({
             type:'economy', 
             title:'Profit', 
@@ -187,7 +187,7 @@ function negativeEconomy() {
     let negativeRoll = 0
 
     if(negativePercentage < 75) {
-        negativeRoll = diceRoll(3) + 1
+        negativeRoll = diceRoll(2) + 1
         return ({
             type:'economy', 
             title:'Holed pocket', 

@@ -349,6 +349,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             localStorage.setItem('inventory', JSON.stringify(savedPokemons))
             localStorage.setItem('trainer', JSON.stringify({
                 turn: turn,
+                tier: tier,
                 level: level,
                 experience: experience,
                 coins: coins,
@@ -368,7 +369,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             }))
         }
     }, [
-        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, 
+        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, tier,
         walkedBlocks, highestAmount, maxTurns, steal, fight, greatball, superball, ultraball, masterball, totalCatches, shinyCatches, criticals
     ])
 
@@ -377,7 +378,26 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         const pokeInventory = JSON.parse(localStorage.getItem('inventory'));
         const trainer = JSON.parse(localStorage.getItem('trainer'));
 
-        console.log(trainer)
+        if(trainer) {
+            setTurn(trainer.turn)
+            setTier(trainer.tier)
+            setLevel(trainer.level)
+            setExperience(trainer.experience)
+            setCoins(trainer.coins)
+            setMedal(trainer.medal)
+            setTrophy(trainer.trophy)
+            setWalkedBlocks(trainer.walkedBlocks)
+            setSteal(trainer.steal)
+            setFight(trainer.fight)
+            setGreatBall(trainer.greatball)
+            setSuperBall(trainer.superball)
+            setUltraBall(trainer.ultraball)
+            setMasterBall(trainer.masterball)
+            setTotalCatches(trainer.totalCatches)
+            setShinyCatches(trainer.shinyCatches)
+            setCriticals(trainer.criticals)
+            setHighestAmount(trainer.highestAmount)
+        }
 
         if (pokeTeam) setPokemonsTeam([...pokeTeam]);
         if (pokeInventory) setSavedPokemons([...pokeInventory]);

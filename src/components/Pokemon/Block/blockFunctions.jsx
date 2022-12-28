@@ -60,61 +60,6 @@ export function blockType() {
     })
 }
 
-// function stealer() {
-//     let stealerPercentage = diceRoll(100)
-//     let stealRoll = 0
-    
-//     if(stealerPercentage < 65) {
-//         stealRoll = diceRoll(5) + 1
-//         return ({
-//             type:'interaction', 
-//             title:'Pickpocket', 
-//             label:`You can steal ${stealRoll} coins from another player`,
-//             rules:"If he doesn't have this amount you take what he has",
-//             change: {
-//                 category: 'coin',
-//                 type: 'button',
-//                 value: stealRoll
-//             }
-//         })
-//     } else if(stealerPercentage < 85) {
-//         stealRoll = diceRoll(6) + 5
-//         return ({
-//             type:'interaction', 
-//             title:'Thief', 
-//             label:`You can steal ${stealRoll} coins from another player`,
-//             rules:"If he doesn't have this amount you take what he has",
-//             change: {
-//                 category: 'coin',
-//                 type: 'button',
-//                 value: stealRoll
-//             }
-//         })
-//     } else if(stealerPercentage < 95) {
-//         return ({
-//             type:'interaction', 
-//             title:'Robber', 
-//             label:`You can steal a medal from another player`,
-//             change: {
-//                 category: 'medal',
-//                 type: 'button',
-//                 value: 1
-//             }
-//         })
-//     } else {
-//         return ({
-//             type:'interaction', 
-//             title:'Burglar', 
-//             label:'You can steal a trophy from another player',
-//             change: {
-//                 category: 'trophy',
-//                 type: 'button',
-//                 value: 1
-//             }
-//         })
-//     }
-// }
-
 function defaultMessages() {
     let message = diceRoll(16)
 

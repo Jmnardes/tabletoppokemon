@@ -39,7 +39,7 @@ const App = () => {
   useEffect(() => {
     const trainer = JSON.parse(localStorage.getItem('trainer'))
     
-    if(trainer.tiner) {
+    if(trainer.turn) {
       if(trainer.turn > 0) {
         setGameStarted(true)
       }

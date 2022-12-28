@@ -19,7 +19,7 @@ export default function ExperienceBar({
 
     return (
         <>
-            <Flex background={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} title={`${100 - leftExperienceCalc(previousLevel, exp, nextLevel)}%`}>
+            <Flex py={4} background={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} title={`${100 - leftExperienceCalc(previousLevel, exp, nextLevel)}%`}>
                     <Progress
                         value={exp} 
                         min={previousLevel}

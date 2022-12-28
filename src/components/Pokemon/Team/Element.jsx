@@ -23,7 +23,7 @@ import water from '../../../assets/images/elements/water.webp'
 import { typeAdvantage, typeDisadvantage } from "../../../util";
 import { useEffect, useState } from "react";
 
-export default function Element({ element }) {
+export default function Element({ element, elementTable }) {
     const [elementsTooltip, setElementsTooltip] = useState('')
 
     function elementsTable(type, isAdvantage) {
@@ -47,8 +47,10 @@ export default function Element({ element }) {
                     key={type} 
                     src={icon}
                     w={6} 
-                    h={6} 
-                    mx={2}
+                    h={6}
+                    mx={elementTable && 3}
+                    ml={!elementTable && 1}
+                    my={!elementTable && 0.5}
                 />
             </Tooltip>
         )

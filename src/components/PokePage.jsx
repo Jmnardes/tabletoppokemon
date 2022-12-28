@@ -378,7 +378,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
     return (
         <>
-            <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
+            <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"} borderBottom="solid 1px">
             {confetti ? (
                 <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
             ): null}

@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { Box } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import Element from "../Team/Element";
 
@@ -14,20 +14,19 @@ function Types({ types, shiny, tier, color, showingType }) {
             mt={showingType === 'Team' && 2}
         >
             {(tier || tier === 0) && 
-                <Box
-                    mb={1}
+                <Center
+                    my={1}
                     backgroundColor={color}
                     fontWeight="bold"
                     borderRadius="100%"
-                    textAlign="center"
                     ml={showingType === 'Team' ? 4 : 1}
                     w={6}
                 >
-                    { tier }
-                </Box>
+                    <Text textAlign="center">{ tier }</Text>
+                </Center>
             }
             {shiny &&
-                <Box ml={3/2} mb={1}>{<FaStar title="Shiny" size={20}/>}</Box>
+                <Box ml={1.5} my={1}>{<FaStar title="Shiny" size={20}/>}</Box>
             }
             {types.map(t => {
                 return <Element key={t} element={t} />

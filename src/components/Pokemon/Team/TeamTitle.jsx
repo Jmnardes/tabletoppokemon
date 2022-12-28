@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Center, Flex, Grid, GridItem, Image, Text, useColorMode } from "@chakra-ui/react";
 import { PokeLife } from "../Game/PokeLife";
 import { FaDiceD20, FaDiceSix } from "react-icons/fa";
 import { useState } from "react";
@@ -23,94 +23,110 @@ export default function TeamTitle({ handleTeamStats }) {
     }
 
     return (
-        <Flex flexDir="row" justifyContent="space-evenly" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}  py={3}>
-            <Flex alignItems="center">
-                <Flex mx={4} justifyContent="center" alignItems="center">
-                    <Image
-                        mr={4}
-                        src={healthIcon} 
-                        title={'Health'}
-                        w="32px"
-                    ></Image>
-                    <Text ml={-1} fontSize="2xl">{handleTeamStats('hp')}</Text>
-                </Flex>
-                <Flex mx={4} justifyContent="center" alignItems="center">
-                    <Image
-                        mr={4}
-                        src={swordIcon} 
-                        title={'Attack'}
-                        w="28px"
-                    ></Image>
-                    <Text ml={-1} fontSize="2xl">{handleTeamStats('atk')}</Text>
-                    {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text> */}
-                </Flex>
-                <Flex mx={4} justifyContent="center" alignItems="center">
-                    <Image
-                        mr={4}
-                        src={shieldIcon} 
-                        title={'Defense'}
-                        w="28px"
-                    ></Image>
-                    <Text ml={-1} fontSize="2xl">{handleTeamStats('def')}</Text>
-                    {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text> */}
-                </Flex>
-                <Flex mx={4} justifyContent="center" alignItems="center">
-                    <Image
-                        mr={4}
-                        src={speedIcon} 
-                        title={'Speed'}
-                        w="28px"
-                    ></Image>
-                    <Text ml={-1} fontSize="2xl">{handleTeamStats('spd')}</Text>
-                </Flex>
-            </Flex>
-            <Flex>
-                <Flex alignItems="center">
-                    <Button
-                        title="Rolld20"
-                        onClick={() => {
-                            setPreviousTeamDiceRoll(teamTwentyRoll)
-                            setTeamTwentyRoll(diceRoll(20) + 1)
-                        }}
-                    >
-                        <FaDiceD20 size="18px"/>
-                    </Button>
-                    <Text
-                        background={
-                            teamTwentyRoll === 20 && "#2EC92E"
-                        }
-                        fontSize='2xl'
-                        w={12}
-                        borderRadius={4}
-                        textAlign="center"
-                    >{teamTwentyRoll}</Text>
-                    <Text
-                        fontSize='1xl'
-                        w={8}
-                        borderRadius={4}
-                        textAlign="center"
-                    >{previousTeamDiceRoll}</Text>
-                </Flex>
-                <Flex alignItems="center">
-                    <Text
-                        fontSize='2xl'
-                        ml={-2}
-                        w={12}
-                        borderRadius={4}
-                        textAlign="center"
-                    >{teamSixRoll}</Text>
-                    <Button
-                        title="Rolld20"
-                        onClick={() => {
-                            setPreviousTeamDiceRoll(teamSixRoll)
-                            setTeamSixRoll(diceRoll(6) + 1)
-                        }}
-                    >
-                        <FaDiceSix size="18px"/>
-                    </Button>
-                </Flex>
-            </Flex>
+        <Center>
+            <Grid templateColumns='repeat(6, 1fr)' width="100%" h={16}>
+                <GridItem></GridItem>
+
+                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} py={4} borderRadius="0 0 0 82px">
+                    <Center flexDirection="row" justifyContent="end">
+                        <Center alignItems="center">
+                            <Flex mx={4} justifyContent="center" alignItems="center">
+                                <Image
+                                    mr={4}
+                                    src={healthIcon} 
+                                    title={'Health'}
+                                    w="32px"
+                                ></Image>
+                                <Text ml={-1} fontSize="2xl">{handleTeamStats('hp')}</Text>
+                            </Flex>
+                            <Flex mx={4} justifyContent="center" alignItems="center">
+                                <Image
+                                    mr={4}
+                                    src={swordIcon} 
+                                    title={'Attack'}
+                                    w="28px"
+                                ></Image>
+                                <Text ml={-1} fontSize="2xl">{handleTeamStats('atk')}</Text>
+                                {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text> */}
+                            </Flex>
+                            <Flex mx={4} justifyContent="center" alignItems="center">
+                                <Image
+                                    mr={4}
+                                    src={shieldIcon} 
+                                    title={'Defense'}
+                                    w="28px"
+                                ></Image>
+                                <Text ml={-1} fontSize="2xl">{handleTeamStats('def')}</Text>
+                                {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text> */}
+                            </Flex>
+                            <Flex mx={4} justifyContent="center" alignItems="center">
+                                <Image
+                                    mr={4}
+                                    src={speedIcon} 
+                                    title={'Speed'}
+                                    w="28px"
+                                ></Image>
+                                <Text ml={-1} fontSize="2xl">{handleTeamStats('spd')}</Text>
+                            </Flex>
+                        </Center>
+                    </Center>
+                </GridItem>
+
+                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} py={4} borderRadius="0 0 82px 0">
+                    <Center flexDirection="row">
+                        <Center>
+                            <Flex alignItems="center">
+                                <Button
+                                    title="Rolld20"
+                                    onClick={() => {
+                                        setPreviousTeamDiceRoll(teamTwentyRoll)
+                                        setTeamTwentyRoll(diceRoll(20) + 1)
+                                    }}
+                                >
+                                    <FaDiceD20 size="18px"/>
+                                </Button>
+                                <Text
+                                    background={
+                                        teamTwentyRoll === 20 && "#2EC92E"
+                                    }
+                                    fontSize='2xl'
+                                    w={12}
+                                    borderRadius={4}
+                                    textAlign="center"
+                                >{teamTwentyRoll}</Text>
+                                <Text
+                                    fontSize='1xl'
+                                    w={8}
+                                    borderRadius={4}
+                                    textAlign="center"
+                                >{previousTeamDiceRoll}</Text>
+                            </Flex>
+                            <Flex alignItems="center">
+                                <Text
+                                    fontSize='2xl'
+                                    ml={-2}
+                                    w={12}
+                                    borderRadius={4}
+                                    textAlign="center"
+                                >{teamSixRoll}</Text>
+                                <Button
+                                    title="Rolld20"
+                                    onClick={() => {
+                                        setPreviousTeamDiceRoll(teamSixRoll)
+                                        setTeamSixRoll(diceRoll(6) + 1)
+                                    }}
+                                >
+                                    <FaDiceSix size="18px"/>
+                                </Button>
+                            </Flex>
+                        </Center>
+                    </Center>
+                </GridItem>
+
+                <GridItem></GridItem>
+            </Grid>
+            
             {/* <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/> */}
-        </Flex>
+        </Center>
     )
 }

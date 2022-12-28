@@ -122,6 +122,7 @@ export default function Element({ element, elementTable }) {
 
     useEffect(() => {
         ElementTooltip()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

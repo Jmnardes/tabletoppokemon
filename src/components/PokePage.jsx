@@ -330,6 +330,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 setDisableTournament(true)
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameHost, handleToast, maxTurns, turn, walkedBlocks, mercant])
 
     useEffect(() => {
@@ -346,36 +347,40 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         if(turn > 0) {
             localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam))
             localStorage.setItem('inventory', JSON.stringify(savedPokemons))
-            localStorage.setItem('turn', JSON.stringify(turn))
-            localStorage.setItem('level', JSON.stringify(level))
-            localStorage.setItem('experience', JSON.stringify(experience))
-            localStorage.setItem('coins', JSON.stringify(coins))
-            localStorage.setItem('medal', JSON.stringify(medal))
-            localStorage.setItem('trophy', JSON.stringify(trophy))
-            localStorage.setItem('walkedBlocks', JSON.stringify(walkedBlocks))
+            localStorage.setItem('trainer', JSON.stringify({
+                turn: turn,
+                level: level,
+                experience: experience,
+                coins: coins,
+                medal: medal,
+                trophy: trophy,
+                walkedBlocks: walkedBlocks,
+                steal: steal,
+                fight: fight,
+                greatball: greatball,
+                superball: superball,
+                ultraball: ultraball,
+                masterball: masterball,
+                totalCatches: totalCatches,
+                shinyCatches: shinyCatches,
+                criticals: criticals,
+                highestAmount: highestAmount
+            }))
         }
-    }, [experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, walkedBlocks, highestAmount, maxTurns])
+    }, [
+        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, 
+        walkedBlocks, highestAmount, maxTurns, steal, fight, greatball, superball, ultraball, masterball, totalCatches, shinyCatches, criticals
+    ])
 
     useEffect(() => {
         const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
         const pokeInventory = JSON.parse(localStorage.getItem('inventory'));
-        const pokeTurn = JSON.parse(localStorage.getItem('turn'));
-        const pokeLevel = JSON.parse(localStorage.getItem('level'));
-        const pokeExp = JSON.parse(localStorage.getItem('experience'));
-        const pokeCoins = JSON.parse(localStorage.getItem('coins'));
-        const pokeMedal = JSON.parse(localStorage.getItem('medal'));
-        const pokeTrophy = JSON.parse(localStorage.getItem('trophy'));
-        const pokeBlocks = JSON.parse(localStorage.getItem('walkedBlocks'));
+        const trainer = JSON.parse(localStorage.getItem('trainer'));
+
+        console.log(trainer)
 
         if (pokeTeam) setPokemonsTeam([...pokeTeam]);
         if (pokeInventory) setSavedPokemons([...pokeInventory]);
-        if (pokeTurn) setTurn(pokeTurn);
-        if (pokeLevel) setLevel(pokeLevel);
-        if (pokeExp) setExperience(pokeExp);
-        if (pokeCoins) setCoins(pokeCoins);
-        if (pokeMedal) setMedal(pokeMedal);
-        if (pokeTrophy) setTrophy(pokeTrophy);
-        if (pokeBlocks) setWalkedBlocks(pokeBlocks);
       }, []);
 
     return (

@@ -26,6 +26,7 @@ import StealBlock from "./Pokemon/Block/StealBlock"
 import EventBlock from "./Pokemon/Event/EventBlock"
 import GymBlock from "./Pokemon/Event/GymBlock"
 import TournamentBlock from "./Pokemon/Event/TournamentBlock"
+import { ConfettiCanvas } from "react-raining-confetti";
 
 import arrowIcon from '../assets/images/game/arrow.png'
 import shopIcon from '../assets/images/game/shop.png'
@@ -74,6 +75,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [disableGym, setDisableGym] = useState(true)
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
+    const [confetti, setConfetti] = useState(true)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -111,6 +113,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             
             if(shiny.shiny) {
                 setShinyCatches(shinyCatches + 1)
+                setConfetti(true)
             } else {
                 setTotalCatches(totalCatches + 1)
             }
@@ -190,6 +193,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
         setEndTurnButton(false)
+        setConfetti(false)
     }
 
     const handlePokemonRollClean = (pokemonCatchExp) => {
@@ -323,8 +327,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 setDisableTournament(true)
             }
         }
-
-
     }, [gameHost, handleToast, maxTurns, turn, walkedBlocks])
 
     useEffect(() => {
@@ -376,6 +378,9 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     return (
         <>
             <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
+            {confetti ? (
+                <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
+            ): null}
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
                     <GridItem colSpan={2}>
                         <Center justifyContent="left">
@@ -440,20 +445,23 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     </Flex>
                                 </PlayTurn>
                             ) : (
-                                <EndGame
-                                    medal={medal}
-                                    trophy={trophy}
-                                    setTrophy={setTrophy}
-                                    coins={coins}
-                                >
-                                    <TreinerStats 
-                                        walked={walkedBlocks}
-                                        totalCatches={totalCatches}
-                                        shinyCatches={shinyCatches}
-                                        totalCriticals={criticals}
-                                        highestAmount={highestAmount}
-                                    />
-                                </EndGame>
+                                <>
+                                    <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
+                                    <EndGame
+                                        medal={medal}
+                                        trophy={trophy}
+                                        setTrophy={setTrophy}
+                                        coins={coins}
+                                    >
+                                        <TreinerStats 
+                                            walked={walkedBlocks}
+                                            totalCatches={totalCatches}
+                                            shinyCatches={shinyCatches}
+                                            totalCriticals={criticals}
+                                            highestAmount={highestAmount}
+                                        />
+                                    </EndGame>
+                                </>
                             )}
                             <TrainerBar 
                                 turn={turn}
@@ -483,6 +491,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 trophy={trophy}
                                 setTrophy={setTrophy}
                                 team={handleTeamStats}
+                                setConfetti={setConfetti}
                             />
                             {gameHost && (
                                 <EventBlock
@@ -492,6 +501,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                             <StealBlock 
                                 steal={steal}
                                 setSteal={setSteal}
+                                turn={turn}
                             />
                             <FightBlock 
                                 fight={fight}

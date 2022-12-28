@@ -7844,6 +7844,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-raining-confetti@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-raining-confetti/-/react-raining-confetti-1.0.1.tgz#1ac129ab59c256741a03556e5f5f353325453373"
+  integrity sha512-xcjov9UrFJx+97tbBmS/zasKIlzwThmVkZHErAt7ejpwzruK/H+vu8Jo7m5vBotOqtUNvJhmdnKe4K2mymucXQ==
+
 react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"

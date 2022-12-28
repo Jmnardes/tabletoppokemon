@@ -4,7 +4,7 @@ import stealIcon from '../../../assets/images/items/steal.png'
 import { diceRoll } from "../../../util";
 import { useEffect, useState } from "react";
 
-export default function StealBlock({ disable, steal, setSteal }) {
+export default function StealBlock({ steal, setSteal, turn }) {
     const [stealRoll, setStealRoll] = useState(false)
 
     const stealWhat = () => {
@@ -26,10 +26,8 @@ export default function StealBlock({ disable, steal, setSteal }) {
     }
 
     useEffect(() => {
-        if(steal === 0) {
-            setStealRoll('')
-        }
-    }, [steal])
+        setStealRoll('')
+    }, [turn])
 
     return (
         <PokeModal title={'Team Rocket Pass'} button={
@@ -38,7 +36,7 @@ export default function StealBlock({ disable, steal, setSteal }) {
                 title={'Team Rocket Pass'}
                 w="24px"
             ></Image>
-        } disableButton={disable}>
+        }>
             <Center flexDirection="column">
                 <Heading mt={16}>Roll to Steal</Heading>
 

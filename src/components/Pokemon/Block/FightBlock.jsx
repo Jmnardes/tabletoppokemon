@@ -22,7 +22,7 @@ export default function FightBlock({ disable, fight, setFight }) {
                     The rules are simple, you choose 5 pokemons to battle, roll a d20, the lowest choose the first pokemon, just three pokemons are used in battle
                 </Text>
 
-                <Button mt={12} w={40} disabled={fight === 0} onClick={() => setFight(fight - 1)}>Fight!</Button>
+                <Button mt={12} w={40} disabled={fight === 0} onClick={() => setFight(fight - 1)}>Use Glove</Button>
             </Center>
         </PokeModal>
     )

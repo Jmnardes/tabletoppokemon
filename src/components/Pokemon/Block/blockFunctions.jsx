@@ -508,7 +508,7 @@ function treasure() {
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
-                type: 'pokestar',
+                type: 'medal',
                 value: 1
             }
         }

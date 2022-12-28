@@ -41,7 +41,8 @@ export default function TeamTitle({ handleTeamStats }) {
                         title={'Attack'}
                         w="28px"
                     ></Image>
-                    <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text>
+                    <Text ml={-1} fontSize="2xl">{handleTeamStats('atk')}</Text>
+                    {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('atk'))}</Text> */}
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
                     <Image
@@ -50,7 +51,8 @@ export default function TeamTitle({ handleTeamStats }) {
                         title={'Defense'}
                         w="28px"
                     ></Image>
-                    <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text>
+                    <Text ml={-1} fontSize="2xl">{handleTeamStats('def')}</Text>
+                    {/* <Text ml={-1} fontSize="2xl">{statMedium(handleTeamStats('def'))}</Text> */}
                 </Flex>
                 <Flex mx={4} justifyContent="center" alignItems="center">
                     <Image
@@ -108,7 +110,7 @@ export default function TeamTitle({ handleTeamStats }) {
                     </Button>
                 </Flex>
             </Flex>
-            <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/>
+            {/* <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/> */}
         </Flex>
     )
 }

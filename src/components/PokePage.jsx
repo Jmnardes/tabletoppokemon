@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
-import ShowPokemon from "./ShowPokemon"
-import { sortPokemon } from "../sortPokemon"
-import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../../util'
-import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "../pokemonFunctions"
-import Inventary from "./Inventary/Inventary"
-import Team from "./Inventary/Team"
+import ShowPokemon from "./Pokemon/ShowPokemon"
+import { sortPokemon } from "./sortPokemon"
+import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../util'
+import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "./pokemonFunctions"
+import Inventary from "./Pokemon/Inventary/Inventary"
+import Team from "./Pokemon/Inventary/Team"
 import { FaPlusSquare, FaDollarSign } from "react-icons/fa";
-import pokemonJSON from '../../assets/json/pokemons.json'
-import { pokemonBaseStat } from '../pokemonFunctions'
-import { PlayTurn } from "./PlayTurn"
+import pokemonJSON from '../assets/json/pokemons.json'
+import { pokemonBaseStat } from './pokemonFunctions'
+import { PlayTurn } from "./Pokemon/PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
-import { TrainerBar } from "./Treiner/TrainerBar"
-import { Economy } from "./Shop/Economy"
-import { Settings } from "./Game/Settings"
-import TeamTitle from "./Team/TeamTitle"
-import PokeShop from "./Shop/PokeShop"
-import ExperienceBar from "./Treiner/ExperienceBar"
-import { TreinerStats } from "./Treiner/TreinerStats"
-import EndGame from "./Game/EndGame"
-import PokeballStats from "./Treiner/PokeballStats"
-import Items from "./Inventary/Items"
-import FightBlock from "./Block/FightBlock"
-import StealBlock from "./Block/StealBlock"
-import EventBlock from "./Event/EventBlock"
-import GymBlock from "./Event/GymBlock"
-import TournamentBlock from "./Event/TournamentBlock"
+import { TrainerBar } from "./Pokemon/Treiner/TrainerBar"
+import { Economy } from "./Pokemon/Shop/Economy"
+import { Settings } from "./Pokemon/Game/Settings"
+import TeamTitle from "./Pokemon/Team/TeamTitle"
+import PokeShop from "./Pokemon/Shop/PokeShop"
+import ExperienceBar from "./Pokemon/Treiner/ExperienceBar"
+import { TreinerStats } from "./Pokemon/Treiner/TreinerStats"
+import EndGame from "./Pokemon/Game/EndGame"
+import PokeballStats from "./Pokemon/Treiner/PokeballStats"
+import Items from "./Pokemon/Inventary/Items"
+import FightBlock from "./Pokemon/Block/FightBlock"
+import StealBlock from "./Pokemon/Block/StealBlock"
+import EventBlock from "./Pokemon/Event/EventBlock"
+import GymBlock from "./Pokemon/Event/GymBlock"
+import TournamentBlock from "./Pokemon/Event/TournamentBlock"
 
-import arrowIcon from '../../assets/images/game/arrow.png'
-import shopIcon from '../../assets/images/game/shop.png'
-import event1Icon from '../../assets/images/game/event1.png'
-import event3Icon from '../../assets/images/game/event3.png'
+import arrowIcon from '../assets/images/game/arrow.png'
+import shopIcon from '../assets/images/game/shop.png'
+import event1Icon from '../assets/images/game/event1.png'
+import event2Icon from '../assets/images/game/event2.png'
+import event3Icon from '../assets/images/game/event3.png'
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost }) {
     const { colorMode } = useColorMode()
@@ -70,6 +71,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
     const [disableEvent, setDisableEvent] = useState(true)
+    const [disableGym, setDisableGym] = useState(true)
+    const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
 
     const handlePokemonRoll = () => {
@@ -228,6 +231,49 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         return total
     }
 
+    const gymTurnControl = () => {
+        if(turn === 5) {
+            setGymTier(1)
+            return true 
+        }
+        if(turn === 10) {
+            setGymTier(2)
+            return true 
+        }
+        if(turn === 15) {
+            setGymTier(3)
+            return true 
+        }
+        if(turn === 20) {
+            setGymTier(4)
+            return true 
+        }
+        if(turn === 25) {
+            setGymTier(5)
+            return true 
+        }
+        if(turn === 30) {
+            setGymTier(6)
+            return true 
+        }
+        if(turn === 35) {
+            setGymTier(7)
+            return true 
+        }
+        if(turn === 40) {
+            setGymTier(8)
+            return true 
+        }
+        if(turn === 70) {
+            setGymTier(9)
+            return true 
+        }
+        if(turn === 90) {
+            setGymTier(10)
+            return true 
+        }
+    }
+
     useEffect(() => {
         if((turn%10 === 0 || turn === maxTurns) && turn !== 0) {
             setDisableShop(false)
@@ -239,6 +285,17 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             )
         } else {
             setDisableShop(true)
+        }
+        if(gymTurnControl()) {
+            setDisableGym(false)
+            handleToast(
+                'hym', 
+                'Gym Leader', 
+                'You can face the Gym Leader to get a Poke Crown',
+                <Image src={event2Icon} w="36px"></Image>
+            )
+        } else {
+            setDisableGym(true)
         }
 
         if (gameHost) {
@@ -421,7 +478,11 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 />
                             )}
                             <GymBlock
-                                disable={true}
+                                disable={disableGym}
+                                gymTier={gymTier}
+                                trophy={trophy}
+                                setTrophy={setTrophy}
+                                team={handleTeamStats}
                             />
                             {gameHost && (
                                 <EventBlock

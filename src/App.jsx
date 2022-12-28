@@ -2,7 +2,7 @@ import { Box, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import ThemeSwitch from "./components/Chakra/ThemeSwitch/ThemeSwitch"
 import InitialMenu from "./components/InitialMenu/InitialMenu"
-import PokePage from "./components/Pokemon/PokePage"
+import PokePage from "./components/PokePage"
 
 const App = () => {
   const toast = useToast()

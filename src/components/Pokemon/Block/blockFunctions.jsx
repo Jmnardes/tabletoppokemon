@@ -3,13 +3,13 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 10) { // 10
+    if(blockCategoryPercentage < 15) { // 15
         return 'event'
-    } else if(blockCategoryPercentage < 20) { // 10
+    } else if(blockCategoryPercentage < 25) { // 10
         return 'shop'
-    } else if(blockCategoryPercentage < 30) { // 10
+    } else if(blockCategoryPercentage < 35) { // 10
         return 'item'
-    } else if(blockCategoryPercentage < 65) { // 35
+    } else if(blockCategoryPercentage < 65) { // 30
         return 'economy'
     } else { // 35
         return 'default'
@@ -34,7 +34,7 @@ export function blockType() {
         type: 'shop',
         title: 'Mercant',
         label: "Hello stranger!",
-        rules: "Don't end the turn, and you can buy or sell just 1 thing!"
+        rules: "Don't end the turn, the mercant will leave if you catch a pokemon"
     })
 
     if(category === 'item') {
@@ -118,9 +118,9 @@ export function blockType() {
 function defaultMessages() {
     let message = diceRoll(16)
 
-    if (message === 0) return 'You swear you saw a Zapdos'
-    if (message === 1) return 'You swear you saw a Articuno'
-    if (message === 2) return 'You swear you saw a Moltres'
+    if (message === 0) return 'You can swear that you saw a Zapdos'
+    if (message === 1) return 'You can swear that you saw a Articuno'
+    if (message === 2) return 'You can swear that you saw a Moltres'
     if (message === 3) return 'Nothing, really nothing, sorry'
     if (message === 4) return "Looks like you've chosen an off-the-beaten path"
     if (message === 5) return "Very quiet around here"

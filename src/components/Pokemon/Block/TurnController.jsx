@@ -9,8 +9,8 @@ import directionIcon from '../../../assets/images/game/direction.png'
 export default function TurnController({ 
     setIsPokemonEncounter, 
     setWalkedBlocks, 
-    walkedBlocks, 
-    setDisableShop, 
+    walkedBlocks,
+    setMercant,
     rollBlockDisabed, 
     setRollBlockDisabed, 
     setCoins,
@@ -81,8 +81,8 @@ export default function TurnController({
                 </Flex>
 
                 <BlockController 
-                    block={block} 
-                    setDisableShop={setDisableShop} 
+                    block={block}
+                    setMercant={setMercant} 
                     setCoins={setCoins}
                     coins={coins}
                     pokemonsTeam={pokemonsTeam}

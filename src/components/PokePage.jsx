@@ -72,6 +72,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
+    const [mercant, setMercant] = useState(false)
     const [disableEvent, setDisableEvent] = useState(true)
     const [disableGym, setDisableGym] = useState(true)
     const [gymTier, setGymTier] = useState(1)
@@ -215,6 +216,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
         setRollBlockDisabed(false)
         setIsPokemonEncounter(false)
         setCloseModal(true)
+        setMercant(false)
 
         setPokemonArray([])
     }
@@ -289,7 +291,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 <Image src={shopIcon} w="36px"></Image>
             )
         } else {
-            setDisableShop(true)
+            mercant ? setDisableShop(false) : setDisableShop(true)
         }
         if(gymTurnControl()) {
             setDisableGym(false)
@@ -328,7 +330,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 setDisableTournament(true)
             }
         }
-    }, [gameHost, handleToast, maxTurns, turn, walkedBlocks])
+    }, [gameHost, handleToast, maxTurns, turn, walkedBlocks, mercant])
 
     useEffect(() => {
         setShiny(() => shinyRoll(shinyPercentage))
@@ -414,7 +416,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setCloseModal={setCloseModal}
                                     walkedBlocks={walkedBlocks}
                                     setWalkedBlocks={setWalkedBlocks}
-                                    setDisableShop={setDisableShop}
+                                    setMercant={setMercant}
                                     setCoins={setCoins}
                                     coins={coins}
                                     pokemonsTeam={pokemonsTeam}
@@ -570,8 +572,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 >
                     {savedPokemons?.map((poke, i) => {
                         return (
-                            <>
-                                <Box mb={2} key={(turn * 100) + poke + i}>
+                            <React.Fragment key={(turn * 100) + poke + i}>
+                                <Box mb={2}>
                                     <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
                                     <Box display="flex" justifyContent="center">
                                         <Button 
@@ -625,7 +627,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                         ></Image>
                                     </Center>
                                 )}
-                            </>
+                            </React.Fragment>
                         )
                     })}
                 </Stack>
@@ -654,7 +656,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 <Flex justifyContent="center" alignItems="center">
                     {pokemonsTeam?.map((poke, i) => {
                         return (
-                            <Box m={8} key={(turn * 100) + poke + i}>
+                            <Box key={(turn * 100) + poke.pokemonId + i} m={8}>
                                 <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
                             </Box>
                         )

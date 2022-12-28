@@ -4,15 +4,15 @@ function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
     if(blockCategoryPercentage < 15) { // 15
-        return 'event'
+        return 'shop'
     } else if(blockCategoryPercentage < 25) { // 10
         return 'shop'
     } else if(blockCategoryPercentage < 35) { // 10
-        return 'item'
+        return 'shop'
     } else if(blockCategoryPercentage < 65) { // 30
-        return 'economy'
+        return 'shop'
     } else { // 35
-        return 'default'
+        return 'shop'
     }
 }
 

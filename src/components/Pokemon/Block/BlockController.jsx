@@ -4,7 +4,7 @@ import pokemonJSON from '../../../assets/json/pokemons.json'
 
 function BlockController({ 
     block,
-    setDisableShop,
+    setMercant,
     pokemonsTeam,
     coins,
     setCoins,
@@ -29,7 +29,11 @@ function BlockController({
         if (isPositive) {
             setCoins(coins + value)
         } else {
-            setCoins(coins - value)
+            if (value > coins) {
+                setCoins(0)
+            } else {
+                setCoins(coins - value)
+            }
         }
     }
 
@@ -56,6 +60,8 @@ function BlockController({
 
     useEffect(() => {
         block?.type === 'economy' && handlePassiveCoins(block.change?.value, block.change?.isPositive)
+
+        block?.type === 'shop' && setMercant(true)
 
         if(block?.type === 'event') {
             if(block.change?.category === 'coin') {
@@ -127,8 +133,6 @@ function BlockController({
             {block?.rules && (
                 <Text fontSize="1xl" textAlign="center" color={'red'} fontWeight="bold">({block?.rules})</Text>
             )}
-
-            {block?.type === 'shop' && setDisableShop(false)}
         </Flex>
     )
 }

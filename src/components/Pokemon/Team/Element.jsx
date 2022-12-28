@@ -21,7 +21,7 @@ import steel from '../../../assets/images/elements/steel.webp'
 import water from '../../../assets/images/elements/water.webp'
 
 import { typeAdvantage, typeDisadvantage } from "../../../util";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Element({ element, elementTable }) {
     const [elementsTooltip, setElementsTooltip] = useState('')
@@ -39,9 +39,9 @@ export default function Element({ element, elementTable }) {
         return types
     }
 
-    const ElementComponent = ({ type, icon }) => {
+    const ElementComponent = React.forwardRef(({ type, icon }, ref) => {
         return (
-            <Tooltip label={elementsTooltip} borderRadius={16}>
+            <Tooltip ref={ref} label={elementsTooltip} borderRadius={16}>
                 <Image
                     cursor="pointer"
                     key={type} 
@@ -54,7 +54,7 @@ export default function Element({ element, elementTable }) {
                 />
             </Tooltip>
         )
-    }
+    })
 
     const ElementImage = ({ t }) => {
         return (

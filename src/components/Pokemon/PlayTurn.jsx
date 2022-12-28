@@ -29,7 +29,7 @@ export function PlayTurn({
     setCloseModal,
     walkedBlocks,
     setWalkedBlocks,
-    setDisableShop,
+    setMercant,
     rollBlockDisabed,
     setRollBlockDisabed,
     isPokemonEncounter,
@@ -89,7 +89,7 @@ export function PlayTurn({
                     setIsPokemonEncounter={setIsPokemonEncounter} 
                     walkedBlocks={walkedBlocks} 
                     setWalkedBlocks={setWalkedBlocks}
-                    setDisableShop={setDisableShop}
+                    setMercant={setMercant}
                     rollBlockDisabed={rollBlockDisabed}
                     setRollBlockDisabed={setRollBlockDisabed}
                     setCoins={setCoins}

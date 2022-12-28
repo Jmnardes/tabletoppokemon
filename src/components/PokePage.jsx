@@ -33,6 +33,7 @@ import shopIcon from '../assets/images/game/shop.png'
 import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
+import ElementsList from "./Pokemon/Team/ElementsList"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost }) {
     const { colorMode } = useColorMode()
@@ -649,6 +650,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             
             <Flex flexDir="column">
                 <TeamTitle handleTeamStats={handleTeamStats} />
+                <ElementsList />
                 <Flex justifyContent="center" alignItems="center">
                     {pokemonsTeam?.map((poke, i) => {
                         return (

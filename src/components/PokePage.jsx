@@ -351,6 +351,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 turn: turn,
                 maxTurns: maxTurns,
                 tier: tier,
+                gymTier: gymTier,
                 level: level,
                 experience: experience,
                 coins: coins,
@@ -370,7 +371,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             }))
         }
     }, [
-        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, tier,
+        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, tier, gymTier,
         walkedBlocks, highestAmount, maxTurns, steal, fight, greatball, superball, ultraball, masterball, totalCatches, shinyCatches, criticals
     ])
 
@@ -383,6 +384,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             setTurn(trainer.turn)
             setMaxTurns(trainer.maxTurns)
             setTier(trainer.tier)
+            setGymTier(trainer.gymTier)
             setLevel(trainer.level)
             setExperience(trainer.experience)
             setCoins(trainer.coins)

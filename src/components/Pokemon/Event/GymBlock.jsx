@@ -36,11 +36,11 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                 hpDif = 5
             }
             
-            if( myStat > gymStat ) return 7 + ( parseNumberToNatural(myStat, hpDif) )
+            if( myStat > gymStat ) return 10 + ( parseNumberToNatural(myStat, hpDif) )
         } else {
-            if( myStat > gymStat ) return 7 + (myStat - gymStat)
+            if( myStat > gymStat ) return 10 + (myStat - gymStat)
         }
-        if( myStat === gymStat ) return 5
+        if( myStat === gymStat ) return 7
         if( myStat >= (gymStat - 2) ) return 3
         if( myStat >= (gymStat - 4) ) return 2
         if( myStat >= (gymStat - 6) ) {
@@ -78,7 +78,9 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
     }
 
     function colorOfStat(myStat, gymStat) {
-        if( myStat > gymStat ) return '#22cc00'
+        if( myStat > gymStat + 4 ) return '#0081cc'
+        if( myStat > gymStat + 2 ) return '#00ccb1'
+        if( myStat > gymStat ) return '#20c000'
         if( myStat === gymStat ) return '#72ca00'
         if( myStat > (gymStat - 2) ) return '#ced100'
         if( myStat > (gymStat - 4) ) return '#cf9f00'
@@ -91,7 +93,9 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
 
     function colorOfHp(myStat, gymStat, tier) {
         if(tier < 2) {
-            if( myStat > gymStat ) return '#22cc00'
+            if( myStat > gymStat + 4 ) return '#0081cc'
+            if( myStat > gymStat + 2 ) return '#00ccb1'
+            if( myStat > gymStat ) return '#20c000'
             if( myStat === gymStat ) return '#72ca00'
             if( myStat > (gymStat - 2) ) return '#ced100'
             if( myStat > (gymStat - 4) ) return '#cf9f00'
@@ -102,7 +106,9 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
             }
         }
         if(tier < 5) {
-            if( myStat > gymStat ) return '#22cc00'
+            if( myStat > gymStat + 6 ) return '#0081cc'
+            if( myStat > gymStat + 3 ) return '#00ccb1'
+            if( myStat > gymStat ) return '#20c000'
             if( myStat === gymStat ) return '#72ca00'
             if( myStat > (gymStat - 3) ) return '#ced100'
             if( myStat > (gymStat - 6) ) return '#cf9f00'
@@ -113,7 +119,9 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
             }
         }
         if(tier < 8) {
-            if( myStat > gymStat ) return '#22cc00'
+            if( myStat > gymStat + 8 ) return '#0081cc'
+            if( myStat > gymStat + 4 ) return '#00ccb1'
+            if( myStat > gymStat ) return '#20c000'
             if( myStat === gymStat ) return '#72ca00'
             if( myStat > (gymStat - 4) ) return '#ced100'
             if( myStat > (gymStat - 8) ) return '#cf9f00'
@@ -124,7 +132,9 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
             }
         }
         if(tier < 11) {
-            if( myStat > gymStat ) return '#22cc00'
+            if( myStat > gymStat + 10 ) return '#0081cc'
+            if( myStat > gymStat + 5 ) return '#00ccb1'
+            if( myStat > gymStat ) return '#20c000'
             if( myStat === gymStat ) return '#72ca00'
             if( myStat > (gymStat - 5) ) return '#ced100'
             if( myStat > (gymStat - 10) ) return '#cf9f00'
@@ -195,7 +205,7 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                         <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('spd'),gymStats.spd)}>{team('spd')}</Text>
                     </Center>
                 </Center>
-                <Text fontSize="xs" mt={1}>When the color gets closer to green you have more chance to win!</Text>
+                <Text fontSize="xs" mt={1}>{'Blue > Aqua > Green > Moss > Yellow > Orange > Red'}</Text>
                 <Text mt={4}>Win chance: {winPercentage}%</Text>
                 <Button mt={8} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
 

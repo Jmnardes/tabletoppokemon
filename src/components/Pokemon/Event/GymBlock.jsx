@@ -1,7 +1,7 @@
 import { Button, Center, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
 import event2Icon from '../../../assets/images/game/event2.png'
-import { diceRoll } from "../../../util";
+import { diceRoll, parseNumberToNatural } from "../../../util";
 import { useEffect, useState } from "react";
 import swordIcon from '../../../assets/images/stats/sword.png'
 import shieldIcon from '../../../assets/images/stats/shield.png'
@@ -22,12 +22,28 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         spd: 0
     })
 
-    function eachStatPercentage(myStat, gymStat) {
-        if( myStat > gymStat ) return 8
-        if( myStat === gymStat ) return 6
-        if( myStat > (gymStat - 2) ) return 4
-        if( myStat > (gymStat - 4) ) return 2
-        if( myStat > (gymStat - 6) ) {
+    function eachStatPercentage(myStat, gymStat, type) {
+        if(type === 'hp') {
+            let hpDif = 0
+
+            if(gymTier < 2) {
+                hpDif = 2
+            } else if(gymTier < 5) {
+                hpDif = 3
+            } else if(gymTier < 8) {
+                hpDif = 4
+            } else {
+                hpDif = 5
+            }
+            
+            if( myStat > gymStat ) return 7 + ( parseNumberToNatural(myStat, hpDif) )
+        } else {
+            if( myStat > gymStat ) return 7 + (myStat - gymStat)
+        }
+        if( myStat === gymStat ) return 5
+        if( myStat >= (gymStat - 2) ) return 3
+        if( myStat >= (gymStat - 4) ) return 2
+        if( myStat >= (gymStat - 6) ) {
             return 1
         } else {
             return 0
@@ -35,13 +51,13 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
     }
 
     function calcWinPercentage() {
-        let totalPercentage = 5
+        let totalPercentage = 0
 
         if(team) {
-            totalPercentage += eachStatPercentage(team('hp'), gymStats.hp)
-            totalPercentage += eachStatPercentage(team('atk'), gymStats.atk)
-            totalPercentage += eachStatPercentage(team('def'), gymStats.def)
-            totalPercentage += eachStatPercentage(team('spd'), gymStats.spd)
+            totalPercentage += eachStatPercentage(team('hp'), gymStats.hp, 'hp')
+            totalPercentage += eachStatPercentage(team('atk'), gymStats.atk, 'atk')
+            totalPercentage += eachStatPercentage(team('def'), gymStats.def, 'def')
+            totalPercentage += eachStatPercentage(team('spd'), gymStats.spd, 'spd')
         }
 
         return totalPercentage

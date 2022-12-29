@@ -237,11 +237,11 @@ export const typeDisadvantage = (type) => {
 }
 
 export const parseNumberToNatural = (number, division) => {
-    return Number.parseFloat(number/division).toFixed(0)
+    return Number(Number.parseFloat(number/division).toFixed(0))
 }
 
 export const parseNumberMultToNatural = (number, multiply) => {
-    return Number.parseFloat(number*multiply).toFixed(0)
+    return Number(Number.parseFloat(number*multiply).toFixed(0))
 }
 
 export const tierSellingPrice = (tier) => {

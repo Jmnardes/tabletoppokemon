@@ -7,10 +7,10 @@ export default function Items({ children }) {
     return (
         <>
             <Flex justifyContent="center" alignItems="center" width="100%" mt={4}>
-                <Grid templateColumns='repeat(5, 1fr)' width="100%" h={16}>
+                <Grid templateColumns='repeat(6, 1fr)' width="100%" h={16}>
                     <GridItem></GridItem>
 
-                    <GridItem colSpan={3} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} borderRadius="64px 64px 0 0" py={4}>
+                    <GridItem colSpan={4} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} borderRadius="64px 64px 0 0" py={4}>
                         <Grid templateColumns='repeat(5, 1fr)' width="100%" h={16}>
                             <GridItem><Center>
                                 <Image

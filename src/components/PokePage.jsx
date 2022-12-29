@@ -35,7 +35,7 @@ import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
 import ElementsList from "./Pokemon/Team/ElementsList"
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost }) {
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -349,6 +349,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
             localStorage.setItem('inventory', JSON.stringify(savedPokemons))
             localStorage.setItem('trainer', JSON.stringify({
                 turn: turn,
+                maxTurns: maxTurns,
                 tier: tier,
                 level: level,
                 experience: experience,
@@ -380,6 +381,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
         if(trainer) {
             setTurn(trainer.turn)
+            setMaxTurns(trainer.maxTurns)
             setTier(trainer.tier)
             setLevel(trainer.level)
             setExperience(trainer.experience)
@@ -401,11 +403,12 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
         if (pokeTeam) setPokemonsTeam([...pokeTeam]);
         if (pokeInventory) setSavedPokemons([...pokeInventory]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     return (
         <>
-            <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"} borderBottom="solid 1px">
+            <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
             {confetti ? (
                 <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
             ): null}
@@ -465,6 +468,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                                             shiny={data.shiny}
                                                             diceRollResult={resultDiceRoll}
                                                             handleAddInventory={() => handleAddInventory(data, true)}
+                                                            gameDifficulty={gameDifficulty}
                                                         />
                                                     </React.Fragment>
                                                 )

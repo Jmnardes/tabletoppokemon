@@ -59,6 +59,8 @@ const App = () => {
             generation={generation}
             handleToast={handleToast}
             gameHost={gameHost}
+            setMaxTurns={setMaxTurns}
+            gameDifficulty={gameDifficulty}
           />
         ): (
           <InitialMenu

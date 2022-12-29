@@ -8,11 +8,7 @@ export default function ExperienceBar({
     const { colorMode } = useColorMode()
 
     const leftExperienceCalc = (previous, actual, next) => {
-        next = next - previous
-
-        actual = actual - previous
-
-        actual = Number.parseFloat((actual*100) / 13).toFixed(0)
+        actual = Number.parseFloat( ((actual - previous) * 100) / (next - previous) ).toFixed(0)
 
         return Number(actual)
     }

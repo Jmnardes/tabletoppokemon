@@ -78,9 +78,9 @@ export const rollEventType = () => {
         }
     } else if(eventRoll < 45) {
         return {
-            title: 'Flying',
-            description: 'If you have a pokemon who flyes',
-            rules: 'Roll a d6 and sum +1 for each pokemon on your team',
+            title: 'The best',
+            description: 'Sum his attack, defense and speed',
+            rules: 'Roll a d20 and sum +1 for each pokemon on your team',
             first: profit.first,
             second: profit.second,
             third: profit.third
@@ -190,9 +190,9 @@ export const rollEventType = () => {
 function eventProfit() {
     let profitRoll = diceRoll(100)
 
-    if(profitRoll < 90) {
+    if(profitRoll < 85) {
         return {
-            first: `${diceRoll(11) + 5} coins`,
+            first: `${diceRoll(6) + 5} coins`,
             second: `${diceRoll(4) + 2} coins`,
             third: '1 coins'
         }

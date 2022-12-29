@@ -3,15 +3,15 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 15) { // 15
+    if(blockCategoryPercentage < 20) { // 20
         return 'event'
-    } else if(blockCategoryPercentage < 25) { // 10
+    } else if(blockCategoryPercentage < 30) { // 10
         return 'shop'
-    } else if(blockCategoryPercentage < 35) { // 10
+    } else if(blockCategoryPercentage < 50) { // 20
         return 'item'
-    } else if(blockCategoryPercentage < 65) { // 30
+    } else if(blockCategoryPercentage < 75) { // 25
         return 'economy'
-    } else { // 35
+    } else { // 25
         return 'default'
     }
 }
@@ -21,9 +21,9 @@ export function blockType() {
     let category = blockCategory()
 
     if(category === 'event') {
-        if(blockTypePercentage < 88) {
+        if(blockTypePercentage < 89) {
             return event()
-        } else if(blockTypePercentage < 98) {
+        } else if(blockTypePercentage < 99) {
             return event('item')
         } else {
             return event('treasure')
@@ -46,7 +46,7 @@ export function blockType() {
     }
 
     if(category === 'economy') {
-        if(blockTypePercentage < 70) {
+        if(blockTypePercentage < 75) {
             return positiveEconomy()
         } else {
             return negativeEconomy()

@@ -22,43 +22,26 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         spd: 0
     })
 
+    function eachStatPercentage(myStat, gymStat) {
+        if( myStat > gymStat ) return 8
+        if( myStat === gymStat ) return 6
+        if( myStat > (gymStat - 2) ) return 4
+        if( myStat > (gymStat - 4) ) return 2
+        if( myStat > (gymStat - 6) ) {
+            return 1
+        } else {
+            return 0
+        }
+    }
+
     function calcWinPercentage() {
         let totalPercentage = 5
 
         if(team) {
-                
-            if( team('hp') >= gymStats.hp ) {
-                if ( team('hp') === gymStats.hp ) {
-                    totalPercentage += 5
-                } else {
-                    totalPercentage += 10
-                }
-            }
-
-            if( team('atk') >= gymStats.atk ) {
-                if ( team('atk') === gymStats.atk ) {
-                    totalPercentage += 5
-                } else {
-                    totalPercentage += 10
-                }
-            }
-
-            if( team('def') >= gymStats.def ) {
-                if ( team('def') === gymStats.def ) {
-                    totalPercentage += 5
-                } else {
-                    totalPercentage += 10
-                }
-            }
-
-            if( team('spd') >= gymStats.spd ) {
-                if ( team('spd') === gymStats.spd ) {
-                    totalPercentage += 5
-                } else {
-                    totalPercentage += 10
-                }
-            }
-
+            totalPercentage += eachStatPercentage(team('hp'), gymStats.hp)
+            totalPercentage += eachStatPercentage(team('atk'), gymStats.atk)
+            totalPercentage += eachStatPercentage(team('def'), gymStats.def)
+            totalPercentage += eachStatPercentage(team('spd'), gymStats.spd)
         }
 
         return totalPercentage
@@ -197,8 +180,8 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                     </Center>
                 </Center>
                 <Text fontSize="xs" mt={1}>When the color gets closer to green you have more chance to win!</Text>
-                {/* <Text mt={8} fontSize="2xl">You have {winPercentage}% chance of winning</Text> */}
-                <Button mt={12} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                <Text mt={4}>Win chance: {winPercentage}%</Text>
+                <Button mt={8} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
                     {showResult &&

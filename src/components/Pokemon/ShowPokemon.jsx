@@ -6,13 +6,13 @@ import { diceRoll, stringToUpperCase, typeColor } from '../../util'
 import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
 
-function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory }) {
+function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, gameDifficulty }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [rollDifficulty, setRollDifficulty] = useState(0)
     const [disableCard, setDisableCard] = useState(true)
 
     const handleDifficulty = (tier, isShiny) => {
-        setRollDifficulty(() => catchDifficulty(isShiny ? tier + 1 : tier))
+        setRollDifficulty(() => catchDifficulty(isShiny ? (tier + 1 + gameDifficulty) : tier + gameDifficulty))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,6 +90,7 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
         setColorByType(color)
         handleDifficulty(pokemon[pokemonId].tier, shiny.shiny)
         handleCard()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },  [pokemonId, diceRollResult, rollDifficulty, shiny.shiny, handleCard])
 
     return (

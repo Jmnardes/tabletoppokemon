@@ -3,13 +3,15 @@ import clockIcon from '../../../assets/images/game/clock.png'
 import crownIcon from '../../../assets/images/game/crown.png'
 import starIcon from '../../../assets/images/game/star.png'
 import coinIcon from '../../../assets/images/game/coin.png'
+import lureIcon from '../../../assets/images/items/lure.png'
 
 export function TrainerBar({ 
     turn,
     medal,
     trophy,
     isEndgame,
-    coin
+    coin,
+    shinyPercentage
 }) {
     return (
         <>
@@ -47,6 +49,14 @@ export function TrainerBar({
                     w="24px"
                 ></Image>
                 <Text ml={2}>{coin}</Text>
+            </Flex>
+            <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
+                <Image
+                    src={lureIcon}
+                    title={'Shiny incense'}
+                    w="24px"
+                ></Image>
+                <Text title={'Shiny chance ' + shinyPercentage + '%'} cursor="pointer" ml={2}>{shinyPercentage - 1}</Text>
             </Flex>
         </>
     )

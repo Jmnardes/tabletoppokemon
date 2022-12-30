@@ -7,9 +7,9 @@ import PokePage from "./components/PokePage"
 const App = () => {
   const toast = useToast()
   const [maxTurns, setMaxTurns] = useState(45)
-  const [shinyChance, setShinyChance] = useState(2)
+  const [shinyChance, setShinyChance] = useState(1)
   const [gameDifficulty, setGameDifficulty] = useState(0)
-  const [generation, setGeneration] = useState(3)
+  const [generation, setGeneration] = useState(8)
   const [gameStarted, setGameStarted] = useState(false)
   const [gameReset, setGameReset] = useState(false)
   const [gameHost, setGameHost] = useState(false)
@@ -51,7 +51,8 @@ const App = () => {
       <Box h='100vh' m={0}>
         {gameStarted ? (
           <PokePage 
-            shinyPercentage={shinyChance} 
+            shinyPercentage={shinyChance}
+            setShinyPercentage={setShinyChance}
             maxTurns={maxTurns} 
             handleGameReset={setGameReset}
             trainerName={trainerName}
@@ -67,7 +68,6 @@ const App = () => {
             handleMaxTurns={setMaxTurns}
             handleGameDifficulty={setGameDifficulty}
             gameDifficulty={gameDifficulty}
-            handleShinyChance={setShinyChance}
             handleGameStart={setGameStarted}
             handleTrainerName={setTrainerName}
             setGeneration={setGeneration}

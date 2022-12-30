@@ -21,7 +21,6 @@ import { TreinerStats } from "./Pokemon/Treiner/TreinerStats"
 import EndGame from "./Pokemon/Game/EndGame"
 import PokeballStats from "./Pokemon/Treiner/PokeballStats"
 import Items from "./Pokemon/Inventary/Items"
-import FightBlock from "./Pokemon/Block/FightBlock"
 import StealBlock from "./Pokemon/Block/StealBlock"
 import EventBlock from "./Pokemon/Event/EventBlock"
 import GymBlock from "./Pokemon/Event/GymBlock"
@@ -352,6 +351,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                 maxTurns: maxTurns,
                 tier: tier,
                 gymTier: gymTier,
+                shinyPercentage: shinyPercentage,
                 level: level,
                 experience: experience,
                 coins: coins,
@@ -502,6 +502,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 medal={medal}
                                 trophy={trophy}
                                 coin={coins}
+                                shinyPercentage={shinyPercentage}
                             />
                         </Center>
                     </GridItem>
@@ -526,6 +527,8 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 setTrophy={setTrophy}
                                 team={handleTeamStats}
                                 setConfetti={setConfetti}
+                                fight={fight}
+                                setFight={setFight}
                             />
                             {gameHost && (
                                 <EventBlock
@@ -536,10 +539,6 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 steal={steal}
                                 setSteal={setSteal}
                                 turn={turn}
-                            />
-                            <FightBlock 
-                                fight={fight}
-                                setFight={setFight}
                             />
                             <PokeShop
                                 coins={coins}

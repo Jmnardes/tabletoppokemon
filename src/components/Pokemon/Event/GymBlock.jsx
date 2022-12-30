@@ -7,13 +7,16 @@ import swordIcon from '../../../assets/images/stats/sword.png'
 import shieldIcon from '../../../assets/images/stats/shield.png'
 import speedIcon from '../../../assets/images/stats/speed.png'
 import healthIcon from '../../../assets/images/stats/health.png'
+import fightIcon from '../../../assets/images/items/fight.png'
 
-export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, setConfetti }) {
+export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, setConfetti, fight, setFight }) {
     const { colorMode } = useColorMode()
     const [showResult, setShowResult] = useState(false)
     const [trainerWin, setTrainerWin] = useState(false)
     const [trainerName, setTrainerName] = useState('')
     const [disableButton, setDisableButton] = useState(false)
+    const [disableSpecialMove, setDisableSpecialMove] = useState(false)
+    const [isSpecialMoveOn, setIsSpecialMoveOn] = useState(false)
     const [winPercentage, setWinPercentage] = useState(0)
     const [gymStats, setGymStats] = useState({
         hp: 0,
@@ -59,6 +62,8 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
             totalPercentage += eachStatPercentage(team('def'), gymStats.def, 'def')
             totalPercentage += eachStatPercentage(team('spd'), gymStats.spd, 'spd')
         }
+
+        if (isSpecialMoveOn) totalPercentage += 10
 
         return totalPercentage
     }
@@ -146,6 +151,12 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         }
     }
 
+    function handleSpecialMove() {
+        setIsSpecialMoveOn(true)
+        setFight(fight - 1)
+        setDisableSpecialMove(true)
+    }
+
     useEffect(() => {
         setWinPercentage(calcWinPercentage())
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,7 +167,11 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         setGymStats(gymStrength(gymTier))
         setTrainerName(gymLeader())
 
-        disable === true && setShowResult(false)
+        if (disable) {
+            setShowResult(false)
+            setDisableSpecialMove(false)
+            setIsSpecialMoveOn(false)
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [disable])
 
@@ -207,7 +222,16 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                 </Center>
                 <Text fontSize="xs" mt={1}>{'Blue > Aqua > Green > Moss > Yellow > Orange > Red'}</Text>
                 <Text mt={4}>Win chance: {winPercentage}%</Text>
-                <Button mt={8} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                <Center>
+                    <Button mt={8} mr={2} disabled={disableSpecialMove || fight === 0} onClick={() => handleSpecialMove()}>
+                        <Image
+                            src={fightIcon} 
+                            title={'Increases your chances to win against the Gym'}
+                            w="28px"
+                        ></Image>
+                    </Button>
+                    <Button mt={8} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                </Center>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
                     {showResult &&

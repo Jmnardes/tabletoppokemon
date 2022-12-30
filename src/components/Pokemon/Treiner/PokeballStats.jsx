@@ -3,7 +3,6 @@ import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
 import superballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
 import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
-// import lureIcon from '../../../assets/images/items/lure.png'
 import stealIcon from '../../../assets/images/items/steal.png'
 import fightIcon from '../../../assets/images/items/fight.png'
 
@@ -49,14 +48,6 @@ export default function PokeballStats({
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
             </Flex>
-            {/* <Flex alignItems="center" mx={3}>
-                <Image
-                    src={lureIcon} 
-                    title={'+10'}
-                    w="28px"
-                ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
-            </Flex> */}
             <Flex alignItems="center" mx={3}>
                 <Image
                     src={stealIcon} 
@@ -68,7 +59,7 @@ export default function PokeballStats({
             <Flex alignItems="center" mx={3}>
                 <Image
                     src={fightIcon} 
-                    title={'Fight Glove'}
+                    title={'Special Move'}
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{fight}</Text>

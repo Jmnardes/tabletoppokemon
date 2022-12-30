@@ -99,7 +99,7 @@ export default function PokeShop({
 
                 {/* <ItemComponent icon={lureIcon} desc={'Lure'} /> */}
 
-                <ItemComponent icon={fightIcon} desc={'Fight Glove'} counter={fight} />
+                <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
 
                 <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} />
                 

@@ -1,10 +1,11 @@
-import { Button, Center, Heading, Image, Text } from "@chakra-ui/react";
+import { Button, Center, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
 import stealIcon from '../../../assets/images/items/steal.png'
 import { diceRoll } from "../../../util";
 import { useEffect, useState } from "react";
 
 export default function StealBlock({ steal, setSteal, turn }) {
+    const { colorMode } = useColorMode()
     const [stealRoll, setStealRoll] = useState(false)
 
     const stealWhat = () => {
@@ -36,16 +37,20 @@ export default function StealBlock({ steal, setSteal, turn }) {
                 title={'Team Rocket Pass'}
                 w="24px"
             ></Image>
-        }>
+        } disableButton={steal === 0}>
             <Center flexDirection="column">
-                <Heading mt={16}>Roll to Steal</Heading>
+                <Heading>Roll to Steal</Heading>
 
-                <Text fontSize="3xl" mt={24}>{stealRoll}</Text>
+                <Text mt={12} fontSize="2xl" textAlign="center">You can use the team Rocket to steal something from another trainer</Text>
 
-                <Button mt={24} w={48} disabled={steal === 0} onClick={() => {
+                <Button mt={12} w={48} disabled={steal === 0} onClick={() => {
                     stealWhat()
                     setSteal(steal - 1)
                 }}>Steal</Button>
+
+                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                    <Text fontSize="3xl">{stealRoll}</Text>
+                </Center>
             </Center>
         </PokeModal>
     )

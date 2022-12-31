@@ -33,6 +33,7 @@ import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
 import ElementsList from "./Pokemon/Team/ElementsList"
+import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
 function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
@@ -59,6 +60,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [trophy, setTrophy] = useState(0)
     const [steal, setSteal] = useState(0)
     const [fight, setFight] = useState(0)
+    const [pokemonEgg, setPokemonEgg] = useState(0)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
@@ -540,6 +542,15 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                 setSteal={setSteal}
                                 turn={turn}
                             />
+                            <PokemonEgg
+                                pokemonEgg={pokemonEgg}
+                                setPokemonEgg={setPokemonEgg}
+                                turn={turn}
+                                handleAddInventory={handleAddInventory}
+                                tier={tier}
+                                generation={generation}
+                                shinyPercentage={shinyPercentage}
+                            />
                             <PokeShop
                                 coins={coins}
                                 setCoins={setCoins}
@@ -671,6 +682,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                     masterball={masterball}
                     fight={fight}
                     steal={steal}
+                    pokemonEgg={pokemonEgg}
                 />
             </Items>
             

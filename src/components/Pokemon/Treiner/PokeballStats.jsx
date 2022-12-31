@@ -5,6 +5,7 @@ import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
 import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
 import stealIcon from '../../../assets/images/items/steal.png'
 import fightIcon from '../../../assets/images/items/fight.png'
+import eggIcon from '../../../assets/images/items/egg.png'
 
 export default function PokeballStats({
     greatball,
@@ -12,7 +13,8 @@ export default function PokeballStats({
     ultraball,
     masterball,
     fight,
-    steal
+    steal,
+    pokemonEgg
 }) {
     return (
         <>
@@ -63,6 +65,14 @@ export default function PokeballStats({
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{fight}</Text>
+            </Flex>
+            <Flex alignItems="center" mx={3}>
+                <Image
+                    src={eggIcon} 
+                    title={'Pokemon Egg'}
+                    w="28px"
+                ></Image>
+                <Text fontSize="14px" mt={1} ml={0.5}>{pokemonEgg}</Text>
             </Flex>
         </>
     )

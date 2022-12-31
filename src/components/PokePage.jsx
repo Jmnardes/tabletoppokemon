@@ -35,7 +35,7 @@ import event3Icon from '../assets/images/game/event3.png'
 import ElementsList from "./Pokemon/Team/ElementsList"
 import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -460,6 +460,10 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
                                     setSteal={setSteal}
                                     fight={fight}
                                     setFight={setFight}
+                                    shinyPercentage={shinyPercentage}
+                                    setShinyPercentage={setShinyPercentage}
+                                    pokemonEgg={pokemonEgg}
+                                    setPokemonEgg={setPokemonEgg}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>

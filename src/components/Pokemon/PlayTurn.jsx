@@ -44,7 +44,11 @@ export function PlayTurn({
     steal,
     setSteal,
     fight,
-    setFight
+    setFight,
+    pokemonEgg,
+    setPokemonEgg,
+    shinyPercentage,
+    setShinyPercentage
 }) {
     return (
         <PokeModal 
@@ -111,6 +115,10 @@ export function PlayTurn({
                     setSteal={setSteal}
                     fight={fight}
                     setFight={setFight}
+                    shinyPercentage={shinyPercentage}
+                    setShinyPercentage={setShinyPercentage}
+                    pokemonEgg={pokemonEgg}
+                    setPokemonEgg={setPokemonEgg}
                 />
             )}
         </PokeModal>

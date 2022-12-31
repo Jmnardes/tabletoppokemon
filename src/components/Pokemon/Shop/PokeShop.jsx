@@ -99,15 +99,15 @@ export default function PokeShop({
 
                 {/* <ItemComponent icon={lureIcon} desc={'Lure'} /> */}
 
-                <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
+                {/* <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
 
-                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} />
+                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} /> */}
                 
             </Center>
             <Center flexDirection="column">
                 <Center flexDirection="row" w="100%" justifyContent="space-around" mb={4}>
                     <Text w="200px" fontWeight="bold">Product</Text>
-                    <Text w="80px" fontWeight="bold">Coins</Text>
+                    <Text w="80px" fontWeight="bold">Cost</Text>
                     <Text w="60px" fontWeight="bold" textAlign="center">Buy</Text>
                 </Center>
 

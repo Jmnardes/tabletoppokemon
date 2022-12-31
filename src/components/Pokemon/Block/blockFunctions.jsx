@@ -3,15 +3,15 @@ import { diceRoll } from "../../../util";
 function blockCategory() {
     let blockCategoryPercentage = diceRoll(100)
 
-    if(blockCategoryPercentage < 20) { // 20
-        return 'event'
-    } else if(blockCategoryPercentage < 30) { // 10
+    if(blockCategoryPercentage < 5) { // 5
         return 'shop'
-    } else if(blockCategoryPercentage < 50) { // 20
+    } else if(blockCategoryPercentage < 25) { // 25
+        return 'event'
+    } else if(blockCategoryPercentage < 55) { // 30
         return 'item'
-    } else if(blockCategoryPercentage < 75) { // 25
+    } else if(blockCategoryPercentage < 80) { // 25
         return 'economy'
-    } else { // 25
+    } else { // 20
         return 'default'
     }
 }
@@ -21,9 +21,9 @@ export function blockType() {
     let category = blockCategory()
 
     if(category === 'event') {
-        if(blockTypePercentage < 89) {
+        if(blockTypePercentage < 45) {
             return event()
-        } else if(blockTypePercentage < 99) {
+        } else if(blockTypePercentage < 95) {
             return event('item')
         } else {
             return event('treasure')
@@ -177,7 +177,7 @@ function event(type) {
     let eventPercentage = diceRoll(100)
     let sortedElement = element()
     let sortedNature = nature()
-    let sortedCoins = diceRoll(6) + 10
+    let sortedCoins = diceRoll(11) + 10
 
     if(!type) {
         if(eventPercentage < 50) {
@@ -267,11 +267,13 @@ function event(type) {
 function itemRoll() {
     let itemPercentage = diceRoll(100)
 
-    if(itemPercentage < 45) return 'superball'
-    if(itemPercentage < 65) return 'ultraball'
-    if(itemPercentage < 80) return 'steal'
+    if(itemPercentage < 30) return 'superball'
+    if(itemPercentage < 45) return 'ultraball'
+    if(itemPercentage < 60) return 'steal'
+    if(itemPercentage < 75) return 'egg'
+    if(itemPercentage < 90) return 'fight'
     if(itemPercentage < 95) {
-        return 'fight'
+        return 'incense'
     } else {
         return 'medal'
     }
@@ -280,8 +282,10 @@ function itemRoll() {
 function treasureRoll() {
     let treasurePercentage = diceRoll(100)
 
-    if(treasurePercentage < 40) return 'ultraball'
-    if(treasurePercentage < 75) return 'medal'
+    if(treasurePercentage < 20) return 'ultraball'
+    if(treasurePercentage < 40) return 'steal'
+    if(treasurePercentage < 60) return 'medal'
+    if(treasurePercentage < 80) return 'incense'
     if(treasurePercentage < 90) {
         return 'masterball'
     } else {
@@ -341,7 +345,7 @@ function nature() {
 function item() {
     let itemPercent = diceRoll(100)
 
-    if(itemPercent < 25) {
+    if(itemPercent < 15) {
         return {
             type:'item', 
             title: 'Great Ball', 
@@ -351,7 +355,7 @@ function item() {
                 value: 1
             }
         }
-    } else if(itemPercent < 35) {
+    } else if(itemPercent < 30) {
         return {
             type:'item', 
             title: 'Great Ball x2', 
@@ -361,7 +365,7 @@ function item() {
                 value: 2
             }
         }
-    } else if(itemPercent < 50) {
+    } else if(itemPercent < 45) {
         return {
             type:'item', 
             title: 'Great Ball x3', 
@@ -371,7 +375,7 @@ function item() {
                 value: 3
             }
         }
-    } else if(itemPercent < 55) {
+    } else if(itemPercent < 60) {
         return {
             type:'item', 
             title: 'Super Ball', 
@@ -401,7 +405,7 @@ function item() {
                 value: 1
             }
         }
-    } else if(itemPercent < 85) {
+    } else if(itemPercent < 80) {
         return {
             type:'item', 
             title: 'Fight Glove', 
@@ -411,13 +415,33 @@ function item() {
                 value: 1
             }
         }
-    } else if(itemPercent < 95) {
+    } else if(itemPercent < 85) {
         return {
             type:'item', 
             title: 'Team Rocket Pass',
             label:'You have found a Team Rocket Pass',
             change: {
                 type: 'steal',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 90) {
+        return {
+            type:'item', 
+            title: 'Pokemon Egg',
+            label:'You have found a Pokemon Egg',
+            change: {
+                type: 'egg',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 95) {
+        return {
+            type:'item', 
+            title: 'Shiny incense',
+            label:"Let's catch some shiny pokemon!",
+            change: {
+                type: 'incense',
                 value: 1
             }
         }
@@ -447,13 +471,23 @@ function treasure() {
                 value: 2
             }
         }
-    } else if(itemPercent < 75) {
+    } else if(itemPercent < 50) {
         return {
             type:'item', 
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
                 type: 'medal',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 75) {
+        return {
+            type:'item', 
+            title: 'Shiny incense', 
+            label:"Let's catch some shiny pokemon!",
+            change: {
+                type: 'incense',
                 value: 1
             }
         }

@@ -23,7 +23,11 @@ function BlockController({
     steal,
     setSteal,
     fight,
-    setFight
+    setFight,
+    pokemonEgg,
+    setPokemonEgg,
+    shinyPercentage,
+    setShinyPercentage
 }) {
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {
@@ -46,14 +50,18 @@ function BlockController({
             if(block.change?.item === 'superball') setSuperBall(superball + 1)
             if(block.change?.item === 'ultraball') setUltraBall(ultraball + 1)
             if(block.change?.item === 'steal') setSteal(steal + 1)
+            if(block.change?.item === 'egg') setPokemonEgg(pokemonEgg + 1)
             if(block.change?.item === 'fight') setFight(fight + 1)
+            if(block.change?.item === 'incense') setShinyPercentage(shinyPercentage + 1)
             if(block.change?.item === 'medal') setMedal(medal + 1)
         }
 
         if (block?.change?.category === 'treasure') {
             if(block.change?.item === 'ultraball') setUltraBall(ultraball + 2)
-            if(block.change?.item === 'masterball') setMasterBall(masterball + 1)
+            if(block.change?.item === 'steal') setSteal(steal + 1)
             if(block.change?.item === 'medal') setMedal(medal + 1)
+            if(block.change?.item === 'incense') setShinyPercentage(shinyPercentage + 1)
+            if(block.change?.item === 'masterball') setMasterBall(masterball + 1)
             if(block.change?.item === 'trophy') setTrophy(trophy + 1)
         }
     }
@@ -116,6 +124,12 @@ function BlockController({
                     return
                 case 'trophy':
                     setTrophy(trophy + block.change?.value)
+                    return
+                case 'egg':
+                    setPokemonEgg(pokemonEgg + block.change?.value)
+                    return
+                case 'incense':
+                    setShinyPercentage(shinyPercentage + block.change?.value)
                     return
                 default: //greatball
                     setGreatBall(greatball + block.change?.value)

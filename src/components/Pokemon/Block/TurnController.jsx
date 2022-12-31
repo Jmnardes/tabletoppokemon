@@ -31,7 +31,11 @@ export default function TurnController({
     steal,
     setSteal,
     fight,
-    setFight
+    setFight,
+    pokemonEgg,
+    setPokemonEgg,
+    shinyPercentage,
+    setShinyPercentage
 }) {
     const [block, setBlock] = useState([])
 
@@ -102,6 +106,10 @@ export default function TurnController({
                     setSteal={setSteal}
                     fight={fight}
                     setFight={setFight}
+                    shinyPercentage={shinyPercentage}
+                    setShinyPercentage={setShinyPercentage}
+                    pokemonEgg={pokemonEgg}
+                    setPokemonEgg={setPokemonEgg}
                 />
             </Flex>
         </Flex>

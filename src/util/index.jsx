@@ -245,10 +245,11 @@ export const parseNumberMultToNatural = (number, multiply) => {
 }
 
 export const tierSellingPrice = (tier) => {
-    if ( tier === 0 || tier === 1 ) return 1
-    if ( tier === 2 || tier === 3 ) return 2
-    if ( tier === 4 || tier === 5 ) return 3
-    if ( tier === 6 || tier === 7 ) return 4
-    if ( tier === 8 || tier === 9 ) return 5
-    if ( tier === 10 || tier === 11 ) return 6
+    return tier + 1
+    // if ( tier === 0 || tier === 1 ) return 1
+    // if ( tier === 2 || tier === 3 ) return 2
+    // if ( tier === 4 || tier === 5 ) return 3
+    // if ( tier === 6 || tier === 7 ) return 4
+    // if ( tier === 8 || tier === 9 ) return 5
+    // if ( tier === 10 || tier === 11 ) return 6
 }

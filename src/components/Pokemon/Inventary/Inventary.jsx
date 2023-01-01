@@ -3,7 +3,9 @@ import {
     Image,
     Flex,
     Tooltip,
-    Box
+    Box,
+    Center,
+    Text
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
 import pokemon from '../../../assets/json/pokemons.json'
@@ -81,6 +83,7 @@ function Inventary({ title, savedPokemon }) {
                         <Flex 
                             borderRadius={0} 
                             width="max-content"
+                            minWidth={28}
                             textAlign="center" 
                             fontWeight="bold" 
                             p={1}
@@ -88,14 +91,14 @@ function Inventary({ title, savedPokemon }) {
                                 cursor: 'pointer'
                             }}
                         >
+                            <Center w="100%">
                                 {(savedPokemon.shiny.shiny &&
                                     <Box mr={1} display="flex" alignItems="center" justifyContent="center">
                                         <FaStar title="Shiny" size={10}/>
                                     </Box>
                                 )}
-                                {`(${pokemon[savedPokemon.pokemonId].tier})` + 
-                                ' ' + 
-                                stringToUpperCase(title)}
+                                <Text textAlign="center">{`(${pokemon[savedPokemon.pokemonId].tier})` + ' ' + stringToUpperCase(title)}</Text>
+                            </Center>
                         </Flex>
                     </Flex>
                 </Tooltip>

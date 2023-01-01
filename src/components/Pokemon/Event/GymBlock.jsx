@@ -151,6 +151,17 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         }
     }
 
+    function overallPercentColor() {
+        if(winPercentage < 5) return "#be1903"
+        if(winPercentage < 10) return "#d15e00"
+        if(winPercentage < 15) return "#cf9f00"
+        if(winPercentage < 20) return "#ced100"
+        if(winPercentage < 25) return "#72ca00"
+        if(winPercentage < 30) return "#20c000"
+        if(winPercentage < 35) return "#00ccb1"
+        if(winPercentage >= 35) return "#0081cc"
+    }
+
     function handleSpecialMove() {
         setIsSpecialMoveOn(true)
         setFight(fight - 1)
@@ -220,8 +231,17 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                         <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('spd'),gymStats.spd)}>{team('spd')}</Text>
                     </Center>
                 </Center>
-                <Text fontSize="xs" mt={1}>{'Blue > Aqua > Green > Moss > Yellow > Orange > Red'}</Text>
-                <Text mt={4}>Win chance: {winPercentage}%</Text>
+                <Center mt={4}>
+                    <Text title="God" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#0081cc">{'Blue >'}</Text>
+                    <Text title="Very Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#00ccb1">{'Aqua >'}</Text>
+                    <Text title="Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#20c000">{'Green >'}</Text>
+                    <Text title="Intersting" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#72ca00">{'Moss >'}</Text>
+                    <Text title="Ok" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#ced100">{'Yellow >'}</Text>
+                    <Text title="Average" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#cf9f00">{'Amber >'}</Text>
+                    <Text title="Bad" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#d15e00">{'Orange >'}</Text>
+                    <Text title="Very bad" fontWeight="bold" fontSize="xs" cursor="pointer" color="#be1903">{'Red'}</Text>
+                </Center>
+                {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
                 <Center>
                     <Button mt={8} mr={2} disabled={disableSpecialMove || fight === 0} onClick={() => handleSpecialMove()}>
                         <Image
@@ -230,7 +250,7 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
                             w="28px"
                         ></Image>
                     </Button>
-                    <Button mt={8} w={40} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
                 </Center>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>

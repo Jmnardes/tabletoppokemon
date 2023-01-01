@@ -60,7 +60,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
     const [trophy, setTrophy] = useState(0)
     const [steal, setSteal] = useState(0)
     const [fight, setFight] = useState(0)
-    const [pokemonEgg, setPokemonEgg] = useState(0)
+    const [pokemonEgg, setPokemonEgg] = useState(1)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
@@ -181,7 +181,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
 
     const handleSellingPokemonPrice = (tier, shiny) => {
         if(shiny) {
-            setCoins(() => coins + tierSellingPrice(tier) + 1)
+            setCoins(() => coins + tierSellingPrice(tier) + 2)
         } else {
             setCoins(() => coins + tierSellingPrice(tier))
         }
@@ -202,7 +202,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
         setTurn(() => turn + 1)
-        setCoins(() => diceRoll(3) + coins + Number(parseNumberToNatural(turn, 10)))
+        setCoins(() => diceRoll(4) + 1 + coins + Number(parseNumberToNatural(turn, 10)))
 
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
@@ -319,7 +319,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                 setDisableEvent(true)
             }
             
-            if(turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 && turn !== 0) {
+            if((turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 || turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === maxTurns) && turn !== 0) {
                 setDisableTournament(false)
                 handleToast(
                     'tournament', 
@@ -554,6 +554,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                 tier={tier}
                                 generation={generation}
                                 shinyPercentage={shinyPercentage}
+                                handleToast={handleToast}
                             />
                             <PokeShop
                                 coins={coins}
@@ -574,6 +575,8 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                 disableShop={disableShop}
                                 fight={fight}
                                 steal={steal}
+                                pokemonEgg={pokemonEgg}
+                                setPokemonEgg={setPokemonEgg}
                             />
                             <Settings handleGameReset={handleGameReset}>
                                 <Economy

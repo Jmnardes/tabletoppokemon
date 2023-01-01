@@ -1,6 +1,6 @@
 import { Button, Checkbox, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, useColorMode } from "@chakra-ui/react";
 
-export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, gameDifficulty, handleGameStart, handleTrainerName, setGeneration, setGameHost, gameHost }) {
+export default function InitialMenu({ handleMaxTurns, handleGameDifficulty, gameDifficulty, handleGameStart, handleTrainerName, setGeneration, setGameHost }) {
     const { colorMode } = useColorMode()
 
     return (

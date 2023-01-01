@@ -9,8 +9,9 @@ import starIcon from '../../../assets/images/game/star.png'
 import crownIcon from '../../../assets/images/game/crown.png'
 import shopIcon from '../../../assets/images/game/shop.png'
 import buyIcon from '../../../assets/images/game/buy.png'
-import fightIcon from '../../../assets/images/items/fight.png'
-import stealIcon from '../../../assets/images/items/steal.png'
+import eggIcon from '../../../assets/images/items/egg.png'
+// import fightIcon from '../../../assets/images/items/fight.png'
+// import stealIcon from '../../../assets/images/items/steal.png'
 // import lureIcon from '../../../assets/images/items/lure.png'
 import { parseNumberToNatural } from "../../../util";
 
@@ -31,8 +32,10 @@ export default function PokeShop({
     setTrophy,
     disableShop,
     turn,
-    fight,
-    steal
+    pokemonEgg,
+    setPokemonEgg
+    // fight,
+    // steal
 }) {
 
     function coinPerTurn(turn, multiple) {return parseNumberToNatural(turn, 10) * multiple}
@@ -78,16 +81,15 @@ export default function PokeShop({
                 w="32px"
             ></Image>
         } disableButton={disableShop}>
-            <Center mb={2}>
+            <Center mb={4}>
 
                 <ItemComponent icon={coinIcon} desc={'Coin'} counter={coins} />
                 
                 <ItemComponent icon={starIcon} desc={'Poke Star'} counter={medal} />
 
                 <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={trophy} />
-                
-            </Center>
-            <Center mb={4}>
+
+                <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={pokemonEgg} />
 
                 <ItemComponent icon={greatballIcon} desc={'Great Ball'} counter={greatball} />
 
@@ -96,14 +98,17 @@ export default function PokeShop({
                 <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={ultraball} />
 
                 <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={masterball} />
-
-                {/* <ItemComponent icon={lureIcon} desc={'Lure'} /> */}
-
-                {/* <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
-
-                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} /> */}
                 
             </Center>
+            {/* <Center mb={4}>
+
+                <ItemComponent icon={lureIcon} desc={'Lure'} />
+
+                <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
+
+                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} />
+                
+            </Center> */}
             <Center flexDirection="column">
                 <Center flexDirection="row" w="100%" justifyContent="space-around" mb={4}>
                     <Text w="200px" fontWeight="bold">Product</Text>
@@ -136,14 +141,6 @@ export default function PokeShop({
                 />
 
                 <TableItem 
-                    title={'Poke Star'}
-                    price={20}
-                    scaling={4}
-                    itemType={medal}
-                    setter={setMedal}
-                />
-
-                <TableItem 
                     title={'Master Ball'}
                     price={25}
                     scaling={5}
@@ -152,9 +149,25 @@ export default function PokeShop({
                 />
 
                 <TableItem 
-                    title={'Poke Crown'}
-                    price={50}
+                    title={'Pokemon Egg'}
+                    price={20}
                     scaling={10}
+                    itemType={pokemonEgg}
+                    setter={setPokemonEgg}
+                />
+
+                <TableItem 
+                    title={'Poke Star'}
+                    price={35}
+                    scaling={7}
+                    itemType={medal}
+                    setter={setMedal}
+                />
+
+                <TableItem 
+                    title={'Poke Crown'}
+                    price={90}
+                    scaling={18}
                     itemType={trophy}
                     setter={setTrophy}
                 />

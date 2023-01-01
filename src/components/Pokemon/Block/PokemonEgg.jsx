@@ -7,7 +7,7 @@ import { sortPokemon } from "../../sortPokemon";
 import { shinyRoll, whatNaturePokemonIs } from "../../pokemonFunctions";
 import pokemonJSON from '../../../assets/json/pokemons.json'
 
-export default function PokemonEgg({ pokemonEgg, setPokemonEgg, turn, handleAddInventory, tier, generation, shinyPercentage }) {
+export default function PokemonEgg({ pokemonEgg, setPokemonEgg, turn, handleAddInventory, tier, generation, shinyPercentage, handleToast }) {
     const { colorMode } = useColorMode()
     const [hatchingTurn, setHatchingTurn] = useState(0)
     const [eggHatched, setEggHatched] = useState(false)
@@ -40,6 +40,12 @@ export default function PokemonEgg({ pokemonEgg, setPokemonEgg, turn, handleAddI
         hatchingTurn > 0 && setHatchingTurn(hatchingTurn - 1)
 
         if(hatchingTurn === 1) {
+            handleToast(
+                'egg', 
+                'Pokemon Egg', 
+                'Your pokemon egg has hatched, go see what you got!',
+                <Image src={eggIcon} w="32px"></Image>
+            )
             setEggHatched(true)
             handlePokemon()
         }

@@ -26,14 +26,14 @@ import EventBlock from "./Pokemon/Event/EventBlock"
 import GymBlock from "./Pokemon/Event/GymBlock"
 import TournamentBlock from "./Pokemon/Event/TournamentBlock"
 import { ConfettiCanvas } from "react-raining-confetti";
+import ElementsList from "./Pokemon/Team/ElementsList"
+import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
 import arrowIcon from '../assets/images/game/arrow.png'
 import shopIcon from '../assets/images/game/shop.png'
 import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
-import ElementsList from "./Pokemon/Team/ElementsList"
-import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
 function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
@@ -61,6 +61,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
     const [steal, setSteal] = useState(0)
     const [fight, setFight] = useState(0)
     const [pokemonEgg, setPokemonEgg] = useState(1)
+    const [greatIncubator, setGreatIncubator] = useState(0)
     const [greatball, setGreatBall] = useState(0)
     const [superball, setSuperBall] = useState(0)
     const [ultraball, setUltraBall] = useState(0)
@@ -549,6 +550,8 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                             <PokemonEgg
                                 pokemonEgg={pokemonEgg}
                                 setPokemonEgg={setPokemonEgg}
+                                greatIncubator={greatIncubator}
+                                setGreatIncubator={setGreatIncubator}
                                 turn={turn}
                                 handleAddInventory={handleAddInventory}
                                 tier={tier}
@@ -576,7 +579,8 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                 fight={fight}
                                 steal={steal}
                                 pokemonEgg={pokemonEgg}
-                                setPokemonEgg={setPokemonEgg}
+                                greatIncubator={greatIncubator}
+                                setGreatIncubator={setGreatIncubator}
                             />
                             <Settings handleGameReset={handleGameReset}>
                                 <Economy
@@ -599,7 +603,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
             </Center>
 
             <Flex flexDir="column" py={2} minHeight="9rem">
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
+                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventory</Text>
                 <Stack 
                     direction={['column', 'row']} 
                     spacing={1} 
@@ -690,6 +694,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                     fight={fight}
                     steal={steal}
                     pokemonEgg={pokemonEgg}
+                    greatIncubator={greatIncubator}
                 />
             </Items>
             

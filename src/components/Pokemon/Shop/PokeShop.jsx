@@ -10,6 +10,7 @@ import crownIcon from '../../../assets/images/game/crown.png'
 import shopIcon from '../../../assets/images/game/shop.png'
 import buyIcon from '../../../assets/images/game/buy.png'
 import eggIcon from '../../../assets/images/items/egg.png'
+import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png'
 // import fightIcon from '../../../assets/images/items/fight.png'
 // import stealIcon from '../../../assets/images/items/steal.png'
 // import lureIcon from '../../../assets/images/items/lure.png'
@@ -33,7 +34,8 @@ export default function PokeShop({
     disableShop,
     turn,
     pokemonEgg,
-    setPokemonEgg
+    greatIncubator,
+    setGreatIncubator
     // fight,
     // steal
 }) {
@@ -46,9 +48,9 @@ export default function PokeShop({
 
     const ItemComponent = ({ icon, desc, counter }) => {
         return (
-            <Center mx={4}>
-                <Image src={icon} title={desc} w="24px"/>
-                <Text ml={2}>{counter}</Text>
+            <Center mx={2}>
+                <Image src={icon} title={desc} w="20px"/>
+                <Text ml={1}>{counter}</Text>
             </Center>
         )
     }
@@ -83,21 +85,23 @@ export default function PokeShop({
         } disableButton={disableShop}>
             <Center mb={4}>
 
-                <ItemComponent icon={coinIcon} desc={'Coin'} counter={coins} />
+                {coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={coins} />}
                 
-                <ItemComponent icon={starIcon} desc={'Poke Star'} counter={medal} />
+                {medal > 0 && <ItemComponent icon={starIcon} desc={'Poke Star'} counter={medal} />}
 
-                <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={trophy} />
+                {trophy > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={trophy} />}
 
-                <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={pokemonEgg} />
+                {pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={pokemonEgg} />}
 
-                <ItemComponent icon={greatballIcon} desc={'Great Ball'} counter={greatball} />
+                {greatIncubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Great Incubator'} counter={pokemonEgg} />}
 
-                <ItemComponent icon={superballIcon} desc={'Super Ball'} counter={superball} />
+                {greatball > 0 && <ItemComponent icon={greatballIcon} desc={'Great Ball'} counter={greatball} />}
 
-                <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={ultraball} />
+                {superball > 0 && <ItemComponent icon={superballIcon} desc={'Super Ball'} counter={superball} />}
 
-                <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={masterball} />
+                {ultraball > 0 && <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={ultraball} />}
+
+                {masterball > 0 && <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={masterball} />}
                 
             </Center>
             {/* <Center mb={4}>
@@ -125,6 +129,14 @@ export default function PokeShop({
                 />
 
                 <TableItem 
+                    title={'Great Incubator'}
+                    price={10}
+                    scaling={2}
+                    itemType={greatIncubator}
+                    setter={setGreatIncubator}
+                />
+
+                <TableItem 
                     title={'Super Ball'}
                     price={10}
                     scaling={2}
@@ -146,14 +158,6 @@ export default function PokeShop({
                     scaling={5}
                     itemType={masterball}
                     setter={setMasterBall}
-                />
-
-                <TableItem 
-                    title={'Pokemon Egg'}
-                    price={20}
-                    scaling={10}
-                    itemType={pokemonEgg}
-                    setter={setPokemonEgg}
                 />
 
                 <TableItem 

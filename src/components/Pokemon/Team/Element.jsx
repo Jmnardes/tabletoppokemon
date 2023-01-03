@@ -43,6 +43,7 @@ export default function Element({ element, elementTable }) {
         return (
             <Tooltip ref={ref} label={elementsTooltip} borderRadius={16}>
                 <Image
+                    _hover={{ opacity: '0.6' }}
                     cursor="pointer"
                     key={type} 
                     src={icon}

@@ -9,7 +9,7 @@ import speedIcon from '../../../assets/images/stats/speed.png'
 import healthIcon from '../../../assets/images/stats/health.png'
 import fightIcon from '../../../assets/images/items/fight.png'
 
-export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, setConfetti, fight, setFight }) {
+export default function GymBlock({ disable, gymTier, medal, setMedal, team, setConfetti, fight, setFight }) {
     const { colorMode } = useColorMode()
     const [showResult, setShowResult] = useState(false)
     const [trainerWin, setTrainerWin] = useState(false)
@@ -75,7 +75,7 @@ export default function GymBlock({ disable, gymTier, trophy, setTrophy, team, se
         setShowResult(true)
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
-            setTrophy(trophy + 1)
+            setMedal(medal + 1)
             setConfetti(true)
         } else {
             setTrainerWin(false)

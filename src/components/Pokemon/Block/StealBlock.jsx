@@ -11,18 +11,16 @@ export default function StealBlock({ steal, setSteal, turn }) {
     const stealWhat = () => {
         let stealWhatRoll = diceRoll(100)
 
-        if(stealWhatRoll < 30) {
-            setStealRoll(`${diceRoll(6) + 1} coins`)
-        } else if(stealWhatRoll < 50) {
+        if(stealWhatRoll < 40) {
             setStealRoll(`${diceRoll(6) + 5} coins`)
-        } else if(stealWhatRoll < 75) {
-            setStealRoll(`${diceRoll(11) + 5} coins`)
-        } else if(stealWhatRoll < 90) {
+        } else if(stealWhatRoll < 65) {
+            setStealRoll(`${diceRoll(8) + 8} coins`)
+        } else if(stealWhatRoll < 85) {
             setStealRoll(`${diceRoll(11) + 10} coins`)
-        } else if(stealWhatRoll < 98) {
-            setStealRoll('medal')
+        } else if(stealWhatRoll < 95) {
+            setStealRoll('a Poke Star')
         } else {
-            setStealRoll('trophy')
+            setStealRoll('a Poke Crown')
         }
     }
 

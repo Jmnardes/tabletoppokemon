@@ -530,8 +530,8 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                             <GymBlock
                                 disable={disableGym}
                                 gymTier={gymTier}
-                                trophy={trophy}
-                                setTrophy={setTrophy}
+                                medal={medal}
+                                setMedal={setMedal}
                                 team={handleTeamStats}
                                 setConfetti={setConfetti}
                                 fight={fight}

@@ -31,7 +31,7 @@ function Team({ savedPokemon, pokedex, removeFromTeam }) {
             background={ savedPokemon.shiny.shiny ? `linear-gradient(165deg, ${colorByType}15 15%, ${colorByType} 50%, ${colorByType}15 85%)` : ''}
             shadow="dark-lg"
             _hover={{
-                backgroundColor: `${colorByType}70`,
+                backgroundColor: `${colorByType}70`
             }}
         >
             <Flex flexDir="row" width="100%">

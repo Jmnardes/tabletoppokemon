@@ -465,6 +465,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                     setShinyPercentage={setShinyPercentage}
                                     pokemonEgg={pokemonEgg}
                                     setPokemonEgg={setPokemonEgg}
+                                    handleToast={handleToast}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>

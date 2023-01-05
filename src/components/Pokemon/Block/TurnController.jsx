@@ -35,7 +35,8 @@ export default function TurnController({
     pokemonEgg,
     setPokemonEgg,
     shinyPercentage,
-    setShinyPercentage
+    setShinyPercentage,
+    handleToast
 }) {
     const [block, setBlock] = useState([])
 
@@ -110,6 +111,7 @@ export default function TurnController({
                     setShinyPercentage={setShinyPercentage}
                     pokemonEgg={pokemonEgg}
                     setPokemonEgg={setPokemonEgg}
+                    handleToast={handleToast}
                 />
             </Flex>
         </Flex>

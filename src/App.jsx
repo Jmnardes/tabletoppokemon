@@ -23,15 +23,16 @@ const App = () => {
     }
   }, [gameReset])
 
-  const handleToast = (id, title, description, icon) => {
+  const handleToast = (id, title, description, icon, type = 'info', duration = 6000) => {
     if (!toast.isActive(id)) {
       toast({
         id: id,
         icon: icon,
         title: title,
         description: description,
+        status: type,
+        duration: duration,
         isClosable: true,
-        duration: 6000,
       })
     }
   }

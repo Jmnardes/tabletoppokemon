@@ -1,6 +1,6 @@
 import { Button, Center, Image, Text, useColorMode, keyframes } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { diceRoll } from "../../../util";
+import { diceRoll, stringToUpperCase } from "../../../util";
 import { sortPokemon } from "../../sortPokemon";
 import { shinyRoll, whatNaturePokemonIs } from "../../pokemonFunctions";
 import pokemonJSON from '../../../assets/json/pokemons.json'
@@ -178,6 +178,7 @@ export default function PokemonEgg({
                 <Center mt={6} w={96} h={64} flexDirection="column" borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
                     {eggHatched ? 
                         <>
+                            <Text fontWeight="bold">{stringToUpperCase(pokemonJSON[pokemon?.pokemon].name)}</Text>
                             <Image 
                                 w={44}
                                 borderRadius="50%"

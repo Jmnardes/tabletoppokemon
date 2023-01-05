@@ -408,8 +408,8 @@ function item() {
     } else if(itemPercent < 80) {
         return {
             type:'item', 
-            title: 'Fight Glove', 
-            label:'You have found a Fight Glove',
+            title: 'Special Move', 
+            label:'You have found a Special Move',
             change: {
                 type: 'fight',
                 value: 1

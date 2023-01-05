@@ -48,7 +48,8 @@ export function PlayTurn({
     pokemonEgg,
     setPokemonEgg,
     shinyPercentage,
-    setShinyPercentage
+    setShinyPercentage,
+    handleToast
 }) {
     return (
         <PokeModal 
@@ -119,6 +120,7 @@ export function PlayTurn({
                     setShinyPercentage={setShinyPercentage}
                     pokemonEgg={pokemonEgg}
                     setPokemonEgg={setPokemonEgg}
+                    handleToast={handleToast}
                 />
             )}
         </PokeModal>

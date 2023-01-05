@@ -55,10 +55,11 @@ export default function PokeShop({
         )
     }
 
-    const TableItem = ({ title, price, scaling, itemType, setter }) => {
+    const TableItem = ({ title, price, scaling, itemType, setter, itemIcon }) => {
         return (
             <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
-                <Text w="200px">{title}</Text>
+                {/* <Text w="200px">{title}</Text> */}
+                <Image src={itemIcon} title={title} w="20px" />
                 <Center>
                     <Image src={coinIcon} title="Coin" w="20px" mr={2} />
                     <Text w="80px">{price + coinPerTurn(turn, scaling)}</Text>
@@ -122,62 +123,69 @@ export default function PokeShop({
 
                 <TableItem 
                     title={'Great Ball'}
-                    price={5}
+                    price={4}
                     scaling={1}
                     itemType={greatball}
                     setter={setGreatBall}
-                />
-
-                <TableItem 
-                    title={'Great Incubator'}
-                    price={10}
-                    scaling={2}
-                    itemType={greatIncubator}
-                    setter={setGreatIncubator}
+                    itemIcon={greatballIcon}
                 />
 
                 <TableItem 
                     title={'Super Ball'}
-                    price={10}
+                    price={8}
                     scaling={2}
                     itemType={superball}
                     setter={setSuperBall}
+                    itemIcon={superballIcon}
                 />
 
                 <TableItem 
                     title={'Ultra Ball'}
-                    price={15}
+                    price={12}
                     scaling={3}
                     itemType={ultraball}
                     setter={setUltraBall}
+                    itemIcon={ultraballIcon}
                 />
 
                 <TableItem 
                     title={'Master Ball'}
-                    price={25}
+                    price={20}
                     scaling={5}
                     itemType={masterball}
                     setter={setMasterBall}
+                    itemIcon={masterballIcon}
+                />
+                
+                <TableItem 
+                    title={'Great Incubator'}
+                    price={0}
+                    scaling={7}
+                    itemType={greatIncubator}
+                    setter={setGreatIncubator}
+                    itemIcon={incubatorGreatIcon}
                 />
 
                 <TableItem 
                     title={'Poke Star'}
-                    price={35}
+                    price={28}
                     scaling={7}
                     itemType={medal}
                     setter={setMedal}
+                    itemIcon={starIcon}
                 />
 
                 <TableItem 
                     title={'Poke Crown'}
-                    price={90}
+                    price={72}
                     scaling={18}
                     itemType={trophy}
                     setter={setTrophy}
+                    itemIcon={crownIcon}
                 />
 
                 <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
-                    <Text w="200px">Poke Crown</Text>
+                    <Image src={crownIcon} title="Poke Crown" w="20px" />
                     <Center>
                         <Image src={starIcon} title="Coin" w="20px" mr={2} />
                         <Text w="80px">3</Text>

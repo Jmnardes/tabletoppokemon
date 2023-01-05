@@ -1,6 +1,8 @@
-import { Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import pokemonJSON from '../../../assets/json/pokemons.json'
+
+import eggIcon from '../../../assets/images/items/egg.png'
 
 function BlockController({ 
     block,
@@ -27,7 +29,8 @@ function BlockController({
     pokemonEgg,
     setPokemonEgg,
     shinyPercentage,
-    setShinyPercentage
+    setShinyPercentage,
+    handleToast
 }) {
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {
@@ -50,7 +53,17 @@ function BlockController({
             if(block.change?.item === 'superball') setSuperBall(superball + 1)
             if(block.change?.item === 'ultraball') setUltraBall(ultraball + 1)
             if(block.change?.item === 'steal') setSteal(steal + 1)
-            if(block.change?.item === 'egg') setPokemonEgg(pokemonEgg + 1)
+            if(block.change?.item === 'egg') {
+                setPokemonEgg(pokemonEgg + 1)
+                handleToast(
+                    'egg', 
+                    'Egg', 
+                    'Be careful, your egg can rot in a few turns, better put it in an incubator',
+                    <Image src={eggIcon} w="36px"></Image>,
+                    'warning',
+                    10000
+                )
+            }
             if(block.change?.item === 'fight') setFight(fight + 1)
             if(block.change?.item === 'incense') setShinyPercentage(shinyPercentage + 1)
             if(block.change?.item === 'medal') setMedal(medal + 1)
@@ -127,6 +140,14 @@ function BlockController({
                     return
                 case 'egg':
                     setPokemonEgg(pokemonEgg + block.change?.value)
+                    handleToast(
+                        'egg', 
+                        'Egg', 
+                        'Be careful, your egg can rot in a few turns, better put it in an incubator',
+                        <Image src={eggIcon} w="36px"></Image>,
+                        'warning',
+                        10000
+                    )
                     return
                 case 'incense':
                     setShinyPercentage(shinyPercentage + block.change?.value)

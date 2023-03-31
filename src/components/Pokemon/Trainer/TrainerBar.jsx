@@ -5,14 +5,16 @@ import starIcon from '../../../assets/images/game/star.png'
 import coinIcon from '../../../assets/images/game/coin.png'
 import lureIcon from '../../../assets/images/items/lure.png'
 
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
 export function TrainerBar({ 
     turn,
-    medal,
-    trophy,
     isEndgame,
-    coin,
     shinyPercentage
 }) {
+    const { gameStats } = useContext(PlayerContext)
+    
     return (
         <>
             {!isEndgame && (
@@ -32,7 +34,7 @@ export function TrainerBar({
                     title={'Poke Crown'}
                     w="34px"
                 ></Image>
-                <Text ml={2}>{trophy}</Text>
+                <Text ml={2}>{gameStats.crowns}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image
@@ -40,7 +42,7 @@ export function TrainerBar({
                     title={'Poke Star'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{medal}</Text>
+                <Text ml={2}>{gameStats.stars}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image
@@ -48,7 +50,7 @@ export function TrainerBar({
                     title={'Coins'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{coin}</Text>
+                <Text ml={2}>{gameStats.coins}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image

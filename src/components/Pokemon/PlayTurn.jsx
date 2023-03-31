@@ -75,15 +75,7 @@ export function PlayTurn({
                     resultDiceRoll={resultDiceRoll}
                     endTurnButton={endTurnButton}
                     handlePokemonRollClean={handlePokemonRollClean}
-                    greatball={greatball}
-                    superball={superball} 
-                    ultraball={ultraball} 
-                    masterball={masterball} 
                     disablePokeballs={disablePokeballs}
-                    setGreatBall={setGreatBall}
-                    setSuperBall={setSuperBall}
-                    setUltraBall={setUltraBall}
-                    setMasterBall={setMasterBall}
                     setBonusOnCatch={setBonusOnCatch}
                     setDisablePokeballs={setDisablePokeballs}
                 >

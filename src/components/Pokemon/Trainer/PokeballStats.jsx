@@ -8,16 +8,12 @@ import fightIcon from '../../../assets/images/items/fight.png'
 import eggIcon from '../../../assets/images/items/egg.png'
 import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png'
 
-export default function PokeballStats({
-    greatball,
-    superball,
-    ultraball,
-    masterball,
-    fight,
-    steal,
-    pokemonEgg,
-    greatIncubator
-}) {
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
+export default function PokeballStats() {
+    const { pokeballs, items } = useContext(PlayerContext)
+
     return (
         <>
             <Flex alignItems="center" mx={3}>
@@ -26,7 +22,7 @@ export default function PokeballStats({
                     title={'+2'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{greatball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.greatball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -34,7 +30,7 @@ export default function PokeballStats({
                     title={'+3'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{superball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.superball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -42,7 +38,7 @@ export default function PokeballStats({
                     title={'+5'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{ultraball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.ultraball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -50,7 +46,7 @@ export default function PokeballStats({
                     title={'+10'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{masterball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.masterball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -58,7 +54,7 @@ export default function PokeballStats({
                     title={'Team Rocket Pass'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{steal}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{items.steal}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -66,7 +62,7 @@ export default function PokeballStats({
                     title={'Special Move'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{fight}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{items.fight}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -74,7 +70,7 @@ export default function PokeballStats({
                     title={'Pokemon Egg'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{pokemonEgg}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{items.pokemonEgg}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -82,7 +78,7 @@ export default function PokeballStats({
                     title={'Great Incubator'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{greatIncubator}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{items.incubator}</Text>
             </Flex>
         </>
     )

@@ -1,7 +1,7 @@
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import PokeModal from "../Modal/Modal";
 import { GiCheckeredFlag } from "react-icons/gi";
-import { TrainerBar } from "../Treiner/TrainerBar";
+import { TrainerBar } from "../Trainer/TrainerBar";
 
 export default function EndGame({ children, medal, trophy, setTrophy, coins }) {
     return (

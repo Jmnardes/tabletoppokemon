@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import ThemeSwitch from "./components/Chakra/ThemeSwitch/ThemeSwitch"
 import InitialMenu from "./components/InitialMenu/InitialMenu"
 import PokePage from "./components/PokePage"
+import { PlayerProvider } from "./Contexts/PlayerContext"
 
 const App = () => {
   const toast = useToast()
@@ -49,36 +50,38 @@ const App = () => {
   }, [])
 
   return (
-      <Box h='100vh' m={0}>
-        {gameStarted ? (
-          <PokePage 
-            shinyPercentage={shinyChance}
-            setShinyPercentage={setShinyChance}
-            maxTurns={maxTurns} 
-            handleGameReset={setGameReset}
-            trainerName={trainerName}
-            teamLength={teamLength}
-            generation={generation}
-            handleToast={handleToast}
-            gameHost={gameHost}
-            setMaxTurns={setMaxTurns}
-            gameDifficulty={gameDifficulty}
-          />
-        ): (
-          <InitialMenu
-            handleMaxTurns={setMaxTurns}
-            handleGameDifficulty={setGameDifficulty}
-            gameDifficulty={gameDifficulty}
-            handleGameStart={setGameStarted}
-            handleTrainerName={setTrainerName}
-            setGeneration={setGeneration}
-            setGameHost={setGameHost}
-          />
-        )}
-        <Box position='absolute' right={0} bottom={0}>
-          <ThemeSwitch />
+      <PlayerProvider>
+        <Box h='100vh' m={0}>
+          {gameStarted ? (
+            <PokePage 
+              shinyPercentage={shinyChance}
+              setShinyPercentage={setShinyChance}
+              maxTurns={maxTurns} 
+              handleGameReset={setGameReset}
+              trainerName={trainerName}
+              teamLength={teamLength}
+              generation={generation}
+              handleToast={handleToast}
+              gameHost={gameHost}
+              setMaxTurns={setMaxTurns}
+              gameDifficulty={gameDifficulty}
+            />
+          ): (
+            <InitialMenu
+              handleMaxTurns={setMaxTurns}
+              handleGameDifficulty={setGameDifficulty}
+              gameDifficulty={gameDifficulty}
+              handleGameStart={setGameStarted}
+              handleTrainerName={setTrainerName}
+              setGeneration={setGeneration}
+              setGameHost={setGameHost}
+            />
+          )}
+          <Box position='absolute' right={0} bottom={0}>
+            <ThemeSwitch />
+          </Box>
         </Box>
-      </Box>
+      </PlayerProvider>
     )
 }
 export default App

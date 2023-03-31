@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
@@ -11,15 +11,15 @@ import pokemonJSON from '../assets/json/pokemons.json'
 import { pokemonBaseStat } from './pokemonFunctions'
 import { PlayTurn } from "./Pokemon/PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
-import { TrainerBar } from "./Pokemon/Treiner/TrainerBar"
+import { TrainerBar } from "./Pokemon/Trainer/TrainerBar"
 import { Economy } from "./Pokemon/Shop/Economy"
 import { Settings } from "./Pokemon/Game/Settings"
 import TeamTitle from "./Pokemon/Team/TeamTitle"
 import PokeShop from "./Pokemon/Shop/PokeShop"
-import ExperienceBar from "./Pokemon/Treiner/ExperienceBar"
-import { TreinerStats } from "./Pokemon/Treiner/TreinerStats"
+import ExperienceBar from "./Pokemon/Trainer/ExperienceBar"
+import { TrainerStats } from "./Pokemon/Trainer/TrainerStats"
 import EndGame from "./Pokemon/Game/EndGame"
-import PokeballStats from "./Pokemon/Treiner/PokeballStats"
+import PokeballStats from "./Pokemon/Trainer/PokeballStats"
 import Items from "./Pokemon/Inventary/Items"
 import StealBlock from "./Pokemon/Block/StealBlock"
 import EventBlock from "./Pokemon/Event/EventBlock"
@@ -495,21 +495,12 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                         setTrophy={setTrophy}
                                         coins={coins}
                                     >
-                                        <TreinerStats 
-                                            walked={walkedBlocks}
-                                            totalCatches={totalCatches}
-                                            shinyCatches={shinyCatches}
-                                            totalCriticals={criticals}
-                                            highestAmount={highestAmount}
-                                        />
+                                        <TrainerStats />
                                     </EndGame>
                                 </>
                             )}
                             <TrainerBar 
                                 turn={turn}
-                                medal={medal}
-                                trophy={trophy}
-                                coin={coins}
                                 shinyPercentage={shinyPercentage}
                             />
                         </Center>
@@ -687,16 +678,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
             </Flex>
 
             <Items>
-                <PokeballStats 
-                    greatball={greatball}
-                    superball={superball}
-                    ultraball={ultraball}
-                    masterball={masterball}
-                    fight={fight}
-                    steal={steal}
-                    pokemonEgg={pokemonEgg}
-                    greatIncubator={greatIncubator}
-                />
+                <PokeballStats />
             </Items>
             
             <ExperienceBar

@@ -11,15 +11,7 @@ export default function PokeRoll({
         resultDiceRoll,
         endTurnButton,
         handlePokemonRollClean,
-        greatball,
-        superball, 
-        ultraball, 
-        masterball, 
         disablePokeballs,
-        setGreatBall,
-        setSuperBall,
-        setUltraBall,
-        setMasterBall,
         setBonusOnCatch,
         setDisablePokeballs
     }) {
@@ -37,15 +29,7 @@ export default function PokeRoll({
             />
             
             <Pokeballs
-                greatball={greatball}
-                superball={superball} 
-                ultraball={ultraball} 
-                masterball={masterball} 
                 disablePokeballs={disablePokeballs}
-                setGreatBall={setGreatBall}
-                setSuperBall={setSuperBall}
-                setUltraBall={setUltraBall}
-                setMasterBall={setMasterBall}
                 setBonusOnCatch={setBonusOnCatch}
                 setDisablePokeballs={setDisablePokeballs}
             />

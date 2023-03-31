@@ -4,28 +4,25 @@ import superballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
 import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
 
-export default function Pokeballs({ 
-        greatball, 
-        superball, 
-        ultraball, 
-        masterball, 
-        disablePokeballs,
-        setGreatBall,
-        setSuperBall,
-        setUltraBall,
-        setMasterBall,
-        setBonusOnCatch,
-        setDisablePokeballs
-    }) {
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
+export default function Pokeballs({
+    disablePokeballs,
+    setBonusOnCatch,
+    setDisablePokeballs
+}) {
+
+    const { pokeballs, updatePokeballs } = useContext(PlayerContext)
     return (
         <Flex justifyContent="center" my={4}>
             <Button
                 mx={4}
                 title="Great Ball"
-                disabled={greatball === 0 || disablePokeballs}
+                disabled={pokeballs.greatball === 0 || disablePokeballs}
                 onClick={() => {
-                    if(greatball > 0) {
-                        setGreatBall(greatball - 1)
+                    if(pokeballs.greatball > 0) {
+                        updatePokeballs(pokeballs, {greatball: pokeballs.greatball - 1})
                         setBonusOnCatch(2)
                         setDisablePokeballs(true)
                     }
@@ -41,10 +38,10 @@ export default function Pokeballs({
             <Button 
                 mx={4}
                 title="Super Ball"
-                disabled={superball === 0 || disablePokeballs}
+                disabled={pokeballs.superball === 0 || disablePokeballs}
                 onClick={() => {
-                    if(superball > 0) {
-                        setSuperBall(superball - 1)
+                    if(pokeballs.superball > 0) {
+                        updatePokeballs(pokeballs, {superball: pokeballs.superball - 1})
                         setBonusOnCatch(3)
                         setDisablePokeballs(true)
                     }
@@ -61,10 +58,10 @@ export default function Pokeballs({
             <Button 
                 mx={4}
                 title="Ultra Ball"
-                disabled={ultraball === 0 || disablePokeballs}
+                disabled={pokeballs.ultraball === 0 || disablePokeballs}
                 onClick={() => {
-                    if(ultraball > 0) {
-                        setUltraBall(ultraball - 1)
+                    if(pokeballs.ultraball > 0) {
+                        updatePokeballs(pokeballs, {ultraball: pokeballs.ultraball - 1})
                         setBonusOnCatch(5)
                         setDisablePokeballs(true)
                     }
@@ -81,10 +78,10 @@ export default function Pokeballs({
             <Button 
                 mx={4}
                 title="Master Ball"
-                disabled={masterball === 0 || disablePokeballs}
+                disabled={pokeballs.masterball === 0 || disablePokeballs}
                 onClick={() => {
-                    if(masterball > 0) {
-                        setMasterBall(masterball - 1)
+                    if(pokeballs.masterball > 0) {
+                        updatePokeballs(pokeballs, {masterball: pokeballs.masterball - 1})
                         setBonusOnCatch(10)
                         setDisablePokeballs(true)
                     }

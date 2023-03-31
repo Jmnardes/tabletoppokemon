@@ -4,15 +4,15 @@ import arrowIcon from '../../../assets/images/game/arrow.png'
 import pikachuIcon from '../../../assets/images/pokemons/pikachu.png'
 
 export default function RollController({
-        pokemonArrayLength,
-        handlePokemonRoll,
-        disableDiceRoll,
-        handleCatchDiceRoll,
-        catchDiceRoll,
-        resultDiceRoll,
-        endTurnButton,
-        handlePokemonRollClean
-    }) {
+    pokemonArrayLength,
+    handlePokemonRoll,
+    disableDiceRoll,
+    handleCatchDiceRoll,
+    catchDiceRoll,
+    resultDiceRoll,
+    endTurnButton,
+    handlePokemonRollClean
+}) {
     return (
         <Flex justifyContent="center">
             <Button

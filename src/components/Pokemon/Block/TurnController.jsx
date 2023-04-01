@@ -20,14 +20,6 @@ export default function TurnController({
     trophy,
     medal,
     setMedal,
-    greatball,
-    setGreatBall,
-    superball,
-    setSuperBall,
-    ultraball,
-    setUltraBall,
-    masterball,
-    setMasterBall,
     steal,
     setSteal,
     fight,
@@ -95,14 +87,6 @@ export default function TurnController({
                     trophy={trophy}
                     medal={medal}
                     setMedal={setMedal}
-                    greatball={greatball}
-                    setGreatBall={setGreatBall}
-                    superball={superball}
-                    setSuperBall={setSuperBall}
-                    ultraball={ultraball}
-                    setUltraBall={setUltraBall}
-                    masterball={masterball}
-                    setMasterBall={setMasterBall}
                     steal={steal}
                     setSteal={setSteal}
                     fight={fight}

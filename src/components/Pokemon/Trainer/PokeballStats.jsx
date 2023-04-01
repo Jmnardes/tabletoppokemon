@@ -12,7 +12,7 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function PokeballStats() {
-    const { pokeballs, items } = useContext(PlayerContext)
+    const { balls, items } = useContext(PlayerContext)
 
     return (
         <>
@@ -22,7 +22,7 @@ export default function PokeballStats() {
                     title={'+2'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.greatball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{balls.pokeball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -30,7 +30,7 @@ export default function PokeballStats() {
                     title={'+3'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.superball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{balls.greatball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -38,7 +38,7 @@ export default function PokeballStats() {
                     title={'+5'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.ultraball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{balls.ultraball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image
@@ -46,7 +46,7 @@ export default function PokeballStats() {
                     title={'+10'}
                     w="28px"
                 ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{pokeballs.masterball}</Text>
+                <Text fontSize="14px" mt={1} ml={0.5}>{balls.masterball}</Text>
             </Flex>
             <Flex alignItems="center" mx={3}>
                 <Image

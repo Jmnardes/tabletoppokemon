@@ -1,9 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import socket from '../client'
 
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
-    const [playerData, setPlayerData] = useState({
+    const [session, setSession] = useState({})
+    const [player, setPlayer] = useState({})
+    const [status, setStatus] = useState({
         trainerName: 'trainer',
         level: 0,
         experience: 0,
@@ -13,15 +16,15 @@ export function PlayerProvider({children}) {
         highestAmount: 0,
         criticals: 0,
     })
-    const [playerPokemons, setPlayerPokemons] = useState([])
-    const [gameStats, setGameStats] = useState({
+    const [team, setTeam] = useState([])
+    const [currency, setCurrency] = useState({
         coins: 0,
         stars: 0,
         crowns: 0,
     })
-    const [pokeballs, setPokeballs] = useState({
+    const [balls, setBalls] = useState({
+        pokeball: 0,
         greatball: 0,
-        superball: 1,
         ultraball: 0,
         masterball: 0,
     })
@@ -32,31 +35,49 @@ export function PlayerProvider({children}) {
         incubator: 0,
     })
 
-    const updatePlayerData = (prevData, newData) => {
-        setPlayerData({...prevData, ...newData});
+    const updateStatus = (prevData, newData) => {
+        setStatus({...prevData, ...newData});
+    }
+    
+    const updateTeam = (prevData, newData) => {
+        setTeam([...prevData, ...newData]);
     }
 
-    const updateGameStats = (prevData, newData) => {
-        setGameStats({...prevData, ...newData});
+    const updateCurrency = (prevData, newData) => {
+        setCurrency({...prevData, ...newData});
     }
 
-    const updatePokeballs = (prevData, newData) => {
-        setPokeballs({...prevData, ...newData});
+    const updateBalls = (prevData, newData) => {
+        setBalls({...prevData, ...newData});
     }
 
     const updateItems = (prevData, newData) => {
         setItems({...prevData, ...newData});
     }
 
+    useEffect(() => {
+        socket.on(`session-join`, (res) => {
+            setSession(res.session)
+            setPlayer(res.player)
+        })
+
+        socket.on(`session-new`)
+    }, [])
+
     return (
         <PlayerContext.Provider value={{ 
-            playerData, 
-            updatePlayerData,
-            playerPokemons,
-            gameStats,
-            updateGameStats,
-            pokeballs,
-            updatePokeballs,
+            status, 
+            updateStatus,
+
+            team,
+            updateTeam,
+
+            currency,
+            updateCurrency,
+
+            balls,
+            updateBalls,
+            
             items,
             updateItems,
         }}>
@@ -66,3 +87,12 @@ export function PlayerProvider({children}) {
 }
 
 export default PlayerContext;
+
+// {
+//     player,
+//     session: {
+//       gameDuration,
+//       shinyChance,
+//       teamLength,
+//     },
+//   }

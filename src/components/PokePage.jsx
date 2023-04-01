@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"

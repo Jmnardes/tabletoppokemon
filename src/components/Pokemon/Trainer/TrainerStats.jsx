@@ -6,29 +6,29 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export function TrainerStats() {
-    const { playerData } = useContext(PlayerContext)
+    const { status } = useContext(PlayerContext)
 
     return (
         <>
             <Flex alignItems="center" mx={4}>
                 <FaWalking title="Distance Walked" size={24} />
-                <Text ml={2}>{playerData.walkedBlocks}</Text>
+                <Text ml={2}>{status.walkedBlocks}</Text>
             </Flex>
             <Flex alignItems="center" mx={4}>
                 <GiSpikes title="Total catches" size={24} />
-                <Text ml={2}>{playerData.catches}</Text>
+                <Text ml={2}>{status.catches}</Text>
             </Flex>
             <Flex alignItems="center" mx={4}>
                 <GiSparkles title="Shiny catches" size={24} />
-                <Text ml={2}>{playerData.shinyCatches}</Text>
+                <Text ml={2}>{status.shinyCatches}</Text>
             </Flex>
             <Flex alignItems="center" mx={4}>
                 <GiBullseye title="Criticals" size={24} />
-                <Text ml={2}>{playerData.criticals}</Text>
+                <Text ml={2}>{status.criticals}</Text>
             </Flex>
             <Flex alignItems="center" mx={4}>
                 <GiCoins title="Highest amount" size={24} />
-                <Text ml={2}>{playerData.highestAmount}</Text>
+                <Text ml={2}>{status.highestAmount}</Text>
             </Flex>
         </>
     )

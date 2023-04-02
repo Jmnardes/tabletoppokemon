@@ -72,7 +72,7 @@ export function PlayerProvider({children}) {
             setSession(res.session)
             setPlayer(res.player)
 
-            updateStatus(status, {trainerName: res.player.trainerName})
+            updateStatus(status, {trainerName: res.player.status.trainerName})
         })
 
         socket.on(`session-new`)

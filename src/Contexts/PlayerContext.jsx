@@ -68,8 +68,11 @@ export function PlayerProvider({children}) {
                 return
             }
 
+            console.log(res.player)
             setSession(res.session)
             setPlayer(res.player)
+
+            updateStatus(status, {trainerName: res.player.trainerName})
         })
 
         socket.on(`session-new`)

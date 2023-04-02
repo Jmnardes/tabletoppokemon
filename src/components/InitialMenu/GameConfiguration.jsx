@@ -1,7 +1,6 @@
 import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import socket from "../../client";
-import Loading from "../Pokemon/Loading/Loading";
 
 export default function GameConfiguration({ handleGameStart }) {
     const [trainerName, setTrainerName] = useState(``)
@@ -55,15 +54,14 @@ export default function GameConfiguration({ handleGameStart }) {
             </Flex>
 
             <Button w="100%" fontSize="3xl" h={12} mt={4} mb={4} onClick={() => {
-                // handleGameStart(true)
-                //loading
 
-                socket.emit(`session-new`, {
+                socket.emit('session-new', {
                     trainerName,
                     gameDuration,
                     gameDifficulty,
                     generation,
                 })
+                handleGameStart(true)
 
             }}>Start</Button>
         </>

@@ -63,6 +63,11 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         socket.on(`session-join`, (res) => {
+            if(res.error) {
+                // show toast
+                return
+            }
+
             setSession(res.session)
             setPlayer(res.player)
         })

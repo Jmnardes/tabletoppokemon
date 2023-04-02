@@ -35,7 +35,10 @@ import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+import { useContext } from "react";
+import PlayerContext from "../Contexts/PlayerContext"
+
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -80,6 +83,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
+    const { status, updateStatus } = useContext(PlayerContext)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -486,7 +490,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, tea
 
                     <GridItem>
                         <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} borderRadius={4}>
-                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {trainerName}</Text>
+                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {status.trainerName}</Text>
                         </Center>
                     </GridItem>
 

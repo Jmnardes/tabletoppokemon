@@ -13,7 +13,6 @@ const App = () => {
   const gameDifficulty = 1
   const generation = 8
   const gameHost = true
-  const trainerName = `trainer`
 
   useEffect(() => {
     if(gameReset) {
@@ -55,7 +54,6 @@ const App = () => {
           setShinyPercentage={setShinyChance}
           maxTurns={maxTurns} 
           handleGameReset={setGameReset}
-          trainerName={trainerName}
           teamLength={teamLength}
           generation={generation}
           handleToast={handleToast}

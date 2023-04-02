@@ -83,7 +83,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, gene
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
-    const { status, updateStatus } = useContext(PlayerContext)
+    const { status } = useContext(PlayerContext)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -471,12 +471,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, gene
                             ) : (
                                 <>
                                     <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
-                                    <EndGame
-                                        medal={medal}
-                                        trophy={trophy}
-                                        setTrophy={setTrophy}
-                                        coins={coins}
-                                    >
+                                    <EndGame>
                                         <TrainerStats />
                                     </EndGame>
                                 </>
@@ -504,23 +499,15 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, gene
                             <GymBlock
                                 disable={disableGym}
                                 gymTier={gymTier}
-                                medal={medal}
-                                setMedal={setMedal}
                                 team={handleTeamStats}
                                 setConfetti={setConfetti}
-                                fight={fight}
-                                setFight={setFight}
                             />
                             {gameHost && (
                                 <EventBlock
                                     disable={disableEvent}
                                 />
                             )}
-                            <StealBlock 
-                                steal={steal}
-                                setSteal={setSteal}
-                                turn={turn}
-                            />
+                            <StealBlock turn={turn} />
                             <PokemonEgg
                                 pokemonEgg={pokemonEgg}
                                 setPokemonEgg={setPokemonEgg}

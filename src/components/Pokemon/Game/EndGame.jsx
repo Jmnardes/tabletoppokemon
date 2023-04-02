@@ -3,7 +3,11 @@ import PokeModal from "../Modal/Modal";
 import { GiCheckeredFlag } from "react-icons/gi";
 import { TrainerBar } from "../Trainer/TrainerBar";
 
-export default function EndGame({ children, medal, trophy, setTrophy, coins }) {
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
+export default function EndGame({ children }) {
+    const { currency, updateCurrency } = useContext(PlayerContext)
 
     return (
         <PokeModal title={'End Game'} button={<GiCheckeredFlag size="22px"/>}>
@@ -18,15 +22,10 @@ export default function EndGame({ children, medal, trophy, setTrophy, coins }) {
 
                 <Flex mt={12} flexDirection="column" justifyContent="center" alignItems="center">
                     <Text mb={4}>Total Score:</Text>
-                    <TrainerBar
-                        medal={medal}
-                        trophy={trophy}
-                        isEndgame={true}
-                        coin={coins}
-                    />
+                    <TrainerBar isEndgame={true}/>
                 </Flex>
 
-                <Button mt={6} onClick={() => setTrophy(trophy + 1)}>Poke Crown</Button>
+                <Button mt={6} onClick={() => updateCurrency(currency, {crowns: currency.crowns + 1})}>Poke Crown</Button>
             </Flex>
         </PokeModal>
     )

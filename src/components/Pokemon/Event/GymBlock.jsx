@@ -9,7 +9,10 @@ import speedIcon from '../../../assets/images/stats/speed.png'
 import healthIcon from '../../../assets/images/stats/health.png'
 import fightIcon from '../../../assets/images/items/fight.png'
 
-export default function GymBlock({ disable, gymTier, medal, setMedal, team, setConfetti, fight, setFight }) {
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
+export default function GymBlock({ disable, gymTier, team, setConfetti }) {
     const { colorMode } = useColorMode()
     const [showResult, setShowResult] = useState(false)
     const [trainerWin, setTrainerWin] = useState(false)
@@ -24,6 +27,7 @@ export default function GymBlock({ disable, gymTier, medal, setMedal, team, setC
         def: 0,
         spd: 0
     })
+    const { items, updateItems, currency, updateCurrency } = useContext(PlayerContext)
 
     function eachStatPercentage(myStat, gymStat, type) {
         if(type === 'hp') {
@@ -75,7 +79,7 @@ export default function GymBlock({ disable, gymTier, medal, setMedal, team, setC
         setShowResult(true)
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
-            setMedal(medal + 1)
+            updateCurrency(currency, {stars: currency.stars + 1})
             setConfetti(true)
         } else {
             setTrainerWin(false)
@@ -164,7 +168,7 @@ export default function GymBlock({ disable, gymTier, medal, setMedal, team, setC
 
     function handleSpecialMove() {
         setIsSpecialMoveOn(true)
-        setFight(fight - 1)
+        updateItems(items, {fight: items.fight - 1})
         setDisableSpecialMove(true)
     }
 
@@ -243,7 +247,7 @@ export default function GymBlock({ disable, gymTier, medal, setMedal, team, setC
                 </Center>
                 {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
                 <Center>
-                    <Button mt={8} mr={2} disabled={disableSpecialMove || fight === 0} onClick={() => handleSpecialMove()}>
+                    <Button mt={8} mr={2} disabled={disableSpecialMove || items.fight === 0} onClick={() => handleSpecialMove()}>
                         <Image
                             src={fightIcon} 
                             title={'Increases your chances to win against the Gym'}

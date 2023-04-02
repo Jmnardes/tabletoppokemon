@@ -5,7 +5,6 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
-    const [player, setPlayer] = useState({})
     const [status, setStatus] = useState({
         trainerName: 'trainer',
         level: 0,
@@ -70,9 +69,11 @@ export function PlayerProvider({children}) {
 
             console.log(res.player)
             setSession(res.session)
-            setPlayer(res.player)
 
-            updateStatus(status, {trainerName: res.player.status.trainerName})
+            updateStatus(status, {status: res.player.status})
+            updateCurrency(currency, {currency: res.player.currency})
+            updateBalls(balls, {balls: res.player.balls})
+            updateItems(items, {items: res.player.items})
         })
 
         socket.on(`session-new`)

@@ -4,9 +4,13 @@ import stealIcon from '../../../assets/images/items/steal.png'
 import { diceRoll } from "../../../util";
 import { useEffect, useState } from "react";
 
-export default function StealBlock({ steal, setSteal, turn }) {
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
+
+export default function StealBlock({ turn }) {
     const { colorMode } = useColorMode()
     const [stealRoll, setStealRoll] = useState(false)
+    const { items, updateItems } = useContext(PlayerContext)
 
     const stealWhat = () => {
         let stealWhatRoll = diceRoll(100)
@@ -35,15 +39,15 @@ export default function StealBlock({ steal, setSteal, turn }) {
                 title={'Team Rocket Pass'}
                 w="24px"
             ></Image>
-        } disableButton={steal === 0}>
+        } disableButton={items.steal === 0}>
             <Center flexDirection="column">
                 <Heading>Roll to Steal</Heading>
 
                 <Text mt={12} fontSize="2xl" textAlign="center">You can use the team Rocket to steal something from another trainer</Text>
 
-                <Button mt={12} w={48} disabled={steal === 0} onClick={() => {
+                <Button mt={12} w={48} disabled={items.steal === 0} onClick={() => {
                     stealWhat()
-                    setSteal(steal - 1)
+                    updateItems(items, {steal: items.steal - 1})
                 }}>Steal</Button>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>

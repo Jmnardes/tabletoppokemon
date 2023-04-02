@@ -4,8 +4,9 @@ import GameConfiguration from "./GameConfiguration";
 import GameJoin from "./GameJoin";
 import { FaArrowLeft } from "react-icons/fa";
 import ThemeSwitch from "../../components/Chakra/ThemeSwitch/ThemeSwitch"
+import GameLobby from "./GameLobby";
 
-export default function InitialMenu({ handleGameStart }) {
+export default function InitialMenu({ handleGameStart, setIsPlayerInLobby, isPlayerInLobby }) {
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
@@ -39,7 +40,7 @@ export default function InitialMenu({ handleGameStart }) {
                     borderRadius={8} px={8} py={2}
                 >
                     <Text fontSize="4xl" mb={4}>
-                        Welcome to Im'a Poke Trainer!
+                        {isPlayerInLobby ? 'Lobby' : "Welcome to Im'a Poke Trainer!"}
                     </Text>
 
                     {!isGameTypeSelected ? (
@@ -55,10 +56,14 @@ export default function InitialMenu({ handleGameStart }) {
                         </>
                     ) : (
 
-                        isGameTypeJoin ? (
-                            <GameJoin handleGameStart={handleGameStart} />
-                        ):(
-                            <GameConfiguration handleGameStart={handleGameStart} />
+                        isPlayerInLobby ? (
+                            <GameLobby handleGameStart={handleGameStart} />
+                        ) : (
+                            isGameTypeJoin ? (
+                                <GameJoin setIsPlayerInLobby={setIsPlayerInLobby} />
+                            ):(
+                                <GameConfiguration setIsPlayerInLobby={setIsPlayerInLobby} />
+                            )
                         )
                     )}
                 </Flex>

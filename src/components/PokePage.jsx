@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
@@ -35,7 +35,7 @@ import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
 import event3Icon from '../assets/images/game/event3.png'
 
-function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+function PokePage({ maxTurns, shinyPercentage, handleGameReset, trainerName, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -433,14 +433,6 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                     disablePokeballs={disablePokeballs}
                                     setBonusOnCatch={setBonusOnCatch}
                                     setDisablePokeballs={setDisablePokeballs}
-                                    greatball={greatball}
-                                    setGreatBall={setGreatBall}
-                                    superball={superball}
-                                    setSuperBall={setSuperBall}
-                                    ultraball={ultraball}
-                                    setUltraBall={setUltraBall}
-                                    masterball={masterball}
-                                    setMasterBall={setMasterBall}
                                     rollBlockDisabed={rollBlockDisabed}
                                     setRollBlockDisabed={setRollBlockDisabed}
                                     isPokemonEncounter={isPokemonEncounter}
@@ -450,21 +442,7 @@ function PokePage({ maxTurns, shinyPercentage, setShinyPercentage, handleGameRes
                                     walkedBlocks={walkedBlocks}
                                     setWalkedBlocks={setWalkedBlocks}
                                     setMercant={setMercant}
-                                    setCoins={setCoins}
-                                    coins={coins}
                                     pokemonsTeam={pokemonsTeam}
-                                    setTrophy={setTrophy}
-                                    trophy={trophy}
-                                    medal={medal}
-                                    setMedal={setMedal}
-                                    steal={steal}
-                                    setSteal={setSteal}
-                                    fight={fight}
-                                    setFight={setFight}
-                                    shinyPercentage={shinyPercentage}
-                                    setShinyPercentage={setShinyPercentage}
-                                    pokemonEgg={pokemonEgg}
-                                    setPokemonEgg={setPokemonEgg}
                                     handleToast={handleToast}
                                 >
                                     <Flex justifyContent="center">

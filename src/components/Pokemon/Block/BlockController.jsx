@@ -1,6 +1,7 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import pokemonJSON from '../../../assets/json/pokemons.json'
+import PlayerContext from "../../../Contexts/PlayerContext";
 
 import eggIcon from '../../../assets/images/items/egg.png'
 
@@ -8,53 +9,33 @@ function BlockController({
     block,
     setMercant,
     pokemonsTeam,
-    coins,
-    setCoins,
-    trophy,
-    setTrophy,
-    medal,
-    setMedal,
-    greatball,
-    setGreatBall,
-    superball,
-    setSuperBall,
-    ultraball,
-    setUltraBall,
-    masterball,
-    setMasterBall,
-    steal,
-    setSteal,
-    fight,
-    setFight,
-    pokemonEgg,
-    setPokemonEgg,
-    shinyPercentage,
-    setShinyPercentage,
     handleToast
 }) {
+    const { balls, updateBalls, items, updateItems, currency, updateCurrency } = useContext(PlayerContext)
+
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {
-            setCoins(coins + value)
+            updateCurrency(currency, {coins: currency.coins + value})
         } else {
-            if (value > coins) {
-                setCoins(0)
+            if (value > currency.coins) {
+                updateCurrency(currency, {coins: 0})
             } else {
-                setCoins(coins - value)
+                updateCurrency(currency, {coins: currency.coins - value})
             }
         }
     }
 
     const itemFunction = (block) => {
         if (block?.change?.category === 'coin') {
-            setCoins(coins + block.change?.value)
+            updateCurrency(currency, {coins: currency.coins + block.change?.value})
         }
 
         if (block?.change?.category === 'item') {
-            if(block.change?.item === 'superball') setSuperBall(superball + 1)
-            if(block.change?.item === 'ultraball') setUltraBall(ultraball + 1)
-            if(block.change?.item === 'steal') setSteal(steal + 1)
+            if(block.change?.item === 'greatball') updateBalls(balls, {greatball: balls.greatball + 1})
+            if(block.change?.item === 'ultraball') updateBalls(balls, {ultraball: balls.ultraball + 1})
+            if(block.change?.item === 'steal') updateItems(items,  {steal: items.steal + 1})
             if(block.change?.item === 'egg') {
-                setPokemonEgg(pokemonEgg + 1)
+                updateItems(items,  {pokemonEgg: items.pokemonEgg + 1})
                 handleToast(
                     'egg', 
                     'Egg', 
@@ -64,18 +45,18 @@ function BlockController({
                     10000
                 )
             }
-            if(block.change?.item === 'fight') setFight(fight + 1)
-            if(block.change?.item === 'incense') setShinyPercentage(shinyPercentage + 1)
-            if(block.change?.item === 'medal') setMedal(medal + 1)
+            if(block.change?.item === 'fight') updateItems(items,  {fight: items.fight + 1})
+            if(block.change?.item === 'incense') updateItems(items,  {incense: items.incense + 1})
+            if(block.change?.item === 'star') updateCurrency(currency,  {stars: currency.stars + 1})
         }
 
         if (block?.change?.category === 'treasure') {
-            if(block.change?.item === 'ultraball') setUltraBall(ultraball + 2)
-            if(block.change?.item === 'steal') setSteal(steal + 1)
-            if(block.change?.item === 'medal') setMedal(medal + 1)
-            if(block.change?.item === 'incense') setShinyPercentage(shinyPercentage + 1)
-            if(block.change?.item === 'masterball') setMasterBall(masterball + 1)
-            if(block.change?.item === 'trophy') setTrophy(trophy + 1)
+            if(block.change?.item === 'ultraball') updateBalls(balls, {ultraball: balls.ultraball + 2})
+            if(block.change?.item === 'steal') updateItems(items,  {steal: items.steal + 1})
+            if(block.change?.item === 'star') updateCurrency(currency,  {stars: currency.stars + 1})
+            if(block.change?.item === 'incense') updateItems(items,  {incense: items.incense + 1})
+            if(block.change?.item === 'masterball') updateBalls(balls, {masterball: balls.masterball + 1})
+            if(block.change?.item === 'crown') updateCurrency(currency,  {crowns: currency.crowns + 1})
         }
     }
 
@@ -117,29 +98,29 @@ function BlockController({
 
         if(block?.type === 'item') {
             switch(block?.change?.type) {
-                case 'superball':
-                    setSuperBall(superball + block.change?.value)
+                case 'greatball':
+                    updateBalls(balls, {greatball: balls.greatball + block.change?.value})
                     return
                 case 'ultraball':
-                    setUltraBall(ultraball + block.change?.value)
+                    updateBalls(balls, {ultraball: balls.ultraball + block.change?.value})
                     return
                 case 'fight':
-                    setFight(fight + block.change?.value)
+                    updateItems(items, {fight: items.fight + block.change?.value})
                     return
                 case 'steal':
-                    setSteal(steal + block.change?.value)
+                    updateItems(items, {steal: items.steal + block.change?.value})
                     return
-                case 'medal':
-                    setMedal(medal + block.change?.value)
+                case 'star':
+                    updateCurrency(currency,  {stars: currency.stars + block.change?.value})
                     return
                 case 'masterball':
-                    setMasterBall(masterball + block.change?.value)
+                    updateBalls(balls, {masterball: balls.masterball + block.change?.value})
                     return
-                case 'trophy':
-                    setTrophy(trophy + block.change?.value)
+                case 'crown':
+                    updateCurrency(currency,  {crowns: currency.crowns + block.change?.value})
                     return
                 case 'egg':
-                    setPokemonEgg(pokemonEgg + block.change?.value)
+                    updateItems(items, {pokemonEgg: items.pokemonEgg + block.change?.value})
                     handleToast(
                         'egg', 
                         'Egg', 
@@ -150,10 +131,10 @@ function BlockController({
                     )
                     return
                 case 'incense':
-                    setShinyPercentage(shinyPercentage + block.change?.value)
+                    updateItems(items,  {incense: items.incense + block.change?.value})
                     return
-                default: //greatball
-                    setGreatBall(greatball + block.change?.value)
+                default: //pokeball
+                    updateBalls(balls, {pokeball: balls.pokeball + block.change?.value})
                     return
             }
         }

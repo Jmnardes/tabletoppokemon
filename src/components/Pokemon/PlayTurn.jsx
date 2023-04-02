@@ -17,14 +17,6 @@ export function PlayTurn({
     disablePokeballs,
     setBonusOnCatch,
     setDisablePokeballs,
-    greatball,
-    setGreatBall,
-    superball,
-    setSuperBall,
-    ultraball,
-    setUltraBall,
-    masterball,
-    setMasterBall,
     closeModal,
     setCloseModal,
     walkedBlocks,
@@ -34,21 +26,7 @@ export function PlayTurn({
     setRollBlockDisabed,
     isPokemonEncounter,
     setIsPokemonEncounter,
-    setCoins,
-    coins,
     pokemonsTeam,
-    setTrophy,
-    trophy,
-    medal,
-    setMedal,
-    steal,
-    setSteal,
-    fight,
-    setFight,
-    pokemonEgg,
-    setPokemonEgg,
-    shinyPercentage,
-    setShinyPercentage,
     handleToast
 }) {
     return (
@@ -89,29 +67,7 @@ export function PlayTurn({
                     setMercant={setMercant}
                     rollBlockDisabed={rollBlockDisabed}
                     setRollBlockDisabed={setRollBlockDisabed}
-                    setCoins={setCoins}
-                    coins={coins}
                     pokemonsTeam={pokemonsTeam}
-                    setTrophy={setTrophy}
-                    trophy={trophy}
-                    medal={medal}
-                    setMedal={setMedal}
-                    greatball={greatball}
-                    setGreatBall={setGreatBall}
-                    superball={superball}
-                    setSuperBall={setSuperBall}
-                    ultraball={ultraball}
-                    setUltraBall={setUltraBall}
-                    masterball={masterball}
-                    setMasterBall={setMasterBall}
-                    steal={steal}
-                    setSteal={setSteal}
-                    fight={fight}
-                    setFight={setFight}
-                    shinyPercentage={shinyPercentage}
-                    setShinyPercentage={setShinyPercentage}
-                    pokemonEgg={pokemonEgg}
-                    setPokemonEgg={setPokemonEgg}
                     handleToast={handleToast}
                 />
             )}

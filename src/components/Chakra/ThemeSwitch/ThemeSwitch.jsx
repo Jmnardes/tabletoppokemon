@@ -5,7 +5,7 @@ function ThemeSwitch() {
     const { colorMode, toggleColorMode } = useColorMode()
     return (
       <>
-        <Button size="md" onClick={toggleColorMode}>
+        <Button h={12} m={4} onClick={toggleColorMode}>
           {colorMode === 'light' ? (
             <Moon size={18} weight="bold" color="#020303" />
           ) : (

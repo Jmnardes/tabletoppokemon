@@ -12,30 +12,8 @@ export default function TurnController({
     walkedBlocks,
     setMercant,
     rollBlockDisabed, 
-    setRollBlockDisabed, 
-    setCoins,
-    coins,
+    setRollBlockDisabed,
     pokemonsTeam,
-    setTrophy,
-    trophy,
-    medal,
-    setMedal,
-    greatball,
-    setGreatBall,
-    superball,
-    setSuperBall,
-    ultraball,
-    setUltraBall,
-    masterball,
-    setMasterBall,
-    steal,
-    setSteal,
-    fight,
-    setFight,
-    pokemonEgg,
-    setPokemonEgg,
-    shinyPercentage,
-    setShinyPercentage,
     handleToast
 }) {
     const [block, setBlock] = useState([])
@@ -87,30 +65,8 @@ export default function TurnController({
 
                 <BlockController 
                     block={block}
-                    setMercant={setMercant} 
-                    setCoins={setCoins}
-                    coins={coins}
+                    setMercant={setMercant}
                     pokemonsTeam={pokemonsTeam}
-                    setTrophy={setTrophy}
-                    trophy={trophy}
-                    medal={medal}
-                    setMedal={setMedal}
-                    greatball={greatball}
-                    setGreatBall={setGreatBall}
-                    superball={superball}
-                    setSuperBall={setSuperBall}
-                    ultraball={ultraball}
-                    setUltraBall={setUltraBall}
-                    masterball={masterball}
-                    setMasterBall={setMasterBall}
-                    steal={steal}
-                    setSteal={setSteal}
-                    fight={fight}
-                    setFight={setFight}
-                    shinyPercentage={shinyPercentage}
-                    setShinyPercentage={setShinyPercentage}
-                    pokemonEgg={pokemonEgg}
-                    setPokemonEgg={setPokemonEgg}
                     handleToast={handleToast}
                 />
             </Flex>

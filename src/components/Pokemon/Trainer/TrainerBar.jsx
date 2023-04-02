@@ -13,7 +13,7 @@ export function TrainerBar({
     isEndgame,
     shinyPercentage
 }) {
-    const { gameStats } = useContext(PlayerContext)
+    const { currency } = useContext(PlayerContext)
     
     return (
         <>
@@ -34,7 +34,7 @@ export function TrainerBar({
                     title={'Poke Crown'}
                     w="34px"
                 ></Image>
-                <Text ml={2}>{gameStats.crowns}</Text>
+                <Text ml={2}>{currency.crowns}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image
@@ -42,7 +42,7 @@ export function TrainerBar({
                     title={'Poke Star'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{gameStats.stars}</Text>
+                <Text ml={2}>{currency.stars}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image
@@ -50,7 +50,7 @@ export function TrainerBar({
                     title={'Coins'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{gameStats.coins}</Text>
+                <Text ml={2}>{currency.coins}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
                 <Image

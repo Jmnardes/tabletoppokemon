@@ -267,7 +267,7 @@ function event(type) {
 function itemRoll() {
     let itemPercentage = diceRoll(100)
 
-    if(itemPercentage < 30) return 'superball'
+    if(itemPercentage < 30) return 'greatball'
     if(itemPercentage < 45) return 'ultraball'
     if(itemPercentage < 60) return 'steal'
     if(itemPercentage < 75) return 'egg'
@@ -275,7 +275,7 @@ function itemRoll() {
     if(itemPercentage < 95) {
         return 'incense'
     } else {
-        return 'medal'
+        return 'star'
     }
 }
 
@@ -284,12 +284,12 @@ function treasureRoll() {
 
     if(treasurePercentage < 20) return 'ultraball'
     if(treasurePercentage < 40) return 'steal'
-    if(treasurePercentage < 60) return 'medal'
+    if(treasurePercentage < 60) return 'star'
     if(treasurePercentage < 80) return 'incense'
     if(treasurePercentage < 90) {
         return 'masterball'
     } else {
-        return 'trophy'
+        return 'crown'
     }
 }
 
@@ -348,6 +348,36 @@ function item() {
     if(itemPercent < 15) {
         return {
             type:'item', 
+            title: 'Poke Ball', 
+            label:'You have found a Poke Ball',
+            change: {
+                type: 'pokeball',
+                value: 1
+            }
+        }
+    } else if(itemPercent < 30) {
+        return {
+            type:'item', 
+            title: 'Poke Ball x2', 
+            label:'You have found two Poke Balls',
+            change: {
+                type: 'pokeball',
+                value: 2
+            }
+        }
+    } else if(itemPercent < 45) {
+        return {
+            type:'item', 
+            title: 'Poke Ball x3', 
+            label:'You have found three Poke Balls',
+            change: {
+                type: 'pokeball',
+                value: 3
+            }
+        }
+    } else if(itemPercent < 60) {
+        return {
+            type:'item', 
             title: 'Great Ball', 
             label:'You have found a Great Ball',
             change: {
@@ -355,43 +385,13 @@ function item() {
                 value: 1
             }
         }
-    } else if(itemPercent < 30) {
+    } else if(itemPercent < 70) {
         return {
             type:'item', 
             title: 'Great Ball x2', 
             label:'You have found two Great Balls',
             change: {
                 type: 'greatball',
-                value: 2
-            }
-        }
-    } else if(itemPercent < 45) {
-        return {
-            type:'item', 
-            title: 'Great Ball x3', 
-            label:'You have found three Great Balls',
-            change: {
-                type: 'greatball',
-                value: 3
-            }
-        }
-    } else if(itemPercent < 60) {
-        return {
-            type:'item', 
-            title: 'Super Ball', 
-            label:'You have found a Super Ball',
-            change: {
-                type: 'superball',
-                value: 1
-            }
-        }
-    } else if(itemPercent < 70) {
-        return {
-            type:'item', 
-            title: 'Super Ball x2', 
-            label:'You have found two Super Ball',
-            change: {
-                type: 'superball',
                 value: 2
             }
         }
@@ -451,7 +451,7 @@ function item() {
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
-                type: 'medal',
+                type: 'star',
                 value: 1
             }
         }
@@ -477,7 +477,7 @@ function treasure() {
             title: 'Poke Star', 
             label:'You have found a Poke Star',
             change: {
-                type: 'medal',
+                type: 'star',
                 value: 1
             }
         }
@@ -507,7 +507,7 @@ function treasure() {
             title: 'Poke Crown', 
             label:'You have found a Poke Crown',
             change: {
-                type: 'trophy',
+                type: 'crown',
                 value: 1
             }
         }

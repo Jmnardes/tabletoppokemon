@@ -26,21 +26,7 @@ export function PlayTurn({
     setRollBlockDisabed,
     isPokemonEncounter,
     setIsPokemonEncounter,
-    setCoins,
-    coins,
     pokemonsTeam,
-    setTrophy,
-    trophy,
-    medal,
-    setMedal,
-    steal,
-    setSteal,
-    fight,
-    setFight,
-    pokemonEgg,
-    setPokemonEgg,
-    shinyPercentage,
-    setShinyPercentage,
     handleToast
 }) {
     return (
@@ -81,21 +67,7 @@ export function PlayTurn({
                     setMercant={setMercant}
                     rollBlockDisabed={rollBlockDisabed}
                     setRollBlockDisabed={setRollBlockDisabed}
-                    setCoins={setCoins}
-                    coins={coins}
                     pokemonsTeam={pokemonsTeam}
-                    setTrophy={setTrophy}
-                    trophy={trophy}
-                    medal={medal}
-                    setMedal={setMedal}
-                    steal={steal}
-                    setSteal={setSteal}
-                    fight={fight}
-                    setFight={setFight}
-                    shinyPercentage={shinyPercentage}
-                    setShinyPercentage={setShinyPercentage}
-                    pokemonEgg={pokemonEgg}
-                    setPokemonEgg={setPokemonEgg}
                     handleToast={handleToast}
                 />
             )}

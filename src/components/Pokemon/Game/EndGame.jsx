@@ -4,6 +4,7 @@ import { GiCheckeredFlag } from "react-icons/gi";
 import { TrainerBar } from "../Trainer/TrainerBar";
 
 export default function EndGame({ children, medal, trophy, setTrophy, coins }) {
+
     return (
         <PokeModal title={'End Game'} button={<GiCheckeredFlag size="22px"/>}>
             <Flex justifyContent="center" alignItems="center" flexDirection="column" p={4}>

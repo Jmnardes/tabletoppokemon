@@ -12,14 +12,14 @@ export default function GameConfiguration({ handleGameStart }) {
     return (
         <>
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Text fontSize="3xl" m={2}>
+                <Text fontSize="2xl" m={2}>
                     Name
                 </Text>
                 <Input textAlign="center" fontSize="2xl" maxLength={14} onChange={(e) => {setTrainerName(e.target.value)}} />
             </Flex>
 
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Text fontSize="3xl" m={2}>
+                <Text fontSize="2xl" m={2}>
                     Game duration 
                 </Text>
                 <NumberInput mx={4} w={20} step={20} defaultValue={40} min={20} max={100} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
@@ -32,7 +32,7 @@ export default function GameConfiguration({ handleGameStart }) {
             </Flex>
 
             <Flex justifyContent="space-evenly" alignItems="center">
-                <Text fontSize="3xl" m={2}>
+                <Text fontSize="2xl" m={2}>
                     Generation
                 </Text>
                 <NumberInput mt={1} w={20} step={1} defaultValue={8} min={1} max={8} allowMouseWheel onChange={(e) => {setGeneration(e)}}>

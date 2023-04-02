@@ -16,7 +16,8 @@ export function PlayerProvider({children}) {
         highestAmount: 0,
         criticals: 0,
     })
-    const [team, setTeam] = useState([])
+    const [pokeTeam, setPokeTeam] = useState([])
+    const [pokeBox, setPokeBox] = useState([])
     const [currency, setCurrency] = useState({
         coins: 0,
         stars: 0,
@@ -33,14 +34,19 @@ export function PlayerProvider({children}) {
         fight: 0,
         pokemonEgg: 0,
         incubator: 0,
+        incense: 0
     })
 
     const updateStatus = (prevData, newData) => {
         setStatus({...prevData, ...newData});
     }
     
-    const updateTeam = (prevData, newData) => {
-        setTeam([...prevData, ...newData]);
+    const updatePokeTeam = (prevData, newData) => {
+        setPokeTeam([...prevData, ...newData]);
+    }
+    
+    const updatePokeBox = (prevData, newData) => {
+        setPokeBox([...prevData, ...newData]);
     }
 
     const updateCurrency = (prevData, newData) => {
@@ -69,8 +75,11 @@ export function PlayerProvider({children}) {
             status, 
             updateStatus,
 
-            team,
-            updateTeam,
+            pokeTeam,
+            updatePokeTeam,
+
+            pokeBox,
+            updatePokeBox,
 
             currency,
             updateCurrency,
@@ -87,12 +96,3 @@ export function PlayerProvider({children}) {
 }
 
 export default PlayerContext;
-
-// {
-//     player,
-//     session: {
-//       gameDuration,
-//       shinyChance,
-//       teamLength,
-//     },
-//   }

@@ -1,13 +1,18 @@
-import { Box, useToast } from "@chakra-ui/react"
+import { Box, useColorMode, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import InitialMenu from "./components/InitialMenu/InitialMenu"
 import PokePage from "./components/PokePage"
 
+import day from "./assets/images/background/day.jpg"
+import night from "./assets/images/background/night.jpg"
+
 const App = () => {
+  const { colorMode } = useColorMode()
   const toast = useToast()
   const [maxTurns, setMaxTurns] = useState(40)
   const [shinyChance, setShinyChance] = useState(1)
   const [gameStarted, setGameStarted] = useState(false)
+  const [isPlayerInLobby, setIsPlayerInLobby] = useState(false)
   const [gameReset, setGameReset] = useState(false)
   const teamLength = 3
   const gameDifficulty = 1
@@ -47,7 +52,7 @@ const App = () => {
   }, [])
 
   return (
-    <Box h='100vh' m={0} backgroundImage={"https://wallup.net/wp-content/uploads/2016/05/24/143432-nature-Pokemon.jpg"}>
+    <Box h='100vh' m={0} backgroundImage={colorMode === 'light' ? day : night}>
       {gameStarted ? (
         <PokePage 
           shinyPercentage={shinyChance}
@@ -62,7 +67,7 @@ const App = () => {
           gameDifficulty={gameDifficulty}
         />
       ): (
-        <InitialMenu handleGameStart={setGameStarted} />
+        <InitialMenu handleGameStart={setGameStarted} setIsPlayerInLobby={setIsPlayerInLobby} isPlayerInLobby={isPlayerInLobby} />
       )}
     </Box>
   )

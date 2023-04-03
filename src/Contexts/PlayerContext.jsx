@@ -69,7 +69,7 @@ export function PlayerProvider({children}) {
 
         socket.on('session-join', (res) => {
             console.log(res)
-            console.log('room:', res.session.sessionId)
+            console.log('room:', res.session.sessionCode)
             setSession(res.session)
             setOpponents(res.opponent)
             setPlayer(res.player)
@@ -90,16 +90,18 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('session-join-other', res => {
-            console.log('session-join-other',res)
+            console.log('session-join-other', res)
 
-            setOpponents(old => ({
-                ...old,
-                ...res
-            }))
+            setOpponents(old => {
+                return [
+                    ...(old ?? []),
+                    res
+                ]
+            })
         })
 
         socket.on('lobby-ready-other', res => {
-            console.log('lobby-ready-other',res)
+            console.log('lobby-ready-other', res)
 
             const newOpponents = opponents.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)
 

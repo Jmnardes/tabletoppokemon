@@ -28,10 +28,10 @@ export default function GameLobby() {
         )
     }
 
-    const PlayerSlot = ({traineName, isReady}) => {
+    const PlayerSlot = ({trainerName, isReady}) => {
         return (
             <Flex width={"100%"} justifyContent={"space-between"} m={2}>
-                <Text>{traineName}</Text>
+                <Text>{trainerName}</Text>
                 {isReady ? (
                     <FaRegCheckCircle size={24} color="green" />
                 ) : (
@@ -40,6 +40,8 @@ export default function GameLobby() {
             </Flex>
         )
     }
+
+    console.log('render:', opponents)
 
     useEffect(() => {
         handleLoading()
@@ -89,8 +91,10 @@ export default function GameLobby() {
             </Flex>
             {
                 opponents?.length > 0 && opponents.map(opponent => {
+                    console.log({opponent})
                     return (
-                        <PlayerSlot 
+                        <PlayerSlot
+                            key={opponent?.id}
                             trainerName={opponent?.status?.trainerName} 
                             isReady={opponent?.ready} 
                         />

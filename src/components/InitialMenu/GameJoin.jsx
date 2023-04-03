@@ -9,9 +9,9 @@ export default function GameJoin({ setIsPlayerInLobby }) {
     const [sessionCode, setSessionCode] = useState('')
     
     useEffect(() => {
-        session.sessionId && setIsPlayerInLobby(true)
+        session.sessionCode && setIsPlayerInLobby(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session.sessionId])
+    }, [session.sessionCode])
 
     return (
         <>

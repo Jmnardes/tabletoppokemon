@@ -48,6 +48,9 @@ export default function GameLobby() {
 
     return (
         <>
+            <Text fontSize="4xl" mb={2}>
+                {session.sessionCode}
+            </Text>
             <Divider my={4} />
                 <ConfigurationSlot 
                     name1={'Difficulty'}
@@ -102,7 +105,7 @@ export default function GameLobby() {
 
                 socket.emit('lobby-ready', ({
                     id: player.id,
-                    sessionCode: player.token.sessionCode,
+                    sessionCode: session.sessionCode,
                     ready: !player.ready
                 }))
             }}>

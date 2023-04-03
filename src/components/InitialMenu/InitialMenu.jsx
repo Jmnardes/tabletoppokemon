@@ -40,10 +40,6 @@ export default function InitialMenu({ handleGameStart, setIsPlayerInLobby, isPla
                     background={colorMode === 'light' ? "gray.400" : "gray.700"} 
                     borderRadius={8} px={8} py={2}
                 >
-                    <Text fontSize="4xl" mb={4}>
-                        {isPlayerInLobby ? 'Lobby' : "Welcome to Im'a Poke Trainer!"}
-                    </Text>
-
                     {!isGameTypeSelected ? (
                         <>
                             <Button w="100%" fontSize="3xl" h={12} mt={4} mb={2} onClick={() => {

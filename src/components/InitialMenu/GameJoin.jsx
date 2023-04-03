@@ -1,11 +1,18 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import socket from "../../client";
+import PlayerContext from "../../Contexts/PlayerContext";
 
 export default function GameJoin({ setIsPlayerInLobby }) {
-    const [trainerName, setTrainerName] = useState(``)
-    const [sessionCode, setSessionCode] = useState(``)
+    const { session } = useContext(PlayerContext)
+    const [trainerName, setTrainerName] = useState('')
+    const [sessionCode, setSessionCode] = useState('')
     
+    useEffect(() => {
+        session.sessionId && setIsPlayerInLobby(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session.sessionId])
+
     return (
         <>
             <Flex flexDirection="column" m={2} justifyContent="center" alignItems="center">
@@ -28,7 +35,6 @@ export default function GameJoin({ setIsPlayerInLobby }) {
                     trainerName,
                     sessionCode
                 })
-                setIsPlayerInLobby(true)
 
             }}>Join Game</Button>
         </>

@@ -31,11 +31,12 @@ export default function InitialMenu({ handleGameStart, setIsPlayerInLobby, isPla
                 m="auto"
             >
                 <Flex 
-                    mt={40} 
+                    mt={32} 
                     flexDirection="column" 
                     justifyContent="center" 
                     alignItems="center" 
                     maxWidth="600px" 
+                    minWidth="420px" 
                     background={colorMode === 'light' ? "gray.400" : "gray.700"} 
                     borderRadius={8} px={8} py={2}
                 >

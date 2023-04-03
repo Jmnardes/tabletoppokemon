@@ -5,6 +5,8 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
+    const [opponents, setOpponents] = useState([])
+    const [player, setPlayer] = useState({})
     const [status, setStatus] = useState({
         trainerName: '',
         level: 0,
@@ -61,14 +63,16 @@ export function PlayerProvider({children}) {
     }
 
     useEffect(() => {
-        socket.on(`session-join`, (res) => {
-            if(res.error) {
-                // show toast
-                return
-            }
+        socket.on('generic-error', res => {
+            console.log('error:' ,res)
+        })
 
+        socket.on('session-join', (res) => {
             console.log(res)
+            console.log('token:', res.player.token.sessionCode)
             setSession(res.session)
+            setOpponents(res.opponent)
+            setPlayer(res.player)
 
             updateStatus(status, res.player.status)
             updateCurrency(currency, res.player.currency)
@@ -76,11 +80,42 @@ export function PlayerProvider({children}) {
             updateItems(items, res.player.items)
         })
 
+        socket.on('lobby-ready', res => {
+            console.log(res)
+
+            setPlayer(old => ({
+                ...old,
+                ready: res
+            }))
+        })
+
+        socket.on('session-join-other', res => {
+            console.log('session-join-other',res)
+
+            setOpponents(...opponents, ...res)
+        })
+
+        socket.on('lobby-ready-other', res => {
+            console.log('lobby-ready-other',res)
+            
+            const newOpponents = opponents.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)
+
+            setOpponents(newOpponents)
+        })
+
+        socket.on('lobby-start', res => {
+            console.log('start', res)
+        })
+
         socket.on(`session-new`)
     }, [])
 
     return (
         <PlayerContext.Provider value={{ 
+            session,
+            opponents,
+            player,
+
             status, 
             updateStatus,
 

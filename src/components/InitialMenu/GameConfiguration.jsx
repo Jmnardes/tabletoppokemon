@@ -55,12 +55,12 @@ export default function GameConfiguration({ setIsPlayerInLobby }) {
 
             <Button w="100%" fontSize="3xl" h={12} mt={4} mb={4} onClick={() => {
 
-                socket.emit('session-new', {
+                socket.emit('session-new', ({
                     trainerName,
                     gameDuration,
                     gameDifficulty,
                     generation,
-                })
+                }))
                 setIsPlayerInLobby(true)
 
             }}>Start</Button>

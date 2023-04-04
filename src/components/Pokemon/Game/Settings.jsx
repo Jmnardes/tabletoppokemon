@@ -1,8 +1,12 @@
 import PokeModal from "../Modal/Modal";
 import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
 import settingsIcon from '../../../assets/images/game/settings.png'
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
 
-export function Settings({ handleGameReset, children }) {
+export function Settings({ children }) {
+    const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
+
     return (
         <PokeModal title={'Settings'} button={
             <Image
@@ -16,7 +20,12 @@ export function Settings({ handleGameReset, children }) {
             <Center flexDirection="column" p={4}>
                 <Text mb={4} fontSize="2xl" textAlign="center">Restart game!</Text>
                 <Text fontSize="sm" color="red" >(All data will be lost)</Text>
-                <Button p={4} w={40} onClick={() => handleGameReset(true)}>Yes, restart game</Button>
+                <Button p={4} w={40} onClick={() => {
+                    setHasGameStarted(false)
+                    setPlayer({})
+                    setSession({})
+                    setOpponents({})
+                }}>Yes, restart game</Button>
             </Center>
         </PokeModal>
     )

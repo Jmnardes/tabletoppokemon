@@ -6,11 +6,11 @@ export default function Items({ children }) {
 
     return (
         <>
-            <Flex justifyContent="center" alignItems="center" width="100%" mt={4}>
-                <Grid templateColumns='repeat(6, 1fr)' width="100%" h={16}>
-                    <GridItem></GridItem>
+            <Flex justifyContent="center" alignItems="center" width="100%">
+                <Grid templateColumns='repeat(6, 1fr)' width="100%" h={8}>
+                    <GridItem bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"}></GridItem>
 
-                    <GridItem colSpan={4} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} borderRadius="64px 64px 0 0" py={4}>
+                    <GridItem colSpan={4} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} py={2}>
                         <Grid templateColumns='repeat(5, 1fr)' width="100%" h={16}>
                             <GridItem><Center>
                                 <Image
@@ -36,7 +36,7 @@ export default function Items({ children }) {
                         </Grid>
                     </GridItem>
 
-                    <GridItem></GridItem>
+                    <GridItem bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"}></GridItem>
                 </Grid>
             </Flex>
         </>

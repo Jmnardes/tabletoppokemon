@@ -37,8 +37,9 @@ import event3Icon from '../assets/images/game/event3.png'
 
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
+import Players from "./Pokemon/Players/Players"
 
-function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -543,7 +544,7 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, gene
                                 greatIncubator={greatIncubator}
                                 setGreatIncubator={setGreatIncubator}
                             />
-                            <Settings handleGameReset={handleGameReset}>
+                            <Settings>
                                 <Economy
                                     coins={coins} 
                                     medal={medal} 
@@ -563,111 +564,118 @@ function PokePage({ maxTurns, shinyPercentage, handleGameReset, teamLength, gene
                 </Grid>
             </Center>
 
-            <Flex flexDir="column" py={2} minHeight="9rem">
-                <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventory</Text>
-                <Stack 
-                    direction={['column', 'row']} 
-                    spacing={1} 
-                    overflowX="auto"
-                    css={{
-                        "&::-webkit-scrollbar": {
-                            height: "14px",
-                            width: "2px",
-                        },
-                        "&::-webkit-scrollbar-track": {
-                            width: "2px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#4A5568",
-                            borderRadius: "24px",
-                        },
-                    }}
-                >
-                    {savedPokemons?.map((poke, i) => {
-                        return (
-                            <React.Fragment key={(turn * 100) + poke + i}>
-                                <Box mb={2}>
-                                    <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
-                                    <Box display="flex" justifyContent="center">
-                                        <Button 
-                                            size="sm" 
-                                            width="50%" 
-                                            borderRadius="0 0 0 16px"
-                                            borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                            borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                            _hover={{
-                                                backgroundColor: `#327ae64c`,
-                                                cursor: "pointer",
-                                                borderLeft: "2px solid #327ae64c",
-                                                borderBottom: "2px solid #327ae64c"
-                                            }}
-                                            isDisabled={pokemonsTeam.length >= teamLength ? true : false}
-                                            onClick={() => handleAddPokemonTeam(poke)}
-                                        >
-                                            <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
-                                        </Button>
-                                        <Button 
-                                            size="sm" 
-                                            width="50%"
-                                            title={
-                                                poke.shiny.shiny 
-                                                ? tierSellingPrice(pokemonJSON[poke.pokemonId].tier + 1) 
-                                                : tierSellingPrice(pokemonJSON[poke.pokemonId].tier)
-                                            }
-                                            borderRadius="0 0 16px 0"
-                                            borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                            borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                            _hover={{
-                                                backgroundColor: "#52d73750",
-                                                cursor: "pointer",
-                                                borderRight: "2px solid #52d73750",
-                                                borderBottom: "2px solid #52d73750"
-                                            }}
-                                            disabled={disableShop}
-                                            onClick={() => handleRemovePokeFromInventory(poke, true)}
-                                        >
-                                            <FaDollarSign size="16px" style={{ color: "green" }}/>
-                                        </Button>
-                                    </Box>
-                                </Box>
-                                {i + pokemonsTeam.length === 5 && (
-                                    <Center px={2}>
-                                        <Image
-                                            src={arrowIcon} 
-                                            title={'Pokemon team'}
-                                            w="36px"
-                                            style={{ transform: 'rotate(270deg)' }}
-                                        ></Image>
-                                    </Center>
-                                )}
-                            </React.Fragment>
-                        )
-                    })}
-                </Stack>
-            </Flex>
+            <Flex>
+                <Box>                      
+                    <Flex justifyContent="space-between">
+                        <Flex flexDir="column" py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
+                            <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
+                            <Stack 
+                                direction={['column', 'row']} 
+                                spacing={1} 
+                                overflowX="auto"
+                                css={{
+                                    "&::-webkit-scrollbar": {
+                                        height: "14px",
+                                        width: "2px",
+                                    },
+                                    "&::-webkit-scrollbar-track": {
+                                        width: "2px",
+                                    },
+                                    "&::-webkit-scrollbar-thumb": {
+                                        backgroundColor: "#4A5568",
+                                        borderRadius: "24px",
+                                    },
+                                }}
+                            >
+                                {savedPokemons?.map((poke, i) => {
+                                    return (
+                                        <React.Fragment key={(turn * 100) + poke + i}>
+                                            <Box mb={2}>
+                                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
+                                                <Box display="flex" justifyContent="center">
+                                                    <Button 
+                                                        size="sm" 
+                                                        width="50%" 
+                                                        borderRadius="0 0 0 16px"
+                                                        borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                        _hover={{
+                                                            backgroundColor: `#327ae64c`,
+                                                            cursor: "pointer",
+                                                            borderLeft: "2px solid #327ae64c",
+                                                            borderBottom: "2px solid #327ae64c"
+                                                        }}
+                                                        isDisabled={pokemonsTeam.length >= teamLength ? true : false}
+                                                        onClick={() => handleAddPokemonTeam(poke)}
+                                                    >
+                                                        <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
+                                                    </Button>
+                                                    <Button 
+                                                        size="sm" 
+                                                        width="50%"
+                                                        title={
+                                                            poke.shiny.shiny 
+                                                            ? tierSellingPrice(pokemonJSON[poke.pokemonId].tier + 1) 
+                                                            : tierSellingPrice(pokemonJSON[poke.pokemonId].tier)
+                                                        }
+                                                        borderRadius="0 0 16px 0"
+                                                        borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                        _hover={{
+                                                            backgroundColor: "#52d73750",
+                                                            cursor: "pointer",
+                                                            borderRight: "2px solid #52d73750",
+                                                            borderBottom: "2px solid #52d73750"
+                                                        }}
+                                                        disabled={disableShop}
+                                                        onClick={() => handleRemovePokeFromInventory(poke, true)}
+                                                    >
+                                                        <FaDollarSign size="16px" style={{ color: "green" }}/>
+                                                    </Button>
+                                                </Box>
+                                            </Box>
+                                            {i + pokemonsTeam.length === 5 && (
+                                                <Center px={2}>
+                                                    <Image
+                                                        src={arrowIcon} 
+                                                        title={'Pokemon team'}
+                                                        w="36px"
+                                                        style={{ transform: 'rotate(270deg)' }}
+                                                    ></Image>
+                                                </Center>
+                                            )}
+                                        </React.Fragment>
+                                    )
+                                })}
+                            </Stack>
+                        </Flex>
+                    </Flex>
 
-            <Items>
-                <PokeballStats />
-            </Items>
-            
-            <ExperienceBar
-                exp={experience} 
-                nextLevel={experienceToNextLevel}
-                previousLevel={experiencePreviousLevel}
-            />
-            
-            <Flex flexDir="column">
-                <TeamTitle handleTeamStats={handleTeamStats} />
-                <ElementsList />
-                <Flex justifyContent="center" alignItems="center">
-                    {pokemonsTeam?.map((poke, i) => {
-                        return (
-                            <Box key={(turn * 100) + poke.pokemonId + i} m={8}>
-                                <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
-                            </Box>
-                        )
-                    })}
-                </Flex>
+                    <Items>
+                        <PokeballStats />
+                    </Items>
+                    
+                    <ExperienceBar
+                        exp={experience} 
+                        nextLevel={experienceToNextLevel}
+                        previousLevel={experiencePreviousLevel}
+                    />
+                    
+                    <Flex flexDir="column">
+                        <TeamTitle handleTeamStats={handleTeamStats} />
+                        <ElementsList />
+                        <Flex justifyContent="center" alignItems="center">
+                            {pokemonsTeam?.map((poke, i) => {
+                                return (
+                                    <Box key={(turn * 100) + poke.pokemonId + i} m={8}>
+                                        <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
+                                    </Box>
+                                )
+                            })}
+                        </Flex>
+                    </Flex>
+                </Box>
+                <Players />
             </Flex>
         </>
     )

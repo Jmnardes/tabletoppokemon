@@ -16,15 +16,15 @@ export default function ExperienceBar({
     return (
         <>
             <Flex py={4} background={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} title={`${100 - leftExperienceCalc(previousLevel, exp, nextLevel)}%`}>
-                    <Progress
-                        value={exp} 
-                        min={previousLevel}
-                        max={nextLevel}
-                        w="100%"
-                        h={4}
-                        title={`${leftExperienceCalc(previousLevel, exp, nextLevel)}%`}
-                        _hover={{ title: 'test' }}
-                    />
+                <Progress
+                    value={exp} 
+                    min={previousLevel}
+                    max={nextLevel}
+                    w="100%"
+                    h={4}
+                    title={`${leftExperienceCalc(previousLevel, exp, nextLevel)}%`}
+                    _hover={{ title: 'test' }}
+                />
             </Flex>
         </>
     )

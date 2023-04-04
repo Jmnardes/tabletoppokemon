@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
+    const [hasGameStarted, setHasGameStarted] = useState(false)
+    const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -68,11 +70,11 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('session-join', (res) => {
-            console.log(res)
-            console.log('room:', res.session.sessionCode)
             setSession(res.session)
-            setOpponents(res.opponent)
+            setOpponents(res.opponents)
             setPlayer(res.player)
+
+            localStorage.setItem('session', JSON.stringify(res.session))
 
             updateStatus(status, res.player.status)
             updateCurrency(currency, res.player.currency)
@@ -81,43 +83,53 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-ready', res => {
-            console.log(res)
-
-            setPlayer(old => ({
-                ...old,
-                ready: res
-            }))
+            setPlayer(old => ({ ...old, ready: res }))
         })
 
         socket.on('session-join-other', res => {
-            console.log('session-join-other', res)
-
-            setOpponents(old => {
-                return [
-                    ...(old ?? []),
-                    res
-                ]
-            })
+            setOpponents(old => ([ ...(old ?? []), res ]))
         })
 
         socket.on('lobby-ready-other', res => {
-            console.log('lobby-ready-other', res)
-
-            const newOpponents = opponents.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)
-
-            setOpponents(newOpponents)
+            setOpponents(old => (old.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)))
         })
 
-        socket.on('lobby-start', res => {
-            console.log('start', res)
+        socket.on('lobby-start', () => {
+            setHasGameStarted(true)
+        })
+
+        // receiveng other players turn ready
+        socket.on('turn-end', res => {
+            setOpponents(old => (old.map(opponent => opponent.id === res ? { ...opponent, turnReady: true } : opponent)))
+        })
+
+        // everyone has ended turn, and will start another one
+        socket.on('turn-start', res => {
+            setOpponents(old => (old.map(opponent => ({ ...opponent, turnReady: true }))))
+
+            // event
+            console.log(res)
+
+            setWaitingForPlayers(false)
         })
     }, [])
 
     return (
         <PlayerContext.Provider value={{ 
             session,
+            setSession,
+
             opponents,
+            setOpponents,
+
             player,
+            setPlayer,
+
+            hasGameStarted,
+            setHasGameStarted,
+
+            waitingForPlayers,
+            setWaitingForPlayers,
 
             status, 
             updateStatus,

@@ -6,7 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import ThemeSwitch from "../../components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 
-export default function InitialMenu({ handleGameStart, setIsPlayerInLobby, isPlayerInLobby }) {
+export default function InitialMenu({ setIsPlayerInLobby, isPlayerInLobby }) {
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
@@ -54,7 +54,7 @@ export default function InitialMenu({ handleGameStart, setIsPlayerInLobby, isPla
                     ) : (
 
                         isPlayerInLobby ? (
-                            <GameLobby handleGameStart={handleGameStart} />
+                            <GameLobby />
                         ) : (
                             isGameTypeJoin ? (
                                 <GameJoin setIsPlayerInLobby={setIsPlayerInLobby} />

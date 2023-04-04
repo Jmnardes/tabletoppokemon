@@ -24,10 +24,8 @@ export default function TeamTitle({ handleTeamStats }) {
 
     return (
         <Center>
-            <Grid templateColumns='repeat(6, 1fr)' width="100%" h={16}>
-                <GridItem></GridItem>
-
-                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} py={4} borderRadius="0 0 0 82px">
+            <Grid templateColumns='repeat(4, 1fr)' width="100%" h={12}>
+                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"}>
                     <Center flexDirection="row" justifyContent="end">
                         <Center alignItems="center">
                             <Flex mx={4} justifyContent="center" alignItems="center">
@@ -72,7 +70,7 @@ export default function TeamTitle({ handleTeamStats }) {
                     </Center>
                 </GridItem>
 
-                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"} py={4} borderRadius="0 0 82px 0">
+                <GridItem colSpan={2} bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"}>
                     <Center flexDirection="row">
                         <Center>
                             <Flex alignItems="center">
@@ -122,8 +120,6 @@ export default function TeamTitle({ handleTeamStats }) {
                         </Center>
                     </Center>
                 </GridItem>
-
-                <GridItem></GridItem>
             </Grid>
             
             {/* <PokeLife total={handleTeamStats('hp')} buttonSize={"xs"} lifeSize={"2xl"} iconSize={"12px"} title={true}/> */}

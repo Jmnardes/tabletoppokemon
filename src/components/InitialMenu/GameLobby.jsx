@@ -5,12 +5,8 @@ import { FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 import socket from "../../client";
 
 export default function GameLobby() {
-    const { status, session, opponents, player } = useContext(PlayerContext)
+    const {status, session, opponents, player} = useContext(PlayerContext)
     const [isLoading, setIsLoading] = useState(false)
-
-    const handleLoading = () => {
-        setIsLoading(!isLoading)
-    }
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
         return (
@@ -41,10 +37,8 @@ export default function GameLobby() {
         )
     }
 
-    console.log('render:', opponents)
-
     useEffect(() => {
-        handleLoading()
+        setIsLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.ready])
 
@@ -91,7 +85,6 @@ export default function GameLobby() {
             </Flex>
             {
                 opponents?.length > 0 && opponents.map(opponent => {
-                    console.log({opponent})
                     return (
                         <PlayerSlot
                             key={opponent?.id}
@@ -105,7 +98,7 @@ export default function GameLobby() {
             <Divider my={4} />
 
             <Button isDisabled={isLoading} mb={4} mt={2} width={32} onClick={() => {
-                handleLoading()
+                setIsLoading(true)
 
                 socket.emit('lobby-ready', ({
                     id: player.id,

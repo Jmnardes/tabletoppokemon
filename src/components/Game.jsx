@@ -564,7 +564,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
                 </Grid>
             </Center>
 
-            <Flex>
+            <Flex flex="1">
                 <Box>                      
                     <Flex justifyContent="space-between">
                         <Flex flexDir="column" py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>

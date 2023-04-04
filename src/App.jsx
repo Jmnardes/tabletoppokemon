@@ -1,4 +1,4 @@
-import { Box, useColorMode, useToast } from "@chakra-ui/react"
+import { Flex, useColorMode, useToast } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import InitialMenu from "./components/InitialMenu/InitialMenu"
 import Game from "./components/Game"
@@ -34,7 +34,7 @@ const App = () => {
   }
 
   return (
-    <Box h='100vh' m={0} backgroundImage={colorMode === 'light' ? day : night}>
+    <Flex flexDirection='column' h='100vh' m={0} backgroundImage={colorMode === 'light' ? day : night}>
       {hasGameStarted ? (
         <Game 
           shinyPercentage={shinyChance}
@@ -50,7 +50,7 @@ const App = () => {
       ): (
         <InitialMenu setIsPlayerInLobby={setIsPlayerInLobby} isPlayerInLobby={isPlayerInLobby} />
       )}
-    </Box>
+    </Flex>
   )
 }
 export default App

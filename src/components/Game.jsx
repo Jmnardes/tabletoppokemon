@@ -39,7 +39,8 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Players from "./Pokemon/Players/Players"
 
-function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, setMaxTurns, gameDifficulty }) {
+    const { status, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -84,7 +85,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
-    const { status } = useContext(PlayerContext)
 
     const handlePokemonRoll = () => {
         let pokemon = []

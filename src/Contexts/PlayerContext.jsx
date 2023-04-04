@@ -1,9 +1,11 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { createContext, useEffect, useState } from "react";
 import socket from '../client'
 
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
+    const toast = useToast()
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [session, setSession] = useState({})
@@ -39,6 +41,20 @@ export function PlayerProvider({children}) {
         incubator: 0,
         incense: 0
     })
+    
+    const handleToast = (id, title, description, icon, type = 'info', duration = 6000) => {
+        if (!toast.isActive(id)) {
+        toast({
+            id: id,
+            icon: icon,
+            title: title,
+            description: description,
+            status: type,
+            duration: duration,
+            isClosable: true,
+        })
+        }
+    }
 
     const updateStatus = (prevData, newData) => {
         setStatus({...prevData, ...newData});
@@ -115,7 +131,9 @@ export function PlayerProvider({children}) {
     }, [])
 
     return (
-        <PlayerContext.Provider value={{ 
+        <PlayerContext.Provider value={{
+            handleToast,
+
             session,
             setSession,
 

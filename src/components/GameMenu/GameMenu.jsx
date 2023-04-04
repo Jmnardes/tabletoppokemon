@@ -6,10 +6,10 @@ import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "../../Contexts/PlayerContext";
 import GameNew from "./GameNew";
-// import socket from "../../client";
+import socket from "../../client";
 
 export default function GameMenu() {
-    const { player, setPlayer } = useContext(PlayerContext)
+    const { player, session, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
@@ -21,9 +21,10 @@ export default function GameMenu() {
     const leaveRoom = () => {
         setPlayer({})
 
-        // socket.emit('session-leave-other', {
-        //     token: player.id
-        // })
+        socket.emit('session-leave', {
+            id: player.id,
+            sessionCode: session.sessionCode
+        })
 
         setIsGameTypeSelected(false)
     }

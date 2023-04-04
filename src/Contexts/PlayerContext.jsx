@@ -107,6 +107,7 @@ export function PlayerProvider({children}) {
             })
         })
 
+            // SESSION
         socket.on('session-join', (res) => {
             setSession(res.session)
             setOpponents(res.opponents)
@@ -120,12 +121,17 @@ export function PlayerProvider({children}) {
             updateItems(items, res.player.items)
         })
 
-        socket.on('lobby-ready', res => {
-            setPlayer(old => ({ ...old, ready: res }))
-        })
-
         socket.on('session-join-other', res => {
             setOpponents(old => ([ ...(old ?? []), res ]))
+        })
+
+        socket.on('session-leave-other', res => {
+            setOpponents(old => ([ ...(old ?? []), res ]))
+        })
+
+            // LOBBY
+        socket.on('lobby-ready', res => {
+            setPlayer(old => ({ ...old, ready: res }))
         })
 
         socket.on('lobby-ready-other', res => {
@@ -136,6 +142,7 @@ export function PlayerProvider({children}) {
             setHasGameStarted(true)
         })
 
+            //TURNS
         // receiveng other players turn ready
         socket.on('turn-end', res => {
             setOpponents(old => (old.map(opponent => opponent.id === res ? { ...opponent, turnReady: true } : opponent)))

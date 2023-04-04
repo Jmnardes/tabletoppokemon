@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 
 const PlayerContext = createContext();
@@ -41,6 +41,15 @@ export function PlayerProvider({children}) {
         incubator: 0,
         incense: 0
     })
+
+    const emit = useCallback((name, data) => {
+      const request = {
+        id: player.id,
+        sessionCode: session.sessionCode,
+        data,
+      }
+      socket.emit(name, request)
+    }, [player, session])
     
     const handleToast = (args) => {
         if (!toast.isActive(args.id)) {
@@ -145,6 +154,8 @@ export function PlayerProvider({children}) {
 
     return (
         <PlayerContext.Provider value={{
+            emit,
+
             handleToast,
 
             session,

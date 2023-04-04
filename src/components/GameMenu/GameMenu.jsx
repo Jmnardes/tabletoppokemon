@@ -6,6 +6,7 @@ import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "../../Contexts/PlayerContext";
 import GameNew from "./GameNew";
+// import socket from "../../client";
 
 export default function GameMenu() {
     const { player, setPlayer } = useContext(PlayerContext)
@@ -19,6 +20,11 @@ export default function GameMenu() {
 
     const leaveRoom = () => {
         setPlayer({})
+
+        // socket.emit('session-leave-other', {
+        //     token: player.id
+        // })
+
         setIsGameTypeSelected(false)
     }
 
@@ -40,15 +46,15 @@ export default function GameMenu() {
             <Flex 
                 justifyContent="center" 
                 alignItems="center"
-                m="auto"
+                h={"60%"}
             >
-                <Flex 
-                    mt={32} 
+                <Flex
                     flexDirection="column" 
                     justifyContent="center" 
                     alignItems="center" 
                     maxWidth="600px" 
                     minWidth="420px"
+                    my={"auto"}
                     background={colorMode === 'light' ? "gray.400" : "gray.700"} 
                     borderRadius={8} px={8} py={2}
                 >

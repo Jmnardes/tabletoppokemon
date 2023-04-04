@@ -1,4 +1,4 @@
-import { Flex, useColorMode, useToast } from "@chakra-ui/react"
+import { Flex, useColorMode } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import Game from "./components/Game"
 import PlayerContext from "./Contexts/PlayerContext"
@@ -9,27 +9,12 @@ import night from "./assets/images/background/night.jpg"
 const App = () => {
   const { hasGameStarted } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
-  const toast = useToast()
   const [maxTurns, setMaxTurns] = useState(40)
   const [shinyChance, setShinyChance] = useState(1)
   const teamLength = 3
   const gameDifficulty = 1
   const generation = 8
   const gameHost = true
-
-  const handleToast = (id, title, description, icon, type = 'info', duration = 6000) => {
-    if (!toast.isActive(id)) {
-      toast({
-        id: id,
-        icon: icon,
-        title: title,
-        description: description,
-        status: type,
-        duration: duration,
-        isClosable: true,
-      })
-    }
-  }
 
   return (
     <Flex flexDirection='column' h='100vh' m={0} backgroundImage={colorMode === 'light' ? day : night}>
@@ -40,7 +25,6 @@ const App = () => {
           maxTurns={maxTurns}
           teamLength={teamLength}
           generation={generation}
-          handleToast={handleToast}
           gameHost={gameHost}
           setMaxTurns={setMaxTurns}
           gameDifficulty={gameDifficulty}

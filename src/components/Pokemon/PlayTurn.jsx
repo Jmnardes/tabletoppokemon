@@ -26,8 +26,7 @@ export function PlayTurn({
     setRollBlockDisabed,
     isPokemonEncounter,
     setIsPokemonEncounter,
-    pokemonsTeam,
-    handleToast
+    pokemonsTeam
 }) {
     return (
         <PokeModal 
@@ -68,7 +67,6 @@ export function PlayTurn({
                     rollBlockDisabed={rollBlockDisabed}
                     setRollBlockDisabed={setRollBlockDisabed}
                     pokemonsTeam={pokemonsTeam}
-                    handleToast={handleToast}
                 />
             )}
         </PokeModal>

@@ -13,7 +13,6 @@ const App = () => {
   const toast = useToast()
   const [maxTurns, setMaxTurns] = useState(40)
   const [shinyChance, setShinyChance] = useState(1)
-  const [isPlayerInLobby, setIsPlayerInLobby] = useState(false)
   const teamLength = 3
   const gameDifficulty = 1
   const generation = 8
@@ -48,7 +47,7 @@ const App = () => {
           gameDifficulty={gameDifficulty}
         />
       ): (
-        <InitialMenu setIsPlayerInLobby={setIsPlayerInLobby} isPlayerInLobby={isPlayerInLobby} />
+        <InitialMenu />
       )}
     </Box>
   )

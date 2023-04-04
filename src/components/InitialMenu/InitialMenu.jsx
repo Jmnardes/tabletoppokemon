@@ -1,12 +1,14 @@
-import { Button, Flex, Text, useColorMode } from "@chakra-ui/react";
-import { useState } from "react";
+import { Button, Flex, useColorMode } from "@chakra-ui/react";
+import { useContext, useState } from "react";
 import GameConfiguration from "./GameConfiguration";
 import GameJoin from "./GameJoin";
 import { FaArrowLeft } from "react-icons/fa";
 import ThemeSwitch from "../../components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
+import PlayerContext from "../../Contexts/PlayerContext";
 
-export default function InitialMenu({ setIsPlayerInLobby, isPlayerInLobby }) {
+export default function InitialMenu() {
+    const { player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
@@ -53,13 +55,13 @@ export default function InitialMenu({ setIsPlayerInLobby, isPlayerInLobby }) {
                         </>
                     ) : (
 
-                        isPlayerInLobby ? (
+                        player.id ? (
                             <GameLobby />
                         ) : (
                             isGameTypeJoin ? (
-                                <GameJoin setIsPlayerInLobby={setIsPlayerInLobby} />
+                                <GameJoin />
                             ):(
-                                <GameConfiguration setIsPlayerInLobby={setIsPlayerInLobby} />
+                                <GameConfiguration />
                             )
                         )
                     )}

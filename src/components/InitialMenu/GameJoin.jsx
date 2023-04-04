@@ -1,17 +1,10 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import socket from "../../client";
-import PlayerContext from "../../Contexts/PlayerContext";
 
-export default function GameJoin({ setIsPlayerInLobby }) {
-    const { session } = useContext(PlayerContext)
+export default function GameJoin() {
     const [trainerName, setTrainerName] = useState('')
     const [sessionCode, setSessionCode] = useState('')
-    
-    useEffect(() => {
-        session.sessionCode && setIsPlayerInLobby(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session.sessionCode])
 
     return (
         <>

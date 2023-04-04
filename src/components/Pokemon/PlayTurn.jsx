@@ -1,32 +1,21 @@
 import PokeModal from "./Modal/Modal";
-import TurnController from "./Block/TurnController";
 import PokeRoll from "./Encounter/PokeRoll";
 import locationIcon from '../../assets/images/game/location.png'
 import { Image } from "@chakra-ui/react";
 
 export function PlayTurn({ 
     children,
-    handlePokemonRoll,
+    handlePokemonEncounter,
     pokemonArrayLength,
     disableDiceRoll,
     handleCatchDiceRoll,
-    catchDiceRoll,
-    resultDiceRoll,
-    endTurnButton,
-    handlePokemonRollClean,
     disablePokeballs,
     setBonusOnCatch,
     setDisablePokeballs,
     closeModal,
     setCloseModal,
-    walkedBlocks,
-    setWalkedBlocks,
-    setMercant,
     rollBlockDisabed,
-    setRollBlockDisabed,
     isPokemonEncounter,
-    setIsPokemonEncounter,
-    pokemonsTeam
 }) {
     return (
         <PokeModal 
@@ -42,7 +31,18 @@ export function PlayTurn({
             modalClose={closeModal}
             setCloseModal={setCloseModal}
         >
-            {isPokemonEncounter ? (
+            <PokeRoll
+                pokemonArrayLength={pokemonArrayLength}
+                handlePokemonEncounter={handlePokemonEncounter}
+                disableDiceRoll={disableDiceRoll}
+                handleCatchDiceRoll={handleCatchDiceRoll}
+                disablePokeballs={disablePokeballs}
+                setBonusOnCatch={setBonusOnCatch}
+                setDisablePokeballs={setDisablePokeballs}
+            >
+                {children}
+            </PokeRoll>
+            {/* {isPokemonEncounter ? (
                 <PokeRoll
                     pokemonArrayLength={pokemonArrayLength}
                     handlePokemonRoll={handlePokemonRoll}
@@ -68,7 +68,7 @@ export function PlayTurn({
                     setRollBlockDisabed={setRollBlockDisabed}
                     pokemonsTeam={pokemonsTeam}
                 />
-            )}
+            )} */}
         </PokeModal>
     )
 }

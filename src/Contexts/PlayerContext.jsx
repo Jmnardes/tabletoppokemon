@@ -11,6 +11,10 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
+    const [game, setGame] = useState({
+        turn: 0,
+        hasEnded: false
+    })
     const [status, setStatus] = useState({
         trainerName: '',
         level: 0,
@@ -72,6 +76,10 @@ export function PlayerProvider({children}) {
         duration,
         isClosable
     */
+
+    const updateGame = (prevData, newData) => {
+        setGame({...prevData, ...newData});
+    }
 
     const updateStatus = (prevData, newData) => {
         setStatus({...prevData, ...newData});
@@ -182,6 +190,9 @@ export function PlayerProvider({children}) {
 
             waitingForPlayers,
             setWaitingForPlayers,
+
+            game,
+            updateGame,
 
             status, 
             updateStatus,

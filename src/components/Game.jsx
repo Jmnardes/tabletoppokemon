@@ -38,8 +38,8 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
-function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, setMaxTurns, gameDifficulty }) {
-    const { status, handleToast } = useContext(PlayerContext)
+function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
+    const { status, handleToast, game, setGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -103,6 +103,31 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         } else {
             setDisableDiceRoll(true)
         }
+    }
+
+    const handlePokemonEncounter = () => {
+        let pokemon = [{
+            pokemonId: sortPokemon(tier, generation),
+            nature: whatNaturePokemonIs(),
+            shiny: shinyRoll(shinyPercentage)
+        },
+        {
+            pokemonId: sortPokemon(tier, generation),
+            nature: whatNaturePokemonIs(),
+            shiny: shinyRoll(shinyPercentage)
+        },
+        {
+            pokemonId: sortPokemon(tier, generation),
+            nature: whatNaturePokemonIs(),
+            shiny: shinyRoll(shinyPercentage)
+        },
+        {
+            pokemonId: sortPokemon(tier, generation),
+            nature: whatNaturePokemonIs(),
+            shiny: shinyRoll(shinyPercentage)
+        }]
+
+        setPokemonArray([...pokemon])
     }
         
     const handleAddInventory = ({pokemonId, nature, shiny}, sorted) => {
@@ -206,6 +231,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
 
     const handlePokemonRollClean = (pokemonCatchExp) => {
         setEndTurnButton(true)
+        setGame(game, { turn: game.turn + 1 })
         setTurn(() => turn + 1)
         setCoins(() => diceRoll(4) + 1 + coins + Number(parseNumberToNatural(turn, 10)))
 
@@ -351,6 +377,10 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         setTier(level)
     }, [coins, experience, highestAmount, level, shinyPercentage])
 
+    useEffect(() => {
+        handlePokemonEncounter()
+    }, [game.turn])
+
     return (
         <>
             <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
@@ -362,27 +392,17 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                         <Center justifyContent="left">
                             {turn < maxTurns ? (
                                 <PlayTurn
+                                    handlePokemonEncounter={handlePokemonEncounter}
                                     pokemonArrayLength={pokemonArray.length}
-                                    handlePokemonRoll={handlePokemonRoll}
                                     disableDiceRoll={disableDiceRoll}
                                     handleCatchDiceRoll={handleCatchDiceRoll}
-                                    catchDiceRoll={catchDiceRoll}
-                                    resultDiceRoll={resultDiceRoll}
-                                    endTurnButton={endTurnButton}
-                                    handlePokemonRollClean={handlePokemonRollClean}
                                     disablePokeballs={disablePokeballs}
                                     setBonusOnCatch={setBonusOnCatch}
                                     setDisablePokeballs={setDisablePokeballs}
-                                    rollBlockDisabed={rollBlockDisabed}
-                                    setRollBlockDisabed={setRollBlockDisabed}
-                                    isPokemonEncounter={isPokemonEncounter}
-                                    setIsPokemonEncounter={setIsPokemonEncounter}
                                     closeModal={closeModal}
                                     setCloseModal={setCloseModal}
-                                    walkedBlocks={walkedBlocks}
-                                    setWalkedBlocks={setWalkedBlocks}
-                                    setMercant={setMercant}
-                                    pokemonsTeam={pokemonsTeam}
+                                    rollBlockDisabed={rollBlockDisabed}
+                                    isPokemonEncounter={isPokemonEncounter}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -411,10 +431,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                     </EndGame>
                                 </>
                             )}
-                            <TrainerBar 
-                                turn={turn}
-                                shinyPercentage={shinyPercentage}
-                            />
+                            <TrainerBar />
                         </Center>
                     </GridItem>
 
@@ -610,6 +627,9 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 </Box>
                 <Opponents />
             </Flex>
+            <Button onClick={() => {
+                handlePokemonRollClean()
+            }}>End turn!</Button>
         </>
     )
 }

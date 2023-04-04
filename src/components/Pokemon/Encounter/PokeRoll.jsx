@@ -1,38 +1,37 @@
+import { useContext, useEffect } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
 import Pokeballs from "./Pokeballs";
 import RollController from "./RollController";
 
 export default function PokeRoll({
         children,
         pokemonArrayLength,
-        handlePokemonRoll,
+        handlePokemonEncounter,
         disableDiceRoll,
         handleCatchDiceRoll,
-        catchDiceRoll,
-        resultDiceRoll,
-        endTurnButton,
-        handlePokemonRollClean,
         disablePokeballs,
         setBonusOnCatch,
         setDisablePokeballs
     }) {
+    const { game } = useContext(PlayerContext)
+
+    useEffect(() => {
+        handlePokemonEncounter()
+    }, [game.turn])
+
     return (
         <>
             <RollController
                 pokemonArrayLength={pokemonArrayLength}
-                handlePokemonRoll={handlePokemonRoll}
-                disableDiceRoll={disableDiceRoll}
-                handleCatchDiceRoll={handleCatchDiceRoll}
-                catchDiceRoll={catchDiceRoll}
-                resultDiceRoll={resultDiceRoll}
-                endTurnButton={endTurnButton}
-                handlePokemonRollClean={handlePokemonRollClean}
-            />
-            
-            <Pokeballs
-                disablePokeballs={disablePokeballs}
-                setBonusOnCatch={setBonusOnCatch}
-                setDisablePokeballs={setDisablePokeballs}
-            />
+            >
+                <Pokeballs
+                    disablePokeballs={disablePokeballs}
+                    setBonusOnCatch={setBonusOnCatch}
+                    setDisablePokeballs={setDisablePokeballs}
+                    handleCatchDiceRoll={handleCatchDiceRoll}
+                    disableDiceRoll={disableDiceRoll}
+                />
+            </RollController>
             {children}
         </>
     )

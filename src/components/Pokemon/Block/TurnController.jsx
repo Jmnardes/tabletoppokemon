@@ -14,7 +14,6 @@ export default function TurnController({
     rollBlockDisabed, 
     setRollBlockDisabed,
     pokemonsTeam,
-    handleToast
 }) {
     const [block, setBlock] = useState([])
 
@@ -67,7 +66,6 @@ export default function TurnController({
                     block={block}
                     setMercant={setMercant}
                     pokemonsTeam={pokemonsTeam}
-                    handleToast={handleToast}
                 />
             </Flex>
         </Flex>

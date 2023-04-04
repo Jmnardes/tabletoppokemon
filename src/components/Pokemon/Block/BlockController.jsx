@@ -9,9 +9,8 @@ function BlockController({
     block,
     setMercant,
     pokemonsTeam,
-    handleToast
 }) {
-    const { balls, updateBalls, items, updateItems, currency, updateCurrency } = useContext(PlayerContext)
+    const { balls, updateBalls, items, updateItems, currency, updateCurrency, handleToast } = useContext(PlayerContext)
 
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {
@@ -36,14 +35,14 @@ function BlockController({
             if(block.change?.item === 'steal') updateItems(items,  {steal: items.steal + 1})
             if(block.change?.item === 'egg') {
                 updateItems(items,  {pokemonEgg: items.pokemonEgg + 1})
-                handleToast(
-                    'egg', 
-                    'Egg', 
-                    'Be careful, your egg can rot in a few turns, better put it in an incubator',
-                    <Image src={eggIcon} w="36px"></Image>,
-                    'warning',
-                    10000
-                )
+                handleToast({
+                    id: 'egg', 
+                    title: 'Egg', 
+                    description: 'Be careful, your egg can rot in a few turns, better put it in an incubator',
+                    icon:<Image src={eggIcon} w="36px"></Image>,
+                    status: 'warning',
+                    duration: 10000
+                })
             }
             if(block.change?.item === 'fight') updateItems(items,  {fight: items.fight + 1})
             if(block.change?.item === 'incense') updateItems(items,  {incense: items.incense + 1})
@@ -121,14 +120,14 @@ function BlockController({
                     return
                 case 'egg':
                     updateItems(items, {pokemonEgg: items.pokemonEgg + block.change?.value})
-                    handleToast(
-                        'egg', 
-                        'Egg', 
-                        'Be careful, your egg can rot in a few turns, better put it in an incubator',
-                        <Image src={eggIcon} w="36px"></Image>,
-                        'warning',
-                        10000
-                    )
+                    handleToast({
+                        id: 'egg', 
+                        title: 'Egg', 
+                        description: 'Be careful, your egg can rot in a few turns, better put it in an incubator',
+                        icon:<Image src={eggIcon} w="36px"></Image>,
+                        status: 'warning',
+                        duration: 10000
+                    })
                     return
                 case 'incense':
                     updateItems(items,  {incense: items.incense + block.change?.value})

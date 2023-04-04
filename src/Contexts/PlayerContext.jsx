@@ -44,7 +44,11 @@ export function PlayerProvider({children}) {
     
     const handleToast = (args) => {
         if (!toast.isActive(args.id)) {
-            toast({...args, duration: 6000})
+            toast({
+                ...args, 
+                duration: args.duration ?? 6000, 
+                status: args.status ?? 'info'
+            })
         }
     }
 

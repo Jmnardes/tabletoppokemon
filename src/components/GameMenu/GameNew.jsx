@@ -2,7 +2,7 @@ import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, Nu
 import { useState } from "react";
 import socket from "../../client";
 
-export default function GameConfiguration() {
+export default function GameNew() {
     const [trainerName, setTrainerName] = useState(``)
     const [gameDuration, setGameDuration] = useState(0)
     const [generation, setGeneration] = useState(0)

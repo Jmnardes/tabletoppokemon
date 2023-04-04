@@ -42,19 +42,22 @@ export function PlayerProvider({children}) {
         incense: 0
     })
     
-    const handleToast = (id, title, description, icon, type = 'info', duration = 6000) => {
-        if (!toast.isActive(id)) {
-        toast({
-            id: id,
-            icon: icon,
-            title: title,
-            description: description,
-            status: type,
-            duration: duration,
-            isClosable: true,
-        })
+    const handleToast = (args) => {
+        if (!toast.isActive(args.id)) {
+            toast({...args, duration: 6000})
         }
     }
+
+    /* TOAST PROPS
+        id,
+        title,
+        description,
+        status,
+        icon,
+        position,
+        duration,
+        isClosable
+    */
 
     const updateStatus = (prevData, newData) => {
         setStatus({...prevData, ...newData});
@@ -81,8 +84,14 @@ export function PlayerProvider({children}) {
     }
 
     useEffect(() => {
-        socket.on('generic-error', res => {
-            console.log('error:' ,res)
+        socket.on('error', res => {
+            handleToast({
+                id: 'error',
+                title: 'Error',
+                description: res,
+                status: 'error',
+                position: 'top'
+            })
         })
 
         socket.on('session-join', (res) => {

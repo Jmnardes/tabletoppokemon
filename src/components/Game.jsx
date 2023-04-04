@@ -600,7 +600,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                         <Flex justifyContent="center" alignItems="center">
                             {pokemonsTeam?.map((poke, i) => {
                                 return (
-                                    <Box key={(turn * 100) + poke.pokemonId + i} m={8}>
+                                    <Box key={(turn * 100) + poke.pokemonId + i} m={2} mt={4}>
                                         <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
                                     </Box>
                                 )

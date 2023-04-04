@@ -43,12 +43,13 @@ export function PlayerProvider({children}) {
     })
 
     const emit = useCallback((name, data) => {
-      const request = {
-        id: player.id,
-        sessionCode: session.sessionCode,
-        data,
-      }
-      socket.emit(name, request)
+        const request = {
+            id: player.id,
+            sessionCode: session.sessionCode,
+            data,
+        }
+
+        socket.emit(name, request)
     }, [player, session])
     
     const handleToast = (args) => {
@@ -98,13 +99,15 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         socket.on('error', res => {
-            handleToast({
-                id: 'error',
-                title: 'Error',
-                description: res,
-                status: 'error',
-                position: 'top'
-            })
+            if(Object.keys(res)) {
+                handleToast({
+                    id: 'error',
+                    title: 'Error',
+                    description: res,
+                    status: 'error',
+                    position: 'top'
+                })
+            }
         })
 
             // SESSION
@@ -126,7 +129,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('session-leave-other', res => {
-            setOpponents(old => ([ ...(old ?? []), res ]))
+            setOpponents(old => (old.filter(opponent => opponent.id !== res)))
         })
 
             // LOBBY

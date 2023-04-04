@@ -86,21 +86,21 @@ export default function PokemonEgg({
         hatchingTurn > 0 && setHatchingTurn(hatchingTurn - 1)
 
         if(hatchingTurn === 2) {
-            handleToast(
-                'hatchegg', 
-                'Oh?', 
-                '...',
-                <Image src={eggHatchedIcon} w="32px"></Image>
-            )
+            handleToast({
+                id: 'hatchegg', 
+                title: 'Oh?', 
+                description: '...',
+                icon: <Image src={eggHatchedIcon} w="32px"></Image>
+            })
         }
 
         if(hatchingTurn === 1) {
-            handleToast(
-                'egg', 
-                'Pokemon Egg', 
-                'Your pokemon egg has hatched, go see what you got!',
-                <Image src={eggIcon} w="32px"></Image>
-            )
+            handleToast({
+                id: 'egg', 
+                title: 'Pokemon Egg', 
+                description: 'Your pokemon egg has hatched, go see what you got!',
+                icon: <Image src={eggIcon} w="32px"></Image>
+            })
             setEggHatched(true)
             handlePokemon()
         }

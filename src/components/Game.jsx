@@ -19,7 +19,6 @@ import PokeShop from "./Pokemon/Shop/PokeShop"
 import ExperienceBar from "./Pokemon/Trainer/ExperienceBar"
 import { TrainerStats } from "./Pokemon/Trainer/TrainerStats"
 import EndGame from "./Pokemon/Game/EndGame"
-import PokeballStats from "./Pokemon/Trainer/PokeballStats"
 import Items from "./Pokemon/Inventary/Items"
 import StealBlock from "./Pokemon/Block/StealBlock"
 import EventBlock from "./Pokemon/Event/EventBlock"
@@ -39,7 +38,8 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Players from "./Pokemon/Players/Players"
 
-function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToast, gameHost, setMaxTurns, gameDifficulty }) {
+function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, setMaxTurns, gameDifficulty }) {
+    const { status, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -84,7 +84,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
-    const { status } = useContext(PlayerContext)
 
     const handlePokemonRoll = () => {
         let pokemon = []
@@ -291,23 +290,23 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
     useEffect(() => {
         if((turn%10 === 0 || turn === maxTurns) && turn !== 0) {
             setDisableShop(false)
-            handleToast(
-                'shop', 
-                'Shop', 
-                'You can use de shop until the end of this turn',
-                <Image src={shopIcon} w="36px"></Image>
-            )
+            handleToast({
+                id: 'shop', 
+                title: 'Shop',
+                description: 'You can use de shop until the end of this turn',
+                icon: <Image src={shopIcon} w="36px"></Image>
+            })
         } else {
             mercant ? setDisableShop(false) : setDisableShop(true)
         }
         if(gymTurnControl()) {
             setDisableGym(false)
-            handleToast(
-                'hym', 
-                'Gym Leader', 
-                'You can face the Gym Leader to get a Poke Crown',
-                <Image src={event2Icon} w="36px"></Image>
-            )
+            handleToast({
+                id: 'hym', 
+                title: 'Gym Leader', 
+                description: 'You can face the Gym Leader to get a Poke Crown',
+                icon: <Image src={event2Icon} w="36px"></Image>
+            })
         } else {
             setDisableGym(true)
         }
@@ -315,24 +314,24 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
         if (gameHost) {
             if(turn%3 === 0 && turn !== 0) {
                 setDisableEvent(false)
-                handleToast(
-                    'event', 
-                    'Event', 
-                    'The event button is abled, you can roll a event now!',
-                    <Image src={event1Icon} w="32px"></Image>
-                )
+                handleToast({
+                    id: 'event', 
+                    title: 'Event', 
+                    description: 'The event button is abled, you can roll a event now!',
+                    icon: <Image src={event1Icon} w="32px"></Image>
+                })
             } else {
                 setDisableEvent(true)
             }
             
             if((turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 || turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === maxTurns) && turn !== 0) {
                 setDisableTournament(false)
-                handleToast(
-                    'tournament', 
-                    'Pokemon Tournament', 
-                    "It's time for the Pokemon Tournament, get ready!",
-                    <Image src={event3Icon} w="32px"></Image>
-                )
+                handleToast({
+                    id: 'tournament', 
+                    title: 'Pokemon Tournament', 
+                    description: "It's time for the Pokemon Tournament, get ready!",
+                    icon: <Image src={event3Icon} w="32px"></Image>
+                })
             } else {
                 setDisableTournament(true)
             }
@@ -350,71 +349,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
         setExperiencePreviousLevel(expToNextLevel(level))
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
-
-        if(turn > 0) {
-            localStorage.setItem('pokeTeam', JSON.stringify(pokemonsTeam))
-            localStorage.setItem('inventory', JSON.stringify(savedPokemons))
-            localStorage.setItem('trainer', JSON.stringify({
-                turn: turn,
-                maxTurns: maxTurns,
-                tier: tier,
-                gymTier: gymTier,
-                shinyPercentage: shinyPercentage,
-                level: level,
-                experience: experience,
-                coins: coins,
-                medal: medal,
-                trophy: trophy,
-                walkedBlocks: walkedBlocks,
-                steal: steal,
-                fight: fight,
-                greatball: greatball,
-                superball: superball,
-                ultraball: ultraball,
-                masterball: masterball,
-                totalCatches: totalCatches,
-                shinyCatches: shinyCatches,
-                criticals: criticals,
-                highestAmount: highestAmount
-            }))
-        }
-    }, [
-        experience, level, turn, coins, medal, trophy, setExperience, pokemonsTeam, savedPokemons, shinyPercentage, tier, gymTier,
-        walkedBlocks, highestAmount, maxTurns, steal, fight, greatball, superball, ultraball, masterball, totalCatches, shinyCatches, criticals
-    ])
-
-    useEffect(() => {
-        const pokeTeam = JSON.parse(localStorage.getItem('pokeTeam'));
-        const pokeInventory = JSON.parse(localStorage.getItem('inventory'));
-        const trainer = JSON.parse(localStorage.getItem('trainer'));
-
-        if(trainer) {
-            setTurn(trainer.turn)
-            setMaxTurns(trainer.maxTurns)
-            setTier(trainer.tier)
-            setGymTier(trainer.gymTier)
-            setLevel(trainer.level)
-            setExperience(trainer.experience)
-            setCoins(trainer.coins)
-            setMedal(trainer.medal)
-            setTrophy(trainer.trophy)
-            setWalkedBlocks(trainer.walkedBlocks)
-            setSteal(trainer.steal)
-            setFight(trainer.fight)
-            setGreatBall(trainer.greatball)
-            setSuperBall(trainer.superball)
-            setUltraBall(trainer.ultraball)
-            setMasterBall(trainer.masterball)
-            setTotalCatches(trainer.totalCatches)
-            setShinyCatches(trainer.shinyCatches)
-            setCriticals(trainer.criticals)
-            setHighestAmount(trainer.highestAmount)
-        }
-
-        if (pokeTeam) setPokemonsTeam([...pokeTeam]);
-        if (pokeInventory) setSavedPokemons([...pokeInventory]);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
+    }, [coins, experience, highestAmount, level, shinyPercentage])
 
     return (
         <>
@@ -448,7 +383,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
                                     setWalkedBlocks={setWalkedBlocks}
                                     setMercant={setMercant}
                                     pokemonsTeam={pokemonsTeam}
-                                    handleToast={handleToast}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -564,10 +498,10 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
                 </Grid>
             </Center>
 
-            <Flex>
+            <Flex flex="1">
                 <Box>                      
                     <Flex justifyContent="space-between">
-                        <Flex flexDir="column" py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
+                        <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
                             <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
                             <Stack 
                                 direction={['column', 'row']} 
@@ -652,7 +586,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
                     </Flex>
 
                     <Items>
-                        <PokeballStats />
+                        <TeamTitle handleTeamStats={handleTeamStats} />
                     </Items>
                     
                     <ExperienceBar
@@ -662,7 +596,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, handleToa
                     />
                     
                     <Flex flexDir="column">
-                        <TeamTitle handleTeamStats={handleTeamStats} />
                         <ElementsList />
                         <Flex justifyContent="center" alignItems="center">
                             {pokemonsTeam?.map((poke, i) => {

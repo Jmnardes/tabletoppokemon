@@ -1,9 +1,8 @@
 import { Flex, useColorMode, useToast } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import InitialMenu from "./components/InitialMenu/InitialMenu"
 import Game from "./components/Game"
 import PlayerContext from "./Contexts/PlayerContext"
-
+import GameMenu from "./components/GameMenu/GameMenu"
 import day from "./assets/images/background/day.jpg"
 import night from "./assets/images/background/night.jpg"
 
@@ -13,7 +12,6 @@ const App = () => {
   const toast = useToast()
   const [maxTurns, setMaxTurns] = useState(40)
   const [shinyChance, setShinyChance] = useState(1)
-  const [isPlayerInLobby, setIsPlayerInLobby] = useState(false)
   const teamLength = 3
   const gameDifficulty = 1
   const generation = 8
@@ -48,7 +46,7 @@ const App = () => {
           gameDifficulty={gameDifficulty}
         />
       ): (
-        <InitialMenu setIsPlayerInLobby={setIsPlayerInLobby} isPlayerInLobby={isPlayerInLobby} />
+        <GameMenu />
       )}
     </Flex>
   )

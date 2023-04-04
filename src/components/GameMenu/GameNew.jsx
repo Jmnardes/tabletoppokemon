@@ -2,7 +2,7 @@ import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, Nu
 import { useState } from "react";
 import socket from "../../client";
 
-export default function GameConfiguration({ setIsPlayerInLobby }) {
+export default function GameNew() {
     const [trainerName, setTrainerName] = useState(``)
     const [gameDuration, setGameDuration] = useState(0)
     const [generation, setGeneration] = useState(0)
@@ -61,7 +61,6 @@ export default function GameConfiguration({ setIsPlayerInLobby }) {
                     gameDifficulty,
                     generation,
                 }))
-                setIsPlayerInLobby(true)
 
             }}>Start</Button>
         </>

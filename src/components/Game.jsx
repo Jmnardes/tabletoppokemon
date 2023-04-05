@@ -36,7 +36,7 @@ import event3Icon from '../assets/images/game/event3.png'
 
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
-import Players from "./Pokemon/Players/Players"
+import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, setMaxTurns, gameDifficulty }) {
     const { status, handleToast } = useContext(PlayerContext)
@@ -499,7 +499,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
             </Center>
 
             <Flex flex="1">
-                <Box>                      
+                <Box flex="1">                      
                     <Flex justifyContent="space-between">
                         <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
                             <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
@@ -608,7 +608,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                         </Flex>
                     </Flex>
                 </Box>
-                <Players />
+                <Opponents />
             </Flex>
         </>
     )

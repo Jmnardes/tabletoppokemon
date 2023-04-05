@@ -8,52 +8,47 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function Pokeballs({
-    disablePokeballs,
     setBonusOnCatch,
-    setDisablePokeballs,
-    handleCatchDiceRoll,
-    disableDiceRoll
+    handleCatchDiceRoll
 }) {
-    const { balls, updateBalls } = useContext(PlayerContext)
+    const { balls, updateBalls, game } = useContext(PlayerContext)
 
     return (
         <Flex justifyContent="center" my={4}>
             <Button
                 mx={4}
-                title="Great Ball"
-                disabled={balls.greatball === 0 || disablePokeballs || disableDiceRoll}
+                title="Poke Ball"
+                isDisabled={balls.pokeball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
-                    if(balls.greatball > 0) {
-                        updateBalls(balls, {greatball: balls.greatball - 1})
+                    if(balls.pokeball > 0) {
+                        updateBalls(balls, {pokeball: balls.pokeball - 1})
                         setBonusOnCatch(2)
-                        setDisablePokeballs(true)
                     }
                     handleCatchDiceRoll()
                 }}
             >
                 <Image
                     src={greatballIcon} 
-                    alt={'greatball'}
+                    alt={'pokeball'}
                     w="32px"
                     _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
             </Button>
             <Button 
                 mx={4}
-                title="Super Ball"
-                disabled={balls.superball === 0 || disablePokeballs || disableDiceRoll}
+                title="Great Ball"
+                isDisabled={balls.greatball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
-                    if(balls.superball > 0) {
-                        updateBalls(balls, {superball: balls.superball - 1})
+                    if(balls.greatball > 0) {
+                        updateBalls(balls, {greatball: balls.greatball - 1})
                         setBonusOnCatch(3)
-                        setDisablePokeballs(true)
                     }
                     handleCatchDiceRoll()
                 }}
             >
                 <Image
                     src={superballIcon} 
-                    alt={'superball'}
+                    alt={'greatball'}
                     w="32px"
                     _hover={{ transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }}
                 ></Image>
@@ -62,12 +57,11 @@ export default function Pokeballs({
             <Button 
                 mx={4}
                 title="Ultra Ball"
-                disabled={balls.ultraball === 0 || disablePokeballs || disableDiceRoll}
+                isDisabled={balls.ultraball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.ultraball > 0) {
                         updateBalls(balls, {ultraball: balls.ultraball - 1})
                         setBonusOnCatch(5)
-                        setDisablePokeballs(true)
                     }
                     handleCatchDiceRoll()
                 }}
@@ -83,12 +77,11 @@ export default function Pokeballs({
             <Button 
                 mx={4}
                 title="Master Ball"
-                disabled={balls.masterball === 0 || disablePokeballs || disableDiceRoll}
+                isDisabled={balls.masterball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.masterball > 0) {
                         updateBalls(balls, {masterball: balls.masterball - 1})
                         setBonusOnCatch(10)
-                        setDisablePokeballs(true)
                     }
                     handleCatchDiceRoll()
                 }}

@@ -6,7 +6,7 @@ import { diceRoll, stringToUpperCase, typeColor } from '../../util'
 import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
 
-function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, gameDifficulty }) {
+function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, gameDifficulty, disablePokeCatch }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [rollDifficulty, setRollDifficulty] = useState(0)
     const [disableCard, setDisableCard] = useState(true)
@@ -105,7 +105,7 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
                 h={48} 
                 background="transparent" 
                 _hover={{}}
-                disabled={disableCard}
+                isDisabled={disableCard || disablePokeCatch}
                 onClick={handleAddInventory}
             >
                 <Flex

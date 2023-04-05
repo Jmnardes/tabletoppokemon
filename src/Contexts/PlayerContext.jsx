@@ -13,7 +13,9 @@ export function PlayerProvider({children}) {
     const [player, setPlayer] = useState({})
     const [game, setGame] = useState({
         turn: 0,
-        hasEnded: false
+        gameEnded: false,
+        turnStarted: true,
+        isPokemonRollDisabled: false
     })
     const [status, setStatus] = useState({
         trainerName: '',
@@ -43,7 +45,7 @@ export function PlayerProvider({children}) {
         fight: 0,
         pokemonEgg: 0,
         incubator: 0,
-        incense: 0
+        incense: 1
     })
 
     const emit = useCallback((name, data) => {
@@ -155,7 +157,7 @@ export function PlayerProvider({children}) {
 
             //TURNS
         // receiveng other players turn ready
-        socket.on('turn-end', res => {
+        socket.on('turn-end-other', res => {
             setOpponents(old => (old.map(opponent => opponent.id === res ? { ...opponent, turnReady: true } : opponent)))
         })
 

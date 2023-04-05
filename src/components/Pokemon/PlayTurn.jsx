@@ -5,9 +5,8 @@ import { Image } from "@chakra-ui/react";
 
 export function PlayTurn({ 
     children,
-    handlePokemonEncounter,
     pokemonArrayLength,
-    disableDiceRoll,
+    disablePokeCatch,
     handleCatchDiceRoll,
     disablePokeballs,
     setBonusOnCatch,
@@ -32,8 +31,7 @@ export function PlayTurn({
         >
             <PokeEnconter
                 pokemonArrayLength={pokemonArrayLength}
-                handlePokemonEncounter={handlePokemonEncounter}
-                disableDiceRoll={disableDiceRoll}
+                disablePokeCatch={disablePokeCatch}
                 handleCatchDiceRoll={handleCatchDiceRoll}
                 disablePokeballs={disablePokeballs}
                 setBonusOnCatch={setBonusOnCatch}

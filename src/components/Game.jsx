@@ -38,7 +38,7 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
-    const { status, handleToast, game, setGame, emit } = useContext(PlayerContext)
+    const { status, handleToast, game, updateGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -57,12 +57,11 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(false)
-    const [disableDiceRoll, setDisableDiceRoll] = useState(true)
+    const [disablePokeCatch, setDisablePokeCatch] = useState(true)
     const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
-    const [mercant, setMercant] = useState(false)
     const [disableEvent, setDisableEvent] = useState(true)
     const [disableGym, setDisableGym] = useState(true)
     const [gymTier, setGymTier] = useState(1)
@@ -114,6 +113,8 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
             } else {
                 setTotalCatches(totalCatches + 1)
             }
+
+            setDisablePokeCatch(true)
         }
     }
 
@@ -184,8 +185,10 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
 
+        updateGame(game, { isPokemonRollDisabled: true })
+
         if(result === 19) setCriticals(criticals + 1)
-        setDisableDiceRoll(true)
+        setDisablePokeCatch(false)
         setDisablePokeballs(true)
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
@@ -202,11 +205,9 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     }
 
     const handleFinishMyTurn = () => {
-        setGame(game, { turn: game.turn + 1 })
+        updateGame(game, { turn: game.turn + 1, isPokemonRollDisabled: false })
 
         setEndTurnButton(true)
-
-        setDisablePokeballs(false)
 
         setPokemonArray([])
 
@@ -282,8 +283,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 description: 'You can use de shop until the end of this turn',
                 icon: <Image src={shopIcon} w="36px"></Image>
             })
-        } else {
-            mercant ? setDisableShop(false) : setDisableShop(true)
         }
         if(gymTurnControl()) {
             setDisableGym(false)
@@ -323,7 +322,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
             }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameHost, handleToast, maxTurns, game.turn, mercant])
+    }, [gameHost, handleToast, maxTurns, game.turn])
 
     useEffect(() => {
         if(coins > highestAmount) setHighestAmount(coins)
@@ -349,9 +348,8 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                         <Center justifyContent="left">
                             {game.turn < maxTurns ? (
                                 <PlayTurn
-                                    handlePokemonEncounter={handlePokemonEncounter}
                                     pokemonArrayLength={pokemonArray.length}
-                                    disableDiceRoll={disableDiceRoll}
+                                    disablePokeCatch={disablePokeCatch}
                                     handleCatchDiceRoll={handleCatchDiceRoll}
                                     disablePokeballs={disablePokeballs}
                                     setBonusOnCatch={setBonusOnCatch}
@@ -372,6 +370,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                                             diceRollResult={resultDiceRoll}
                                                             handleAddInventory={() => handleAddInventory(data, true)}
                                                             gameDifficulty={gameDifficulty}
+                                                            disablePokeCatch={disablePokeCatch}
                                                         />
                                                     </React.Fragment>
                                                 )
@@ -494,16 +493,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                                     </Button>
                                                 </Box>
                                             </Box>
-                                            {i + pokemonsTeam.length === 5 && (
-                                                <Center px={2}>
-                                                    <Image
-                                                        src={arrowIcon} 
-                                                        title={'Pokemon team'}
-                                                        w="36px"
-                                                        style={{ transform: 'rotate(270deg)' }}
-                                                    ></Image>
-                                                </Center>
-                                            )}
                                         </React.Fragment>
                                     )
                                 })}

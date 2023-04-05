@@ -1,5 +1,5 @@
 import PokeModal from "./Modal/Modal";
-import PokeRoll from "./Encounter/PokeRoll";
+import PokeEnconter from "./Encounter/PokeEnconter";
 import locationIcon from '../../assets/images/game/location.png'
 import { Image } from "@chakra-ui/react";
 
@@ -15,11 +15,10 @@ export function PlayTurn({
     closeModal,
     setCloseModal,
     rollBlockDisabed,
-    isPokemonEncounter,
 }) {
     return (
         <PokeModal 
-            title={isPokemonEncounter ? 'Pokemon encounter' : 'Turn roll'} 
+            title={'Pokemon encounter'} 
             button={
                 <Image
                     src={locationIcon} 
@@ -31,7 +30,7 @@ export function PlayTurn({
             modalClose={closeModal}
             setCloseModal={setCloseModal}
         >
-            <PokeRoll
+            <PokeEnconter
                 pokemonArrayLength={pokemonArrayLength}
                 handlePokemonEncounter={handlePokemonEncounter}
                 disableDiceRoll={disableDiceRoll}
@@ -41,34 +40,7 @@ export function PlayTurn({
                 setDisablePokeballs={setDisablePokeballs}
             >
                 {children}
-            </PokeRoll>
-            {/* {isPokemonEncounter ? (
-                <PokeRoll
-                    pokemonArrayLength={pokemonArrayLength}
-                    handlePokemonRoll={handlePokemonRoll}
-                    disableDiceRoll={disableDiceRoll}
-                    handleCatchDiceRoll={handleCatchDiceRoll}
-                    catchDiceRoll={catchDiceRoll}
-                    resultDiceRoll={resultDiceRoll}
-                    endTurnButton={endTurnButton}
-                    handlePokemonRollClean={handlePokemonRollClean}
-                    disablePokeballs={disablePokeballs}
-                    setBonusOnCatch={setBonusOnCatch}
-                    setDisablePokeballs={setDisablePokeballs}
-                >
-                    {children}
-                </PokeRoll>
-            ) : (
-                <TurnController 
-                    setIsPokemonEncounter={setIsPokemonEncounter} 
-                    walkedBlocks={walkedBlocks} 
-                    setWalkedBlocks={setWalkedBlocks}
-                    setMercant={setMercant}
-                    rollBlockDisabed={rollBlockDisabed}
-                    setRollBlockDisabed={setRollBlockDisabed}
-                    pokemonsTeam={pokemonsTeam}
-                />
-            )} */}
+            </PokeEnconter>
         </PokeModal>
     )
 }

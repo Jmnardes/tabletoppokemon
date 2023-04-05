@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function StealBlock({ turn }) {
+export default function StealBlock() {
+    const { game } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [stealRoll, setStealRoll] = useState(false)
     const { items, updateItems } = useContext(PlayerContext)
@@ -30,7 +31,7 @@ export default function StealBlock({ turn }) {
 
     useEffect(() => {
         setStealRoll('')
-    }, [turn])
+    }, [game.turn])
 
     return (
         <PokeModal title={'Team Rocket Pass'} button={

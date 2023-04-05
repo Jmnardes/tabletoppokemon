@@ -12,7 +12,6 @@ import { pokemonBaseStat } from './pokemonFunctions'
 import { PlayTurn } from "./Pokemon/PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
 import { TrainerBar } from "./Pokemon/Trainer/TrainerBar"
-import { Economy } from "./Pokemon/Shop/Economy"
 import { Settings } from "./Pokemon/Game/Settings"
 import TeamTitle from "./Pokemon/Team/TeamTitle"
 import PokeShop from "./Pokemon/Shop/PokeShop"
@@ -39,43 +38,28 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
-    const { status, handleToast, game, setGame } = useContext(PlayerContext)
+    const { status, handleToast, game, setGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
     const [pokemonsTeam, setPokemonsTeam] = useState([])
-    const [shiny, setShiny] = useState([])
     const [tier, setTier] = useState(0)
     const [level, setLevel] = useState(0)
     const [experience, setExperience] = useState(0)
     const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
     const [experiencePreviousLevel, setExperiencePreviousLevel] = useState(0)
-    const [nature, setNature] = useState(0)
     const [resultDiceRoll, setResultDiceRoll] = useState(0)
     const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [totalCatches, setTotalCatches] = useState(0)
     const [shinyCatches, setShinyCatches] = useState(0)
     const [criticals, setCriticals] = useState(0)
     const [highestAmount, setHighestAmount] = useState(0)
-    const [turn, setTurn] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
-    const [medal, setMedal] = useState(0)
-    const [trophy, setTrophy] = useState(0)
-    const [steal, setSteal] = useState(0)
-    const [fight, setFight] = useState(0)
-    const [pokemonEgg, setPokemonEgg] = useState(1)
-    const [greatIncubator, setGreatIncubator] = useState(0)
-    const [greatball, setGreatBall] = useState(0)
-    const [superball, setSuperBall] = useState(0)
-    const [ultraball, setUltraBall] = useState(0)
-    const [masterball, setMasterBall] = useState(0)
-    const [walkedBlocks, setWalkedBlocks] = useState(0)
-    const [endTurnButton, setEndTurnButton] = useState(true)
+    const [endTurnButton, setEndTurnButton] = useState(false)
     const [disableDiceRoll, setDisableDiceRoll] = useState(true)
     const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
-    const [isPokemonEncounter, setIsPokemonEncounter] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
     const [disableShop, setDisableShop] = useState(true)
     const [mercant, setMercant] = useState(false)
@@ -84,26 +68,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     const [gymTier, setGymTier] = useState(1)
     const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
-
-    const handlePokemonRoll = () => {
-        let pokemon = []
-        
-        pokemon = sortPokemon(tier, generation)
-
-        setShiny(() => shinyRoll(shinyPercentage))
-        setNature(() => whatNaturePokemonIs())
-        setPokemonArray(() => [...pokemonArray, {
-            pokemonId: pokemon,
-            nature: nature,
-            shiny: shiny
-        }])
-
-        if (pokemonArray.length > 0 && catchDiceRoll === 0) {
-            setDisableDiceRoll(false)
-        } else {
-            setDisableDiceRoll(true)
-        }
-    }
 
     const handlePokemonEncounter = () => {
         let pokemon = [{
@@ -230,27 +194,23 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     }
 
     const handlePokemonRollClean = (pokemonCatchExp) => {
-        setEndTurnButton(true)
-        setGame(game, { turn: game.turn + 1 })
-        setTurn(() => turn + 1)
-        setCoins(() => diceRoll(4) + 1 + coins + Number(parseNumberToNatural(turn, 10)))
-
         if(pokemonCatchExp) {
             setExperience(() => endTurnExp() + pokemonCatchExp + experience)
         } else {
             setExperience(() => endTurnExp() + experience)
         }
+    }
 
-        setBonusOnCatch(0)
-        setResultDiceRoll(0)
-        setCatchDiceRoll(0)
+    const handleFinishMyTurn = () => {
+        setGame(game, { turn: game.turn + 1 })
+
+        setEndTurnButton(true)
+
         setDisablePokeballs(false)
-        setRollBlockDisabed(false)
-        setIsPokemonEncounter(false)
-        setCloseModal(true)
-        setMercant(false)
 
         setPokemonArray([])
+
+        emit('turn-end')
     }
 
     const handleTeamStats = (statType) => {
@@ -271,50 +231,50 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     }
 
     const gymTurnControl = () => {
-        if(turn === 5) {
+        if(game.turn === 5) {
             setGymTier(1)
             return true 
         }
-        if(turn === 10) {
+        if(game.turn === 10) {
             setGymTier(2)
             return true 
         }
-        if(turn === 15) {
+        if(game.turn === 15) {
             setGymTier(3)
             return true 
         }
-        if(turn === 20) {
+        if(game.turn === 20) {
             setGymTier(4)
             return true 
         }
-        if(turn === 25) {
+        if(game.turn === 25) {
             setGymTier(5)
             return true 
         }
-        if(turn === 30) {
+        if(game.turn === 30) {
             setGymTier(6)
             return true 
         }
-        if(turn === 35) {
+        if(game.turn === 35) {
             setGymTier(7)
             return true 
         }
-        if(turn === 40) {
+        if(game.turn === 40) {
             setGymTier(8)
             return true 
         }
-        if(turn === 70) {
+        if(game.turn === 70) {
             setGymTier(9)
             return true 
         }
-        if(turn === 90) {
+        if(game.turn === 90) {
             setGymTier(10)
             return true 
         }
     }
 
     useEffect(() => {
-        if((turn%10 === 0 || turn === maxTurns) && turn !== 0) {
+        if((game.turn%10 === 0 || game.turn === maxTurns) && game.turn !== 0) {
             setDisableShop(false)
             handleToast({
                 id: 'shop', 
@@ -338,7 +298,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         }
 
         if (gameHost) {
-            if(turn%3 === 0 && turn !== 0) {
+            if(game.turn%3 === 0 && game.turn !== 0) {
                 setDisableEvent(false)
                 handleToast({
                     id: 'event', 
@@ -350,7 +310,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 setDisableEvent(true)
             }
             
-            if((turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 || turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === maxTurns) && turn !== 0) {
+            if((game.turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === 0 || game.turn % (Number.parseFloat(maxTurns/4).toFixed(0)) === maxTurns) && game.turn !== 0) {
                 setDisableTournament(false)
                 handleToast({
                     id: 'tournament', 
@@ -363,12 +323,9 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
             }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameHost, handleToast, maxTurns, turn, walkedBlocks, mercant])
+    }, [gameHost, handleToast, maxTurns, game.turn, mercant])
 
     useEffect(() => {
-        setShiny(() => shinyRoll(shinyPercentage))
-        setNature(() => whatNaturePokemonIs())
-
         if(coins > highestAmount) setHighestAmount(coins)
 
         setLevel(experiencePerLevel(experience))
@@ -390,7 +347,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
                     <GridItem colSpan={2}>
                         <Center justifyContent="left">
-                            {turn < maxTurns ? (
+                            {game.turn < maxTurns ? (
                                 <PlayTurn
                                     handlePokemonEncounter={handlePokemonEncounter}
                                     pokemonArrayLength={pokemonArray.length}
@@ -402,13 +359,12 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                     closeModal={closeModal}
                                     setCloseModal={setCloseModal}
                                     rollBlockDisabed={rollBlockDisabed}
-                                    isPokemonEncounter={isPokemonEncounter}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
                                             {pokemonArray?.map((data, i) => {
                                                 return (
-                                                    <React.Fragment key={(turn * 100) + i + data.pokemonId}>
+                                                    <React.Fragment key={(game.turn * 100) + i + data.pokemonId}>
                                                         <ShowPokemon
                                                             pokemonId={data.pokemonId}
                                                             nature={data.nature} 
@@ -459,57 +415,10 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                     disable={disableEvent}
                                 />
                             )}
-                            <StealBlock turn={turn} />
-                            <PokemonEgg
-                                pokemonEgg={pokemonEgg}
-                                setPokemonEgg={setPokemonEgg}
-                                greatIncubator={greatIncubator}
-                                setGreatIncubator={setGreatIncubator}
-                                turn={turn}
-                                handleAddInventory={handleAddInventory}
-                                tier={tier}
-                                generation={generation}
-                                shinyPercentage={shinyPercentage}
-                                handleToast={handleToast}
-                            />
-                            <PokeShop
-                                coins={coins}
-                                setCoins={setCoins}
-                                greatball={greatball}
-                                setGreatBall={setGreatBall}
-                                superball={superball}
-                                setSuperBall={setSuperBall}
-                                ultraball={ultraball}
-                                setUltraBall={setUltraBall}
-                                masterball={masterball}
-                                setMasterBall={setMasterBall}
-                                medal={medal}
-                                setMedal={setMedal}
-                                trophy={trophy}
-                                setTrophy={setTrophy}
-                                turn={turn}
-                                disableShop={disableShop}
-                                fight={fight}
-                                steal={steal}
-                                pokemonEgg={pokemonEgg}
-                                greatIncubator={greatIncubator}
-                                setGreatIncubator={setGreatIncubator}
-                            />
-                            <Settings>
-                                <Economy
-                                    coins={coins} 
-                                    medal={medal} 
-                                    trophy={trophy}
-                                    handleAddOneCoin={() => setCoins(coins + 1)} 
-                                    handleRemoveOneCoin={() => setCoins(coins - 1)} 
-                                    handleAddFiveCoins={() => setCoins(coins + 5)} 
-                                    handleRemoveFiveCoins={() => setCoins(coins - 5)}
-                                    handleRemoveMedal={() => setMedal(medal - 1)}
-                                    handleRemoveTrophy={() => setTrophy(trophy - 1)}
-                                    handleAddTrophy={() => setTrophy(trophy + 1)}
-                                    handleAddMedal={() => setMedal(medal + 1)}
-                                />
-                            </Settings>
+                            <StealBlock />
+                            <PokemonEgg handleAddInventory={handleAddInventory} tier={tier} />
+                            <PokeShop disableShop={disableShop} />
+                            <Settings />
                         </Center>
                     </GridItem>
                 </Grid>
@@ -540,7 +449,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                             >
                                 {savedPokemons?.map((poke, i) => {
                                     return (
-                                        <React.Fragment key={(turn * 100) + poke + i}>
+                                        <React.Fragment key={(game.turn * 100) + poke + i}>
                                             <Box mb={2}>
                                                 <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
                                                 <Box display="flex" justifyContent="center">
@@ -617,7 +526,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                         <Flex justifyContent="center" alignItems="center">
                             {pokemonsTeam?.map((poke, i) => {
                                 return (
-                                    <Box key={(turn * 100) + poke.pokemonId + i} m={2} mt={4}>
+                                    <Box key={(game.turn * 100) + poke.pokemonId + i} m={2} mt={4}>
                                         <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
                                     </Box>
                                 )
@@ -627,8 +536,8 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 </Box>
                 <Opponents />
             </Flex>
-            <Button onClick={() => {
-                handlePokemonRollClean()
+            <Button isDisabled={endTurnButton} onClick={() => {
+                handleFinishMyTurn()
             }}>End turn!</Button>
         </>
     )

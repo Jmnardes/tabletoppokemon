@@ -11,36 +11,14 @@ import shopIcon from '../../../assets/images/game/shop.png'
 import buyIcon from '../../../assets/images/game/buy.png'
 import eggIcon from '../../../assets/images/items/egg.png'
 import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png'
-// import fightIcon from '../../../assets/images/items/fight.png'
-// import stealIcon from '../../../assets/images/items/steal.png'
-// import lureIcon from '../../../assets/images/items/lure.png'
 import { parseNumberToNatural } from "../../../util";
+import { useContext } from "react";
+import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function PokeShop({
-    coins,
-    greatball,
-    superball,
-    ultraball,
-    masterball,
-    medal,
-    trophy,
-    setCoins,
-    setGreatBall,
-    setSuperBall,
-    setUltraBall,
-    setMasterBall,
-    setMedal,
-    setTrophy,
-    disableShop,
-    turn,
-    pokemonEgg,
-    greatIncubator,
-    setGreatIncubator
-    // fight,
-    // steal
-}) {
+export default function PokeShop({ disableShop }) {
+    const { items, updateItems, currency, updateCurrency, balls, updateBalls, game } = useContext(PlayerContext)
 
-    function coinPerTurn(turn, multiple) {return parseNumberToNatural(turn, 10) * multiple}
+    function coinPerTurn(turns, multiple) {return parseNumberToNatural(turns, 10) * multiple}
 
     const BuyButton = () => {
         return <Image src={buyIcon} title={'Buy'} w="24px"/>
@@ -55,21 +33,21 @@ export default function PokeShop({
         )
     }
 
-    const TableItem = ({ title, price, scaling, itemType, setter, itemIcon }) => {
+    const TableItem = ({ title, price, scaling, itemType, setter, updater, itemIcon }) => {
         return (
             <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
                 {/* <Text w="200px">{title}</Text> */}
                 <Image src={itemIcon} title={title} w="20px" />
                 <Center>
                     <Image src={coinIcon} title="Coin" w="20px" mr={2} />
-                    <Text w="80px">{price + coinPerTurn(turn, scaling)}</Text>
+                    <Text w="80px">{price + coinPerTurn(game.turn, scaling)}</Text>
                 </Center>
                 <Button 
                     w="60px"
-                    disabled={coins < (price + coinPerTurn(turn, scaling))}
+                    disabled={currency.coins < (price + coinPerTurn(game.turn, scaling))}
                     onClick={() => {
-                        setCoins(coins - (price + coinPerTurn(turn, scaling)))
-                        setter(() => itemType + 1)
+                        updateCurrency(currency, { coins: currency.coins - (price + coinPerTurn(game.turn, scaling)) })
+                        setter(updater, { itemType: updater[itemType] + 1 })
                     }}
                 ><BuyButton/></Button>
             </Center>
@@ -86,34 +64,25 @@ export default function PokeShop({
         } disableButton={disableShop}>
             <Center mb={4}>
 
-                {coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={coins} />}
+                {currency.coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={currency.coins} />}
                 
-                {medal > 0 && <ItemComponent icon={starIcon} desc={'Poke Star'} counter={medal} />}
+                {currency.stars > 0 && <ItemComponent icon={starIcon} desc={'Poke Star'} counter={currency.stars} />}
 
-                {trophy > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={trophy} />}
+                {currency.crowns > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={currency.crowns} />}
 
-                {pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={pokemonEgg} />}
+                {items.pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={items.pokemonEgg} />}
 
-                {greatIncubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Great Incubator'} counter={pokemonEgg} />}
+                {items.incubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Incubator'} counter={items.incubator} />}
 
-                {greatball > 0 && <ItemComponent icon={greatballIcon} desc={'Great Ball'} counter={greatball} />}
+                {balls.pokeball > 0 && <ItemComponent icon={greatballIcon} desc={'Poke Ball'} counter={balls.pokeball} />}
 
-                {superball > 0 && <ItemComponent icon={superballIcon} desc={'Super Ball'} counter={superball} />}
+                {balls.greatball > 0 && <ItemComponent icon={superballIcon} desc={'Great Ball'} counter={balls.greatball} />}
 
-                {ultraball > 0 && <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={ultraball} />}
+                {balls.ultraball > 0 && <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={balls.ultraball} />}
 
-                {masterball > 0 && <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={masterball} />}
+                {balls.masterball > 0 && <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={balls.masterball} />}
                 
             </Center>
-            {/* <Center mb={4}>
-
-                <ItemComponent icon={lureIcon} desc={'Lure'} />
-
-                <ItemComponent icon={fightIcon} desc={'Special Move'} counter={fight} />
-
-                <ItemComponent icon={stealIcon} desc={'Team Rocket Pass'} counter={steal} />
-                
-            </Center> */}
             <Center flexDirection="column">
                 <Center flexDirection="row" w="100%" justifyContent="space-around" mb={4}>
                     <Text w="200px" fontWeight="bold">Product</Text>
@@ -122,20 +91,22 @@ export default function PokeShop({
                 </Center>
 
                 <TableItem 
-                    title={'Great Ball'}
+                    title={'Poke Ball'}
                     price={4}
                     scaling={1}
-                    itemType={greatball}
-                    setter={setGreatBall}
+                    itemType={balls.pokeball}
+                    setter={updateBalls}
+                    updater={balls}
                     itemIcon={greatballIcon}
                 />
 
                 <TableItem 
-                    title={'Super Ball'}
+                    title={'Great Ball'}
                     price={8}
                     scaling={2}
-                    itemType={superball}
-                    setter={setSuperBall}
+                    itemType={balls.pokeball}
+                    setter={updateBalls}
+                    updater={balls}
                     itemIcon={superballIcon}
                 />
 
@@ -143,8 +114,9 @@ export default function PokeShop({
                     title={'Ultra Ball'}
                     price={12}
                     scaling={3}
-                    itemType={ultraball}
-                    setter={setUltraBall}
+                    itemType={balls.ultraball}
+                    setter={updateBalls}
+                    updater={balls}
                     itemIcon={ultraballIcon}
                 />
 
@@ -152,17 +124,19 @@ export default function PokeShop({
                     title={'Master Ball'}
                     price={20}
                     scaling={5}
-                    itemType={masterball}
-                    setter={setMasterBall}
+                    itemType={balls.masterball}
+                    setter={updateBalls}
+                    updater={balls}
                     itemIcon={masterballIcon}
                 />
                 
                 <TableItem 
-                    title={'Great Incubator'}
+                    title={'Incubator'}
                     price={0}
                     scaling={7}
-                    itemType={greatIncubator}
-                    setter={setGreatIncubator}
+                    itemType={items.incubator}
+                    setter={updateItems}
+                    updater={items}
                     itemIcon={incubatorGreatIcon}
                 />
 
@@ -170,8 +144,9 @@ export default function PokeShop({
                     title={'Poke Star'}
                     price={28}
                     scaling={7}
-                    itemType={medal}
-                    setter={setMedal}
+                    itemType={currency.star}
+                    setter={updateCurrency}
+                    updater={currency}
                     itemIcon={starIcon}
                 />
 
@@ -179,8 +154,9 @@ export default function PokeShop({
                     title={'Poke Crown'}
                     price={72}
                     scaling={18}
-                    itemType={trophy}
-                    setter={setTrophy}
+                    itemType={currency.crown}
+                    setter={updateCurrency}
+                    updater={currency}
                     itemIcon={crownIcon}
                 />
 
@@ -192,10 +168,9 @@ export default function PokeShop({
                     </Center>
                     <Button 
                         w="60px"
-                        disabled={medal < 3}
+                        disabled={currency.star < 3}
                         onClick={() => {
-                            setMedal(medal - 3)
-                            setTrophy(trophy + 1)
+                            updateCurrency(currency, {star: currency.star - 3, crown: currency.crown + 1})
                         }}
                     ><BuyButton/></Button>
                 </Center>

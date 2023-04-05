@@ -392,7 +392,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                     </GridItem>
 
                     <GridItem>
-                        <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"} borderRadius={4}>
+                        <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={4}>
                             <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {status.trainerName}</Text>
                         </Center>
                     </GridItem>

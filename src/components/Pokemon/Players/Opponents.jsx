@@ -18,7 +18,8 @@ export default function Opponents() {
     //             stars: 10,
     //             coins: 10,
     //         },
-    //         online: Math.random() > 0.5
+    //         online: Math.random() > 0.4,
+    //         turnReady: Math.random() > 0.4,
     //     }
     // }
 

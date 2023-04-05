@@ -160,7 +160,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                     )}
                 </Text>
 
-                <Center mt={6} w={96} h={64} flexDirection="column" borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={6} w={96} h={64} flexDirection="column" borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     {eggHatched ? 
                         <>
                             <Text fontWeight="bold">{stringToUpperCase(pokemonJSON[pokemon?.pokemon].name)}</Text>

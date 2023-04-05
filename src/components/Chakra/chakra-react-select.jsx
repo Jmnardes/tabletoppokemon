@@ -297,7 +297,7 @@ const ChakraReactSelect = ({
   // https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src/styles.ts#L13
   const placeholderColor = useColorModeValue(
     chakraTheme.colors.gray[400],
-    chakraTheme.colors.whiteAlpha[400]
+    chakraTheme.colors.gray[650]
   );
 
   // Ensure that the size used is one of the options, either `sm`, `md`, or `lg`

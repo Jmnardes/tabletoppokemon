@@ -257,7 +257,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
                     <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
                 </Center>
 
-                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     {showResult &&
                         <Text fontSize="3xl" fontWeight="bold" color={trainerWin ? 'green' : 'red'}>
                             {trainerWin ? 'You won!' : 'You lost!'}

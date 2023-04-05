@@ -51,7 +51,7 @@ export default function StealBlock() {
                     updateItems(items, {steal: items.steal - 1})
                 }}>Steal</Button>
 
-                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     <Text fontSize="3xl">{stealRoll}</Text>
                 </Center>
             </Center>

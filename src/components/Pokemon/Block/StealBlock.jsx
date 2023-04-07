@@ -11,7 +11,7 @@ export default function StealBlock() {
     const { game } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [stealRoll, setStealRoll] = useState(false)
-    const { items, updateItems } = useContext(PlayerContext)
+    const { player, updateItem } = useContext(PlayerContext)
 
     const stealWhat = () => {
         let stealWhatRoll = diceRoll(100)
@@ -40,15 +40,15 @@ export default function StealBlock() {
                 title={'Team Rocket Pass'}
                 w="24px"
             ></Image>
-        } disableButton={items.steal === 0}>
+        } disableButton={player.items.steal === 0}>
             <Center flexDirection="column">
                 <Heading>Roll to Steal</Heading>
 
                 <Text mt={12} fontSize="2xl" textAlign="center">You can use the team Rocket to steal something from another trainer</Text>
 
-                <Button mt={12} w={48} disabled={items.steal === 0} onClick={() => {
+                <Button mt={12} w={48} disabled={player.items.steal === 0} onClick={() => {
                     stealWhat()
-                    updateItems({steal: items.steal - 1})
+                    updateItem(-1, 'steal')
                 }}>Steal</Button>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>

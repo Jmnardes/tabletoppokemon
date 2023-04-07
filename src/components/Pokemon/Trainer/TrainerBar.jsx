@@ -9,7 +9,7 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export function TrainerBar() {
-    const { currency, game, items } = useContext(PlayerContext)
+    const { player, game } = useContext(PlayerContext)
     
     return (
         <>
@@ -30,7 +30,7 @@ export function TrainerBar() {
                     title={'Poke Crown'}
                     w="34px"
                 ></Image>
-                <Text ml={2}>{currency.crowns}</Text>
+                <Text ml={2}>{player.currency.crowns}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -38,7 +38,7 @@ export function TrainerBar() {
                     title={'Poke Star'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{currency.stars}</Text>
+                <Text ml={2}>{player.currency.stars}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -46,7 +46,7 @@ export function TrainerBar() {
                     title={'Coins'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{currency.coins}</Text>
+                <Text ml={2}>{player.currency.coins}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -54,7 +54,7 @@ export function TrainerBar() {
                     title={'Shiny incense'}
                     w="24px"
                 ></Image>
-                <Text title={'Shiny chance ' + items.incense + '%'} cursor="pointer" ml={2}>{items.incense - 1}</Text>
+                <Text title={'Shiny chance ' + player.items.incense + '%'} cursor="pointer" ml={2}>{player.items.incense - 1}</Text>
             </Flex>
         </>
     )

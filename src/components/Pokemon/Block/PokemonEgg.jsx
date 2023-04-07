@@ -14,7 +14,7 @@ import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function PokemonEgg({ handleAddInventory, tier }) {
-    const { game, items, updateItems, handleToast, session } = useContext(PlayerContext)
+    const { game, player, updateItem, handleToast, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [hatchingTurn, setHatchingTurn] = useState(0)
     const [eggAnimationSpeed, setEggAnimationSpeed] = useState(2)
@@ -53,7 +53,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
     function handlePokemon() {
         setPokemon({
             pokemon: sortPokemon(tier + 1, session.generation),
-            nature: shinyRoll(items.incense + 5),
+            nature: shinyRoll(player.items.incense + 5),
             shiny: whatNaturePokemonIs()
         })
 
@@ -105,7 +105,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                 title={'Pokemon Egg'}
                 w="24px"
             ></Image>
-        } disableButton={items.pokemonEgg === 0 && hatchingTurn === 0 && !eggHatched} modalClose={closePokemonEgg} setCloseModal={setClosePokemonEgg}>
+        } disableButton={player.items.pokemonEgg === 0 && hatchingTurn === 0 && !eggHatched} modalClose={closePokemonEgg} setCloseModal={setClosePokemonEgg}>
             <Center flexDirection="column">
                 <Center>
                     <Center flexDirection="column" mx={6}>
@@ -116,9 +116,9 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
+                            disabled={player.items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
                             onClick={() => {
-                                updateItems({ pokemonEgg: items.pokemonEgg - 1 })
+                                updateItem(-1, 'pokemonEgg')
                                 setHatchingTurn(diceRoll(4) + 4)
                             }}
                         >
@@ -139,8 +139,9 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={items.pokemonEgg === 0 || items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
-                                updateItems({ incubator: items.incubator - 1, pokemonEgg: items.pokemonEgg - 1 })
+                            disabled={player.items.pokemonEgg === 0 || player.items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
+                                updateItem(-1, 'pokemonEgg')
+                                updateItem(-1, 'incubator')
                                 setHatchingTurn(diceRoll(2) + 2)
                             }}
                         >

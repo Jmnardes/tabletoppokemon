@@ -1,4 +1,4 @@
-import { OrderedList, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 
@@ -14,36 +14,7 @@ export function PlayerProvider({children}) {
     const [game, setGame] = useState({
         turn: 0,
         gameEnded: false,
-        turnStarted: true,
         isPokemonRollDisabled: false
-    })
-    const [status, setStatus] = useState({
-        trainerName: '',
-        level: 0,
-        experience: 0,
-        catches: 0,
-        shinyCatches: 0,
-        walkedBlocks: 0,
-        highestAmount: 0,
-        criticals: 0,
-    })
-    const [currency, setCurrency] = useState({
-        coins: 0,
-        stars: 0,
-        crowns: 0,
-    })
-    const [balls, setBalls] = useState({
-        pokeball: 0,
-        greatball: 0,
-        ultraball: 0,
-        masterball: 0,
-    })
-    const [items, setItems] = useState({
-        steal: 0,
-        fight: 0,
-        pokemonEgg: 0,
-        incubator: 0,
-        incense: 1
     })
 
     const emit = useCallback((name, data) => {
@@ -77,10 +48,28 @@ export function PlayerProvider({children}) {
         isClosable */
 
     const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
-    const updateStatus = (newData) => {setStatus(old => ({...old, ...newData}))}
-    const updateCurrency = (newData) => {setCurrency(old => ({...old, ...newData}))}
-    const updateBalls = (newData) => {setBalls(old => ({...old, ...newData}))}
-    const updateItems = (newData) => {setItems(old => ({...old, ...newData}))}
+
+    const updatePlayer = (qty, key, type) => {
+        if(type) {
+            const newObj = { ...player[key] }
+    
+            newObj[type] = qty
+    
+            setPlayer({...player, [key]: newObj})
+        } else {
+            setPlayer({...player, [key]: qty})
+        }
+    }
+
+    const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
+    const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
+
+    const changeItem = (qty, which) => updatePlayer(qty, 'items', which)
+    const updateItem = (qty, which) => updatePlayer(player.items[which] + qty, 'items', which)
+
+    const changeCurrency = (qty, which) => updatePlayer(qty, 'currency', which)
+    const updateCurrency = (qty, which) => updatePlayer(player.currency[which] + qty, 'currency', which)
+
 
     useEffect(() => {
         socket.on('error', res => {
@@ -102,11 +91,6 @@ export function PlayerProvider({children}) {
             setPlayer(res.player)
 
             localStorage.setItem('session', JSON.stringify(res.session))
-
-            updateStatus(res.player.status)
-            updateCurrency(res.player.currency)
-            updateBalls(res.player.balls)
-            updateItems(res.player.items)
         })
 
         socket.on('session-join-other', res => {
@@ -142,10 +126,10 @@ export function PlayerProvider({children}) {
 
             // event
             console.log(res)
+            // logic for event type
 
             setWaitingForPlayers(false)
             setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
-            // setGame(old => ({turn: old.turn++, isPokemonRollDisabled: false}))
         })
     }, [])
 
@@ -162,6 +146,7 @@ export function PlayerProvider({children}) {
 
             player,
             setPlayer,
+            updatePlayer,
 
             hasGameStarted,
             setHasGameStarted,
@@ -172,17 +157,14 @@ export function PlayerProvider({children}) {
             game,
             updateGame,
 
-            status, 
-            updateStatus,
-
-            currency,
+            changeCurrency,
             updateCurrency,
 
-            balls,
-            updateBalls,
+            updateBall,
+            changeBall,
             
-            items,
-            updateItems,
+            updateItem,
+            changeItem,
         }}>
             {children}
         </PlayerContext.Provider>

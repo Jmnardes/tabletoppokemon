@@ -27,7 +27,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
         def: 0,
         spd: 0
     })
-    const { items, updateItems, currency, updateCurrency } = useContext(PlayerContext)
+    const { player, updateItem, updateCurrency } = useContext(PlayerContext)
 
     function eachStatPercentage(myStat, gymStat, type) {
         if(type === 'hp') {
@@ -79,7 +79,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
         setShowResult(true)
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
-            updateCurrency(currency, {stars: currency.stars + 1})
+            updateCurrency(1, 'stars')
             setConfetti(true)
         } else {
             setTrainerWin(false)
@@ -168,7 +168,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
 
     function handleSpecialMove() {
         setIsSpecialMoveOn(true)
-        updateItems({fight: items.fight - 1})
+        updateItem(-1, 'fight')
         setDisableSpecialMove(true)
     }
 
@@ -247,7 +247,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
                 </Center>
                 {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
                 <Center>
-                    <Button mt={8} mr={2} disabled={disableSpecialMove || items.fight === 0} onClick={() => handleSpecialMove()}>
+                    <Button mt={8} mr={2} disabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
                         <Image
                             src={fightIcon} 
                             title={'Increases your chances to win against the Gym'}

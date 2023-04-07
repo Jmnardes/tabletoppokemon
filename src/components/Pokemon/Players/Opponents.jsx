@@ -1,27 +1,11 @@
-import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
-import { useContext, useState, useMemo } from "react";
+import { Flex, useColorMode } from "@chakra-ui/react";
+import { useContext, useMemo } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import OpponentCard from "./OpponentCard";
 
 export default function Opponents() {
     const { opponents } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-
-    // const [opp, setOpp] = useState([])
-
-    // const newOpp = () => {
-    //     return {
-    //         id: `${Date.now()}`,
-    //         status: { trainerName: 'aaaaaaaaaa', level: 10 },
-    //         currency: {
-    //             crowns: 10,
-    //             stars: 10,
-    //             coins: 10,
-    //         },
-    //         online: Math.random() > 0.4,
-    //         turnReady: Math.random() > 0.4,
-    //     }
-    // }
 
     const columns = useMemo(() => {
         const columns = opponents.reduce((acc, cur, index) => {
@@ -48,8 +32,6 @@ export default function Opponents() {
 
     return (
         <>
-            {/* <Button onClick={() => setOpp(old => old.concat([ newOpp() ]))}>+</Button>
-            <Button onClick={() => setOpp(old => old.slice(0, -1))}>-</Button> */}
             <Flex
                 padding="1rem"
                 gap="1rem"

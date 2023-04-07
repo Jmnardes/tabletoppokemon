@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { OrderedList, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 
@@ -8,7 +8,6 @@ export function PlayerProvider({children}) {
     const toast = useToast()
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
-    const [turnStart, setTurnStart] = useState(false)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -28,8 +27,6 @@ export function PlayerProvider({children}) {
         highestAmount: 0,
         criticals: 0,
     })
-    const [pokeTeam, setPokeTeam] = useState([])
-    const [pokeBox, setPokeBox] = useState([])
     const [currency, setCurrency] = useState({
         coins: 0,
         stars: 0,
@@ -77,36 +74,13 @@ export function PlayerProvider({children}) {
         icon,
         position,
         duration,
-        isClosable
-    */
+        isClosable */
 
-    const updateGame = (prevData, newData) => {
-        setGame({...prevData, ...newData});
-    }
-
-    const updateStatus = (prevData, newData) => {
-        setStatus({...prevData, ...newData});
-    }
-    
-    const updatePokeTeam = (prevData, newData) => {
-        setPokeTeam([...prevData, ...newData]);
-    }
-    
-    const updatePokeBox = (prevData, newData) => {
-        setPokeBox([...prevData, ...newData]);
-    }
-
-    const updateCurrency = (prevData, newData) => {
-        setCurrency({...prevData, ...newData});
-    }
-
-    const updateBalls = (prevData, newData) => {
-        setBalls({...prevData, ...newData});
-    }
-
-    const updateItems = (prevData, newData) => {
-        setItems({...prevData, ...newData});
-    }
+    const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
+    const updateStatus = (newData) => {setStatus(old => ({...old, ...newData}))}
+    const updateCurrency = (newData) => {setCurrency(old => ({...old, ...newData}))}
+    const updateBalls = (newData) => {setBalls(old => ({...old, ...newData}))}
+    const updateItems = (newData) => {setItems(old => ({...old, ...newData}))}
 
     useEffect(() => {
         socket.on('error', res => {
@@ -129,10 +103,10 @@ export function PlayerProvider({children}) {
 
             localStorage.setItem('session', JSON.stringify(res.session))
 
-            updateStatus(status, res.player.status)
-            updateCurrency(currency, res.player.currency)
-            updateBalls(balls, res.player.balls)
-            updateItems(items, res.player.items)
+            updateStatus(res.player.status)
+            updateCurrency(res.player.currency)
+            updateBalls(res.player.balls)
+            updateItems(res.player.items)
         })
 
         socket.on('session-join-other', res => {
@@ -164,24 +138,21 @@ export function PlayerProvider({children}) {
 
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
-            setOpponents(old => (old.map(opponent => ({ ...opponent, turnReady: true }))))
+            setOpponents(old => (old.map(opponent => ({ ...opponent, turnReady: false }))))
 
             // event
             console.log(res)
 
             setWaitingForPlayers(false)
-            setTurnStart(true)
+            setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
+            // setGame(old => ({turn: old.turn++, isPokemonRollDisabled: false}))
         })
     }, [])
 
     return (
         <PlayerContext.Provider value={{
             emit,
-
             handleToast,
-
-            turnStart,
-            setTurnStart,
 
             session,
             setSession,
@@ -203,12 +174,6 @@ export function PlayerProvider({children}) {
 
             status, 
             updateStatus,
-
-            pokeTeam,
-            updatePokeTeam,
-
-            pokeBox,
-            updatePokeBox,
 
             currency,
             updateCurrency,

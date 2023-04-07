@@ -48,7 +48,7 @@ export default function StealBlock() {
 
                 <Button mt={12} w={48} disabled={items.steal === 0} onClick={() => {
                     stealWhat()
-                    updateItems(items, {steal: items.steal - 1})
+                    updateItems({steal: items.steal - 1})
                 }}>Steal</Button>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>

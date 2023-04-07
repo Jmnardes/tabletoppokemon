@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
-import { diceRoll, parseNumberToNatural, tierSellingPrice, typeColor } from '../util'
+import { diceRoll, tierSellingPrice, typeColor } from '../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "./pokemonFunctions"
 import Inventary from "./Pokemon/Inventary/Inventary"
 import Team from "./Pokemon/Inventary/Team"
@@ -27,7 +27,6 @@ import { ConfettiCanvas } from "react-raining-confetti";
 import ElementsList from "./Pokemon/Team/ElementsList"
 import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
-import arrowIcon from '../assets/images/game/arrow.png'
 import shopIcon from '../assets/images/game/shop.png'
 import event1Icon from '../assets/images/game/event1.png'
 import event2Icon from '../assets/images/game/event2.png'
@@ -38,7 +37,7 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
-    const { status, handleToast, game, updateGame, emit, turnStart } = useContext(PlayerContext)
+    const { status, handleToast, game, updateGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -56,7 +55,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     const [highestAmount, setHighestAmount] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [coins, setCoins] = useState(0)
-    const [endTurnButton, setEndTurnButton] = useState(false)
+    const [endTurnButton, setEndTurnButton] = useState(true)
     const [disablePokeCatch, setDisablePokeCatch] = useState(true)
     const [disablePokeballs, setDisablePokeballs] = useState(false)
     const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
@@ -185,7 +184,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     const handleCatchDiceRoll = () => {
         let result = diceRoll(20)
 
-        updateGame(game, { isPokemonRollDisabled: true })
+        updateGame({ isPokemonRollDisabled: true })
 
         if(result === 19) setCriticals(criticals + 1)
         setDisablePokeCatch(false)
@@ -202,12 +201,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         } else {
             setExperience(() => endTurnExp() + experience)
         }
-    }
-
-    const handleStartMyTurn = () => {
-        updateGame(game, { turn: game.turn + 1, isPokemonRollDisabled: false })
-
-        handlePokemonEncounter()
     }
 
     const handleFinishMyTurn = () => {
@@ -338,8 +331,10 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     }, [coins, experience, highestAmount, level, shinyPercentage])
 
     useEffect(() => {
-        handleStartMyTurn()
-    }, [turnStart])
+        handlePokemonEncounter()
+        console.log('turn start')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [game.turn])
 
     return (
         <>
@@ -361,6 +356,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                     closeModal={closeModal}
                                     setCloseModal={setCloseModal}
                                     rollBlockDisabed={rollBlockDisabed}
+                                    setEndTurnButton={setEndTurnButton}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>

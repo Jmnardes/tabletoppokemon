@@ -14,6 +14,7 @@ export function PlayTurn({
     closeModal,
     setCloseModal,
     rollBlockDisabed,
+    setEndTurnButton
 }) {
     return (
         <PokeModal 
@@ -36,6 +37,7 @@ export function PlayTurn({
                 disablePokeballs={disablePokeballs}
                 setBonusOnCatch={setBonusOnCatch}
                 setDisablePokeballs={setDisablePokeballs}
+                setEndTurnButton={setEndTurnButton}
             >
                 {children}
             </PokeEnconter>

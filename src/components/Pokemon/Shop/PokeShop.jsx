@@ -46,7 +46,7 @@ export default function PokeShop({ disableShop }) {
                     w="60px"
                     disabled={currency.coins < (price + coinPerTurn(game.turn, scaling))}
                     onClick={() => {
-                        updateCurrency(currency, { coins: currency.coins - (price + coinPerTurn(game.turn, scaling)) })
+                        updateCurrency({ coins: currency.coins - (price + coinPerTurn(game.turn, scaling)) })
                         setter(updater, { itemType: updater[itemType] + 1 })
                     }}
                 ><BuyButton/></Button>
@@ -170,7 +170,7 @@ export default function PokeShop({ disableShop }) {
                         w="60px"
                         disabled={currency.star < 3}
                         onClick={() => {
-                            updateCurrency(currency, {star: currency.star - 3, crown: currency.crown + 1})
+                            updateCurrency({star: currency.star - 3, crown: currency.crown + 1})
                         }}
                     ><BuyButton/></Button>
                 </Center>

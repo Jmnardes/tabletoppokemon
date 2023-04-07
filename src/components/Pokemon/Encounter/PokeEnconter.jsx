@@ -4,6 +4,7 @@ export default function PokeEnconter({
         children,
         handleCatchDiceRoll,
         setBonusOnCatch,
+        setEndTurnButton
     }) {
 
     return (
@@ -11,6 +12,7 @@ export default function PokeEnconter({
             <Pokeballs
                 setBonusOnCatch={setBonusOnCatch}
                 handleCatchDiceRoll={handleCatchDiceRoll}
+                setEndTurnButton={setEndTurnButton}
             />
             {children}
         </>

@@ -118,7 +118,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             _hover={{}}
                             disabled={items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
                             onClick={() => {
-                                updateItems(items, { pokemonEgg: items.pokemonEgg - 1 })
+                                updateItems({ pokemonEgg: items.pokemonEgg - 1 })
                                 setHatchingTurn(diceRoll(4) + 4)
                             }}
                         >
@@ -140,7 +140,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             background="transparent" 
                             _hover={{}}
                             disabled={items.pokemonEgg === 0 || items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
-                                updateItems(items, { incubator: items.incubator - 1, pokemonEgg: items.pokemonEgg - 1 })
+                                updateItems({ incubator: items.incubator - 1, pokemonEgg: items.pokemonEgg - 1 })
                                 setHatchingTurn(diceRoll(2) + 2)
                             }}
                         >

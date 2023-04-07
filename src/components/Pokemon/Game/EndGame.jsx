@@ -25,7 +25,7 @@ export default function EndGame({ children }) {
                     <TrainerBar isEndgame={true}/>
                 </Flex>
 
-                <Button mt={6} onClick={() => updateCurrency(currency, {crowns: currency.crowns + 1})}>Poke Crown</Button>
+                <Button mt={6} onClick={() => updateCurrency({crowns: currency.crowns + 1})}>Poke Crown</Button>
             </Flex>
         </PokeModal>
     )

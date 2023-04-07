@@ -9,7 +9,8 @@ import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function Pokeballs({
     setBonusOnCatch,
-    handleCatchDiceRoll
+    handleCatchDiceRoll,
+    setEndTurnButton
 }) {
     const { balls, updateBalls, game } = useContext(PlayerContext)
 
@@ -21,10 +22,11 @@ export default function Pokeballs({
                 isDisabled={balls.pokeball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.pokeball > 0) {
-                        updateBalls(balls, {pokeball: balls.pokeball - 1})
+                        updateBalls({pokeball: balls.pokeball - 1})
                         setBonusOnCatch(2)
                     }
                     handleCatchDiceRoll()
+                    setEndTurnButton(false)
                 }}
             >
                 <Image
@@ -40,10 +42,11 @@ export default function Pokeballs({
                 isDisabled={balls.greatball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.greatball > 0) {
-                        updateBalls(balls, {greatball: balls.greatball - 1})
+                        updateBalls({greatball: balls.greatball - 1})
                         setBonusOnCatch(3)
                     }
                     handleCatchDiceRoll()
+                    setEndTurnButton(false)
                 }}
             >
                 <Image
@@ -60,10 +63,11 @@ export default function Pokeballs({
                 isDisabled={balls.ultraball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.ultraball > 0) {
-                        updateBalls(balls, {ultraball: balls.ultraball - 1})
+                        updateBalls({ultraball: balls.ultraball - 1})
                         setBonusOnCatch(5)
                     }
                     handleCatchDiceRoll()
+                    setEndTurnButton(false)
                 }}
             >
                 <Image
@@ -80,10 +84,11 @@ export default function Pokeballs({
                 isDisabled={balls.masterball === 0 || game.isPokemonRollDisabled}
                 onClick={() => {
                     if(balls.masterball > 0) {
-                        updateBalls(balls, {masterball: balls.masterball - 1})
+                        updateBalls({masterball: balls.masterball - 1})
                         setBonusOnCatch(10)
                     }
                     handleCatchDiceRoll()
+                    setEndTurnButton(false)
                 }}
             >
                 <Image

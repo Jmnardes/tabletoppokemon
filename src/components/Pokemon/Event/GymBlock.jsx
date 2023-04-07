@@ -168,7 +168,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
 
     function handleSpecialMove() {
         setIsSpecialMoveOn(true)
-        updateItems(items, {fight: items.fight - 1})
+        updateItems({fight: items.fight - 1})
         setDisableSpecialMove(true)
     }
 

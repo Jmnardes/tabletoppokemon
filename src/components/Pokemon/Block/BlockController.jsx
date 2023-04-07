@@ -14,27 +14,27 @@ function BlockController({
 
     const handlePassiveCoins = (value, isPositive) => {
         if (isPositive) {
-            updateCurrency(currency, {coins: currency.coins + value})
+            updateCurrency({coins: currency.coins + value})
         } else {
             if (value > currency.coins) {
-                updateCurrency(currency, {coins: 0})
+                updateCurrency({coins: 0})
             } else {
-                updateCurrency(currency, {coins: currency.coins - value})
+                updateCurrency({coins: currency.coins - value})
             }
         }
     }
 
     const itemFunction = (block) => {
         if (block?.change?.category === 'coin') {
-            updateCurrency(currency, {coins: currency.coins + block.change?.value})
+            updateCurrency({coins: currency.coins + block.change?.value})
         }
 
         if (block?.change?.category === 'item') {
-            if(block.change?.item === 'greatball') updateBalls(balls, {greatball: balls.greatball + 1})
-            if(block.change?.item === 'ultraball') updateBalls(balls, {ultraball: balls.ultraball + 1})
-            if(block.change?.item === 'steal') updateItems(items,  {steal: items.steal + 1})
+            if(block.change?.item === 'greatball') updateBalls({greatball: balls.greatball + 1})
+            if(block.change?.item === 'ultraball') updateBalls({ultraball: balls.ultraball + 1})
+            if(block.change?.item === 'steal') updateItems({steal: items.steal + 1})
             if(block.change?.item === 'egg') {
-                updateItems(items,  {pokemonEgg: items.pokemonEgg + 1})
+                updateItems({pokemonEgg: items.pokemonEgg + 1})
                 handleToast({
                     id: 'egg', 
                     title: 'Egg', 
@@ -44,18 +44,18 @@ function BlockController({
                     duration: 10000
                 })
             }
-            if(block.change?.item === 'fight') updateItems(items,  {fight: items.fight + 1})
-            if(block.change?.item === 'incense') updateItems(items,  {incense: items.incense + 1})
-            if(block.change?.item === 'star') updateCurrency(currency,  {stars: currency.stars + 1})
+            if(block.change?.item === 'fight') updateItems({fight: items.fight + 1})
+            if(block.change?.item === 'incense') updateItems({incense: items.incense + 1})
+            if(block.change?.item === 'star') updateCurrency({stars: currency.stars + 1})
         }
 
         if (block?.change?.category === 'treasure') {
-            if(block.change?.item === 'ultraball') updateBalls(balls, {ultraball: balls.ultraball + 2})
-            if(block.change?.item === 'steal') updateItems(items,  {steal: items.steal + 1})
-            if(block.change?.item === 'star') updateCurrency(currency,  {stars: currency.stars + 1})
-            if(block.change?.item === 'incense') updateItems(items,  {incense: items.incense + 1})
-            if(block.change?.item === 'masterball') updateBalls(balls, {masterball: balls.masterball + 1})
-            if(block.change?.item === 'crown') updateCurrency(currency,  {crowns: currency.crowns + 1})
+            if(block.change?.item === 'ultraball') updateBalls({ultraball: balls.ultraball + 2})
+            if(block.change?.item === 'steal') updateItems({steal: items.steal + 1})
+            if(block.change?.item === 'star') updateCurrency({stars: currency.stars + 1})
+            if(block.change?.item === 'incense') updateItems({incense: items.incense + 1})
+            if(block.change?.item === 'masterball') updateBalls({masterball: balls.masterball + 1})
+            if(block.change?.item === 'crown') updateCurrency({crowns: currency.crowns + 1})
         }
     }
 
@@ -98,28 +98,28 @@ function BlockController({
         if(block?.type === 'item') {
             switch(block?.change?.type) {
                 case 'greatball':
-                    updateBalls(balls, {greatball: balls.greatball + block.change?.value})
+                    updateBalls({greatball: balls.greatball + block.change?.value})
                     return
                 case 'ultraball':
-                    updateBalls(balls, {ultraball: balls.ultraball + block.change?.value})
+                    updateBalls({ultraball: balls.ultraball + block.change?.value})
                     return
                 case 'fight':
-                    updateItems(items, {fight: items.fight + block.change?.value})
+                    updateItems({fight: items.fight + block.change?.value})
                     return
                 case 'steal':
-                    updateItems(items, {steal: items.steal + block.change?.value})
+                    updateItems({steal: items.steal + block.change?.value})
                     return
                 case 'star':
-                    updateCurrency(currency,  {stars: currency.stars + block.change?.value})
+                    updateCurrency({stars: currency.stars + block.change?.value})
                     return
                 case 'masterball':
-                    updateBalls(balls, {masterball: balls.masterball + block.change?.value})
+                    updateBalls({masterball: balls.masterball + block.change?.value})
                     return
                 case 'crown':
-                    updateCurrency(currency,  {crowns: currency.crowns + block.change?.value})
+                    updateCurrency({crowns: currency.crowns + block.change?.value})
                     return
                 case 'egg':
-                    updateItems(items, {pokemonEgg: items.pokemonEgg + block.change?.value})
+                    updateItems({pokemonEgg: items.pokemonEgg + block.change?.value})
                     handleToast({
                         id: 'egg', 
                         title: 'Egg', 
@@ -130,10 +130,10 @@ function BlockController({
                     })
                     return
                 case 'incense':
-                    updateItems(items,  {incense: items.incense + block.change?.value})
+                    updateItems({incense: items.incense + block.change?.value})
                     return
                 default: //pokeball
-                    updateBalls(balls, {pokeball: balls.pokeball + block.change?.value})
+                    updateBalls({pokeball: balls.pokeball + block.change?.value})
                     return
             }
         }

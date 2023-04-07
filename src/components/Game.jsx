@@ -38,7 +38,7 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
-    const { status, handleToast, game, updateGame, emit } = useContext(PlayerContext)
+    const { status, handleToast, game, updateGame, emit, turnStart } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -204,9 +204,13 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         }
     }
 
-    const handleFinishMyTurn = () => {
+    const handleStartMyTurn = () => {
         updateGame(game, { turn: game.turn + 1, isPokemonRollDisabled: false })
 
+        handlePokemonEncounter()
+    }
+
+    const handleFinishMyTurn = () => {
         setEndTurnButton(true)
 
         setPokemonArray([])
@@ -334,8 +338,8 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
     }, [coins, experience, highestAmount, level, shinyPercentage])
 
     useEffect(() => {
-        handlePokemonEncounter()
-    }, [game.turn])
+        handleStartMyTurn()
+    }, [turnStart])
 
     return (
         <>

@@ -8,6 +8,7 @@ export function PlayerProvider({children}) {
     const toast = useToast()
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
+    const [turnStart, setTurnStart] = useState(false)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -169,6 +170,7 @@ export function PlayerProvider({children}) {
             console.log(res)
 
             setWaitingForPlayers(false)
+            setTurnStart(true)
         })
     }, [])
 
@@ -177,6 +179,9 @@ export function PlayerProvider({children}) {
             emit,
 
             handleToast,
+
+            turnStart,
+            setTurnStart,
 
             session,
             setSession,

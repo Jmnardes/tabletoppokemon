@@ -6,7 +6,7 @@ import { diceRoll, tierSellingPrice, typeColor } from '../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "./pokemonFunctions"
 import Inventary from "./Pokemon/Inventary/Inventary"
 import Team from "./Pokemon/Inventary/Team"
-import { FaPlusSquare, FaDollarSign } from "react-icons/fa";
+import { FaPlusSquare, FaDollarSign, FaRegArrowAltCircleRight } from "react-icons/fa";
 import pokemonJSON from '../assets/json/pokemons.json'
 import { pokemonBaseStat } from './pokemonFunctions'
 import { PlayTurn } from "./Pokemon/PlayTurn"
@@ -36,7 +36,7 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage() {
-    const { player, session, handleToast, game, updateGame, emit } = useContext(PlayerContext)
+    const { player, session, handleToast, game, updateGame, emit, setLoadingApi, setWaitingForPlayers } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -202,7 +202,11 @@ function PokePage() {
     }
 
     const handleFinishMyTurn = () => {
+        setLoadingApi(true)
+
         setEndTurnButton(true)
+
+        setWaitingForPlayers(true)
 
         setPokemonArray([])
 
@@ -421,9 +425,11 @@ function PokePage() {
                 </Box>
                 <Opponents />
             </Flex>
-            <Button isDisabled={endTurnButton} onClick={() => {
+            <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
                 handleFinishMyTurn()
-            }}>End turn!</Button>
+            }}>
+                <FaRegArrowAltCircleRight size="36px"/>
+            </Button>
         </>
     )
 }

@@ -161,6 +161,7 @@ export function PlayerProvider({children}) {
 
             setWaitingForPlayers(false)
             setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
+            setLoadingApi(false)
         })
         
             //PLAYERS
@@ -178,6 +179,8 @@ export function PlayerProvider({children}) {
         <PlayerContext.Provider value={{
             emit,
             handleToast,
+
+            setLoadingApi,
 
             session,
             setSession,

@@ -3,9 +3,9 @@ import { useState } from "react";
 import socket from "../../client";
 
 export default function GameNew() {
-    const [trainerName, setTrainerName] = useState(``)
-    const [gameDuration, setGameDuration] = useState(0)
-    const [generation, setGeneration] = useState(0)
+    const [trainerName, setTrainerName] = useState('')
+    const [gameDuration, setGameDuration] = useState(40)
+    const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
 
     return (
@@ -47,10 +47,10 @@ export default function GameNew() {
                 Difficulty:
             </Text>
             <Flex flexDirection="row">
-                <Button mx={2} m={2} disabled={gameDifficulty === 0} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(0)}>Trainer</Button>
-                <Button mx={2} m={2} disabled={gameDifficulty === 1} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(1)}>Catcher</Button>
-                <Button mx={2} m={2} disabled={gameDifficulty === 2} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(2)}>Champion</Button>
-                <Button mx={2} m={2} disabled={gameDifficulty === 3} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(3)}>Elite</Button>
+                <Button mx={2} m={2} isDisabled={gameDifficulty === 0} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(0)}>Trainer</Button>
+                <Button mx={2} m={2} isDisabled={gameDifficulty === 1} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(1)}>Catcher</Button>
+                <Button mx={2} m={2} isDisabled={gameDifficulty === 2} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(2)}>Champion</Button>
+                <Button mx={2} m={2} isDisabled={gameDifficulty === 3} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(3)}>Elite</Button>
             </Flex>
 
             <Button w="100%" fontSize="3xl" h={12} mt={4} mb={4} onClick={() => {

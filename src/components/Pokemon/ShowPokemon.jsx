@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import pokemon from '../../assets/json/pokemons.json'
 import { Box, Button, Flex, Image, Text } from "@chakra-ui/react"
 import { catchDifficulty, pokemonBaseStat } from '../pokemonFunctions'
 import { diceRoll, stringToUpperCase, typeColor } from '../../util'
 import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
+import PlayerContext from "../../Contexts/PlayerContext"
 
-function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, gameDifficulty, disablePokeCatch }) {
+function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, disablePokeCatch }) {
+    const { session } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [rollDifficulty, setRollDifficulty] = useState(0)
     const [disableCard, setDisableCard] = useState(true)
 
     const handleDifficulty = (tier, isShiny) => {
-        setRollDifficulty(() => catchDifficulty(isShiny ? (tier + 1 + gameDifficulty) : tier + gameDifficulty))
+        setRollDifficulty(() => catchDifficulty(isShiny ? (tier + 1 + session.gameDifficulty) : tier + session.gameDifficulty))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,7 +162,6 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
                         shiny={shiny.shiny}
                         showingType={'roll'}
                     />
-                    {/* <Text position="absolute" bottom="20px">Difficulty: {rollDifficulty}</Text> */}
                 </Flex>
             </Button>
         </Flex>

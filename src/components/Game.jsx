@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem, Heading } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { diceRoll, tierSellingPrice, typeColor } from '../util'
@@ -202,7 +202,7 @@ function PokePage() {
     }
 
     const handleFinishMyTurn = () => {
-        setLoadingApi(true)
+        // setLoadingApi(true)
 
         setEndTurnButton(true)
 
@@ -428,6 +428,7 @@ function PokePage() {
             <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
                 handleFinishMyTurn()
             }}>
+                <Heading mb={2} mr={8}>Finish my turn</Heading>
                 <FaRegArrowAltCircleRight size="36px"/>
             </Button>
         </>

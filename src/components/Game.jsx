@@ -321,7 +321,7 @@ function PokePage() {
             </Center>
 
             <Flex flex="1">
-                <Box flex="1">                      
+                <Flex flex="1" flexDirection='column'>                      
                     <Flex justifyContent="space-between">
                         <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
                             <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
@@ -417,15 +417,18 @@ function PokePage() {
                             })}
                         </Flex>
                     </Flex>
-                </Box>
+
+                    <Flex flex='1' flexDirection='column' justifyContent='end'>
+                        <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
+                            handleFinishMyTurn()
+                        }}>
+                            <Heading mb={2} mr={8}>Finish my turn</Heading>
+                            <FaRegArrowAltCircleRight size="36px"/>
+                        </Button>
+                    </Flex>
+                </Flex>
                 <Opponents />
             </Flex>
-            <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
-                handleFinishMyTurn()
-            }}>
-                <Heading mb={2} mr={8}>Finish my turn</Heading>
-                <FaRegArrowAltCircleRight size="36px"/>
-            </Button>
         </>
     )
 }

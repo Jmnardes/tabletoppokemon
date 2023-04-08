@@ -29,7 +29,7 @@ export default function Opponents() {
                 ))}
             </Flex>
         ))
-    }, [opponents])
+    }, [opponents, waitingForPlayers])
 
     return (
         <>

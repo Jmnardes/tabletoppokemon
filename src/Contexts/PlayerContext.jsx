@@ -101,6 +101,17 @@ export function PlayerProvider({children}) {
     const changeCurrency = (qty, which) => updatePlayer(qty, 'currency', which)
     const updateCurrency = (qty, which) => updatePlayer(player.currency[which] + qty, 'currency', which)
 
+    useEffect(() => {
+        if (player.status) {
+            emit('player-update-status', { level: player.status.level })
+        }
+    }, [player.status?.level])
+
+    useEffect(() => {
+        if (player.currency) {
+            emit('player-update-currency', player.currency)
+        }
+    }, [player.currency?.coins, player.currency?.stars, player.currency?.crowns])
 
     useEffect(() => {
         socket.on('error', res => {

@@ -36,7 +36,7 @@ import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
 function PokePage() {
-    const { player, session, handleToast, game, updateGame, emit } = useContext(PlayerContext)
+    const { player, session, updateCurrency, game, updateGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -53,7 +53,6 @@ function PokePage() {
     const [criticals, setCriticals] = useState(0)
     const [highestAmount, setHighestAmount] = useState(0)
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
-    const [coins, setCoins] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disablePokeCatch, setDisablePokeCatch] = useState(true)
     const [disablePokeballs, setDisablePokeballs] = useState(false)
@@ -173,11 +172,7 @@ function PokePage() {
     }
 
     const handleSellingPokemonPrice = (tier, shiny) => {
-        if(shiny) {
-            setCoins(() => coins + tierSellingPrice(tier) + 2)
-        } else {
-            setCoins(() => coins + tierSellingPrice(tier))
-        }
+        updateCurrency(player.currency.coins + tierSellingPrice(tier) + (shiny * 2), 'coins')
     }
 
     const handleCatchDiceRoll = () => {
@@ -227,13 +222,13 @@ function PokePage() {
     }
     
     useEffect(() => {
-        if(coins > highestAmount) setHighestAmount(coins)
+        if(player.currency.coins > highestAmount) setHighestAmount(player.currency.coins)
 
         setLevel(experiencePerLevel(experience))
         setExperiencePreviousLevel(expToNextLevel(level))
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
-    }, [coins, experience, highestAmount, level])
+    }, [player.currency.coins, experience, highestAmount, level])
 
     useEffect(() => {
         handlePokemonEncounter()

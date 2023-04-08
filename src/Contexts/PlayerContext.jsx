@@ -51,7 +51,7 @@ export function PlayerProvider({children}) {
 
     const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
 
-    const updatePlayer = (qty, key, type) => {
+    const updatePlayer = useCallback((qty, key, type) => {
         if(type) {
             const newObj = { ...player[key] }
     
@@ -61,7 +61,36 @@ export function PlayerProvider({children}) {
         } else {
             setPlayer({...player, [key]: qty})
         }
-    }
+    }, [player])
+
+    const updateOpponent = useCallback((id, value, key, type = null) => {
+        if(type) {
+            setOpponents((old => old.map(opponent => {
+                if (opponent.id === id) {
+                    const newObj = { ...opponent[key] }
+                    newObj[type] = value
+                    return { ...opponent, [key]: newObj }
+                }
+                else return opponent
+            })))
+        } else {
+            setOpponents((old => old.map(opponent => {
+                return (opponent.id === id) ? { ...opponent, [key]: value } : opponent
+            })))
+        }
+    }, [])
+
+    const updateOpponents = useCallback((value, key, type = null) => {
+        if(type) {
+            setOpponents((old => old.map(opponent => {
+                const newObj = { ...opponent[key] }
+                newObj[type] = value
+                return { ...opponent, [key]: newObj }
+            })))
+        } else {
+            setOpponents((old => old.map(opponent => ({ ...opponent, [key]: value }))))
+        }
+    }, [])
 
     const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
     const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
@@ -109,7 +138,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-ready-other', res => {
-            setOpponents(old => (old.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)))
+            updateOpponent(res.id, res.ready, 'ready')
         })
 
         socket.on('lobby-start', () => {
@@ -119,12 +148,12 @@ export function PlayerProvider({children}) {
             //TURNS
         // receiveng other players turn ready
         socket.on('turn-end-other', res => {
-            setOpponents(old => (old.map(opponent => opponent.id === res ? { ...opponent, turnReady: true } : opponent)))
+            updateOpponent(res, true, 'turnReady')
         })
 
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
-            setOpponents(old => (old.map(opponent => ({ ...opponent, turnReady: false }))))
+            updateOpponents(false, 'turnReady')
 
             // event
             console.log(res)
@@ -133,6 +162,16 @@ export function PlayerProvider({children}) {
             setWaitingForPlayers(false)
             setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
         })
+        
+            //PLAYERS
+        socket.on('player-update-status-other', res => {
+            updateOpponent(res.id, res.data, 'status')
+        })
+
+        socket.on('player-update-currency-other', res => {
+            updateOpponent(res.id, res.data, 'currency')
+        })
+
     }, [])
 
     return (
@@ -145,6 +184,8 @@ export function PlayerProvider({children}) {
 
             opponents,
             setOpponents,
+            updateOpponent,
+            updateOpponents,
 
             player,
             setPlayer,

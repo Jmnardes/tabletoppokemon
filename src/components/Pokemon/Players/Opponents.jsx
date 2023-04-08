@@ -4,7 +4,7 @@ import PlayerContext from "../../../Contexts/PlayerContext";
 import OpponentCard from "./OpponentCard";
 
 export default function Opponents() {
-    const { opponents } = useContext(PlayerContext)
+    const { opponents, waitingForPlayers } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const columns = useMemo(() => {
@@ -24,6 +24,7 @@ export default function Opponents() {
                     <OpponentCard
                         key={opponent.id}
                         opponent={opponent}
+                        inFront={waitingForPlayers}
                     />
                 ))}
             </Flex>

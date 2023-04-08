@@ -9,7 +9,7 @@ import DisconnectedIcon from "../../Icons/DisconnectedIcon"
 import StepsIcon from "../../Icons/StepsIcon"
 import SuccessIcon from "../../Icons/SuccessIcon"
 
-export default function OpponentCard({ opponent }) {
+export default function OpponentCard({ opponent, inFront = false }) {
     const { colorMode } = useColorMode()
 
     const light = colorMode === 'light'
@@ -26,6 +26,7 @@ export default function OpponentCard({ opponent }) {
             borderRadius="1rem"
             gap="0.75rem"
             border={borderStyle}
+            zIndex={inFront ? '2' : 'auto'}
         >
             {opponent.online && (
                 <Center

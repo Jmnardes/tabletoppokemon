@@ -6,6 +6,8 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const [loadingApi, setLoadingApi] = useState(false)
+    const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [session, setSession] = useState({})
@@ -153,6 +155,9 @@ export function PlayerProvider({children}) {
 
             waitingForPlayers,
             setWaitingForPlayers,
+
+            loadingApi,
+            loadingText,
 
             game,
             updateGame,

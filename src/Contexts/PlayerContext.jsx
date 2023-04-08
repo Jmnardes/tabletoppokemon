@@ -172,7 +172,7 @@ export function PlayerProvider({children}) {
 
             setWaitingForPlayers(false)
             setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
-            setLoadingApi(false)
+            // setLoadingApi(false)
         })
         
             //PLAYERS
@@ -192,6 +192,7 @@ export function PlayerProvider({children}) {
             handleToast,
 
             setLoadingApi,
+            setLoadingText,
 
             session,
             setSession,

@@ -5,16 +5,10 @@ import { Image } from "@chakra-ui/react";
 
 export function PlayTurn({ 
     children,
-    pokemonArrayLength,
-    disablePokeCatch,
     handleCatchDiceRoll,
-    disablePokeballs,
     setBonusOnCatch,
-    setDisablePokeballs,
     closeModal,
     setCloseModal,
-    rollBlockDisabed,
-    setEndTurnButton
 }) {
     return (
         <PokeModal 
@@ -26,18 +20,12 @@ export function PlayTurn({
                     w="28px"
                 ></Image>
             }
-            disableModalClose={rollBlockDisabed}
             modalClose={closeModal}
             setCloseModal={setCloseModal}
         >
             <PokeEnconter
-                pokemonArrayLength={pokemonArrayLength}
-                disablePokeCatch={disablePokeCatch}
-                handleCatchDiceRoll={handleCatchDiceRoll}
-                disablePokeballs={disablePokeballs}
                 setBonusOnCatch={setBonusOnCatch}
-                setDisablePokeballs={setDisablePokeballs}
-                setEndTurnButton={setEndTurnButton}
+                handleCatchDiceRoll={handleCatchDiceRoll}
             >
                 {children}
             </PokeEnconter>

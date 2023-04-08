@@ -13,7 +13,6 @@ import { PlayTurn } from "./Pokemon/PlayTurn"
 import { SimpleGrid } from "@chakra-ui/react"
 import { TrainerBar } from "./Pokemon/Trainer/TrainerBar"
 import { Settings } from "./Pokemon/Game/Settings"
-import TeamTitle from "./Pokemon/Team/TeamTitle"
 import PokeShop from "./Pokemon/Shop/PokeShop"
 import ExperienceBar from "./Pokemon/Trainer/ExperienceBar"
 import { TrainerStats } from "./Pokemon/Trainer/TrainerStats"
@@ -36,8 +35,8 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 
-function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost, gameDifficulty }) {
-    const { player, handleToast, game, updateGame, emit } = useContext(PlayerContext)
+function PokePage() {
+    const { player, session, handleToast, game, updateGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -69,24 +68,24 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
 
     const handlePokemonEncounter = () => {
         let pokemon = [{
-            pokemonId: sortPokemon(tier, generation),
+            pokemonId: sortPokemon(tier, session.generation),
             nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(shinyPercentage)
+            shiny: shinyRoll(player.items.incense)
         },
         {
-            pokemonId: sortPokemon(tier, generation),
+            pokemonId: sortPokemon(tier, session.generation),
             nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(shinyPercentage)
+            shiny: shinyRoll(player.items.incense)
         },
         {
-            pokemonId: sortPokemon(tier, generation),
+            pokemonId: sortPokemon(tier, session.generation),
             nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(shinyPercentage)
+            shiny: shinyRoll(player.items.incense)
         },
         {
-            pokemonId: sortPokemon(tier, generation),
+            pokemonId: sortPokemon(tier, session.generation),
             nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(shinyPercentage)
+            shiny: shinyRoll(player.items.incense)
         }]
 
         setPokemonArray([...pokemon])
@@ -188,10 +187,9 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
 
         if(result === 19) setCriticals(criticals + 1)
         setDisablePokeCatch(false)
-        setDisablePokeballs(true)
+        // setDisablePokeballs(true)
         setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
-        setEndTurnButton(false)
         setConfetti(false)
     }
 
@@ -328,11 +326,11 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
         setExperiencePreviousLevel(expToNextLevel(level))
         setExperienceToNextLevel(expToNextLevel(level + 1))
         setTier(level)
-    }, [coins, experience, highestAmount, level, shinyPercentage])
+    }, [coins, experience, highestAmount, level])
 
     useEffect(() => {
         handlePokemonEncounter()
-        console.log('turn start')
+        setEndTurnButton(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [game.turn])
 
@@ -345,18 +343,12 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
                     <GridItem colSpan={2}>
                         <Center justifyContent="left">
-                            {game.turn < maxTurns ? (
+                            {game.turn < session.gameDuration ? (
                                 <PlayTurn
-                                    pokemonArrayLength={pokemonArray.length}
-                                    disablePokeCatch={disablePokeCatch}
                                     handleCatchDiceRoll={handleCatchDiceRoll}
-                                    disablePokeballs={disablePokeballs}
                                     setBonusOnCatch={setBonusOnCatch}
-                                    setDisablePokeballs={setDisablePokeballs}
                                     closeModal={closeModal}
                                     setCloseModal={setCloseModal}
-                                    rollBlockDisabed={rollBlockDisabed}
-                                    setEndTurnButton={setEndTurnButton}
                                 >
                                     <Flex justifyContent="center">
                                         <SimpleGrid columns={2} mt={2}>
@@ -369,7 +361,6 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                                             shiny={data.shiny}
                                                             diceRollResult={resultDiceRoll}
                                                             handleAddInventory={() => handleAddInventory(data, true)}
-                                                            gameDifficulty={gameDifficulty}
                                                             disablePokeCatch={disablePokeCatch}
                                                         />
                                                     </React.Fragment>
@@ -464,7 +455,7 @@ function PokePage({ maxTurns, shinyPercentage, teamLength, generation, gameHost,
                                                             borderLeft: "2px solid #327ae64c",
                                                             borderBottom: "2px solid #327ae64c"
                                                         }}
-                                                        isDisabled={pokemonsTeam.length >= teamLength ? true : false}
+                                                        isDisabled={pokemonsTeam.length >= session.teamLength ? true : false}
                                                         onClick={() => handleAddPokemonTeam(poke)}
                                                     >
                                                         <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>

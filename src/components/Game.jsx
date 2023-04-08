@@ -22,11 +22,10 @@ import StealBlock from "./Pokemon/Block/StealBlock"
 import { ConfettiCanvas } from "react-raining-confetti";
 import ElementsList from "./Pokemon/Team/ElementsList"
 import PokemonEgg from "./Pokemon/Block/PokemonEgg"
-
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
-import EventModal from "./Pokemon/Modal/EventModal/EventModal"
+import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 
 function PokePage() {
     const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency, event } = useContext(PlayerContext)
@@ -396,7 +395,7 @@ function PokePage() {
                 <Text mb={1} mr={8} fontSize="2xl" fontWeight="bold">Finish turn</Text>
                 <FaArrowRight size="24px"/>
             </Button>
-            <EventModal />
+            <ChallengeModal />
         </>
     )
 }

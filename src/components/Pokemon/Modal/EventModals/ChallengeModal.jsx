@@ -25,7 +25,7 @@ import SixSidesDiceIcon from "../../../Icons/dices/SixSidesDice"
 import OpponentsResult from "./OpponentsResult"
 import { diceRoll } from "../../../../util"
 
-function EventModal() {
+export default function ChallengeModal() {
     const { updateGame, game, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -64,7 +64,7 @@ function EventModal() {
         90% { transform: translate(1px, 2px) rotate(0deg); }
         100% { transform: translate(1px, -2px) rotate(-1deg); }
     `;
-    const diceShakeAnimation = `${shake} 1.5s ease-in-out infinite`;
+    const diceShakeAnimation = `${shake} 1s ease-in-out infinite`;
 
     useEffect(() => {
         if(game.openEventModal) {
@@ -135,5 +135,3 @@ function EventModal() {
         </>
     )
 }
-
-export default EventModal

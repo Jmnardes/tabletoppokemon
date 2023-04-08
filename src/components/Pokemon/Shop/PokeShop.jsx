@@ -15,7 +15,7 @@ import { parseNumberToNatural } from "../../../util";
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function PokeShop({ disableShop }) {
+export default function PokeShop() {
     const { player, updateItem, updateCurrency, updateBall, game } = useContext(PlayerContext)
 
     function coinPerTurn(turns, multiple) {return parseNumberToNatural(turns, 10) * multiple}
@@ -61,7 +61,7 @@ export default function PokeShop({ disableShop }) {
                 title={'Shop'}
                 w="32px"
             ></Image>
-        } disableButton={disableShop}>
+        }>
             <Center mb={4}>
 
                 {player.currency.coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={player.currency.coins} />}

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, useColorMode, Image, Center, Grid, GridItem, Heading } from '@chakra-ui/react'
+import { Button, Box, Flex, Text, Stack, useColorMode, Center, Grid, GridItem } from '@chakra-ui/react'
 import ShowPokemon from "./Pokemon/ShowPokemon"
 import { sortPokemon } from "./sortPokemon"
 import { diceRoll, tierSellingPrice, typeColor } from '../util'
 import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "./pokemonFunctions"
 import Inventary from "./Pokemon/Inventary/Inventary"
 import Team from "./Pokemon/Inventary/Team"
-import { FaPlusSquare, FaDollarSign, FaRegArrowAltCircleRight } from "react-icons/fa";
+import { FaPlusSquare, FaDollarSign, FaArrowRight } from "react-icons/fa";
 import pokemonJSON from '../assets/json/pokemons.json'
 import { pokemonBaseStat } from './pokemonFunctions'
 import { PlayTurn } from "./Pokemon/PlayTurn"
@@ -19,24 +19,17 @@ import { TrainerStats } from "./Pokemon/Trainer/TrainerStats"
 import EndGame from "./Pokemon/Game/EndGame"
 import Items from "./Pokemon/Inventary/Items"
 import StealBlock from "./Pokemon/Block/StealBlock"
-import EventBlock from "./Pokemon/Event/EventBlock"
-import GymBlock from "./Pokemon/Event/GymBlock"
-import TournamentBlock from "./Pokemon/Event/TournamentBlock"
 import { ConfettiCanvas } from "react-raining-confetti";
 import ElementsList from "./Pokemon/Team/ElementsList"
 import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 
-import shopIcon from '../assets/images/game/shop.png'
-import event1Icon from '../assets/images/game/event1.png'
-import event2Icon from '../assets/images/game/event2.png'
-import event3Icon from '../assets/images/game/event3.png'
-
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
+import EventModal from "./Pokemon/Modal/EventModal/EventModal"
 
 function PokePage() {
-    const { player, session, game, updateGame, emit, setLoadingApi, setWaitingForPlayers, updateCurrency } = useContext(PlayerContext)
+    const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -55,15 +48,9 @@ function PokePage() {
     const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [disablePokeCatch, setDisablePokeCatch] = useState(true)
-    const [disablePokeballs, setDisablePokeballs] = useState(false)
-    const [rollBlockDisabed, setRollBlockDisabed] = useState(false)
     const [closeModal, setCloseModal] = useState(false)
-    const [disableShop, setDisableShop] = useState(true)
-    const [disableEvent, setDisableEvent] = useState(true)
-    const [disableGym, setDisableGym] = useState(true)
-    const [gymTier, setGymTier] = useState(1)
-    const [disableTournament, setDisableTournament] = useState(true)
     const [confetti, setConfetti] = useState(true)
+    const [testeModal, setTesteModal] = useState(false)
 
     const handlePokemonEncounter = () => {
         let pokemon = [{
@@ -295,25 +282,9 @@ function PokePage() {
 
                     <GridItem colSpan={2}>
                         <Center justifyContent="right">
-                            {/* {gameHost && (
-                                <TournamentBlock
-                                    disable={disableTournament}
-                                />
-                            )}
-                            <GymBlock
-                                disable={disableGym}
-                                gymTier={gymTier}
-                                team={handleTeamStats}
-                                setConfetti={setConfetti}
-                            />
-                            {gameHost && (
-                                <EventBlock
-                                    disable={disableEvent}
-                                />
-                            )} */}
                             <StealBlock />
                             <PokemonEgg handleAddInventory={handleAddInventory} tier={tier} />
-                            <PokeShop disableShop={disableShop} />
+                            <PokeShop />
                             <Settings />
                         </Center>
                     </GridItem>
@@ -321,7 +292,7 @@ function PokePage() {
             </Center>
 
             <Flex flex="1">
-                <Flex flex="1" flexDirection='column'>                      
+                <Box flex="1">                      
                     <Flex justifyContent="space-between">
                         <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
                             <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
@@ -383,7 +354,6 @@ function PokePage() {
                                                             borderRight: "2px solid #52d73750",
                                                             borderBottom: "2px solid #52d73750"
                                                         }}
-                                                        disabled={disableShop}
                                                         onClick={() => handleRemovePokeFromInventory(poke, true)}
                                                     >
                                                         <FaDollarSign size="16px" style={{ color: "green" }}/>
@@ -417,18 +387,16 @@ function PokePage() {
                             })}
                         </Flex>
                     </Flex>
-
-                    <Flex flex='1' flexDirection='column' justifyContent='end'>
-                        <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
-                            handleFinishMyTurn()
-                        }}>
-                            <Heading mb={2} mr={8}>Finish my turn</Heading>
-                            <FaRegArrowAltCircleRight size="36px"/>
-                        </Button>
-                    </Flex>
-                </Flex>
+                </Box>
                 <Opponents />
             </Flex>
+            <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
+                handleFinishMyTurn()
+            }}>
+                <Text mb={1} mr={8} fontSize="2xl" fontWeight="bold">Finish turn</Text>
+                <FaArrowRight size="24px"/>
+            </Button>
+            <EventModal />
         </>
     )
 }

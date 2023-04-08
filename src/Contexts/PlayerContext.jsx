@@ -16,7 +16,17 @@ export function PlayerProvider({children}) {
     const [game, setGame] = useState({
         turn: 0,
         gameEnded: false,
-        isPokemonRollDisabled: false
+        isPokemonRollDisabled: false,
+        openEventModal: false
+    })
+    const [event, setEvent] = useState({
+        title: '',
+        description: '',
+        type: '',
+        rules: '',
+        first: '',
+        second: '',
+        third: ''
     })
 
     const emit = useCallback((name, data) => {
@@ -167,11 +177,24 @@ export function PlayerProvider({children}) {
             updateOpponents(false, 'turnReady')
 
             // event
-            console.log(res)
+            if(res.event) {
+                setEvent({
+                    title: res.event.title,
+                    description: res.event.description,
+                    rules: res.event.rules,
+                    first: res.event.first,
+                    second: res.event.second,
+                    third: res.event.third
+                })
+                console.log('evento:', res)
+                setGame(old => ({...old, openEventModal: true}))
+            } else {
+                setGame(old => ({...old, openEventModal: false}))
+            }
             // logic for event type
 
             setWaitingForPlayers(false)
-            setGame(old => ({turn: old.turn + 1, isPokemonRollDisabled: false}))
+            setGame(old => ({...old, turn: old.turn + 1, isPokemonRollDisabled: false}))
             // setLoadingApi(false)
         })
         
@@ -217,6 +240,9 @@ export function PlayerProvider({children}) {
 
             game,
             updateGame,
+
+            event,
+            setEvent,
 
             changeCurrency,
             updateCurrency,

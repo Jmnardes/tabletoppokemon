@@ -44,7 +44,7 @@ export default function PokeShop() {
                 </Center>
                 <Button 
                     w="60px"
-                    disabled={player.currency.coins < (price + coinPerTurn(game.turn, scaling))}
+                    isDisabled={player.currency.coins < (price + coinPerTurn(game.turn, scaling))}
                     onClick={() => {
                         updateCurrency(-(price + coinPerTurn(game.turn, scaling)), 'coins')
                         setter(1, itemType)
@@ -128,7 +128,7 @@ export default function PokeShop() {
                 
                 <TableItem 
                     title={'Incubator'}
-                    price={0}
+                    price={10}
                     scaling={7}
                     itemType={'incubator'}
                     setter={updateItem}
@@ -161,7 +161,7 @@ export default function PokeShop() {
                     </Center>
                     <Button 
                         w="60px"
-                        disabled={player.currency.stars < 3}
+                        isDisabled={player.currency.stars < 3}
                         onClick={() => {
                             updateCurrency(1, 'crowns')
                             updateCurrency(-3, 'stars')

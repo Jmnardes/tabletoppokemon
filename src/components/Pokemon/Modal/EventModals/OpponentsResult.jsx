@@ -7,9 +7,8 @@ export default function OpponentsResult() {
 
     const OpponentRow = ({opponent}) => {
         return (
-            <Tr key={opponent.id}>
+            <Tr>
                 <Td pt={1} pb={2}>{opponent.status.trainerName}</Td>
-                <Td pt={1} pb={2}>{opponent.status.level}</Td>
                 <Td pt={1} pb={2}>{opponent.result ? '?' : opponent.result}</Td>
             </Tr>
         )
@@ -21,14 +20,13 @@ export default function OpponentsResult() {
                 <Thead>
                     <Tr>
                         <Th pt={0} pb={2}>Player</Th>
-                        <Th pt={0} pb={2}>Bonus</Th>
                         <Th pt={0} pb={2}>Result</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     {
                         opponents.map(opponent => {
-                            return <OpponentRow opponent={opponent} />
+                            return <OpponentRow key={opponent.id} opponent={opponent} />
                         })
                     }
                 </Tbody>

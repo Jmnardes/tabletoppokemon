@@ -46,7 +46,7 @@ export default function StealBlock() {
 
                 <Text mt={12} fontSize="2xl" textAlign="center">You can use the team Rocket to steal something from another trainer</Text>
 
-                <Button mt={12} w={48} disabled={player.items.steal === 0} onClick={() => {
+                <Button mt={12} w={48} isDisabled={player.items.steal === 0} onClick={() => {
                     stealWhat()
                     updateItem(-1, 'steal')
                 }}>Steal</Button>

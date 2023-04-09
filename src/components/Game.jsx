@@ -39,7 +39,6 @@ function PokePage() {
     const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
     const [experiencePreviousLevel, setExperiencePreviousLevel] = useState(0)
     const [resultDiceRoll, setResultDiceRoll] = useState(0)
-    const [catchDiceRoll, setCatchDiceRoll] = useState(0)
     const [totalCatches, setTotalCatches] = useState(0)
     const [shinyCatches, setShinyCatches] = useState(0)
     const [criticals, setCriticals] = useState(0)
@@ -49,7 +48,6 @@ function PokePage() {
     const [disablePokeCatch, setDisablePokeCatch] = useState(true)
     const [closeModal, setCloseModal] = useState(false)
     const [confetti, setConfetti] = useState(true)
-    const [testeModal, setTesteModal] = useState(false)
 
     const handlePokemonEncounter = () => {
         let pokemon = [{
@@ -168,8 +166,6 @@ function PokePage() {
 
         if(result === 19) setCriticals(criticals + 1)
         setDisablePokeCatch(false)
-        // setDisablePokeballs(true)
-        setCatchDiceRoll(result + 1)
         setResultDiceRoll(bonusOnCatch + result + 1)
         setConfetti(false)
     }
@@ -183,8 +179,6 @@ function PokePage() {
     }
 
     const handleFinishMyTurn = () => {
-        // setLoadingApi(true)
-
         setEndTurnButton(true)
 
         setWaitingForPlayers(true)
@@ -252,6 +246,7 @@ function PokePage() {
                                                             nature={data.nature} 
                                                             shiny={data.shiny}
                                                             diceRollResult={resultDiceRoll}
+                                                            setResultDiceRoll={setResultDiceRoll}
                                                             handleAddInventory={() => handleAddInventory(data, true)}
                                                             disablePokeCatch={disablePokeCatch}
                                                         />
@@ -281,7 +276,7 @@ function PokePage() {
 
                     <GridItem colSpan={2}>
                         <Center justifyContent="right">
-                            <StealBlock />
+                            {/* <StealBlock /> */}
                             <PokemonEgg handleAddInventory={handleAddInventory} tier={tier} />
                             <PokeShop />
                             <Settings />

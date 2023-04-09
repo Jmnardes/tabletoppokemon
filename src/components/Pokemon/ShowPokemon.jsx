@@ -7,7 +7,7 @@ import PokemonTable from "./Table/PokemonTable"
 import Types from "./Table/Types"
 import PlayerContext from "../../Contexts/PlayerContext"
 
-function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInventory, disablePokeCatch }) {
+function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, setResultDiceRoll, handleAddInventory, disablePokeCatch }) {
     const { session } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [rollDifficulty, setRollDifficulty] = useState(0)
@@ -108,7 +108,10 @@ function ShowPokemon({ pokemonId, nature, shiny, diceRollResult, handleAddInvent
                 background="transparent" 
                 _hover={{}}
                 isDisabled={disableCard || disablePokeCatch}
-                onClick={handleAddInventory}
+                onClick={() => {
+                    handleAddInventory()
+                    setResultDiceRoll(0)
+                }}
             >
                 <Flex
                     alignItems="center" 

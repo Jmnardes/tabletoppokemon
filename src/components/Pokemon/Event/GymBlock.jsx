@@ -247,14 +247,14 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
                 </Center>
                 {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
                 <Center>
-                    <Button mt={8} mr={2} disabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
+                    <Button mt={8} mr={2} isDisabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
                         <Image
                             src={fightIcon} 
                             title={'Increases your chances to win against the Gym'}
                             w="28px"
                         ></Image>
                     </Button>
-                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} isDisabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
                 </Center>
 
                 <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>

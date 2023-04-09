@@ -116,7 +116,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={player.items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
+                            isDisabled={player.items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
                             onClick={() => {
                                 updateItem(-1, 'pokemonEgg')
                                 setHatchingTurn(diceRoll(4) + 4)
@@ -139,7 +139,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={player.items.pokemonEgg === 0 || player.items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
+                            isDisabled={player.items.pokemonEgg === 0 || player.items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
                                 updateItem(-1, 'pokemonEgg')
                                 updateItem(-1, 'incubator')
                                 setHatchingTurn(diceRoll(2) + 2)
@@ -170,7 +170,7 @@ export default function PokemonEgg({ handleAddInventory, tier }) {
                                 borderRadius="50%"
                                 src={pokemonJSON[pokemon?.pokemon].sprite[`${pokemon?.shiny.shiny ? 'shiny' : 'default'}`]}
                             />
-                            <Button disabled={disableButtonAdd} onClick={() => {
+                            <Button isDisabled={disableButtonAdd} onClick={() => {
                                 handleAddToInventory()
                                 setPokemon([])
                                 setEggHatched(false)

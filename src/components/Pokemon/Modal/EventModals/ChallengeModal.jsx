@@ -13,7 +13,8 @@ import {
     useColorMode,
     Box,
     Divider,
-    keyframes
+    keyframes,
+    Tooltip
 } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
@@ -24,12 +25,14 @@ import ThirdPlaceIcon from "../../../Icons/places/ThirdPlaceIcon"
 import SixSidesDiceIcon from "../../../Icons/dices/SixSidesDice"
 import OpponentsResult from "./OpponentsResult"
 import { diceRoll } from "../../../../util"
+import { FaInfoCircle } from "react-icons/fa";
 
 export default function ChallengeModal() {
     const { updateGame, game, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [rollResult, setRollResult] = useState(0)
+    const [disableCloseModalButton, setDisableCloseModalButton] = useState(true)
 
     const Overlay = () => (
         <ModalOverlay
@@ -79,13 +82,43 @@ export default function ChallengeModal() {
             <Modal isOpen={isOpen} size="xl" isCentered>
                 {overlay}
                 <ModalContent p={4}>
-                    <ModalHeader fontSize="3xl" textAlign="center" pt={0}>{event.title}</ModalHeader>
+                    <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
+                        {event.title}
+                        <Tooltip 
+                            label={`You roll a dice with ${event.title} sides and sum the advantages, the highest value wins the prize!`} 
+                            bg="#89CFF0"
+                        >
+                            <span>
+                                <FaInfoCircle color="#89CFF0" style={{
+                                    'position': 'absolute',
+                                    'top': '30px',
+                                    'right': '25px'
+                                    }} size={20} />
+                            </span>
+                        </Tooltip>
+                    </ModalHeader>
                     <Center flexDirection="column">
                         <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                             <Center flexDirection="column">
-                                <Text fontSize="2xl">{event.description}</Text>
+                                <Text fontSize="2xl" mb={2} textAlign="center">
+                                    {event.description}
+                                    </Text>
 
-                                <Text fontSize="1xl">{event.rules}</Text>
+                                <Text color="green.400">
+                                    (THIS NATURES have advantages on this challenge!)
+                                </Text>
+                                <Text color="red.400">
+                                    (THIS NATURES have disadvantages on this challenge!)
+                                </Text>
+
+                                <Divider my={2} />
+
+                                <Flex>
+                                    Your bonus for this challange is:
+                                    <Text ml={2} fontWeight="bold">
+                                        BONUS
+                                    </Text>
+                                </Flex>
                             </Center>
                         </ModalBody>
                     </Center>
@@ -106,7 +139,10 @@ export default function ChallengeModal() {
                         <Button 
                             h={16}
                             _hover={{'animation': diceShakeAnimation}}
-                            onClick={() => setRollResult(diceRoll(10) + 1)}
+                            onClick={() => {
+                                setRollResult(diceRoll(10) + 1)
+                                setDisableCloseModalButton(false)
+                            }}
                         >
                             <SixSidesDiceIcon w={12} h={12} />
                         </Button>
@@ -123,9 +159,10 @@ export default function ChallengeModal() {
                                 <PlaceBox icon={<ThirdPlaceIcon />} place={event.third} />
                             </Flex>
 
-                            <Button h={12} onClick={() => {
+                            <Button h={12} isDisabled={disableCloseModalButton} onClick={() => {
                                 updateGame({ openEventModal: false })
                                 onClose()
+                                setDisableCloseModalButton(true)
                             }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
                         </Flex>
 

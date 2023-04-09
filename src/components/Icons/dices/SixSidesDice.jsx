@@ -4,12 +4,13 @@ import { useColorMode } from "@chakra-ui/react";
 export default function SixSidesDiceIcon ({
   w = 8,
   h = 8,
+  c,
 }) {
   const { colorMode } = useColorMode()
 
   return (
     <Icon viewBox="0 0 512 512" w={w} h={h}>
-      <g fill={colorMode === 'light' ? 'black' : 'white'}>
+      <g fill={c ?? (colorMode === 'light' ? 'black' : 'white')}>
         <path className="st0" d="M449.532,105.602L288.463,8.989C278.474,2.994,267.235,0,256.011,0c-11.239,0-22.483,2.994-32.467,8.989
           L62.475,105.602c-19.012,11.406-30.647,31.95-30.647,54.117v192.562c0,22.168,11.635,42.711,30.647,54.117l161.069,96.613
           c9.984,5.988,21.228,8.989,32.467,8.989c11.225,0,22.463-3.001,32.452-8.989l161.069-96.613

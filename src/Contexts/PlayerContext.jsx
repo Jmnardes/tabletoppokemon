@@ -17,16 +17,32 @@ export function PlayerProvider({children}) {
         turn: 0,
         gameEnded: false,
         isPokemonRollDisabled: false,
-        openEventModal: false
+        openChallengeModal: false,
+        openWalkModal: false
     })
     const [event, setEvent] = useState({
         title: '',
-        description: '',
+        label: '',
         type: '',
-        rules: '',
-        first: '',
-        second: '',
-        third: ''
+        prizes:[
+            {
+                type: '',
+                name: '',
+                amount: 0
+            }
+        ],
+        advantage: {
+            type: '',
+            value: ''
+        },
+        disadvantage: {
+            type: '',
+            value: ''
+        },
+        dice: {
+            max: 6,
+            bonus: 1
+        }
     })
 
     const emit = useCallback((name, data) => {
@@ -175,21 +191,26 @@ export function PlayerProvider({children}) {
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
             updateOpponents(false, 'turnReady')
-
-            // event
-            if(res.event) {
-                setEvent({
-                    title: res.event.title,
-                    description: res.event.description,
-                    rules: res.event.rules,
-                    first: res.event.first,
-                    second: res.event.second,
-                    third: res.event.third
-                })
-                console.log('evento:', res)
-                setGame(old => ({...old, openEventModal: true}))
-            } else {
-                setGame(old => ({...old, openEventModal: false}))
+            console.log(res)
+            setEvent({
+                title: res.event.title,
+                label: res.event.label,
+                type: res.event.type,
+                prizes: res.event.prizes,
+                advantage: res.event.advantage,
+                disadvantage: res.event.disadvantage,
+                dice: res.event.dice
+            })
+            
+            switch (res.event.type) {
+                case 'challenge':
+                    setGame(old => ({...old, openChallengeModal: true}))
+                    break
+                case 'walk':
+                    setGame(old => ({...old, openWalkModal: true}))
+                    break
+                default:
+                    break
             }
             // logic for event type
 

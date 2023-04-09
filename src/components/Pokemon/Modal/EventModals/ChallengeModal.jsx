@@ -14,7 +14,8 @@ import {
     Box,
     Divider,
     keyframes,
-    Tooltip
+    Tooltip,
+    Image
 } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
@@ -26,8 +27,12 @@ import SixSidesDiceIcon from "../../../Icons/dices/SixSidesDice"
 import OpponentsResult from "./OpponentsResult"
 import { diceRoll } from "../../../../util"
 import { FaInfoCircle } from "react-icons/fa";
+import coinIcon from '../../../../assets/images/game/coin.png'
+import starIcon from '../../../../assets/images/game/star.png'
+import crownIcon from '../../../../assets/images/game/crown.png'
+import pokemon from '../../../../assets/json/pokemons.json'
 
-export default function ChallengeModal() {
+export default function ChallengeModal({ pokeTeam }) {
     const { updateGame, game, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,16 +48,43 @@ export default function ChallengeModal() {
 
     const [overlay, setOverlay] = useState(<Overlay />)
 
-    const PlaceBox = ({ icon, place }) => {
+    const PrizeIcon = ({ type }) => {
+        switch (type) {
+            case 'coins':
+                return <Image src={coinIcon} title="Coin" w="20px" ml={2} />
+            case 'stars':
+                return <Image src={starIcon} title="Poke star" w="20px" ml={2} />
+            case 'crowns':
+                return <Image src={crownIcon} title="Poke crown" w="20px" ml={2} />
+            default:
+                return
+        }
+    }
+
+    const PlaceBox = ({ icon, prize }) => {
         return (
             <Flex alignItems="center" w="100%" minW={32} mr={6} bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                 <Box position="absolute" bottom="45px" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius="50%">
                     {icon}
                 </Box>
-                <Text w="100%" textAlign="center" mx={2}>{place}</Text>
+
+                <Flex w="100%" justifyContent="center" mx={2}>
+                    <Text>{prize.amount}x</Text>
+                    <PrizeIcon type={prize.name} />
+                </Flex>
+
             </Flex>
         )
     }
+
+    const checkChallengeBonus = (poke) => {
+        poke.forEach(element => {
+            console.log(pokemon[element.pokemonId])
+            pokemon[element.pokemonId].find()
+        });
+    }
+
+    const joinArr = (arr) => {if(arr) return arr.join(', ')}
 
     const shake = keyframes`
         0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -70,13 +102,13 @@ export default function ChallengeModal() {
     const diceShakeAnimation = `${shake} 1s ease-in-out infinite`;
 
     useEffect(() => {
-        if(game.openEventModal) {
+        if(game.openChallengeModal) {
             setOverlay(<Overlay />)
             onOpen()
+            checkChallengeBonus(pokeTeam)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [game.openEventModal])
-
+    }, [game.openChallengeModal])
     return (
         <>
             <Modal isOpen={isOpen} size="xl" isCentered>
@@ -85,7 +117,7 @@ export default function ChallengeModal() {
                     <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
                         {event.title}
                         <Tooltip 
-                            label={`You roll a dice with ${event.title} sides and sum the advantages, the highest value wins the prize!`} 
+                            label={`You roll a dice with ${event.dice.max}x sides and sum the advantages, the highest value wins the prize!`} 
                             bg="#89CFF0"
                         >
                             <span>
@@ -101,17 +133,24 @@ export default function ChallengeModal() {
                         <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                             <Center flexDirection="column">
                                 <Text fontSize="2xl" mb={2} textAlign="center">
-                                    {event.description}
+                                    {event.label}
+                                </Text>
+
+                                <Flex color="green.400">
+                                    Advantages on this challenge:
+                                    <Text ml={2} fontWeight="bold">
+                                        {joinArr(event.advantage?.value)}
                                     </Text>
+                                </Flex>
 
-                                <Text color="green.400">
-                                    (THIS NATURES have advantages on this challenge!)
-                                </Text>
-                                <Text color="red.400">
-                                    (THIS NATURES have disadvantages on this challenge!)
-                                </Text>
-
-                                <Divider my={2} />
+                                {event.disadvantage?.value && (
+                                    <Flex color="red.400">
+                                        Disadvantages on this challenge: 
+                                        <Text ml={2} fontWeight="bold">
+                                            {joinArr(event.disadvantage?.value)}
+                                        </Text>
+                                    </Flex>
+                                )}
 
                                 <Flex>
                                     Your bonus for this challange is:
@@ -140,7 +179,7 @@ export default function ChallengeModal() {
                             h={16}
                             _hover={{'animation': diceShakeAnimation}}
                             onClick={() => {
-                                setRollResult(diceRoll(10) + 1)
+                                setRollResult(diceRoll(event.dice.max) + 1)
                                 setDisableCloseModalButton(false)
                             }}
                         >
@@ -154,13 +193,13 @@ export default function ChallengeModal() {
 
                         <Flex w="100%" justifyContent="space-between">
                             <Flex>
-                                <PlaceBox icon={<FirstPlaceIcon />} place={event.first} />
-                                <PlaceBox icon={<SecondPlaceIcon />} place={event.second} />
-                                <PlaceBox icon={<ThirdPlaceIcon />} place={event.third} />
+                                <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
+                                <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
+                                <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
                             </Flex>
 
                             <Button h={12} isDisabled={disableCloseModalButton} onClick={() => {
-                                updateGame({ openEventModal: false })
+                                updateGame({ openChallengeModal: false })
                                 onClose()
                                 setDisableCloseModalButton(true)
                             }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>

@@ -16,7 +16,7 @@ import { useContext, useEffect, useState } from "react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import SuccessIcon from "../../../Icons/SuccessIcon"
 
-function EventModal() {
+export default function WalkModal() {
     const { updateGame, game, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,12 +31,12 @@ function EventModal() {
     const [overlay, setOverlay] = useState(<Overlay />)
 
     useEffect(() => {
-        if(game.openEventModal) {
+        if(game.openWalkModal) {
             setOverlay(<Overlay />)
             onOpen()
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [game.openEventModal])
+    }, [game.openWalkModal])
 
     return (
         <>
@@ -57,7 +57,7 @@ function EventModal() {
                     <ModalFooter p={0}>
 
                         <Button h={12} onClick={() => {
-                            updateGame({ openEventModal: false })
+                            updateGame({ openWalkModal: false })
                             onClose()
                         }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
 
@@ -67,5 +67,3 @@ function EventModal() {
         </>
     )
 }
-
-export default EventModal

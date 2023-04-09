@@ -26,6 +26,7 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
 import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
+import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 
 function PokePage() {
     const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency, event } = useContext(PlayerContext)
@@ -75,11 +76,11 @@ function PokePage() {
     }
         
     const handleAddInventory = ({pokemonId, nature, shiny}, sorted) => {
-        setSavedPokemons(() => [{
+        setSavedPokemons(old => [{
             pokemonId,
             nature,
             shiny,
-        }, ...savedPokemons])
+        }, ...old])
 
         if(sorted) {
             handleRemovePokeFromSorted({
@@ -100,11 +101,11 @@ function PokePage() {
     }
 
     const handleAddPokemonTeam = ({pokemonId, nature, shiny}) => {
-        setPokemonsTeam(() => [{
+        setPokemonsTeam(old => [{
             pokemonId,
             nature,
             shiny,
-        }, ...pokemonsTeam])
+        }, ...old])
 
         handleRemovePokeFromInventory({
             pokemonId,
@@ -390,7 +391,8 @@ function PokePage() {
                 <Text mb={1} mr={8} fontSize="2xl" fontWeight="bold">Finish turn</Text>
                 <FaArrowRight size="24px"/>
             </Button>
-            <ChallengeModal />
+            <ChallengeModal pokeTeam={pokemonsTeam} />
+            <WalkModal />
         </>
     )
 }

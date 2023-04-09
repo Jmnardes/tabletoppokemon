@@ -96,7 +96,7 @@ export default function DiceButton({
                         </Heading>
                         {bonus !== 0 && (
                             <Heading
-                                size={critical ? '4xl' : '3xl'}
+                                size='lg'
                                 color={(bonus > 0) ? 'green' : 'red'}
                             >
                                 {(bonus > 0) ? `+${bonus}` : bonus}

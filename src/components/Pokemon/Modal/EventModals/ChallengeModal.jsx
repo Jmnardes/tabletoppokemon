@@ -17,7 +17,7 @@ import {
     Tooltip,
     Image
 } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import FirstPlaceIcon from "../../../Icons/places/FirstPlaceIcon"
 import SecondPlaceIcon from "../../../Icons/places/SecondPlaceIcon"
@@ -33,11 +33,12 @@ import crownIcon from '../../../../assets/images/game/crown.png'
 import pokemon from '../../../../assets/json/pokemons.json'
 
 export default function ChallengeModal({ pokeTeam }) {
-    const { updateGame, game, event } = useContext(PlayerContext)
+    const { updateGame, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { onClose } = useDisclosure()
     const [rollResult, setRollResult] = useState(0)
     const [disableCloseModalButton, setDisableCloseModalButton] = useState(true)
+    const bonus = useRef(0)
 
     const Overlay = () => (
         <ModalOverlay
@@ -77,10 +78,33 @@ export default function ChallengeModal({ pokeTeam }) {
         )
     }
 
-    const checkChallengeBonus = (poke) => {
-        poke.forEach(element => {
-            console.log(pokemon[element.pokemonId])
-        });
+    const checkChallengeBonus = (pokeTeam) => {
+        bonus.current = pokeTeam.reduce((acc, poke) => {
+            const pokemonData = pokemon[poke.pokemonId]
+
+            if(event.advantage.type === 'element') {
+                return acc + (pokemonData.type).reduce((acc, element) => {
+                    const checkIfElementIncludes = event.advantage.value.includes(element)
+
+                    return acc + checkIfElementIncludes
+                }, 0)
+            }
+
+            if(event.advantage.type === 'nature') {
+                const checkIfNatureIncludes = event.advantage.value.includes(poke.nature.nature)
+
+                return acc + checkIfNatureIncludes
+            }
+
+            // if(event.advantage.type === 'stats_all') {
+            // }
+
+            // if(event.advantage.type === 'stats_highest') {
+            // }
+
+            // if(event.advantage.type === 'stats_sum') {
+            // }
+        }, 0);
     }
 
     const joinArr = (arr) => {if(arr) return arr.join(', ')}
@@ -101,16 +125,14 @@ export default function ChallengeModal({ pokeTeam }) {
     const diceShakeAnimation = `${shake} 1s ease-in-out infinite`;
 
     useEffect(() => {
-        if(game.openChallengeModal) {
-            setOverlay(<Overlay />)
-            onOpen()
-            checkChallengeBonus(pokeTeam)
-        }
+        setOverlay(<Overlay />)
+        checkChallengeBonus(pokeTeam)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [game.openChallengeModal])
+    }, [])
+
     return (
         <>
-            <Modal isOpen={isOpen} size="xl" isCentered>
+            <Modal isOpen size="xl" isCentered>
                 {overlay}
                 <ModalContent p={4}>
                     <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
@@ -154,7 +176,7 @@ export default function ChallengeModal({ pokeTeam }) {
                                 <Flex>
                                     Your bonus for this challange is:
                                     <Text ml={2} fontWeight="bold">
-                                        BONUS
+                                        {bonus.current}
                                     </Text>
                                 </Flex>
                             </Center>

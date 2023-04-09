@@ -80,7 +80,6 @@ export default function ChallengeModal({ pokeTeam }) {
     const checkChallengeBonus = (poke) => {
         poke.forEach(element => {
             console.log(pokemon[element.pokemonId])
-            pokemon[element.pokemonId].find()
         });
     }
 

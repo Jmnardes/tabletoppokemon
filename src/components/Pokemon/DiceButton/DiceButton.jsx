@@ -44,7 +44,7 @@ const textShowAnimation = keyframes`
 
 const endAnimationName = diceRollAnimation.match(regex)[2]
 
-export default function DiceRoll({
+export default function DiceButton({
     onRoll,
     maxRow = 6,
     bonus = 0,

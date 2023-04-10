@@ -29,7 +29,7 @@ import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 
 function PokePage() {
-    const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency, event } = useContext(PlayerContext)
+    const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemonArray, setPokemonArray] = useState([])
     const [savedPokemons, setSavedPokemons] = useState([])
@@ -157,7 +157,7 @@ function PokePage() {
     }
 
     const handleSellingPokemonPrice = (tier, shiny) => {
-        updateCurrency(player.currency.coins + tierSellingPrice(tier) + (shiny * 2), 'coins')
+        updateCurrency(tierSellingPrice(tier) + (shiny * 2), 'coins')
     }
 
     const handleCatchDiceRoll = () => {
@@ -277,7 +277,7 @@ function PokePage() {
 
                     <GridItem colSpan={2}>
                         <Center justifyContent="right">
-                            {/* <StealBlock /> */}
+                            <StealBlock />
                             <PokemonEgg handleAddInventory={handleAddInventory} tier={tier} />
                             <PokeShop />
                             <Settings />

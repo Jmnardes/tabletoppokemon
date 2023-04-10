@@ -31,16 +31,19 @@ import crownIcon from '../../../../assets/images/game/crown.png'
 import pokemon from '../../../../assets/json/pokemons.json'
 import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
+import SadIcon from "../../../Icons/emote/sadIcon"
 
 export default function ChallengeModal({ pokeTeam }) {
     const { updateGame, event, emit, opponents, updateCurrency } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { onClose } = useDisclosure()
-    const [disableCloseModalButton, setDisableCloseModalButton] = useState(true)
     const [opponentsRoll, setOpponentsRoll] = useState([])
+    const [showAwarding, setShowAwarding] = useState(false)
     const bonus = useRef(0)
     const myRoll = useRef(0)
+    const myPlacing = useRef(0)
     const hasIRolled = useRef(false)
+    const won = useRef(false)
 
     const Overlay = () => (
         <ModalOverlay
@@ -51,14 +54,14 @@ export default function ChallengeModal({ pokeTeam }) {
 
     const [overlay, setOverlay] = useState(<Overlay />)
 
-    const PrizeIcon = ({ type }) => {
+    const PrizeIcon = ({ type, size = '20px' }) => {
         switch (type) {
             case 'coins':
-                return <Image src={coinIcon} title="Coin" w="20px" ml={2} />
+                return <Image src={coinIcon} w={size} title="Coin" ml={2} />
             case 'stars':
-                return <Image src={starIcon} title="Poke star" w="20px" ml={2} />
+                return <Image src={starIcon} w={size} title="Poke star" ml={2} />
             case 'crowns':
-                return <Image src={crownIcon} title="Poke crown" w="20px" ml={2} />
+                return <Image src={crownIcon} w={size} title="Poke crown" ml={2} />
             default:
                 return
         }
@@ -111,8 +114,7 @@ export default function ChallengeModal({ pokeTeam }) {
 
     const joinArr = (arr) => {if(arr) return arr.join(', ')}
 
-    const prizeDistribution = () => {
-        // check if you have the first, second or third highst value
+    const awardDistribution = () => {
         const resultArray = []
 
         resultArray.push(myRoll.current)
@@ -123,37 +125,34 @@ export default function ChallengeModal({ pokeTeam }) {
 
         resultArray.sort(function(a, b){return b-a})
 
-        console.log(resultArray, myRoll.current)
-
         if(myRoll.current === resultArray[0]) {
-            prizing(0)
-
+            awarding(0)
             return
         }
 
         if(myRoll.current === resultArray[1]) {
-            prizing(1)
-
+            awarding(1)
             return
         }
 
-        if(opponents.length > 2) {
+        if(opponents.length > 1) {
             if(myRoll.current === resultArray[2]) {
-                prizing(2)
-
+                awarding(2)
                 return
             }
         }
     }
 
-    const prizing = (place) => {
+    const awarding = (place) => {
+        won.current = true
+        myPlacing.current = place
         updateCurrency(event.prizes[place].amount, event.prizes[place].name)
     }
 
     useEffect(() => {
         if(opponents.length === opponentsRoll.length && hasIRolled.current) {
-            prizeDistribution()
-            setDisableCloseModalButton(false)
+            awardDistribution()
+            setShowAwarding(true)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [opponentsRoll, myRoll.current])
@@ -173,92 +172,157 @@ export default function ChallengeModal({ pokeTeam }) {
             <Modal isOpen size="xl" isCentered>
                 {overlay}
                 <ModalContent p={4}>
-                    <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
-                        {event.title}
-                        <Tooltip 
-                            label={`You roll a dice with ${event.dice.max}x sides and sum the advantages, the highest value wins the prize!`} 
-                            bg="#89CFF0"
-                        >
-                            <span>
-                                <FaInfoCircle color="#89CFF0" style={{
-                                    'position': 'absolute',
-                                    'top': '30px',
-                                    'right': '25px'
-                                    }} size={20} />
-                            </span>
-                        </Tooltip>
-                    </ModalHeader>
-                    <Center flexDirection="column">
-                        <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
-                            <Center flexDirection="column">
-                                <Text fontSize="2xl" mb={2} textAlign="center">
-                                    {event.label}
-                                </Text>
+                    {
+                        showAwarding ? (
+                            <>
+                                <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
+                                    Awarding
+                                </ModalHeader>
 
-                                <Flex color="green.400">
-                                    Advantages on this challenge:
-                                    <Text ml={2} fontWeight="bold">
-                                        {joinArr(event.advantage?.value)}
-                                    </Text>
-                                </Flex>
+                                <Center flexDirection="column">
+                                    <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
+                                        {
+                                            won.current ? (
+                                                <>
+                                                    <Center flexDirection="column">
+                                                        <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
-                                {event.disadvantage?.value && (
-                                    <Flex color="red.400">
-                                        Disadvantages on this challenge: 
-                                        <Text ml={2} fontWeight="bold">
-                                            {joinArr(event.disadvantage?.value)}
-                                        </Text>
+                                                        {myPlacing.current === 0 && (
+                                                            <FirstPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        {myPlacing.current === 1 && (
+                                                            <SecondPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        {myPlacing.current === 2 && (
+                                                            <ThirdPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        
+                                                        <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
+                                                            You won 
+                                                        </Text>
+                                                    </Center>
+                                                        
+                                                    <Divider my={2} mb={4} />
+
+                                                    <Center>
+                                                        {event.prizes[myPlacing.current].amount}x
+                                                        <PrizeIcon type={event.prizes[myPlacing.current].name} size={8}/>
+                                                    </Center>
+                                                </>
+                                            ): (
+                                                <Center flexDirection="column">
+                                                    <Text my={4}>Sorry...</Text>
+
+                                                    <SadIcon h={16} w={16} />
+                                                    
+                                                    <Text my={4} fontSize="2xl" fontWeight="bold" color="red.400">You lose</Text>
+                                                </Center>
+                                            )
+                                        }
+                                    </ModalBody>
+                                </Center>
+
+                                <ModalFooter px={0}>
+
+                                    <Button h={12} isDisabled={!showAwarding} onClick={() => {
+                                        updateGame({ openChallengeModal: false })
+                                        onClose()
+                                        setShowAwarding(false)
+                                    }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
+
+                                </ModalFooter>
+                            </>
+                        ) : (
+                            <>
+                                <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
+                                    {event.title}
+                                    <Tooltip 
+                                        label={`You roll a dice with ${event.dice.max}x sides and sum the advantages, the highest value wins the award!`} 
+                                        bg="#89CFF0"
+                                    >
+                                        <span>
+                                            <FaInfoCircle color="#89CFF0" style={{
+                                                'position': 'absolute',
+                                                'top': '30px',
+                                                'right': '25px'
+                                                }} size={20} />
+                                        </span>
+                                    </Tooltip>
+                                </ModalHeader>
+                                <Center flexDirection="column">
+                                    <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
+                                        <Center flexDirection="column">
+                                            <Text fontSize="2xl" mb={2} textAlign="center">
+                                                {event.label}
+                                            </Text>
+
+                                            <Flex color="green.400">
+                                                Advantages on this challenge:
+                                                <Text ml={2} fontWeight="bold">
+                                                    {joinArr(event.advantage?.value)}
+                                                </Text>
+                                            </Flex>
+
+                                            {event.disadvantage?.value && (
+                                                <Flex color="red.400">
+                                                    Disadvantages on this challenge: 
+                                                    <Text ml={2} fontWeight="bold">
+                                                        {joinArr(event.disadvantage?.value)}
+                                                    </Text>
+                                                </Flex>
+                                            )}
+
+                                            <Flex>
+                                                Your bonus for this challange is:
+                                                <Text ml={2} fontWeight="bold">
+                                                    {bonus.current}
+                                                </Text>
+                                            </Flex>
+                                        </Center>
+                                    </ModalBody>
+                                </Center>
+
+                                <Divider my={4} />
+
+                                <Center 
+                                    p={2} 
+                                    bg={colorMode === 'light' ? "gray.200" : "gray.650"} 
+                                    borderRadius={8}
+                                    flex
+                                    justifyContent="space-between"
+                                >
+                                    <OpponentsResult opponentsRoll={opponentsRoll} />
+                                    <DiceButton bonus={bonus.current} onRoll={(roll) => {
+                                        myRoll.current = roll + bonus.current
+                                        hasIRolled.current = true
+                                        emit('event-roll', roll + bonus.current)
+                                    }} />
+                                </Center>
+
+                                <Divider my={4}  mb={6} />
+
+                                <ModalFooter p={0}>
+
+                                    <Flex w="100%" justifyContent="space-between">
+                                        <Flex>
+                                            <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
+                                            <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
+                                            {opponents.length > 1 && (
+                                                <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                            )}
+                                        </Flex>
+
+                                        <Button h={12} isDisabled={!showAwarding} onClick={() => {
+                                            updateGame({ openChallengeModal: false })
+                                            onClose()
+                                            setShowAwarding(false)
+                                        }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
                                     </Flex>
-                                )}
 
-                                <Flex>
-                                    Your bonus for this challange is:
-                                    <Text ml={2} fontWeight="bold">
-                                        {bonus.current}
-                                    </Text>
-                                </Flex>
-                            </Center>
-                        </ModalBody>
-                    </Center>
-
-                    <Divider my={4} />
-
-                    <Center 
-                        p={2} 
-                        bg={colorMode === 'light' ? "gray.200" : "gray.650"} 
-                        borderRadius={8}
-                        flex
-                        justifyContent="space-between"
-                    >
-                        <OpponentsResult opponentsRoll={opponentsRoll} />
-                        <DiceButton bonus={bonus.current} onRoll={(roll) => {
-                            myRoll.current = roll + bonus.current
-                            hasIRolled.current = true
-                            emit('event-roll', roll + bonus.current)
-                        }} />
-                    </Center>
-
-                    <Divider my={4}  mb={6} />
-
-                    <ModalFooter p={0}>
-
-                        <Flex w="100%" justifyContent="space-between">
-                            <Flex>
-                                <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
-                                <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
-                                {opponents.length > 2 && (
-                                    <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
-                                )}
-                            </Flex>
-
-                            <Button h={12} isDisabled={disableCloseModalButton} onClick={() => {
-                                updateGame({ openChallengeModal: false })
-                                onClose()
-                                setDisableCloseModalButton(true)
-                            }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
-                        </Flex>
-
-                    </ModalFooter>
+                                </ModalFooter>
+                            </>
+                        )
+                    }
                 </ModalContent>
             </Modal>
         </>

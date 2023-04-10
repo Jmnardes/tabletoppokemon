@@ -396,7 +396,11 @@ function PokePage() {
                     <ChallengeModal pokeTeam={pokemonsTeam} />
                 )
             }
-            <WalkModal />
+            {
+                game.openWalkModal && (
+                    <WalkModal pokeTeam={pokemonsTeam} />
+                )
+            }
         </>
     )
 }

@@ -46,8 +46,8 @@ export default function PokeShop() {
                     w="60px"
                     isDisabled={player.currency.coins < (price + coinPerTurn(game.turn, scaling))}
                     onClick={() => {
-                        updateCurrency(-(price + coinPerTurn(game.turn, scaling)), 'coins')
                         setter(1, itemType)
+                        updateCurrency(-(price + coinPerTurn(game.turn, scaling)), 'coins')
                     }}
                 ><BuyButton/></Button>
             </Center>

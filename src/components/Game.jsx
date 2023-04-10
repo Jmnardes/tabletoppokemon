@@ -241,7 +241,7 @@ function PokePage() {
                                         <SimpleGrid columns={2} mt={2}>
                                             {pokemonArray?.map((data, i) => {
                                                 return (
-                                                    <React.Fragment key={(game.turn * 100) + i + data.pokemonId}>
+                                                    <React.Fragment key={`${i} ${Date.now()}`}>
                                                         <ShowPokemon
                                                             pokemonId={data.pokemonId}
                                                             nature={data.nature} 

@@ -23,22 +23,24 @@ import FirstPlaceIcon from "../../../Icons/places/FirstPlaceIcon"
 import SecondPlaceIcon from "../../../Icons/places/SecondPlaceIcon"
 import SuccessIcon from "../../../Icons/SuccessIcon"
 import ThirdPlaceIcon from "../../../Icons/places/ThirdPlaceIcon"
-import SixSidesDiceIcon from "../../../Icons/dices/SixSidesDice"
 import OpponentsResult from "./OpponentsResult"
-import { diceRoll } from "../../../../util"
 import { FaInfoCircle } from "react-icons/fa";
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
 import pokemon from '../../../../assets/json/pokemons.json'
+import DiceButton from '../../DiceButton/DiceButton'
+import socket from "../../../../client"
 
 export default function ChallengeModal({ pokeTeam }) {
-    const { updateGame, event } = useContext(PlayerContext)
+    const { updateGame, event, emit, opponents, updateCurrency } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { onClose } = useDisclosure()
-    const [rollResult, setRollResult] = useState(0)
     const [disableCloseModalButton, setDisableCloseModalButton] = useState(true)
+    const [opponentsRoll, setOpponentsRoll] = useState([])
     const bonus = useRef(0)
+    const myRoll = useRef(0)
+    const hasIRolled = useRef(false)
 
     const Overlay = () => (
         <ModalOverlay
@@ -109,24 +111,60 @@ export default function ChallengeModal({ pokeTeam }) {
 
     const joinArr = (arr) => {if(arr) return arr.join(', ')}
 
-    const shake = keyframes`
-        0% { transform: translate(1px, 1px) rotate(0deg); }
-        10% { transform: translate(-1px, -2px) rotate(-1deg); }
-        20% { transform: translate(-3px, 0px) rotate(1deg); }
-        30% { transform: translate(3px, 2px) rotate(0deg); }
-        40% { transform: translate(1px, -1px) rotate(1deg); }
-        50% { transform: translate(-1px, 2px) rotate(-1deg); }
-        60% { transform: translate(-3px, 1px) rotate(0deg); }
-        70% { transform: translate(3px, 1px) rotate(-1deg); }
-        80% { transform: translate(-1px, -1px) rotate(1deg); }
-        90% { transform: translate(1px, 2px) rotate(0deg); }
-        100% { transform: translate(1px, -2px) rotate(-1deg); }
-    `;
-    const diceShakeAnimation = `${shake} 1s ease-in-out infinite`;
+    const prizeDistribution = () => {
+        // check if you have the first, second or third highst value
+        const resultArray = []
+
+        resultArray.push(myRoll.current)
+
+        opponentsRoll.forEach(roll => {
+            resultArray.push(roll.roll)
+        })
+
+        resultArray.sort(function(a, b){return b-a})
+
+        console.log(resultArray, myRoll.current)
+
+        if(myRoll.current === resultArray[0]) {
+            prizing(0)
+
+            return
+        }
+
+        if(myRoll.current === resultArray[1]) {
+            prizing(1)
+
+            return
+        }
+
+        if(opponents.length > 2) {
+            if(myRoll.current === resultArray[2]) {
+                prizing(2)
+
+                return
+            }
+        }
+    }
+
+    const prizing = (place) => {
+        updateCurrency(event.prizes[place].amount, event.prizes[place].name)
+    }
+
+    useEffect(() => {
+        if(opponents.length === opponentsRoll.length && hasIRolled.current) {
+            prizeDistribution()
+            setDisableCloseModalButton(false)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [opponentsRoll, myRoll.current])
 
     useEffect(() => {
         setOverlay(<Overlay />)
         checkChallengeBonus(pokeTeam)
+
+        socket.on('event-roll-other', res => {
+            setOpponentsRoll(old => [...old, res])
+        })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -192,20 +230,12 @@ export default function ChallengeModal({ pokeTeam }) {
                         flex
                         justifyContent="space-between"
                     >
-                        <OpponentsResult />
-                        <Text textAlign="center" fontSize="3xl">
-                            {rollResult}
-                        </Text>
-                        <Button 
-                            h={16}
-                            _hover={{'animation': diceShakeAnimation}}
-                            onClick={() => {
-                                setRollResult(diceRoll(event.dice.max) + 1)
-                                setDisableCloseModalButton(false)
-                            }}
-                        >
-                            <SixSidesDiceIcon w={12} h={12} />
-                        </Button>
+                        <OpponentsResult opponentsRoll={opponentsRoll} />
+                        <DiceButton bonus={bonus.current} onRoll={(roll) => {
+                            myRoll.current = roll + bonus.current
+                            hasIRolled.current = true
+                            emit('event-roll', roll + bonus.current)
+                        }} />
                     </Center>
 
                     <Divider my={4}  mb={6} />
@@ -216,7 +246,9 @@ export default function ChallengeModal({ pokeTeam }) {
                             <Flex>
                                 <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
                                 <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
-                                <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                {opponents.length > 2 && (
+                                    <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                )}
                             </Flex>
 
                             <Button h={12} isDisabled={disableCloseModalButton} onClick={() => {

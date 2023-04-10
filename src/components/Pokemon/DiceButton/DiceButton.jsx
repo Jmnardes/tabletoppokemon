@@ -65,11 +65,6 @@ export default function DiceButton({
                     h='4rem'
                     animation={diceRollAnimation}
                     onAnimationEnd={(e) => {
-                        console.log({
-                            endAnimationName,
-                            animationName: e.animationName,
-                            equal: endAnimationName === e.animationName,
-                        })
                         if (endAnimationName === e.animationName) {
                             const rollValue = diceRoll(maxRow) + 1
                             setRolling(false)

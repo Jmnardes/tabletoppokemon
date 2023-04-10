@@ -137,7 +137,7 @@ export default function ChallengeModal({ pokeTeam }) {
             return
         }
 
-        if(resultArray[2]) {
+        if(opponents.length > 2) {
             if(myRoll.current === resultArray[2]) {
                 prizing(2)
 
@@ -246,7 +246,9 @@ export default function ChallengeModal({ pokeTeam }) {
                             <Flex>
                                 <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
                                 <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
-                                <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                {opponents.length > 2 && (
+                                    <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                )}
                             </Flex>
 
                             <Button h={12} isDisabled={disableCloseModalButton} onClick={() => {

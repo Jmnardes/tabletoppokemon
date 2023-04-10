@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, useEffect, useContext } from "react"
 import {
     Modal,
     ModalContent,
@@ -13,7 +13,6 @@ import {
     Flex,
     Image
 } from "@chakra-ui/react"
-import { useContext } from "react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import SuccessIcon from "../../../Icons/SuccessIcon"
 import pokemon from '../../../../assets/json/pokemons.json'
@@ -35,7 +34,7 @@ const PrizeIcon = ({ type }) => {
 }
 
 export default function WalkModal({ pokeTeam }) {
-    const { updateGame, event } = useContext(PlayerContext)
+    const { updateGame, updatePlayer, player, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -43,7 +42,7 @@ export default function WalkModal({ pokeTeam }) {
     const conditionMet = useMemo(() => {
         const advantage = event.advantage?.value?.[0]
         if (!advantage) return true
-
+        
         return pokeTeam.reduce((acc, cur) => {
             const pokeData = pokemon[cur.pokemonId]
             switch (event.advantage.type) {
@@ -56,6 +55,13 @@ export default function WalkModal({ pokeTeam }) {
             }
         }, false)
     }, [])
+
+    useEffect(() => {
+        if (conditionMet) {
+            const newAmount = player[prize.type][prize.name] + prize.amount
+            updatePlayer(newAmount, prize.type, prize.name)
+        }
+    }, [conditionMet])
 
     return (
         <>
@@ -85,9 +91,15 @@ export default function WalkModal({ pokeTeam }) {
                     >
                         {conditionMet ? (
                             <Flex gap='1rem'>
-                                <Text textAlign="center" color="green.400" ml={2} fontWeight="bold">
-                                    You earned a prize!
-                                </Text>
+                                {prize.amount < 0 ? (
+                                    <Text textAlign="center" color="red.400" ml={2} fontWeight="bold">
+                                        You lost something...
+                                    </Text>
+                                ) : (
+                                    <Text textAlign="center" color="green.400" ml={2} fontWeight="bold">
+                                        You earned a prize!
+                                    </Text>
+                                )}
                                 <Center>
                                     <Text>{prize.amount}x</Text>
                                     <PrizeIcon type={prize.name} />

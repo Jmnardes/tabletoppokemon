@@ -33,13 +33,14 @@ import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 
 export default function ChallengeModal({ pokeTeam }) {
-    const { updateGame, event, emit, opponents } = useContext(PlayerContext)
+    const { updateGame, event, emit, opponents, updateCurrency } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { onClose } = useDisclosure()
     const [disableCloseModalButton, setDisableCloseModalButton] = useState(true)
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const bonus = useRef(0)
-    const myRoll = useRef(false)
+    const myRoll = useRef(0)
+    const hasIRolled = useRef(false)
 
     const Overlay = () => (
         <ModalOverlay
@@ -112,14 +113,50 @@ export default function ChallengeModal({ pokeTeam }) {
 
     const prizeDistribution = () => {
         // check if you have the first, second or third highst value
+        const resultArray = []
+
+        resultArray.push(myRoll.current)
+
+        opponentsRoll.forEach(roll => {
+            resultArray.push(roll.roll)
+        })
+
+        resultArray.sort(function(a, b){return b-a})
+
+        console.log(resultArray, myRoll.current)
+
+        if(myRoll.current === resultArray[0]) {
+            prizing(0)
+
+            return
+        }
+
+        if(myRoll.current === resultArray[1]) {
+            prizing(1)
+
+            return
+        }
+
+        if(resultArray[2]) {
+            if(myRoll.current === resultArray[2]) {
+                prizing(2)
+
+                return
+            }
+        }
+    }
+
+    const prizing = (place) => {
+        updateCurrency(event.prizes[place].amount, event.prizes[place].name)
     }
 
     useEffect(() => {
-        if(opponents.length === opponentsRoll.length && myRoll.current) {
+        if(opponents.length === opponentsRoll.length && hasIRolled.current) {
             prizeDistribution()
+            setDisableCloseModalButton(false)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [opponentsRoll, myRoll])
+    }, [opponentsRoll, myRoll.current])
 
     useEffect(() => {
         setOverlay(<Overlay />)
@@ -195,7 +232,8 @@ export default function ChallengeModal({ pokeTeam }) {
                     >
                         <OpponentsResult opponentsRoll={opponentsRoll} />
                         <DiceButton bonus={bonus.current} onRoll={(roll) => {
-                            myRoll.current = true
+                            myRoll.current = roll + bonus.current
+                            hasIRolled.current = true
                             emit('event-roll', roll + bonus.current)
                         }} />
                     </Center>

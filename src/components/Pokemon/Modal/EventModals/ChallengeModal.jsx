@@ -183,28 +183,32 @@ export default function ChallengeModal({ pokeTeam }) {
                                     <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                                         {
                                             won.current ? (
-                                                <Center flexDirection="column">
-                                                    <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
+                                                <>
+                                                    <Center flexDirection="column">
+                                                        <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
-                                                    {myPlacing.current === 0 && (
-                                                        <FirstPlaceIcon h={16} w={16} />
-                                                    )}
-                                                    {myPlacing.current === 1 && (
-                                                        <SecondPlaceIcon h={16} w={16} />
-                                                    )}
-                                                    {myPlacing.current === 2 && (
-                                                        <ThirdPlaceIcon h={16} w={16} />
-                                                    )}
-                                                    
-                                                    <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
-                                                        You won 
-                                                    </Text>
-                                                    
-                                                    <Center my={4}>
+                                                        {myPlacing.current === 0 && (
+                                                            <FirstPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        {myPlacing.current === 1 && (
+                                                            <SecondPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        {myPlacing.current === 2 && (
+                                                            <ThirdPlaceIcon h={16} w={16} />
+                                                        )}
+                                                        
+                                                        <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
+                                                            You won 
+                                                        </Text>
+                                                    </Center>
+                                                        
+                                                    <Divider my={2} mb={4} />
+
+                                                    <Center>
                                                         {event.prizes[myPlacing.current].amount}x
                                                         <PrizeIcon type={event.prizes[myPlacing.current].name} size={8}/>
                                                     </Center>
-                                                </Center>
+                                                </>
                                             ): (
                                                 <Center flexDirection="column">
                                                     <Text my={4}>Sorry...</Text>
@@ -218,9 +222,7 @@ export default function ChallengeModal({ pokeTeam }) {
                                     </ModalBody>
                                 </Center>
 
-                                <Divider my={4}  mb={6} />
-
-                                <ModalFooter p={0}>
+                                <ModalFooter px={0}>
 
                                     <Button h={12} isDisabled={!showAwarding} onClick={() => {
                                         updateGame({ openChallengeModal: false })

@@ -7,7 +7,7 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function EndGame({ children }) {
-    const { currency, updateCurrency } = useContext(PlayerContext)
+    const { updateCurrency } = useContext(PlayerContext)
 
     return (
         <PokeModal title={'End Game'} button={<GiCheckeredFlag size="22px"/>}>
@@ -25,7 +25,7 @@ export default function EndGame({ children }) {
                     <TrainerBar isEndgame={true}/>
                 </Flex>
 
-                <Button mt={6} onClick={() => updateCurrency(currency, {crowns: currency.crowns + 1})}>Poke Crown</Button>
+                <Button mt={6} onClick={() => updateCurrency(1, 'crowns')}>Poke Crown</Button>
             </Flex>
         </PokeModal>
     )

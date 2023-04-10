@@ -43,7 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@chakra-ui/react": "^2.1.2",
+    "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "chakra-react-select": "^4.0.0",

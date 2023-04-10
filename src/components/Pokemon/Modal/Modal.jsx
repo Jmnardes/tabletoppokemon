@@ -27,7 +27,7 @@ function PokeModal({ title, button, children, size, modalClose, disableModalClos
                 ml={2}
                 title={title}
                 onClick={onOpen}
-                disabled={disableButton}
+                isDisabled={disableButton}
             >
                 {button}
             </Button>

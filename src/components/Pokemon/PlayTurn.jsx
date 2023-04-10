@@ -1,36 +1,18 @@
 import PokeModal from "./Modal/Modal";
-import TurnController from "./Block/TurnController";
-import PokeRoll from "./Encounter/PokeRoll";
+import PokeEnconter from "./Encounter/PokeEnconter";
 import locationIcon from '../../assets/images/game/location.png'
 import { Image } from "@chakra-ui/react";
 
 export function PlayTurn({ 
     children,
-    handlePokemonRoll,
-    pokemonArrayLength,
-    disableDiceRoll,
     handleCatchDiceRoll,
-    catchDiceRoll,
-    resultDiceRoll,
-    endTurnButton,
-    handlePokemonRollClean,
-    disablePokeballs,
     setBonusOnCatch,
-    setDisablePokeballs,
     closeModal,
     setCloseModal,
-    walkedBlocks,
-    setWalkedBlocks,
-    setMercant,
-    rollBlockDisabed,
-    setRollBlockDisabed,
-    isPokemonEncounter,
-    setIsPokemonEncounter,
-    pokemonsTeam
 }) {
     return (
         <PokeModal 
-            title={isPokemonEncounter ? 'Pokemon encounter' : 'Turn roll'} 
+            title={'Pokemon encounter'} 
             button={
                 <Image
                     src={locationIcon} 
@@ -38,37 +20,15 @@ export function PlayTurn({
                     w="28px"
                 ></Image>
             }
-            disableModalClose={rollBlockDisabed}
             modalClose={closeModal}
             setCloseModal={setCloseModal}
         >
-            {isPokemonEncounter ? (
-                <PokeRoll
-                    pokemonArrayLength={pokemonArrayLength}
-                    handlePokemonRoll={handlePokemonRoll}
-                    disableDiceRoll={disableDiceRoll}
-                    handleCatchDiceRoll={handleCatchDiceRoll}
-                    catchDiceRoll={catchDiceRoll}
-                    resultDiceRoll={resultDiceRoll}
-                    endTurnButton={endTurnButton}
-                    handlePokemonRollClean={handlePokemonRollClean}
-                    disablePokeballs={disablePokeballs}
-                    setBonusOnCatch={setBonusOnCatch}
-                    setDisablePokeballs={setDisablePokeballs}
-                >
-                    {children}
-                </PokeRoll>
-            ) : (
-                <TurnController 
-                    setIsPokemonEncounter={setIsPokemonEncounter} 
-                    walkedBlocks={walkedBlocks} 
-                    setWalkedBlocks={setWalkedBlocks}
-                    setMercant={setMercant}
-                    rollBlockDisabed={rollBlockDisabed}
-                    setRollBlockDisabed={setRollBlockDisabed}
-                    pokemonsTeam={pokemonsTeam}
-                />
-            )}
+            <PokeEnconter
+                setBonusOnCatch={setBonusOnCatch}
+                handleCatchDiceRoll={handleCatchDiceRoll}
+            >
+                {children}
+            </PokeEnconter>
         </PokeModal>
     )
 }

@@ -27,7 +27,7 @@ export default function TurnController({
         <Flex justifyContent="center" alignItems="center">
             <Flex flexDirection="column" w="100%">
                 <Flex mt={4} w="100%">
-                    <Button w="100%" mx={2} onClick={handleBlockRoll} disabled={rollBlockDisabed}>
+                    <Button w="100%" mx={2} onClick={handleBlockRoll} isDisabled={rollBlockDisabed}>
                         <Image
                             mr={2}
                             src={directionIcon} 
@@ -43,7 +43,7 @@ export default function TurnController({
                             setIsPokemonEncounter(true)
                             setRollBlockDisabed(false)
                         }} 
-                        disabled={block?.length === 0}
+                        isDisabled={block?.length === 0}
                     >
                         <Image
                             mr={2}

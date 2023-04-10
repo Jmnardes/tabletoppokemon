@@ -3,8 +3,9 @@ import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
 import settingsIcon from '../../../assets/images/game/settings.png'
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
+import ThemeSwitch from "../../Chakra/ThemeSwitch/ThemeSwitch";
 
-export function Settings({ children }) {
+export function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
 
     return (
@@ -15,10 +16,14 @@ export function Settings({ children }) {
                 w="28px"
             ></Image>
         }>
-            {children}
-        <Divider p={2} />
-            <Center flexDirection="column" p={4}>
-                <Text mb={4} fontSize="2xl" textAlign="center">Restart game!</Text>
+            <Center>
+                <ThemeSwitch />
+            </Center>
+
+            <Divider p={2} />
+
+            <Center flexDirection="column">
+                <Text my={4} fontSize="2xl" textAlign="center">Restart game!</Text>
                 <Text fontSize="sm" color="red" >(All data will be lost)</Text>
                 <Button p={4} w={40} onClick={() => {
                     setHasGameStarted(false)

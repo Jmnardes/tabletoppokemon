@@ -1,46 +1,59 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const [loadingApi, setLoadingApi] = useState(false)
+    const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
-    const [status, setStatus] = useState({
-        trainerName: '',
-        level: 0,
-        experience: 0,
-        catches: 0,
-        shinyCatches: 0,
-        walkedBlocks: 0,
-        highestAmount: 0,
-        criticals: 0,
+    const [game, setGame] = useState({
+        turn: 0,
+        gameEnded: false,
+        isPokemonRollDisabled: false,
+        openChallengeModal: false,
+        openWalkModal: false
     })
-    const [pokeTeam, setPokeTeam] = useState([])
-    const [pokeBox, setPokeBox] = useState([])
-    const [currency, setCurrency] = useState({
-        coins: 0,
-        stars: 0,
-        crowns: 0,
+    const [event, setEvent] = useState({
+        title: '',
+        label: '',
+        type: '',
+        prizes:[
+            {
+                type: '',
+                name: '',
+                amount: 0
+            }
+        ],
+        advantage: {
+            type: '',
+            value: ''
+        },
+        disadvantage: {
+            type: '',
+            value: ''
+        },
+        dice: {
+            max: 6,
+            bonus: 1
+        }
     })
-    const [balls, setBalls] = useState({
-        pokeball: 0,
-        greatball: 0,
-        ultraball: 0,
-        masterball: 0,
-    })
-    const [items, setItems] = useState({
-        steal: 0,
-        fight: 0,
-        pokemonEgg: 0,
-        incubator: 0,
-        incense: 0
-    })
+
+    const emit = useCallback((name, data) => {
+        const request = {
+            id: player.id,
+            sessionCode: session.sessionCode,
+            data,
+        }
+
+        socket.emit(name, request)
+    }, [player, session])
     
     const handleToast = (args) => {
         if (!toast.isActive(args.id)) {
@@ -60,101 +73,182 @@ export function PlayerProvider({children}) {
         icon,
         position,
         duration,
-        isClosable
-    */
+        isClosable */
 
-    const updateStatus = (prevData, newData) => {
-        setStatus({...prevData, ...newData});
-    }
+    const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
+
+    const updatePlayer = useCallback((qty, key, type) => {
+        if(type) {
+            const newObj = { ...player[key] }
     
-    const updatePokeTeam = (prevData, newData) => {
-        setPokeTeam([...prevData, ...newData]);
-    }
+            newObj[type] = qty
     
-    const updatePokeBox = (prevData, newData) => {
-        setPokeBox([...prevData, ...newData]);
-    }
+            setPlayer({...player, [key]: newObj})
+        } else {
+            setPlayer({...player, [key]: qty})
+        }
+    }, [player])
 
-    const updateCurrency = (prevData, newData) => {
-        setCurrency({...prevData, ...newData});
-    }
+    const updateOpponent = useCallback((id, value, key, type = null) => {
+        if(type) {
+            setOpponents((old => old.map(opponent => {
+                if (opponent.id === id) {
+                    const newObj = { ...opponent[key] }
+                    newObj[type] = value
+                    return { ...opponent, [key]: newObj }
+                }
+                else return opponent
+            })))
+        } else {
+            setOpponents((old => old.map(opponent => {
+                return (opponent.id === id) ? { ...opponent, [key]: value } : opponent
+            })))
+        }
+    }, [])
 
-    const updateBalls = (prevData, newData) => {
-        setBalls({...prevData, ...newData});
-    }
+    const updateOpponents = useCallback((value, key, type = null) => {
+        if(type) {
+            setOpponents((old => old.map(opponent => {
+                const newObj = { ...opponent[key] }
+                newObj[type] = value
+                return { ...opponent, [key]: newObj }
+            })))
+        } else {
+            setOpponents((old => old.map(opponent => ({ ...opponent, [key]: value }))))
+        }
+    }, [])
 
-    const updateItems = (prevData, newData) => {
-        setItems({...prevData, ...newData});
-    }
+    const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
+    const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
+
+    const changeItem = (qty, which) => updatePlayer(qty, 'items', which)
+    const updateItem = (qty, which) => updatePlayer(player.items[which] + qty, 'items', which)
+
+    const changeCurrency = (qty, which) => updatePlayer(qty, 'currency', which)
+    const updateCurrency = (qty, which) => updatePlayer(player.currency[which] + qty, 'currency', which)
+
+    useEffect(() => {
+        if (player.status) {
+            emit('player-update-status', { level: player.status.level })
+        }
+    }, [player.status?.level])
+
+    useEffect(() => {
+        if (player.currency) {
+            emit('player-update-currency', player.currency)
+        }
+    }, [player.currency?.coins, player.currency?.stars, player.currency?.crowns])
 
     useEffect(() => {
         socket.on('error', res => {
-            handleToast({
-                id: 'error',
-                title: 'Error',
-                description: res,
-                status: 'error',
-                position: 'top'
-            })
+            if(Object.keys(res)) {
+                handleToast({
+                    id: 'error',
+                    title: 'Error',
+                    description: res,
+                    status: 'error',
+                    position: 'top'
+                })
+            }
         })
 
+            // SESSION
         socket.on('session-join', (res) => {
             setSession(res.session)
             setOpponents(res.opponents)
             setPlayer(res.player)
 
             localStorage.setItem('session', JSON.stringify(res.session))
-
-            updateStatus(status, res.player.status)
-            updateCurrency(currency, res.player.currency)
-            updateBalls(balls, res.player.balls)
-            updateItems(items, res.player.items)
-        })
-
-        socket.on('lobby-ready', res => {
-            setPlayer(old => ({ ...old, ready: res }))
         })
 
         socket.on('session-join-other', res => {
             setOpponents(old => ([ ...(old ?? []), res ]))
         })
 
+        socket.on('session-leave-other', res => {
+            setOpponents(old => (old.filter(opponent => opponent.id !== res)))
+        })
+
+            // LOBBY
+        socket.on('lobby-ready', res => {
+            setPlayer(old => ({ ...old, ready: res }))
+        })
+
         socket.on('lobby-ready-other', res => {
-            setOpponents(old => (old.map(opponent => opponent.id === res.id ? { ...opponent, ready: res.ready } : opponent)))
+            updateOpponent(res.id, res.ready, 'ready')
         })
 
         socket.on('lobby-start', () => {
             setHasGameStarted(true)
         })
 
+            //TURNS
         // receiveng other players turn ready
-        socket.on('turn-end', res => {
-            setOpponents(old => (old.map(opponent => opponent.id === res ? { ...opponent, turnReady: true } : opponent)))
+        socket.on('turn-end-other', res => {
+            updateOpponent(res, true, 'turnReady')
         })
 
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
-            setOpponents(old => (old.map(opponent => ({ ...opponent, turnReady: true }))))
-
-            // event
+            updateOpponents(false, 'turnReady')
             console.log(res)
+            setEvent({
+                title: res.event.title,
+                label: res.event.label,
+                type: res.event.type,
+                prizes: res.event.prizes,
+                advantage: res.event.advantage,
+                disadvantage: res.event.disadvantage,
+                dice: res.event.dice
+            })
+            
+            switch (res.event.type) {
+                case 'challenge':
+                    setGame(old => ({...old, openChallengeModal: true}))
+                    break
+                case 'walk':
+                    setGame(old => ({...old, openWalkModal: true}))
+                    break
+                default:
+                    break
+            }
+            // logic for event type
 
             setWaitingForPlayers(false)
+            setGame(old => ({...old, turn: old.turn + 1, isPokemonRollDisabled: false}))
+            // setLoadingApi(false)
         })
+        
+            //PLAYERS
+        socket.on('player-update-status-other', res => {
+            updateOpponent(res.id, res.data, 'status')
+        })
+
+        socket.on('player-update-currency-other', res => {
+            updateOpponent(res.id, res.data, 'currency')
+        })
+
     }, [])
 
     return (
         <PlayerContext.Provider value={{
+            emit,
             handleToast,
+
+            setLoadingApi,
+            setLoadingText,
 
             session,
             setSession,
 
             opponents,
             setOpponents,
+            updateOpponent,
+            updateOpponents,
 
             player,
             setPlayer,
+            updatePlayer,
 
             hasGameStarted,
             setHasGameStarted,
@@ -162,23 +256,23 @@ export function PlayerProvider({children}) {
             waitingForPlayers,
             setWaitingForPlayers,
 
-            status, 
-            updateStatus,
+            loadingApi,
+            loadingText,
 
-            pokeTeam,
-            updatePokeTeam,
+            game,
+            updateGame,
 
-            pokeBox,
-            updatePokeBox,
+            event,
+            setEvent,
 
-            currency,
+            changeCurrency,
             updateCurrency,
 
-            balls,
-            updateBalls,
+            updateBall,
+            changeBall,
             
-            items,
-            updateItems,
+            updateItem,
+            changeItem,
         }}>
             {children}
         </PlayerContext.Provider>

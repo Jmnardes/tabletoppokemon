@@ -1,5 +1,5 @@
 import { Button, Center, Image, Text, useColorMode, keyframes } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { diceRoll, stringToUpperCase } from "../../../util";
 import { sortPokemon } from "../../sortPokemon";
 import { shinyRoll, whatNaturePokemonIs } from "../../pokemonFunctions";
@@ -11,20 +11,10 @@ import eggIcon from '../../../assets/images/items/egg.png'
 import eggHatchedIcon from '../../../assets/images/items/egg-hatching.png'
 import incubatorBasicIcon from '../../../assets/images/items/incubator-basic.png'
 import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png'
+import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function PokemonEgg({ 
-    pokemonEgg, 
-    setPokemonEgg, 
-    turn,
-    handleAddInventory, 
-    tier, 
-    generation, 
-    shinyPercentage, 
-    handleToast,
-    greatIncubator,
-    setGreatIncubator
-
-}) {
+export default function PokemonEgg({ handleAddInventory, tier }) {
+    const { game, player, updateItem, handleToast, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [hatchingTurn, setHatchingTurn] = useState(0)
     const [eggAnimationSpeed, setEggAnimationSpeed] = useState(2)
@@ -61,14 +51,10 @@ export default function PokemonEgg({
     const eggShakingAnimation = `${shakeAnimationKeyframes} 1.5s ease-in-out infinite`;
 
     function handlePokemon() {
-        let poke = sortPokemon(tier + 1, generation)
-        let sh = shinyRoll(shinyPercentage + 5)
-        let nat = whatNaturePokemonIs()
-
         setPokemon({
-            pokemon: poke,
-            nature: nat,
-            shiny: sh
+            pokemon: sortPokemon(tier + 1, session.generation),
+            nature: shinyRoll(player.items.incense + 5),
+            shiny: whatNaturePokemonIs()
         })
 
         setDisableButtonAdd(false)
@@ -110,7 +96,7 @@ export default function PokemonEgg({
             setEggHatched(false)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [turn])
+    }, [game.turn])
 
     return (
         <PokeModal title={'Pokemon Egg'} button={
@@ -119,7 +105,7 @@ export default function PokemonEgg({
                 title={'Pokemon Egg'}
                 w="24px"
             ></Image>
-        } disableButton={pokemonEgg === 0 && hatchingTurn === 0 && !eggHatched} modalClose={closePokemonEgg} setCloseModal={setClosePokemonEgg}>
+        } disableButton={player.items.pokemonEgg === 0 && hatchingTurn === 0 && !eggHatched} modalClose={closePokemonEgg} setCloseModal={setClosePokemonEgg}>
             <Center flexDirection="column">
                 <Center>
                     <Center flexDirection="column" mx={6}>
@@ -130,9 +116,9 @@ export default function PokemonEgg({
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
+                            isDisabled={player.items.pokemonEgg === 0 || hatchingTurn !== 0 || eggHatched} 
                             onClick={() => {
-                                setPokemonEgg(pokemonEgg - 1)
+                                updateItem(-1, 'pokemonEgg')
                                 setHatchingTurn(diceRoll(4) + 4)
                             }}
                         >
@@ -146,16 +132,16 @@ export default function PokemonEgg({
                     </Center>
 
                     <Center flexDirection="column" mx={6}>
-                        <Text mb={2}>Great incubator</Text>
+                        <Text mb={2}>Incubator</Text>
                         <Button 
                             w="100%" 
                             h={16} 
                             p={0} 
                             background="transparent" 
                             _hover={{}}
-                            disabled={pokemonEgg === 0 || greatIncubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
-                                setGreatIncubator(greatIncubator - 1)
-                                setPokemonEgg(pokemonEgg - 1)
+                            isDisabled={player.items.pokemonEgg === 0 || player.items.incubator === 0 || hatchingTurn !== 0 || eggHatched} onClick={() => {
+                                updateItem(-1, 'pokemonEgg')
+                                updateItem(-1, 'incubator')
                                 setHatchingTurn(diceRoll(2) + 2)
                             }}
                         >
@@ -175,7 +161,7 @@ export default function PokemonEgg({
                     )}
                 </Text>
 
-                <Center mt={6} w={96} h={64} flexDirection="column" borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={6} w={96} h={64} flexDirection="column" borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     {eggHatched ? 
                         <>
                             <Text fontWeight="bold">{stringToUpperCase(pokemonJSON[pokemon?.pokemon].name)}</Text>
@@ -184,7 +170,7 @@ export default function PokemonEgg({
                                 borderRadius="50%"
                                 src={pokemonJSON[pokemon?.pokemon].sprite[`${pokemon?.shiny.shiny ? 'shiny' : 'default'}`]}
                             />
-                            <Button disabled={disableButtonAdd} onClick={() => {
+                            <Button isDisabled={disableButtonAdd} onClick={() => {
                                 handleAddToInventory()
                                 setPokemon([])
                                 setEggHatched(false)

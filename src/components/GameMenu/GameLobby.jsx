@@ -2,10 +2,9 @@ import { Button, CircularProgress, Divider, Flex, Text } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../../Contexts/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
-import socket from "../../client";
 
 export default function GameLobby() {
-    const {status, session, opponents, player} = useContext(PlayerContext)
+    const {emit, session, opponents, player} = useContext(PlayerContext)
     const [isLoading, setIsLoading] = useState(false)
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
@@ -72,7 +71,7 @@ export default function GameLobby() {
                 <Text fontWeight={"bold"}>Ready</Text>
             </Flex>
             <Flex width={"100%"} justifyContent={"space-between"} m={2}>
-                <Text>{status.trainerName}</Text>
+                <Text>{player.status.trainerName}</Text>
                 {isLoading ? (
                     <CircularProgress isIndeterminate size={6} />
                 ) : (
@@ -100,11 +99,7 @@ export default function GameLobby() {
             <Button isDisabled={isLoading} mb={4} mt={2} width={32} onClick={() => {
                 setIsLoading(true)
 
-                socket.emit('lobby-ready', ({
-                    id: player.id,
-                    sessionCode: session.sessionCode,
-                    ready: !player.ready
-                }))
+                emit('lobby-ready', !player.ready)
             }}>
                 {player.ready ? "Cancel" : "Ready"}
             </Button>

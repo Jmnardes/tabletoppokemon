@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function StealBlock({ turn }) {
+export default function StealBlock() {
+    const { game } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [stealRoll, setStealRoll] = useState(false)
-    const { items, updateItems } = useContext(PlayerContext)
+    const { player, updateItem } = useContext(PlayerContext)
 
     const stealWhat = () => {
         let stealWhatRoll = diceRoll(100)
@@ -30,7 +31,7 @@ export default function StealBlock({ turn }) {
 
     useEffect(() => {
         setStealRoll('')
-    }, [turn])
+    }, [game.turn])
 
     return (
         <PokeModal title={'Team Rocket Pass'} button={
@@ -39,18 +40,18 @@ export default function StealBlock({ turn }) {
                 title={'Team Rocket Pass'}
                 w="24px"
             ></Image>
-        } disableButton={items.steal === 0}>
+        } disableButton={player.items.steal === 0}>
             <Center flexDirection="column">
                 <Heading>Roll to Steal</Heading>
 
                 <Text mt={12} fontSize="2xl" textAlign="center">You can use the team Rocket to steal something from another trainer</Text>
 
-                <Button mt={12} w={48} disabled={items.steal === 0} onClick={() => {
+                <Button mt={12} w={48} isDisabled={player.items.steal === 0} onClick={() => {
                     stealWhat()
-                    updateItems(items, {steal: items.steal - 1})
+                    updateItem(-1, 'steal')
                 }}>Steal</Button>
 
-                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     <Text fontSize="3xl">{stealRoll}</Text>
                 </Center>
             </Center>

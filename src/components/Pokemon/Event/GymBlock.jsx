@@ -27,7 +27,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
         def: 0,
         spd: 0
     })
-    const { items, updateItems, currency, updateCurrency } = useContext(PlayerContext)
+    const { player, updateItem, updateCurrency } = useContext(PlayerContext)
 
     function eachStatPercentage(myStat, gymStat, type) {
         if(type === 'hp') {
@@ -79,7 +79,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
         setShowResult(true)
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
-            updateCurrency(currency, {stars: currency.stars + 1})
+            updateCurrency(1, 'stars')
             setConfetti(true)
         } else {
             setTrainerWin(false)
@@ -168,7 +168,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
 
     function handleSpecialMove() {
         setIsSpecialMoveOn(true)
-        updateItems(items, {fight: items.fight - 1})
+        updateItem(-1, 'fight')
         setDisableSpecialMove(true)
     }
 
@@ -247,17 +247,17 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
                 </Center>
                 {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
                 <Center>
-                    <Button mt={8} mr={2} disabled={disableSpecialMove || items.fight === 0} onClick={() => handleSpecialMove()}>
+                    <Button mt={8} mr={2} isDisabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
                         <Image
                             src={fightIcon} 
                             title={'Increases your chances to win against the Gym'}
                             w="28px"
                         ></Image>
                     </Button>
-                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} disabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} isDisabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
                 </Center>
 
-                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "RGBA(255, 255, 255, 0.08)"}>
+                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
                     {showResult &&
                         <Text fontSize="3xl" fontWeight="bold" color={trainerWin ? 'green' : 'red'}>
                             {trainerWin ? 'You won!' : 'You lost!'}

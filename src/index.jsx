@@ -8,13 +8,10 @@ import { PlayerProvider } from "./Contexts/PlayerContext"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <PlayerProvider>
         <App />
       </PlayerProvider>
   </ChakraProvider>
 );
-
-
-

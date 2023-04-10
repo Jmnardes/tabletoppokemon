@@ -6,10 +6,10 @@ import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "../../Contexts/PlayerContext";
 import GameNew from "./GameNew";
-// import socket from "../../client";
+import ConfirmationModal from "../Pokemon/Modal/ConfirmationModal"
 
 export default function GameMenu() {
-    const { player, setPlayer } = useContext(PlayerContext)
+    const { player, emit, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
@@ -21,9 +21,7 @@ export default function GameMenu() {
     const leaveRoom = () => {
         setPlayer({})
 
-        // socket.emit('session-leave-other', {
-        //     token: player.id
-        // })
+        emit('session-leave')
 
         setIsGameTypeSelected(false)
     }
@@ -32,9 +30,9 @@ export default function GameMenu() {
         <>
             <Flex justifyContent="space-between">
                 {player.id ? (
-                    <Button h={12} m={4} onClick={leaveRoom}>
+                    <ConfirmationModal event={leaveRoom}>
                         <FaDoorOpen size="16px"/>
-                    </Button>
+                    </ConfirmationModal>
                 ):(
                     <Button h={12} m={4} onClick={goBack}>
                         <FaArrowLeft size="16px"/>

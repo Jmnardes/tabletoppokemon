@@ -5,9 +5,8 @@ import { stringToUpperCase, typeColor } from '../../../util'
 import pokemon from '../../../assets/json/pokemons.json'
 import { Flex, Image, Text, CloseButton } from "@chakra-ui/react"
 import Types from "../Table/Types"
-import { PokeLife } from "../Game/PokeLife"
 
-function Team({ savedPokemon, pokedex, removeFromTeam }) {
+function Team({ savedPokemon, removeFromTeam }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {
@@ -20,11 +19,10 @@ function Team({ savedPokemon, pokedex, removeFromTeam }) {
         <Flex
             alignItems="center" 
             flexDirection="column"
-            justifyContent={pokedex ? 'center' : null}
             border={ savedPokemon.shiny.shiny ? `8px ridge ${colorByType}` : `8px ridge ${colorByType}`}
             borderRadius={8}
-            width={pokedex ? 96 : 80}
-            height={pokedex ? 80 : 52}
+            width={64}
+            height={72}
             m={1}
             p={1}
             backgroundColor={ `${colorByType}90` }
@@ -35,42 +33,43 @@ function Team({ savedPokemon, pokedex, removeFromTeam }) {
             }}
         >
             <Flex flexDir="row" width="100%">
-                <Text fontWeight="bold" letterSpacing={2} width="100%" textAlign="center">{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>
+                <Flex width="100%" textAlign="center" flexDirection={"column"}>
+                    <Text fontWeight="bold" letterSpacing={2}>{stringToUpperCase(pokemon[savedPokemon.pokemonId].name)}</Text>
+                    <Text fontSize={"sm"}>({savedPokemon.nature.nature})</Text>
+                </Flex>
                 <CloseButton onClick={removeFromTeam} size="sm" />
             </Flex>
-            <Flex width="100%" justifyContent="space-between">
-                <Flex flexDir="column" justifyContent="center" alignItems="center">
-                    <Image
-                        width={32}
-                        title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
-                        src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
-                    />
-                    <PokeLife total={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)} />
-                </Flex>
-                <Flex flexDirection="column">
-                    <Flex justifyContent="end" mr={2}>
+            <Flex justifyContent="space-between" flexDirection="column">
+                <Flex justifyContent="space-between">
+                    <Flex>
+                        <Image
+                            w={44}
+                            title={stringToUpperCase(pokemon[savedPokemon.pokemonId].name)} 
+                            src={pokemon[savedPokemon.pokemonId].sprite[`${savedPokemon.shiny.shiny ? 'shiny' : 'default'}`]} 
+                        />
+                    </Flex>
+                    <Flex justifyContent="end" px={1/2} pt={1/2} width="20%">
                         <Types
                             types={pokemon[savedPokemon.pokemonId].type} 
                             shiny={savedPokemon.shiny.shiny}
                             tier={pokemon[savedPokemon.pokemonId].tier} 
                             nature={savedPokemon.nature}
                             color={`${colorByType}`}
-                            showingType={'Team'}
                         />
                     </Flex>
-                    <PokemonTable
-                        health={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)}
-                        attack={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'atk', savedPokemon.nature, savedPokemon.shiny)}
-                        defense={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'def', savedPokemon.nature, savedPokemon.shiny)}
-                        speed={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'spd', savedPokemon.nature, savedPokemon.shiny)}
-                        tier={pokemon[savedPokemon.pokemonId].tier}
-                        type={pokemon[savedPokemon.pokemonId].type}
-                        nature={savedPokemon.nature}
-                        name={pokemon[savedPokemon.pokemonId].name}
-                        shiny={savedPokemon.shiny.shiny}
-                        showingType={'Team'}
-                    />
                 </Flex>
+
+                <PokemonTable
+                    health={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'hp', savedPokemon.nature, savedPokemon.shiny)}
+                    attack={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'atk', savedPokemon.nature, savedPokemon.shiny)}
+                    defense={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'def', savedPokemon.nature, savedPokemon.shiny)}
+                    speed={pokemonBaseStat(pokemon[savedPokemon.pokemonId].stats, 'spd', savedPokemon.nature, savedPokemon.shiny)}
+                    tier={pokemon[savedPokemon.pokemonId].tier}
+                    type={pokemon[savedPokemon.pokemonId].type}
+                    nature={savedPokemon.nature}
+                    name={pokemon[savedPokemon.pokemonId].name}
+                    shiny={savedPokemon.shiny.shiny}
+                />
             </Flex>
         </Flex>
     )    

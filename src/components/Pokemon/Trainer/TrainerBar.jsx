@@ -8,23 +8,19 @@ import lureIcon from '../../../assets/images/items/lure.png'
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export function TrainerBar({ 
-    turn,
-    isEndgame,
-    shinyPercentage
-}) {
-    const { currency } = useContext(PlayerContext)
+export function TrainerBar() {
+    const { player, game } = useContext(PlayerContext)
     
     return (
         <>
-            {!isEndgame && (
+            {!game.hasEnded && (
                 <Flex alignItems="center" ml={4} mr={2}>
                     <Image
                         src={clockIcon} 
                         title={'Turns'}
                         w="24px"
                     ></Image>
-                    <Text ml={2}>{turn}</Text>
+                    <Text ml={2}>{game.turn}</Text>
                 </Flex>
             )}
             <Flex alignItems="center" mx={2}>
@@ -34,31 +30,31 @@ export function TrainerBar({
                     title={'Poke Crown'}
                     w="34px"
                 ></Image>
-                <Text ml={2}>{currency.crowns}</Text>
+                <Text ml={2}>{player.currency.crowns}</Text>
             </Flex>
-            <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
+            <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
                     src={starIcon}
                     title={'Poke Star'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{currency.stars}</Text>
+                <Text ml={2}>{player.currency.stars}</Text>
             </Flex>
-            <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
+            <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
                     src={coinIcon}
                     title={'Coins'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{currency.coins}</Text>
+                <Text ml={2}>{player.currency.coins}</Text>
             </Flex>
-            <Flex alignItems="center" mx={2} mt={isEndgame ? 4 : 0}>
+            <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
                     src={lureIcon}
                     title={'Shiny incense'}
                     w="24px"
                 ></Image>
-                <Text title={'Shiny chance ' + shinyPercentage + '%'} cursor="pointer" ml={2}>{shinyPercentage - 1}</Text>
+                <Text title={'Shiny chance ' + player.items.incense + '%'} cursor="pointer" ml={2}>{player.items.incense - 1}</Text>
             </Flex>
         </>
     )

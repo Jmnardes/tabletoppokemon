@@ -1,0 +1,192 @@
+[
+  {
+    "Nature": "adamant",
+    "Increase": "atk",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "bashful",
+    "Increase": "crt",
+    "Decrease": ""
+  },
+  {
+    "Nature": "bold",
+    "Increase": "def",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "brave",
+    "Increase": "atk",
+    "Decrease": "spd"
+  },
+  {
+    "Nature": "calm",
+    "Increase": "evs",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "careful",
+    "Increase": "evs",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "docile",
+    "Increase": "def",
+    "Decrease": ""
+  },
+  {
+    "Nature": "gentle",
+    "Increase": "evs",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "hardy",
+    "Increase": "atk",
+    "Decrease": ""
+  },
+  {
+    "Nature": "hasty",
+    "Increase": "spd",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "impish",
+    "Increase": "def",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "jolly",
+    "Increase": "spd",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "lax",
+    "Increase": "def",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "lonely",
+    "Increase": "atk",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "mild",
+    "Increase": "crt",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "modest",
+    "Increase": "crt",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "naive",
+    "Increase": "spd",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "naughty",
+    "Increase": "atk",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "quiet",
+    "Increase": "crt",
+    "Decrease": "spd"
+  },
+  {
+    "Nature": "quirky",
+    "Increase": "evs",
+    "Decrease": ""
+  },
+  {
+    "Nature": "rash",
+    "Increase": "crt",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "relaxed",
+    "Increase": "def",
+    "Decrease": "spd"
+  },
+  {
+    "Nature": "sassy",
+    "Increase": "evs",
+    "Decrease": "spd"
+  },
+  {
+    "Nature": "serious",
+    "Increase": "spd",
+    "Decrease": ""
+  },
+  {
+    "Nature": "timid",
+    "Increase": "spd",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "shaky",
+    "Increase": "",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "lazy",
+    "Increase": "",
+    "Decrease": "spd"
+  },
+  {
+    "Nature": "frail",
+    "Increase": "",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "sloppy",
+    "Increase": "",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "apathetic",
+    "Increase": "",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "ordinary",
+    "Increase": "",
+    "Decrease": ""
+  },
+  {
+    "Nature": "buffed",
+    "Increase": "hp",
+    "Decrease": ""
+  },
+  {
+    "Nature": "rickety",
+    "Increase": "",
+    "Decrease": "hp"
+  },
+  {
+    "Nature": "gloomy",
+    "Increase": "hp",
+    "Decrease": "atk"
+  },
+  {
+    "Nature": "vague",
+    "Increase": "hp",
+    "Decrease": "def"
+  },
+  {
+    "Nature": "rebellious",
+    "Increase": "hp",
+    "Decrease": "crt"
+  },
+  {
+    "Nature": "chubby",
+    "Increase": "hp",
+    "Decrease": "evs"
+  },
+  {
+    "Nature": "clumsy",
+    "Increase": "hp",
+    "Decrease": "spd"
+  }
+]

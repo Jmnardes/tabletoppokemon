@@ -1,0 +1,548 @@
+[
+    {
+        "normal": [
+            {
+                "tackle": {
+                    "bonus": "",
+                    "element": "normal"
+                },
+                "rage": {
+                    "bonus": "",
+                    "element": "normal",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "atk"
+                    }
+                },
+                "quick_attack": {
+                    "bonus": "acc",
+                    "element": "normal"
+                },
+                "skull_bash": {
+                    "bonus": "acc",
+                    "element": "normal"
+                },
+                "giga_impact": {
+                    "bonus": "atk",
+                    "element": "normal"
+                },
+                "hyper_beam": {
+                    "bonus": "atk",
+                    "element": "normal"
+                }
+            }
+        ],
+        "fighting": [
+            {
+                "karate_chop": {
+                    "bonus": "",
+                    "element": "fighting"
+                },
+                "bulk_up": {
+                    "bonus": "",
+                    "element": "fighting",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "atk"
+                    }
+                },
+                "jump_kick": {
+                    "bonus": "acc",
+                    "element": "fighting"
+                },
+                "super_power": {
+                    "bonus": "acc",
+                    "element": "fighting"
+                },
+                "meteor_assault": {
+                    "bonus": "atk",
+                    "element": "fighting"
+                },
+                "focus_punch": {
+                    "bonus": "atk",
+                    "element": "fighting"
+                }
+            }
+        ],
+        "flying": [
+            {
+                "gust": {
+                    "bonus": "",
+                    "element": "flying"
+                },
+                "feather_dance": {
+                    "bonus": "",
+                    "element": "flying",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "spd"
+                    }
+                },
+                "wing_attack": {
+                    "bonus": "acc",
+                    "element": "flying"
+                },
+                "fly": {
+                    "bonus": "acc",
+                    "element": "flying"
+                },
+                "brave_bird": {
+                    "bonus": "atk",
+                    "element": "flying"
+                },
+                "sky_attack": {
+                    "bonus": "atk",
+                    "element": "flying"
+                }
+            }
+        ],
+        "poison": [
+            {
+                "acid": {
+                    "bonus": "",
+                    "element": "poison"
+                },
+                "poison_sting": {
+                    "bonus": "",
+                    "element": "poison",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "spd"
+                    }
+                },
+                "poison_tail": {
+                    "bonus": "acc",
+                    "element": "poison"
+                },
+                "sludge_bomb": {
+                    "bonus": "acc",
+                    "element": "poison"
+                },
+                "belch": {
+                    "bonus": "atk",
+                    "element": "poison"
+                },
+                "gunk_shot": {
+                    "bonus": "atk",
+                    "element": "poison"
+                }
+            }
+        ],
+        "ground": [
+            {
+                "mud_shot": {
+                    "bonus": "",
+                    "element": "ground"
+                },
+                "mud_bomb": {
+                    "bonus": "",
+                    "element": "ground",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "spd"
+                    }
+                },
+                "bulldoze": {
+                    "bonus": "acc",
+                    "element": "ground"
+                },
+                "magnitude": {
+                    "bonus": "acc",
+                    "element": "ground"
+                },
+                "earth_power": {
+                    "bonus": "atk",
+                    "element": "ground"
+                },
+                "earthquake": {
+                    "bonus": "atk",
+                    "element": "ground"
+                }
+            }
+        ],
+        "bug": [
+            {
+                "pin_missile": {
+                    "bonus": "",
+                    "element": "bug"
+                },
+                "bug_buzz": {
+                    "bonus": "",
+                    "element": "bug",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "def"
+                    }
+                },
+                "silver_wind": {
+                    "bonus": "acc",
+                    "element": "bug"
+                },
+                "fury_cutter": {
+                    "bonus": "acc",
+                    "element": "bug"
+                },
+                "mega_horn": {
+                    "bonus": "atk",
+                    "element": "bug"
+                },
+                "signal_beam": {
+                    "bonus": "atk",
+                    "element": "bug"
+                }
+            }
+        ],
+        "ghost": [
+            {
+                "nightmare": {
+                    "bonus": "",
+                    "element": "ghost"
+                },
+                "curse": {
+                    "bonus": "",
+                    "element": "ghost",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "random"
+                    }
+                },
+                "astonish": {
+                    "bonus": "acc",
+                    "element": "ghost"
+                },
+                "shadow_claw": {
+                    "bonus": "acc",
+                    "element": "ghost"
+                },
+                "poltergeist": {
+                    "bonus": "atk",
+                    "element": "ghost"
+                },
+                "shadow_force": {
+                    "bonus": "atk",
+                    "element": "ghost"
+                }
+            }
+        ],
+        "steel": [
+            {
+                "iron_tail": {
+                    "bonus": "",
+                    "element": "steel"
+                },
+                "metal_sound": {
+                    "bonus": "",
+                    "element": "steel",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "evs"
+                    }
+                },
+                "iron_head": {
+                    "bonus": "acc",
+                    "element": "steel"
+                },
+                "metal_burst": {
+                    "bonus": "acc",
+                    "element": "steel"
+                },
+                "steel_beam": {
+                    "bonus": "atk",
+                    "element": "steel"
+                },
+                "doom_desire": {
+                    "bonus": "atk",
+                    "element": "steel"
+                }
+            }
+        ],
+        "fire": [
+            {
+                "ember": {
+                    "bonus": "",
+                    "element": "fire"
+                },
+                "flamethrower": {
+                    "bonus": "",
+                    "element": "fire",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "atk"
+                    }
+                },
+                "incinerate": {
+                    "bonus": "acc",
+                    "element": "fire"
+                },
+                "flame_wheel": {
+                    "bonus": "acc",
+                    "element": "fire"
+                },
+                "fire_blast": {
+                    "bonus": "atk",
+                    "element": "fire"
+                },
+                "overheat": {
+                    "bonus": "atk",
+                    "element": "fire"
+                }
+            }
+        ],
+        "water": [
+            {
+                "water_gun": {
+                    "bonus": "",
+                    "element": "water"
+                },
+                "scald": {
+                    "bonus": "",
+                    "element": "water",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "atk"
+                    }
+                },
+                "surf": {
+                    "bonus": "acc",
+                    "element": "water"
+                },
+                "waterfall": {
+                    "bonus": "acc",
+                    "element": "water"
+                },
+                "water_spout": {
+                    "bonus": "atk",
+                    "element": "water"
+                },
+                "hydro_cannon": {
+                    "bonus": "atk",
+                    "element": "water"
+                }
+            }
+        ],
+        "grass": [
+            {
+                "razor_leaf": {
+                    "bonus": "",
+                    "element": "grass"
+                },
+                "mega_drain": {
+                    "bonus": "",
+                    "element": "grass",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "hp"
+                    }
+                },
+                "petal_dance": {
+                    "bonus": "acc",
+                    "element": "grass"
+                },
+                "energy_ball": {
+                    "bonus": "acc",
+                    "element": "grass"
+                },
+                "leaf_storm": {
+                    "bonus": "atk",
+                    "element": "grass"
+                },
+                "solar_beam": {
+                    "bonus": "atk",
+                    "element": "grass"
+                }
+            }
+        ],
+        "electric": [
+            {
+                "thunder_shock": {
+                    "bonus": "",
+                    "element": "electric"
+                },
+                "thunder": {
+                    "bonus": "",
+                    "element": "electric",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "def"
+                    }
+                },
+                "shock_wave": {
+                    "bonus": "acc",
+                    "element": "electric"
+                },
+                "discharge": {
+                    "bonus": "acc",
+                    "element": "electric"
+                },
+                "bolt_strike": {
+                    "bonus": "atk",
+                    "element": "electric"
+                },
+                "zap_cannon": {
+                    "bonus": "atk",
+                    "element": "electric"
+                }
+            }
+        ],
+        "psychic": [
+            {
+                "psy_beam": {
+                    "bonus": "",
+                    "element": "psychic"
+                },
+                "confusion": {
+                    "bonus": "",
+                    "element": "psychic",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "spd"
+                    }
+                },
+                "psychic": {
+                    "bonus": "acc",
+                    "element": "psychic"
+                },
+                "psywave": {
+                    "bonus": "acc",
+                    "element": "psychic"
+                },
+                "future_sight": {
+                    "bonus": "atk",
+                    "element": "psychic"
+                },
+                "psycho_boost": {
+                    "bonus": "atk",
+                    "element": "psychic"
+                }
+            }
+        ],
+        "ice": [
+            {
+                "ice_wind": {
+                    "bonus": "",
+                    "element": "ice"
+                },
+                "powder_snow": {
+                    "bonus": "",
+                    "element": "ice",
+                    "effect": {
+                        "type": "debuff",
+                        "stat": "evs"
+                    }
+                },
+                "ice_beam": {
+                    "bonus": "acc",
+                    "element": "ice"
+                },
+                "avalanche": {
+                    "bonus": "acc",
+                    "element": "ice"
+                },
+                "freeze_shock": {
+                    "bonus": "atk",
+                    "element": "ice"
+                },
+                "ice_burn": {
+                    "bonus": "atk",
+                    "element": "ice"
+                }
+            }
+        ],
+        "dragon": [
+            {
+                "twister": {
+                    "bonus": "",
+                    "element": "dragon"
+                },
+                "dragon_dance": {
+                    "bonus": "",
+                    "element": "dragon",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "spd"
+                    }
+                },
+                "dragon_claw": {
+                    "bonus": "acc",
+                    "element": "dragon"
+                },
+                "dragon_pulse": {
+                    "bonus": "acc",
+                    "element": "dragon"
+                },
+                "outrage": {
+                    "bonus": "atk",
+                    "element": "dragon"
+                },
+                "draco_meteor": {
+                    "bonus": "atk",
+                    "element": "dragon"
+                }
+            }
+        ],
+        "dark": [
+            {
+                "feint_attack": {
+                    "bonus": "",
+                    "element": "dark"
+                },
+                "sucker_punch": {
+                    "bonus": "",
+                    "element": "dark",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "crt"
+                    }
+                },
+                "pursuit": {
+                    "bonus": "acc",
+                    "element": "dark"
+                },
+                "payback": {
+                    "bonus": "acc",
+                    "element": "dark"
+                },
+                "foul_play": {
+                    "bonus": "atk",
+                    "element": "dark"
+                },
+                "night_daze": {
+                    "bonus": "atk",
+                    "element": "dark"
+                }
+            }
+        ],
+        "fairy": [
+            {
+                "sweet_kiss": {
+                    "bonus": "",
+                    "element": "fairy"
+                },
+                "draining_kiss": {
+                    "bonus": "",
+                    "element": "fairy",
+                    "effect": {
+                        "type": "buff",
+                        "stat": "hp"
+                    }
+                },
+                "fairy_wind": {
+                    "bonus": "acc",
+                    "element": "fairy"
+                },
+                "play_rough": {
+                    "bonus": "acc",
+                    "element": "fairy"
+                },
+                "dazzling_gleam": {
+                    "bonus": "atk",
+                    "element": "fairy"
+                },
+                "moonblast": {
+                    "bonus": "atk",
+                    "element": "fairy"
+                }
+            }
+        ]
+    }
+]

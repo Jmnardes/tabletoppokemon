@@ -13,36 +13,14 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
+    const [event, setEvent] = useState()
     const [game, setGame] = useState({
         turn: 0,
         gameEnded: false,
         isPokemonRollDisabled: false,
         openChallengeModal: false,
-        openWalkModal: false
-    })
-    const [event, setEvent] = useState({
-        title: '',
-        label: '',
-        type: '',
-        prizes:[
-            {
-                type: '',
-                name: '',
-                amount: 0
-            }
-        ],
-        advantage: {
-            type: '',
-            value: ''
-        },
-        disadvantage: {
-            type: '',
-            value: ''
-        },
-        dice: {
-            max: 6,
-            bonus: 1
-        }
+        openWalkModal: false,
+        openGymModal: false
     })
 
     const emit = useCallback((name, data) => {

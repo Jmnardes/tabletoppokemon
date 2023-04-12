@@ -1,6 +1,4 @@
 import { Button, Center, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
-import PokeModal from "../Modal/Modal";
-import event2Icon from '../../../assets/images/game/event2.png'
 import { diceRoll, parseNumberToNatural } from "../../../util";
 import { useEffect, useState } from "react";
 import swordIcon from '../../../assets/images/stats/sword.png'
@@ -12,7 +10,7 @@ import fightIcon from '../../../assets/images/items/fight.png'
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export default function GymBlock({ disable, gymTier, team, setConfetti }) {
+export default function GymBlock({ gymTier, team, setConfetti }) {
     const { colorMode } = useColorMode()
     const [showResult, setShowResult] = useState(false)
     const [trainerWin, setTrainerWin] = useState(false)
@@ -80,7 +78,7 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
             updateCurrency(1, 'stars')
-            setConfetti(true)
+            // setConfetti(true)
         } else {
             setTrainerWin(false)
         }
@@ -180,92 +178,84 @@ export default function GymBlock({ disable, gymTier, team, setConfetti }) {
     useEffect(() => {
         setDisableButton(false)
         setGymStats(gymStrength(gymTier))
-        setTrainerName(gymLeader())
+        setTrainerName(gymLeader().name)
 
-        if (disable) {
-            setShowResult(false)
-            setDisableSpecialMove(false)
-            setIsSpecialMoveOn(false)
-        }
+        // if (disable) {
+        //     setShowResult(false)
+        //     setDisableSpecialMove(false)
+        //     setIsSpecialMoveOn(false)
+        // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [disable])
+    }, [])
 
     return (
-        <PokeModal title={'Gym'} button={
-            <Image
-                src={event2Icon}
-                title={'Gym'}
-                w="24px"
-            ></Image>
-        } disableButton={disable}>
-            <Center flexDirection="column">
-                <Heading>{trainerName}</Heading>
-                {/* <Text mt={2} fontSize="xs">Rock trainer</Text> */}
-                <Center mt={12}>
-                    <Center mx={2}>
-                        <Image
-                            src={healthIcon} 
-                            title={'Health'}
-                            w="28px"
-                        ></Image>
-                        <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfHp(team('hp'),gymStats.hp ,gymTier)}>{team('hp')}</Text>
-                    </Center>
-                    <Center mx={2}>
-                        <Image
-                            src={swordIcon} 
-                            title={'Attack'}
-                            w="28px"
-                        ></Image>
-                        <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('atk'),gymStats.atk)}>{team('atk')}</Text>
-                    </Center>
-                    <Center mx={2}>
-                        <Image
-                            src={shieldIcon} 
-                            title={'Defense'}
-                            w="28px"
-                        ></Image>
-                        <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('def'),gymStats.def)}>{team('def')}</Text>
-                    </Center>
-                    <Center mx={2}>
-                        <Image
-                            src={speedIcon} 
-                            title={'Speed'}
-                            w="28px"
-                        ></Image>
-                        <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('spd'),gymStats.spd)}>{team('spd')}</Text>
-                    </Center>
+        <Center flexDirection="column">
+            <Heading>{trainerName}</Heading>
+            {/* <Text mt={2} fontSize="xs">Rock trainer</Text> */}
+            <Center mt={12}>
+                <Center mx={2}>
+                    <Image
+                        src={healthIcon} 
+                        title={'Health'}
+                        w="28px"
+                    ></Image>
+                    <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfHp(team('hp'),gymStats.hp ,gymTier)}>{team('hp')}</Text>
                 </Center>
-                <Center mt={4}>
-                    <Text title="God" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#0081cc">{'Blue >'}</Text>
-                    <Text title="Very Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#00ccb1">{'Aqua >'}</Text>
-                    <Text title="Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#20c000">{'Green >'}</Text>
-                    <Text title="Intersting" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#72ca00">{'Moss >'}</Text>
-                    <Text title="Ok" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#ced100">{'Yellow >'}</Text>
-                    <Text title="Average" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#cf9f00">{'Amber >'}</Text>
-                    <Text title="Bad" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#d15e00">{'Orange >'}</Text>
-                    <Text title="Very bad" fontWeight="bold" fontSize="xs" cursor="pointer" color="#be1903">{'Red'}</Text>
+                <Center mx={2}>
+                    <Image
+                        src={swordIcon} 
+                        title={'Attack'}
+                        w="28px"
+                    ></Image>
+                    <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('atk'),gymStats.atk)}>{team('atk')}</Text>
                 </Center>
-                {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
-                <Center>
-                    <Button mt={8} mr={2} isDisabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
-                        <Image
-                            src={fightIcon} 
-                            title={'Increases your chances to win against the Gym'}
-                            w="28px"
-                        ></Image>
-                    </Button>
-                    <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} isDisabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+                <Center mx={2}>
+                    <Image
+                        src={shieldIcon} 
+                        title={'Defense'}
+                        w="28px"
+                    ></Image>
+                    <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('def'),gymStats.def)}>{team('def')}</Text>
                 </Center>
-
-                <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
-                    {showResult &&
-                        <Text fontSize="3xl" fontWeight="bold" color={trainerWin ? 'green' : 'red'}>
-                            {trainerWin ? 'You won!' : 'You lost!'}
-                        </Text>
-                    }
+                <Center mx={2}>
+                    <Image
+                        src={speedIcon} 
+                        title={'Speed'}
+                        w="28px"
+                    ></Image>
+                    <Text ml={2} fontWeight="bold" fontSize="2xl" color={colorOfStat(team('spd'),gymStats.spd)}>{team('spd')}</Text>
                 </Center>
             </Center>
-        </PokeModal>
+            <Center mt={4}>
+                <Text title="God" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#0081cc">{'Blue >'}</Text>
+                <Text title="Very Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#00ccb1">{'Aqua >'}</Text>
+                <Text title="Good" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#20c000">{'Green >'}</Text>
+                <Text title="Intersting" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#72ca00">{'Moss >'}</Text>
+                <Text title="Ok" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#ced100">{'Yellow >'}</Text>
+                <Text title="Average" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#cf9f00">{'Amber >'}</Text>
+                <Text title="Bad" fontWeight="bold" fontSize="xs" cursor="pointer" mr={1} color="#d15e00">{'Orange >'}</Text>
+                <Text title="Very bad" fontWeight="bold" fontSize="xs" cursor="pointer" color="#be1903">{'Red'}</Text>
+            </Center>
+            {/* <Text mt={4}>Win chance: {winPercentage}%</Text> */}
+            <Center>
+                <Button mt={8} mr={2} isDisabled={disableSpecialMove || player.items.fight === 0} onClick={() => handleSpecialMove()}>
+                    <Image
+                        src={fightIcon} 
+                        title={'Increases your chances to win against the Gym'}
+                        w="28px"
+                    ></Image>
+                </Button>
+                <Button mt={8} w={40} border={`2px solid ${overallPercentColor()}`} isDisabled={disableButton} onClick={() => handleChallengeRoll()}>Challenge</Button>
+            </Center>
+
+            <Center mt={12} w={96} h={32} borderRadius={8} background={colorMode === 'light' ? "gray.200" : "gray.650"}>
+                {showResult &&
+                    <Text fontSize="3xl" fontWeight="bold" color={trainerWin ? 'green' : 'red'}>
+                        {trainerWin ? 'You won!' : 'You lost!'}
+                    </Text>
+                }
+            </Center>
+        </Center>
     )
 }
 
@@ -347,23 +337,154 @@ function gymStrength(tier) {
 }
 
 function gymLeader() {
-    let leaderRoll = diceRoll(17)
+    let leaderRoll = diceRoll(35)
 
-    if(leaderRoll === 0) return 'Giovani'
-    if(leaderRoll === 1) return 'Erika'
-    if(leaderRoll === 2) return 'Brock'
-    if(leaderRoll === 3) return 'Misty'
-    if(leaderRoll === 4) return 'L.t Surge'
-    if(leaderRoll === 5) return 'Koga'
-    if(leaderRoll === 6) return 'Janine'
-    if(leaderRoll === 7) return 'Sabrina'
-    if(leaderRoll === 8) return 'Blaine'
-    if(leaderRoll === 9) return 'Falkner'
-    if(leaderRoll === 10) return 'Bugsy'
-    if(leaderRoll === 11) return 'Whitney'
-    if(leaderRoll === 12) return 'Morty'
-    if(leaderRoll === 13) return 'Chuck'
-    if(leaderRoll === 14) return 'Jasmine'
-    if(leaderRoll === 15) return 'Pryce'
-    if(leaderRoll === 16) return 'Clair'
+    const leaders = [
+        {
+            name: 'Giovani',
+            element: 'ground'
+        },
+        {
+            name: 'Erika',
+            element: 'grass'
+        },
+        {
+            name: 'Brock',
+            element: 'rock'
+        },
+        {
+            name: 'Misty',
+            element: 'water'
+        },
+        {
+            name: 'L.t Surge',
+            element: 'electric'
+        },
+        {
+            name: 'Koga',
+            element: 'poison'
+        },
+        {
+            name: 'Sabrina',
+            element: 'psychic'
+        },
+        {
+            name: 'Blaine',
+            element: 'fire'
+        },
+        {
+            name: 'Falkner',
+            element: 'flying'
+        },
+        {
+            name: 'Bugsy',
+            element: 'bug'
+        },
+        {
+            name: 'Whitney',
+            element: 'normal'
+        },
+        {
+            name: 'Morty',
+            element: 'ghost'
+        },
+        {
+            name: 'Chuck',
+            element: 'fighting'
+        },
+        {
+            name: 'Jasmine',
+            element: 'steel'
+        },
+        {
+            name: 'Pryce',
+            element: 'ice'
+        },
+        {
+            name: 'Clair',
+            element: 'dragon'
+        },
+        {
+            name: 'Valerie',
+            element: 'fairy'
+        },
+        {
+            name: 'Piers',
+            element: 'dark'
+        },
+        {
+            name: 'Clay',
+            element: 'ground'
+        },
+        {
+            name: 'Gardenia',
+            element: 'grass'
+        },
+        {
+            name: 'Roxanne',
+            element: 'rock'
+        },
+        {
+            name: 'Wallace',
+            element: 'water'
+        },
+        {
+            name: 'Wattson',
+            element: 'electric'
+        },
+        {
+            name: 'Roxie',
+            element: 'poison'
+        },
+        {
+            name: 'Tate and Liza',
+            element: 'psychic'
+        },
+        {
+            name: 'Flannery',
+            element: 'fire'
+        },
+        {
+            name: 'Winona',
+            element: 'flying'
+        },
+        {
+            name: 'Burgh',
+            element: 'bug'
+        },
+        {
+            name: 'Norman',
+            element: 'normal'
+        },
+        {
+            name: 'Fantina',
+            element: 'ghost'
+        },
+        {
+            name: 'Brawly',
+            element: 'fighting'
+        },
+        {
+            name: 'Byron',
+            element: 'steel'
+        },
+        {
+            name: 'Candice',
+            element: 'ice'
+        },
+        {
+            name: 'Iris',
+            element: 'dragon'
+        },
+        {
+            name: ' Opal',
+            element: 'fairy'
+        },
+        {
+            name: 'Marnie',
+            element: 'dark'
+        },
+    ]
+
+    return leaders[leaderRoll]
 }

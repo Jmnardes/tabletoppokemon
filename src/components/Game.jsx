@@ -157,7 +157,7 @@ function PokePage() {
     }
 
     const handleSellingPokemonPrice = (tier, shiny) => {
-        updateCurrency(player.currency.coins + tierSellingPrice(tier) + (shiny * 2), 'coins')
+        updateCurrency(tierSellingPrice(tier) + (shiny * 2), 'coins')
     }
 
     const handleCatchDiceRoll = () => {

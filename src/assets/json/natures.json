@@ -17,7 +17,7 @@
   {
     "Nature": "brave",
     "Increase": "atk",
-    "Decrease": "spd"
+    "Decrease": "acc"
   },
   {
     "Nature": "calm",
@@ -46,7 +46,7 @@
   },
   {
     "Nature": "hasty",
-    "Increase": "spd",
+    "Increase": "acc",
     "Decrease": "def"
   },
   {
@@ -56,7 +56,7 @@
   },
   {
     "Nature": "jolly",
-    "Increase": "spd",
+    "Increase": "acc",
     "Decrease": "crt"
   },
   {
@@ -81,7 +81,7 @@
   },
   {
     "Nature": "naive",
-    "Increase": "spd",
+    "Increase": "acc",
     "Decrease": "evs"
   },
   {
@@ -92,7 +92,7 @@
   {
     "Nature": "quiet",
     "Increase": "crt",
-    "Decrease": "spd"
+    "Decrease": "acc"
   },
   {
     "Nature": "quirky",
@@ -107,21 +107,21 @@
   {
     "Nature": "relaxed",
     "Increase": "def",
-    "Decrease": "spd"
+    "Decrease": "acc"
   },
   {
     "Nature": "sassy",
     "Increase": "evs",
-    "Decrease": "spd"
+    "Decrease": "acc"
   },
   {
     "Nature": "serious",
-    "Increase": "spd",
+    "Increase": "acc",
     "Decrease": ""
   },
   {
     "Nature": "timid",
-    "Increase": "spd",
+    "Increase": "acc",
     "Decrease": "atk"
   },
   {
@@ -132,7 +132,7 @@
   {
     "Nature": "lazy",
     "Increase": "",
-    "Decrease": "spd"
+    "Decrease": "acc"
   },
   {
     "Nature": "frail",
@@ -187,6 +187,6 @@
   {
     "Nature": "clumsy",
     "Increase": "hp",
-    "Decrease": "spd"
+    "Decrease": "acc"
   }
 ]

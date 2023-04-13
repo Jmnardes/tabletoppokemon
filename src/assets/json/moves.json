@@ -10,11 +10,11 @@
             },
             {
                 "name": "quick_attack",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "skull_bash",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "giga_impact",
@@ -35,11 +35,11 @@
             },
             {
                 "name": "jump_kick",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "super_power",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "meteor_assault",
@@ -56,15 +56,15 @@
             },
             {
                 "name": "feather_dance",
-                "buff": "spd"
+                "buff": "acc"
             },
             {
                 "name": "wing_attack",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "fly",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "brave_bird",
@@ -110,11 +110,11 @@
             },
             {
                 "name": "bulldoze",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "magnitude",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "earth_power",
@@ -135,11 +135,11 @@
             },
             {
                 "name": "silver_wind",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "fury_cutter",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "mega_horn",
@@ -160,11 +160,11 @@
             },
             {
                 "name": "astonish",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "shadow_claw",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "poltergeist",
@@ -185,11 +185,11 @@
             },
             {
                 "name": "iron_head",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "metal_burst",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "steel_beam",
@@ -210,11 +210,11 @@
             },
             {
                 "name": "incinerate",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "flame_wheel",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "fire_blast",
@@ -235,11 +235,11 @@
             },
             {
                 "name": "surf",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "waterfall",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "water_spout",
@@ -260,11 +260,11 @@
             },
             {
                 "name": "petal_dance",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "energy_ball",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "leaf_storm",
@@ -285,11 +285,11 @@
             },
             {
                 "name": "shock_wave",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "discharge",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "bolt_strike",
@@ -310,11 +310,11 @@
             },
             {
                 "name": "psychic",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "psywave",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "future_sight",
@@ -335,11 +335,11 @@
             },
             {
                 "name": "ice_beam",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "avalanche",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "freeze_shock",
@@ -360,11 +360,11 @@
             },
             {
                 "name": "pursuit",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "payback",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "foul_play",
@@ -385,11 +385,11 @@
             },
             {
                 "name": "fairy_wind",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "play_rough",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "dazzling_gleam",
@@ -402,20 +402,19 @@
         ],
         "dragon": [
             {
-                "name": "twister",
-                "bonus": ""
+                "name": "twister"
             },
             {
                 "name": "dragon_dance",
-                "buff": "spd"
+                "buff": "acc"
             },
             {
                 "name": "dragon_claw",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "dragon_pulse",
-                "bonus": "spd"
+                "bonus": "acc"
             },
             {
                 "name": "outrage",

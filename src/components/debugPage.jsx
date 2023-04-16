@@ -1,39 +1,48 @@
-import { Box, Button, Center, Flex, Heading, NumberInput, NumberInputField, Text } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { Box, Button, Center, Flex, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react"
+import { useEffect, useMemo, useState } from "react"
 
 const DebugPage = ({
     setDebug
 }) => {
     const [acc, setAcc] = useState(1)
+    const [crt, setCrt] = useState(1)
     const [def, setDef] = useState(1)
     const [evs, setEvs] = useState(1)
 
-    const [totalDef, setTotalDef] = useState(0)
-    const [defOff, setDefOff] = useState(0)
-
     const [area, setArea] = useState(0)
     const [defArea, setDefArea] = useState(0)
-    const [evsArea, setEvsArea] = useState(0)
 
     const set = (v, setValue) => setValue(v ? Number(v) : 0)
 
-    useEffect(() => {
-        setTotalDef(Math.floor((def + evs) / 2))
-    }, [def, evs])
+    const blocks = useMemo(() => {
+        const blockArray = []
+        for (let i = 0; i < 20; i++) {
+            let color = 'none'
+            if (i >= (20 - crt)) color = 'red.700'
+            else if (i < evs) color = 'blue.700'
+            else if (i < defArea) color = 'green.700'
+
+            const block = (
+                <Center
+                    key={`${i} ${Date.now()}`}
+                    w='3rem'
+                    h='3rem'
+                    border='1px solid white'
+                    backgroundColor={color}
+                >
+                    <Text color='gray.400' fontSize='sm'>
+                        {i+1}
+                    </Text>
+                </Center>
+            )
+            blockArray.push(block)
+        }
+        return blockArray
+    }, [evs, crt, defArea])
 
     useEffect(() => {
-        setDefOff(totalDef + acc)
-    }, [acc, totalDef])
-
-    useEffect(() => {
-        const fullDef = def + evs
-        const newArea = Math.max(1, Math.floor((totalDef / defOff) * 20))
-        const newEvsArea = Math.floor((evs / fullDef) * newArea)
-        const newDefArea = newArea - newEvsArea
-        setArea(newArea)
-        setDefArea(newDefArea)
-        setEvsArea(newEvsArea)
-    }, [defOff])
+        setDefArea(area + (def - acc))
+    }, [acc, def, area])
 
     return (
         <Flex flexDirection='column' gridGap='2rem'>
@@ -46,11 +55,30 @@ const DebugPage = ({
                     <Text color='white'>Accuracy</Text>
                     <NumberInput
                         placeholder="Accuracy"
-                        defaultValue={1}
+                        defaultValue={acc}
                         onChange={v => set(v, setAcc)}
                         color='orange.400'
+                        min={0}
                     >
                         <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                    <Text color='white'>Critical Chance</Text>
+                    <NumberInput
+                        placeholder="Critical"
+                        defaultValue={crt}
+                        onChange={v => set(v, setCrt)}
+                        color='red.400'
+                        min={0}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
                     </NumberInput>
                 </Flex>
                 <Flex flexDirection='column' gridGap='1rem'>
@@ -58,57 +86,63 @@ const DebugPage = ({
                     <Text color='white'>Defense</Text>
                     <NumberInput
                         placeholder="Defense"
-                        defaultValue={1}
+                        defaultValue={def}
                         onChange={v => set(v, setDef)}
                         color='green.400'
+                        min={0}
                     >
                         <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
                     </NumberInput>
                     <Text color='white'>Evasion</Text>
                     <NumberInput
                         placeholder="Evasion"
-                        defaultValue={1}
+                        defaultValue={evs}
                         onChange={v => set(v, setEvs)}
                         color='blue.400'
+                        min={0}
                     >
                         <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
                     </NumberInput>
                 </Flex>
             </Flex>
             <Center>
-                <Text>Total defense: (</Text>
+                <Flex flexDirection='column' gridGap='1rem'>
+                    <Text color='white'>Base Defense Area</Text>
+                    <NumberInput
+                        placeholder="Base Defense Area"
+                        defaultValue={area}
+                        onChange={v => set(v, setArea)}
+                        color='cyan.400'
+                        min={0}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                </Flex>
+            </Center>
+            <Center>
+                <Text>Defense area:&nbsp;</Text>
+                <Text color='cyan.400'>{area}</Text>
+                <Text>&nbsp;+&nbsp;(</Text>
                 <Text color='green.400'>{def}</Text>
-                <Text>&nbsp;+&nbsp;</Text>
-                <Text color='blue.400'>{evs}</Text>
-                <Text>) / 2 =&nbsp;</Text>
-                <Text color='cyan.400'>{totalDef}</Text>
-            </Center>
-            <Center>
-                <Text>Sum of totalDef and accuracy:&nbsp;</Text>
-                <Text color='cyan.400'>{totalDef}</Text>
-                <Text>&nbsp;+&nbsp;</Text>
+                <Text>&nbsp;-&nbsp;</Text>
                 <Text color='orange.400'>{acc}</Text>
-                <Text>&nbsp;=&nbsp;</Text>
-                <Text color='yellow.400'>{defOff}</Text>
+                <Text>)&nbsp;=&nbsp;</Text>
+                <Text color='green.400'>{defArea}</Text>
             </Center>
             <Center>
-                <Text>Defense area: (</Text>
-                <Text color='cyan.400'>{totalDef}</Text>
-                <Text>&nbsp;/&nbsp;</Text>
-                <Text color='yellow.400'>{defOff}</Text>
-                <Text>) * 20 =&nbsp;</Text>
-                <Text color='gray.400' as='b' fontSize='lg'>{area}</Text>
-                <Text as='b' fontSize='lg'>d20</Text>
-            </Center>
-            <Center>
-                <Text>Miss area:&nbsp;</Text>
-                <Text color='blue.400' as='b' fontSize='lg'>{evsArea}</Text>
-                <Text as='b' fontSize='lg'>d20</Text>
-            </Center>
-            <Center>
-                <Text>Half damage area:&nbsp;</Text>
-                <Text color='green.400' as='b' fontSize='lg'>{defArea}</Text>
-                <Text as='b' fontSize='lg'>d20</Text>
+                {blocks}
             </Center>
         </Flex>
     )

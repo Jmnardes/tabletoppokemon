@@ -6,7 +6,7 @@ import GameMenu from "./components/GameMenu/GameMenu"
 import day from "./assets/images/background/day.jpg"
 import night from "./assets/images/background/night.jpg"
 import Loading from "./components/Loading"
-import DebugPage from "./components/debugPage"
+import DebugPage from "./components/Debug/debugPage"
 
 const App = () => {
   const { hasGameStarted, waitingForPlayers, loadingApi, loadingText } = useContext(PlayerContext)

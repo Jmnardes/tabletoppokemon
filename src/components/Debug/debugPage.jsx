@@ -1,5 +1,18 @@
-import { Box, Button, Center, Flex, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react"
-import { useEffect, useMemo, useState } from "react"
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    Heading,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    Text
+} from "@chakra-ui/react"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import SelectPokemon from "./selectPokemon"
 
 const DebugPage = ({
     setDebug
@@ -9,7 +22,7 @@ const DebugPage = ({
     const [def, setDef] = useState(1)
     const [evs, setEvs] = useState(1)
 
-    const [area, setArea] = useState(0)
+    const [area, setArea] = useState(8)
     const [defArea, setDefArea] = useState(0)
 
     const set = (v, setValue) => setValue(v ? Number(v) : 0)
@@ -27,7 +40,7 @@ const DebugPage = ({
                     key={`${i} ${Date.now()}`}
                     w='3rem'
                     h='3rem'
-                    border='1px solid white'
+                    border='1px solid rgba(255, 255, 255, 0.2)'
                     backgroundColor={color}
                 >
                     <Text color='gray.400' fontSize='sm'>
@@ -40,6 +53,16 @@ const DebugPage = ({
         return blockArray
     }, [evs, crt, defArea])
 
+    const attackerHandler = useCallback((data) => {
+        setAcc(data.stats.acc)
+        setCrt(data.stats.crt)
+    }, [])
+    
+    const defenderHandler = useCallback((data) => {
+        setDef(data.stats.def)
+        setEvs(data.stats.evs)
+    }, [])
+
     useEffect(() => {
         setDefArea(area + (def - acc))
     }, [acc, def, area])
@@ -50,12 +73,13 @@ const DebugPage = ({
                 <Button onClick={() => setDebug(false)}>Voltar</Button>
             </Box>
             <Flex gridGap='2rem' justifyContent='center'>
-                <Flex flexDirection='column' gridGap='1rem'>
+                <Flex flexDirection='column' gridGap='1rem' width='20%'>
                     <Heading color='white'>Attacker</Heading>
+                    <SelectPokemon onChange={attackerHandler} />
                     <Text color='white'>Accuracy</Text>
                     <NumberInput
                         placeholder="Accuracy"
-                        defaultValue={acc}
+                        value={acc}
                         onChange={v => set(v, setAcc)}
                         color='orange.400'
                         min={0}
@@ -69,7 +93,7 @@ const DebugPage = ({
                     <Text color='white'>Critical Chance</Text>
                     <NumberInput
                         placeholder="Critical"
-                        defaultValue={crt}
+                        value={crt}
                         onChange={v => set(v, setCrt)}
                         color='red.400'
                         min={0}
@@ -81,12 +105,13 @@ const DebugPage = ({
                         </NumberInputStepper>
                     </NumberInput>
                 </Flex>
-                <Flex flexDirection='column' gridGap='1rem'>
+                <Flex flexDirection='column' gridGap='1rem' width='20%'>
                     <Heading color='white'>Defender</Heading>
+                    <SelectPokemon onChange={defenderHandler} />
                     <Text color='white'>Defense</Text>
                     <NumberInput
                         placeholder="Defense"
-                        defaultValue={def}
+                        value={def}
                         onChange={v => set(v, setDef)}
                         color='green.400'
                         min={0}
@@ -100,7 +125,7 @@ const DebugPage = ({
                     <Text color='white'>Evasion</Text>
                     <NumberInput
                         placeholder="Evasion"
-                        defaultValue={evs}
+                        value={evs}
                         onChange={v => set(v, setEvs)}
                         color='blue.400'
                         min={0}
@@ -118,7 +143,7 @@ const DebugPage = ({
                     <Text color='white'>Base Defense Area</Text>
                     <NumberInput
                         placeholder="Base Defense Area"
-                        defaultValue={area}
+                        value={area}
                         onChange={v => set(v, setArea)}
                         color='cyan.400'
                         min={0}

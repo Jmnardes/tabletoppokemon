@@ -13,14 +13,18 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
-    const [event, setEvent] = useState()
+    const [event, setEvent] = useState({})
+    const [encounter, setEncounter] = useState([])
+    const [pokeTeam, setPokeTeam] = useState([])
+    const [pokeBox, setPokeBox] = useState([])
     const [game, setGame] = useState({
         turn: 0,
         gameEnded: false,
         isPokemonRollDisabled: false,
         openChallengeModal: false,
         openWalkModal: false,
-        openGymModal: false
+        openGymModal: false,
+        openEncounterModal: false
     })
 
     const emit = useCallback((name, data) => {
@@ -96,6 +100,9 @@ export function PlayerProvider({children}) {
         }
     }, [])
 
+    const updatePokeTeam = (poke) => setPokeTeam(old => [...old, poke])
+    const updatePokeBox = (poke) => setPokeBox(old => [...old, poke])
+
     const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
     const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
 
@@ -109,12 +116,14 @@ export function PlayerProvider({children}) {
         if (player.status) {
             emit('player-update-status', { level: player.status.level })
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.status?.level])
 
     useEffect(() => {
         if (player.currency) {
             emit('player-update-currency', player.currency)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.currency?.coins, player.currency?.stars, player.currency?.crowns])
 
     useEffect(() => {
@@ -156,8 +165,10 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.ready, 'ready')
         })
 
-        socket.on('lobby-start', () => {
+        socket.on('lobby-start', (res) => {
             setHasGameStarted(true)
+
+            if(res) setEncounter(res)
         })
 
             //TURNS
@@ -179,6 +190,8 @@ export function PlayerProvider({children}) {
                 disadvantage: res.event.disadvantage,
                 dice: res.event.dice
             })
+
+            setEncounter(...res.encounter)
             
             switch (res.event.type) {
                 case 'challenge':
@@ -213,7 +226,9 @@ export function PlayerProvider({children}) {
             emit,
             handleToast,
 
+            loadingApi,
             setLoadingApi,
+            loadingText,
             setLoadingText,
 
             session,
@@ -234,14 +249,16 @@ export function PlayerProvider({children}) {
             waitingForPlayers,
             setWaitingForPlayers,
 
-            loadingApi,
-            loadingText,
-
             game,
             updateGame,
 
             event,
-            setEvent,
+            encounter,
+
+            pokeTeam,
+            updatePokeTeam,
+            pokeBox,
+            updatePokeBox,
 
             changeCurrency,
             updateCurrency,

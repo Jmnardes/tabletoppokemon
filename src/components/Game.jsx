@@ -28,6 +28,7 @@ import Opponents from "./Pokemon/Players/Opponents"
 import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 import GymModal from "./Pokemon/Modal/EventModals/GymModal"
+import EncounterModal from "./Pokemon/Modal/EncounterModal"
 
 function PokePage() {
     const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency } = useContext(PlayerContext)
@@ -407,6 +408,11 @@ function PokePage() {
                     <GymModal pokeTeam={pokemonsTeam} />
                 )
             }
+            {/* {
+                game.openEncounterModal && (
+                    <EncounterModal />
+                )
+            } */}
         </>
     )
 }

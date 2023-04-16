@@ -50,115 +50,115 @@ function hpPerTier(tier) {
   }
 }
 
-export function pokemonBaseStat (stats, whichStat, nature, shiny) {
-    // if(!stats || !whichStat || !nature || !shiny) return 0
-    let tier = whatPokemonTierIs(stats)
-    let baseAtk = 3
-    let baseHp = 5
-    let baseDef = 5
-    let baseSpd = 5
-    let highestStat = highestPokemonStat(stats)
-    let lowestStat = lowestPokemonStat(stats)
-    let defTierUp = Number(Math.floor(tier/2).toFixed(0))
+// export function pokemonBaseStat (stats, whichStat, nature, shiny) {
+//     // if(!stats || !whichStat || !nature || !shiny) return 0
+//     let tier = whatPokemonTierIs(stats)
+//     let baseAtk = 3
+//     let baseHp = 5
+//     let baseDef = 5
+//     let baseSpd = 5
+//     let highestStat = highestPokemonStat(stats)
+//     let lowestStat = lowestPokemonStat(stats)
+//     let defTierUp = Number(Math.floor(tier/2).toFixed(0))
     
-    // leveling up stats based on tier
-    baseAtk += tier
-    baseDef += defTierUp
-    baseHp = baseHpArray[tier]
-    baseSpd += tier
+//     // leveling up stats based on tier
+//     baseAtk += tier
+//     baseDef += defTierUp
+//     baseHp = baseHpArray[tier]
+//     baseSpd += tier
 
-    // conditions to upgrade stat based on highest pokemon stats
-    if (highestStat === 'attack' || highestStat === 'special-attack') {
-      baseAtk += 1
-    } else if (highestStat === 'hp') {
-      baseHp += hpPerTier(tier)
-    } else if (highestStat === 'defense' || highestStat === 'special-defense') {
-      baseDef += 1
-    } else if (highestStat === 'speed') {
-      baseSpd += 1
-    }
+//     // conditions to upgrade stat based on highest pokemon stats
+//     if (highestStat === 'attack' || highestStat === 'special-attack') {
+//       baseAtk += 1
+//     } else if (highestStat === 'hp') {
+//       baseHp += hpPerTier(tier)
+//     } else if (highestStat === 'defense' || highestStat === 'special-defense') {
+//       baseDef += 1
+//     } else if (highestStat === 'speed') {
+//       baseSpd += 1
+//     }
 
-    // conditions to downgrade stat based on highest pokemon stats
-    if (lowestStat === 'attack' || lowestStat === 'special-attack') {
-      baseAtk -= 1
-    } else if (lowestStat === 'hp') {
-      baseHp -= hpPerTier(tier)
-    } else if (lowestStat === 'defense' || lowestStat === 'special-defense') {
-      baseDef -= 1
-    } else if (lowestStat === 'speed') {
-      baseSpd -= 1
-    }
+//     // conditions to downgrade stat based on highest pokemon stats
+//     if (lowestStat === 'attack' || lowestStat === 'special-attack') {
+//       baseAtk -= 1
+//     } else if (lowestStat === 'hp') {
+//       baseHp -= hpPerTier(tier)
+//     } else if (lowestStat === 'defense' || lowestStat === 'special-defense') {
+//       baseDef -= 1
+//     } else if (lowestStat === 'speed') {
+//       baseSpd -= 1
+//     }
 
-    // up nature status
-    if (nature?.statUp === 'atk') {baseAtk += 1}
-    if (nature?.statDown === 'atk') {baseAtk -= 1} 
-    if (nature?.statUp === 'hp') {baseHp += hpPerTier(tier)}
-    if (nature?.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
-    if (nature?.statUp === 'def') {baseDef += 1}
-    if (nature?.statDown === 'def') {baseDef -= 1}
-    if (nature?.statUp === 'spd') {baseSpd += 1}
-    if (nature?.statDown === 'spd') {baseSpd -= 1}
+//     // up nature status
+//     if (nature?.statUp === 'atk') {baseAtk += 1}
+//     if (nature?.statDown === 'atk') {baseAtk -= 1} 
+//     if (nature?.statUp === 'hp') {baseHp += hpPerTier(tier)}
+//     if (nature?.statDown === 'hp') {baseHp -= hpPerTier(tier)} 
+//     if (nature?.statUp === 'def') {baseDef += 1}
+//     if (nature?.statDown === 'def') {baseDef -= 1}
+//     if (nature?.statUp === 'spd') {baseSpd += 1}
+//     if (nature?.statDown === 'spd') {baseSpd -= 1}
 
-    // up shiny status
-    if (shiny?.shiny) {
-      if (shiny.stat[0] === 'atk' || shiny.stat[1] === 'atk') {baseAtk += 1}
-      if (shiny.stat[0] === 'hp' || shiny.stat[1] === 'hp') {baseHp += hpPerTier(tier)}
-      if (shiny.stat[0] === 'def' || shiny.stat[1] === 'def') {baseDef += 1}
-      if (shiny.stat[0] === 'spd' || shiny.stat[1] === 'spd') {baseSpd += 1}
-    }
+//     // up shiny status
+//     if (shiny?.shiny) {
+//       if (shiny.stat[0] === 'atk' || shiny.stat[1] === 'atk') {baseAtk += 1}
+//       if (shiny.stat[0] === 'hp' || shiny.stat[1] === 'hp') {baseHp += hpPerTier(tier)}
+//       if (shiny.stat[0] === 'def' || shiny.stat[1] === 'def') {baseDef += 1}
+//       if (shiny.stat[0] === 'spd' || shiny.stat[1] === 'spd') {baseSpd += 1}
+//     }
 
-    if (whichStat === 'atk') {
-      return baseAtk < 1 ? 1 : baseAtk
-    } else if (whichStat === 'hp') {
-      return baseHp < 1 ? 1 : baseHp
-    } else if (whichStat === 'def') {
-      return baseDef < 1 ? 1 : baseDef
-    } else if (whichStat === 'spd') {
-      return baseSpd <= -1 ? 0 : baseSpd
-    }
-}
+//     if (whichStat === 'atk') {
+//       return baseAtk < 1 ? 1 : baseAtk
+//     } else if (whichStat === 'hp') {
+//       return baseHp < 1 ? 1 : baseHp
+//     } else if (whichStat === 'def') {
+//       return baseDef < 1 ? 1 : baseDef
+//     } else if (whichStat === 'spd') {
+//       return baseSpd <= -1 ? 0 : baseSpd
+//     }
+// }
 
-export function whatPokemonTierIs (stats) {
-  let tier = ((stats[0].stat + 
-  stats[1].stat + 
-  stats[2].stat + 
-  stats[3].stat + 
-  stats[4].stat + 
-  stats[5].stat) / 6)
+// export function whatPokemonTierIs (stats) {
+//   let tier = ((stats[0].stat + 
+//   stats[1].stat + 
+//   stats[2].stat + 
+//   stats[3].stat + 
+//   stats[4].stat + 
+//   stats[5].stat) / 6)
 
-  tier = Math.abs(((tier/4).toFixed(0))-9)
+//   tier = Math.abs(((tier/4).toFixed(0))-9)
 
-  switch (tier) {
-    case 0:
-    case 1:
-      return tier = 0
-    case 2:
-    case 3:
-      return tier = 1
-    case 4:
-    case 5:
-      return tier = 2
-    case 6:
-    case 7:
-      return tier = 3
-    case 8:
-      return tier = 4
-    case 9:
-      return tier = 5
-    case 10:
-      return tier = 6
-    case 11:
-      return tier = 7
-    case 12:
-      return tier = 8
-    case 13:
-      return tier = 9
-    case 14:
-      return tier = 10
-    default:
-      return tier = 11
-  }
-}
+//   switch (tier) {
+//     case 0:
+//     case 1:
+//       return tier = 0
+//     case 2:
+//     case 3:
+//       return tier = 1
+//     case 4:
+//     case 5:
+//       return tier = 2
+//     case 6:
+//     case 7:
+//       return tier = 3
+//     case 8:
+//       return tier = 4
+//     case 9:
+//       return tier = 5
+//     case 10:
+//       return tier = 6
+//     case 11:
+//       return tier = 7
+//     case 12:
+//       return tier = 8
+//     case 13:
+//       return tier = 9
+//     case 14:
+//       return tier = 10
+//     default:
+//       return tier = 11
+//   }
+// }
 
 // roll shiny pokemon
 export function shinyRoll(number){

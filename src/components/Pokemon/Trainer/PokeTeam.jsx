@@ -4,11 +4,11 @@ import PlayerContext from "../../../Contexts/PlayerContext"
 import Team from "../Inventary/Team"
 
 export default function PokeTeam() {
-    const { pokeBox } = useContext(PlayerContext)
+    const { pokeTeam } = useContext(PlayerContext)
 
     return (
         <Flex justifyContent="center" alignItems="center">
-            {pokeBox?.map((poke) => {
+            {pokeTeam?.map((poke) => {
                 return (
                     <Box key={poke.id} m={2} mt={4}>
                         <Team poke={poke} />

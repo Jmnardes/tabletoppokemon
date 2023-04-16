@@ -4,8 +4,10 @@ import swordIcon from '../../../assets/images/stats/sword.png'
 import shieldIcon from '../../../assets/images/stats/shield.png'
 import speedIcon from '../../../assets/images/stats/speed.png'
 import healthIcon from '../../../assets/images/stats/health.png'
+import accuracyIcon from '../../../assets/images/stats/accuracy.svg'
+import criticalIcon from '../../../assets/images/stats/critical.svg'
 
-function PokemonTable({ health, attack, defense, speed, nature, name, showingType }) {
+function PokemonTable({ health, attack, defense, accuracy, evasion, critical, nature, name, showingType }) {
     const pokemonStat = (title, up) => {
         return (
             <>
@@ -62,10 +64,22 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
                             statIcon={shieldIcon}
                         />
                         <StatInventary
-                            stat={speed}
-                            statName={"Speed"}
-                            statAbrev={"spd"}
+                            stat={accuracy}
+                            statName={"Accuracy"}
+                            statAbrev={"acc"}
                             statIcon={speedIcon}
+                        />
+                        <StatInventary
+                            stat={evasion}
+                            statName={"Evasion"}
+                            statAbrev={"evs"}
+                            statIcon={accuracyIcon}
+                        />
+                        <StatInventary
+                            stat={critical}
+                            statName={"Critical"}
+                            statAbrev={"crt"}
+                            statIcon={criticalIcon}
                         />
                     </Flex>
                 </>

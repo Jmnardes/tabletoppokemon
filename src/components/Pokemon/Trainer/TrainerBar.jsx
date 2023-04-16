@@ -8,7 +8,7 @@ import lureIcon from '../../../assets/images/items/lure.png'
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
-export function TrainerBar() {
+export default function TrainerBar() {
     const { player, game } = useContext(PlayerContext)
     
     return (

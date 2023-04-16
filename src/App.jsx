@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, useColorMode } from "@chakra-ui/react"
+import { Button, Flex, Heading, Image, useColorMode } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import Game from "./components/Game"
 import PlayerContext from "./Contexts/PlayerContext"

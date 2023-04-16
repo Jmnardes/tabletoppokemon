@@ -55,7 +55,7 @@ export default function PokeBox() {
                                 size="sm" 
                                 width="50%"
                                 title={
-                                    poke.shiny.shiny 
+                                    poke.shiny 
                                     ? tierSellingPrice(poke.tier + 1) 
                                     : tierSellingPrice(poke.tier)
                                 }

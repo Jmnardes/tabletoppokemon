@@ -5,7 +5,7 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import ThemeSwitch from "../../Chakra/ThemeSwitch/ThemeSwitch";
 
-export function Settings() {
+export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
 
     return (

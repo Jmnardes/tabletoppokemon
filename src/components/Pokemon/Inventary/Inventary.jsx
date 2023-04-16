@@ -45,7 +45,9 @@ function Inventary({ poke }) {
                         health={poke.stats.hp}
                         attack={poke.stats.atk}
                         defense={poke.stats.def}
-                        speed={poke.stats.acc}
+                        accuracy={poke.stats.acc}
+                        evasion={poke.stats.evs}
+                        critical={poke.stats.crt}
                         tier={poke.tier}
                         type={poke.types}
                         nature={poke.nature}

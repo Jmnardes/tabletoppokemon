@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import PokemonTable from "../Table/PokemonTable"
-import { pokemonBaseStat } from '../../pokemonFunctions'
 import { stringToUpperCase, typeColor } from '../../../util'
 import { Flex, Image, Text, CloseButton } from "@chakra-ui/react"
 import Types from "../Table/Types"
@@ -9,7 +8,7 @@ function Team({ poke }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     useEffect(() => {
-        let color = typeColor(poke.type)
+        let color = typeColor(poke.types)
 
         setColorByType(color)
     }, [poke])
@@ -52,7 +51,7 @@ function Team({ poke }) {
                     </Flex>
                     <Flex justifyContent="end" px={1/2} pt={1/2} width="20%">
                         <Types
-                            types={poke.type} 
+                            types={poke.Types} 
                             shiny={poke.shiny}
                             tier={poke.tier} 
                             nature={poke.nature}
@@ -62,10 +61,12 @@ function Team({ poke }) {
                 </Flex>
 
                 <PokemonTable
-                    health={pokemonBaseStat(poke.stats, 'hp', poke.nature, poke.shiny)}
-                    attack={pokemonBaseStat(poke.stats, 'atk', poke.nature, poke.shiny)}
-                    defense={pokemonBaseStat(poke.stats, 'def', poke.nature, poke.shiny)}
-                    speed={pokemonBaseStat(poke.stats, 'spd', poke.nature, poke.shiny)}
+                    health={poke.stats.hp}
+                    attack={poke.stats.atk}
+                    defense={poke.stats.def}
+                    accuracy={poke.stats.acc}
+                    evasion={poke.stats.evs}
+                    critical={poke.stats.crt}
                     tier={poke.tier}
                     type={poke.types}
                     nature={poke.nature}

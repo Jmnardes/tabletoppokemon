@@ -1,27 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { Button, Box, Flex, Text, Stack, useColorMode, Center, Grid, GridItem } from '@chakra-ui/react'
-import ShowPokemon from "./Pokemon/ShowPokemon"
-import { sortPokemon } from "./sortPokemon"
-import { diceRoll, tierSellingPrice, typeColor } from '../util'
-import { catchExp, endTurnExp, experiencePerLevel, expToNextLevel, shinyRoll, whatNaturePokemonIs } from "./pokemonFunctions"
+import { Button, Flex, Text, useColorMode, Center, Grid, GridItem } from '@chakra-ui/react'
 import Inventary from "./Pokemon/Inventary/Inventary"
 import Team from "./Pokemon/Inventary/Team"
 import { FaPlusSquare, FaDollarSign, FaArrowRight } from "react-icons/fa";
-import pokemonJSON from '../assets/json/pokemons.json'
-import { pokemonBaseStat } from './pokemonFunctions'
-import { PlayTurn } from "./Pokemon/PlayTurn"
-import { SimpleGrid } from "@chakra-ui/react"
-import { TrainerBar } from "./Pokemon/Trainer/TrainerBar"
-import { Settings } from "./Pokemon/Game/Settings"
-import PokeShop from "./Pokemon/Shop/PokeShop"
-import ExperienceBar from "./Pokemon/Trainer/ExperienceBar"
-import { TrainerStats } from "./Pokemon/Trainer/TrainerStats"
-import EndGame from "./Pokemon/Game/EndGame"
-import Items from "./Pokemon/Inventary/Items"
-import StealBlock from "./Pokemon/Block/StealBlock"
 import { ConfettiCanvas } from "react-raining-confetti";
-import ElementsList from "./Pokemon/Team/ElementsList"
-import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
@@ -30,196 +12,36 @@ import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 import GymModal from "./Pokemon/Modal/EventModals/GymModal"
 import EncounterModal from "./Pokemon/Modal/EventModals/EncounterModal"
 import PokeBox from "./Pokemon/Trainer/PokeBox"
+import PokeTeam from "./Pokemon/Trainer/PokeTeam";
+import ElementList from "./Pokemon/Team/ElementsList"
+import PokeShop from "./Pokemon/Shop/PokeShop"
+import TrainerBar from "./Pokemon/Trainer/TrainerBar"
+import Settings from "./Pokemon/Game/Settings"
 
 function PokePage() {
     const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-    const [pokemonArray, setPokemonArray] = useState([])
-    const [savedPokemons, setSavedPokemons] = useState([])
-    const [pokemonsTeam, setPokemonsTeam] = useState([])
-    const [tier, setTier] = useState(0)
-    const [level, setLevel] = useState(0)
-    const [experience, setExperience] = useState(0)
-    const [experienceToNextLevel, setExperienceToNextLevel] = useState(0)
-    const [experiencePreviousLevel, setExperiencePreviousLevel] = useState(0)
-    const [resultDiceRoll, setResultDiceRoll] = useState(0)
-    const [totalCatches, setTotalCatches] = useState(0)
-    const [shinyCatches, setShinyCatches] = useState(0)
-    const [criticals, setCriticals] = useState(0)
-    const [highestAmount, setHighestAmount] = useState(0)
-    const [bonusOnCatch, setBonusOnCatch] = useState(0)
     const [endTurnButton, setEndTurnButton] = useState(true)
-    const [disablePokeCatch, setDisablePokeCatch] = useState(true)
     const [closeModal, setCloseModal] = useState(false)
     const [confetti, setConfetti] = useState(true)
 
-    const handlePokemonEncounter = () => {
-        let pokemon = [{
-            pokemonId: sortPokemon(tier, session.generation),
-            nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(player.items.incense)
-        },
-        {
-            pokemonId: sortPokemon(tier, session.generation),
-            nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(player.items.incense)
-        },
-        {
-            pokemonId: sortPokemon(tier, session.generation),
-            nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(player.items.incense)
-        },
-        {
-            pokemonId: sortPokemon(tier, session.generation),
-            nature: whatNaturePokemonIs(),
-            shiny: shinyRoll(player.items.incense)
-        }]
-
-        setPokemonArray([...pokemon])
-    }
-        
-    const handleAddInventory = ({pokemonId, nature, shiny}, sorted) => {
-        setSavedPokemons(old => [{
-            pokemonId,
-            nature,
-            shiny,
-        }, ...old])
-
-        if(sorted) {
-            handleRemovePokeFromSorted({
-                pokemonId,
-                nature,
-                shiny,
-            }, catchExp(pokemonJSON[pokemonId].tier))
-            
-            if(shiny.shiny) {
-                setShinyCatches(shinyCatches + 1)
-                setConfetti(true)
-            } else {
-                setTotalCatches(totalCatches + 1)
-            }
-
-            setDisablePokeCatch(true)
-        }
-    }
-
-    const handleAddPokemonTeam = ({pokemonId, nature, shiny}) => {
-        setPokemonsTeam(old => [{
-            pokemonId,
-            nature,
-            shiny,
-        }, ...old])
-
-        handleRemovePokeFromInventory({
-            pokemonId,
-            nature,
-            shiny,
-        }, false)
-    }
-
-    const handleRemovePokeFromSorted = (poke, pokemonExp) => {
-        let array = pokemonArray
-
-        pokemonArray.filter((data, index) => {
-            if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
-                array.splice(index, 1)
-                setPokemonArray([...array])
-            }
-            return null
-        })
-        
-        handlePokemonRollClean(pokemonExp)
-    }
-
-    const handleRemovePokeFromInventory = (poke, addCoin) => {
-        let array = savedPokemons
-
-        savedPokemons.filter((data, index) => {
-            if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
-                array.splice(index, 1)
-                setSavedPokemons([...array])
-                
-                if (addCoin) handleSellingPokemonPrice(pokemonJSON[poke.pokemonId].tier, data.shiny.shiny)
-            }
-            return null
-        })
-    }
-
-    const handleRemovePokeFromTeam = (poke) => {
-        let array = pokemonsTeam
-
-        pokemonsTeam.filter((data, index) => {
-            if (data.pokemonId === poke.pokemonId && data.nature.nature === poke.nature.nature && data.shiny.shiny === poke.shiny.shiny) {
-                array.splice(index, 1)
-                setPokemonsTeam([...array])
-            }
-            return null
-        })
-
-        handleAddInventory(poke, false)
-    }
-
-    const handleSellingPokemonPrice = (tier, shiny) => {
-        updateCurrency(tierSellingPrice(tier) + (shiny * 2), 'coins')
-    }
-
-    const handleCatchDiceRoll = () => {
-        let result = diceRoll(20)
-
-        updateGame({ isPokemonRollDisabled: true })
-
-        if(result === 19) setCriticals(criticals + 1)
-        setDisablePokeCatch(false)
-        setResultDiceRoll(bonusOnCatch + result + 1)
-        setConfetti(false)
-    }
-
-    const handlePokemonRollClean = (pokemonCatchExp) => {
-        if(pokemonCatchExp) {
-            setExperience(() => endTurnExp() + pokemonCatchExp + experience)
-        } else {
-            setExperience(() => endTurnExp() + experience)
-        }
-    }
+    // const handlePokemonRollClean = (pokemonCatchExp) => {
+    //     if(pokemonCatchExp) {
+    //         setExperience(() => endTurnExp() + pokemonCatchExp + experience)
+    //     } else {
+    //         setExperience(() => endTurnExp() + experience)
+    //     }
+    // }
 
     const handleFinishMyTurn = () => {
         setEndTurnButton(true)
 
         setWaitingForPlayers(true)
 
-        setPokemonArray([])
-
         emit('turn-end')
     }
 
-    const handleTeamStats = (statType) => {
-        let total = 0
-
-        for(let i=0 ;i <= 5; i++) {
-            if(pokemonsTeam[i]) {
-                total += pokemonBaseStat(
-                    pokemonJSON[pokemonsTeam[i]?.pokemonId]?.stats, 
-                    statType, 
-                    pokemonsTeam[i]?.nature,
-                    pokemonsTeam[i]?.shiny
-                )
-            }
-        }
-
-        return total
-    }
-    
     useEffect(() => {
-        if(player.currency.coins > highestAmount) setHighestAmount(player.currency.coins)
-
-        setLevel(experiencePerLevel(experience))
-        setExperiencePreviousLevel(expToNextLevel(level))
-        setExperienceToNextLevel(expToNextLevel(level + 1))
-        setTier(level)
-    }, [player.currency.coins, experience, highestAmount, level])
-
-    useEffect(() => {
-        handlePokemonEncounter()
         setEndTurnButton(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [game.turn])
@@ -231,61 +53,26 @@ function PokePage() {
                 <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
             ): null}
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
-                    {/* <GridItem colSpan={2}>
+                    <GridItem colSpan={2}>
                         <Center justifyContent="left">
-                            {game.turn < session.gameDuration ? (
-                                <PlayTurn
-                                    handleCatchDiceRoll={handleCatchDiceRoll}
-                                    setBonusOnCatch={setBonusOnCatch}
-                                    closeModal={closeModal}
-                                    setCloseModal={setCloseModal}
-                                >
-                                    <Flex justifyContent="center">
-                                        <SimpleGrid columns={2} mt={2}>
-                                            {pokemonArray?.map((data, i) => {
-                                                return (
-                                                    <React.Fragment key={`${i} ${Date.now()}`}>
-                                                        <ShowPokemon
-                                                            pokemonId={data.pokemonId}
-                                                            nature={data.nature} 
-                                                            shiny={data.shiny}
-                                                            diceRollResult={resultDiceRoll}
-                                                            setResultDiceRoll={setResultDiceRoll}
-                                                            handleAddInventory={() => handleAddInventory(data, true)}
-                                                            disablePokeCatch={disablePokeCatch}
-                                                        />
-                                                    </React.Fragment>
-                                                )
-                                            })}
-                                        </SimpleGrid>
-                                    </Flex>
-                                </PlayTurn>
-                            ) : (
-                                <>
-                                    <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
-                                    <EndGame>
-                                        <TrainerStats />
-                                    </EndGame>
-                                </>
-                            )}
                             <TrainerBar />
                         </Center>
                     </GridItem>
 
                     <GridItem>
                         <Center colSpan={1} background={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={4}>
-                            <Text fontSize="2xl" fontWeight="bold">Lv.{level} - {player.status.trainerName}</Text>
+                            <Text fontSize="2xl" fontWeight="bold">Lv.{player.status.level} - {player.status.trainerName}</Text>
                         </Center>
                     </GridItem>
 
                     <GridItem colSpan={2}>
                         <Center justifyContent="right">
-                            <StealBlock />
-                            <PokemonEgg handleAddInventory={handleAddInventory} tier={tier} />
+                            {/* <StealBlock />
+                            <PokemonEgg /> */}
                             <PokeShop />
                             <Settings />
                         </Center>
-                    </GridItem> */}
+                    </GridItem>
                 </Grid>
             </Center>
 
@@ -369,20 +156,12 @@ function PokePage() {
                         exp={experience} 
                         nextLevel={experienceToNextLevel}
                         previousLevel={experiencePreviousLevel}
-                    />
+                    /> */}
                     
                     <Flex flexDir="column">
-                        <ElementsList />
-                        <Flex justifyContent="center" alignItems="center">
-                            {pokemonsTeam?.map((poke, i) => {
-                                return (
-                                    <Box key={(game.turn * 100) + poke.pokemonId + i} m={2} mt={4}>
-                                        <Team savedPokemon={poke} removeFromTeam={() => handleRemovePokeFromTeam(poke)} />
-                                    </Box>
-                                )
-                            })}
-                        </Flex>
-                    </Flex> */}
+                        <ElementList />
+                        <PokeTeam />
+                    </Flex>
                 </Flex>
                 <Opponents />
             </Flex>
@@ -395,17 +174,17 @@ function PokePage() {
             </Button>
             {
                 game.openChallengeModal && (
-                    <ChallengeModal pokeTeam={pokemonsTeam} />
+                    <ChallengeModal />
                 )
             }
             {
                 game.openWalkModal && (
-                    <WalkModal pokeTeam={pokemonsTeam} />
+                    <WalkModal />
                 )
             }
             {
                 game.openGymModal && (
-                    <GymModal pokeTeam={pokemonsTeam} />
+                    <GymModal />
                 )
             }
             {

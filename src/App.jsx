@@ -19,7 +19,7 @@ const App = () => {
   }
 
   return (
-    <Flex flexDirection='column' h='100vh' m={0} backgroundImage={colorMode === 'light' ? day : night}>
+    <Flex flexDirection='column' h='100vh' w='100vw' m={0} backgroundImage={colorMode === 'light' ? day : night}>
       {(waitingForPlayers || loadingApi) && (
         <Loading showSpinner>
             <Heading color='white'>

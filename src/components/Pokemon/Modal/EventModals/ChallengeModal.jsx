@@ -13,7 +13,6 @@ import {
     useColorMode,
     Box,
     Divider,
-    keyframes,
     Tooltip,
     Image
 } from "@chakra-ui/react"

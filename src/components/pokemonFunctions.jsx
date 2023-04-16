@@ -187,15 +187,15 @@ const shinyStatusUp = [
 export const catchDifficulty = (tier, difficulty = 0) => {
   switch (tier) {
     case 0:
-      return tier = 2 + difficulty
+      return tier = 1 + difficulty
     case 1:
-      return tier = 3 + difficulty
+      return tier = 2 + difficulty
     case 2:
-      return tier = 4 + difficulty
+      return tier = 3 + difficulty
     case 3:
-      return tier = 5 + difficulty
+      return tier = 4 + difficulty
     case 4:
-      return tier = 6 + difficulty
+      return tier = 5 + difficulty
     case 5:
       return tier = 7 + difficulty
     case 6:

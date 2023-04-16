@@ -28,7 +28,8 @@ import Opponents from "./Pokemon/Players/Opponents"
 import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 import GymModal from "./Pokemon/Modal/EventModals/GymModal"
-import EncounterModal from "./Pokemon/Modal/EncounterModal"
+import EncounterModal from "./Pokemon/Modal/EventModals/EncounterModal"
+import PokeBox from "./Pokemon/Trainer/PokeBox"
 
 function PokePage() {
     const { player, session, game, updateGame, emit, setWaitingForPlayers, updateCurrency } = useContext(PlayerContext)
@@ -230,7 +231,7 @@ function PokePage() {
                 <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
             ): null}
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
-                    <GridItem colSpan={2}>
+                    {/* <GridItem colSpan={2}>
                         <Center justifyContent="left">
                             {game.turn < session.gameDuration ? (
                                 <PlayTurn
@@ -284,87 +285,85 @@ function PokePage() {
                             <PokeShop />
                             <Settings />
                         </Center>
-                    </GridItem>
+                    </GridItem> */}
                 </Grid>
             </Center>
 
             <Flex flex="1">
-                <Box flex="1">                      
-                    <Flex justifyContent="space-between">
-                        <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
-                            <Text fontSize="2xl" fontWeight="bold" lineHeight="36px" pl={2} mb={2} w="100%" textAlign="center">Pokemon inventary</Text>
-                            <Stack 
-                                direction={['column', 'row']} 
-                                spacing={1} 
-                                overflowX="auto"
-                                css={{
-                                    "&::-webkit-scrollbar": {
-                                        height: "14px",
-                                        width: "2px",
-                                    },
-                                    "&::-webkit-scrollbar-track": {
-                                        width: "2px",
-                                    },
-                                    "&::-webkit-scrollbar-thumb": {
-                                        backgroundColor: "#4A5568",
-                                        borderRadius: "24px",
-                                    },
-                                }}
-                            >
-                                {savedPokemons?.map((poke, i) => {
-                                    return (
-                                        <React.Fragment key={(game.turn * 100) + poke + i}>
-                                            <Box mb={2}>
-                                                <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
-                                                <Box display="flex" justifyContent="center">
-                                                    <Button 
-                                                        size="sm" 
-                                                        width="50%" 
-                                                        borderRadius="0 0 0 16px"
-                                                        borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                                        _hover={{
-                                                            backgroundColor: `#327ae64c`,
-                                                            cursor: "pointer",
-                                                            borderLeft: "2px solid #327ae64c",
-                                                            borderBottom: "2px solid #327ae64c"
-                                                        }}
-                                                        isDisabled={pokemonsTeam.length >= session.teamLength ? true : false}
-                                                        onClick={() => handleAddPokemonTeam(poke)}
-                                                    >
-                                                        <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
-                                                    </Button>
-                                                    <Button 
-                                                        size="sm" 
-                                                        width="50%"
-                                                        title={
-                                                            poke.shiny.shiny 
-                                                            ? tierSellingPrice(pokemonJSON[poke.pokemonId].tier + 1) 
-                                                            : tierSellingPrice(pokemonJSON[poke.pokemonId].tier)
-                                                        }
-                                                        borderRadius="0 0 16px 0"
-                                                        borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                                        borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
-                                                        _hover={{
-                                                            backgroundColor: "#52d73750",
-                                                            cursor: "pointer",
-                                                            borderRight: "2px solid #52d73750",
-                                                            borderBottom: "2px solid #52d73750"
-                                                        }}
-                                                        onClick={() => handleRemovePokeFromInventory(poke, true)}
-                                                    >
-                                                        <FaDollarSign size="16px" style={{ color: "green" }}/>
-                                                    </Button>
-                                                </Box>
+                <Flex flex="1" flexDir="column">
+                    {/* <Flex flexDir="column" width={"100%"} py={2} minHeight="9rem" border={`2px solid ${colorMode === 'light' ? "#A0AEC0" : "#2D3748"}`}>
+                        <Stack
+                            direction={['column', 'row']} 
+                            spacing={1} 
+                            overflowX="auto"
+                            css={{
+                                "&::-webkit-scrollbar": {
+                                    height: "14px",
+                                    width: "2px",
+                                },
+                                "&::-webkit-scrollbar-track": {
+                                    width: "2px",
+                                },
+                                "&::-webkit-scrollbar-thumb": {
+                                    backgroundColor: "#4A5568",
+                                    borderRadius: "24px",
+                                },
+                            }}
+                        >
+                            {savedPokemons?.map((poke, i) => {
+                                return (
+                                    <React.Fragment key={(game.turn * 100) + poke + i}>
+                                        <Box mb={2}>
+                                            <Inventary title={pokemonJSON[poke.pokemonId].name} savedPokemon={poke} />
+                                            <Box display="flex" justifyContent="center">
+                                                <Button 
+                                                    size="sm" 
+                                                    width="50%" 
+                                                    borderRadius="0 0 0 16px"
+                                                    borderLeft={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                    borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                    _hover={{
+                                                        backgroundColor: `#327ae64c`,
+                                                        cursor: "pointer",
+                                                        borderLeft: "2px solid #327ae64c",
+                                                        borderBottom: "2px solid #327ae64c"
+                                                    }}
+                                                    isDisabled={pokemonsTeam.length >= session.teamLength ? true : false}
+                                                    onClick={() => handleAddPokemonTeam(poke)}
+                                                >
+                                                    <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
+                                                </Button>
+                                                <Button 
+                                                    size="sm" 
+                                                    width="50%"
+                                                    title={
+                                                        poke.shiny.shiny 
+                                                        ? tierSellingPrice(pokemonJSON[poke.pokemonId].tier + 1) 
+                                                        : tierSellingPrice(pokemonJSON[poke.pokemonId].tier)
+                                                    }
+                                                    borderRadius="0 0 16px 0"
+                                                    borderRight={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                    borderBottom={`2px solid ${typeColor(pokemonJSON[poke.pokemonId].type)}`}
+                                                    _hover={{
+                                                        backgroundColor: "#52d73750",
+                                                        cursor: "pointer",
+                                                        borderRight: "2px solid #52d73750",
+                                                        borderBottom: "2px solid #52d73750"
+                                                    }}
+                                                    onClick={() => handleRemovePokeFromInventory(poke, true)}
+                                                >
+                                                    <FaDollarSign size="16px" style={{ color: "green" }}/>
+                                                </Button>
                                             </Box>
-                                        </React.Fragment>
-                                    )
-                                })}
-                            </Stack>
-                        </Flex>
-                    </Flex>
+                                        </Box>
+                                    </React.Fragment>
+                                )
+                            })}
+                        </Stack>
+                    </Flex> */}
+                    <PokeBox />
 
-                    <Items handleTeamStats={handleTeamStats} />
+                    {/* <Items handleTeamStats={handleTeamStats} />
                     
                     <ExperienceBar
                         exp={experience} 
@@ -383,11 +382,12 @@ function PokePage() {
                                 )
                             })}
                         </Flex>
-                    </Flex>
-                </Box>
+                    </Flex> */}
+                </Flex>
                 <Opponents />
             </Flex>
-            <Button borderRadius={"none"} h={16} isDisabled={endTurnButton} onClick={() => {
+
+            <Button w="100%" borderRadius={"none"} h={16} onClick={() => {
                 handleFinishMyTurn()
             }}>
                 <Text mb={1} mr={8} fontSize="2xl" fontWeight="bold">Finish turn</Text>
@@ -408,11 +408,11 @@ function PokePage() {
                     <GymModal pokeTeam={pokemonsTeam} />
                 )
             }
-            {/* {
+            {
                 game.openEncounterModal && (
                     <EncounterModal />
                 )
-            } */}
+            }
         </>
     )
 }

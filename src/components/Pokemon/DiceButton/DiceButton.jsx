@@ -2,6 +2,8 @@ import { Box, Center, Flex, Heading, IconButton, keyframes, useColorMode } from 
 import SixSidesDiceIcon from '../../Icons/dices/SixSidesDice'
 import { useState } from 'react'
 import { diceRoll } from '../../../util'
+import TwentySidesDice from '../../Icons/dices/TwentySidesDice'
+import PokeballIcon from '../../Icons/PokeballIcon'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
 
@@ -48,6 +50,7 @@ export default function DiceButton({
     onRoll,
     maxRow = 6,
     bonus = 0,
+    diceSides = 6
 }) {
     const [rolling, setRolling] = useState(false)
     const [value, setValue] = useState(0)
@@ -57,6 +60,13 @@ export default function DiceButton({
     const light = colorMode === 'light'
     const rolled = !!value
     const critical = value === maxRow
+
+    const setDiceBySides = (sides, c) => {
+        if(sides === 6) return <SixSidesDiceIcon w={12} h={12} c={c}/>
+        if(sides === 20) return <TwentySidesDice w={12} h={12} c={c} />
+        if(sides === 1) return <PokeballIcon w={12} h={12} c={c} />
+    }
+
     return (
         <Center w='4rem' h='4rem'>
             {rolling ? (
@@ -74,7 +84,7 @@ export default function DiceButton({
                     }}
                 >
                     <Box animation={diceSpinAnimation}>
-                        <SixSidesDiceIcon w={12} h={12} />
+                        {setDiceBySides(diceSides)}
                     </Box>
                 </Center>
             ) : ( rolled ? (
@@ -98,7 +108,7 @@ export default function DiceButton({
                             </Heading>
                         )}
                     </Flex>
-                    <SixSidesDiceIcon w={12} h={12} c='#808080' />
+                    {setDiceBySides(diceSides, '#808080')}
                 </>
             ) : (
                 <IconButton
@@ -106,7 +116,7 @@ export default function DiceButton({
                     h='4rem'
                     _hover={{ 'animation': diceShakeAnimation }}
                     onClick={() => setRolling(true)}
-                    icon={<SixSidesDiceIcon w={12} h={12} />}
+                    icon={setDiceBySides(diceSides)}
                     bg='none'
                 />
             ))}

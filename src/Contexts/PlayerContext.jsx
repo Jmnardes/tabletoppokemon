@@ -166,9 +166,9 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-start', (res) => {
+            setEncounter([...res.encounter])
             setHasGameStarted(true)
-
-            if(res) setEncounter(res)
+            updateGame({ openEncounterModal: true })
         })
 
             //TURNS
@@ -179,8 +179,9 @@ export function PlayerProvider({children}) {
 
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
+            setSession(old => ({...old, turns: old.turns + 1}))
             updateOpponents(false, 'turnReady')
-            console.log(res)
+            console.log('turn start:', res)
             setEvent({
                 title: res.event.title,
                 label: res.event.label,
@@ -190,8 +191,6 @@ export function PlayerProvider({children}) {
                 disadvantage: res.event.disadvantage,
                 dice: res.event.dice
             })
-
-            setEncounter(...res.encounter)
             
             switch (res.event.type) {
                 case 'challenge':
@@ -199,6 +198,8 @@ export function PlayerProvider({children}) {
                     break
                 case 'walk':
                     setGame(old => ({...old, openWalkModal: true}))
+
+                    setEncounter([...res.encounter])
                     break
                 default:
                     break

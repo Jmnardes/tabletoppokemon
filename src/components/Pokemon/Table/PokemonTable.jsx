@@ -20,8 +20,8 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
         return (
             <Box display="flex" alignItems="center" px={2}>
                 <Box mr={2}>
-                    {nature.statUp === statAbrev && pokemonStat(statName, true)}
-                    {nature.statDown === statAbrev && pokemonStat(statName, false)}
+                    {/* {nature.statUp === statAbrev && pokemonStat(statName, true)}
+                    {nature.statDown === statAbrev && pokemonStat(statName, false)} */}
                 </Box>
                 <Image
                     mr={1}
@@ -39,7 +39,8 @@ function PokemonTable({ health, attack, defense, speed, nature, name, showingTyp
             {showingType !== 'roll' &&
                 <>
                     {showingType === 'inventary' && (
-                        <Text fontSize="lg">{nature.nature}{" "}{nature.statUp && `(+${nature.statUp})`}{" "}{nature.statDown && `(-${nature.statDown})`}</Text>
+                        // <Text fontSize="lg">{nature.nature}{" "}{nature.statUp && `(+${nature.statUp})`}{" "}{nature.statDown && `(-${nature.statDown})`}</Text>
+                        <Text fontSize="lg">{nature}</Text>
                     )}
                     <Flex mt={showingType === 'inventary' ? 0 : 2}>
                         <StatInventary

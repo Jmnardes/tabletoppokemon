@@ -120,7 +120,7 @@ export default function WalkModal({ pokeTeam }) {
                     <ModalFooter p={0}>
 
                         <Button h={12} onClick={() => {
-                            updateGame({ openWalkModal: false })
+                            updateGame({ openWalkModal: false, openEncounterModal: true })
                         }}>
                             <SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} />
                         </Button>

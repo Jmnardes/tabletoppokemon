@@ -14,7 +14,7 @@ import SadIcon from "../../../Icons/emote/sadIcon"
 export default function EncounterModal() {
     const { updateGame, session } = useContext(PlayerContext)
     const [catchablePokemon, setCatchablePokemon] = useState(true)
-    console.log(session)
+
     return (
         <>
             <Modal isOpen size="xl" isCentered>

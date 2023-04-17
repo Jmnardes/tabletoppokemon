@@ -28,7 +28,7 @@ function Types({ types, shiny, tier, color, showingType }) {
             {shiny &&
                 <Box ml={1.5} my={1}>{<FaStar title="Shiny" size={20}/>}</Box>
             }
-            {types.map(t => {
+            {types?.map(t => {
                 return <Element key={t} element={t} />
             })}
         </Box>

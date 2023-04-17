@@ -26,7 +26,6 @@ import { FaInfoCircle } from "react-icons/fa";
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
-import pokemon from '../../../../assets/json/pokemons.json'
 import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 import SadIcon from "../../../Icons/emote/sadIcon"
@@ -81,11 +80,9 @@ export default function ChallengeModal() {
     }
 
     const checkChallengeBonus = (pokeTeam) => {
-        bonus.current = pokeTeam.reduce((acc, poke) => {
-            const pokemonData = pokemon[poke.pokemonId]
-
+        bonus.current = pokeTeam?.reduce((acc, poke) => {
             if(event.advantage.type === 'element') {
-                return acc + (pokemonData.type).reduce((acc, element) => {
+                return acc + (poke.types).reduce((acc, element) => {
                     const checkIfElementIncludes = event.advantage.value.includes(element)
 
                     return acc + checkIfElementIncludes

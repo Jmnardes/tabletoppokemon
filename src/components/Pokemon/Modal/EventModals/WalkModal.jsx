@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import SuccessIcon from "../../../Icons/SuccessIcon"
-import pokemon from '../../../../assets/json/pokemons.json'
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
@@ -43,17 +42,19 @@ export default function WalkModal() {
         const advantage = event.advantage?.value?.[0]
         if (!advantage) return true
         
-        return pokeTeam.reduce((acc, cur) => {
-            const pokeData = pokemon[cur.pokemonId]
+        return pokeTeam?.reduce((acc, cur) => {
             switch (event.advantage.type) {
                 case 'element': {
-                    return acc || (pokeData.type.includes(advantage))
+                    return acc || (cur.types?.includes(advantage))
                 }
                 case 'nature': {
-                    return acc || (cur.nature.nature.toLowerCase() === advantage)
+                    return acc || (cur.nature?.toLowerCase() === advantage)
                 }
+                default:
+                    break
             }
         }, false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -61,6 +62,7 @@ export default function WalkModal() {
             const newAmount = player[prize.type][prize.name] + prize.amount
             updatePlayer(newAmount, prize.type, prize.name)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [conditionMet])
 
     return (

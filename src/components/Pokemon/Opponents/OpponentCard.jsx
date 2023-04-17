@@ -23,7 +23,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
         <Card
             backgroundColor={bgColor}
             padding="1rem"
-            borderRadius="1rem"
+            borderRadius={12}
             gap="0.75rem"
             border={borderStyle}
             zIndex={inFront ? '2' : 'auto'}

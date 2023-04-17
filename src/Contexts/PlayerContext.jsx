@@ -101,8 +101,24 @@ export function PlayerProvider({children}) {
         }
     }, [])
 
-    const updatePokeTeam = (poke) => setPokeTeam(old => [...old, poke])
-    const updatePokeBox = (poke) => setPokeBox(old => [...old, poke])
+    const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
+    const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
+    const removeFromPokeTeam = (poke, arr) => {
+        arr.filter((data, index) => {
+            if(data.id === poke.id) {
+                arr.splice(index, 1)
+            }
+            setPokeTeam(arr)
+        })
+    }
+    const removeFromPokeBox = (poke, arr) => {
+        arr.filter((data, index) => {
+            if(data.id === poke.id) {
+                arr.splice(index, 1)
+            }
+            setPokeBox(arr)
+        })
+    }
 
     const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
     const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
@@ -182,7 +198,6 @@ export function PlayerProvider({children}) {
         socket.on('turn-start', res => {
             setSession(old => ({...old, turns: old.turns + 1}))
             updateOpponents(false, 'turnReady')
-            console.log('turn start:', res)
 
             setEvent({
                 title: res.event.title,
@@ -207,11 +222,9 @@ export function PlayerProvider({children}) {
                 default:
                     break
             }
-            // logic for event type
 
             setWaitingForPlayers(false)
             setGame(old => ({...old, turn: old.turn + 1, isPokemonRollDisabled: false}))
-            // setLoadingApi(false)
         })
         
             //PLAYERS
@@ -261,8 +274,10 @@ export function PlayerProvider({children}) {
 
             pokeTeam,
             updatePokeTeam,
+            removeFromPokeTeam,
             pokeBox,
             updatePokeBox,
+            removeFromPokeBox,
 
             changeCurrency,
             updateCurrency,

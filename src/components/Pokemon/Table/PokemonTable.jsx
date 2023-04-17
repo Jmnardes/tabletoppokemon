@@ -20,8 +20,8 @@ function PokemonTable({ health, attack, defense, accuracy, evasion, critical, na
 
     const StatInventary = ({ stat, statName, statAbrev, statIcon }) => {
         return (
-            <Box display="flex" alignItems="center" px={2}>
-                <Box mr={2}>
+            <Box display="flex" alignItems="center">
+                <Box mx={1}>
                     {/* {nature.statUp === statAbrev && pokemonStat(statName, true)}
                     {nature.statDown === statAbrev && pokemonStat(statName, false)} */}
                 </Box>

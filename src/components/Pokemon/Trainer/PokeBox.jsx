@@ -6,11 +6,12 @@ import Inventary from "../Inventary/Inventary"
 import { FaPlusSquare, FaDollarSign } from "react-icons/fa";
 
 export default function PokeBox() {
-    const { pokeBox, pokeTeam, session } = useContext(PlayerContext)
+    const { pokeBox, pokeTeam, session, updatePokeTeam, removeFromPokeBox } = useContext(PlayerContext)
 
     return (
         <HStack
             p={1}
+            h={28}
             direction={['column', 'row']}
             spacing={1}
             overflowX={"auto"}
@@ -30,7 +31,7 @@ export default function PokeBox() {
         >
             {pokeBox?.map((poke) => {
                 return (
-                    <Box key={poke.id} m={1}>
+                    <Box key={poke.id}>
                         <Inventary poke={poke} />
                         <Box display="flex" justifyContent="center">
                             <Button
@@ -45,8 +46,11 @@ export default function PokeBox() {
                                     borderLeft: "2px solid #327ae64c",
                                     borderBottom: "2px solid #327ae64c"
                                 }}
-                                isDisabled={pokeTeam.length >= session.teamLength ? true : false}
-                                // onClick={() => handleAddPokemonTeam(poke)}
+                                isDisabled={pokeTeam?.length >= session.teamLength ? true : false}
+                                onClick={() => {
+                                    updatePokeTeam(poke)
+                                    removeFromPokeBox(poke, pokeBox)
+                                }}
                             >
                                 <FaPlusSquare size="16px" style={{ color: "#085ad6", marginRight: "4px" }}/>
                             </Button>
@@ -67,7 +71,7 @@ export default function PokeBox() {
                                     borderRight: "2px solid #52d73750",
                                     borderBottom: "2px solid #52d73750"
                                 }}
-                                // onClick={() => handleRemovePokeFromInventory(poke, true)}
+                                onClick={() => removeFromPokeBox(poke)}
                             >
                                 <FaDollarSign size="16px" style={{ color: "green" }}/>
                             </Button>

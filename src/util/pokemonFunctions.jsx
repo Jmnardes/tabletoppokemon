@@ -1,31 +1,31 @@
 import { stringToUpperCase } from "."
 
-export const catchDifficulty = (tier, difficulty = 0) => {
+export const catchDifficulty = (tier, difficulty = 0, rarity, shiny) => {
   switch (tier) {
     case 0:
-      return tier = 1 + difficulty
+      return tier = (1 + difficulty + rarity + shiny)
     case 1:
-      return tier = 2 + difficulty
+      return tier = (2 + difficulty + rarity + shiny)
     case 2:
-      return tier = 3 + difficulty
+      return tier = (3 + difficulty + rarity + shiny)
     case 3:
-      return tier = 4 + difficulty
+      return tier = (4 + difficulty + rarity + shiny)
     case 4:
-      return tier = 5 + difficulty
+      return tier = (5 + difficulty + rarity + shiny)
     case 5:
-      return tier = 6 + difficulty
+      return tier = (6 + difficulty + rarity + shiny)
     case 6:
-      return tier = 7 + difficulty
+      return tier = (7 + difficulty + rarity + shiny)
     case 7:
-      return tier = 8 + difficulty
+      return tier = (8 + difficulty + rarity + shiny)
     case 8:
-      return tier = 9 + difficulty
+      return tier = (9 + difficulty + rarity + shiny)
     case 9:
-      return tier = 10 + difficulty
+      return tier = (10 + difficulty + rarity + shiny)
     case 10:
-      return tier = 11 + difficulty
+      return tier = (11 + difficulty + rarity + shiny)
     default:
-      return tier = 12 + difficulty
+      return tier = (12 + difficulty + rarity + shiny)
   }
 }
 

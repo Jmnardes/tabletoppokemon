@@ -25,7 +25,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         my={2}
                         title="Poke Ball"
                         isDisabled={player.balls.pokeball === 0 || game.isPokemonRollDisabled}
-                        onClick={() => handleBallClick(-1, 'pokeball', 2)}
+                        onClick={() => handleBallClick(-1, 'pokeball', 0)}
                     >
                         <Image
                             src={greatballIcon} 
@@ -38,7 +38,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         my={2}
                         title="Great Ball"
                         isDisabled={player.balls.greatball === 0 || game.isPokemonRollDisabled}
-                        onClick={() => handleBallClick(-1, 'greatball', 3)}
+                        onClick={() => handleBallClick(-1, 'greatball', 2)}
                     >
                         <Image
                             src={superballIcon} 

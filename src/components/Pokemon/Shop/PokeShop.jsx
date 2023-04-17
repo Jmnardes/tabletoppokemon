@@ -70,9 +70,9 @@ export default function PokeShop() {
 
                 {player.currency.crowns > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={player.currency.crowns} />}
 
-                {player.items.pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={player.items.pokemonEgg} />}
+                {/* {player.items.pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={player.items.pokemonEgg} />} */}
 
-                {player.items.incubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Incubator'} counter={player.items.incubator} />}
+                {/* {player.items.incubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Incubator'} counter={player.items.incubator} />} */}
 
                 {player.balls.pokeball > 0 && <ItemComponent icon={greatballIcon} desc={'Poke Ball'} counter={player.balls.pokeball} />}
 
@@ -92,7 +92,7 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Poke Ball'}
-                    price={4}
+                    price={2}
                     scaling={1}
                     itemType={'pokeball'}
                     setter={updateBall}
@@ -101,7 +101,7 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Great Ball'}
-                    price={8}
+                    price={4}
                     scaling={2}
                     itemType={'greatball'}
                     setter={updateBall}
@@ -110,7 +110,7 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Ultra Ball'}
-                    price={12}
+                    price={6}
                     scaling={3}
                     itemType={'ultraball'}
                     setter={updateBall}
@@ -126,14 +126,14 @@ export default function PokeShop() {
                     itemIcon={masterballIcon}
                 />
                 
-                <TableItem 
+                {/* <TableItem 
                     title={'Incubator'}
-                    price={10}
+                    price={5}
                     scaling={7}
                     itemType={'incubator'}
                     setter={updateItem}
                     itemIcon={incubatorGreatIcon}
-                />
+                /> */}
 
                 <TableItem 
                     title={'Poke Star'}

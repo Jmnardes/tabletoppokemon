@@ -19,7 +19,7 @@ export default function PokeballStats() {
             <Flex alignItems="center" mx={3}>
                 <Image
                     src={greatballIcon} 
-                    title={'+2'}
+                    title={'+0'}
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.pokeball}</Text>
@@ -27,7 +27,7 @@ export default function PokeballStats() {
             <Flex alignItems="center" mx={3}>
                 <Image
                     src={superballIcon} 
-                    title={'+3'}
+                    title={'+2'}
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.greatball}</Text>
@@ -43,12 +43,12 @@ export default function PokeballStats() {
             <Flex alignItems="center" mx={3}>
                 <Image
                     src={masterballIcon} 
-                    title={'+10'}
+                    title={'+15'}
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.masterball}</Text>
             </Flex>
-            <Flex alignItems="center" mx={3}>
+            {/* <Flex alignItems="center" mx={3}>
                 <Image
                     src={stealIcon} 
                     title={'Team Rocket Pass'}
@@ -63,8 +63,8 @@ export default function PokeballStats() {
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.items.fight}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={3}>
+            </Flex> */}
+            {/* <Flex alignItems="center" mx={3}>
                 <Image
                     src={eggIcon} 
                     title={'Pokemon Egg'}
@@ -79,7 +79,7 @@ export default function PokeballStats() {
                     w="28px"
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.items.incubator}</Text>
-            </Flex>
+            </Flex> */}
         </>
     )
 }

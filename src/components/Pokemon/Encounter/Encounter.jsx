@@ -22,7 +22,7 @@ export default function Encounter({ setCatchablePokemon }) {
     }
 
     const PokemonEncounterCard = ({ poke }) => {
-        let catchRollDifficulty = catchDifficulty(poke.tier, session.gameDifficulty) + poke.shiny
+        let catchRollDifficulty = catchDifficulty(poke.tier, session.gameDifficulty, poke.rarity.rarity, poke.shiny)
 
         if(session.turns === 0) catchRollDifficulty = 0
 

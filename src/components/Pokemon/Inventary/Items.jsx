@@ -1,6 +1,7 @@
 import { Center, Flex, Image, useColorMode } from "@chakra-ui/react"
 import PokeballStats from '../Trainer/PokeballStats'
 import backpackIcon from '../../../assets/images/game/bag.png'
+import TeamTitle from "../Team/TeamTitle"
 
 export default function Items() {
     const { colorMode } = useColorMode()
@@ -9,7 +10,7 @@ export default function Items() {
         <>
             <Flex justifyContent="center" py={2} alignItems="center" width="100%" bg={colorMode === 'light' ? "#A0AEC0" : "#2D3748"}>
                 <Center flexDirection="row">
-                    {/* <TeamTitle /> */}
+                    <TeamTitle/>
 
                     <Image
                         src={backpackIcon} 

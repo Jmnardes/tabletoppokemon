@@ -47,9 +47,9 @@ export default function Element({ element, elementTable }) {
                     cursor="pointer"
                     key={type} 
                     src={icon}
-                    w={6} 
-                    h={6}
-                    mx={elementTable && 3}
+                    w={5} 
+                    h={5}
+                    mx={elementTable && 2}
                     ml={!elementTable && 1}
                     my={!elementTable && 0.5}
                 />

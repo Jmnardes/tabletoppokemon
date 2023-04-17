@@ -243,7 +243,3 @@ export const parseNumberToNatural = (number, division) => {
 export const parseNumberMultToNatural = (number, multiply) => {
     return Number(Number.parseFloat(number*multiply).toFixed(0))
 }
-
-export const tierSellingPrice = (tier) => {
-    return Number(tier) + 1
-}

@@ -13,6 +13,7 @@ import TrainerBar from "./Pokemon/Trainer/TrainerBar"
 import Settings from "./Pokemon/Configuration/Settings"
 import TeamContainer from "./Pokemon/Team/TeamContainer";
 import Items from "./Pokemon/Inventary/Items";
+import ElementsList from "./Pokemon/Team/ElementsList";
 
 function PokePage() {
     const { player, game, emit, setWaitingForPlayers } = useContext(PlayerContext)
@@ -44,6 +45,7 @@ function PokePage() {
                 <Flex flex="1" flexDir="column" overflow="hidden">
                     <PokeBox />
 
+                    <ElementsList />
                     <Items />
                     
                     <TeamContainer finishTurn={finishTurn} />

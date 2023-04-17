@@ -11,6 +11,7 @@ export default function Encounter({ setCatchablePokemon }) {
     const [catchRoll, setCatchRoll] = useState(0)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)
+    const divisibleByThree = encounter.length % 3 === 0
     
     const handleCatchDiceRoll = (bonus) => {
         let result = diceRoll(19)
@@ -74,7 +75,7 @@ export default function Encounter({ setCatchablePokemon }) {
     return (
         <Center>
             <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
-                <SimpleGrid columns={2} p={2}>
+                <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
                     {encounter.map(poke => {
                         return <PokemonEncounterCard key={poke.id} poke={poke} />
                     })}

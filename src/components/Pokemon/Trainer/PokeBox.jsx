@@ -14,7 +14,6 @@ export default function PokeBox() {
             direction={['column', 'row']}
             spacing={1}
             overflowX={"auto"}
-            flexWrap={"wrap"}
             css={{
                 "&::-webkit-scrollbar": {
                     height: "14px",

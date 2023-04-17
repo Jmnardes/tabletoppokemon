@@ -7,7 +7,7 @@ export default function PokeTeam() {
     const { pokeTeam } = useContext(PlayerContext)
 
     return (
-        <Flex justifyContent="center" alignItems="center">
+        <Flex justifyContent="center" alignItems="center" flex="1">
             {pokeTeam?.map((poke) => {
                 return (
                     <Box key={poke.id} m={2} mt={4}>

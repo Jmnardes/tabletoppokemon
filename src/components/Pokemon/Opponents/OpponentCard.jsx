@@ -1,7 +1,7 @@
 import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
-import { Center, Divider, Flex, Heading, Kbd, Text } from "@chakra-ui/layout"
+import { Center, Divider, Flex, Heading, Text } from "@chakra-ui/layout"
 import crownIcon from '../../../assets/images/game/crown.png'
 import starIcon from '../../../assets/images/game/star.png'
 import coinIcon from '../../../assets/images/game/coin.png'
@@ -34,7 +34,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                     backgroundColor={bgColor}
                     borderRadius="50%"
                     position="absolute"
-                    top="-20px"
+                    top="-18px"
                     left="0px"
                 >
                     {opponent.turnReady ? (
@@ -46,9 +46,6 @@ export default function OpponentCard({ opponent, inFront = false }) {
             )}
             <Flex direction="column" align="center">
                 <Heading>{opponent.status.trainerName}</Heading>
-                <Flex>
-                    <Kbd>{`Level ${opponent.status.level}`}</Kbd>
-                </Flex>
             </Flex>
             <Divider />
             {opponent.online ? (

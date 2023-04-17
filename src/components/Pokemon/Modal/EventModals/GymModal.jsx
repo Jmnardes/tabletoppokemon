@@ -15,7 +15,7 @@ import starIcon from '../../../../assets/images/game/star.png'
 import GymBlock from "../../Event/GymBlock"
 
 
-export default function GymModal({ pokeTeam }) {
+export default function GymModal() {
     const { updateGame, event } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 

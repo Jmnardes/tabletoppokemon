@@ -4,7 +4,7 @@ import PlayerContext from "../../../Contexts/PlayerContext";
 import { diceRoll, typeColor } from "../../../util";
 import Types from "../Table/Types";
 import EncounterBalls from "./EncounterBalls";
-import { catchDifficulty } from "../../pokemonFunctions";
+import { catchDifficulty } from "../../../util/pokemonFunctions";
 
 export default function Encounter({ setCatchablePokemon }) {
     const { encounter, updatePokeBox, updateGame, session } = useContext(PlayerContext)

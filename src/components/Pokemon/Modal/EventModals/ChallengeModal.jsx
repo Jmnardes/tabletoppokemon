@@ -4,7 +4,6 @@ import {
     ModalHeader,
     ModalBody,
     Button,
-    useDisclosure,
     ModalFooter,
     ModalOverlay,
     Text,
@@ -32,10 +31,9 @@ import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 import SadIcon from "../../../Icons/emote/sadIcon"
 
-export default function ChallengeModal({ pokeTeam }) {
-    const { updateGame, event, emit, opponents, updateCurrency } = useContext(PlayerContext)
+export default function ChallengeModal() {
+    const { updateGame, event, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-    const { onClose } = useDisclosure()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [showAwarding, setShowAwarding] = useState(false)
     const bonus = useRef(0)
@@ -68,7 +66,7 @@ export default function ChallengeModal({ pokeTeam }) {
 
     const PlaceBox = ({ icon, prize }) => {
         return (
-            <Flex alignItems="center" w="100%" minW={32} mr={6} bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
+            <Flex alignItems="center" w="100%" minW={32} mx={6} bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                 <Box position="absolute" bottom="45px" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius="50%">
                     {icon}
                 </Box>
@@ -224,9 +222,7 @@ export default function ChallengeModal({ pokeTeam }) {
                                 <ModalFooter px={0}>
 
                                     <Button h={12} isDisabled={!showAwarding} onClick={() => {
-                                        updateGame({ openChallengeModal: false })
-                                        onClose()
-                                        setShowAwarding(false)
+                                        updateGame({ openChallengeModal: false, openEncounterModal: true })
                                     }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
 
                                 </ModalFooter>
@@ -236,7 +232,10 @@ export default function ChallengeModal({ pokeTeam }) {
                                 <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
                                     {event.title}
                                     <Tooltip 
-                                        label={`You roll a dice with ${event.dice.max}x sides and sum the advantages, the highest value wins the award!`} 
+                                        label={
+                                            `You roll a dice with ${event.dice.max}x sides and sum the advantages, the highest value wins the award!` +
+                                            `\n\nPS: On ties, all of the tieing participants win the award`
+                                        } 
                                         bg="#89CFF0"
                                     >
                                         <span>
@@ -302,20 +301,12 @@ export default function ChallengeModal({ pokeTeam }) {
 
                                 <ModalFooter p={0}>
 
-                                    <Flex w="100%" justifyContent="space-between">
-                                        <Flex>
+                                    <Flex w="100%" h={12} justifyContent="space-between">
                                             <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
                                             <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
                                             {opponents.length > 1 && (
                                                 <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
                                             )}
-                                        </Flex>
-
-                                        <Button h={12} isDisabled={!showAwarding} onClick={() => {
-                                            updateGame({ openChallengeModal: false })
-                                            onClose()
-                                            setShowAwarding(false)
-                                        }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
                                     </Flex>
 
                                 </ModalFooter>

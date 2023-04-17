@@ -10,6 +10,7 @@ export function PlayerProvider({children}) {
     const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
+    const [confetti, setConfetti] = useState(true)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -182,6 +183,7 @@ export function PlayerProvider({children}) {
             setSession(old => ({...old, turns: old.turns + 1}))
             updateOpponents(false, 'turnReady')
             console.log('turn start:', res)
+
             setEvent({
                 title: res.event.title,
                 label: res.event.label,
@@ -192,6 +194,8 @@ export function PlayerProvider({children}) {
                 dice: res.event.dice
             })
             
+            setEncounter([...res.encounter])
+            
             switch (res.event.type) {
                 case 'challenge':
                     setGame(old => ({...old, openChallengeModal: true}))
@@ -199,7 +203,6 @@ export function PlayerProvider({children}) {
                 case 'walk':
                     setGame(old => ({...old, openWalkModal: true}))
 
-                    setEncounter([...res.encounter])
                     break
                 default:
                     break
@@ -269,6 +272,9 @@ export function PlayerProvider({children}) {
             
             updateItem,
             changeItem,
+
+            confetti,
+            setConfetti
         }}>
             {children}
         </PlayerContext.Provider>

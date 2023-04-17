@@ -3,7 +3,6 @@ import { Button, Flex, Text, useColorMode, Center, Grid, GridItem } from '@chakr
 import Inventary from "./Pokemon/Inventary/Inventary"
 import Team from "./Pokemon/Inventary/Team"
 import { FaPlusSquare, FaDollarSign, FaArrowRight } from "react-icons/fa";
-import { ConfettiCanvas } from "react-raining-confetti";
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Players/Opponents"
@@ -23,7 +22,6 @@ function PokePage() {
     const { colorMode } = useColorMode()
     const [endTurnButton, setEndTurnButton] = useState(true)
     const [closeModal, setCloseModal] = useState(false)
-    const [confetti, setConfetti] = useState(true)
 
     // const handlePokemonRollClean = (pokemonCatchExp) => {
     //     if(pokemonCatchExp) {
@@ -49,9 +47,6 @@ function PokePage() {
     return (
         <>
             <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-            {confetti ? (
-                <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
-            ): null}
                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
                     <GridItem colSpan={2}>
                         <Center justifyContent="left">

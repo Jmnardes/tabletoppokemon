@@ -37,15 +37,14 @@ export default function PokeShop() {
     const TableItem = ({ title, price, scaling, itemType, setter, itemIcon }) => {
         const priceScaled = price + coinPerTurn(session.turns, scaling)
         return (
-            <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
+            <Center flexDirection="row" w="100%" justifyContent="space-between" mb={2}>
                 {/* <Text w="200px">{title}</Text> */}
                 <Image src={itemIcon} title={title} w="20px" />
                 <Center>
                     <Image src={coinIcon} title="Coin" w="20px" mr={2} />
-                    <Text w="80px">{priceScaled}</Text>
+                    <Text>{priceScaled}</Text>
                 </Center>
-                <Button 
-                    w="60px"
+                <Button
                     isDisabled={myCurrency.coins < (priceScaled)}
                     onClick={() => {
                         setter(old => (
@@ -94,10 +93,10 @@ export default function PokeShop() {
                 
             </Center>
             <Center flexDirection="column">
-                <Center flexDirection="row" w="100%" justifyContent="space-around" mb={4}>
-                    <Text w="200px" fontWeight="bold">Product</Text>
-                    <Text w="80px" fontWeight="bold">Cost</Text>
-                    <Text w="60px" fontWeight="bold" textAlign="center">Buy</Text>
+                <Center flexDirection="row" w="100%" justifyContent="space-between" mb={4}>
+                    <Text fontWeight="bold">Product</Text>
+                    <Text fontWeight="bold" mr={12}>Cost</Text>
+                    <Text fontWeight="bold" textAlign="center" mr={4}>Buy</Text>
                 </Center>
 
                 <TableItem 
@@ -163,14 +162,13 @@ export default function PokeShop() {
                     itemIcon={crownIcon}
                 />
 
-                <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
+                <Center flexDirection="row" w="100%" justifyContent="space-between" mb={2}>
                     <Image src={crownIcon} title="Poke Crown" w="20px" />
                     <Center>
                         <Image src={starIcon} title="Coin" w="20px" mr={2} />
-                        <Text w="80px">3</Text>
+                        <Text>3</Text>
                     </Center>
-                    <Button 
-                        w="60px"
+                    <Button
                         isDisabled={myCurrency.stars < 3}
                         onClick={() => {
                             setMyCurrency(old => (

@@ -19,9 +19,10 @@ export function PlayerProvider({children}) {
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
     const [game, setGame] = useState({
-        turn: 0,
         gameEnded: false,
         isPokemonRollDisabled: false,
+        openPokeShop: false,
+        updateShop: false,
         openChallengeModal: false,
         openWalkModal: false,
         openGymModal: false,
@@ -196,7 +197,7 @@ export function PlayerProvider({children}) {
 
         // everyone has ended turn, and will start another one
         socket.on('turn-start', res => {
-            setSession(old => ({...old, turns: old.turns + 1}))
+            setSession(old => ({...old, turns: res.session.turns}))
             updateOpponents(false, 'turnReady')
 
             setEvent({
@@ -224,7 +225,7 @@ export function PlayerProvider({children}) {
             }
 
             setWaitingForPlayers(false)
-            setGame(old => ({...old, turn: old.turn + 1, isPokemonRollDisabled: false}))
+            setGame(old => ({...old, isPokemonRollDisabled: false}))
         })
         
             //PLAYERS

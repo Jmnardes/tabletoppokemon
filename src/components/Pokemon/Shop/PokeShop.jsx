@@ -1,5 +1,4 @@
 import { Button, Center, Image, Text } from "@chakra-ui/react";
-import PokeModal from "../Modal/Modal";
 import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
 import superballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
@@ -7,16 +6,18 @@ import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
 import coinIcon from '../../../assets/images/game/coin.png'
 import starIcon from '../../../assets/images/game/star.png'
 import crownIcon from '../../../assets/images/game/crown.png'
-import shopIcon from '../../../assets/images/game/shop.png'
 import buyIcon from '../../../assets/images/game/buy.png'
 import eggIcon from '../../../assets/images/items/egg.png'
 import incubatorGreatIcon from '../../../assets/images/items/incubator-great.png'
 import { parseNumberToNatural } from "../../../util";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function PokeShop() {
-    const { player, updateItem, updateCurrency, updateBall, game } = useContext(PlayerContext)
+    const { player, session, updateGame, game, setPlayer } = useContext(PlayerContext)
+    const [myBalls, setMyBalls] = useState(player.balls)
+    const [myCurrency, setMyCurrency] = useState(player.currency)
+    const [myItems, setMyItems] = useState(player.items)
 
     function coinPerTurn(turns, multiple) {return parseNumberToNatural(turns, 10) * multiple}
 
@@ -34,53 +35,62 @@ export default function PokeShop() {
     }
 
     const TableItem = ({ title, price, scaling, itemType, setter, itemIcon }) => {
+        const priceScaled = price + coinPerTurn(session.turns, scaling)
         return (
             <Center flexDirection="row" w="100%" justifyContent="space-around" mb={2}>
                 {/* <Text w="200px">{title}</Text> */}
                 <Image src={itemIcon} title={title} w="20px" />
                 <Center>
                     <Image src={coinIcon} title="Coin" w="20px" mr={2} />
-                    <Text w="80px">{price + coinPerTurn(game.turn, scaling)}</Text>
+                    <Text w="80px">{priceScaled}</Text>
                 </Center>
                 <Button 
                     w="60px"
-                    isDisabled={player.currency.coins < (price + coinPerTurn(game.turn, scaling))}
+                    isDisabled={myCurrency.coins < (priceScaled)}
                     onClick={() => {
-                        setter(1, itemType)
-                        updateCurrency(-(price + coinPerTurn(game.turn, scaling)), 'coins')
+                        setter(old => (
+                            {...old, [itemType]: old[itemType] + 1}
+                        ))
+                        setMyCurrency(old => (
+                            {...old, coins: old.coins -(priceScaled)}
+                        ))
                     }}
                 ><BuyButton/></Button>
             </Center>
         )
     }
 
+    useEffect(() => {
+        if(game.updateShop === true) {
+            setPlayer(old => (
+                {...old, balls: myBalls, currency: myCurrency, items: myItems}
+            ))
+            updateGame({ updateShop: false, openPokeShop: false })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [game.updateShop])
+
     return (
-        <PokeModal title={'Shop'} button={
-            <Image
-                src={shopIcon} 
-                title={'Shop'}
-                w="32px"
-            ></Image>
-        }>
+        <>
             <Center mb={4}>
 
-                {player.currency.coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={player.currency.coins} />}
+                {myCurrency.coins > 0 && <ItemComponent icon={coinIcon} desc={'Coin'} counter={myCurrency.coins} />}
                 
-                {player.currency.stars > 0 && <ItemComponent icon={starIcon} desc={'Poke Star'} counter={player.currency.stars} />}
+                {myCurrency.stars > 0 && <ItemComponent icon={starIcon} desc={'Poke Star'} counter={myCurrency.stars} />}
 
-                {player.currency.crowns > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={player.currency.crowns} />}
+                {myCurrency.crowns > 0 && <ItemComponent icon={crownIcon} desc={'Poke Crown'} counter={myCurrency.crowns} />}
 
-                {/* {player.items.pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={player.items.pokemonEgg} />} */}
+                {/* {myItems.pokemonEgg > 0 && <ItemComponent icon={eggIcon} desc={'Pokemon Egg'} counter={myItems.pokemonEgg} />} */}
 
-                {/* {player.items.incubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Incubator'} counter={player.items.incubator} />} */}
+                {/* {myItems.incubator > 0 && <ItemComponent icon={incubatorGreatIcon} desc={'Incubator'} counter={myItems.incubator} />} */}
 
-                {player.balls.pokeball > 0 && <ItemComponent icon={greatballIcon} desc={'Poke Ball'} counter={player.balls.pokeball} />}
+                {myBalls.pokeball > 0 && <ItemComponent icon={greatballIcon} desc={'Poke Ball'} counter={myBalls.pokeball} />}
 
-                {player.balls.greatball > 0 && <ItemComponent icon={superballIcon} desc={'Great Ball'} counter={player.balls.greatball} />}
+                {myBalls.greatball > 0 && <ItemComponent icon={superballIcon} desc={'Great Ball'} counter={myBalls.greatball} />}
 
-                {player.balls.ultraball > 0 && <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={player.balls.ultraball} />}
+                {myBalls.ultraball > 0 && <ItemComponent icon={ultraballIcon} desc={'Ultra Ball'} counter={myBalls.ultraball} />}
 
-                {player.balls.masterball > 0 && <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={player.balls.masterball} />}
+                {myBalls.masterball > 0 && <ItemComponent icon={masterballIcon} desc={'Master Ball'} counter={myBalls.masterball} />}
                 
             </Center>
             <Center flexDirection="column">
@@ -95,7 +105,7 @@ export default function PokeShop() {
                     price={2}
                     scaling={1}
                     itemType={'pokeball'}
-                    setter={updateBall}
+                    setter={setMyBalls}
                     itemIcon={greatballIcon}
                 />
 
@@ -104,7 +114,7 @@ export default function PokeShop() {
                     price={4}
                     scaling={2}
                     itemType={'greatball'}
-                    setter={updateBall}
+                    setter={setMyBalls}
                     itemIcon={superballIcon}
                 />
 
@@ -113,7 +123,7 @@ export default function PokeShop() {
                     price={6}
                     scaling={3}
                     itemType={'ultraball'}
-                    setter={updateBall}
+                    setter={setMyBalls}
                     itemIcon={ultraballIcon}
                 />
 
@@ -122,7 +132,7 @@ export default function PokeShop() {
                     price={20}
                     scaling={5}
                     itemType={'masterball'}
-                    setter={updateBall}
+                    setter={setMyBalls}
                     itemIcon={masterballIcon}
                 />
                 
@@ -140,7 +150,7 @@ export default function PokeShop() {
                     price={28}
                     scaling={7}
                     itemType={'star'}
-                    setter={updateCurrency}
+                    setter={setMyCurrency}
                     itemIcon={starIcon}
                 />
 
@@ -149,7 +159,7 @@ export default function PokeShop() {
                     price={72}
                     scaling={18}
                     itemType={'crown'}
-                    setter={updateCurrency}
+                    setter={setMyCurrency}
                     itemIcon={crownIcon}
                 />
 
@@ -161,14 +171,15 @@ export default function PokeShop() {
                     </Center>
                     <Button 
                         w="60px"
-                        isDisabled={player.currency.stars < 3}
+                        isDisabled={myCurrency.stars < 3}
                         onClick={() => {
-                            updateCurrency(1, 'crowns')
-                            updateCurrency(-3, 'stars')
+                            setMyCurrency(old => (
+                                {...old, crowns: old.crowns + 1, stars: old.stars - 3}
+                            ))
                         }}
                     ><BuyButton/></Button>
                 </Center>
             </Center>
-        </PokeModal>
+        </>
     )
 }

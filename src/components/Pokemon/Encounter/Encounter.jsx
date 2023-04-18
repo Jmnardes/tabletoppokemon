@@ -42,7 +42,6 @@ export default function Encounter({ setCatchablePokemon }) {
                     onClick={() => {
                         updateGame({ isPokemonRollDisabled: true, openEncounterModal: false })
                         updatePokeBox(poke)
-                        setCatchablePokemon(true)
                     }}
                 >
                     <Image

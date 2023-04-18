@@ -9,7 +9,7 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 
 export default function TrainerBar() {
-    const { player, game } = useContext(PlayerContext)
+    const { player, game, session } = useContext(PlayerContext)
     
     return (
         <>
@@ -20,7 +20,7 @@ export default function TrainerBar() {
                         title={'Turns'}
                         w="24px"
                     ></Image>
-                    <Text ml={2}>{game.turn}</Text>
+                    <Text ml={2}>{session.turns}</Text>
                 </Flex>
             )}
             <Flex alignItems="center" mx={2}>

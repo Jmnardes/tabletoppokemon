@@ -25,7 +25,7 @@ export const catchDifficulty = (tier, difficulty = 0, rarity, shiny) => {
     case 10:
       return tier = (11 + difficulty + rarity + shiny)
     default:
-      return tier = (12 + difficulty + rarity + shiny)
+      return tier = (13 + difficulty + rarity + shiny)
   }
 }
 

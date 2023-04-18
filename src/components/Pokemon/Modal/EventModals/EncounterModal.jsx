@@ -12,7 +12,7 @@ import Encounter from "../../Encounter/Encounter"
 import SadIcon from "../../../Icons/emote/sadIcon"
 
 export default function EncounterModal() {
-    const { updateGame, session } = useContext(PlayerContext)
+    const { updateGame, session, player } = useContext(PlayerContext)
     const [catchablePokemon, setCatchablePokemon] = useState(true)
 
     return (
@@ -39,11 +39,21 @@ export default function EncounterModal() {
 
                             <Button mt={6} h={12} onClick={() => {
                                 updateGame({ openEncounterModal: false })
-                                setCatchablePokemon(true)
                             }}>
                                 Sorry, you lost all of them
                             </Button>
                         </Center>
+                    )}
+
+                    {(player.balls.pokeball === 0 &&
+                    player.balls.greatball === 0 && 
+                    player.balls.ultraball === 0 &&
+                    player.balls.masterball === 0) && (
+                        <Button mt={6} h={12} onClick={() => {
+                            updateGame({ openEncounterModal: false })
+                        }}>
+                            Sorry, you don't have pokeballs
+                        </Button>
                     )}
                 </ModalContent>
             </Modal>

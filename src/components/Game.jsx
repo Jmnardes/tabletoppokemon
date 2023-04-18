@@ -1,5 +1,5 @@
 import React from "react"
-import { Flex, Text, useColorMode, Center } from '@chakra-ui/react'
+import { Flex, Text, useColorMode, Center, Image, Button } from '@chakra-ui/react'
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import Opponents from "./Pokemon/Opponents/Opponents"
@@ -8,15 +8,16 @@ import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
 import GymModal from "./Pokemon/Modal/EventModals/GymModal"
 import EncounterModal from "./Pokemon/Modal/EventModals/EncounterModal"
 import PokeBox from "./Pokemon/Trainer/PokeBox"
-import PokeShop from "./Pokemon/Shop/PokeShop"
 import TrainerBar from "./Pokemon/Trainer/TrainerBar"
 import Settings from "./Pokemon/Configuration/Settings"
 import TeamContainer from "./Pokemon/Team/TeamContainer";
 import Items from "./Pokemon/Inventary/Items";
 import ElementsList from "./Pokemon/Team/ElementsList";
+import shopIcon from '../assets/images/game/shop.png'
+import PokeShopModal from "./Pokemon/Modal/PokeShopModal";
 
 function PokePage() {
-    const { player, game, emit, setWaitingForPlayers } = useContext(PlayerContext)
+    const { player, game, emit, setWaitingForPlayers, updateGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const finishTurn = () => {
@@ -36,7 +37,13 @@ function PokePage() {
                 <Center>
                     {/* <StealBlock />
                     <PokemonEgg /> */}
-                    <PokeShop />
+                    <Button onClick={() => updateGame({ openPokeShop: true })}>
+                        <Image
+                            src={shopIcon} 
+                            title={'Shop'}
+                            w="32px"
+                        ></Image>
+                    </Button>
                     <Settings />
                 </Center>
             </Center>
@@ -53,26 +60,11 @@ function PokePage() {
                 <Opponents />
             </Flex>
 
-            {
-                game.openChallengeModal && (
-                    <ChallengeModal />
-                )
-            }
-            {
-                game.openWalkModal && (
-                    <WalkModal />
-                )
-            }
-            {
-                game.openGymModal && (
-                    <GymModal />
-                )
-            }
-            {
-                game.openEncounterModal && (
-                    <EncounterModal />
-                )
-            }
+            {game.openPokeShop && <PokeShopModal />}
+            {game.openChallengeModal && <ChallengeModal />}
+            {game.openWalkModal && <WalkModal />}
+            {game.openGymModal && <GymModal />}
+            {game.openEncounterModal && <EncounterModal />}
         </>
     )
 }

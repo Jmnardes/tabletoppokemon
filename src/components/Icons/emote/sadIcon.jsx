@@ -1,7 +1,7 @@
 import { useColorMode } from "@chakra-ui/color-mode";
 import { Icon } from "@chakra-ui/icon";
 
-export default function sadIcon ({
+export default function SadIcon ({
   w = 8,
   h = 8,
   c,

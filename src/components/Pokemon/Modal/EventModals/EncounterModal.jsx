@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import Encounter from "../../Encounter/Encounter"
-import SadIcon from "../../../Icons/emote/sadIcon"
+import SadIcon from "../../../Icons/emote/SadIcon"
 
 export default function EncounterModal() {
     const { updateGame, session, player } = useContext(PlayerContext)

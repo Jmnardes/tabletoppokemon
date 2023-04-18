@@ -28,7 +28,7 @@ import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
 import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
-import SadIcon from "../../../Icons/emote/sadIcon"
+import SadIcon from "../../../Icons/emote/SadIcon"
 
 export default function ChallengeModal() {
     const { updateGame, event, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)

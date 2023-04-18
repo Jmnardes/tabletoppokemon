@@ -1,8 +1,17 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import PokeTeam from "../Trainer/PokeTeam";
 import { FaArrowRight } from "react-icons/fa";
+import PlayerContext from "../../../Contexts/PlayerContext";
+import { useContext } from "react";
 
-export default function TeamContainer({ finishTurn }) {
+export default function TeamContainer() {
+    const { emit, setWaitingForPlayers } = useContext(PlayerContext)
+
+    const finishTurn = () => {
+        setWaitingForPlayers(true)
+        emit('turn-end')
+    }
+
     return (
         <Flex flex="1" flexDir="column">
             <PokeTeam />

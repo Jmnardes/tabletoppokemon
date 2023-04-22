@@ -5,8 +5,8 @@ import { diceRoll, typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 
-export default function Encounter({ setCatchablePokemon, encounter }) {
-    const { updatePokeBox, updateGame, session } = useContext(PlayerContext)
+export default function Encounter({ setCatchablePokemon }) {
+    const { updatePokeBox, updateGame, session, encounter } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)

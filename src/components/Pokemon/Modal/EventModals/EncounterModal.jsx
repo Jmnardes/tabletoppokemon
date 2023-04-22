@@ -11,7 +11,7 @@ import PlayerContext from "../../../../Contexts/PlayerContext"
 import Encounter from "../../Encounter/Encounter"
 import SadIcon from "../../../Icons/emote/SadIcon"
 
-export default function EncounterModal({ encounter }) {
+export default function EncounterModal() {
     const { updateGame, session, player } = useContext(PlayerContext)
     const [catchablePokemon, setCatchablePokemon] = useState(true)
 
@@ -32,7 +32,7 @@ export default function EncounterModal({ encounter }) {
                     </ModalHeader>
 
                     {catchablePokemon ? (
-                        <Encounter setCatchablePokemon={setCatchablePokemon} encounter={encounter} />
+                        <Encounter setCatchablePokemon={setCatchablePokemon} />
                     ) : (
                         <Center flexDirection="column">
                             <SadIcon h={16} w={16} />

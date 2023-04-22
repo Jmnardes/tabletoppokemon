@@ -14,6 +14,7 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
+    const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
     const [game, setGame] = useState({
@@ -103,6 +104,7 @@ export function PlayerProvider({children}) {
     const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
     const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
     const removeFromPokeTeam = (poke, arr) => {
+        // eslint-disable-next-line array-callback-return
         arr.filter((data, index) => {
             if(data.id === poke.id) {
                 arr.splice(index, 1)
@@ -111,6 +113,7 @@ export function PlayerProvider({children}) {
         })
     }
     const removeFromPokeBox = (poke, arr) => {
+        // eslint-disable-next-line array-callback-return
         arr.filter((data, index) => {
             if(data.id === poke.id) {
                 arr.splice(index, 1)
@@ -181,6 +184,12 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.ready, 'ready')
         })
 
+        socket.on('lobby-start', (res) => {
+            setEncounter([...res.starters])
+            setHasGameStarted(true)
+            updateGame({ openEncounterModal: true })
+        })
+
             //TURNS
         // receiveng other players turn ready
         socket.on('turn-end-other', res => {
@@ -219,6 +228,9 @@ export function PlayerProvider({children}) {
             player,
             setPlayer,
             updatePlayer,
+
+            encounter,
+            setEncounter,
 
             hasGameStarted,
             setHasGameStarted,

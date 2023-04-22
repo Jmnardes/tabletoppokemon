@@ -11,15 +11,8 @@ import GameContent from "./GameContent";
 import socket from "../client";
 
 function PokePage() {
-    const { game, setSession, updateOpponents, setWaitingForPlayers, setHasGameStarted, updateGame } = useContext(PlayerContext)
+    const { game, setSession, updateOpponents, setWaitingForPlayers, updateGame, setEncounter } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
-    const [encounter, setEncounter] = useState({})
-
-    socket.on('lobby-start', (res) => {
-        setEncounter([...res.starters])
-        setHasGameStarted(true)
-        updateGame({ openEncounterModal: true })
-    })
 
     socket.on('turn-start', res => {
         setSession(old => ({...old, turns: res.session.turns}))
@@ -63,7 +56,7 @@ function PokePage() {
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
             {game.openGymModal && <GymModal />}
-            {game.openEncounterModal && <EncounterModal encounter={encounter} />}
+            {game.openEncounterModal && <EncounterModal />}
         </>
     )
 }

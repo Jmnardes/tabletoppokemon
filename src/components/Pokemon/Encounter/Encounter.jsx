@@ -51,12 +51,6 @@ export default function Encounter({ setCatchablePokemon }) {
                         backgroundColor={colorByType}
                         src={poke.sprites.front}
                     />
-                    <Types
-                        types={poke.types} 
-                        shiny={poke.shiny}
-                        tier={poke.tier} 
-                        color={colorByType}
-                    />
                 </Button>
             </Flex>
         )

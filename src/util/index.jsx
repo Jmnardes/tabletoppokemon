@@ -194,48 +194,6 @@ export const typeColor = (types) => {
     return finalColor
 }
 
-export const typeAdvantage = (type) => {
-    if (type === 'psychic') return ['fighting', 'poison']
-    if (type === 'fire') return ['bug', 'steel', 'grass', 'ice']
-    if (type === 'water') return ['ground', 'rock', 'fire']
-    if (type === 'dragon') return ['dragon']
-    if (type === 'bug') return ['grass', 'psychic', 'dark']
-    if (type === 'dark') return ['ghost', 'psychic']
-    if (type === 'electric') return ['flying', 'water']
-    if (type === 'fairy') return ['fighting', 'dragon', 'dark']
-    if (type === 'fighting') return ['normal', 'rock', 'steel', 'ice', 'dark']
-    if (type === 'flying') return ['fighting', 'bug', 'grass']
-    if (type === 'ice') return ['flying', 'ground', 'grass', 'dragon']
-    if (type === 'ghost') return ['ghost', 'psychic']
-    if (type === 'grass') return ['ground', 'rock', 'water']
-    if (type === 'ground') return ['poison', 'rock', 'steel', 'fire', 'electric']
-    if (type === 'poison') return ['grass', 'fairy']
-    if (type === 'rock') return ['flying', 'bug', 'fire', 'ice']
-    if (type === 'steel') return ['rock', 'ice', 'fairy']
-    if (type === 'normal') return ['']
-}
-
-export const typeDisadvantage = (type) => {
-    if (type === 'psychic') return ['steel', 'psychic', 'dark']
-    if (type === 'fire') return ['rock', 'fire', 'water', 'dragon']
-    if (type === 'water') return ['water', 'grass', 'dragon']
-    if (type === 'dragon') return ['steel', 'fairy']
-    if (type === 'bug') return ['fighting', 'flying', 'poison', 'ghost', 'steel', 'fire', 'fairy']
-    if (type === 'dark') return ['dark', 'fairy']
-    if (type === 'electric') return ['ground', 'grass', 'electric', 'dragon']
-    if (type === 'fairy') return ['poison', 'steel', 'fire']
-    if (type === 'fighting') return ['flying', 'poison', 'bug', 'ghost', 'psychic', 'fairy']
-    if (type === 'flying') return ['rock', 'steel', 'electric']
-    if (type === 'ice') return ['steel', 'fire', 'water', 'ice']
-    if (type === 'ghost') return ['normal', 'dark']
-    if (type === 'grass') return ['flying', 'poison', 'bug', 'steel', 'fire', 'grass', 'dragon']
-    if (type === 'ground') return ['flying', 'bug', 'grass']
-    if (type === 'poison') return ['poison', 'ground', 'rock', 'ghost', 'steel']
-    if (type === 'rock') return ['fighting', 'ground', 'steel']
-    if (type === 'steel') return ['steel', 'fire', 'water', 'electric']
-    if (type === 'normal') return ['rock', 'ghost', 'steel']
-}
-
 export const parseNumberToNatural = (number, division) => {
     return Number(Number.parseFloat(number/division).toFixed(0))
 }

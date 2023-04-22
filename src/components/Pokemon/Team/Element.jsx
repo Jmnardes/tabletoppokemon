@@ -20,24 +20,12 @@ import rock from '../../../assets/images/elements/rock.webp'
 import steel from '../../../assets/images/elements/steel.webp'
 import water from '../../../assets/images/elements/water.webp'
 
-import { typeAdvantage, typeDisadvantage } from "../../../util";
+import elements from '../../../assets/json/elements.json'
 import React, { useEffect, useState } from "react";
+import { stringToUpperCase } from "../../../util";
 
-export default function Element({ element, elementTable }) {
+export default function Element({ element, elementTable, w = 5, h = 5 }) {
     const [elementsTooltip, setElementsTooltip] = useState('')
-
-    function elementsTable(type, isAdvantage) {
-        let types = []
-
-        if(type) {
-            isAdvantage ? type = typeAdvantage(type) : type = typeDisadvantage(type)
-            type.map((t) => {
-                types.push(t)
-            })
-        }
-
-        return types
-    }
 
     const ElementComponent = React.forwardRef(({ type, icon }, ref) => {
         return (
@@ -47,8 +35,8 @@ export default function Element({ element, elementTable }) {
                     cursor="pointer"
                     key={type} 
                     src={icon}
-                    w={5} 
-                    h={5}
+                    w={w} 
+                    h={h}
                     mx={elementTable && 2}
                     ml={!elementTable && 1}
                     my={!elementTable && 0.5}
@@ -71,13 +59,16 @@ export default function Element({ element, elementTable }) {
 
     const ElementTooltip = () => {
         setElementsTooltip(() => {
-            let strenghtness = elementsTable(element, true)
-            let weakness = elementsTable(element, false)
+            let atackEffective = elements[element].attack_effective
+            let attackIneffective = elements[element].attack_ineffective
+            let defenseEffective = elements[element].defense_effective
+            let defenseIneffective = elements[element].defense_ineffective
             return (
-                <Center mb={4} w="100%" flexDirection="column">
-                    <Text p={4}>Strong against</Text>
-                    <Center flexDirection="row">
-                        {strenghtness.map(t => {
+                <Center w="100%" flexDirection="column">
+                    <Text fontWeight="bold">{stringToUpperCase(element)}</Text>
+                    <Text pt={1}>Hits effective</Text>
+                    <Center pb={1} flexDirection="row">
+                        {atackEffective.map(t => {
                             if(t) {
                                 return (
                                     <ElementImage key={t} t={t} />
@@ -87,12 +78,40 @@ export default function Element({ element, elementTable }) {
                             }
                         })}
                     </Center>
-                    <Text p={4}>Weak against</Text>
-                    <Center flexDirection="row">
-                        {weakness.map(t => {
-                            return (
-                                <ElementImage key={t} t={t} />
-                            )
+                    <Text pt={1}>Hits ineffective</Text>
+                    <Center pb={1} flexDirection="row">
+                        {attackIneffective.map(t => {
+                            if(t) {
+                                return (
+                                    <ElementImage key={t} t={t} />
+                                )
+                            } else {
+                                return <Text key={'none'} fontSize="xs">None</Text>
+                            }
+                        })}
+                    </Center>
+                    <Text pt={1}>Receives ineffective</Text>
+                    <Center pb={1} flexDirection="row">
+                        {defenseEffective.map(t => {
+                            if(t) {
+                                return (
+                                    <ElementImage key={t} t={t} />
+                                )
+                            } else {
+                                return <Text key={'none'} fontSize="xs">None</Text>
+                            }
+                        })}
+                    </Center>
+                    <Text pt={1}>Receives effective</Text>
+                    <Center pb={1} flexDirection="row">
+                        {defenseIneffective.map(t => {
+                            if(t) {
+                                return (
+                                    <ElementImage key={t} t={t} />
+                                )
+                            } else {
+                                return <Text key={'none'} fontSize="xs">None</Text>
+                            }
                         })}
                     </Center>
                 </Center>

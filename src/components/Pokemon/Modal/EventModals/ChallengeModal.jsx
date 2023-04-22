@@ -82,19 +82,25 @@ export default function ChallengeModal() {
     const checkChallengeBonus = (pokeTeam) => {
         bonus.current = pokeTeam?.reduce((acc, poke) => {
             if(event.advantage.type === 'element') {
-                return acc + (poke.types).reduce((acc, element) => {
-                    const checkIfElementIncludes = event.advantage.value.includes(element)
+                return acc + (poke.types).reduce((acc2, element) => {
+                    const checkIfAdvIncludes = event.advantage.value.includes(element)
+                    const checkIfDisIncludes = event.disadvantage?.value.includes(element)
 
-                    return acc + checkIfElementIncludes
+                    if(checkIfAdvIncludes) return acc2 + 1
+                    if(checkIfDisIncludes) {
+                        return acc2 - 1
+                    } else {
+                        return acc2
+                    }
                 }, 0)
             }
 
             if(event.advantage.type === 'nature') {
-                const checkIfNatureIncludes = event.advantage.value.includes(poke.nature.nature)
+                const checkIfNatureIncludes = event.advantage.value.includes(poke.nature)
+                const checkIfNatureDontIncludes = event.disadvantage?.value.includes(poke.nature)
 
-                return acc + checkIfNatureIncludes
+                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes
             }
-
             // if(event.advantage.type === 'stats_all') {
             // }
 

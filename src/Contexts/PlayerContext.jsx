@@ -14,8 +14,6 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
-    const [event, setEvent] = useState({})
-    const [encounter, setEncounter] = useState([])
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
     const [game, setGame] = useState({
@@ -183,49 +181,10 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.ready, 'ready')
         })
 
-        socket.on('lobby-start', (res) => {
-            setEncounter([...res.starters])
-            setHasGameStarted(true)
-            updateGame({ openEncounterModal: true })
-        })
-
             //TURNS
         // receiveng other players turn ready
         socket.on('turn-end-other', res => {
             updateOpponent(res, true, 'turnReady')
-        })
-
-        // everyone has ended turn, and will start another one
-        socket.on('turn-start', res => {
-            setSession(old => ({...old, turns: res.session.turns}))
-            updateOpponents(false, 'turnReady')
-
-            setEvent({
-                title: res.event.title,
-                label: res.event.label,
-                type: res.event.type,
-                prizes: res.event.prizes,
-                advantage: res.event.advantage,
-                disadvantage: res.event.disadvantage,
-                dice: res.event.dice
-            })
-            
-            setEncounter([...res.encounter])
-            
-            switch (res.event.type) {
-                case 'challenge':
-                    setGame(old => ({...old, openChallengeModal: true}))
-                    break
-                case 'walk':
-                    setGame(old => ({...old, openWalkModal: true}))
-
-                    break
-                default:
-                    break
-            }
-
-            setWaitingForPlayers(false)
-            setGame(old => ({...old, isPokemonRollDisabled: false}))
         })
         
             //PLAYERS
@@ -269,9 +228,6 @@ export function PlayerProvider({children}) {
 
             game,
             updateGame,
-
-            event,
-            encounter,
 
             pokeTeam,
             updatePokeTeam,

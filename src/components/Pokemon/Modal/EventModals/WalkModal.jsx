@@ -32,8 +32,8 @@ const PrizeIcon = ({ type }) => {
     }
 }
 
-export default function WalkModal() {
-    const { updateGame, updatePlayer, player, event, pokeTeam } = useContext(PlayerContext)
+export default function WalkModal({ event }) {
+    const { updateGame, updatePlayer, player, pokeTeam } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]

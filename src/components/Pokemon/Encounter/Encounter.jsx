@@ -2,12 +2,11 @@ import { Button, Center, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import { diceRoll, typeColor } from "../../../util";
-import Types from "../Table/Types";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 
-export default function Encounter({ setCatchablePokemon }) {
-    const { encounter, updatePokeBox, updateGame, session } = useContext(PlayerContext)
+export default function Encounter({ setCatchablePokemon, encounter }) {
+    const { updatePokeBox, updateGame, session } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)

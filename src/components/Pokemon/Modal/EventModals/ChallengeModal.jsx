@@ -30,8 +30,8 @@ import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 import SadIcon from "../../../Icons/emote/SadIcon"
 
-export default function ChallengeModal() {
-    const { updateGame, event, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)
+export default function ChallengeModal({ event }) {
+    const { updateGame, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [showAwarding, setShowAwarding] = useState(false)

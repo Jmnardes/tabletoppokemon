@@ -25,7 +25,8 @@ export function PlayerProvider({children}) {
         openChallengeModal: false,
         openWalkModal: false,
         openGymModal: false,
-        openEncounterModal: false
+        openEncounterModal: false,
+        openSelectScreenModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -205,6 +206,7 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'currency')
         })
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

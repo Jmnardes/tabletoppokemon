@@ -11,7 +11,7 @@ export default function PokeTeam() {
             {pokeTeam?.map((poke) => {
                 return (
                     <Box key={poke.id} m={2} mt={4}>
-                        <Team 
+                        <Team
                             poke={poke}
                             pokeTeam={pokeTeam}
                             updatePokeBox={updatePokeBox}

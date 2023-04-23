@@ -4,13 +4,14 @@ import {
     Tooltip,
     Box,
     Center,
-    Text
+    Text,
+    Button
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
 import { FaStar } from "react-icons/fa";
 import Team from "./Team"
 
-function Inventary({ poke }) {
+function Inventary({ poke, battleBox, battleTeam, setBattleTeam, pokeBox, removeFromPokeBox }) {
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
@@ -39,14 +40,20 @@ function Inventary({ poke }) {
 
     return (
         <>
-            <Flex
+            <Button
                 alignItems="center" 
                 flexDirection="column"
                 background={colorByType}
                 borderTop={ `6px solid ${rarityColor(poke.rarity.rarity)}`}
                 borderRight={ `2px solid ${colorByType}`}
                 borderLeft={ `2px solid ${colorByType}`}
-                borderRadius="4px 4px 0 0"
+                borderRadius={battleBox ? "4px" : "4px 4px 0 0"}
+                _hover={battleBox && { 'opacity': 0.6 }}
+                isDisabled={battleBox && battleTeam?.length === 6}
+                onClick={() => {
+                    setBattleTeam(old => [...old, poke])
+                    removeFromPokeBox(poke, pokeBox)
+                }}
             >
                 <Tooltip label={pokeStatsTooltip} background="none">
                     <Flex>
@@ -72,7 +79,7 @@ function Inventary({ poke }) {
                         </Flex>
                     </Flex>
                 </Tooltip>
-            </Flex>
+            </Button>
         </>
     )
 }

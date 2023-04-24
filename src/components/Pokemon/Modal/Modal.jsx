@@ -37,7 +37,7 @@ function PokeModal({ title, button, children, size, modalClose, disableModalClos
                 <ModalContent minWidth={size ? "" : "35rem"} minHeight={size ? "" : "35rem"}>
                     <ModalHeader textAlign="center">{stringToUpperCase(title)}</ModalHeader>
                     {!disableModalClose && <ModalCloseButton />}
-                    <ModalBody>
+                    <ModalBody flex="1">
                         {children}
                     </ModalBody>
                 </ModalContent>

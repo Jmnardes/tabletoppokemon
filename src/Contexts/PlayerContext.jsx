@@ -27,6 +27,7 @@ export function PlayerProvider({children}) {
         openGymModal: false,
         openEncounterModal: false,
         openSelectScreenModal: false,
+        openPokeBoxModal: false,
     })
 
     const emit = useCallback((name, data) => {

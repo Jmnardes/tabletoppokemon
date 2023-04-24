@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Center, Image, Text } from "@chakra-ui/react";
 import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
 import superballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
@@ -15,39 +15,47 @@ export default function PokeballStats() {
     const { player } = useContext(PlayerContext)
 
     return (
-        <>
-            <Flex alignItems="center" mx={3}>
-                <Image
-                    src={greatballIcon} 
-                    title={'+0'}
-                    w="24px"
-                ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.pokeball}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={3}>
-                <Image
-                    src={superballIcon} 
-                    title={'+2'}
-                    w="24px"
-                ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.greatball}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={3}>
-                <Image
-                    src={ultraballIcon} 
-                    title={'+5'}
-                    w="24px"
-                ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.ultraball}</Text>
-            </Flex>
-            <Flex alignItems="center" mx={3}>
-                <Image
-                    src={masterballIcon} 
-                    title={'+15'}
-                    w="24px"
-                ></Image>
-                <Text fontSize="14px" mt={1} ml={0.5}>{player.balls.masterball}</Text>
-            </Flex>
+        <Center mx={2}>
+            {player.balls.pokeball > 0 && (
+                <Center mx={3}>
+                    <Text mr={1}>{player.balls.pokeball}x</Text>
+                    <Image
+                        src={greatballIcon} 
+                        title={'+0'}
+                        w="24px"
+                    ></Image>
+                </Center>
+            )}
+            {player.balls.greatball > 0 && (
+                <Center mx={3}>
+                    <Text mr={1}>{player.balls.greatball}x</Text>
+                    <Image
+                        src={superballIcon} 
+                        title={'+2'}
+                        w="24px"
+                    ></Image>
+                </Center>
+            )}
+            {player.balls.ultraball > 0 && (
+                <Center mx={3}>
+                    <Text mr={1}>{player.balls.ultraball}x</Text>
+                    <Image
+                        src={ultraballIcon} 
+                        title={'+5'}
+                        w="24px"
+                    ></Image>
+                </Center>
+            )}
+            {player.balls.masterball > 0 && (
+                <Center mx={3}>
+                    <Text mr={1}>{player.balls.masterball}x</Text>
+                    <Image
+                        src={masterballIcon} 
+                        title={'+10'}
+                        w="24px"
+                    ></Image>
+                </Center>
+            )}
             {/* <Flex alignItems="center" mx={3}>
                 <Image
                     src={stealIcon} 
@@ -80,6 +88,6 @@ export default function PokeballStats() {
                 ></Image>
                 <Text fontSize="14px" mt={1} ml={0.5}>{player.items.incubator}</Text>
             </Flex> */}
-        </>
+        </Center>
     )
 }

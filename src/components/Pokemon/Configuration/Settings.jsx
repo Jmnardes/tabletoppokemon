@@ -4,33 +4,37 @@ import settingsIcon from '../../../assets/images/game/settings.png'
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import ThemeSwitch from "../../Chakra/ThemeSwitch/ThemeSwitch";
+import ElementsList from "../Team/ElementsList"
 
 export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
 
     return (
-        <PokeModal title={'Settings'} button={
+        <PokeModal title={'Settings'} size={'xl'} button={
             <Image
                 src={settingsIcon} 
                 title={'Settings'}
                 w="28px"
             ></Image>
         }>
-            <Center>
+            <Center pb={4}>
                 <ThemeSwitch />
             </Center>
 
-            <Divider p={2} />
+            <Divider />
+            
+            <ElementsList />
 
-            <Center flexDirection="column">
-                <Text my={4} fontSize="2xl" textAlign="center">Restart game!</Text>
+            <Divider />
+
+            <Center flexDirection="column" pt={8}>
                 <Text fontSize="sm" color="red" >(All data will be lost)</Text>
                 <Button p={4} w={40} onClick={() => {
                     setHasGameStarted(false)
                     setPlayer({})
                     setSession({})
                     setOpponents({})
-                }}>Yes, restart game</Button>
+                }}>Restart game!</Button>
             </Center>
         </PokeModal>
     )

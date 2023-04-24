@@ -10,6 +10,7 @@ import GameHeader from "./GameHeader";
 import GameContent from "./GameContent";
 import socket from "../client";
 import SelectScreenModal from "./Pokemon/Modal/Battle/SelectScreenModal";
+import PokeBoxModal from "./Pokemon/Modal/PokeBoxModal";
 
 function PokePage() {
     const { game, setSession, updateOpponents, setWaitingForPlayers, updateGame, setEncounter, pokeTeam } = useContext(PlayerContext)
@@ -59,6 +60,7 @@ function PokePage() {
             {/* {game.openGymModal && <GymModal />} */}
             {game.openEncounterModal && <EncounterModal />}
             {game.openSelectScreenModal && <SelectScreenModal />}
+            {game.openPokeBoxModal && <PokeBoxModal />}
         </>
     )
 }

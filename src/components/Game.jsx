@@ -56,7 +56,7 @@ function PokePage() {
             {game.openPokeShop && <PokeShopModal />}
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
-            {game.openGymModal && <GymModal />}
+            {/* {game.openGymModal && <GymModal />} */}
             {game.openEncounterModal && <EncounterModal />}
             {game.openSelectScreenModal && <SelectScreenModal />}
         </>

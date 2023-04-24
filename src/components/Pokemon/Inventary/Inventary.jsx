@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react"
 import {
-    Flex,
     Tooltip,
-    Box,
-    Center,
-    Text,
-    Button
+    Button,
+    Image
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
-import { FaStar } from "react-icons/fa";
 import Team from "./Team"
 
 function Inventary({ poke, battleBox, battleTeam, setBattleTeam, pokeBox, removeFromPokeBox }) {
@@ -43,6 +39,7 @@ function Inventary({ poke, battleBox, battleTeam, setBattleTeam, pokeBox, remove
             <Button
                 alignItems="center" 
                 flexDirection="column"
+                h={16}
                 background={colorByType}
                 borderTop={ `6px solid ${rarityColor(poke.rarity.rarity)}`}
                 borderRight={ `2px solid ${colorByType}`}
@@ -56,28 +53,11 @@ function Inventary({ poke, battleBox, battleTeam, setBattleTeam, pokeBox, remove
                 }}
             >
                 <Tooltip label={pokeStatsTooltip} background="none">
-                    <Flex>
-                        <Flex 
-                            borderRadius={0} 
-                            width="max-content"
-                            minWidth={28}
-                            textAlign="center" 
-                            fontWeight="bold" 
-                            p={1}
-                            _hover={{
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <Center w="100%">
-                                {(poke.shiny &&
-                                    <Box mr={1} display="flex" alignItems="center" justifyContent="center">
-                                        <FaStar title="Shiny" size={10}/>
-                                    </Box>
-                                )}
-                                <Text textAlign="center">{`(${poke.tier})` + ' ' + stringToUpperCase(poke.name)}</Text>
-                            </Center>
-                        </Flex>
-                    </Flex>
+                    <Image
+                        w={24}
+                        title={stringToUpperCase(poke.name)} 
+                        src={poke.sprites.front}
+                    />
                 </Tooltip>
             </Button>
         </>

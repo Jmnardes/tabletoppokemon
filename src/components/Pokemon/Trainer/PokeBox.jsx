@@ -51,7 +51,7 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
                                     <Button
                                         size="sm" 
                                         width="50%"
-                                        h={6}
+                                        h={4}
                                         borderRadius="0 0 0 16px"
                                         borderLeft={`2px solid ${typeColor(poke.types)}`}
                                         borderRight={`1px solid ${typeColor(poke.types)}`}
@@ -68,12 +68,12 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
                                             removeFromPokeBox(poke, pokeBox)
                                         }}
                                     >
-                                        <FaArrowDown size="12px" style={{ color: (colorMode === 'light' ? "#000000" :"#ffffff"), marginRight: "4px" }}/>
+                                        <FaArrowDown size="10px" style={{ color: (colorMode === 'light' ? "#000000" :"#ffffff"), marginRight: "4px" }}/>
                                     </Button>
                                     <Button 
                                         size="sm" 
                                         width="50%"
-                                        h={6}
+                                        h={4}
                                         title={poke.tier + poke.shiny + poke.rarity.rarity}
                                         borderRadius="0 0 16px 0"
                                         borderLeft={`1px solid ${typeColor(poke.types)}`}
@@ -90,7 +90,7 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
                                             sellPokemon(poke)
                                         }}
                                     >
-                                        <FaDollarSign size="12px" style={{ color: (colorMode === 'light' ? "#000000" :"#ffffff") }}/>
+                                        <FaDollarSign size="10px" style={{ color: (colorMode === 'light' ? "#000000" :"#ffffff") }}/>
                                     </Button>
                                 </>
                             )}

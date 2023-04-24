@@ -6,7 +6,7 @@ import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 
 export default function Encounter({ setCatchablePokemon }) {
-    const { updatePokeBox, updateGame, session, encounter } = useContext(PlayerContext)
+    const { pokeTeam, updatePokeTeam, updatePokeBox, updateGame, session, encounter } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)
@@ -40,7 +40,12 @@ export default function Encounter({ setCatchablePokemon }) {
                     _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.7 }}
                     onClick={() => {
                         updateGame({ isPokemonRollDisabled: true, openEncounterModal: false })
-                        updatePokeBox(poke)
+
+                        if(pokeTeam?.length < session.teamLength) {
+                            updatePokeTeam(poke)
+                        } else {
+                            updatePokeBox(poke)
+                        }
                     }}
                 >
                     <Image

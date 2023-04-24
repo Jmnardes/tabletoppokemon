@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import PokemonTable from "../Table/PokemonTable"
 import { stringToUpperCase, typeColor } from '../../../util'
-import { Flex, Image, Text, CloseButton, Center, Kbd } from "@chakra-ui/react"
+import { Flex, Image, Text, Center, Kbd } from "@chakra-ui/react"
 import Types from "../Table/Types"
 import { FaStar } from "react-icons/fa"
 
-function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip }) {
+function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     const rarityColor = (rarity) => {
@@ -33,39 +33,31 @@ function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip }) {
             background={ poke.shiny ? `linear-gradient(165deg, ${colorByType}15 15%, ${colorByType} 50%, ${colorByType}15 85%)` : ''}
             shadow="dark-lg"
             _hover={{
-                backgroundColor: `${colorByType}70`
+                backgroundColor: `${colorByType}70`,
+                cursor: 'pointer'
+            }}
+            onClick={() => {
+                if(!bag) return
+                updatePokeBox(poke)
+                removeFromPokeTeam(poke, pokeTeam)
             }}
         >
             <Flex flexDirection="column">
-                <Flex justifyContent={tooltip ? "center" : "space-between"}>
-                    {!tooltip && (
-                        <Flex w={6} />
-                    )}
-                    <Flex textAlign="center" flexDirection={"column"}>
-                        <Center>
-                            {poke.shiny && <FaStar title="Shiny" size={8}/>}
-                            <Text fontWeight="bold" ml={1.5} letterSpacing={2}>
-                                {stringToUpperCase(poke.name)}
-                            </Text>
-                        </Center>
-                        <Center>
-                            <Kbd w="fit-content">
-                                <Center flexDir="row">
-                                    {poke.tier} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
-                                </Center>
-                            </Kbd>
-                        </Center>
-                    </Flex>
-                    {!tooltip && (
-                        <CloseButton 
-                            onClick={() => {
-                                updatePokeBox(poke)
-                                removeFromPokeTeam(poke, pokeTeam)
-                            }}
-                            size="sm" 
-                        />
-                    )}
-                </Flex>
+                <Center flexDirection={"column"}>
+                    <Center>
+                        {poke.shiny && <FaStar title="Shiny" size={8}/>}
+                        <Text fontWeight="bold" ml={1.5} letterSpacing={2}>
+                            {stringToUpperCase(poke.name)}
+                        </Text>
+                    </Center>
+                    <Center>
+                        <Kbd w="fit-content">
+                            <Center flexDir="row">
+                                {poke.tier} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
+                            </Center>
+                        </Kbd>
+                    </Center>
+                </Center>
                 <Center>
                     <Image
                         w={52}

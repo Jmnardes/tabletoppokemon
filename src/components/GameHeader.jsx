@@ -1,5 +1,5 @@
 import { Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../Contexts/PlayerContext";
 import Settings from "./Pokemon/Configuration/Settings";
 import TrainerBar from "./Pokemon/Trainer/TrainerBar";
@@ -9,8 +9,14 @@ import gymIcon from '../assets/images/game/event3.png'
 import PokeballStats from './Pokemon/Trainer/PokeballStats'
 
 export default function GameHeader() {
-    const { player, updateGame, session, pokeTeam } = useContext(PlayerContext)
+    const { player, updateGame, session, pokeTeam, pokeBox } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const [showNotification, setShowNotification] = useState(false)
+
+    useEffect(() => {
+        setShowNotification(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pokeBox])
 
     return (
         <Center py={2} pr={2} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
@@ -36,12 +42,30 @@ export default function GameHeader() {
 
                 <PokeballStats />
                 
-                <Button mx={2} onClick={() => updateGame({ openPokeBoxModal: true })}>
+                <Button 
+                    mx={2}
+                    onClick={() => {
+                        setShowNotification(false)
+                        updateGame({ openPokeBoxModal: true })
+                    }}
+                >
                     <Image
                         src={bagIcon} 
                         title={'Shop'}
                         w="32px"
                     ></Image>
+                    {showNotification && (
+                        <Center 
+                            position="absolute" 
+                            right="0" 
+                            bottom="-10px"
+                            background="red"
+                            borderRadius="50%"
+                            width="18px"
+                        >
+                            <Text fontSize={"sm"} lineHeight="18px" mb="1px">{pokeBox?.length}</Text>
+                        </Center>
+                    )}
                 </Button>
 
                 <Button onClick={() => updateGame({ openPokeShop: true })}>

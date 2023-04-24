@@ -36,7 +36,7 @@ export default function PokeBoxModal() {
                     <ModalBody>
                         <PokeBox />
 
-                        <PokeTeam />
+                        <PokeTeam bag={true} />
                     </ModalBody>
                 </ModalContent>
             </Modal>

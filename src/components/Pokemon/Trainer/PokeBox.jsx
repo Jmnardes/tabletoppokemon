@@ -4,7 +4,7 @@ import PlayerContext from "../../../Contexts/PlayerContext"
 import BoxPoke from "./BoxPoke"
 
 export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
-    const { pokeBox, updatePokeTeam, removeFromPokeBox } = useContext(PlayerContext)
+    const { pokeBox } = useContext(PlayerContext)
 
     return (
         <HStack
@@ -36,8 +36,6 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
                         battleTeam={battleTeam} 
                         setBattleTeam={setBattleTeam}
                         pokeBox={pokeBox}
-                        removeFromPokeBox={removeFromPokeBox}
-                        updatePokeTeam={updatePokeTeam}
                     />
                 )
             })}

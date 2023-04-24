@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
     Tooltip,
     Button,
@@ -6,8 +6,10 @@ import {
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
 import Team from "../Team/Team"
+import PlayerContext from "../../../Contexts/PlayerContext"
 
-export default function BoxPoke({ poke, battleBox, battleTeam, setBattleTeam, pokeBox, removeFromPokeBox, updatePokeTeam }) {
+export default function BoxPoke({ poke, battleBox, battleTeam, setBattleTeam, pokeBox }) {
+    const { pokeTeam, updatePokeTeam, removeFromPokeBox, session } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
@@ -36,7 +38,7 @@ export default function BoxPoke({ poke, battleBox, battleTeam, setBattleTeam, po
             border={`2px solid ${colorByType}`}
             borderRadius={8}
             _hover={battleBox && { 'opacity': 0.6 }}
-            isDisabled={battleBox && battleTeam?.length === 6}
+            isDisabled={battleBox ? battleTeam?.length === 6 : pokeTeam?.length === session.teamLength}
             onClick={() => {
                 if(battleBox) {
                     setBattleTeam(old => [...old, poke])

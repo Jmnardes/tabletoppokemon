@@ -4,7 +4,7 @@ import PlayerContext from "../../../Contexts/PlayerContext"
 import Team from "../Team/Team"
 import TeamTitle from '../Team/TeamTitle'
 
-export default function PokeTeam() {
+export default function PokeTeam({ bag }) {
     const { pokeTeam, updatePokeBox, removeFromPokeTeam } = useContext(PlayerContext)
 
     return (
@@ -19,6 +19,7 @@ export default function PokeTeam() {
                                 pokeTeam={pokeTeam}
                                 updatePokeBox={updatePokeBox}
                                 removeFromPokeTeam={removeFromPokeTeam}
+                                bag={bag}
                             />
                         </Box>
                     )

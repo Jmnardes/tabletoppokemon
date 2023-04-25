@@ -2,8 +2,8 @@ import { Center, Flex, Image, Kbd, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import PlayerContext from "../../../../Contexts/PlayerContext";
 import { stringToUpperCase, typeColor } from "../../../../util";
-import PokemonTable from "../../Table/PokemonTable";
-import Types from "../../Table/Types";
+import PokeStats from "../../Card/PokeStats";
+import Types from "../../Card/Types";
 import TeamTitle from "../../Team/TeamTitle";
 
 export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
@@ -75,19 +75,7 @@ export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
                             />
                         </Center>
 
-                        <PokemonTable
-                            health={poke.stats.hp}
-                            attack={poke.stats.atk}
-                            defense={poke.stats.def}
-                            accuracy={poke.stats.acc}
-                            evasion={poke.stats.evs}
-                            critical={poke.stats.crt}
-                            tier={poke.tier}
-                            type={poke.types}
-                            nature={poke.nature}
-                            name={poke.name}
-                            shiny={poke.shiny}
-                        />
+                        <PokeStats poke={poke}/>
                     </Flex>
                 </Flex>
             </Center>

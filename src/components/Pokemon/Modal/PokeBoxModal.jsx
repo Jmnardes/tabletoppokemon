@@ -4,7 +4,6 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
-    Flex,
     Text,
     CloseButton,
     Center,
@@ -26,10 +25,9 @@ export default function PokeBoxModal() {
                 />
                 <ModalContent>
                     <ModalHeader fontSize="3xl" textAlign="center">
-                        <Center justifyContent="space-between">
-                            <Flex />
+                        <Center>
                             <Text>Poke Bag</Text>
-                            <CloseButton onClick={() => updateGame({ openPokeBoxModal: false })} />
+                            <CloseButton position="absolute" right="20px" onClick={() => updateGame({ openPokeBoxModal: false })} />
                         </Center>
                     </ModalHeader>
                     

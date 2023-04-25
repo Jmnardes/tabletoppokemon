@@ -3,7 +3,7 @@ import { useContext } from "react"
 import PlayerContext from "../../../Contexts/PlayerContext"
 import BoxPoke from "./BoxPoke"
 
-export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
+export default function PokeBox() {
     const { pokeBox } = useContext(PlayerContext)
 
     return (
@@ -11,6 +11,7 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
             p={1}
             h={28}
             direction={['column', 'row']}
+            justifyContent="center"
             spacing={1}
             overflowX={"auto"}
             css={{
@@ -31,10 +32,7 @@ export default function PokeBox({ battleBox, battleTeam, setBattleTeam }) {
                 return (
                     <BoxPoke 
                         key={poke.id} 
-                        poke={poke} 
-                        battleBox={battleBox} 
-                        battleTeam={battleTeam} 
-                        setBattleTeam={setBattleTeam}
+                        poke={poke}
                         pokeBox={pokeBox}
                     />
                 )

@@ -3,14 +3,15 @@ import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
-import GymModal from "./Pokemon/Modal/EventModals/GymModal"
 import EncounterModal from "./Pokemon/Modal/EventModals/EncounterModal"
 import PokeShopModal from "./Pokemon/Modal/PokeShopModal";
 import GameHeader from "./GameHeader";
 import GameContent from "./GameContent";
 import socket from "../client";
+import GymModal from "./Pokemon/Modal/EventModals/GymModal"
 import SelectScreenModal from "./Pokemon/Modal/Battle/SelectScreenModal";
 import PokeBoxModal from "./Pokemon/Modal/PokeBoxModal";
+import BattleModal from "./Pokemon/Modal/Battle/BattleModal";
 
 function PokePage() {
     const { game, setSession, updateOpponents, setWaitingForPlayers, updateGame, setEncounter, pokeTeam } = useContext(PlayerContext)
@@ -59,8 +60,9 @@ function PokePage() {
             {game.openWalkModal && <WalkModal event={event} />}
             {/* {game.openGymModal && <GymModal />} */}
             {game.openEncounterModal && <EncounterModal />}
-            {game.openSelectScreenModal && <SelectScreenModal />}
+            {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
+            {game.openBattleModal && <BattleModal />}
         </>
     )
 }

@@ -7,7 +7,6 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
-import PokeBox from "../../Trainer/PokeBox"
 import ShowBattleTeam from "./ShowBattleTeam"
 
 export default function SelectScreenModal() {
@@ -31,7 +30,7 @@ export default function SelectScreenModal() {
                         Select your team
                     </ModalHeader>
 
-                    <PokeBox battleBox={true} battleTeam={battleTeam} setBattleTeam={setBattleTeam} />
+                    {/* <PokeBox battleBox={true} battleTeam={battleTeam} setBattleTeam={setBattleTeam} /> */}
 
                     <ShowBattleTeam battleTeam={battleTeam} setBattleTeam={setBattleTeam} />
 

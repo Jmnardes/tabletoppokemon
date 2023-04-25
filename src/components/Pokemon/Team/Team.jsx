@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import PokemonTable from "../Table/PokemonTable"
+import PokeStats from "../Card/PokeStats"
 import { stringToUpperCase, typeColor } from '../../../util'
 import { Flex, Image, Text, Center, Kbd } from "@chakra-ui/react"
-import Types from "../Table/Types"
+import Types from "../Card/Types"
 import { FaStar } from "react-icons/fa"
 
 function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
@@ -46,7 +46,7 @@ function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                 <Center flexDirection={"column"}>
                     <Center>
                         {poke.shiny && <FaStar title="Shiny" size={8}/>}
-                        <Text fontWeight="bold" ml={1.5} letterSpacing={2}>
+                        <Text fontSize={"2xl"} fontWeight="bold" ml={1.5} letterSpacing={2}>
                             {stringToUpperCase(poke.name)}
                         </Text>
                     </Center>
@@ -60,25 +60,14 @@ function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                 </Center>
                 <Center>
                     <Image
-                        w={52}
+                        w={48}
+                        my={4}
                         title={stringToUpperCase(poke.name)} 
-                        src={poke.sprites.front}
+                        src={poke.sprites.main}
                     />
                 </Center>
 
-                <PokemonTable
-                    health={poke.stats.hp}
-                    attack={poke.stats.atk}
-                    defense={poke.stats.def}
-                    accuracy={poke.stats.acc}
-                    evasion={poke.stats.evs}
-                    critical={poke.stats.crt}
-                    tier={poke.tier}
-                    type={poke.types}
-                    nature={poke.nature}
-                    name={poke.name}
-                    shiny={poke.shiny}
-                />
+                <PokeStats poke={poke} />
             </Flex>
         </Flex>
     )    

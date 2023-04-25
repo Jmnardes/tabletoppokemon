@@ -5,6 +5,7 @@ import Settings from "./Pokemon/Configuration/Settings";
 import TrainerBar from "./Pokemon/Trainer/TrainerBar";
 import shopIcon from '../assets/images/game/shop.png'
 import bagIcon from '../assets/images/game/bag.png'
+import battleIcon from '../assets/images/game/battle.png'
 import gymIcon from '../assets/images/game/event3.png'
 import PokeballStats from './Pokemon/Trainer/PokeballStats'
 
@@ -41,6 +42,14 @@ export default function GameHeader() {
                 )} */}
 
                 <PokeballStats />
+
+                <Button onClick={() => updateGame({ openBattleModal: true })}>
+                    <Image
+                        src={battleIcon} 
+                        title={'Battle'}
+                        w="32px"
+                    ></Image>
+                </Button>
                 
                 <Button 
                     mx={2}
@@ -51,7 +60,7 @@ export default function GameHeader() {
                 >
                     <Image
                         src={bagIcon} 
-                        title={'Shop'}
+                        title={'Bag'}
                         w="32px"
                     ></Image>
                     {showNotification && (

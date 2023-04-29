@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext"
 import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
@@ -14,40 +14,50 @@ import PokeBoxModal from "./Pokemon/Modal/PokeBoxModal";
 import BattleModal from "./Pokemon/Modal/Battle/BattleModal";
 
 function PokePage() {
-    const { game, setSession, updateOpponents, setWaitingForPlayers, updateGame, setEncounter, pokeTeam } = useContext(PlayerContext)
+    const { 
+        game, 
+        setSession, 
+        updateOpponents, 
+        setWaitingForPlayers, 
+        updateGame, 
+        setEncounter, 
+        pokeTeam
+    } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
 
-    socket.on('turn-start', res => {
-        setSession(old => ({...old, turns: res.session.turns}))
-        updateOpponents(false, 'turnReady')
+    useEffect(() => {
+        socket.on('turn-start', res => {
+            setSession(old => ({...old, turns: res.turn}))
+            updateOpponents(false, 'turnReady')
 
-        setEvent({
-            title: res.event.title,
-            label: res.event.label,
-            type: res.event.type,
-            prizes: res.event.prizes,
-            advantage: res.event.advantage,
-            disadvantage: res.event.disadvantage,
-            dice: res.event.dice
+            setEvent({
+                title: res.event.title,
+                label: res.event.label,
+                type: res.event.type,
+                prizes: res.event.prizes,
+                advantage: res.event.advantage,
+                disadvantage: res.event.disadvantage,
+                dice: res.event.dice
+            })
+            
+            setEncounter([...res.encounter])
+            
+            switch (res.event.type) {
+                case 'challenge':
+                    updateGame({ openChallengeModal: true })
+                    break
+                case 'walk':
+                    updateGame({ openWalkModal: true })
+
+                    break
+                default:
+                    break
+            }
+
+            setWaitingForPlayers(false)
+            updateGame({ isPokemonRollDisabled: false })
         })
-        
-        setEncounter([...res.encounter])
-        
-        switch (res.event.type) {
-            case 'challenge':
-                updateGame({ openChallengeModal: true })
-                break
-            case 'walk':
-                updateGame({ openWalkModal: true })
-
-                break
-            default:
-                break
-        }
-
-        setWaitingForPlayers(false)
-        updateGame({ isPokemonRollDisabled: false })
-    })
+    }, [])
 
     return (
         <>

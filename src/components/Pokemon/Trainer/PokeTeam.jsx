@@ -1,11 +1,19 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import PlayerContext from "../../../Contexts/PlayerContext"
 import Team from "../Team/Team"
 import TeamTitle from '../Team/TeamTitle'
 
 export default function PokeTeam({ bag }) {
-    const { pokeTeam, updatePokeBox, removeFromPokeTeam } = useContext(PlayerContext)
+    const { pokeTeam, updatePokeBox, removeFromPokeTeam, session } = useContext(PlayerContext)
+
+    useEffect(() => {
+        if(pokeTeam.length > session.teamLength) {
+            updatePokeBox(pokeTeam[3])
+            removeFromPokeTeam(pokeTeam[3], pokeTeam)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pokeTeam])
 
     return (
         <Center flexDir="column" flex="1">

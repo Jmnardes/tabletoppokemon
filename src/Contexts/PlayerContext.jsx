@@ -188,9 +188,9 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-start', (res) => {
-            setEncounter([...res.starters])
+            // setEncounter([...res.starters])
             setHasGameStarted(true)
-            updateGame({ openEncounterModal: true })
+            // updateGame({ openEncounterModal: true })
         })
 
             //TURNS
@@ -206,6 +206,12 @@ export function PlayerProvider({children}) {
 
         socket.on('player-update-currency-other', res => {
             updateOpponent(res.id, res.data, 'currency')
+        })
+
+        socket.on('player-capture-pokemon', res => {
+            updatePokeTeam(res)
+
+            updateGame({ openEncounterModal: false })
         })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

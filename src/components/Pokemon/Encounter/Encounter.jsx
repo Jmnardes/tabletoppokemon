@@ -6,7 +6,7 @@ import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 
 export default function Encounter({ setCatchablePokemon }) {
-    const { pokeTeam, updatePokeTeam, updatePokeBox, updateGame, session, encounter } = useContext(PlayerContext)
+    const { pokeTeam, updatePokeTeam, updatePokeBox, updateGame, session, encounter, emit } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)
@@ -21,7 +21,8 @@ export default function Encounter({ setCatchablePokemon }) {
     }
 
     const PokemonEncounterCard = ({ poke }) => {
-        let catchRollDifficulty = catchDifficulty(poke.tier, session.gameDifficulty, poke.rarity.rarity, poke.shiny)
+        //CHANGE TIER
+        let catchRollDifficulty = catchDifficulty(poke.tier = 1, session.gameDifficulty, poke.rarity, poke.rarity === 3)
 
         if(session.turns === 0) catchRollDifficulty = 0
 
@@ -39,13 +40,13 @@ export default function Encounter({ setCatchablePokemon }) {
                     isDisabled={disableCatch}
                     _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.7 }}
                     onClick={() => {
-                        updateGame({ isPokemonRollDisabled: true, openEncounterModal: false })
-
-                        if(pokeTeam?.length < session.teamLength) {
-                            updatePokeTeam(poke)
-                        } else {
-                            updatePokeBox(poke)
-                        }
+                        emit('player-capture-pokemon', poke.id)
+                        // updateGame({ isPokemonRollDisabled: true, openEncounterModal: false })
+                        // if(pokeTeam?.length < session.teamLength) {
+                        //     updatePokeTeam(poke)
+                        // } else {
+                        //     updatePokeBox(poke)
+                        // }
                     }}
                 >
                     <Image
@@ -53,7 +54,7 @@ export default function Encounter({ setCatchablePokemon }) {
                         borderRadius={16}
                         title={poke.name}
                         backgroundColor={colorByType}
-                        src={poke.sprites.front}
+                        src={poke.sprite}
                     />
                 </Button>
             </Flex>

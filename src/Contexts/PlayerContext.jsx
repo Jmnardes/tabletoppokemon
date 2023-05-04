@@ -188,9 +188,9 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-start', (res) => {
-            // setEncounter([...res.starters])
+            setEncounter([...res.starters])
             setHasGameStarted(true)
-            // updateGame({ openEncounterModal: true })
+            updateGame({ openEncounterModal: true })
         })
 
             //TURNS

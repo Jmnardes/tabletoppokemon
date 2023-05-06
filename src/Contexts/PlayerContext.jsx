@@ -22,6 +22,7 @@ export function PlayerProvider({children}) {
         isPokemonRollDisabled: false,
         openPokeShop: false,
         updateShop: false,
+        showBagLength: false,
         openChallengeModal: false,
         openWalkModal: false,
         openGymModal: false,
@@ -209,7 +210,12 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-capture-pokemon', res => {
-            updatePokeTeam(res)
+            if (res.catches > 3) {
+                updatePokeBox(res.pokemon)
+                updateGame({ showBagLength: true })
+            } else {
+                updatePokeTeam(res.pokemon)
+            }
 
             updateGame({ openEncounterModal: false })
         })

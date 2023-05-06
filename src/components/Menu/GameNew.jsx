@@ -4,7 +4,7 @@ import socket from "../../client";
 
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
-    const [gameDuration, setGameDuration] = useState(40)
+    const [gameDuration, setGameDuration] = useState(80)
     const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
 
@@ -21,7 +21,7 @@ export default function GameNew() {
                 <Text fontSize="2xl" m={2}>
                     Game duration 
                 </Text>
-                <NumberInput mx={4} w={20} step={20} defaultValue={40} min={20} max={100} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
+                <NumberInput mx={4} w={20} step={20} defaultValue={80} min={20} max={100} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
                     <NumberInputField disabled />
                     <NumberInputStepper>
                         <NumberIncrementStepper />
@@ -30,7 +30,7 @@ export default function GameNew() {
                 </NumberInput>
             </Flex>
 
-            <Flex justifyContent="space-evenly" alignItems="center">
+            {/* <Flex justifyContent="space-evenly" alignItems="center">
                 <Text fontSize="2xl" m={2}>
                     Generation
                 </Text>
@@ -41,7 +41,7 @@ export default function GameNew() {
                         <NumberDecrementStepper />
                     </NumberInputStepper>
                 </NumberInput>
-            </Flex>
+            </Flex> */}
 
             <Text fontSize="1xl" mt={2}>
                 Difficulty:

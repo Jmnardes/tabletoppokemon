@@ -14,7 +14,7 @@ import PokeBox from "../Trainer/PokeBox"
 import PokeTeam from "../Trainer/PokeTeam"
 
 export default function PokeBoxModal() {
-    const { updateGame } = useContext(PlayerContext)
+    const { updateGame, pokeTeam, pokeBox, emit } = useContext(PlayerContext)
 
     return (
         <>
@@ -27,7 +27,16 @@ export default function PokeBoxModal() {
                     <ModalHeader fontSize="3xl" textAlign="center">
                         <Center>
                             <Text>Poke Bag</Text>
-                            <CloseButton position="absolute" right="20px" onClick={() => updateGame({ openPokeBoxModal: false })} />
+                            <CloseButton 
+                                position="absolute" 
+                                right="20px"
+                                isDisabled={pokeTeam.length !== 3 && (pokeBox.length + pokeTeam.length) >= 3}
+                                title={pokeTeam.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
+                                onClick={() => {
+                                    updateGame({ openPokeBoxModal: false, showBagLength: false })
+                                    emit('player-update-bag', pokeTeam)
+                                }} 
+                            />
                         </Center>
                     </ModalHeader>
                     

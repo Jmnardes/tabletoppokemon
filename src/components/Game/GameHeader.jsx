@@ -1,5 +1,5 @@
 import { Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import PlayerContext from "../../Contexts/PlayerContext";
 import Settings from "./Settings";
 import TrainerBar from "./Trainer/TrainerBar";
@@ -11,14 +11,8 @@ import battleIcon from '../../assets/images/game/battle.png'
 import gymIcon from '../../assets/images/game/event3.png'
 
 export default function GameHeader() {
-    const { player, updateGame, session, pokeTeam, pokeBox } = useContext(PlayerContext)
+    const { player, updateGame, pokeBox, game } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-    const [showNotification, setShowNotification] = useState(false)
-
-    useEffect(() => {
-        setShowNotification(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pokeBox])
 
     return (
         <Center py={2} pr={2} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
@@ -55,8 +49,7 @@ export default function GameHeader() {
                 <Button 
                     mx={2}
                     onClick={() => {
-                        setShowNotification(false)
-                        updateGame({ openPokeBoxModal: true })
+                        updateGame({ openPokeBoxModal: true, showBagLength: false })
                     }}
                 >
                     <Image
@@ -64,14 +57,14 @@ export default function GameHeader() {
                         title={'Bag'}
                         w="32px"
                     ></Image>
-                    {showNotification && (
+                    {game.showBagLength && (
                         <Center 
                             position="absolute" 
-                            right="0" 
+                            right="-1" 
                             bottom="-10px"
-                            background="red"
+                            background={colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'}
                             borderRadius="50%"
-                            width="18px"
+                            width="19px"
                         >
                             <Text fontSize={"sm"} lineHeight="18px" mb="1px">{pokeBox?.length}</Text>
                         </Center>

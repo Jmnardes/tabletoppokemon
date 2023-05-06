@@ -11,7 +11,7 @@ import {
     ModalBody,
 } from "@chakra-ui/react"
 import PlayerContext from "../../../Contexts/PlayerContext"
-import PokeShop from "../Shop/PokeShop"
+import PokeShop from "../PokeShop"
 
 export default function PokeShopModal() {
     const { updateGame } = useContext(PlayerContext)

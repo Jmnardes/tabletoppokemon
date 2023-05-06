@@ -1,7 +1,7 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
 import PlayerContext from "../../../Contexts/PlayerContext"
-import Team from "../Team/Team"
+import Card from "../Pokemon/Card"
 import TeamTitle from '../Team/TeamTitle'
 
 export default function PokeTeam({ bag }) {
@@ -22,7 +22,7 @@ export default function PokeTeam({ bag }) {
                 {pokeTeam?.map((poke) => {
                     return (
                         <Box key={poke.id} m={2} mt={4}>
-                            <Team
+                            <Card
                                 poke={poke}
                                 pokeTeam={pokeTeam}
                                 updatePokeBox={updatePokeBox}

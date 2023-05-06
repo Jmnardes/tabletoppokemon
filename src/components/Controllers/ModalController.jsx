@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from "react"
-import { useContext } from "react";
-import PlayerContext from "../Contexts/PlayerContext"
-import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
-import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"
-import EncounterModal from "./Pokemon/Modal/EventModals/EncounterModal"
-import PokeShopModal from "./Pokemon/Modal/PokeShopModal";
-import GameHeader from "./GameHeader";
-import GameContent from "./GameContent";
-import socket from "../client";
-import GymModal from "./Pokemon/Modal/EventModals/GymModal"
-import SelectScreenModal from "./Pokemon/Modal/Battle/SelectScreenModal";
-import PokeBoxModal from "./Pokemon/Modal/PokeBoxModal";
-import BattleModal from "./Pokemon/Modal/Battle/BattleModal";
+import { useContext, useEffect, useState } from "react";
+import socket from "../../client";
+import PlayerContext from "../../Contexts/PlayerContext";
+import ChallengeModal from "../Game/Modal/EventModals/ChallengeModal";
+import EncounterModal from "../Game/Modal/EventModals/EncounterModal";
+import WalkModal from "../Game/Modal/EventModals/WalkModal";
+import PokeBoxModal from "../Game/Modal/PokeBoxModal";
+import PokeShopModal from "../Game/Modal/PokeShopModal";
+import BattleController from "./BattleController";
 
-function PokePage() {
+export default function ModalController() {
     const { 
         game, 
         setSession, 
         updateOpponents, 
         setWaitingForPlayers, 
         updateGame, 
-        setEncounter, 
-        pokeTeam
+        setEncounter,
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
+    const [battleId, setBattleId] = useState('')
 
     useEffect(() => {
         socket.on('turn-start', res => {
@@ -48,7 +43,10 @@ function PokePage() {
                     break
                 case 'walk':
                     updateGame({ openWalkModal: true })
-
+                    break
+                case 'battle':
+                    updateGame({ openBattleModal: true })
+                    setBattleId(res.battleId)
                     break
                 default:
                     break
@@ -57,14 +55,15 @@ function PokePage() {
             setWaitingForPlayers(false)
             updateGame({ isPokemonRollDisabled: false })
         })
+
+        socket.on('battle-end', () => updateGame({ openBattleModal: false }))
+
+        socket.on('battle-choose-pokemon-other', () => updateGame({ openBattleModal: false }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return (
+    return(
         <>
-            <GameHeader />
-
-            <GameContent pokeTeam={pokeTeam} />
-
             {game.openPokeShop && <PokeShopModal />}
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
@@ -72,9 +71,8 @@ function PokePage() {
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
-            {game.openBattleModal && <BattleModal />}
+
+            <BattleController battleId={battleId} />
         </>
     )
 }
-
-export default PokePage

@@ -5,10 +5,10 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "../../../util"
-import Team from "../Team/Team"
+import Card from "../Pokemon/Card"
 import PlayerContext from "../../../Contexts/PlayerContext"
 
-export default function PokeSelector({ poke, setPokemon, setIsPokemonBattling }) {
+export default function PokeSelector({ poke, setPokemon, battleId }) {
     const { emit } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
@@ -16,7 +16,7 @@ export default function PokeSelector({ poke, setPokemon, setIsPokemonBattling })
     const PokemonTooltip = () => {
         setpokeStatsTooltip(() => {
             return (
-                <Team poke={poke} tooltip={true} />
+                <Card poke={poke} tooltip={true} />
             )
         })
     }
@@ -40,9 +40,8 @@ export default function PokeSelector({ poke, setPokemon, setIsPokemonBattling })
             borderRadius={8}
             onClick={() => {
                 setPokemon(poke)
-                setIsPokemonBattling(true)
 
-                // emit('battle-pokemon-select', poke)
+                emit('battle-choose-pokemon', {battleId, id: poke.id})
             }}
         >
             <Tooltip label={pokeStatsTooltip} background="none">

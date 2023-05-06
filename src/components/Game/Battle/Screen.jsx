@@ -1,10 +1,8 @@
 import { Center, Flex, Image, Kbd, Progress, keyframes } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function Screen({ pokemon, hitAnimation, setHitAnimation, opponent }) {
+export default function Screen({ pokemon, hitAnimation, setHitAnimation, pokemonOther, myPokemonHp }) {
     const [selfHitAnimation, setSelfHitAnimation] = useState('')
-    const [myHp, setMyHp] = useState(0)
-    const [opponentHp, setOpponentHp] = useState(0)
 
     const handleSelfHitAnimation = () => {
         setSelfHitAnimation(keyframes`
@@ -21,13 +19,6 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, opponen
         100% { transform: translate(0px, 0px) rotate(6deg); }
         ` + ' 0.5s ease-in-out 1s')
     }
-
-    useEffect(() => {
-        handleSelfHitAnimation()
-        setMyHp(pokemon?.stats.hp)
-        setOpponentHp(opponent?.stats.hp)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     return (
         <Flex flex="1" h="100%" mx={24} justifyContent="space-between">
@@ -49,7 +40,7 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, opponen
                             size='md'
                             colorScheme='green' 
                             borderRadius={4}
-                            value={myHp}
+                            value={myPokemonHp}
                             max={pokemon?.stats.hp}
                         /></Kbd>
                     </Center>
@@ -57,13 +48,13 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, opponen
             </Center>
             
             <Center mr={[12, 48]} alignItems="start">
-                {opponent && (
+                {pokemonOther && (
                     <Center flexDir="column">
                         <Image 
                             w={64}
                             animation={hitAnimation}
                             onAnimationEnd={() => setHitAnimation('')}
-                            src={opponent?.sprites.front}
+                            src={pokemonOther?.sprite}
                             position="absolute"
                             mt={48}
                         />
@@ -74,8 +65,8 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, opponen
                             size='md'
                             colorScheme='green' 
                             borderRadius={4}
-                            value={opponentHp}
-                            max={opponent?.stats.hp}
+                            value={pokemonOther?.hp.actual}
+                            max={pokemonOther?.hp.total}
                         /></Kbd>
                     </Center>
                 )}

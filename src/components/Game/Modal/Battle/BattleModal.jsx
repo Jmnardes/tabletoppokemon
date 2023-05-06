@@ -8,7 +8,12 @@ import {
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import BattleContent from "../../Battle/BattleContent"
 
-export default function BattleModal() {
+export default function BattleModal({
+    battleId,
+    myPokemonHp,
+    pokemonOther,
+    isMyTurn,
+}) {
     const { updateGame } = useContext(PlayerContext)
 
     return (
@@ -19,7 +24,12 @@ export default function BattleModal() {
                     backdropFilter='blur(2px) hue-rotate(0deg)'
                 />
                 <ModalContent p={4}>
-                    <BattleContent />
+                    <BattleContent
+                        battleId={battleId}
+                        myPokemonHp={myPokemonHp}
+                        pokemonOther={pokemonOther}
+                        isMyTurn={isMyTurn}
+                    />
 
                     <Button mt={6} h={12} onClick={() => {
                         updateGame({ openBattleModal: false })

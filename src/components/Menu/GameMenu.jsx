@@ -6,7 +6,7 @@ import ThemeSwitch from "../Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "../../Contexts/PlayerContext";
 import GameNew from "./GameNew";
-import ConfirmationModal from "../Pokemon/Modal/ConfirmationModal"
+import ConfirmationModal from "../Game/Modal/ConfirmationModal"
 
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)

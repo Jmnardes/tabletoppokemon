@@ -1,13 +1,14 @@
 import { Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "../Contexts/PlayerContext";
-import Settings from "./Pokemon/Configuration/Settings";
-import TrainerBar from "./Pokemon/Trainer/TrainerBar";
-import shopIcon from '../assets/images/game/shop.png'
-import bagIcon from '../assets/images/game/bag.png'
-import battleIcon from '../assets/images/game/battle.png'
-import gymIcon from '../assets/images/game/event3.png'
-import PokeballStats from './Pokemon/Trainer/PokeballStats'
+import PlayerContext from "../../Contexts/PlayerContext";
+import Settings from "./Settings";
+import TrainerBar from "./Trainer/TrainerBar";
+import PokeballStats from './Trainer/PokeballStats'
+
+import shopIcon from '../../assets/images/game/shop.png'
+import bagIcon from '../../assets/images/game/bag.png'
+import battleIcon from '../../assets/images/game/battle.png'
+import gymIcon from '../../assets/images/game/event3.png'
 
 export default function GameHeader() {
     const { player, updateGame, session, pokeTeam, pokeBox } = useContext(PlayerContext)

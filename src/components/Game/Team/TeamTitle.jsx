@@ -12,7 +12,7 @@ export default function TeamTitle({ pokeTeam }) {
     }
 
     return (
-        <Kbd display="flex" flexDir="row" mt={6} py={2}>
+        <Kbd display="flex" flexDir="row" mt={12} py={2}>
             <Center mx={4}>
                 <Image
                     src={healthIcon} 

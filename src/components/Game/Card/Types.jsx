@@ -14,6 +14,3 @@ function Types({ types, w, h }) {
 }
 
 export default Types
-
-
-

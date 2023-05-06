@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, Kbd, Text } from "@chakra-ui/react";
 import swordIcon from '../../../assets/images/stats/sword.png'
 import shieldIcon from '../../../assets/images/stats/shield.png'
 import speedIcon from '../../../assets/images/stats/speed.png'
@@ -9,7 +9,7 @@ import criticalIcon from '../../../assets/images/stats/critical.svg'
 function PokeStats({ poke }) {
     const StatInventary = ({ stat, statName, statIcon }) => {
         return (
-            <Box display="flex" alignItems="center" mx={1}>
+            <Kbd display="flex" alignItems="center" my={1} ml={2}>
                 <Image
                     mr={1}
                     src={statIcon}
@@ -17,12 +17,12 @@ function PokeStats({ poke }) {
                     w="22px"
                 ></Image>
                 <Text fontWeight="bold">{stat}</Text>
-            </Box>
+            </Kbd>
         )
     }
 
     return (
-        <Flex mt={2}>
+        <Flex mt={2} flexDir="column">
             <StatInventary
                 stat={poke.stats.hp}
                 statName={"Health"}
@@ -39,13 +39,13 @@ function PokeStats({ poke }) {
                 statIcon={shieldIcon}
             />
             <StatInventary
-                stat={poke.stats.acc}
-                statName={"Accuracy"}
+                stat={poke.stats.evs}
+                statName={"Evasion"}
                 statIcon={speedIcon}
             />
             <StatInventary
-                stat={poke.stats.evs}
-                statName={"Evasion"}
+                stat={poke.stats.acc}
+                statName={"Accuracy"}
                 statIcon={accuracyIcon}
             />
             <StatInventary

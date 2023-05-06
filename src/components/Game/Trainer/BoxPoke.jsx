@@ -5,7 +5,7 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase } from "../../../util"
-import Team from "../Team/Team"
+import Card from "../Pokemon/Card"
 import PlayerContext from "../../../Contexts/PlayerContext"
 
 export default function BoxPoke({ poke, pokeBox }) {
@@ -15,7 +15,7 @@ export default function BoxPoke({ poke, pokeBox }) {
     const PokemonTooltip = () => {
         setpokeStatsTooltip(() => {
             return (
-                <Team poke={poke} tooltip={true} />
+                <Card poke={poke} tooltip={true} />
             )
         })
     }
@@ -42,6 +42,7 @@ export default function BoxPoke({ poke, pokeBox }) {
                     position="absolute"
                     title={stringToUpperCase(poke.name)} 
                     src={poke.sprites.mini}
+                    fallbackSrc={poke.sprites.front}
                 />
             </Tooltip>
         </Button>

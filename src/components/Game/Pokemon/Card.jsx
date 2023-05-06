@@ -5,14 +5,14 @@ import { Flex, Image, Text, Center, Kbd } from "@chakra-ui/react"
 import Types from "../Card/Types"
 import { FaStar } from "react-icons/fa"
 
-function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
+function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')
 
     const rarityColor = (rarity) => {
-        if(rarity === 1) return '#ff666690'
+        if(rarity === 1) return '#f06f6f'
         if(rarity === 2) return '#4682B4'
         if(rarity === 3) return '#d4af37'
-        return '#FFFFFF50'
+        return '#8a8a8a'
     }
 
     useEffect(() => {
@@ -27,12 +27,11 @@ function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
             flexDirection="column"
             border={`8px ridge ${rarityColor(poke.rarity.rarity)}`}
             borderRadius={8}
-            my={1}
-            p={1}
+            p={2}
             backgroundColor={tooltip ? colorByType : `${colorByType}99`}
             background={ poke.shiny ? `linear-gradient(165deg, ${colorByType}15 15%, ${colorByType} 50%, ${colorByType}15 85%)` : ''}
             shadow="dark-lg"
-            _hover={{
+            _hover={bag && {
                 backgroundColor: `${colorByType}70`,
                 cursor: 'pointer'
             }}
@@ -65,12 +64,11 @@ function Team({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                         title={stringToUpperCase(poke.name)} 
                         src={poke.sprites.main}
                     />
+                    <PokeStats poke={poke} />
                 </Center>
-
-                <PokeStats poke={poke} />
             </Flex>
         </Flex>
     )    
 }
 
-export default Team
+export default Card

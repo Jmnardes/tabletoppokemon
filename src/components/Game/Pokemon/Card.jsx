@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import PokeStats from "../Card/PokeStats"
+import PokeStats from "./PokeStats"
 import { stringToUpperCase, typeColor } from '../../../util'
 import { Flex, Image, Text, Center, Kbd } from "@chakra-ui/react"
-import Types from "../Card/Types"
+import Types from "./Types"
 import { FaStar } from "react-icons/fa"
 
 function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
@@ -52,14 +52,14 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                     <Center>
                         <Kbd w="fit-content">
                             <Center flexDir="row">
-                                {poke.tier} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
+                                lv.{poke.tier} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
                             </Center>
                         </Kbd>
                     </Center>
                 </Center>
                 <Center>
                     <Image
-                        w={48}
+                        w={52}
                         my={4}
                         title={stringToUpperCase(poke.name)} 
                         src={poke.sprites.main}

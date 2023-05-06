@@ -14,9 +14,9 @@ function PokeStats({ poke }) {
                     mr={1}
                     src={statIcon}
                     title={statName}
-                    w="22px"
+                    w="24px"
                 ></Image>
-                <Text fontWeight="bold">{stat}</Text>
+                <Text fontSize="16px" fontWeight="bold">{stat}</Text>
             </Kbd>
         )
     }

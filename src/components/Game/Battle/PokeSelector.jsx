@@ -7,9 +7,10 @@ import {
 import { stringToUpperCase, typeColor } from "../../../util"
 import Card from "../Pokemon/Card"
 import PlayerContext from "../../../Contexts/PlayerContext"
+import socket from "../../../client"
 
 export default function PokeSelector({ poke, setPokemon, battleId }) {
-    const { emit } = useContext(PlayerContext)
+    const { emit, setLoadingApi } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
@@ -21,6 +22,11 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
         })
     }
 
+    const battleChoosePokemon = () => {
+        setLoadingApi(false)
+        setPokemon(poke)
+    }
+
     /* eslint-disable */
     useEffect(() => {
         let color = typeColor(poke.types)
@@ -28,6 +34,15 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
         PokemonTooltip()
         setColorByType(color)
     }, [poke])
+
+    useEffect(() => {
+        socket.on('battle-choose-pokemon', battleChoosePokemon)
+
+        return () => {
+            socket.off('battle-choose-pokemon', battleChoosePokemon)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <Button
@@ -39,8 +54,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
             border={`2px solid ${colorByType}`}
             borderRadius={8}
             onClick={() => {
-                setPokemon(poke)
-
+                setLoadingApi(true)
                 emit('battle-choose-pokemon', {battleId, id: poke.id})
             }}
         >

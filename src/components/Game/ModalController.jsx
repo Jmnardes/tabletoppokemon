@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import socket from "../../client";
 import PlayerContext from "../../Contexts/PlayerContext";
-import ChallengeModal from "../Game/Modal/EventModals/ChallengeModal";
-import EncounterModal from "../Game/Modal/EventModals/EncounterModal";
-import WalkModal from "../Game/Modal/EventModals/WalkModal";
-import PokeBoxModal from "../Game/Modal/PokeBoxModal";
-import PokeShopModal from "../Game/Modal/PokeShopModal";
-import BattleController from "./BattleController";
+import BattleModal from "./Modal/EventModals/BattleModal";
+import ChallengeModal from "./Modal/EventModals/ChallengeModal";
+import EncounterModal from "./Modal/EventModals/EncounterModal";
+import WalkModal from "./Modal/EventModals/WalkModal";
+import PokeBoxModal from "./Modal/PokeBoxModal";
+import PokeShopModal from "./Modal/PokeShopModal";
 
 export default function ModalController() {
     const { 
@@ -55,10 +55,6 @@ export default function ModalController() {
             setWaitingForPlayers(false)
             updateGame({ isPokemonRollDisabled: false })
         })
-
-        socket.on('battle-end', () => updateGame({ openBattleModal: false, openEncounterModal: true }))
-
-        socket.on('battle-choose-pokemon-other', () => updateGame({ openBattleModal: false }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -71,8 +67,7 @@ export default function ModalController() {
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
-
-            <BattleController battleId={battleId} />
+            {game.openBattleModal && <BattleModal battleId={battleId}/>}
         </>
     )
 }

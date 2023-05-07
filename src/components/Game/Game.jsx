@@ -1,7 +1,7 @@
 import React from "react"
 import GameHeader from "./GameHeader";
 import GameContent from "./GameContent";
-import ModalController from "../Controllers/ModalController";
+import ModalController from "./ModalController";
 
 function PokePage() {
 

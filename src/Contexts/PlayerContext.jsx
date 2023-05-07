@@ -1,6 +1,7 @@
-import { useToast } from "@chakra-ui/react";
+import { Image, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
+import { rarityName, stringToUpperCase } from "../util";
 
 const PlayerContext = createContext();
 
@@ -210,6 +211,25 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-capture-pokemon', res => {
+            setLoadingApi(false)
+            
+            handleToast({
+                id: 'catch',
+                title: stringToUpperCase(res.pokemon.name),
+                description: (
+                    'Level: ' + res.pokemon.tier + '\n' + 
+                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + '\n' + 
+                    'Nature: ' + stringToUpperCase(res.pokemon.nature)
+                ),
+                icon: <Image 
+                        width="32px"
+                        src={res.pokemon.sprites.mini} 
+                        fallbackSrc={res.pokemon.sprites.front}
+                    ></Image>,
+                duration: 3000,
+                position: 'top'
+            })
+
             if (res.catches > 3) {
                 updatePokeBox(res.pokemon)
                 updateGame({ showBagLength: true })

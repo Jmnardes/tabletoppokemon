@@ -201,3 +201,10 @@ export const parseNumberToNatural = (number, division) => {
 export const parseNumberMultToNatural = (number, multiply) => {
     return Number(Number.parseFloat(number*multiply).toFixed(0))
 }
+
+export const rarityName = (rarity) => {
+    if (rarity === 0) return 'Normal'
+    if (rarity === 1) return 'Different'
+    if (rarity === 2) return 'Rare'
+    if (rarity === 3) return 'Shiny'
+}

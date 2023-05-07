@@ -1,7 +1,8 @@
 import { Button, Center, Flex, Text, keyframes, Spinner } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
+import socket from "../../../client"
 import PlayerContext from "../../../Contexts/PlayerContext"
-import { stringToUpperCase } from "../../../util"
+import { diceRoll, stringToUpperCase } from "../../../util"
 import PokeSelector from "./PokeSelector"
 
 export default function ControlBox({ 
@@ -14,7 +15,7 @@ export default function ControlBox({
     displayText,
     setDisaplayText,
 }) {
-    const { emit } = useContext(PlayerContext)
+    const { emit, setLoadingApi } = useContext(PlayerContext)
 
     const handleHitAnimation = () => {
         setHitAnimation(keyframes`
@@ -32,6 +33,21 @@ export default function ControlBox({
         ` + ' 0.5s ease-in-out 1s')
     }
 
+    const battleChooseMove = (move) => {
+        setLoadingApi(false)
+        handleHitAnimation()
+        setDisaplayText(move)
+    }
+
+    useEffect(() => {
+        socket.on('battle-choose-move', res => battleChooseMove(res))
+
+        return () => {
+            socket.off('battle-choose-move', battleChooseMove)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <>
             {pokemon ? (
@@ -47,14 +63,12 @@ export default function ControlBox({
                             </Center>
                             <Center w="25%" flexDir="column">
                                 <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    handleHitAnimation()
-                                    setDisaplayText('Move 1')
-                                    emit('battle-choose-pokemon', {battleId, id: pokemon.id, roll: 1, move: 1})
+                                    setLoadingApi(true)
+                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
                                 }}>Move 1</Button>
                                 <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    handleHitAnimation()
-                                    setDisaplayText('Move 2')
-                                    emit('battle-choose-pokemon', {battleId, id: pokemon.id, roll: 2, move: 2})
+                                    setLoadingApi(true)
+                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 2})
                                 }}>Move 2</Button>
                                 <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setPokemon()

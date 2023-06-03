@@ -1,4 +1,4 @@
-import { Button, Flex, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Heading, useColorMode } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import GameJoin from "./GameJoin";
 import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
@@ -7,12 +7,15 @@ import GameLobby from "./GameLobby";
 import PlayerContext from "../../Contexts/PlayerContext";
 import GameNew from "./GameNew";
 import ConfirmationModal from "../Game/Modal/ConfirmationModal"
+import DebugPage from "../Debug/debugPage";
 
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
+
+    const [debug, setDebug] = useState(false)
 
     const goBack = () => {
         setIsGameTypeSelected(false)
@@ -25,27 +28,40 @@ export default function GameMenu() {
 
         setIsGameTypeSelected(false)
     }
+  
+    if (debug) {
+      return <DebugPage setDebug={setDebug} />
+    }
 
     return (
         <>
-            <Flex justifyContent="space-between">
+            <Flex justifyContent={isGameTypeSelected ? "space-between" : "end"}>
                 {player.id ? (
                     <ConfirmationModal event={leaveRoom}>
                         <FaDoorOpen size="16px"/>
                     </ConfirmationModal>
                 ):(
-                    <Button h={12} m={4} onClick={goBack}>
+                    isGameTypeSelected &&
+                    <Button h={12} m={4} onClick={goBack} display={isGameTypeSelected}>
                         <FaArrowLeft size="16px"/>
                     </Button>
                 )}
 
-                <ThemeSwitch />
+                <Flex justifyContent="end">
+                    <ThemeSwitch />
+                </Flex>
             </Flex>
             <Flex 
                 justifyContent="center" 
                 alignItems="center"
+                flexDir="column"
                 h={"60%"}
             >
+                {!isGameTypeSelected && (
+                    <>
+                        <Heading size="2xl">I'ma Poke</Heading>
+                    </>
+                )}
                 <Flex
                     flexDirection="column" 
                     justifyContent="center" 
@@ -58,14 +74,17 @@ export default function GameMenu() {
                 >
                     {!isGameTypeSelected ? (
                         <>
-                            <Button w="100%" fontSize="3xl" h={12} mt={4} mb={2} onClick={() => {
+                            <Button w="100%" h={12} mt={4} mb={2} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(true)
-                            }}>Join Game</Button>
-                            <Button w="100%" fontSize="3xl" h={12} mt={4} mb={2} onClick={() => {
+                            }}>Join Room</Button>
+                            <Button w="100%" h={12} mt={4} mb={2} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(false)
-                            }}>Create Game</Button>
+                            }}>New Room</Button>
+                            <Button w="100%" h={12} mt={4} mb={2} onClick={
+                                () => setDebug(true)
+                            }>Simulator</Button>
                         </>
                     ) : (
 

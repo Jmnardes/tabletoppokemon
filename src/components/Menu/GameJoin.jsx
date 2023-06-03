@@ -9,27 +9,27 @@ export default function GameJoin() {
     return (
         <>
             <Flex flexDirection="column" m={2} justifyContent="center" alignItems="center">
-                <Text fontSize="2xl" mb={2}>
+                <Text mb={2}>
                     Choose your name 
                 </Text>
-                <Input textAlign="center" fontSize="2xl" maxLength={14} onChange={(e) => {setTrainerName(e.target.value)}} />
+                <Input textAlign="center" maxLength={14} onChange={(e) => {setTrainerName(e.target.value)}} />
             </Flex>
 
             <Flex flexDirection="column" m={2} justifyContent="center" alignItems="center">
-                <Text fontSize="2xl" mb={2}>
-                    Game Code 
+                <Text mb={2}>
+                    Room Code 
                 </Text>
-                <Input textAlign="center" fontSize="2xl" maxLength={14} onChange={(e) => {setSessionCode(e.target.value)}} />
+                <Input textAlign="center" maxLength={14} onChange={(e) => {setSessionCode(e.target.value)}} />
             </Flex>
 
-            <Button w="100%" fontSize="3xl" h={12} mt={4} mb={4} onClick={() => {
+            <Button w="100%" h={12} mt={4} mb={4} onClick={() => {
 
                 socket.emit('session-join', {
                     trainerName,
                     sessionCode
                 })
 
-            }}>Join Game</Button>
+            }}>Join Room</Button>
         </>
     )
 }

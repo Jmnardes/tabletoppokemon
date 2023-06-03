@@ -32,7 +32,7 @@ const DebugPage = ({
         for (let i = 0; i < 20; i++) {
             let color = 'none'
             if (i >= (20 - crt)) color = 'red.700'
-            else if (i < evs) color = 'blue.700'
+            else if (i < evs) color = 'blue.500'
             else if (i < defArea) color = 'green.700'
 
             const block = (
@@ -73,7 +73,7 @@ const DebugPage = ({
                 <Button onClick={() => setDebug(false)}>Voltar</Button>
             </Box>
             <Flex gridGap='2rem' justifyContent='center'>
-                <Flex flexDirection='column' gridGap='1rem' width='20%'>
+                <Flex flexDirection='column' gridGap='1rem' width='30%'>
                     <Heading color='white'>Attacker</Heading>
                     <SelectPokemon onChange={attackerHandler} />
                     <Text color='white'>Accuracy</Text>
@@ -105,7 +105,7 @@ const DebugPage = ({
                         </NumberInputStepper>
                     </NumberInput>
                 </Flex>
-                <Flex flexDirection='column' gridGap='1rem' width='20%'>
+                <Flex flexDirection='column' gridGap='1rem' width='30%'>
                     <Heading color='white'>Defender</Heading>
                     <SelectPokemon onChange={defenderHandler} />
                     <Text color='white'>Defense</Text>
@@ -127,7 +127,7 @@ const DebugPage = ({
                         placeholder="Evasion"
                         value={evs}
                         onChange={v => set(v, setEvs)}
-                        color='blue.400'
+                        color='blue.300'
                         min={0}
                     >
                         <NumberInputField />

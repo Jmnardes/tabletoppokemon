@@ -40,7 +40,7 @@ export default function PokeShop() {
             <Center flexDirection="row" w="100%" justifyContent="space-between" mb={2}>
                 {/* <Text w="200px">{title}</Text> */}
                 <Image src={itemIcon} title={title} w="20px" />
-                <Center>
+                <Center ml={12} minW={20} justifyContent="start">
                     <Image src={coinIcon} title="Coin" w="20px" mr={2} />
                     <Text>{priceScaled}</Text>
                 </Center>
@@ -164,7 +164,7 @@ export default function PokeShop() {
 
                 <Center flexDirection="row" w="100%" justifyContent="space-between" mb={2}>
                     <Image src={crownIcon} title="Poke Crown" w="20px" />
-                    <Center>
+                    <Center ml={12} minW={20} justifyContent="start">
                         <Image src={starIcon} title="Coin" w="20px" mr={2} />
                         <Text>3</Text>
                     </Center>

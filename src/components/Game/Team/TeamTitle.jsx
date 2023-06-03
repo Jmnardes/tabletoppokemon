@@ -1,71 +1,62 @@
-import { Center, Image, Kbd, Text } from "@chakra-ui/react";
-import swordIcon from '../../../assets/images/stats/sword.png'
-import shieldIcon from '../../../assets/images/stats/shield.png'
-import speedIcon from '../../../assets/images/stats/speed.png'
-import healthIcon from '../../../assets/images/stats/health.png'
-import accuracyIcon from '../../../assets/images/stats/accuracy.svg'
-import criticalIcon from '../../../assets/images/stats/critical.svg'
+import { Center, Flex, Image, Kbd, Text, useColorMode } from "@chakra-ui/react";
+import Accuracy from '../../../assets/svgs/stats/accuracy'
+import Attack from '../../../assets/svgs/stats/attack'
+import Defense from '../../../assets/svgs/stats/defense'
+import Evasion from '../../../assets/svgs/stats/evasion'
+import Critical from '../../../assets/svgs/stats/critical'
+import Health from '../../../assets/svgs/stats/health'
 
 export default function TeamTitle({ pokeTeam }) {
+    const { colorMode } = useColorMode()
     const sumPokeStat = (stat) => {
         return pokeTeam?.reduce((acc, poke) => acc += poke.stats[stat], 0)
     }
 
+    const StatTitle = ({ stat, statName, statIcon }) => {
+        return (
+            <Center mx={4} flexDir="column" title={statName}>
+                {statIcon}
+                <Text>{sumPokeStat(stat)}</Text>
+            </Center>
+        )
+    }
+
     return (
-        <Kbd display="flex" flexDir="row" mt={12} py={2}>
-            <Center mx={4}>
-                <Image
-                    src={healthIcon} 
-                    title={'Health'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('hp')}</Text>
-            </Center>
-            <Center mx={4}>
-                <Image
-                    mr={2}
-                    src={swordIcon} 
-                    title={'Attack'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('atk')}</Text>
-            </Center>
-            <Center mx={4}>
-                <Image
-                    mr={2}
-                    src={shieldIcon} 
-                    title={'Defense'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('def')}</Text>
-            </Center>
-            <Center mx={4}>
-                <Image
-                    mr={2}
-                    src={speedIcon} 
-                    title={'Evasion'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('evs')}</Text>
-            </Center>
-            <Center mx={4}>
-                <Image
-                    mr={2}
-                    src={accuracyIcon} 
-                    title={'Accuracy'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('acc')}</Text>
-            </Center>
-            <Center mx={4}>
-                <Image
-                    mr={2}
-                    src={criticalIcon} 
-                    title={'Critical'}
-                    w="32px"
-                ></Image>
-                <Text fontSize="2xl">{sumPokeStat('crt')}</Text>
-            </Center>
-        </Kbd>
+        <Flex display="flex" flexDir="row" mt={12} py={2} borderRadius={8} 
+            background={colorMode === 'light' ? 'gray.400' : 'gray.600'}
+            title="Team stats"
+            cursor="pointer"
+        >
+            <StatTitle
+                stat="hp"
+                statName="health"
+                statIcon={<Health/>}
+            />
+            <StatTitle
+                stat="atk"
+                statName="attack"
+                statIcon={<Attack/>}
+            />
+            <StatTitle
+                stat="def"
+                statName="defense"
+                statIcon={<Defense/>}
+            />
+            <StatTitle
+                stat="evs"
+                statName="evasion"
+                statIcon={<Evasion/>}
+            />
+            <StatTitle
+                stat="acc"
+                statName="accuracy"
+                statIcon={<Accuracy/>}
+            />
+            <StatTitle
+                stat="crt"
+                statName="critical"
+                statIcon={<Critical/>}
+            />
+        </Flex>
     )
 }

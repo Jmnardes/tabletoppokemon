@@ -1,22 +1,17 @@
-import { Flex, Image, Kbd, Text } from "@chakra-ui/react";
-import swordIcon from '../../../assets/images/stats/sword.png'
-import shieldIcon from '../../../assets/images/stats/shield.png'
-import speedIcon from '../../../assets/images/stats/speed.png'
-import healthIcon from '../../../assets/images/stats/health.png'
-import accuracyIcon from '../../../assets/images/stats/accuracy.svg'
-import criticalIcon from '../../../assets/images/stats/critical.svg'
+import { Flex, Kbd, Text } from "@chakra-ui/react";
+import Accuracy from '../../../assets/svgs/stats/accuracy'
+import Attack from '../../../assets/svgs/stats/attack'
+import Defense from '../../../assets/svgs/stats/defense'
+import Evasion from '../../../assets/svgs/stats/evasion'
+import Critical from '../../../assets/svgs/stats/critical'
+import Health from '../../../assets/svgs/stats/health'
 
 function PokeStats({ poke }) {
     const StatInventary = ({ stat, statName, statIcon }) => {
         return (
-            <Kbd display="flex" alignItems="center" my={1} ml={2}>
-                <Image
-                    mr={1}
-                    src={statIcon}
-                    title={statName}
-                    w="24px"
-                ></Image>
-                <Text fontSize="16px" fontWeight="bold">{stat}</Text>
+            <Kbd display="flex" alignItems="center" my={1} ml={2} title={statName}>
+                {statIcon}
+                <Text ml={1.5} fontSize="16px" fontWeight="bold">{stat}</Text>
             </Kbd>
         )
     }
@@ -26,32 +21,32 @@ function PokeStats({ poke }) {
             <StatInventary
                 stat={poke.stats.hp}
                 statName={"Health"}
-                statIcon={healthIcon}
+                statIcon={<Health w={24} h={24}/>}
             />
             <StatInventary
                 stat={poke.stats.atk}
                 statName={"Attack"}
-                statIcon={swordIcon}
+                statIcon={<Attack w={24} h={24}/>}
             />
             <StatInventary
                 stat={poke.stats.def}
                 statName={"Defense"}
-                statIcon={shieldIcon}
+                statIcon={<Defense w={24} h={24}/>}
             />
             <StatInventary
                 stat={poke.stats.evs}
                 statName={"Evasion"}
-                statIcon={speedIcon}
+                statIcon={<Evasion w={24} h={24}/>}
             />
             <StatInventary
                 stat={poke.stats.acc}
                 statName={"Accuracy"}
-                statIcon={accuracyIcon}
+                statIcon={<Accuracy w={24} h={24}/>}
             />
             <StatInventary
                 stat={poke.stats.crt}
                 statName={"Critical"}
-                statIcon={criticalIcon}
+                statIcon={<Critical w={24} h={24}/>}
             />
         </Flex>
     )

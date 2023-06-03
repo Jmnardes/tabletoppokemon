@@ -1,23 +1,16 @@
 import { Button, Flex, Heading, useColorMode } from "@chakra-ui/react"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import Game from "./components/Game/Game"
 import GameMenu from "./components/Menu/GameMenu"
 import PlayerContext from "./Contexts/PlayerContext"
 import day from "./assets/images/background/day.jpg"
 import night from "./assets/images/background/night.jpg"
 import Loading from "./components/Loading"
-import DebugPage from "./components/Debug/debugPage"
 import { ConfettiCanvas } from "react-raining-confetti";
 
 const App = () => {
   const { hasGameStarted, waitingForPlayers, loadingApi, loadingText, confetti } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
-
-  const [debug, setDebug] = useState(false)
-
-  if (debug) {
-    return <DebugPage setDebug={setDebug} />
-  }
 
   return (
     <Flex flexDirection='column' h='100vh' w='100vw' m={0} backgroundImage={colorMode === 'light' ? day : night}>
@@ -36,10 +29,7 @@ const App = () => {
           <Game />
         </>
       ): (
-        <>
-          <Button onClick={() => setDebug(true)}>Enter debug</Button>
           <GameMenu />
-        </>
       )}
     </Flex>
   )

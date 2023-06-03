@@ -27,9 +27,9 @@ export default function Settings() {
 
             <Divider />
 
-            <Center flexDirection="column" pt={8}>
-                <Text fontSize="sm" color="red" >(All data will be lost)</Text>
-                <Button p={4} w={40} onClick={() => {
+            <Center flexDirection="column" pt={8} mb={4}>
+                <Text fontSize="2xs" color="red" >(All data will be lost)</Text>
+                <Button p={4} w={72} onClick={() => {
                     setHasGameStarted(false)
                     setPlayer({})
                     setSession({})

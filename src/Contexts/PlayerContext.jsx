@@ -1,4 +1,4 @@
-import { Image, useToast } from "@chakra-ui/react";
+import { Flex, Heading, Image, Text, useColorMode, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 import { rarityName, stringToUpperCase } from "../util";
@@ -7,6 +7,7 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const { colorMode } = useColorMode()
     const [loadingApi, setLoadingApi] = useState(false)
     const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
@@ -44,11 +45,25 @@ export function PlayerProvider({children}) {
     }, [player, session])
     
     const handleToast = (args) => {
+        let bgColor = "gray.400"
+
+        if(args.status === 'error') bgColor = 'red.400'
+        if(args.status === 'warning') bgColor = 'orange.400'
+
         if (!toast.isActive(args.id)) {
             toast({
                 ...args, 
-                duration: args.duration ?? 6000, 
-                status: args.status ?? 'info'
+                duration: args.duration ?? 6000,
+                render: () => (
+                    <Flex p={4} borderRadius={8}
+                        bg={bgColor}
+                        width="fit-content"
+                        flexDirection="column"
+                    >
+                        <Text mb={2}>{args.title}</Text>
+                        <Text fontSize="2xs">{args.description}</Text>
+                    </Flex>
+                ),
             })
         }
     }
@@ -217,8 +232,8 @@ export function PlayerProvider({children}) {
                 id: 'catch',
                 title: stringToUpperCase(res.pokemon.name),
                 description: (
-                    'Level: ' + res.pokemon.tier + '\n' + 
-                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + '\n' + 
+                    'Level: ' + res.pokemon.tier + ' |\n' + 
+                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + ' |\n' + 
                     'Nature: ' + stringToUpperCase(res.pokemon.nature)
                 ),
                 icon: <Image 
@@ -226,7 +241,7 @@ export function PlayerProvider({children}) {
                         src={res.pokemon.sprites.mini} 
                         fallbackSrc={res.pokemon.sprites.front}
                     ></Image>,
-                duration: 3000,
+                duration: 4000,
                 position: 'top'
             })
 

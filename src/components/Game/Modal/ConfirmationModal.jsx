@@ -21,13 +21,13 @@ function PokeModal({ children, event }) {
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader textAlign={"center"}>Tem certeza disso?</ModalHeader>
+                <ModalHeader textAlign={"center"}>Are you sure?</ModalHeader>
                 <ModalCloseButton />
                 <ModalFooter justifyContent="center">
                     <Button w={24} onClick={event} backgroundColor="red.700" mx={2}>
-                    Sim
+                    Yes
                     </Button>
-                    <Button w={24} onClick={onClose}>Cancel</Button>
+                    <Button w={24} onClick={onClose}>No</Button>
                 </ModalFooter>
             </ModalContent>
             </Modal>

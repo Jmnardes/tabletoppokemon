@@ -8,8 +8,8 @@ export default function OpponentsResult({ opponentsRoll }) {
     const OpponentRow = ({opponent}) => {
         return (
             <Tr>
-                <Td pt={1} pb={2}>{opponent.status.trainerName}</Td>
-                <Td pt={1} pb={2}>{opponentRollMatch(opponent)}</Td>
+                <Td pt={1} pb={2} fontSize="2xs">{opponent.status.trainerName}</Td>
+                <Td pt={1} pb={2} fontSize="2xs">{opponentRollMatch(opponent)}</Td>
             </Tr>
         )
     }
@@ -24,11 +24,11 @@ export default function OpponentsResult({ opponentsRoll }) {
 
     return (
         <TableContainer>
-            <Table variant='simple'>
+            <Table variant='simple' w="60%">
                 <Thead>
                     <Tr>
-                        <Th pt={0} pb={2}>Player</Th>
-                        <Th pt={0} pb={2}>Result</Th>
+                        <Th pt={0} pb={2} fontSize="2xs">Player</Th>
+                        <Th pt={0} pb={2} fontSize="2xs">Result</Th>
                     </Tr>
                 </Thead>
                 <Tbody>

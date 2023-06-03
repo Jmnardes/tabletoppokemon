@@ -20,7 +20,7 @@ export default function TrainerBar() {
                         title={'Turns'}
                         w="24px"
                     ></Image>
-                    <Text ml={2}>{session.turns}</Text>
+                    <Text ml={2} fontSize="2xs">{session.turns}</Text>
                 </Flex>
             )}
             <Flex alignItems="center" mx={2}>
@@ -30,7 +30,7 @@ export default function TrainerBar() {
                     title={'Poke Crown'}
                     w="34px"
                 ></Image>
-                <Text ml={2}>{player.currency.crowns}</Text>
+                <Text ml={2} fontSize="2xs">{player.currency.crowns}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -38,7 +38,7 @@ export default function TrainerBar() {
                     title={'Poke Star'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{player.currency.stars}</Text>
+                <Text ml={2} fontSize="2xs">{player.currency.stars}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -46,7 +46,7 @@ export default function TrainerBar() {
                     title={'Coins'}
                     w="24px"
                 ></Image>
-                <Text ml={2}>{player.currency.coins}</Text>
+                <Text ml={2} fontSize="2xs">{player.currency.coins}</Text>
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
@@ -54,7 +54,7 @@ export default function TrainerBar() {
                     title={'Shiny incense'}
                     w="24px"
                 ></Image>
-                <Text title={'Shiny chance ' + player.items.incense + '%'} cursor="pointer" ml={2}>{player.items.incense - 1}</Text>
+                <Text fontSize='2xs' title={'Shiny chance ' + player.items.incense + '%'} cursor="pointer" ml={2}>{player.items.incense - 1}</Text>
             </Flex>
         </>
     )

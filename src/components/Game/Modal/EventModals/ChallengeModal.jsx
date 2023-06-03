@@ -71,7 +71,7 @@ export default function ChallengeModal({ event }) {
                 </Box>
 
                 <Flex w="100%" justifyContent="center" mx={2}>
-                    <Text>{prize.amount}x</Text>
+                    <Text fontSize="xs">{prize.amount}x</Text>
                     <PrizeIcon type={prize.name} />
                 </Flex>
 
@@ -194,7 +194,7 @@ export default function ChallengeModal({ event }) {
                                                             <SecondPlaceIcon h={16} w={16} />
                                                         )}
                                                         {myPlacing.current === 2 && (
-                                                            <ThirdPlaceIcon h={16} w={16} />
+                                                            <ThirdPlaceIcon h={16} w={16} /> 
                                                         )}
                                                         
                                                         <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
@@ -253,28 +253,28 @@ export default function ChallengeModal({ event }) {
                                 <Center flexDirection="column">
                                     <ModalBody p={2} w="100%" bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
                                         <Center flexDirection="column">
-                                            <Text fontSize="2xl" mb={2} textAlign="center">
+                                            <Text mb={2} textAlign="center">
                                                 {event.label}
                                             </Text>
 
-                                            <Flex color="green.400">
-                                                Advantages on this challenge:
+                                            <Flex color="green.400" fontSize="2xs" my={1}>
+                                                Advantages:
                                                 <Text ml={2} fontWeight="bold">
                                                     {joinArr(event.advantage?.value)}
                                                 </Text>
                                             </Flex>
 
                                             {event.disadvantage?.value && (
-                                                <Flex color="red.400">
-                                                    Disadvantages on this challenge: 
+                                                <Flex color="red.400" fontSize="2xs" my={1}>
+                                                    Disadvantages: 
                                                     <Text ml={2} fontWeight="bold">
                                                         {joinArr(event.disadvantage?.value)}
                                                     </Text>
                                                 </Flex>
                                             )}
 
-                                            <Flex>
-                                                Your bonus for this challange is:
+                                            <Flex fontSize="xs">
+                                                Current bonus:
                                                 <Text ml={2} fontWeight="bold">
                                                     {bonus.current}
                                                 </Text>

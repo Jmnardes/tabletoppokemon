@@ -94,14 +94,14 @@ export default function DiceButton({
                         animation={textShowAnimation}
                     >
                         <Heading
-                            size={critical ? '4xl' : '3xl'}
-                            color={critical ? (light ? 'maroon' : 'yellow') : (light ? 'black' : 'white')}
+                            size='md'
+                            color={critical ? (light ? 'green' : 'green') : (light ? 'black' : 'white')}
                         >
                             {value}
                         </Heading>
                         {bonus !== 0 && (
                             <Heading
-                                size='lg'
+                                fontSize='12px'
                                 color={(bonus > 0) ? 'green' : 'red'}
                             >
                                 {(bonus > 0) ? `+${bonus}` : bonus}

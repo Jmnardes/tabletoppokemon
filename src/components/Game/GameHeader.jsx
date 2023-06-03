@@ -17,7 +17,7 @@ export default function GameHeader() {
     return (
         <Center py={2} pr={2} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
             <Center>
-                <Text pb={2} px={4} fontSize="2xl" fontWeight="bold">
+                <Text pb={1} px={4} fontWeight="bold">
                     {player.status.trainerName}
                 </Text>
                 <TrainerBar />

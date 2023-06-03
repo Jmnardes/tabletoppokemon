@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Divider, Flex, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../../Contexts/PlayerContext";
-import { FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
+import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
 export default function GameLobby() {
     const {emit, session, opponents, player} = useContext(PlayerContext)
@@ -9,14 +9,13 @@ export default function GameLobby() {
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
         return (
-            <Flex  fontSize="xs"  justifyContent={"space-between"}>
+            <Flex fontSize="2xs" justifyContent={"space-between"} w="100%">
                 <Flex>
-                    <Text mx={2}>{name1}:</Text>
+                    <Text mr={2}>{name1}:</Text>
                     <Text>{data1}</Text>
                 </Flex>
-                <Divider orientation='vertical' />
                 <Flex>
-                    <Text mx={2}>{name2}:</Text>
+                    <Text mr={2}>{name2}:</Text>
                     <Text>{data2}</Text>
                 </Flex>
             </Flex>
@@ -35,6 +34,9 @@ export default function GameLobby() {
             </Flex>
         )
     }
+    const handleCopyCode = () => {
+        navigator.clipboard.writeText(session.sessionCode)
+    }
 
     useEffect(() => {
         setIsLoading(false)
@@ -43,22 +45,31 @@ export default function GameLobby() {
 
     return (
         <>
-            <Text fontSize="4xl" mb={2}>
-                {session.sessionCode}
-            </Text>
+            <Flex alignItems="center" mt={4}>
+                <Text fontSize="3xl">
+                    {session.sessionCode}
+                </Text>
+                <Flex mb={1} ml={2} 
+                    justifyContent="center" 
+                    _hover={{ 'cursor': 'pointer', 'opacity': 0.9 }}
+                    onClick={handleCopyCode}
+                >
+                    <FaRegCopy title="Copy code" size={24} />
+                </Flex>
+            </Flex>
             <Divider my={4} />
                 <ConfigurationSlot 
                     name1={'Difficulty'}
                     data1={session.gameDifficulty}
-                    name2={'Generation'}
-                    data2={session.generation}
+                    name2={'Team length'}
+                    data2={session.teamLength}
                 />
-                <ConfigurationSlot 
-                    name1={'Team length'}
-                    data1={session.teamLength}
+                {/* <ConfigurationSlot 
+                    name1={'Generation'}
+                    data1={session.generation}
                     name2={'Shiny percent'}
                     data2={session.shinyChance}
-                />
+                /> */}
                 <ConfigurationSlot 
                     name1={'Min players'}
                     data1={session.minPlayers}
@@ -67,7 +78,7 @@ export default function GameLobby() {
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>
-                <Text fontWeight={"bold"}>Name</Text>
+                <Text fontWeight={"bold"}>Player</Text>
                 <Text fontWeight={"bold"}>Ready</Text>
             </Flex>
             <Flex width={"100%"} justifyContent={"space-between"} m={2}>
@@ -96,7 +107,7 @@ export default function GameLobby() {
             
             <Divider my={4} />
 
-            <Button isDisabled={isLoading} mb={4} mt={2} width={32} onClick={() => {
+            <Button isDisabled={isLoading} mb={4} mt={2} width="100%" onClick={() => {
                 setIsLoading(true)
 
                 emit('lobby-ready', !player.ready)

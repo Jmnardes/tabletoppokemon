@@ -7,18 +7,31 @@ export default function GameNew() {
     const [gameDuration, setGameDuration] = useState(80)
     const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
+    const [formInvalid, setFormInvalid] = useState(true)
+
+    const handleTrainerName = (e) => {
+        let name = e.target.value
+
+        if (name.length > 0 && name.length <= 13) {
+            setFormInvalid(false)
+        } else {
+            setFormInvalid(true)
+        }
+
+        setTrainerName(e.target.value)
+    }
 
     return (
         <>
-            <Flex justifyContent="space-evenly" alignItems="center">
-                <Text fontSize="2xl" m={2}>
+            <Flex justifyContent="space-evenly" alignItems="center" my={6}>
+                <Text m={2}>
                     Name
                 </Text>
-                <Input textAlign="center" fontSize="2xl" maxLength={14} onChange={(e) => {setTrainerName(e.target.value)}} />
+                <Input textAlign="center" maxLength={14} onChange={handleTrainerName} />
             </Flex>
 
-            <Flex justifyContent="space-evenly" alignItems="center">
-                <Text fontSize="2xl" m={2}>
+            {/* <Flex justifyContent="space-evenly" alignItems="center">
+                <Text m={2}>
                     Game duration 
                 </Text>
                 <NumberInput mx={4} w={20} step={20} defaultValue={80} min={20} max={100} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
@@ -28,7 +41,7 @@ export default function GameNew() {
                         <NumberDecrementStepper />
                     </NumberInputStepper>
                 </NumberInput>
-            </Flex>
+            </Flex> */}
 
             {/* <Flex justifyContent="space-evenly" alignItems="center">
                 <Text fontSize="2xl" m={2}>
@@ -43,17 +56,17 @@ export default function GameNew() {
                 </NumberInput>
             </Flex> */}
 
-            <Text fontSize="1xl" mt={2}>
-                Difficulty:
+            <Text fontSize="2xs">
+                Set game difficulty:
             </Text>
             <Flex flexDirection="row">
-                <Button mx={2} m={2} isDisabled={gameDifficulty === 0} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(0)}>Trainer</Button>
-                <Button mx={2} m={2} isDisabled={gameDifficulty === 1} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(1)}>Catcher</Button>
-                <Button mx={2} m={2} isDisabled={gameDifficulty === 2} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(2)}>Champion</Button>
-                <Button mx={2} m={2} isDisabled={gameDifficulty === 3} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(3)}>Elite</Button>
+                <Button fontSize="2xs" mx={2} m={2} isDisabled={gameDifficulty === 0} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(0)}>Trainer</Button>
+                <Button fontSize="2xs" mx={2} m={2} isDisabled={gameDifficulty === 1} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(1)}>Catcher</Button>
+                <Button fontSize="2xs" mx={2} m={2} isDisabled={gameDifficulty === 2} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(2)}>Champion</Button>
+                <Button fontSize="2xs" mx={2} m={2} isDisabled={gameDifficulty === 3} _disabled={{cursor: 'default', opacity: 0.3}} onClick={() => setGameDifficulty(3)}>Elite</Button>
             </Flex>
 
-            <Button w="100%" fontSize="3xl" h={12} mt={4} mb={4} onClick={() => {
+            <Button w="100%" fontSize="2xl" h={12} my={6} isDisabled={formInvalid} onClick={() => {
 
                 socket.emit('session-new', ({
                     trainerName,
@@ -62,7 +75,7 @@ export default function GameNew() {
                     generation,
                 }))
 
-            }}>Start</Button>
+            }}>Create room</Button>
         </>
     )
 }

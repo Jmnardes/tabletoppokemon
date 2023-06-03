@@ -1,12 +1,10 @@
-import { Center, useColorMode } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 
 import Element from "./Element";
 
 export default function ElementsList() {
-    const { colorMode } = useColorMode()
-
     return (
-        <Center flexDirection="row" background={colorMode === 'light' ? "gray.400" : "gray.700"} py={2}>
+        <Center flexDirection="row" py={2}>
             <Element element={"bug"} elementTable={true} />
             <Element element={"dark"} elementTable={true} />
             <Element element={"dragon"} elementTable={true} />

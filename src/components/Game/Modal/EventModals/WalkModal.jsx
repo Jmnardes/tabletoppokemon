@@ -80,7 +80,7 @@ export default function WalkModal({ event }) {
                         bg={colorMode === 'light' ? "gray.200" : "gray.650"}
                         borderRadius={8}
                     >
-                        <Text fontSize="2xl" textAlign="center">{event.label}</Text>
+                        <Text textAlign="center">{event.label}</Text>
                     </Center>
                     
                     <Divider my={4}  mb={6} />
@@ -109,7 +109,7 @@ export default function WalkModal({ event }) {
                             </Flex>
                         ) : (
                             <Flex color="red.400">
-                                <Text textAlign="center" ml={2} fontWeight="bold">
+                                <Text textAlign="center" ml={2} fontWeight="bold" fontSize="xs">
                                     Condition(s) not met. Better luck next time!
                                 </Text>
                             </Flex>

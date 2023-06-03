@@ -1,7 +1,7 @@
 import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
-import { Center, Divider, Flex, Heading, Text } from "@chakra-ui/layout"
+import { Center, Divider, Flex, Text } from "@chakra-ui/layout"
 import crownIcon from '../../../assets/images/game/crown.png'
 import starIcon from '../../../assets/images/game/star.png'
 import coinIcon from '../../../assets/images/game/coin.png'
@@ -45,7 +45,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                 </Center>
             )}
             <Flex direction="column" align="center">
-                <Heading>{opponent.status.trainerName}</Heading>
+                <Text>{opponent.status.trainerName}</Text>
             </Flex>
             <Divider />
             {opponent.online ? (
@@ -57,7 +57,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                             title={'Poke Crown'}
                             w="34px"
                         ></Image>
-                        <Text ml={2}>{opponent.currency.crowns}</Text>
+                        <Text fontSize="2xs" ml={2}>{opponent.currency.crowns}</Text>
                     </Flex>
                     <Flex alignItems="center" mx={2}>
                         <Image
@@ -65,7 +65,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                             title={'Poke Star'}
                             w="24px"
                         ></Image>
-                        <Text ml={2}>{opponent.currency.stars}</Text>
+                        <Text fontSize="2xs" ml={2}>{opponent.currency.stars}</Text>
                     </Flex>
                     <Flex alignItems="center" mx={2}>
                         <Image
@@ -73,7 +73,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                             title={'Coins'}
                             w="24px"
                         ></Image>
-                        <Text ml={2}>{opponent.currency.coins}</Text>
+                        <Text fontSize="2xs" ml={2}>{opponent.currency.coins}</Text>
                     </Flex>
                 </Flex>
             ) : (

@@ -1,22 +1,36 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, useStyleConfig } from "@chakra-ui/react";
 import PokeTeam from "../Trainer/PokeTeam";
 import { FaArrowRight } from "react-icons/fa";
 import PlayerContext from "../../../Contexts/PlayerContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function TeamContainer() {
     const { emit, setWaitingForPlayers } = useContext(PlayerContext)
+    const [buttonText, setButtonText] = useState('')
+
+    const handleHover = () => {
+      setButtonText('Finish turn');
+    };
+  
+    const handleLeave = () => {
+      setButtonText('');
+    };
+
 
     const finishTurn = () => {
         setWaitingForPlayers(true)
         emit('turn-end')
     }
 
+    useEffect(() => {
+        setButtonText('')
+    }, [])
+
     return (
         <Flex flex="1" flexDir="column">
             <PokeTeam />
-            <Button w="100%" borderRadius={"none"} h={12} onClick={finishTurn}>
-                <Text mb={1} mr={8} fontSize="2xl" fontWeight="bold">Finish turn</Text>
+            <Button borderRadius={"none"} h={12} onClick={finishTurn} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+                <Text mr={8} fontWeight="bold">{buttonText}</Text>
                 <FaArrowRight size="24px"/>
             </Button>
         </Flex>

@@ -46,7 +46,7 @@ export default function ModalController() {
                     break
                 case 'battle':
                     updateGame({ openBattleModal: true })
-                    setBattleId(res.battleId)
+                    setBattleId(res.event.battle.id)
                     break
                 default:
                     break

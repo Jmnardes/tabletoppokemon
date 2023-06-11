@@ -27,12 +27,12 @@ export default function BattleModal({ battleId }) {
         setIsMyTurn(res.yourTurn)
         setPokemonOther(res.pokemonOther)
         setMyPokemonHp(res.pokemonHp)
+        setPokemonOther(res)
     }
 
     useEffect(() => {
         socket.on('battle-end', battleEnd)
-        socket.on('battle-choose-pokemon-other', res => battleChoosePokemonOther(res))
-        socket.on('battle-turn-update', res => battleTurnUpdate(res))
+        socket.on('battle-update', res => battleTurnUpdate(res))
 
         setPokemonOther({
             hp: {
@@ -45,8 +45,7 @@ export default function BattleModal({ battleId }) {
 
         return () => {
             socket.off('battle-end', battleEnd)
-            socket.off('battle-choose-pokemon-other', battleChoosePokemonOther)
-            socket.off('battle-turn-update', battleTurnUpdate)
+            socket.off('battle-update', battleTurnUpdate)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

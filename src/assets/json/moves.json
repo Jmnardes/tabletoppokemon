@@ -2,27 +2,94 @@
     {
         "normal": [
             {
-                "name": "tackle"
+                "name": "tackle",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
             },
             {
                 "name": "rage",
-                "buff": "atk"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["buff_atk_self"]
             },
             {
                 "name": "quick_attack",
-                "bonus": "acc"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["reliable"]
             },
             {
                 "name": "skull_bash",
-                "bonus": "acc"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.5,
+                    "buff": 1
+                },
+                "effects": ["charge"]
             },
             {
                 "name": "giga_impact",
-                "bonus": "atk"
+                "target": "area",
+                "mul": {
+                    "acc": 0.5,
+                    "dmg": 2,
+                    "buff": 1
+                },
+                "effects": ["exhaustive"]
             },
             {
-                "name": "hyper_beam",
-                "bonus": "atk"
+                "name": "swords_dance",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 2
+                },
+                "effects": ["buff_atk_self"]
+            },
+            {
+                "name": "double_team",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["buff_evs_self"]
+            },
+            {
+                "name": "mean_look",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["lock", "reliable"]
+            },
+            {
+                "name": "fury_swipes",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": []
             }
         ],
         "fighting": [

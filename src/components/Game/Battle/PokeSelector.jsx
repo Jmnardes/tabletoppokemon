@@ -55,7 +55,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
             borderRadius={8}
             onClick={() => {
                 setLoadingApi(true)
-                emit('battle-choose-pokemon', {battleId, id: poke.id})
+                emit('battle-choose-pokemon', {battleId: battleId, pokemonId: poke.id})
             }}
         >
             <Tooltip label={pokeStatsTooltip} background="none">

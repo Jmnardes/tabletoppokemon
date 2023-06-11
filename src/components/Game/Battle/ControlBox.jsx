@@ -90,6 +90,7 @@ export default function ControlBox({
                             key={poke.id} 
                             poke={poke} 
                             setPokemon={setPokemon}
+                            battleId={battleId}
                         />
                     })}
                 </>

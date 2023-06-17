@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react"
 import {
     Modal,
     ModalContent,
-    Button,
     ModalOverlay,
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
@@ -10,41 +9,44 @@ import BattleContent from "../../Battle/BattleContent"
 import socket from "../../../../client"
 
 export default function BattleModal({ battleId }) {
-    const { updateGame } = useContext(PlayerContext)
+    const { player, setLoadingApi } = useContext(PlayerContext)
     const [isMyTurn, setIsMyTurn] = useState(false)
     const [myPokemonHp, setMyPokemonHp] = useState()
-    const [pokemonOther, setPokemonOther] = useState()
-
-    const battleEnd = () => {
-        updateGame({ openBattleModal: false, openEncounterModal: true })
-    }
-
-    const battleChoosePokemonOther = (res) => {
-        setPokemonOther(res)
-    }
+    const [opponents, setOpponents] = useState([])
+    const [isPokemonBattling, setIsPokemonBattling] = useState(false)
     
     const battleTurnUpdate = (res) => {
+        let players = res.players
         setIsMyTurn(res.yourTurn)
-        setPokemonOther(res.pokemonOther)
-        setMyPokemonHp(res.pokemonHp)
-        setPokemonOther(res)
+
+        players.forEach(battling_player => {
+            if(battling_player.player !== player.id && battling_player.pokemon) {
+                setOpponents(old => [...old, {...battling_player.pokemon, hp: battling_player.hp}])
+            }
+
+            if(battling_player.player === player.id) {
+                setMyPokemonHp(battling_player.hp)
+
+                if(battling_player.pokemon) {
+                    setLoadingApi(false)
+                    setIsPokemonBattling(true)
+                }
+
+                if(battling_player.turn) {
+                    setIsMyTurn(true)
+                }
+
+                if(battling_player.hp === 0) {
+                    setIsPokemonBattling(false)
+                }
+            }
+        })
     }
 
     useEffect(() => {
-        socket.on('battle-end', battleEnd)
         socket.on('battle-update', res => battleTurnUpdate(res))
 
-        setPokemonOther({
-            hp: {
-                total: 5,
-                actual: 4,
-            },
-            sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
-            roll: 5,
-        })
-
         return () => {
-            socket.off('battle-end', battleEnd)
             socket.off('battle-update', battleTurnUpdate)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -61,15 +63,10 @@ export default function BattleModal({ battleId }) {
                     <BattleContent
                         battleId={battleId}
                         myPokemonHp={myPokemonHp}
-                        pokemonOther={pokemonOther}
                         isMyTurn={isMyTurn}
+                        opponents={opponents}
+                        isPokemonBattling={isPokemonBattling}
                     />
-
-                    <Button mt={6} h={12} onClick={() => {
-                        updateGame({ openBattleModal: false })
-                    }}>
-                        Close
-                    </Button>
                 </ModalContent>
             </Modal>
         </>

@@ -1,7 +1,7 @@
 import { Center, Flex, Image, Kbd, Progress, keyframes } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function Screen({ pokemon, hitAnimation, setHitAnimation, pokemonOther, myPokemonHp }) {
+export default function Screen({ pokemon, hitAnimation, setHitAnimation, myPokemonHp, opponents }) {
     const [selfHitAnimation, setSelfHitAnimation] = useState('')
 
     const handleSelfHitAnimation = () => {
@@ -20,20 +20,55 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, pokemon
         ` + ' 0.5s ease-in-out 1s')
     }
 
+    const OpponentBox = ({ sprite, hp, maxHp }) => {
+        return (
+            <Center flexDir="column" mx={2}>
+                <Image 
+                    w={32}
+                    animation={hitAnimation}
+                    onAnimationEnd={() => setHitAnimation('')}
+                    src={sprite}
+                    position="absolute"
+                    mt={32}
+                />
+                <Kbd display="flex" flexDir="row" alignItems="center">HP
+                <Progress
+                    w={24}
+                    ml={1}
+                    size='md'
+                    colorScheme='green' 
+                    borderRadius={4}
+                    value={hp}
+                    max={maxHp}
+                /></Kbd>
+            </Center>
+        )
+    }
+
     return (
-        <Flex flex="1" h="100%" mx={24} justifyContent="space-between">
-            <Center ml={[12, 48]} alignItems="end">
+        <Flex flex="1" h="100%" mx={24} flexDirection="column">
+            <Center alignItems="start" w="100%" h="100%">
+                {opponents.map((opponent) => {
+                    return <OpponentBox
+                        key={opponent.player}
+                        sprite={opponent.sprite}
+                        hp={opponent.hp}
+                        maxHp={opponent.maxHp}
+                    />
+                })}
+            </Center>
+
+            <Center w="100%" h="100%">
                 {pokemon && (
-                    <Center flexDir="column">
+                    <Center flexDir="column" alignItems="end">
                         <Image 
                             w={64}
                             animation={selfHitAnimation}
                             onAnimationEnd={() => setSelfHitAnimation('')}
                             src={pokemon?.sprites.back}
                             position="absolute"
-                            mb={48}
                         />
-                        <Kbd display="flex" flexDir="row" alignItems="center">HP
+                        <Kbd display="flex" flexDir="row" mt={60} alignItems="center">HP
                         <Progress
                             w={48}
                             ml={1}
@@ -47,30 +82,6 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, pokemon
                 )}
             </Center>
             
-            <Center mr={[12, 48]} alignItems="start">
-                {pokemonOther && (
-                    <Center flexDir="column">
-                        <Image 
-                            w={64}
-                            animation={hitAnimation}
-                            onAnimationEnd={() => setHitAnimation('')}
-                            src={pokemonOther?.sprite}
-                            position="absolute"
-                            mt={48}
-                        />
-                        <Kbd display="flex" flexDir="row" alignItems="center">HP
-                        <Progress
-                            w={48}
-                            ml={1}
-                            size='md'
-                            colorScheme='green' 
-                            borderRadius={4}
-                            value={pokemonOther?.hp.actual}
-                            max={pokemonOther?.hp.total}
-                        /></Kbd>
-                    </Center>
-                )}
-            </Center>
         </Flex>
     )
 }

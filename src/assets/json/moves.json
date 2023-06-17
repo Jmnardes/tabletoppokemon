@@ -15,7 +15,7 @@
                 "name": "rage",
                 "target": "single",
                 "mul": {
-                    "acc": 1,
+                    "acc": 0.8,
                     "dmg": 1,
                     "buff": 1
                 },
@@ -32,11 +32,11 @@
                 "effects": ["reliable"]
             },
             {
-                "name": "skull_bash",
+                "name": "hyper_beam",
                 "target": "single",
                 "mul": {
-                    "acc": 1,
-                    "dmg": 1.5,
+                    "acc": 1.2,
+                    "dmg": 2,
                     "buff": 1
                 },
                 "effects": ["charge"]
@@ -94,80 +94,331 @@
         ],
         "fighting": [
             {
-                "name": "karate_chop"
+                "name": "karate_chop",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["debuff_evs_other"]
+            },
+            {
+                "name": "double_kick",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": ["double"]
+            },
+            {
+                "name": "focus_blast",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1.5,
+                    "buff": 1
+                },
+                "effects": ["charge", "debuff_def_other"]
             },
             {
                 "name": "bulk_up",
-                "buff": "atk"
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 2
+                },
+                "effects": ["buff_atk_self"]
             },
             {
-                "name": "jump_kick",
-                "bonus": "acc"
+                "name": "power_up_punch",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.5,
+                    "buff": 1
+                },
+                "effects": ["buff_atk_self"]
             },
             {
-                "name": "super_power",
-                "bonus": "acc"
+                "name": "low_kick",
+                "target": "single",
+                "mul": {
+                    "acc": 1.5,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
             },
             {
-                "name": "meteor_assault",
-                "bonus": "atk"
-            },
-            {
-                "name": "focus_punch",
-                "bonus": "atk"
+                "name": "aura_sphere",
+                "target": "single",
+                "mul": {
+                    "acc": 1.2,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["splash"]
             }
         ],
         "flying": [
             {
-                "name": "gust"
+                "name": "brave_bird",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.7,
+                    "buff": 1
+                },
+                "effects": ["recoil"]
             },
             {
-                "name": "feather_dance",
-                "buff": "acc"
+                "name": "roost",
+                "target": "self",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["recover"]
+            },
+            {
+                "name": "aeroblast",
+                "target": "area",
+                "mul": {
+                    "acc": 0.9,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
             },
             {
                 "name": "wing_attack",
-                "bonus": "acc"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "acrobatics",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["buff_acc_self"]
+            },
+            {
+                "name": "peck",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
             },
             {
                 "name": "fly",
-                "bonus": "acc"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.9,
+                    "buff": 1
+                },
+                "effects": ["buff_def_self", "charge"]
             },
             {
-                "name": "brave_bird",
-                "bonus": "atk"
+                "name": "drill_peck",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": ["multiples_3"]
             },
             {
-                "name": "sky_attack",
-                "bonus": "atk"
+                "name": "gust",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": []
             }
         ],
         "poison": [
             {
-                "name": "acid"
+                "name": "acid",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["debuff_def_other"]
+            },
+            {
+                "name": "headbutt",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
             },
             {
                 "name": "poison_sting",
-                "status": "poison"
-            },
-            {
-                "name": "poison_tail",
-                "bonus": "acc"
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.4,
+                    "buff": 1
+                },
+                "effects": ["realiable", "poison"]
             },
             {
                 "name": "sludge_bomb",
-                "bonus": "acc"
-            },
-            {
-                "name": "belch",
-                "bonus": "atk"
+                "target": "single",
+                "mul": {
+                    "acc": 0.9,
+                    "dmg": 1.2,
+                    "buff": 1
+                },
+                "effects": ["splash"]
             },
             {
                 "name": "gunk_shot",
-                "bonus": "atk"
+                "target": "single",
+                "mul": {
+                    "acc": 0.7,
+                    "dmg": 1.3,
+                    "buff": 1
+                },
+                "effects": ["poison"]
+            },
+            {
+                "name": "sludge_wave",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.9,
+                    "buff": 0.1
+                },
+                "effects": ["poison"]
+            },
+            {
+                "name": "purify",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["purify"]
+            },
+            {
+                "name": "coil",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["buff_acc_self", "buff_atk_self", "buff_def_self"]
+            },
+            {
+                "name": "mortal_spin",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.4,
+                    "buff": 1
+                },
+                "effects": ["reliable", "cleanse"]
             }
         ],
         "ground": [
+            {
+                "name": "mud_slap",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["debuff_acc_other"]
+            },
+            {
+                "name": "mud_shot",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.2,
+                    "buff": 1
+                },
+                "effects": ["debuff_evs_other"]
+            },
+            {
+                "name": "bulldoze",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["splash"]
+            },
+            {
+                "name": "bone_rush",
+                "target": "single",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["multiples_2"]
+            },
+            {
+                "name": "dig",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.8,
+                    "buff": 1
+                },
+                "effects": ["buff_def_self", "charge"]
+            },
+            {
+                "name": "earthquake",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1.6,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "magnitude",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["bingo"]
+            },
             {
                 "name": "mud_shot"
             },

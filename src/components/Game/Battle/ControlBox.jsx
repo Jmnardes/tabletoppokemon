@@ -9,11 +9,12 @@ export default function ControlBox({
     battleId,
     isMyTurn,
     team, 
-    pokemon, 
+    pokemon,
     setPokemon,
-    setHitAnimation, 
+    setHitAnimation,
     displayText,
     setDisaplayText,
+    isPokemonBattling
 }) {
     const { emit, setLoadingApi } = useContext(PlayerContext)
 
@@ -50,29 +51,29 @@ export default function ControlBox({
 
     return (
         <>
-            {pokemon ? (
+            {isPokemonBattling ? (
                 <Flex flex="1" justifyContent="space-between">
                     {isMyTurn ? (
                         <>
                             <Center w="75%">
                                 {displayText !== '' ? (
-                                    <Text fontSize={"3xl"}>{stringToUpperCase(pokemon.name)} used {displayText}</Text>
+                                    <Text fontSize={"3xl"}>{stringToUpperCase(pokemon?.name)} used {displayText}</Text>
                                 ) : (
-                                    <Text fontSize={"3xl"}>What will {stringToUpperCase(pokemon.name)} do?</Text>
+                                    <Text fontSize={"3xl"}>What will {stringToUpperCase(pokemon?.name)} do?</Text>
                                 )}
                             </Center>
                             <Center w="25%" flexDir="column">
-                                <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    setLoadingApi(true)
-                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
-                                }}>Move 1</Button>
-                                <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                    // setLoadingApi(true)
+                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                }}>Attack</Button>
+                                {/* <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setLoadingApi(true)
                                     emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 2})
                                 }}>Move 2</Button>
-                                <Button w={52} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setPokemon()
-                                }}>Change Pokemon</Button>
+                                }}>Change Pokemon</Button> */}
                             </Center>
                         </>
                     ) : (
@@ -83,8 +84,8 @@ export default function ControlBox({
                     )}
                 </Flex>
             ) : (
-                <>
-                    <Text fontSize={"4xl"} mr={8}>Select your pokemon</Text>
+                <Flex flex="1" justifyContent="space-between" alignItems="center" mx={32}>
+                    <Text fontSize={"4xl"} m={8}>Select your pokemon</Text>
                     {team.map(poke => {
                         return <PokeSelector
                             key={poke.id} 
@@ -93,7 +94,7 @@ export default function ControlBox({
                             battleId={battleId}
                         />
                     })}
-                </>
+                </Flex>
             )}
         </>
     )

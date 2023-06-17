@@ -10,7 +10,7 @@ import PlayerContext from "../../../Contexts/PlayerContext"
 import socket from "../../../client"
 
 export default function PokeSelector({ poke, setPokemon, battleId }) {
-    const { emit, setLoadingApi } = useContext(PlayerContext)
+    const { emit, setLoadingApi, player } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
@@ -23,8 +23,20 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
     }
 
     const battleChoosePokemon = () => {
-        setLoadingApi(false)
         setPokemon(poke)
+        setLoadingApi(false)
+    }
+    
+    const battleTurnUpdate = (res) => {
+        let players = res.players
+
+        players.forEach(battling_player => {
+            if(battling_player.player === player.id) {
+                if(battling_player.pokemon) {
+                    battleChoosePokemon()
+                }
+            }
+        })
     }
 
     /* eslint-disable */
@@ -36,10 +48,10 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
     }, [poke])
 
     useEffect(() => {
-        socket.on('battle-choose-pokemon', battleChoosePokemon)
+        socket.on('battle-update', res => battleTurnUpdate(res))
 
         return () => {
-            socket.off('battle-choose-pokemon', battleChoosePokemon)
+            socket.off('battle-update', battleTurnUpdate)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

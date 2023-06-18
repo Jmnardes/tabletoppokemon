@@ -1,10 +1,7 @@
-import { Button, Flex, Image } from "@chakra-ui/react"
+import { Button, Flex } from "@chakra-ui/react"
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
-import greatballIcon from '../../../assets/images/pokeballs/pokeball.png'
-import superballIcon from '../../../assets/images/pokeballs/greatball.png'
-import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
-import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
+import PokeballButton from "../DiceButton/PokeballButton";
 
 export default function EncounterBalls({ children, handleCatchDiceRoll }) {
     const { game, player, updateBall, updateGame, session } = useContext(PlayerContext)
@@ -14,8 +11,6 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
         updateGame({ isPokemonRollDisabled: true })
         handleCatchDiceRoll(bonus)
     }
-
-    const ballRollAnimation = { transition: 'transform .7s ease-in-out', transform: 'rotate(360deg)' }
 
     return (
         <>
@@ -27,12 +22,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         isDisabled={player.balls.pokeball === 0 || game.isPokemonRollDisabled}
                         onClick={() => handleBallClick(-1, 'pokeball', 0)}
                     >
-                        <Image
-                            src={greatballIcon} 
-                            alt={'pokeball'}
-                            w="36px"
-                            _hover={ballRollAnimation}
-                        ></Image>
+                        <PokeballButton type={'pb'} />
                     </Button>
                     <Button
                         my={2}
@@ -40,12 +30,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         isDisabled={player.balls.greatball === 0 || game.isPokemonRollDisabled}
                         onClick={() => handleBallClick(-1, 'greatball', 2)}
                     >
-                        <Image
-                            src={superballIcon} 
-                            alt={'greatball'}
-                            w="36px"
-                            _hover={ballRollAnimation}
-                        ></Image>
+                        <PokeballButton type={'gb'} />
                     </Button>
 
                     <Button 
@@ -54,12 +39,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         isDisabled={player.balls.ultraball === 0 || game.isPokemonRollDisabled}
                         onClick={() => handleBallClick(-1, 'ultraball', 5)}
                     >
-                        <Image
-                            src={ultraballIcon} 
-                            alt={'ultraball'}
-                            w="36px"
-                            _hover={ballRollAnimation}
-                        ></Image>
+                        <PokeballButton type={'ub'} />
                     </Button>
 
                     <Button 
@@ -68,12 +48,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         isDisabled={player.balls.masterball === 0 || game.isPokemonRollDisabled}
                         onClick={() => handleBallClick(-1, 'masterball', 15)}
                     >
-                        <Image
-                            src={masterballIcon} 
-                            alt={'masterball'}
-                            w="36px"
-                            _hover={ballRollAnimation}
-                        ></Image>
+                        <PokeballButton type={'mb'} />
                     </Button>
                 </Flex>
             )}

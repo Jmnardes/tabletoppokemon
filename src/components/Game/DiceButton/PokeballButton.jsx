@@ -1,8 +1,10 @@
 import { Box, Center, Flex, Heading, IconButton, Image, keyframes, useColorMode } from '@chakra-ui/react'
-import SixSidesDiceIcon from '../../Icons/dices/SixSidesDice'
 import { useState } from 'react'
 import { diceRoll } from '../../../util'
-import TwentySidesDice from '../../Icons/dices/TwentySidesDice'
+import pokeballIcon from '../../../assets/images/pokeballs/pokeball.png'
+import greatballIcon from '../../../assets/images/pokeballs/greatball.png'
+import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
+import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
 
@@ -45,11 +47,11 @@ const textShowAnimation = keyframes`
 
 const endAnimationName = diceRollAnimation.match(regex)[2]
 
-export default function DiceButton({
+export default function PokeballButton({
     onRoll,
-    maxRow = 6,
+    maxRow = 20,
     bonus = 0,
-    diceSides = 6
+    type = 'pb'
 }) {
     const [rolling, setRolling] = useState(false)
     const [value, setValue] = useState(0)
@@ -60,9 +62,27 @@ export default function DiceButton({
     const rolled = !!value
     const critical = value === maxRow
 
-    const setDiceBySides = (sides, c) => {
-        if(sides === 6) return <SixSidesDiceIcon w={12} h={12} c={c}/>
-        if(sides === 20) return <TwentySidesDice w={12} h={12} c={c} />
+    const setDiceByType = (type) => {
+        if(type === 'pb') return <Image
+            src={pokeballIcon} 
+            title={'+0'}
+            w="24px"
+        ></Image>
+        if(type === 'gb') return <Image
+            src={greatballIcon} 
+            title={'+2'}
+            w="24px"
+        ></Image>
+        if(type === 'ub') return <Image
+            src={ultraballIcon} 
+            title={'+3'}
+            w="24px"
+        ></Image>
+        if(type === 'mb') return <Image
+            src={masterballIcon} 
+            title={'+5'}
+            w="24px"
+        ></Image>
     }
 
     return (
@@ -82,7 +102,7 @@ export default function DiceButton({
                     }}
                 >
                     <Box animation={diceSpinAnimation}>
-                        {setDiceBySides(diceSides)}
+                        {setDiceByType(type)}
                     </Box>
                 </Center>
             ) : ( rolled ? (
@@ -106,7 +126,7 @@ export default function DiceButton({
                             </Heading>
                         )}
                     </Flex>
-                    {setDiceBySides(diceSides, '#808080')}
+                    {setDiceByType(type)}
                 </>
             ) : (
                 <IconButton
@@ -114,7 +134,7 @@ export default function DiceButton({
                     h='4rem'
                     _hover={{ 'animation': diceShakeAnimation }}
                     onClick={() => setRolling(true)}
-                    icon={setDiceBySides(diceSides)}
+                    icon={setDiceByType(type)}
                     bg='none'
                 />
             ))}

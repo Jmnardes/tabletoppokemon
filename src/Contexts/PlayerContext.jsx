@@ -227,7 +227,7 @@ export function PlayerProvider({children}) {
 
         socket.on('player-capture-pokemon', res => {
             setLoadingApi(false)
-            
+            console.log('catch pokemon', res)
             handleToast({
                 id: 'catch',
                 title: stringToUpperCase(res.pokemon.name),

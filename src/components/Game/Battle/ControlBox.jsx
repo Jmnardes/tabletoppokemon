@@ -40,6 +40,14 @@ export default function ControlBox({
         setDisaplayText(move)
     }
 
+    const pokeMoveName = (index) => {
+        return pokemon?.moves[index].name
+    }
+
+    const emitMove = (roll = (diceRoll(20) + 1), index) => {
+        emit('battle-choose-move', {battleId, id: pokemon?.id, roll: roll, moveId: pokemon.moves[index].id})
+    }
+
     useEffect(() => {
         socket.on('battle-choose-move', res => battleChooseMove(res))
 
@@ -66,7 +74,15 @@ export default function ControlBox({
                                 <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     // setLoadingApi(true)
                                     // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
-                                }}>Attack</Button>
+                                }}>{pokeMoveName(0)}</Button>
+                                <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                    // setLoadingApi(true)
+                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                }}>{pokeMoveName(1)}</Button>
+                                <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                    // setLoadingApi(true)
+                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                }}>{pokeMoveName(2)}</Button>
                                 {/* <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setLoadingApi(true)
                                     emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 2})

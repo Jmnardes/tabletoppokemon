@@ -1,0 +1,110 @@
+{
+    "grass": {
+      "attack_effective": ["ground", "rock", "water"],
+      "attack_ineffective": ["bug", "dragon", "fire", "flying", "grass", "poison", "steel"],
+      "defense_effective": ["electric", "grass", "ground", "water"],
+      "defense_ineffective": ["bug", "fire", "flying", "ice", "poison"]
+    },
+    "fire": {
+      "attack_effective": ["bug", "grass", "ice", "steel"],
+      "attack_ineffective": ["dragon", "fire", "rock", "water"],
+      "defense_effective": ["bug", "fire", "grass", "ice", "steel"],
+      "defense_ineffective": ["ground", "rock", "water"]
+    },
+    "water": {
+      "attack_effective": ["fire", "ground", "rock"],
+      "attack_ineffective": ["dragon", "grass", "water"],
+      "defense_effective": ["fire", "ice", "steel", "water"],
+      "defense_ineffective": ["electric", "grass"]
+    },
+    "normal": {
+      "attack_effective": [],
+      "attack_ineffective": ["ghost", "rock", "steel"],
+      "defense_effective": [],
+      "defense_ineffective": ["fighting"]
+    },
+    "bug": {
+      "attack_effective": ["dark", "grass", "psychic"],
+      "attack_ineffective": ["fairy", "fire", "flying", "fighting", "ghost", "poison", "steel"],
+      "defense_effective": ["fighting", "grass", "ground"],
+      "defense_ineffective": ["fire", "flying", "rock"]
+    },
+    "poison": {
+      "attack_effective": ["fairy", "grass"],
+      "attack_ineffective": ["ghost", "ground", "poison", "rock", "steel"],
+      "defense_effective": ["fairy", "fighting", "grass", "poison"],
+      "defense_ineffective": ["ground", "psychic"]
+    },
+    "flying": {
+      "attack_effective": ["bug", "fighting", "grass"],
+      "attack_ineffective": ["electric", "rock", "steel"],
+      "defense_effective": ["bug", "fighting", "grass", "ground"],
+      "defense_ineffective": ["electric", "ice", "rock"]
+    },
+    "electric": {
+      "attack_effective": ["flying", "water"],
+      "attack_ineffective": ["dragon", "electric", "grass", "ground"],
+      "defense_effective": ["electric", "flying", "steel"],
+      "defense_ineffective": ["ground"]
+    },
+    "ground": {
+      "attack_effective": ["electric", "fire", "poison", "rock", "steel"],
+      "attack_ineffective": ["bug", "flying", "grass"],
+      "defense_effective": ["electric", "poison", "rock"],
+      "defense_ineffective": ["grass", "ice", "water"]
+    },
+    "rock": {
+        "attack_effective": ["bug", "fire", "flying", "ice"],
+        "attack_ineffective": ["fighting", "ground", "steel"],
+        "defense_effective": ["fire", "flying", "normal", "poison"],
+        "defense_ineffective": ["fighting", "grass", "ground", "steel", "water"]
+    },
+    "ice": {
+        "attack_effective": ["dragon", "flying", "ground", "grass"],
+        "attack_ineffective": ["fire", "fighting", "rock", "steel", "water"],
+        "defense_effective": ["ice"],
+        "defense_ineffective": ["fire", "fighting", "rock", "steel"]
+    },
+    "steel": {
+        "attack_effective": ["fairy", "ice", "rock"],
+        "attack_ineffective": ["electric", "fire", "steel", "water"],
+        "defense_effective": ["bug", "dragon", "fairy", "flying", "grass", "ice", "normal", "poison", "psychic", "rock", "steel"],
+        "defense_ineffective": ["fighting", "fire", "ground"]
+    },
+    "fighting": {
+        "attack_effective": ["dark", "ice", "normal", "rock", "steel"],
+        "attack_ineffective": ["bug", "fairy", "flying", "ghost", "poison", "psychic"],
+        "defense_effective": ["bug", "dark", "rock"],
+        "defense_ineffective": ["fairy", "flying", "psychic"]
+    },
+    "dark": {
+        "attack_effective": ["ghost", "psychic"],
+        "attack_ineffective": ["dark", "fairy", "fighting"],
+        "defense_effective": ["dark", "ghost", "psychic"],
+        "defense_ineffective": ["bug", "fairy", "fighting"]
+    },
+    "ghost": {
+        "attack_effective": ["ghost", "psychic"],
+        "attack_ineffective": ["dark", "normal"],
+        "defense_effective": ["bug", "fighting", "normal", "poison"],
+        "defense_ineffective": ["dark", "ghost"]
+    },
+    "psychic": {
+        "attack_effective": ["fighting", "poison"],
+        "attack_ineffective": ["dark", "psychic", "steel"],
+        "defense_effective": ["fighting", "psychic"],
+        "defense_ineffective": ["bug", "dark", "ghost"]
+    },
+    "dragon": {
+        "attack_effective": ["dragon"],
+        "attack_ineffective": ["fairy", "steel"],
+        "defense_effective": ["electric", "fire", "grass", "water"],
+        "defense_ineffective": ["dragon", "fairy", "ice"]
+    },
+    "fairy": {
+        "attack_effective": ["dark", "dragon", "fighting"],
+        "attack_ineffective": ["fire", "poison", "steel"],
+        "defense_effective": ["bug", "dark", "dragon", "fighting"],
+        "defense_ineffective": ["poison", "steel"]
+    }
+}

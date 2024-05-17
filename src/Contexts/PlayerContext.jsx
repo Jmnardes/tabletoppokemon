@@ -1,48 +1,37 @@
-import { useToast } from "@chakra-ui/react";
+import { Flex, Heading, Image, Text, useColorMode, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
+import { rarityName, stringToUpperCase } from "../util";
 
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const { colorMode } = useColorMode()
     const [loadingApi, setLoadingApi] = useState(false)
     const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
+    const [confetti, setConfetti] = useState(true)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
+    const [encounter, setEncounter] = useState({})
+    const [pokeTeam, setPokeTeam] = useState([])
+    const [pokeBox, setPokeBox] = useState([])
     const [game, setGame] = useState({
-        turn: 0,
         gameEnded: false,
         isPokemonRollDisabled: false,
+        openPokeShop: false,
+        updateShop: false,
+        showBagLength: false,
         openChallengeModal: false,
-        openWalkModal: false
-    })
-    const [event, setEvent] = useState({
-        title: '',
-        label: '',
-        type: '',
-        prizes:[
-            {
-                type: '',
-                name: '',
-                amount: 0
-            }
-        ],
-        advantage: {
-            type: '',
-            value: ''
-        },
-        disadvantage: {
-            type: '',
-            value: ''
-        },
-        dice: {
-            max: 6,
-            bonus: 1
-        }
+        openWalkModal: false,
+        openGymModal: false,
+        openEncounterModal: false,
+        openSelectScreenModal: false,
+        openPokeBoxModal: false,
+        openBattleModal: false
     })
 
     const emit = useCallback((name, data) => {
@@ -56,11 +45,25 @@ export function PlayerProvider({children}) {
     }, [player, session])
     
     const handleToast = (args) => {
+        let bgColor = "gray.400"
+
+        if(args.status === 'error') bgColor = 'red.400'
+        if(args.status === 'warning') bgColor = 'orange.400'
+
         if (!toast.isActive(args.id)) {
             toast({
                 ...args, 
-                duration: args.duration ?? 6000, 
-                status: args.status ?? 'info'
+                duration: args.duration ?? 6000,
+                render: () => (
+                    <Flex p={4} borderRadius={8}
+                        bg={bgColor}
+                        width="fit-content"
+                        flexDirection="column"
+                    >
+                        <Text mb={2}>{args.title}</Text>
+                        <Text fontSize="2xs">{args.description}</Text>
+                    </Flex>
+                ),
             })
         }
     }
@@ -118,6 +121,27 @@ export function PlayerProvider({children}) {
         }
     }, [])
 
+    const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
+    const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
+    const removeFromPokeTeam = (poke, arr) => {
+        // eslint-disable-next-line array-callback-return
+        arr.filter((data, index) => {
+            if(data.id === poke.id) {
+                arr.splice(index, 1)
+            }
+            setPokeTeam(arr)
+        })
+    }
+    const removeFromPokeBox = (poke, arr) => {
+        // eslint-disable-next-line array-callback-return
+        arr.filter((data, index) => {
+            if(data.id === poke.id) {
+                arr.splice(index, 1)
+            }
+            setPokeBox(arr)
+        })
+    }
+
     const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
     const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
 
@@ -131,12 +155,14 @@ export function PlayerProvider({children}) {
         if (player.status) {
             emit('player-update-status', { level: player.status.level })
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.status?.level])
 
     useEffect(() => {
         if (player.currency) {
             emit('player-update-currency', player.currency)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.currency?.coins, player.currency?.stars, player.currency?.crowns])
 
     useEffect(() => {
@@ -178,45 +204,16 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.ready, 'ready')
         })
 
-        socket.on('lobby-start', () => {
+        socket.on('lobby-start', (res) => {
+            setEncounter([...res.starters])
             setHasGameStarted(true)
+            updateGame({ openEncounterModal: true })
         })
 
             //TURNS
         // receiveng other players turn ready
         socket.on('turn-end-other', res => {
             updateOpponent(res, true, 'turnReady')
-        })
-
-        // everyone has ended turn, and will start another one
-        socket.on('turn-start', res => {
-            updateOpponents(false, 'turnReady')
-            console.log(res)
-            setEvent({
-                title: res.event.title,
-                label: res.event.label,
-                type: res.event.type,
-                prizes: res.event.prizes,
-                advantage: res.event.advantage,
-                disadvantage: res.event.disadvantage,
-                dice: res.event.dice
-            })
-            
-            switch (res.event.type) {
-                case 'challenge':
-                    setGame(old => ({...old, openChallengeModal: true}))
-                    break
-                case 'walk':
-                    setGame(old => ({...old, openWalkModal: true}))
-                    break
-                default:
-                    break
-            }
-            // logic for event type
-
-            setWaitingForPlayers(false)
-            setGame(old => ({...old, turn: old.turn + 1, isPokemonRollDisabled: false}))
-            // setLoadingApi(false)
         })
         
             //PLAYERS
@@ -228,6 +225,37 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'currency')
         })
 
+        socket.on('player-capture-pokemon', res => {
+            setLoadingApi(false)
+            console.log('catch pokemon', res)
+            handleToast({
+                id: 'catch',
+                title: stringToUpperCase(res.pokemon.name),
+                description: (
+                    'Level: ' + res.pokemon.tier + ' |\n' + 
+                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + ' |\n' + 
+                    'Nature: ' + stringToUpperCase(res.pokemon.nature)
+                ),
+                icon: <Image 
+                        width="32px"
+                        src={res.pokemon.sprites.mini} 
+                        fallbackSrc={res.pokemon.sprites.front}
+                    ></Image>,
+                duration: 4000,
+                position: 'top'
+            })
+
+            if (res.catches > 3) {
+                updatePokeBox(res.pokemon)
+                updateGame({ showBagLength: true })
+            } else {
+                updatePokeTeam(res.pokemon)
+            }
+
+            updateGame({ openEncounterModal: false })
+        })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -235,7 +263,9 @@ export function PlayerProvider({children}) {
             emit,
             handleToast,
 
+            loadingApi,
             setLoadingApi,
+            loadingText,
             setLoadingText,
 
             session,
@@ -250,20 +280,24 @@ export function PlayerProvider({children}) {
             setPlayer,
             updatePlayer,
 
+            encounter,
+            setEncounter,
+
             hasGameStarted,
             setHasGameStarted,
 
             waitingForPlayers,
             setWaitingForPlayers,
 
-            loadingApi,
-            loadingText,
-
             game,
             updateGame,
 
-            event,
-            setEvent,
+            pokeTeam,
+            updatePokeTeam,
+            removeFromPokeTeam,
+            pokeBox,
+            updatePokeBox,
+            removeFromPokeBox,
 
             changeCurrency,
             updateCurrency,
@@ -273,6 +307,9 @@ export function PlayerProvider({children}) {
             
             updateItem,
             changeItem,
+
+            confetti,
+            setConfetti
         }}>
             {children}
         </PlayerContext.Provider>

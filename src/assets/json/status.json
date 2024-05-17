@@ -1,0 +1,103 @@
+[
+    {
+        "burn": [
+            {
+                "description": "Flames start burning the opponent",
+                "chance": 0.3,
+                "damage": {
+                    "max": 1,
+                    "min": 1
+                },
+                "duration": {
+                    "max": 4,
+                    "min": 2
+                },
+                "debuff": ["atk"]
+            }
+        ],
+        "confusion": [
+            {
+                "description": "The opponents mind goes dizzy",
+                "chance": 0.8,
+                "duration": {
+                    "max": 2,
+                    "min": 1
+                },
+                "debuff": ["acc", "evs"]
+            }
+        ],
+        "course": [
+            {
+                "description": "A shadow starts surrounding the opponent",
+                "chance": 0.7,
+                "duration": {
+                    "max": 3,
+                    "min": 2
+                },
+                "debuff": ["acc", "crt"]
+            }
+        ],
+        "freeze": [
+            {
+                "description": "The opponent feels the cold embrancing him",
+                "chance": 0.3,
+                "damage": {
+                    "max": 1,
+                    "min": 1
+                },
+                "duration": {
+                    "max": 4,
+                    "min": 2
+                },
+                "debuff": ["evs"]
+            }
+        ],
+        "poison": [
+            {
+                "description": "The opponent feels something corrosing him inside",
+                "chance": 0.5,
+                "damage": {
+                    "max": 1,
+                    "min": 1
+                },
+                "duration": {
+                    "max": 6,
+                    "min": 3
+                }
+            }
+        ],
+        "blind": [
+            {
+                "description": "The opponents vision is blocked by something",
+                "chance": 0.3,
+                "duration": {
+                    "max": 1,
+                    "min": 1
+                },
+                "debuff": ["atk", "acc", "evs", "def"]
+            }
+        ],
+        "paralyze": [
+            {
+                "description": "The opponent feels electricity flwoing through his body",
+                "chance": 0.4,
+                "duration": {
+                    "max": 2,
+                    "min": 1
+                },
+                "debuff": ["acc", "evs"]
+            }
+        ],
+        "heal": [
+            {
+                "description": "You feel a waming breeze on your body",
+                "chance": 1,
+                "damage": {
+                    "max": "tier",
+                    "min": "tier"
+                },
+                "buff": ["hp"]
+            }
+        ]
+    }
+]

@@ -1,0 +1,747 @@
+[
+    {
+        "normal": [
+            {
+                "name": "tackle",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "rage",
+                "target": "single",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["buff_atk_self"]
+            },
+            {
+                "name": "quick_attack",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["reliable"]
+            },
+            {
+                "name": "hyper_beam",
+                "target": "single",
+                "mul": {
+                    "acc": 1.2,
+                    "dmg": 2,
+                    "buff": 1
+                },
+                "effects": ["charge"]
+            },
+            {
+                "name": "giga_impact",
+                "target": "area",
+                "mul": {
+                    "acc": 0.5,
+                    "dmg": 2,
+                    "buff": 1
+                },
+                "effects": ["exhaustive"]
+            },
+            {
+                "name": "swords_dance",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 2
+                },
+                "effects": ["buff_atk_self"]
+            },
+            {
+                "name": "double_team",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["buff_evs_self"]
+            },
+            {
+                "name": "mean_look",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["lock", "reliable"]
+            },
+            {
+                "name": "fury_swipes",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": []
+            }
+        ],
+        "fighting": [
+            {
+                "name": "karate_chop",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["debuff_evs_other"]
+            },
+            {
+                "name": "double_kick",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": ["double"]
+            },
+            {
+                "name": "focus_blast",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1.5,
+                    "buff": 1
+                },
+                "effects": ["charge", "debuff_def_other"]
+            },
+            {
+                "name": "bulk_up",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 2
+                },
+                "effects": ["buff_atk_self"]
+            },
+            {
+                "name": "power_up_punch",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.5,
+                    "buff": 1
+                },
+                "effects": ["buff_atk_self"]
+            },
+            {
+                "name": "low_kick",
+                "target": "single",
+                "mul": {
+                    "acc": 1.5,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "aura_sphere",
+                "target": "single",
+                "mul": {
+                    "acc": 1.2,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["splash"]
+            }
+        ],
+        "flying": [
+            {
+                "name": "brave_bird",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.7,
+                    "buff": 1
+                },
+                "effects": ["recoil"]
+            },
+            {
+                "name": "roost",
+                "target": "self",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["recover"]
+            },
+            {
+                "name": "aeroblast",
+                "target": "area",
+                "mul": {
+                    "acc": 0.9,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "wing_attack",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "acrobatics",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["buff_acc_self"]
+            },
+            {
+                "name": "peck",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "fly",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.9,
+                    "buff": 1
+                },
+                "effects": ["buff_def_self", "charge"]
+            },
+            {
+                "name": "drill_peck",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.6,
+                    "buff": 1
+                },
+                "effects": ["multiples_3"]
+            },
+            {
+                "name": "gust",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": []
+            }
+        ],
+        "poison": [
+            {
+                "name": "acid",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["debuff_def_other"]
+            },
+            {
+                "name": "headbutt",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "poison_sting",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.4,
+                    "buff": 1
+                },
+                "effects": ["realiable", "poison"]
+            },
+            {
+                "name": "sludge_bomb",
+                "target": "single",
+                "mul": {
+                    "acc": 0.9,
+                    "dmg": 1.2,
+                    "buff": 1
+                },
+                "effects": ["splash"]
+            },
+            {
+                "name": "gunk_shot",
+                "target": "single",
+                "mul": {
+                    "acc": 0.7,
+                    "dmg": 1.3,
+                    "buff": 1
+                },
+                "effects": ["poison"]
+            },
+            {
+                "name": "sludge_wave",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.9,
+                    "buff": 0.1
+                },
+                "effects": ["poison"]
+            },
+            {
+                "name": "purify",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["purify"]
+            },
+            {
+                "name": "coil",
+                "target": "self",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0,
+                    "buff": 1
+                },
+                "effects": ["buff_acc_self", "buff_atk_self", "buff_def_self"]
+            },
+            {
+                "name": "mortal_spin",
+                "target": "area",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.4,
+                    "buff": 1
+                },
+                "effects": ["reliable", "cleanse"]
+            }
+        ],
+        "ground": [
+            {
+                "name": "mud_slap",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["debuff_acc_other"]
+            },
+            {
+                "name": "mud_shot",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.2,
+                    "buff": 1
+                },
+                "effects": ["debuff_evs_other"]
+            },
+            {
+                "name": "bulldoze",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["splash"]
+            },
+            {
+                "name": "bone_rush",
+                "target": "single",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 0.8,
+                    "buff": 1
+                },
+                "effects": ["multiples_2"]
+            },
+            {
+                "name": "dig",
+                "target": "single",
+                "mul": {
+                    "acc": 1,
+                    "dmg": 1.8,
+                    "buff": 1
+                },
+                "effects": ["buff_def_self", "charge"]
+            },
+            {
+                "name": "earthquake",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1.6,
+                    "buff": 1
+                },
+                "effects": []
+            },
+            {
+                "name": "magnitude",
+                "target": "area",
+                "mul": {
+                    "acc": 0.8,
+                    "dmg": 1,
+                    "buff": 1
+                },
+                "effects": ["bingo"]
+            },
+            {
+                "name": "mud_shot"
+            },
+            {
+                "name": "mud_bomb",
+                "status": "blind"
+            },
+            {
+                "name": "bulldoze",
+                "bonus": "acc"
+            },
+            {
+                "name": "magnitude",
+                "bonus": "acc"
+            },
+            {
+                "name": "earth_power",
+                "bonus": "atk"
+            },
+            {
+                "name": "earthquake",
+                "bonus": "atk"
+            }
+        ],
+        "bug": [
+            {
+                "name": "pin_missile"
+            },
+            {
+                "name": "bug_buzz",
+                "debuff": "def"
+            },
+            {
+                "name": "silver_wind",
+                "bonus": "acc"
+            },
+            {
+                "name": "fury_cutter",
+                "bonus": "acc"
+            },
+            {
+                "name": "mega_horn",
+                "bonus": "atk"
+            },
+            {
+                "name": "signal_beam",
+                "bonus": "atk"
+            }
+        ],
+        "ghost": [
+            {
+                "name": "nightmare"
+            },
+            {
+                "name": "curse",
+                "status": "curse"
+            },
+            {
+                "name": "astonish",
+                "bonus": "acc"
+            },
+            {
+                "name": "shadow_claw",
+                "bonus": "acc"
+            },
+            {
+                "name": "poltergeist",
+                "bonus": "atk"
+            },
+            {
+                "name": "shadow_force",
+                "bonus": "atk"
+            }
+        ],
+        "steel": [
+            {
+                "name": "iron_tail"
+            },
+            {
+                "name": "metal_sound",
+                "debuff": "evs"
+            },
+            {
+                "name": "iron_head",
+                "bonus": "acc"
+            },
+            {
+                "name": "metal_burst",
+                "bonus": "acc"
+            },
+            {
+                "name": "steel_beam",
+                "bonus": "atk"
+            },
+            {
+                "name": "doom_desire",
+                "bonus": "atk"
+            }
+        ],
+        "fire": [
+            {
+                "name": "ember"
+            },
+            {
+                "name": "flamethrower",
+                "status": "burn"
+            },
+            {
+                "name": "incinerate",
+                "bonus": "acc"
+            },
+            {
+                "name": "flame_wheel",
+                "bonus": "acc"
+            },
+            {
+                "name": "fire_blast",
+                "bonus": "atk"
+            },
+            {
+                "name": "overheat",
+                "bonus": "atk"
+            }
+        ],
+        "water": [
+            {
+                "name": "water_gun"
+            },
+            {
+                "name": "scald",
+                "status": "burn"
+            },
+            {
+                "name": "surf",
+                "bonus": "acc"
+            },
+            {
+                "name": "waterfall",
+                "bonus": "acc"
+            },
+            {
+                "name": "water_spout",
+                "bonus": "atk"
+            },
+            {
+                "name": "hydro_cannon",
+                "bonus": "atk"
+            }
+        ],
+        "grass": [
+            {
+                "name": "razor_leaf"
+            },
+            {
+                "name": "mega_drain",
+                "status": "heal"
+            },
+            {
+                "name": "petal_dance",
+                "bonus": "acc"
+            },
+            {
+                "name": "energy_ball",
+                "bonus": "acc"
+            },
+            {
+                "name": "leaf_storm",
+                "bonus": "atk"
+            },
+            {
+                "name": "solar_beam",
+                "bonus": "atk"
+            }
+        ],
+        "electric": [
+            {
+                "name": "thunder_shock"
+            },
+            {
+                "name": "thunder",
+                "status": "paralyze"
+            },
+            {
+                "name": "shock_wave",
+                "bonus": "acc"
+            },
+            {
+                "name": "discharge",
+                "bonus": "acc"
+            },
+            {
+                "name": "bolt_strike",
+                "bonus": "atk"
+            },
+            {
+                "name": "zap_cannon",
+                "bonus": "atk"
+            }
+        ],
+        "psychic": [
+            {
+                "name": "psy_beam"
+            },
+            {
+                "name": "confusion",
+                "status": "confusion"
+            },
+            {
+                "name": "psychic",
+                "bonus": "acc"
+            },
+            {
+                "name": "psywave",
+                "bonus": "acc"
+            },
+            {
+                "name": "future_sight",
+                "bonus": "atk"
+            },
+            {
+                "name": "psycho_boost",
+                "bonus": "atk"
+            }
+        ],
+        "ice": [
+            {
+                "name": "ice_wind"
+            },
+            {
+                "name": "powder_snow",
+                "status": "freeze"
+            },
+            {
+                "name": "ice_beam",
+                "bonus": "acc"
+            },
+            {
+                "name": "avalanche",
+                "bonus": "acc"
+            },
+            {
+                "name": "freeze_shock",
+                "bonus": "atk"
+            },
+            {
+                "name": "ice_burn",
+                "bonus": "atk"
+            }
+        ],
+        "dark": [
+            {
+                "name": "feint_attack"
+            },
+            {
+                "name": "sucker_punch",
+                "buff": "crt"
+            },
+            {
+                "name": "pursuit",
+                "bonus": "acc"
+            },
+            {
+                "name": "payback",
+                "bonus": "acc"
+            },
+            {
+                "name": "foul_play",
+                "bonus": "atk"
+            },
+            {
+                "name": "night_daze",
+                "bonus": "atk"
+            }
+        ],
+        "fairy": [
+            {
+                "name": "sweet_kiss"
+            },
+            {
+                "name": "draining_kiss",
+                "status": "heal"
+            },
+            {
+                "name": "fairy_wind",
+                "bonus": "acc"
+            },
+            {
+                "name": "play_rough",
+                "bonus": "acc"
+            },
+            {
+                "name": "dazzling_gleam",
+                "bonus": "atk"
+            },
+            {
+                "name": "moonblast",
+                "bonus": "atk"
+            }
+        ],
+        "dragon": [
+            {
+                "name": "twister"
+            },
+            {
+                "name": "dragon_dance",
+                "buff": "acc"
+            },
+            {
+                "name": "dragon_claw",
+                "bonus": "acc"
+            },
+            {
+                "name": "dragon_pulse",
+                "bonus": "acc"
+            },
+            {
+                "name": "outrage",
+                "bonus": "atk"
+            },
+            {
+                "name": "draco_meteor",
+                "bonus": "atk"
+            }
+        ]
+    }
+]

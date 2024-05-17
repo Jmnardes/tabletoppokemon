@@ -19,8 +19,28 @@ const theme = extendTheme({
           bg: colorMode === 'light' ? 'gray.200' : 'gray.650',
         }),
       },
-    }
+    },
+    Text: {
+      baseStyle: {
+        fontFamiliy: `'Press Start 2P', sans-serif`
+      }
+    },
+    Toast: {
+      baseStyle: {
+        title: {
+          fontSize: '12px',
+        },
+        description: {
+          fontSize: '12px',
+        },
+      },
+    },
   },
+  fonts: {
+    heading: `'Press Start 2P', sans-serif`,
+    body: `'Press Start 2P', sans-serif`,
+    text: `'Press Start 2P', sans-serif`,
+  }
 })
 
 export default theme

@@ -22,9 +22,11 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
         })
     }
 
-    const battleChoosePokemon = () => {
-        setPokemon(poke)
-        setLoadingApi(false)
+    const battleChoosePokemon = (pokeId) => {
+        if(poke.id === pokeId) {
+            setPokemon(poke)
+            setLoadingApi(false)
+        }
     }
     
     const battleTurnUpdate = (res) => {
@@ -33,7 +35,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
         players.forEach(battling_player => {
             if(battling_player.player === player.id) {
                 if(battling_player.pokemon) {
-                    battleChoosePokemon()
+                    battleChoosePokemon(battling_player.pokemon.pokemonId)
                 }
             }
         })

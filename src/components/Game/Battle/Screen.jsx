@@ -20,9 +20,9 @@ export default function Screen({ pokemon, hitAnimation, setHitAnimation, myPokem
         ` + ' 0.5s ease-in-out 1s')
     }
 
-    const OpponentBox = ({ sprite, hp, maxHp }) => {
+    const OpponentBox = ({ key, sprite, hp, maxHp }) => {
         return (
-            <Center flexDir="column" mx={2}>
+            <Center key={key} flexDir="column" mx={2}>
                 <Image 
                     w={32}
                     animation={hitAnimation}

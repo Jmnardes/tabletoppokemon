@@ -2,7 +2,7 @@ import { Button, Center, Flex, useColorMode } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import ControlBox from "./ControlBox";
-import Screen from "./Screen";
+import BattleScreen from "./BattleScreen";
 import { FaDoorOpen } from "react-icons/fa";
 import { useEffect } from "react";
 import socket from "../../../client";
@@ -37,7 +37,7 @@ export default function BattleContent({
         <Flex flex="1">
             <Center flexDir="column" flex="1">
                 <Center w="100%" flex="1" p={4}>
-                    <Screen 
+                    <BattleScreen 
                         pokemon={pokemon} 
                         hitAnimation={hitAnimation} 
                         setHitAnimation={setHitAnimation}

@@ -48,14 +48,14 @@ export default function ControlBox({
         emit('battle-choose-move', {battleId, id: pokemon?.id, roll: roll, moveId: pokemon.moves[index].id})
     }
 
-    useEffect(() => {
-        socket.on('battle-choose-move', res => battleChooseMove(res))
+    // useEffect(() => {
+    //     socket.on('battle-choose-move', res => battleChooseMove(res))
 
-        return () => {
-            socket.off('battle-choose-move', battleChooseMove)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    //     return () => {
+    //         socket.off('battle-choose-move', battleChooseMove)
+    //     }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     return (
         <>

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import Encounter from "../../Encounter/Encounter"
-import SadIcon from "../../../Icons/emote/SadIcon"
+// import SadIcon from "../../../Icons/emote/SadIcon"
 
 export default function EncounterModal() {
     const { updateGame, session, player } = useContext(PlayerContext)
@@ -35,7 +35,7 @@ export default function EncounterModal() {
                         <Encounter setCatchablePokemon={setCatchablePokemon} />
                     ) : (
                         <Center flexDirection="column">
-                            <SadIcon h={16} w={16} />
+                            {/* <SadIcon h={16} w={16} /> */}
 
                             <Button mt={6} h={12} onClick={() => {
                                 updateGame({ openEncounterModal: false })

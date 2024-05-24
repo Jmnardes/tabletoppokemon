@@ -6,19 +6,6 @@ import { stringToUpperCase } from "../../../util";
 export default function BattleScreen({ pokemon, hitAnimation, setHitAnimation, myPokemonHp, opponents }) {
     const [selfHitAnimation, setSelfHitAnimation] = useState('')
 
-    const log = [
-        { hitType: 'hit', attacker: pokemon?.name, defender: ''},
-        { hitType: 'hit', attacker: '', defender: ''},
-        { hitType: 'half', attacker: pokemon?.name, defender: ''},
-        { hitType: 'miss', attacker: '', defender: ''},
-        { hitType: 'hit', attacker: pokemon?.name, defender: ''},
-        { hitType: 'miss', attacker: '', defender: ''},
-        { hitType: 'hit', attacker: pokemon?.name, defender: ''},
-        { hitType: 'half', attacker: '', defender: ''},
-        { hitType: 'crit', attacker: pokemon?.name, defender: ''},
-        { hitType: 'hit', attacker: '', defender: ''},
-    ];
-
     const handleSelfHitAnimation = () => {
         setSelfHitAnimation(keyframes`
         0% { transform: translate(1px, 1px) rotate(6deg); opacity: 0.1 }
@@ -89,7 +76,7 @@ export default function BattleScreen({ pokemon, hitAnimation, setHitAnimation, m
                 </Center>
             </Flex>
             <Flex w="35%" h="100%" flexDirection="row" rounded={8} bgColor="gray.600">
-                <BattleLog log={log} pokemon={pokemon} />
+                <BattleLog pokemon={pokemon} />
             </Flex>
         </Flex>
     )

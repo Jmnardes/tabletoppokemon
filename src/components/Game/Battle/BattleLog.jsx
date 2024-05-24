@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, keyframes } from '@chakra-ui/react';
 import { stringToUpperCase } from '../../../util';
+import socket from '../../../client';
 
 
-const BattleLog = ({ log, pokemon }) => {
+const BattleLog = ({ pokemon }) => {
     const [logFadeAnimation, setLogFadeAnimation] = useState('')
+    const [log, setLog] = useState('');
 
     const hitType = {
         hit: {
@@ -24,7 +26,11 @@ const BattleLog = ({ log, pokemon }) => {
             color: 'green.500',
         },
     };
-    //{ hitType: 'hit', attacker: '' , defender: '' },
+
+    const handleLogs = (res) => {
+        console.log(res)
+        setLog(res)
+    }
     
     const fadeIn = keyframes`
         0% { opacity: 0; }
@@ -40,9 +46,18 @@ const BattleLog = ({ log, pokemon }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        socket.on('battle-log', res => handleLogs(res))
+
+        return () => {
+            socket.off('battle-log', handleLogs)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <Box w="100%" p={4}>
-            {pokemon && log.map((action, index) => (
+            {pokemon && log && log.map((action, index) => (
                 <>
                     <Box
                         key={index}

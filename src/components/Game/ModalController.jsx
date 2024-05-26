@@ -67,7 +67,7 @@ export default function ModalController() {
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
-            {game.openBattleModal && <BattleModal battleId={battleId}/>}
+            {game.openBattleModal && <BattleModal battleId={battleId} event={event}/>}
         </>
     )
 }

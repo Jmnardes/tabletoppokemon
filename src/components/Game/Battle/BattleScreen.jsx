@@ -58,7 +58,9 @@ export default function BattleScreen({ pokemon, myPokemonHp, opponent, battleLog
     }
 
     useEffect(() => {
-        turnWinner === pokemon?.id ? handleOpponentHitAnimation() : handleSelfHitAnimation()
+        if (battleLog) {
+            turnWinner === pokemon?.id ? handleOpponentHitAnimation() : handleSelfHitAnimation()
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [battleLog])
 
@@ -70,7 +72,7 @@ export default function BattleScreen({ pokemon, myPokemonHp, opponent, battleLog
                         <BattlingPokemonBox
                             key={pokemon?.id}
                             sprite={pokemon?.sprites.back}
-                            hp={turnWinner === pokemon?.id ? myPokemonHp : 0}
+                            hp={turnWinner && turnWinner !== pokemon?.id ? 0 : myPokemonHp}
                             maxHp={pokemon?.stats.hp}
                             name={pokemon?.name}
                             myPoke={true}
@@ -79,11 +81,11 @@ export default function BattleScreen({ pokemon, myPokemonHp, opponent, battleLog
                 </Center>
 
                 <Center alignItems="start" w="100%" h="100%">
-                    {opponent && (
+                    {opponent && pokemon && (
                         <BattlingPokemonBox
                             key={opponent?.pokemonId}
                             sprite={opponent?.sprite}
-                            hp={turnWinner === opponent?.pokemonId ? opponent?.hp : 0}
+                            hp={turnWinner && turnWinner !== opponent?.pokemonId ? 0 : opponent?.hp}
                             maxHp={opponent?.maxHp}
                             name={opponent?.name}
                             myPoke={false}

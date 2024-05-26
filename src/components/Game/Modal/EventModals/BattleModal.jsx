@@ -15,7 +15,7 @@ export default function BattleModal({ battleId, event }) {
     const [opponent, setOpponent] = useState()
     const [isPokemonBattling, setIsPokemonBattling] = useState(false)
     const [battleLog, setBattleLog] = useState([])
-    const [turnWinner, setTurnWinner] = useState({})
+    const [turnWinner, setTurnWinner] = useState()
     
     const battleTurnUpdate = (res) => {
         const players = res.players
@@ -23,7 +23,6 @@ export default function BattleModal({ battleId, event }) {
         const winner = res.result?.winner.pokemonId
 
         // console.log(res)
-        console.log(event)
         
         setIsMyTurn(res.yourTurn)
         setBattleLog(log)
@@ -40,6 +39,7 @@ export default function BattleModal({ battleId, event }) {
             }
 
             if(battling_player.player === player.id) {
+                console.log(`hp:`, battling_player.hp)
                 setMyPokemonHp(battling_player.hp)
 
                 if(battling_player.pokemon) {
@@ -51,9 +51,9 @@ export default function BattleModal({ battleId, event }) {
                 //     setIsMyTurn(true)
                 // }
 
-                if(battling_player.hp === 0) {
-                    setIsPokemonBattling(false)
-                }
+                // if(battling_player.hp === 0) {
+                //     setIsPokemonBattling(false)
+                // }
             }
         })
     }

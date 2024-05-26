@@ -1,9 +1,8 @@
-import { Button, Center, Flex, useColorMode } from "@chakra-ui/react";
+import { Center, Flex, useColorMode } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import ControlBox from "./ControlBox";
 import BattleScreen from "./BattleScreen";
-import { FaDoorOpen } from "react-icons/fa";
 import { useEffect } from "react";
 import socket from "../../../client";
 
@@ -11,8 +10,11 @@ export default function BattleContent({
     battleId,
     myPokemonHp,
     isMyTurn,
-    opponents,
-    isPokemonBattling
+    opponent,
+    isPokemonBattling,
+    battleLog,
+    turnWinner,
+    event
 }) {
     const { pokeTeam, updateGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
@@ -42,7 +44,10 @@ export default function BattleContent({
                         hitAnimation={hitAnimation} 
                         setHitAnimation={setHitAnimation}
                         myPokemonHp={myPokemonHp}
-                        opponents={opponents}
+                        opponent={opponent}
+                        battleLog={battleLog}
+                        turnWinner={turnWinner}
+                        event={event}
                     />
                 </Center>
                 <Center h={60} w="100%" background={colorMode === 'light' ? "gray.300" : "gray.600"} borderRadius={16}>
@@ -56,13 +61,9 @@ export default function BattleContent({
                         setDisaplayText={setDisaplayText}
                         setHitAnimation={setHitAnimation}
                         isPokemonBattling={isPokemonBattling}
+                        turnWinner={turnWinner}
+                        event={event}
                     />
-                    <Button h="100%" title="Leave" onClick={() => {
-                        updateGame({ openBattleModal: false })
-                        
-                    }}>
-                        <FaDoorOpen size="24px"/>
-                    </Button>
                 </Center>
             </Center>
         </Flex>

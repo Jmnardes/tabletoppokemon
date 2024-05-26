@@ -8,20 +8,35 @@ import PlayerContext from "../../../../Contexts/PlayerContext"
 import BattleContent from "../../Battle/BattleContent"
 import socket from "../../../../client"
 
-export default function BattleModal({ battleId }) {
+export default function BattleModal({ battleId, event }) {
     const { player, setLoadingApi } = useContext(PlayerContext)
     const [isMyTurn, setIsMyTurn] = useState(false)
     const [myPokemonHp, setMyPokemonHp] = useState()
-    const [opponents, setOpponents] = useState([])
+    const [opponent, setOpponent] = useState()
     const [isPokemonBattling, setIsPokemonBattling] = useState(false)
+    const [battleLog, setBattleLog] = useState([])
+    const [turnWinner, setTurnWinner] = useState({})
     
     const battleTurnUpdate = (res) => {
-        let players = res.players
+        const players = res.players
+        const log = res.result?.log
+        const winner = res.result?.winner.pokemonId
+
+        // console.log(res)
+        console.log(event)
+        
         setIsMyTurn(res.yourTurn)
+        setBattleLog(log)
+        setTurnWinner(winner)
 
         players.forEach(battling_player => {
             if(battling_player.player !== player.id && battling_player.pokemon) {
-                setOpponents(old => [...old, {...battling_player.pokemon, hp: battling_player.hp}])
+                // setOpponents(old => [...old, {...battling_player.pokemon, hp: battling_player.hp}])
+                
+                battling_player.pokemon && setOpponent({
+                    ...battling_player.pokemon,
+                    hp: battling_player.hp
+                })
             }
 
             if(battling_player.player === player.id) {
@@ -32,9 +47,9 @@ export default function BattleModal({ battleId }) {
                     setIsPokemonBattling(true)
                 }
 
-                if(battling_player.turn) {
-                    setIsMyTurn(true)
-                }
+                // if(battling_player.turn) {
+                //     setIsMyTurn(true)
+                // }
 
                 if(battling_player.hp === 0) {
                     setIsPokemonBattling(false)
@@ -64,8 +79,11 @@ export default function BattleModal({ battleId }) {
                         battleId={battleId}
                         myPokemonHp={myPokemonHp}
                         isMyTurn={isMyTurn}
-                        opponents={opponents}
+                        opponent={opponent}
                         isPokemonBattling={isPokemonBattling}
+                        battleLog={battleLog}
+                        turnWinner={turnWinner}
+                        event={event}
                     />
                 </ModalContent>
             </Modal>

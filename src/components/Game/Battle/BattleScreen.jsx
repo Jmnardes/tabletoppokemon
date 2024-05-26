@@ -1,13 +1,14 @@
-import { Box, Center, Flex, Image, Kbd, Progress, Text, keyframes } from "@chakra-ui/react";
-import { useState } from "react";
+import { Center, Flex, Image, Kbd, Progress, Text, keyframes } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import BattleLog from "./BattleLog";
 import { stringToUpperCase } from "../../../util";
 
-export default function BattleScreen({ pokemon, hitAnimation, setHitAnimation, myPokemonHp, opponents }) {
+export default function BattleScreen({ pokemon, myPokemonHp, opponent, battleLog, turnWinner }) {
     const [selfHitAnimation, setSelfHitAnimation] = useState('')
+    const [opponentHitAnimation, setOpponentHitAnimation] = useState('')
 
-    const handleSelfHitAnimation = () => {
-        setSelfHitAnimation(keyframes`
+    const animation = (
+        keyframes`
         0% { transform: translate(1px, 1px) rotate(6deg); opacity: 0.1 }
         10% { transform: translate(10px, 10px) rotate(12deg); opacity: 0.4 }
         20% { transform: translate(-10px, -10px) rotate(6deg); opacity: 0.7 }
@@ -19,17 +20,25 @@ export default function BattleScreen({ pokemon, hitAnimation, setHitAnimation, m
         80% { transform: translate(5px, -5px) rotate(6deg); opacity: 0.7 }
         90% { transform: translate(-1px, -1px) rotate(12deg); }
         100% { transform: translate(0px, 0px) rotate(6deg); }
-        ` + ' 0.5s ease-in-out 1s')
+        ` + ' 0.5s ease-in-out 1s'
+    )
+
+    const handleSelfHitAnimation = () => {
+        setSelfHitAnimation(animation)
     }
 
-    const BattlingPokemonBox = ({ key, sprite, hp, maxHp, name }) => {
+    const handleOpponentHitAnimation = () => {
+        setOpponentHitAnimation(animation)
+    }
+
+    const BattlingPokemonBox = ({ sprite, hp, maxHp, name, myPoke }) => {
         return (
-            <Center key={key} flexDir="column" mx={2}>
+            <Center flexDir="column" mx={2}>
                 <Text>{stringToUpperCase(name)}</Text>
                 <Image 
                     w={72}
-                    animation={hitAnimation}
-                    onAnimationEnd={() => setHitAnimation('')}
+                    animation={myPoke ? selfHitAnimation : opponentHitAnimation}
+                    onAnimationEnd={() => myPoke ? setSelfHitAnimation('') : setOpponentHitAnimation('')}
                     src={sprite}
                     position="absolute"
                     mt={52}
@@ -48,35 +57,42 @@ export default function BattleScreen({ pokemon, hitAnimation, setHitAnimation, m
         )
     }
 
+    useEffect(() => {
+        turnWinner === pokemon?.id ? handleOpponentHitAnimation() : handleSelfHitAnimation()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [battleLog])
+
     return (
         <Flex flex="1" h="100%" flexDirection="row">
             <Flex w="65%" h="100%" mx={24} flexDirection="row">
                 <Center w="100%" h="100%">
                     {pokemon && (
                         <BattlingPokemonBox
-                        key={pokemon?.name}
-                        sprite={pokemon?.sprites.back}
-                        hp={myPokemonHp}
-                        maxHp={pokemon?.stats.hp}
-                        name={pokemon?.name}
+                            key={pokemon?.id}
+                            sprite={pokemon?.sprites.back}
+                            hp={turnWinner === pokemon?.id ? myPokemonHp : 0}
+                            maxHp={pokemon?.stats.hp}
+                            name={pokemon?.name}
+                            myPoke={true}
                         />
-                        )}
+                    )}
                 </Center>
 
                 <Center alignItems="start" w="100%" h="100%">
-                    {opponents.map((opponent) => {
-                        return <BattlingPokemonBox
-                            key={opponent.player}
-                            sprite={opponent.sprite}
-                            hp={opponent.hp}
-                            maxHp={opponent.maxHp}
-                            name={opponent.name}
-                            />
-                        })}
+                    {opponent && (
+                        <BattlingPokemonBox
+                            key={opponent?.pokemonId}
+                            sprite={opponent?.sprite}
+                            hp={turnWinner === opponent?.pokemonId ? opponent?.hp : 0}
+                            maxHp={opponent?.maxHp}
+                            name={opponent?.name}
+                            myPoke={false}
+                        />
+                    )}
                 </Center>
             </Flex>
-            <Flex w="35%" h="100%" flexDirection="row" rounded={8} bgColor="gray.600">
-                <BattleLog pokemon={pokemon} />
+            <Flex w="35%" h="100%" flexDirection="row" rounded={8}>
+                <BattleLog pokemon={pokemon} battleLog={battleLog} turnWinner={turnWinner} />
             </Flex>
         </Flex>
     )

@@ -4,6 +4,7 @@ import socket from "../../../client"
 import PlayerContext from "../../../Contexts/PlayerContext"
 import { diceRoll, stringToUpperCase } from "../../../util"
 import PokeSelector from "./PokeSelector"
+import { FaDoorOpen } from "react-icons/fa";
 
 export default function ControlBox({ 
     battleId,
@@ -14,9 +15,11 @@ export default function ControlBox({
     setHitAnimation,
     displayText,
     setDisaplayText,
-    isPokemonBattling
+    isPokemonBattling,
+    turnWinner,
+    event
 }) {
-    const { emit, setLoadingApi } = useContext(PlayerContext)
+    const { emit, setLoadingApi, updateGame, updatePlayer } = useContext(PlayerContext)
 
     const handleHitAnimation = () => {
         setHitAnimation(keyframes`
@@ -59,9 +62,9 @@ export default function ControlBox({
 
     return (
         <>
-            {isPokemonBattling ? (
+            {turnWinner ? (
                 <Flex flex="1" justifyContent="space-between">
-                    {isMyTurn ? (
+                    {/* {isMyTurn ? (
                         <>
                             <Center w="75%">
                                 {displayText !== '' ? (
@@ -72,32 +75,45 @@ export default function ControlBox({
                             </Center>
                             <Center w="25%" flexDir="column">
                                 <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    // setLoadingApi(true)
-                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                    setLoadingApi(true)
+                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
                                 }}>{pokeMoveName(0)}</Button>
                                 <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    // setLoadingApi(true)
-                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                    setLoadingApi(true)
+                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
                                 }}>{pokeMoveName(1)}</Button>
                                 <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
-                                    // setLoadingApi(true)
-                                    // emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
+                                    setLoadingApi(true)
+                                    emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 1})
                                 }}>{pokeMoveName(2)}</Button>
-                                {/* <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
+                                <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setLoadingApi(true)
                                     emit('battle-choose-move', {battleId, id: pokemon.id, roll: (diceRoll(20) + 1), move: 2})
                                 }}>Move 2</Button>
                                 <Button w={72} h={14} m={2} isDisabled={!isMyTurn} onClick={() => {
                                     setPokemon()
-                                }}>Change Pokemon</Button> */}
+                                }}>Change Pokemon</Button>
                             </Center>
                         </>
-                    ) : (
+                    ) : ( */}
                         <Center flex="1">
-                            <Spinner size='xl' />
-                            <Text ml={4} fontSize={"3xl"}>Waiting for your turn</Text>
+                            {/* <Spinner size='xl' /> */}
+                            <Text ml={4} fontSize={"3xl"}>
+                                Battle ended, {turnWinner === pokemon.id? `you received ${event.prizes[2].amount} coin(s)` : 'you lost!'}
+                            </Text>
                         </Center>
-                    )}
+                        <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
+                            const prize = event.prizes[2]
+
+                            if (turnWinner === pokemon.id) {
+                                updatePlayer(prize.amount, prize.type, prize.name)
+                            }
+
+                            updateGame({ openBattleModal: false, openEncounterModal: true })
+                        }}>
+                            <FaDoorOpen size="24px"/>
+                        </Button>
+                    {/* )} */}
                 </Flex>
             ) : (
                 <Flex flex="1" justifyContent="space-between" alignItems="center" mx={32}>

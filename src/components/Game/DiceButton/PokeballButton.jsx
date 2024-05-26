@@ -51,7 +51,8 @@ export default function PokeballButton({
     onRoll,
     maxRow = 20,
     bonus = 0,
-    type = 'pb'
+    type = 'pb',
+    isDisabled
 }) {
     const [rolling, setRolling] = useState(false)
     const [value, setValue] = useState(0)
@@ -132,6 +133,7 @@ export default function PokeballButton({
                 <IconButton
                     w='4rem'
                     h='4rem'
+                    isDisabled={isDisabled}
                     _hover={{ 'animation': diceShakeAnimation }}
                     onClick={() => setRolling(true)}
                     icon={setDiceByType(type)}

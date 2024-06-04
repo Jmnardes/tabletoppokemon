@@ -1,29 +1,93 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Divider, Text, keyframes } from '@chakra-ui/react';
-import { stringToUpperCase } from '../../../util';
+import { diceRoll, stringToUpperCase } from '../../../util';
 
 
 const BattleLog = ({ pokemon, battleLog, turnWinner }) => {
     const [logFadeAnimation, setLogFadeAnimation] = useState('')
 
-    const hitType = {
-        hit: {
-            text: 'hit',
-            color: '',
-        },
-        half: {
-            text: 'has been halved',
-            color: 'yellow.500',
-        },
-        miss: {
-            text: 'missed',
-            color: 'red.500',
-        },
-        crit: {
-            text: 'critically hit',
-            color: 'green.500',
-        },
+    const hitMessages = [
+        "The attack hit!",
+        "The attack was effective!",
+        "It's a direct hit!",
+        "The attack landed!",
+        "It's a clean strike!",
+        "The attack connected!"
+    ];
+
+    const halfHitMessages = [
+        "The attack was not effective...",
+        "It's a glancing blow!",
+        "The attack partially landed...",
+        "It's not as effective as usual...",
+        "The attack was weakened...",
+        "The attack hit, but not fully..."
+    ];
+    
+    const missMessages = [
+        "The attack missed!",
+        "The attack failed to connect...",
+        "It's a swing and a miss!",
+        "The attack went wide...",
+        "The attack didn't land...",
+        "The attack was dodged..."
+    ];
+    
+    const criticalHitMessages = [
+        "It's a critical hit!",
+        "An amazing strike!",
+        "A devastating hit!",
+        "It's super effective!",
+        "A powerful blow!",
+        "An incredible hit!"
+    ];
+
+    const damageMessages = [
+        "Dealing {damage} points of damage!",
+        "{damage} points of damage dealt!",
+        "It caused {damage} points of damage!",
+        "The attack inflicted {damage} damage points!",
+        "The foe took {damage} points of damage!",
+        "It's a hit for {damage} points of damage!"
+    ];
+
+    const colorByHitType = (hitType) => {
+        switch (hitType) {
+            case 'half':
+                return 'yellow.500';
+            case'miss':
+                return'red.500';
+            case 'crit':
+                return 'green.500';
+            case 'hit':
+            default:
+                return '';
+        }
     };
+
+    const rollAttackMessage = (hitType) => {
+        const messageRoll = diceRoll(5)
+
+        switch (hitType) {
+            case 'half':
+                return halfHitMessages[messageRoll];
+            case 'miss':
+                return missMessages[messageRoll];
+            case 'crit':
+                return criticalHitMessages[messageRoll];
+            case 'hit':
+            default:
+                return hitMessages[messageRoll];
+        }
+    }
+    
+    const rollDamageMessage = (damage) => {
+        const damageRoll = diceRoll(5)
+        const randomMessage = damageMessages[damageRoll]
+        const messageWithDamage = randomMessage.replace('{damage}', damage);
+
+        return messageWithDamage
+    }
     
     const fadeIn = keyframes`
         0% { opacity: 0; }
@@ -51,26 +115,28 @@ const BattleLog = ({ pokemon, battleLog, turnWinner }) => {
                         <Box key={index + pokemon.id}>
                             <Box
                                 textAlign={action.attacker.id === pokemon.id ? 'left' : 'right'}
-                                py={2}
-                                css={{ animation: `${logFadeAnimation} 1s` }}
+                                pb={3}
+                                css={{ animation: `${logFadeAnimation} ${index + 1}s ease-in` }}
                             >
-                                <Text fontSize={'xs'} fontWeight="bold" color={action.attacker.id === pokemon.id ? 'green.600' : 'yellow.600'}>
-                                {/* [ {stringToUpperCase(action.attacker.name)} ] */}
-                                {action.attacker.id === pokemon.id ? '>' : ''} {stringToUpperCase(action.attacker.name)} {action.attacker.id === pokemon.id ? '' : '<'}
+                                {(index === 0 || index === 1) && (
+                                    <Text fontSize={'xs'} mb={2} textDecoration="underline" color={action.attacker.id === pokemon.id ? 'green.600' : 'yellow.600'}>
+                                        {stringToUpperCase(action.attacker.name)}
+                                    </Text>
+                                )}
+                                <Text fontSize={'3xs'} fontStyle="italic" color={action.hitType === 'miss' && 'red.500'}>
+                                    {rollAttackMessage(action.hitType)}
                                 </Text>
-                                <Text fontSize={'xs'} color={action.hitType === 'miss' && 'red.500'}>
-                                    Attack {hitType[action.hitType]?.text}! 
-                                </Text>
-                                {action.damage !== 0 && <Text fontSize={'2xs'} color={hitType[action.hitType]?.color}>
-                                    {action.damage} damage dealt
-                                </Text>}
-                                
+                                {action.damage !== 0 && 
+                                    <Text fontSize={'3xs'} fontStyle="italic" color={colorByHitType(action.hitType)}>
+                                        {rollDamageMessage(action.damage)}
+                                    </Text>
+                                }
                             </Box>
                             {action.fainted && (
                                 <Box
                                     textAlign={action.attacker.id === pokemon.id ? 'right' : 'left'}
                                     py={2}
-                                    css={{ animation: `${logFadeAnimation} 1s` }}
+                                    css={{ animation: `${logFadeAnimation} ${index + 3}s` }}
                                 >
                                     <Text fontSize={'2xs'} color="red.500">
                                         {stringToUpperCase(action.defender.name)} has fainted!

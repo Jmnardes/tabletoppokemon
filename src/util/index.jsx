@@ -129,11 +129,8 @@ export const generationOptions = [
     { value: '7', label: '8' }
 ]
 
-export const diceRoll = (diceSize) => {
-    if(diceSize) {
-        return Math.floor(Math.random() * diceSize)
-    }
-    return
+export const diceRoll = (diceSize = 20) => {
+    return Math.floor(Math.random() * diceSize)
 }
 
 // types colors
@@ -203,8 +200,8 @@ export const parseNumberMultToNatural = (number, multiply) => {
 }
 
 export const rarityName = (rarity) => {
-    if (rarity === 0) return 'Normal'
-    if (rarity === 1) return 'Different'
+    if (rarity === 0) return 'Common'
+    if (rarity === 1) return 'Uncommon'
     if (rarity === 2) return 'Rare'
-    if (rarity === 3) return 'Shiny'
+    if (rarity === 3) return 'Special'
 }

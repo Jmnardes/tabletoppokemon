@@ -2,16 +2,22 @@ import React from "react"
 import GameHeader from "./GameHeader";
 import GameContent from "./GameContent";
 import ModalController from "./ModalController";
+import GameEnd from "./GameEnd";
 
-function PokePage() {
-
+function PokePage({ game }) {
     return (
         <>
-            <GameHeader />
-
-            <GameContent />
-
-            <ModalController />
+            {game.gameEnded ? (
+                <GameEnd />
+            ) : (
+                <>
+                    <GameHeader />
+        
+                    <GameContent />
+        
+                    <ModalController />
+                </>
+            )}
         </>
     )
 }

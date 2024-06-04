@@ -19,6 +19,7 @@ export function PlayerProvider({children}) {
     const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
+    const [results, setResults] = useState({})
     const [game, setGame] = useState({
         gameEnded: false,
         isPokemonRollDisabled: false,
@@ -215,6 +216,11 @@ export function PlayerProvider({children}) {
         socket.on('turn-end-other', res => {
             updateOpponent(res, true, 'turnReady')
         })
+
+        socket.on('game-end', res => {
+            setResults(res)
+            updateGame({ gameEnded: true })
+        })
         
             //PLAYERS
         socket.on('player-update-status-other', res => {
@@ -227,7 +233,7 @@ export function PlayerProvider({children}) {
 
         socket.on('player-capture-pokemon', res => {
             setLoadingApi(false)
-            console.log('catch pokemon', res)
+            // console.log('catch pokemon:', res)
             handleToast({
                 id: 'catch',
                 title: stringToUpperCase(res.pokemon.name),
@@ -307,6 +313,8 @@ export function PlayerProvider({children}) {
             
             updateItem,
             changeItem,
+
+            results,
 
             confetti,
             setConfetti

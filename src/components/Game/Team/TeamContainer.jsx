@@ -30,7 +30,8 @@ export default function TeamContainer() {
         <Flex flex="1" flexDir="column">
             <PokeTeam />
             <Button borderRadius={"none"} h={12} onClick={finishTurn} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                <Text mr={8} fontWeight="bold">{buttonText}</Text>
+                {/* <Text mr={8} fontWeight="bold">{buttonText}</Text> */}
+                <Text mr={8} fontWeight="bold">Next turn!</Text>
                 <FaArrowRight size="24px"/>
             </Button>
         </Flex>

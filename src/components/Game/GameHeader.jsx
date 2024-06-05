@@ -38,13 +38,13 @@ export default function GameHeader() {
 
                 <PokeballStats />
 
-                <Button onClick={() => updateGame({ openBattleModal: true })}>
+                {/* <Button onClick={() => updateGame({ openBattleModal: true })}>
                     <Image
                         src={battleIcon} 
                         title={'Battle'}
                         w="32px"
                     ></Image>
-                </Button>
+                </Button> */}
                 
                 <Button 
                     mx={2}

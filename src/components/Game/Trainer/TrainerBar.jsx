@@ -20,7 +20,7 @@ export default function TrainerBar() {
                         title={'Turns'}
                         w="24px"
                     ></Image>
-                    <Text ml={2} fontSize="2xs">{session.turns}</Text>
+                    <Text ml={2} fontSize="2xs">{session.turns}/{session.gameDuration}</Text>
                 </Flex>
             )}
             <Flex alignItems="center" mx={2}>

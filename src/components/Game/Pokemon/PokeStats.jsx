@@ -34,7 +34,7 @@ function PokeStats({ poke }) {
                 statIcon={<Defense w={24} h={24}/>}
             />
             <StatInventary
-                stat={poke.stats.evs}
+                stat={poke.stats.evs + poke.tier}
                 statName={"Evasion"}
                 statIcon={<Evasion w={24} h={24}/>}
             />
@@ -44,7 +44,7 @@ function PokeStats({ poke }) {
                 statIcon={<Accuracy w={24} h={24}/>}
             />
             <StatInventary
-                stat={poke.stats.crt}
+                stat={poke.stats.crt + poke.tier}
                 statName={"Critical"}
                 statIcon={<Critical w={24} h={24}/>}
             />

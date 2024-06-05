@@ -64,17 +64,17 @@ export default function GameLobby() {
                     name2={'Team length'}
                     data2={session.teamLength}
                 />
-                {/* <ConfigurationSlot 
-                    name1={'Generation'}
-                    data1={session.generation}
-                    name2={'Shiny percent'}
-                    data2={session.shinyChance}
-                /> */}
                 <ConfigurationSlot 
                     name1={'Min players'}
                     data1={session.minPlayers}
                     name2={'Max players'}
                     data2={session.maxPlayers}
+                />
+                <ConfigurationSlot 
+                    name1={'Game duration'}
+                    data1={session.gameDuration}
+                    name2={'Shiny percent'}
+                    data2={session.shinyChance}
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>

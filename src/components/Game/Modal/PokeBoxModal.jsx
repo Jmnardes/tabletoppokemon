@@ -47,7 +47,7 @@ export default function PokeBoxModal() {
                                 isDisabled={pokeTeam.length !== 3 && (pokeBox.length + pokeTeam.length) >= 3}
                                 title={pokeTeam.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
                                 onClick={() => {
-                                    emit('player-update-bag', pokeTeam)
+                                    emit('player-update-bag', { pokeTeam, pokeBox })
                                 }} 
                             />
                         </Center>

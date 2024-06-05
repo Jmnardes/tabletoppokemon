@@ -4,7 +4,7 @@ import socket from "../../client";
 
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
-    const [gameDuration, setGameDuration] = useState(1)
+    const [gameDuration, setGameDuration] = useState(10)
     const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
     const [formInvalid, setFormInvalid] = useState(true)
@@ -34,7 +34,7 @@ export default function GameNew() {
                 <Text m={2}>
                     Game duration 
                 </Text>
-                <NumberInput m={4} w={24} step={10} defaultValue={40} min={10} max={120} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
+                <NumberInput m={4} w={24} step={20} defaultValue={40} min={10} max={120} allowMouseWheel onChange={(e) => {setGameDuration(e)}}>
                     <NumberInputField disabled />
                     <NumberInputStepper>
                         <NumberIncrementStepper />

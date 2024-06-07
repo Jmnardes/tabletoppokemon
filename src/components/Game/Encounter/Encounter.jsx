@@ -1,7 +1,7 @@
 import { Button, Center, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
-import { diceRoll, typeColor } from "../../../util";
+import { typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 
@@ -12,27 +12,23 @@ export default function Encounter({ setCatchablePokemon }) {
     const catchablePokemons = useRef(4)
     const divisibleByThree = encounter.length % 3 === 0
     
-    const handleCatchDiceRoll = (bonus) => {
-        let result = diceRoll(19)
-        result += bonus
-
+    const handleCatchDiceRoll = (result) => {
         catchDiceRolled.current = true
         setCatchRoll(result)
     }
 
     const PokemonEncounterCard = ({ poke }) => {
         let catchRollDifficulty = catchDifficulty(
-            poke.tier = 1, 
+            poke.tier, 
             session.gameDifficulty, 
             poke.rarity, 
-            poke.shiny = false
+            poke.shiny
         )
 
         if(session.turns === 0) catchRollDifficulty = 0
 
         const disableCatch = !catchDiceRolled.current && catchRollDifficulty > catchRoll
         let colorByType = typeColor(poke.types)
-
         if(catchRollDifficulty > catchRoll) catchablePokemons.current--
 
         return (
@@ -54,6 +50,7 @@ export default function Encounter({ setCatchablePokemon }) {
                         title={poke.name}
                         backgroundColor={colorByType}
                         src={poke.sprite}
+                        boxShadow={poke.shiny && '0 0 8px 1px yellow'}
                     />
                 </Button>
             </Flex>

@@ -6,10 +6,10 @@ import PokeballButton from "../DiceButton/PokeballButton";
 export default function EncounterBalls({ children, handleCatchDiceRoll }) {
     const { game, player, updateBall, updateGame, session } = useContext(PlayerContext)
 
-    const handleBallClick = (qty, type, bonus) => {
+    const handleBallClick = (qty, type, bonus, roll) => {
         updateBall(qty, type)
         updateGame({ isPokemonRollDisabled: true })
-        handleCatchDiceRoll(bonus)
+        handleCatchDiceRoll(roll)
     }
 
     return (
@@ -25,7 +25,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
                         <PokeballButton 
                             type={'pb'}
                             isDisabled={player.balls.pokeball === 0 || game.isPokemonRollDisabled}
-                            onRoll={() => handleBallClick(-1, 'pokeball', 0)} 
+                            onRoll={(roll) => handleBallClick(-1, 'pokeball', 0, roll)} 
                         />
                     </Box>
                     <Box

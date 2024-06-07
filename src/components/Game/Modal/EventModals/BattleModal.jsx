@@ -39,7 +39,6 @@ export default function BattleModal({ battleId, event }) {
             }
 
             if(battling_player.player === player.id) {
-                console.log(`hp:`, battling_player.hp)
                 setMyPokemonHp(battling_player.hp)
 
                 if(battling_player.pokemon) {

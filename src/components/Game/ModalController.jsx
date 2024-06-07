@@ -24,7 +24,7 @@ export default function ModalController() {
         socket.on('turn-start', res => {
             setSession(old => ({...old, turns: res.turn}))
             updateOpponents(false, 'turnReady')
-            console.log(res)
+
             setEvent({
                 title: res.event.title,
                 label: res.event.label,

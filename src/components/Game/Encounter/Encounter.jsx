@@ -4,6 +4,7 @@ import PlayerContext from "../../../Contexts/PlayerContext";
 import { typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
+import { FaStar } from "react-icons/fa"
 
 export default function Encounter({ setCatchablePokemon }) {
     const { session, encounter, emit, setLoadingApi } = useContext(PlayerContext)
@@ -16,6 +17,20 @@ export default function Encounter({ setCatchablePokemon }) {
         catchDiceRolled.current = true
         setCatchRoll(result)
     }
+
+    const PokeRarity = ({ rarity }) => {
+        const renderStars = () => {
+          const stars = [];
+          
+          for (let i = 0; i < rarity; i++) {
+            stars.push(<FaStar key={i} size={12} />);
+          }
+      
+          return stars;
+        };
+      
+        return renderStars();
+    };
 
     const PokemonEncounterCard = ({ poke }) => {
         const shiny = poke.rarity === 3
@@ -61,15 +76,20 @@ export default function Encounter({ setCatchablePokemon }) {
                         setLoadingApi(true)
                     }}
                 >
-                    <Image
-                        h="100%" w="100%"
-                        borderRadius={16}
-                        title={poke.name}
-                        backgroundColor={colorByType}
-                        src={poke.sprite}
-                        _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
-                        boxShadow={`0 0 4px 1px ${colorByType}`}
-                    />
+                    <>
+                        <Center position="absolute" mb={28}>
+                            <PokeRarity rarity={poke.rarity.rarity} />
+                        </Center>
+                        <Image
+                            h="100%" w="100%"
+                            borderRadius={16}
+                            title={poke.name}
+                            backgroundColor={colorByType}
+                            src={poke.sprite}
+                            _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
+                            boxShadow={`0 0 4px 1px ${colorByType}`}
+                        />
+                    </>
                 </Button>
             </Flex>
         )

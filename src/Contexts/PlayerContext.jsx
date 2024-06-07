@@ -164,6 +164,8 @@ export function PlayerProvider({children}) {
         updatePlayer(newQty, 'currency', which);
     }
 
+    const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
+
     useEffect(() => {
         if (player.status) {
             emit('player-update-status', { level: player.status.level })
@@ -325,6 +327,8 @@ export function PlayerProvider({children}) {
             
             updateItem,
             changeItem,
+
+            updateStatus,
 
             results,
 

@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Image, SimpleGrid } from "@chakra-ui/react";
+import { Button, Center, Flex, Image, SimpleGrid, keyframes } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import { typeColor } from "../../../util";
@@ -18,18 +18,35 @@ export default function Encounter({ setCatchablePokemon }) {
     }
 
     const PokemonEncounterCard = ({ poke }) => {
+        const shiny = poke.rarity === 3
         let catchRollDifficulty = catchDifficulty(
             poke.tier, 
-            session.gameDifficulty, 
+            session.gameDifficulty,
             poke.rarity, 
-            poke.shiny
+            shiny
         )
 
         if(session.turns === 0) catchRollDifficulty = 0
 
         const disableCatch = !catchDiceRolled.current && catchRollDifficulty > catchRoll
-        let colorByType = typeColor(poke.types)
+        const colorByType = typeColor(poke.types)
         if(catchRollDifficulty > catchRoll) catchablePokemons.current--
+    
+        const pulseAnimation = keyframes`
+            0% {
+                transform: scale(0.99);
+                box-shadow: 0 0 0 0 ${shiny ? 'white' : colorByType};
+            }
+        
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 ${shiny ? '10px' : '6px'} rgba(0, 0, 0, 0);
+            }
+        
+            100% {
+                transform: scale(0.99);
+                box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            }`
 
         return (
             <Flex px={4} py={2}>
@@ -38,7 +55,7 @@ export default function Encounter({ setCatchablePokemon }) {
                     borderRadius={4}
                     h={36} p={1}
                     isDisabled={disableCatch}
-                    _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.7 }}
+                    _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.8 }}
                     onClick={() => {
                         emit('player-capture-pokemon', poke.id)
                         setLoadingApi(true)
@@ -50,7 +67,8 @@ export default function Encounter({ setCatchablePokemon }) {
                         title={poke.name}
                         backgroundColor={colorByType}
                         src={poke.sprite}
-                        boxShadow={poke.shiny && '0 0 8px 1px yellow'}
+                        _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
+                        boxShadow={`0 0 4px 1px ${colorByType}`}
                     />
                 </Button>
             </Flex>

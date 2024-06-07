@@ -31,7 +31,7 @@ import socket from "../../../../client"
 import SadIcon from "../../../Icons/emote/SadIcon"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, updateCurrency, pokeTeam, updateStatus } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [showAwarding, setShowAwarding] = useState(false)
@@ -188,7 +188,10 @@ export default function ChallengeModal({ event }) {
                                                         <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
                                                         {myPlacing.current === 0 && (
-                                                            <FirstPlaceIcon h={16} w={16} />
+                                                            <>
+                                                                {updateStatus('challenges')}
+                                                                <FirstPlaceIcon h={16} w={16} />
+                                                            </>
                                                         )}
                                                         {myPlacing.current === 1 && (
                                                             <SecondPlaceIcon h={16} w={16} />

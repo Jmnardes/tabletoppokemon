@@ -149,8 +149,20 @@ export function PlayerProvider({children}) {
     const changeItem = (qty, which) => updatePlayer(qty, 'items', which)
     const updateItem = (qty, which) => updatePlayer(player.items[which] + qty, 'items', which)
 
-    const changeCurrency = (qty, which) => updatePlayer(qty, 'currency', which)
-    const updateCurrency = (qty, which) => updatePlayer(player.currency[which] + qty, 'currency', which)
+    const changeCurrency = (qty, which) => {
+        let newQty = player.currency[which] + qty;
+        if (newQty < 0) {
+            newQty = 0;
+        }
+        updatePlayer(newQty, 'currency', which)
+    }
+    const updateCurrency = (qty, which) => {
+        let newQty = player.currency[which] + qty;
+        if (newQty < 0) {
+            newQty = 0;
+        }
+        updatePlayer(newQty, 'currency', which);
+    }
 
     useEffect(() => {
         if (player.status) {

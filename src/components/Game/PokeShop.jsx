@@ -101,8 +101,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Poke Ball'}
-                    price={2}
-                    scaling={1}
+                    price={0}
+                    scaling={0}
+                    // price={2}
+                    // scaling={1}
                     itemType={'pokeball'}
                     setter={setMyBalls}
                     itemIcon={greatballIcon}
@@ -110,8 +112,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Great Ball'}
-                    price={4}
-                    scaling={2}
+                    price={2}
+                    scaling={0}
+                    // price={4}
+                    // scaling={2}
                     itemType={'greatball'}
                     setter={setMyBalls}
                     itemIcon={superballIcon}
@@ -119,8 +123,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Ultra Ball'}
-                    price={6}
-                    scaling={3}
+                    price={5}
+                    scaling={0}
+                    // price={6}
+                    // scaling={3}
                     itemType={'ultraball'}
                     setter={setMyBalls}
                     itemIcon={ultraballIcon}
@@ -128,8 +134,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Master Ball'}
-                    price={20}
-                    scaling={5}
+                    price={30}
+                    scaling={0}
+                    // price={20}
+                    // scaling={5}
                     itemType={'masterball'}
                     setter={setMyBalls}
                     itemIcon={masterballIcon}
@@ -146,8 +154,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Poke Star'}
-                    price={28}
-                    scaling={7}
+                    price={20}
+                    scaling={0}
+                    // price={28}
+                    // scaling={7}
                     itemType={'star'}
                     setter={setMyCurrency}
                     itemIcon={starIcon}
@@ -155,8 +165,10 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Poke Crown'}
-                    price={72}
-                    scaling={18}
+                    price={50}
+                    scaling={0}
+                    // price={72}
+                    // scaling={18}
                     itemType={'crown'}
                     setter={setMyCurrency}
                     itemIcon={crownIcon}

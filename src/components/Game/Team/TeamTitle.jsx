@@ -8,8 +8,15 @@ import Health from '../../../assets/svgs/stats/health'
 
 export default function TeamTitle({ pokeTeam }) {
     const { colorMode } = useColorMode()
+    
     const sumPokeStat = (stat) => {
-        return pokeTeam?.reduce((acc, poke) => acc += poke.stats[stat], 0)
+        return pokeTeam?.reduce((acc, poke) => {
+            acc += poke.stats[stat];
+            if (stat === 'crt' || stat === 'evs') {
+                acc += poke.tier;
+            }
+            return acc;
+        }, 0)
     }
 
     const StatTitle = ({ stat, statName, statIcon }) => {

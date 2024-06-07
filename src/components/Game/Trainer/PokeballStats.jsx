@@ -51,7 +51,7 @@ export default function PokeballStats() {
                     <Text mr={1}>{player.balls.masterball}x</Text>
                     <Image
                         src={masterballIcon} 
-                        title={'+10'}
+                        title={'+20'}
                         w="24px"
                     ></Image>
                 </Center>

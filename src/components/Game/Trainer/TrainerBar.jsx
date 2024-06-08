@@ -48,14 +48,14 @@ export default function TrainerBar() {
                 ></Image>
                 <Text ml={2} fontSize="2xs">{player.currency.coins}</Text>
             </Flex>
-            <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
+            {/* <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
                     src={lureIcon}
                     title={'Shiny incense'}
                     w="24px"
                 ></Image>
                 <Text fontSize='2xs' title={'Shiny chance ' + player.items.incense + '%'} cursor="pointer" ml={2}>{player.items.incense - 1}</Text>
-            </Flex>
+            </Flex> */}
         </>
     )
 }

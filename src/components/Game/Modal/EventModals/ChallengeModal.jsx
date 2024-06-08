@@ -26,14 +26,16 @@ import { FaInfoCircle } from "react-icons/fa";
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
+import arrowIcon from '../../../../assets/images/game/arrow.png'
 import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 // import SadIcon from "../../../Icons/emote/SadIcon"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, updateCurrency, pokeTeam } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, updateCurrency, pokeTeam, updateStatus } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
+    const [allResultsShown, setAllResultsShown] = useState(false)
     const [showAwarding, setShowAwarding] = useState(false)
     const bonus = useRef(0)
     const myRoll = useRef(0)
@@ -146,13 +148,15 @@ export default function ChallengeModal({ event }) {
     const awarding = (place) => {
         won.current = true
         myPlacing.current = place
+        
+        place === 0 && updateStatus('challenges')
         updateCurrency(event.prizes[place].amount, event.prizes[place].name)
     }
 
     useEffect(() => {
         if(opponents.length === opponentsRoll.length && hasIRolled.current) {
             awardDistribution()
-            setShowAwarding(true)
+            setAllResultsShown(true)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [opponentsRoll, myRoll.current])
@@ -188,7 +192,9 @@ export default function ChallengeModal({ event }) {
                                                         <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
                                                         {myPlacing.current === 0 && (
-                                                            <FirstPlaceIcon h={16} w={16} />
+                                                            <>
+                                                                <FirstPlaceIcon h={16} w={16} />
+                                                            </>
                                                         )}
                                                         {myPlacing.current === 1 && (
                                                             <SecondPlaceIcon h={16} w={16} />
@@ -304,13 +310,21 @@ export default function ChallengeModal({ event }) {
 
                                 <ModalFooter p={0}>
 
-                                    <Flex w="100%" h={12} justifyContent="space-between">
+                                    {allResultsShown ? (
+                                        <Flex w="100%" h={12} justifyContent="center">
+                                            <Button w="100%" onClick={() => setShowAwarding(true)}>
+                                                Show results
+                                            </Button>
+                                        </Flex>
+                                    ) : (
+                                        <Flex w="100%" h={12} justifyContent="space-between">
                                             <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
                                             <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
                                             {opponents.length > 1 && (
                                                 <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
                                             )}
-                                    </Flex>
+                                        </Flex>
+                                    )}
 
                                 </ModalFooter>
                             </>

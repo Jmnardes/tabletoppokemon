@@ -101,7 +101,7 @@ export default function PokeShop() {
 
                 <TableItem 
                     title={'Poke Ball'}
-                    price={0}
+                    price={1}
                     scaling={0}
                     // price={2}
                     // scaling={1}

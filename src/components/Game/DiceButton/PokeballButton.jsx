@@ -1,10 +1,11 @@
 import { Box, Center, Flex, Heading, IconButton, Image, keyframes, useColorMode } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { diceRoll } from '../../../util'
 import pokeballIcon from '../../../assets/images/pokeballs/pokeball.png'
 import greatballIcon from '../../../assets/images/pokeballs/greatball.png'
 import ultraballIcon from '../../../assets/images/pokeballs/ultraball.png'
 import masterballIcon from '../../../assets/images/pokeballs/masterball.png'
+import PlayerContext from '../../../Contexts/PlayerContext'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
 
@@ -54,6 +55,7 @@ export default function PokeballButton({
     type = 'pb',
     isDisabled
 }) {
+    const { updateStatus } = useContext(PlayerContext)
     const [rolling, setRolling] = useState(false)
     const [value, setValue] = useState(0)
 
@@ -96,6 +98,7 @@ export default function PokeballButton({
                     onAnimationEnd={(e) => {
                         if (endAnimationName === e.animationName) {
                             const rollValue = diceRoll(maxRow) + 1
+                            rollValue === (maxRow + 1) && updateStatus('critics')
                             setRolling(false)
                             setValue(rollValue)
                             onRoll && onRoll(rollValue)

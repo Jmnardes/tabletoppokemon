@@ -5,10 +5,12 @@ import { typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
+import SadIcon from "../../Icons/emote/SadIcon"
 
-export default function Encounter({ setCatchablePokemon }) {
-    const { session, encounter, emit, setLoadingApi } = useContext(PlayerContext)
+export default function Encounter() {
+    const { session, encounter, emit, setLoadingApi, updateGame, player } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
+    const [catchablePokemon, setCatchablePokemon] = useState(true)
     const catchDiceRolled = useRef(false)
     const catchablePokemons = useRef(4)
     const divisibleByThree = encounter.length % 3 === 0
@@ -78,7 +80,7 @@ export default function Encounter({ setCatchablePokemon }) {
                 >
                     <>
                         <Center position="absolute" mb={28}>
-                            <PokeRarity rarity={poke.rarity.rarity} />
+                            <PokeRarity rarity={poke.rarity} />
                         </Center>
                         <Image
                             h="100%" w="100%"
@@ -96,23 +98,43 @@ export default function Encounter({ setCatchablePokemon }) {
     }
 
     useEffect(() => {
-        catchablePokemons.current = 4
-    }, [])
-
-    useEffect(() => {
         if(catchablePokemons.current === 0 && catchDiceRolled.current) setCatchablePokemon(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [catchablePokemons.current, catchDiceRolled.current])
 
     return (
         <Center>
-            <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
-                <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
-                    {encounter.map(poke => {
-                        return <PokemonEncounterCard key={poke.id} poke={poke} />
-                    })}
-                </SimpleGrid>
-            </EncounterBalls>
+            {(player.balls.pokeball === 0 &&
+                player.balls.greatball === 0 && 
+                player.balls.ultraball === 0 &&
+                player.balls.masterball === 0 &&
+                catchRoll === 0) ? (
+                    <Button mt={6} h={12} onClick={() => {
+                        updateGame({ openEncounterModal: false })
+                    }}>
+                        Sorry, you don't have pokeballs
+                    </Button>
+            ) : (
+                <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
+                    {catchablePokemon && catchRoll > 0 ? (
+                        <Center flexDirection="column">
+                            <SadIcon h={16} w={16} />
+
+                            <Button mt={6} h={12} onClick={() => {
+                                updateGame({ openEncounterModal: false })
+                            }}>
+                                Sorry, they ran!
+                            </Button>
+                        </Center>
+                    ) : (
+                        <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
+                            {encounter.map(poke => {
+                                return <PokemonEncounterCard key={poke.id} poke={poke} />
+                            })}
+                        </SimpleGrid>
+                    )}
+                </EncounterBalls>
+            )}
         </Center>
     )
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import PokeballButton from "../DiceButton/PokeballButton";

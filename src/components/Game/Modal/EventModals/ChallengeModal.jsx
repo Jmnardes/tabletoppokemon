@@ -26,7 +26,6 @@ import { FaInfoCircle } from "react-icons/fa";
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
-import arrowIcon from '../../../../assets/images/game/arrow.png'
 import DiceButton from '../../DiceButton/DiceButton'
 import socket from "../../../../client"
 import SadIcon from "../../../Icons/emote/SadIcon"

@@ -35,7 +35,7 @@ export default function Encounter() {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const shiny = poke.rarity === 3
+        const shiny = poke.shiny
         let catchRollDifficulty = catchDifficulty(
             poke.tier, 
             session.gameDifficulty,

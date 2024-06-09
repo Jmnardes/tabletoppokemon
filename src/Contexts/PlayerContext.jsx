@@ -146,6 +146,11 @@ export function PlayerProvider({children}) {
     const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
     const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
 
+    const updatePokeball = (qty) => updateBall(qty, 'pokeball')
+    const updateGreatball = (qty) => updateBall(qty, 'greatball')
+    const updateUltraball = (qty) => updateBall(qty, 'ultraball')
+    const updateMasterball = (qty) => updateBall(qty,'masterball')
+
     const changeItem = (qty, which) => updatePlayer(qty, 'items', which)
     const updateItem = (qty, which) => updatePlayer(player.items[which] + qty, 'items', which)
 
@@ -163,6 +168,10 @@ export function PlayerProvider({children}) {
         }
         updatePlayer(newQty, 'currency', which);
     }
+
+    const updateCoins = (qty) => updateCurrency(qty, 'coins')
+    const updateStars = (qty) => updateCurrency(qty, 'stars')
+    const updateCrowns = (qty) => updateCurrency(qty, 'crowns')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
 
@@ -321,9 +330,16 @@ export function PlayerProvider({children}) {
 
             changeCurrency,
             updateCurrency,
+            updateCoins,
+            updateStars,
+            updateCrowns,
 
             updateBall,
             changeBall,
+            updatePokeball,
+            updateGreatball,
+            updateUltraball,
+            updateMasterball,
             
             updateItem,
             changeItem,

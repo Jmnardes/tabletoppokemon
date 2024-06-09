@@ -8,11 +8,12 @@ import PlayerContext from "../../../../Contexts/PlayerContext"
 import BattleContent from "../../Battle/BattleContent"
 import socket from "../../../../client"
 
-export default function BattleModal({ battleId, event }) {
+export default function BattleModal({ battleId, participants, event }) {
     const { player, setLoadingApi } = useContext(PlayerContext)
     const [isMyTurn, setIsMyTurn] = useState(false)
     const [myPokemonHp, setMyPokemonHp] = useState()
     const [opponent, setOpponent] = useState()
+    const [opponentTrainer, setOpponentTrainer] = useState()
     const [isPokemonBattling, setIsPokemonBattling] = useState(false)
     const [battleLog, setBattleLog] = useState([])
     const [turnWinner, setTurnWinner] = useState()
@@ -56,6 +57,13 @@ export default function BattleModal({ battleId, event }) {
     }
 
     useEffect(() => {
+        if (participants) {
+            const trainerOpponent = participants.find(participant => participant.id !== player.id);
+            setOpponentTrainer(trainerOpponent);
+        }
+    }, [participants, player]);
+
+    useEffect(() => {
         socket.on('battle-update', res => battleTurnUpdate(res))
 
         return () => {
@@ -73,9 +81,11 @@ export default function BattleModal({ battleId, event }) {
                 />
                 <ModalContent p={4}>
                     <BattleContent
+                        trainerName={player.status.trainerName}
                         battleId={battleId}
                         myPokemonHp={myPokemonHp}
                         isMyTurn={isMyTurn}
+                        opponentTrainer={opponentTrainer}
                         opponent={opponent}
                         isPokemonBattling={isPokemonBattling}
                         battleLog={battleLog}

@@ -1,6 +1,10 @@
 import { stringToUpperCase } from "."
 
-export const catchDifficulty = (tier, difficulty = 0, rarity, shiny = false) => {
+export const catchDifficulty = (tier, difficulty = 0, rarity, shiny = false, turns) => {
+  if (!turns) {
+    return 0
+  }
+
   switch (tier) {
     case 0:
       return tier = (1 + difficulty + rarity + shiny)

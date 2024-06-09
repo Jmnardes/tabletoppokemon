@@ -18,7 +18,7 @@ export default function ModalController() {
         setEncounter,
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
-    const [battleId, setBattleId] = useState('')
+    const [battle, setBattle] = useState({})
 
     useEffect(() => {
         socket.on('turn-start', res => {
@@ -45,7 +45,7 @@ export default function ModalController() {
                     break
                 case 'battle':
                     updateGame({ openBattleModal: true })
-                    setBattleId(res.event.battle.id)
+                    setBattle(res.event.battle)
                     break
                 default:
                     break
@@ -66,7 +66,7 @@ export default function ModalController() {
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
-            {game.openBattleModal && <BattleModal battleId={battleId} event={event}/>}
+            {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )
 }

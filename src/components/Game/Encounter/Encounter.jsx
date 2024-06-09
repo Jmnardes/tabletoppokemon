@@ -1,22 +1,20 @@
 import { Button, Center, Flex, Image, SimpleGrid, keyframes } from "@chakra-ui/react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import { typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
-import SadIcon from "../../Icons/emote/SadIcon"
 
 export default function Encounter() {
     const { session, encounter, emit, setLoadingApi, updateGame, player } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
-    const [catchablePokemon, setCatchablePokemon] = useState(true)
-    const catchDiceRolled = useRef(false)
-    const catchablePokemons = useRef(4)
+    const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
+    const [allDisabled, setAllDisabled] = useState(false);
     const divisibleByThree = encounter.length % 3 === 0
     
     const handleCatchDiceRoll = (result) => {
-        catchDiceRolled.current = true
+        setCatchDiceWasRolled(true)
         setCatchRoll(result)
     }
 
@@ -35,29 +33,26 @@ export default function Encounter() {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const shiny = poke.shiny
-        let catchRollDifficulty = catchDifficulty(
+        const catchRollDifficulty = catchDifficulty(
             poke.tier, 
             session.gameDifficulty,
             poke.rarity, 
-            shiny
+            poke.shiny,
+            session.turns
         )
 
-        if(session.turns === 0) catchRollDifficulty = 0
-
-        const disableCatch = !catchDiceRolled.current && catchRollDifficulty > catchRoll
+        const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
-        if(catchRollDifficulty > catchRoll) catchablePokemons.current--
     
         const pulseAnimation = keyframes`
             0% {
                 transform: scale(0.99);
-                box-shadow: 0 0 0 0 ${shiny ? 'white' : colorByType};
+                box-shadow: 0 0 0 0 ${poke.shiny ? 'white' : colorByType};
             }
         
             70% {
                 transform: scale(1);
-                box-shadow: 0 0 0 ${shiny ? '10px' : '6px'} rgba(0, 0, 0, 0);
+                box-shadow: 0 0 0 ${poke.shiny ? '10px' : '6px'} rgba(0, 0, 0, 0);
             }
         
             100% {
@@ -98,9 +93,19 @@ export default function Encounter() {
     }
 
     useEffect(() => {
-        if(catchablePokemons.current === 0 && catchDiceRolled.current) setCatchablePokemon(false)
+        const allDisabled = encounter.every(poke => {
+            const catchRollDifficulty = catchDifficulty(
+                poke.tier, 
+                session.gameDifficulty,
+                poke.rarity, 
+                poke.shiny,
+                session.turns
+            );
+            return (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree;
+        });
+        setAllDisabled(allDisabled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [catchablePokemons.current, catchDiceRolled.current])
+    }, [encounter, catchDiceWasRolled]);
 
     return (
         <Center>
@@ -108,32 +113,33 @@ export default function Encounter() {
                 player.balls.greatball === 0 && 
                 player.balls.ultraball === 0 &&
                 player.balls.masterball === 0 &&
-                catchRoll === 0) ? (
+                !catchDiceWasRolled) ? (
                     <Button mt={6} h={12} onClick={() => {
                         updateGame({ openEncounterModal: false })
                     }}>
                         Sorry, you don't have pokeballs
                     </Button>
             ) : (
-                <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
-                    {catchablePokemon && catchRoll > 0 ? (
-                        <Center flexDirection="column">
-                            <SadIcon h={16} w={16} />
-
-                            <Button mt={6} h={12} onClick={() => {
-                                updateGame({ openEncounterModal: false })
-                            }}>
-                                Sorry, they ran!
-                            </Button>
-                        </Center>
-                    ) : (
-                        <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
-                            {encounter.map(poke => {
-                                return <PokemonEncounterCard key={poke.id} poke={poke} />
-                            })}
-                        </SimpleGrid>
+                <Center flexDir={"column"}>
+                    <Center>
+                        <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
+                            <Center>
+                                <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
+                                    {encounter.map((poke, index) => {
+                                        return <PokemonEncounterCard key={poke.id} index={index} poke={poke} />
+                                    })}
+                                </SimpleGrid>
+                            </Center>
+                        </EncounterBalls>
+                    </Center>
+                    {!divisibleByThree && (
+                        <Button mt={6} h={12} w="100%" isDisabled={!allDisabled || !catchDiceWasRolled} 
+                            onClick={() => {updateGame({ openEncounterModal: false })}}
+                        >
+                            Leave encounter
+                        </Button>
                     )}
-                </EncounterBalls>
+                </Center>
             )}
         </Center>
     )

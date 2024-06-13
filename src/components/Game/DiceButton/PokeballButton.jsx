@@ -121,7 +121,6 @@ export default function PokeballButton({
                         >
                             {value}
                         </Heading>
-                        {console.log(bonus)}
                         {bonus !== 0 && (
                             <Heading
                                 fontSize='12px'

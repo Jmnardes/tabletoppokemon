@@ -56,13 +56,12 @@ export function PlayerProvider({children}) {
                 ...args, 
                 duration: args.duration ?? 6000,
                 render: () => (
-                    <Flex p={4} borderRadius={8}
-                        bg={bgColor}
-                        width="fit-content"
-                        flexDirection="column"
-                    >
-                        <Text mb={2}>{args.title}</Text>
-                        <Text fontSize="2xs">{args.description}</Text>
+                    <Flex p={4} borderRadius={8} bg={bgColor}>
+                        {args.icon && args.icon}
+                        <Flex ml={2} flexDir="column">
+                            <Text mb={2}>{args.title}</Text>
+                            <Text fontSize="2xs">{args.description}</Text>
+                        </Flex>
                     </Flex>
                 ),
             })

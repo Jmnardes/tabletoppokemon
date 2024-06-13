@@ -55,8 +55,8 @@ export function PlayerProvider({children}) {
             toast({
                 ...args, 
                 duration: args.duration ?? 6000,
-                render: () => (
-                    <Flex p={4} borderRadius={8} bg={bgColor}>
+                render: ({ onClose }) => (
+                    <Flex p={4} borderRadius={8} bg={bgColor} onClick={onClose}>
                         {args.icon && args.icon}
                         <Flex ml={2} flexDir="column">
                             <Text mb={2}>{args.title}</Text>

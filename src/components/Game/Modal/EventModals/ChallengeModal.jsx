@@ -329,7 +329,7 @@ export default function ChallengeModal({ event }) {
 
                                 <ModalFooter p={0}>
 
-                                    {allResultsShown ? (
+                                    {allResultsShown || refreshResults ? (
                                         <Flex w="100%" h={12} justifyContent="center">
                                             <Button w="100%" onClick={() => setShowAwarding(true)}>
                                                 Show results

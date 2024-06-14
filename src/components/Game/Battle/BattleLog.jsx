@@ -104,7 +104,7 @@ const BattleLog = ({ pokemon, battleLog, turnWinner }) => {
     }, [])
 
     return (
-        <Box w="100%" p={4}>
+        <Box w="100%" p={6} maxH="465px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
             {battleLog && pokemon && (
                 <>
                     <Center flexDirection="column">

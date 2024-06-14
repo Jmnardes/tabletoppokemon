@@ -17,7 +17,7 @@ export default function GameHeader() {
     return (
         <Center py={2} pr={2} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
             <Center>
-                <Text pb={1} px={4} fontWeight="bold">
+                <Text ml={2} pb={1} px={4} fontWeight="bold" backgroundColor={"gray.600"} borderRadius={6}>
                     {player.status.trainerName}
                 </Text>
                 <TrainerBar />
@@ -59,14 +59,11 @@ export default function GameHeader() {
                     ></Image>
                     {game.showBagLength && (
                         <Center 
-                            position="absolute" 
-                            right="-1" 
-                            bottom="-10px"
+                            position="absolute" right="-1" bottom="-10px"
+                            borderRadius="50%" width="20px" height="20px"
                             background={colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'}
-                            borderRadius="50%"
-                            width="19px"
                         >
-                            <Text fontSize={"sm"} lineHeight="18px" mb="1px">{pokeBox?.length}</Text>
+                            <Text fontSize={"xx-small"}>{pokeBox?.length}</Text>
                         </Center>
                     )}
                 </Button>

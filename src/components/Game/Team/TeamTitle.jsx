@@ -29,41 +29,40 @@ export default function TeamTitle({ pokeTeam }) {
     }
 
     return (
-        <Flex display="flex" flexDir="row" mt={12} py={2} borderRadius={8} 
-            background={colorMode === 'light' ? 'gray.400' : 'gray.600'}
-            title="Team stats"
-            cursor="pointer"
-        >
-            <StatTitle
-                stat="hp"
-                statName="health"
-                statIcon={<Health/>}
-            />
-            <StatTitle
-                stat="atk"
-                statName="attack"
-                statIcon={<Attack/>}
-            />
-            <StatTitle
-                stat="def"
-                statName="defense"
-                statIcon={<Defense/>}
-            />
-            <StatTitle
-                stat="evs"
-                statName="evasion"
-                statIcon={<Evasion/>}
-            />
-            <StatTitle
-                stat="acc"
-                statName="accuracy"
-                statIcon={<Accuracy/>}
-            />
-            <StatTitle
-                stat="crt"
-                statName="critical"
-                statIcon={<Critical/>}
-            />
+        <Flex mt={12} flexDir={"column"} alignItems={"center"} background={colorMode === 'light' ? 'gray.400' : 'gray.600'} borderRadius={8}>
+            <Text pt={2} fontSize={"xs"}>Team strength</Text>
+            <Flex display="flex" flexDir="row" py={2} title="Team stats" cursor="pointer">
+                <StatTitle
+                    stat="hp"
+                    statName="health"
+                    statIcon={<Health/>}
+                />
+                <StatTitle
+                    stat="atk"
+                    statName="attack"
+                    statIcon={<Attack/>}
+                />
+                <StatTitle
+                    stat="def"
+                    statName="defense"
+                    statIcon={<Defense/>}
+                />
+                <StatTitle
+                    stat="evs"
+                    statName="evasion"
+                    statIcon={<Evasion/>}
+                />
+                <StatTitle
+                    stat="acc"
+                    statName="accuracy"
+                    statIcon={<Accuracy/>}
+                />
+                <StatTitle
+                    stat="crt"
+                    statName="critical"
+                    statIcon={<Critical/>}
+                />
+            </Flex>
         </Flex>
     )
 }

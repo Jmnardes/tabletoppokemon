@@ -22,7 +22,7 @@ import SecondPlaceIcon from "../../../Icons/places/SecondPlaceIcon"
 import SuccessIcon from "../../../Icons/SuccessIcon"
 import ThirdPlaceIcon from "../../../Icons/places/ThirdPlaceIcon"
 import OpponentsResult from "./OpponentsResult"
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaRedo } from "react-icons/fa";
 import coinIcon from '../../../../assets/images/game/coin.png'
 import starIcon from '../../../../assets/images/game/star.png'
 import crownIcon from '../../../../assets/images/game/crown.png'
@@ -36,6 +36,7 @@ export default function ChallengeModal({ event }) {
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
     const [showAwarding, setShowAwarding] = useState(false)
+    const [refreshResults, setRefreshResults] = useState(false)
     const bonus = useRef(0)
     const myRoll = useRef(0)
     const myPlacing = useRef(0)
@@ -158,15 +159,21 @@ export default function ChallengeModal({ event }) {
             setAllResultsShown(true)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [opponentsRoll, myRoll.current])
+    }, [opponentsRoll, myRoll.current, refreshResults])
 
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setRefreshResults(true);
+        }, 30000);
+
         setOverlay(<Overlay />)
         checkChallengeBonus(pokeTeam)
 
         socket.on('event-roll-other', res => {
             setOpponentsRoll(old => [...old, res])
         })
+
+        return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -238,6 +245,19 @@ export default function ChallengeModal({ event }) {
                         ) : (
                             <>
                                 <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
+                                    {refreshResults && (
+                                        <FaRedo 
+                                            color="#89CFF0"
+                                            title="Refresh results" size={16}
+                                            cursor={"pointer"}
+                                            style={{
+                                                'position': 'absolute',
+                                                'top': '32px',
+                                                'left': '25px',
+                                            }}
+                                            onClick={() => setRefreshResults(true)}
+                                        />
+                                    )}
                                     {event.title}
                                     <Tooltip 
                                         label={
@@ -309,7 +329,7 @@ export default function ChallengeModal({ event }) {
 
                                 <ModalFooter p={0}>
 
-                                    {allResultsShown ? (
+                                    {allResultsShown || refreshResults ? (
                                         <Flex w="100%" h={12} justifyContent="center">
                                             <Button w="100%" onClick={() => setShowAwarding(true)}>
                                                 Show results

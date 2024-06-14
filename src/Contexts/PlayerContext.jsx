@@ -55,14 +55,13 @@ export function PlayerProvider({children}) {
             toast({
                 ...args, 
                 duration: args.duration ?? 6000,
-                render: () => (
-                    <Flex p={4} borderRadius={8}
-                        bg={bgColor}
-                        width="fit-content"
-                        flexDirection="column"
-                    >
-                        <Text mb={2}>{args.title}</Text>
-                        <Text fontSize="2xs">{args.description}</Text>
+                render: ({ onClose }) => (
+                    <Flex p={4} borderRadius={8} bg={bgColor} onClick={onClose}>
+                        {args.icon && args.icon}
+                        <Flex ml={2} flexDir="column">
+                            <Text mb={2}>{args.title}</Text>
+                            <Text fontSize="2xs">{args.description}</Text>
+                        </Flex>
                     </Flex>
                 ),
             })
@@ -81,15 +80,15 @@ export function PlayerProvider({children}) {
 
     const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
 
-    const updatePlayer = useCallback((qty, key, type) => {
+    const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
             const newObj = { ...player[key] }
     
-            newObj[type] = qty
+            newObj[type] = amount
     
             setPlayer({...player, [key]: newObj})
         } else {
-            setPlayer({...player, [key]: qty})
+            setPlayer({...player, [key]: amount})
         }
     }, [player])
 
@@ -143,35 +142,32 @@ export function PlayerProvider({children}) {
         })
     }
 
-    const changeBall = (qty, which) => updatePlayer(qty, 'balls', which)
-    const updateBall = (qty, which) => updatePlayer(player.balls[which] + qty, 'balls', which)
+    const changeBall = (amount, which) => updatePlayer(amount, 'balls', which)
+    const updateBall = (amount, which) => updatePlayer(player.balls[which] + amount, 'balls', which)
 
-    const updatePokeball = (qty) => updateBall(qty, 'pokeball')
-    const updateGreatball = (qty) => updateBall(qty, 'greatball')
-    const updateUltraball = (qty) => updateBall(qty, 'ultraball')
-    const updateMasterball = (qty) => updateBall(qty,'masterball')
+    const updatePokeball = (amount) => updateBall(amount, 'pokeball')
+    const updateGreatball = (amount) => updateBall(amount, 'greatball')
+    const updateUltraball = (amount) => updateBall(amount, 'ultraball')
+    const updateMasterball = (amount) => updateBall(amount,'masterball')
 
-    const changeItem = (qty, which) => updatePlayer(qty, 'items', which)
-    const updateItem = (qty, which) => updatePlayer(player.items[which] + qty, 'items', which)
+    const changeItem = (amount, which) => updatePlayer(amount, 'items', which)
+    const updateItem = (amount, which) => updatePlayer(player.items[which] + amount, 'items', which)
 
-    const changeCurrency = (qty, which) => {
-        let newQty = player.currency[which] + qty;
-        if (newQty < 0) {
-            newQty = 0;
-        }
-        updatePlayer(newQty, 'currency', which)
-    }
-    const updateCurrency = (qty, which) => {
-        let newQty = player.currency[which] + qty;
-        if (newQty < 0) {
-            newQty = 0;
-        }
-        updatePlayer(newQty, 'currency', which);
+    // const changeCurrency = (qty, which) => {
+    //     let newQty = player.currency[which] + qty;
+    //     if (newQty < 0) {
+    //         newQty = 0;
+    //     }
+    //     updatePlayer(newQty, 'currency', which)
+    // }
+    const updateCurrency = (amount, which) => {
+        const newAmount = player.currency[which] + amount;
+        updatePlayer(newAmount < 0 ? 0 : newAmount, 'currency', which);
     }
 
-    const updateCoins = (qty) => updateCurrency(qty, 'coins')
-    const updateStars = (qty) => updateCurrency(qty, 'stars')
-    const updateCrowns = (qty) => updateCurrency(qty, 'crowns')
+    const updateCoins = (amount) => updateCurrency(amount, 'coins')
+    const updateStars = (amount) => updateCurrency(amount, 'stars')
+    const updateCrowns = (amount) => updateCurrency(amount, 'crowns')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
 
@@ -328,7 +324,7 @@ export function PlayerProvider({children}) {
             updatePokeBox,
             removeFromPokeBox,
 
-            changeCurrency,
+            // changeCurrency,
             updateCurrency,
             updateCoins,
             updateStars,

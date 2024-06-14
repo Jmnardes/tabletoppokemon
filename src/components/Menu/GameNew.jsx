@@ -4,7 +4,7 @@ import socket from "../../client";
 
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
-    const [gameDuration, setGameDuration] = useState(20)
+    const [gameDuration, setGameDuration] = useState(30)
     const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
     const [formInvalid, setFormInvalid] = useState(true)

@@ -5,9 +5,10 @@ import { typeColor } from "../../../util";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "../../../util/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
+import pokeballIcon from "../../../assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
-    const { session, encounter, emit, setLoadingApi, updateGame, player } = useContext(PlayerContext)
+    const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false);
@@ -16,6 +17,28 @@ export default function Encounter() {
     const handleCatchDiceRoll = (result) => {
         setCatchDiceWasRolled(true)
         setCatchRoll(result)
+
+        const totalBalls = pokeballTotalSum()
+        if (totalBalls < 3) {
+            handleToast({
+                id: 'pokeballQuantityIsLow',
+                title: "You need more Pokeballs!",
+                description: `You have only ${totalBalls} in your bag.`,
+                icon: <Image 
+                        width="32px"
+                        src={pokeballIcon}
+                    ></Image>,
+                duration: 5000,
+                position: 'top',
+                status: 'warning'
+            })
+        }
+    }
+
+    const pokeballTotalSum = () => {
+        let ballsSum = Object.values(player.balls).reduce((acc, curr) => acc + curr, 0)
+        ballsSum -= 1
+        return ballsSum
     }
 
     const PokeRarity = ({ rarity }) => {

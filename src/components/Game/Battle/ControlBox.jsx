@@ -19,7 +19,7 @@ export default function ControlBox({
     turnWinner,
     event
 }) {
-    const { emit, setLoadingApi, updateGame, updatePlayer, updateStatus } = useContext(PlayerContext)
+    const { emit, setLoadingApi, updateGame, updateCurrency, updateStatus } = useContext(PlayerContext)
 
     const handleHitAnimation = () => {
         setHitAnimation(keyframes`
@@ -68,7 +68,7 @@ export default function ControlBox({
                         <>
                             <Center flex="1">
                                 <Text ml={4} fontSize={"3xl"}>
-                                    Battle ended, {turnWinner === pokemon?.id? `you received ${event.prizes[2].amount} coin(s)` : 'you lost!'}
+                                    Battle ended, {turnWinner === pokemon?.id? `you received ${event.prizes[1].amount} coin(s)` : 'you lost!'}
                                 </Text>
                             </Center>
                             <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
@@ -76,7 +76,7 @@ export default function ControlBox({
 
                                 if (turnWinner === pokemon?.id) {
                                     updateStatus('wins')
-                                    updatePlayer(prize.amount, prize.type, prize.name)
+                                    updateCurrency(prize.amount, prize.name)
                                 } else {
                                     updateStatus('loses')
                                 }

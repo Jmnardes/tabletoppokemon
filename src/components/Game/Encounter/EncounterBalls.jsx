@@ -3,8 +3,8 @@ import { useContext } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import PokeballButton from "../DiceButton/PokeballButton";
 
-export default function EncounterBalls({ children, handleCatchDiceRoll }) {
-    const { game, player, updateBall, updateGame, session } = useContext(PlayerContext)
+export default function EncounterBalls({ children, handleCatchDiceRoll, isStarter }) {
+    const { game, player, updateBall, updateGame } = useContext(PlayerContext)
 
     const handleBallClick = (updateAmount, type, bonus, roll) => {
         updateBall(updateAmount, type)
@@ -14,7 +14,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll }) {
 
     return (
         <>
-            {session.turns > 0 && (
+            {!isStarter && (
                 <Flex flexDirection="column" mr={8}>
                     <Box my={2} title="Poke Ball">
                         <PokeballButton 

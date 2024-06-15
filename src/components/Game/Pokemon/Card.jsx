@@ -81,7 +81,7 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                     fontWeight="bold"
                     backgroundColor={colorByType}
                 >
-                    {poke.tier}
+                    {poke.level}
                 </Flex>
                 
                 <CardTitle poke={poke} />

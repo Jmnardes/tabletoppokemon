@@ -257,7 +257,7 @@ export function PlayerProvider({children}) {
                 id: 'catch',
                 title: stringToUpperCase(res.pokemon.name),
                 description: (
-                    'Level: ' + res.pokemon.tier + ' |\n' + 
+                    'Level: ' + res.pokemon.level + ' |\n' + 
                     'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + ' |\n' + 
                     'Nature: ' + stringToUpperCase(res.pokemon.nature)
                 ),

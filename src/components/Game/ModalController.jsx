@@ -39,6 +39,7 @@ export default function ModalController() {
                         icon: <Image
                                 width="32px"
                                 src={pokemon.sprites.mini}
+                                fallbackSrc={pokemon.sprites.front}
                             ></Image>,
                         duration: 5000,
                         position: 'top',

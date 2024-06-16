@@ -37,10 +37,10 @@ export default function ChallengeModal({ event }) {
     const [allResultsShown, setAllResultsShown] = useState(false)
     const [showAwarding, setShowAwarding] = useState(false)
     const [refreshResults, setRefreshResults] = useState(false)
+    const [hasIRolled, setHasIRolled] = useState(false)
     const bonus = useRef(0)
     const myRoll = useRef(0)
     const myPlacing = useRef(0)
-    const hasIRolled = useRef(false)
     const won = useRef(false)
 
     const Overlay = () => (
@@ -154,7 +154,7 @@ export default function ChallengeModal({ event }) {
     }
 
     useEffect(() => {
-        if(opponents.length === opponentsRoll.length && hasIRolled.current) {
+        if(opponents.length === opponentsRoll.length && hasIRolled) {
             awardDistribution()
             setAllResultsShown(true)
         }
@@ -320,7 +320,7 @@ export default function ChallengeModal({ event }) {
                                     <OpponentsResult opponentsRoll={opponentsRoll} />
                                     <DiceButton bonus={bonus.current} onRoll={(roll) => {
                                         myRoll.current = roll + bonus.current
-                                        hasIRolled.current = true
+                                        setHasIRolled(true)
                                         emit('event-roll', roll + bonus.current)
                                     }} />
                                 </Center>
@@ -329,7 +329,7 @@ export default function ChallengeModal({ event }) {
 
                                 <ModalFooter p={0}>
 
-                                    {allResultsShown || refreshResults ? (
+                                    {allResultsShown || (refreshResults && hasIRolled) ? (
                                         <Flex w="100%" h={12} justifyContent="center">
                                             <Button w="100%" onClick={() => setShowAwarding(true)}>
                                                 Show results

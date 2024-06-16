@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Text, useColorMode, useToast } from "@chakra-ui/react";
+import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
 import { rarityName, stringToUpperCase } from "../util";
@@ -7,7 +7,6 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
-    const { colorMode } = useColorMode()
     const [loadingApi, setLoadingApi] = useState(false)
     const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
@@ -50,6 +49,7 @@ export function PlayerProvider({children}) {
 
         if(args.status === 'error') bgColor = 'red.400'
         if(args.status === 'warning') bgColor = 'orange.400'
+        if(args.status === 'success') bgColor = 'green.400'
 
         if (!toast.isActive(args.id)) {
             toast({
@@ -122,6 +122,14 @@ export function PlayerProvider({children}) {
     }, [])
 
     const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
+    const updatePokemonOnTeam = (updatedPoke) => {
+        setPokeTeam(old => old.map(poke => {
+            if(poke.id === updatedPoke.id) {
+                return updatedPoke
+            }
+            return poke
+        }))
+    }
     const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
     const removeFromPokeTeam = (poke, arr) => {
         // eslint-disable-next-line array-callback-return
@@ -257,7 +265,7 @@ export function PlayerProvider({children}) {
                 id: 'catch',
                 title: stringToUpperCase(res.pokemon.name),
                 description: (
-                    'Level: ' + res.pokemon.tier + ' |\n' + 
+                    'Level: ' + res.pokemon.level + ' |\n' + 
                     'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + ' |\n' + 
                     'Nature: ' + stringToUpperCase(res.pokemon.nature)
                 ),
@@ -319,6 +327,7 @@ export function PlayerProvider({children}) {
 
             pokeTeam,
             updatePokeTeam,
+            updatePokemonOnTeam,
             removeFromPokeTeam,
             pokeBox,
             updatePokeBox,

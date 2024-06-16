@@ -1,36 +1,22 @@
 import { stringToUpperCase } from "."
 
-export const catchDifficulty = (tier, difficulty = 0, rarity, shiny = false, turns) => {
-  if (!turns) {
+export const catchDifficulty = (session, poke, team) => {
+  const { gameDifficulty, turns } = session
+  const { level, rarity } = poke
+
+  if (turns === 1) {
     return 0
   }
 
-  switch (tier) {
-    case 0:
-      return tier = (1 + difficulty + rarity + shiny)
-    case 1:
-      return tier = (2 + difficulty + rarity + shiny)
-    case 2:
-      return tier = (3 + difficulty + rarity + shiny)
-    case 3:
-      return tier = (4 + difficulty + rarity + shiny)
-    case 4:
-      return tier = (5 + difficulty + rarity + shiny)
-    case 5:
-      return tier = (6 + difficulty + rarity + shiny)
-    case 6:
-      return tier = (7 + difficulty + rarity + shiny)
-    case 7:
-      return tier = (8 + difficulty + rarity + shiny)
-    case 8:
-      return tier = (9 + difficulty + rarity + shiny)
-    case 9:
-      return tier = (10 + difficulty + rarity + shiny)
-    case 10:
-      return tier = (11 + difficulty + rarity + shiny)
-    default:
-      return tier = (12 + difficulty + rarity + shiny)
-  }
+  const initialDifficulty = 6
+  const turnVarianceDifficulty = Math.floor((level - 1) / 10)
+
+  const teamPokemonStrength = team.reduce((acc, curr) => acc + curr.level + curr.rarity.rarity, 0)
+  const teamPokemonStrengthMean = Math.ceil(teamPokemonStrength / team.length)
+  const wildPokemonStrength = gameDifficulty + rarity + level
+  const battleDifficulty = wildPokemonStrength - teamPokemonStrengthMean
+
+  return initialDifficulty + battleDifficulty + turnVarianceDifficulty
 }
 
 export const endTurnExp = () => {

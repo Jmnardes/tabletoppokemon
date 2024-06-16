@@ -20,7 +20,7 @@ export default function EncounterModal() {
                 />
                 <ModalContent p={4}>
                     <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
-                        {session.turns === 0 ? (
+                        {session.turns === 1 ? (
                             'Starter Pokémon'
                         ) : (
                             'Pokémon Encounter'

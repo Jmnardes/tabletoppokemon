@@ -164,7 +164,7 @@ export default function ChallengeModal({ event }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setRefreshResults(true);
-        }, 30000);
+        }, 15000);
 
         setOverlay(<Overlay />)
         checkChallengeBonus(pokeTeam)

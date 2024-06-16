@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Image, SimpleGrid, keyframes } from "@chakra-ui/react";
+import { Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "../../../Contexts/PlayerContext";
 import { typeColor } from "../../../util";
@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa"
 import pokeballIcon from "../../../assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
-    const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast } = useContext(PlayerContext)
+    const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false);
@@ -56,13 +56,7 @@ export default function Encounter() {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const catchRollDifficulty = catchDifficulty(
-            poke.tier, 
-            session.gameDifficulty,
-            poke.rarity, 
-            poke.shiny,
-            session.turns
-        )
+        const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam)
 
         const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
@@ -98,7 +92,9 @@ export default function Encounter() {
                 >
                     <>
                         <Center position="absolute" mb={28}>
-                            <PokeRarity rarity={poke.rarity} />
+                            <Text fontSize={"2xs"}>{
+                                session.turns === 1 ? 1 : poke.level
+                            }</Text>
                         </Center>
                         <Image
                             h="100%" w="100%"
@@ -109,6 +105,9 @@ export default function Encounter() {
                             _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
                             boxShadow={`0 0 4px 1px ${colorByType}`}
                         />
+                        <Center position="absolute" mt={28}>
+                            <PokeRarity rarity={poke.rarity} />
+                        </Center>
                     </>
                 </Button>
             </Flex>
@@ -117,13 +116,7 @@ export default function Encounter() {
 
     useEffect(() => {
         const allDisabled = encounter.every(poke => {
-            const catchRollDifficulty = catchDifficulty(
-                poke.tier, 
-                session.gameDifficulty,
-                poke.rarity, 
-                poke.shiny,
-                session.turns
-            );
+            const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam)
             return (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree;
         });
         setAllDisabled(allDisabled);
@@ -145,7 +138,7 @@ export default function Encounter() {
             ) : (
                 <Center flexDir={"column"}>
                     <Center>
-                        <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll}>
+                        <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll} isStarter={divisibleByThree}>
                             <Center>
                                 <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
                                     {encounter.map((poke, index) => {

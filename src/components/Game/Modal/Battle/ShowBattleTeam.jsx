@@ -61,7 +61,7 @@ export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
                                 <Center>
                                     <Kbd w="fit-content">
                                         <Center flexDir="row">
-                                            {poke.tier} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
+                                            {poke.level} - {stringToUpperCase(poke.nature)} - <Types types={poke.types} w={3} h={3}/>
                                         </Center>
                                     </Kbd>
                                 </Center>

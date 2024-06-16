@@ -29,7 +29,6 @@ export default function ModalController() {
 
             setSession(old => ({...old, turns: res.turn}))
             updateOpponents(false, 'turnReady')
-
             if (trainedPokemons.length > 0) {
                 trainedPokemons.forEach(pokemon => {
                     updatePokemonOnTeam(pokemon)
@@ -40,6 +39,7 @@ export default function ModalController() {
                         icon: <Image
                                 width="32px"
                                 src={pokemon.sprites.mini}
+                                fallbackSrc={pokemon.sprites.front}
                             ></Image>,
                         duration: 5000,
                         position: 'top',

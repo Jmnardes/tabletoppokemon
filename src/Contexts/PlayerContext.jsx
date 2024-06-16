@@ -13,6 +13,7 @@ export function PlayerProvider({children}) {
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [confetti, setConfetti] = useState(true)
     const [session, setSession] = useState({})
+    const [roomPlayers, setRoomPlayers] = useState([])
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
     const [encounter, setEncounter] = useState({})
@@ -50,6 +51,7 @@ export function PlayerProvider({children}) {
         if(args.status === 'error') bgColor = 'red.400'
         if(args.status === 'warning') bgColor = 'orange.400'
         if(args.status === 'success') bgColor = 'green.400'
+        if(args.status === 'info') bgColor = 'blue.400'
 
         if (!toast.isActive(args.id)) {
             toast({
@@ -108,7 +110,6 @@ export function PlayerProvider({children}) {
             })))
         }
     }, [])
-
     const updateOpponents = useCallback((value, key, type = null) => {
         if(type) {
             setOpponents((old => old.map(opponent => {
@@ -120,6 +121,8 @@ export function PlayerProvider({children}) {
             setOpponents((old => old.map(opponent => ({ ...opponent, [key]: value }))))
         }
     }, [])
+    const newOpponent = (opponent) => setOpponents(old => [...old, opponent])
+    const removeOpponentById = (id) => setOpponents(old => old.filter(player => player.id!== id))
 
     const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
     const updatePokemonOnTeam = (updatedPoke) => {
@@ -216,11 +219,41 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('session-join-other', res => {
-            setOpponents(old => ([ ...(old ?? []), res ]))
+            handleToast({
+                id: 'opponent-join',
+                title: `${res.status.trainerName} joined the room`,
+                status: 'info',
+            })
+            newOpponent(res)
         })
 
         socket.on('session-leave-other', res => {
-            setOpponents(old => (old.filter(opponent => opponent.id !== res)))
+            handleToast({
+                id: 'opponent-left',
+                title: `${res.name} left the room`,
+                status: 'info',
+            })
+            removeOpponentById(res.id)
+        })
+
+        socket.on('player-session-disconnected', res => {
+            handleToast({
+                id: 'session-disconnection',
+                title: 'User disconnected',
+                description: `${res} was disconnected from the server`,
+                status: 'error',
+            })
+            setLoadingApi(true)
+        })
+
+        socket.on('player-session-reconnected', res => {
+            handleToast({
+                id: 'session-reconnection',
+                title: 'User reconnected',
+                description: `${res} reconnected`,
+                status: 'success',
+            })
+            setLoadingApi(false)
         })
 
             // LOBBY

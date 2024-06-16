@@ -182,6 +182,8 @@ export function PlayerProvider({children}) {
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
 
+    const updateLoading = (bool) => setLoadingApi(bool)
+
     useEffect(() => {
         if (player.status) {
             emit('player-update-status', { level: player.status.level })
@@ -243,7 +245,7 @@ export function PlayerProvider({children}) {
                 description: `${res} was disconnected from the server`,
                 status: 'error',
             })
-            setLoadingApi(true)
+            updateLoading(true)
         })
 
         socket.on('player-session-reconnected', res => {
@@ -253,7 +255,7 @@ export function PlayerProvider({children}) {
                 description: `${res} reconnected`,
                 status: 'success',
             })
-            setLoadingApi(false)
+            updateLoading(false)
         })
 
             // LOBBY
@@ -292,7 +294,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-capture-pokemon', res => {
-            setLoadingApi(false)
+            updateLoading(false)
             // console.log('catch pokemon:', res)
             handleToast({
                 id: 'catch',

@@ -7,6 +7,7 @@ import EncounterModal from "./Modal/EventModals/EncounterModal";
 import WalkModal from "./Modal/EventModals/WalkModal";
 import PokeBoxModal from "./Modal/PokeBoxModal";
 import PokeShopModal from "./Modal/PokeShopModal";
+import { Image } from "@chakra-ui/react";
 
 export default function ModalController() {
     const { 
@@ -15,15 +16,37 @@ export default function ModalController() {
         updateOpponents, 
         setWaitingForPlayers, 
         updateGame, 
+        updatePokemonOnTeam,
         setEncounter,
+        handleToast
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
 
     useEffect(() => {
         socket.on('turn-start', res => {
+            const trainedPokemons = res.trained
+
             setSession(old => ({...old, turns: res.turn}))
             updateOpponents(false, 'turnReady')
+
+            if (trainedPokemons.length > 0) {
+                trainedPokemons.forEach(pokemon => {
+                    updatePokemonOnTeam(pokemon)
+                    handleToast({
+                        id: pokemon.id,
+                        title: "Pokémon level up!",
+                        description: `${pokemon.name} has leveled up to ${pokemon.level}!`,
+                        icon: <Image
+                                width="32px"
+                                src={pokemon.sprites.mini}
+                            ></Image>,
+                        duration: 5000,
+                        position: 'top',
+                        status: 'success'
+                    })
+                })
+            }
 
             setEvent({
                 title: res.event.title,

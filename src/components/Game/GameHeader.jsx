@@ -8,6 +8,7 @@ import PokeballStats from './Trainer/PokeballStats'
 import shopIcon from '../../assets/images/game/shop.png'
 import bagIcon from '../../assets/images/game/bag.png'
 import battleIcon from '../../assets/images/game/battle.png'
+import bulbasaurIcon from '../../assets/images/pokemons/bulbasaur.png'
 import gymIcon from '../../assets/images/game/event3.png'
 
 export default function GameHeader() {
@@ -45,6 +46,14 @@ export default function GameHeader() {
                         w="32px"
                     ></Image>
                 </Button> */}
+
+                <Button onClick={() => updateGame({ openDayCareModal: true })}>
+                    <Image
+                        src={bulbasaurIcon} 
+                        title={'Pokémon Day Care'}
+                        w="32px"
+                    ></Image>
+                </Button>
                 
                 <Button 
                     mx={2}

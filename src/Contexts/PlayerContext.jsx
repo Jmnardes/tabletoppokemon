@@ -13,7 +13,6 @@ export function PlayerProvider({children}) {
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [confetti, setConfetti] = useState(true)
     const [session, setSession] = useState({})
-    const [roomPlayers, setRoomPlayers] = useState([])
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
     const [encounter, setEncounter] = useState({})
@@ -32,7 +31,8 @@ export function PlayerProvider({children}) {
         openEncounterModal: false,
         openSelectScreenModal: false,
         openPokeBoxModal: false,
-        openBattleModal: false
+        openBattleModal: false,
+        openDayCareModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -152,6 +152,15 @@ export function PlayerProvider({children}) {
             setPokeBox(arr)
         })
     }
+    const removeFromPokeBoxById = (id, arr) => {
+        // eslint-disable-next-line array-callback-return
+        arr.filter((data, index) => {
+            if(data.id === id) {
+                arr.splice(index, 1)
+            }
+            setPokeBox(arr)
+        })
+    }
 
     const changeBall = (amount, which) => updatePlayer(amount, 'balls', which)
     const updateBall = (amount, which) => updatePlayer(player.balls[which] + amount, 'balls', which)
@@ -181,6 +190,7 @@ export function PlayerProvider({children}) {
     const updateCrowns = (amount) => updateCurrency(amount, 'crowns')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
+    const updateStatusAmount = (status, amount) => updatePlayer(player.status[status] + amount, 'status', status)
 
     const updateLoading = (bool) => setLoadingApi(bool)
 
@@ -298,19 +308,19 @@ export function PlayerProvider({children}) {
             // console.log('catch pokemon:', res)
             handleToast({
                 id: 'catch',
-                title: stringToUpperCase(res.pokemon.name),
+                title: 'You caught a Pokémon!',
                 description: (
-                    'Level: ' + res.pokemon.level + ' |\n' + 
-                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity) + ' |\n' + 
-                    'Nature: ' + stringToUpperCase(res.pokemon.nature)
+                    'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
+                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
                 ),
                 icon: <Image 
                         width="32px"
                         src={res.pokemon.sprites.mini} 
                         fallbackSrc={res.pokemon.sprites.front}
                     ></Image>,
-                duration: 4000,
-                position: 'top'
+                duration: 5000,
+                position: 'bottom-left',
+                status: 'success',
             })
 
             if (res.catches > 3) {
@@ -367,6 +377,7 @@ export function PlayerProvider({children}) {
             pokeBox,
             updatePokeBox,
             removeFromPokeBox,
+            removeFromPokeBoxById,
 
             // changeCurrency,
             updateCurrency,
@@ -385,6 +396,7 @@ export function PlayerProvider({children}) {
             changeItem,
 
             updateStatus,
+            updateStatusAmount,
 
             results,
 

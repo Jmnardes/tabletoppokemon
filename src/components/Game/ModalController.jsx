@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Image } from "@chakra-ui/react";
 import socket from "../../client";
 import PlayerContext from "../../Contexts/PlayerContext";
 import BattleModal from "./Modal/EventModals/BattleModal";
@@ -7,7 +8,7 @@ import EncounterModal from "./Modal/EventModals/EncounterModal";
 import WalkModal from "./Modal/EventModals/WalkModal";
 import PokeBoxModal from "./Modal/PokeBoxModal";
 import PokeShopModal from "./Modal/PokeShopModal";
-import { Image } from "@chakra-ui/react";
+import PokeDayCare from "./Modal/PokeDayCare/PokeDayCare";
 
 export default function ModalController() {
     const { 
@@ -42,7 +43,6 @@ export default function ModalController() {
                                 fallbackSrc={pokemon.sprites.front}
                             ></Image>,
                         duration: 5000,
-                        position: 'top',
                         status: 'success'
                     })
                 })
@@ -90,6 +90,7 @@ export default function ModalController() {
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
+            {game.openDayCareModal && <PokeDayCare />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

@@ -203,5 +203,5 @@ export const rarityName = (rarity) => {
     if (rarity === 0) return 'Common'
     if (rarity === 1) return 'Uncommon'
     if (rarity === 2) return 'Rare'
-    if (rarity === 3) return 'Special'
+    if (rarity === 3) return 'Shiny'
 }

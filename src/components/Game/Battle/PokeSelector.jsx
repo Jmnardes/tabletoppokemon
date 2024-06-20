@@ -60,7 +60,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
 
     return (
         <Button
-            mx={2}
+            mx={6}
             alignItems="center" 
             flexDirection="column"
             h={20}

@@ -6,9 +6,10 @@ import BattleModal from "./Modal/EventModals/BattleModal";
 import ChallengeModal from "./Modal/EventModals/ChallengeModal";
 import EncounterModal from "./Modal/EventModals/EncounterModal";
 import WalkModal from "./Modal/EventModals/WalkModal";
-import PokeBoxModal from "./Modal/PokeBoxModal";
 import PokeShopModal from "./Modal/PokeShopModal";
 import PokeDayCare from "./Modal/PokeDayCare/PokeDayCare";
+import PokeItemsModal from "./Modal/PokeItems/PokeItemsModal";
+import PokeBoxModal from "./Modal/PokeBag/PokeBoxModal";
 
 export default function ModalController() {
     const { 
@@ -43,6 +44,7 @@ export default function ModalController() {
                                 fallbackSrc={pokemon.sprites.front}
                             ></Image>,
                         duration: 5000,
+                        position: 'bottom-left',
                         status: 'success'
                     })
                 })
@@ -91,6 +93,7 @@ export default function ModalController() {
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
             {game.openDayCareModal && <PokeDayCare />}
+            {game.openPokeItemModal && <PokeItemsModal />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

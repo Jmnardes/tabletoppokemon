@@ -33,6 +33,7 @@ export function PlayerProvider({children}) {
         openPokeBoxModal: false,
         openBattleModal: false,
         openDayCareModal: false,
+        openPokeItemModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -170,8 +171,8 @@ export function PlayerProvider({children}) {
     const updateUltraball = (amount) => updateBall(amount, 'ultraball')
     const updateMasterball = (amount) => updateBall(amount,'masterball')
 
-    const changeItem = (amount, which) => updatePlayer(amount, 'items', which)
-    const updateItem = (amount, which) => updatePlayer(player.items[which] + amount, 'items', which)
+    const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
+    const updateItem = (amount, type) => updatePlayer(player.items[type] + amount, 'items', type)
 
     // const changeCurrency = (qty, which) => {
     //     let newQty = player.currency[which] + qty;
@@ -190,7 +191,7 @@ export function PlayerProvider({children}) {
     const updateCrowns = (amount) => updateCurrency(amount, 'crowns')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
-    const updateStatusAmount = (status, amount) => updatePlayer(player.status[status] + amount, 'status', status)
+    const updateStatusAmount = (amount, status) => updatePlayer(player.status[status] + amount, 'status', status)
 
     const updateLoading = (bool) => setLoadingApi(bool)
 

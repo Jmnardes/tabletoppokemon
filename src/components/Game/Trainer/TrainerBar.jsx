@@ -3,7 +3,7 @@ import clockIcon from '../../../assets/images/game/clock.png'
 import crownIcon from '../../../assets/images/game/crown.png'
 import starIcon from '../../../assets/images/game/star.png'
 import coinIcon from '../../../assets/images/game/coin.png'
-import cristalIcon from '../../../assets/images/game/crystal.png'
+import dustIcon from '../../../assets/images/items/dust.png'
 import lureIcon from '../../../assets/images/items/lure.png'
 
 import { useContext } from "react";
@@ -51,11 +51,11 @@ export default function TrainerBar() {
             </Flex>
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image
-                    src={cristalIcon}
-                    title={'Candy'}
+                    src={dustIcon}
+                    title={'Dust'}
                     w="24px"
                 ></Image>
-                <Text ml={2} fontSize="2xs">{player.status.candy}</Text>
+                <Text ml={2} fontSize="2xs">{player.items.dust}</Text>
             </Flex>
             {/* <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
                 <Image

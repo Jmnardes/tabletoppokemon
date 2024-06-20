@@ -1,4 +1,6 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
+import PlayerContext from "../../../../Contexts/PlayerContext"
+import socket from "../../../../client"
 import {
     Modal,
     ModalContent,
@@ -8,13 +10,13 @@ import {
     CloseButton,
     Center,
     ModalBody,
+    Image,
 } from "@chakra-ui/react"
 import DayCareContent from "./DayCareContent"
-import PlayerContext from "../../../../Contexts/PlayerContext"
-import socket from "../../../../client"
+import dustIcon from '../../../../assets/images/items/dust.png'
 
 export default function PokeDayCare() {
-    const { updateGame, pokeBox, removeFromPokeBoxById, setLoadingApi, emit, handleToast, updateStatusAmount } = useContext(PlayerContext)
+    const { updateGame, pokeBox, removeFromPokeBoxById, setLoadingApi, emit, handleToast, updateItem } = useContext(PlayerContext)
 
     const handleTrade = (pokemon) => {
         emit('player-pokemon-trade', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
@@ -26,13 +28,15 @@ export default function PokeDayCare() {
             setLoadingApi(false)
             
             if (res) {
+                console.log(res)
                 removeFromPokeBoxById(res.pokeId, pokeBox)
-                updateStatusAmount('candy', res.candy)
+                updateItem(res.dust, 'dust')
                 handleToast({
                     title: 'Pokémon care',
-                    description: `Your ${res.name} will be treated with kindness, you received ${res.candy} candy(s)`,
+                    description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
                     status: 'info',
-                    duration: 6000
+                    duration: 6000,
+                    icon:<Image src={dustIcon} w={12}></Image>
                 })
             }
         })

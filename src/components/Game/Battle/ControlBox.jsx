@@ -96,14 +96,16 @@ export default function ControlBox({
             ) : (
                 <Flex flex="1" justifyContent="space-between" alignItems="center" mx={32}>
                     <Text fontSize={"4xl"} m={8}>Select your pokemon</Text>
-                    {team.map(poke => {
-                        return <PokeSelector
-                            key={poke.id} 
-                            poke={poke} 
-                            setPokemon={setPokemon}
-                            battleId={battleId}
-                        />
-                    })}
+                    <Center>
+                        {team.map(poke => {
+                            return <PokeSelector
+                                key={poke.id} 
+                                poke={poke} 
+                                setPokemon={setPokemon}
+                                battleId={battleId}
+                            />
+                        })}
+                    </Center>
                 </Flex>
             )}
         </>

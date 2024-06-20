@@ -9,6 +9,7 @@ import shopIcon from '../../assets/images/game/shop.png'
 import bagIcon from '../../assets/images/game/bag.png'
 import battleIcon from '../../assets/images/game/battle.png'
 import bulbasaurIcon from '../../assets/images/pokemons/bulbasaur.png'
+import venonatIcon from '../../assets/images/pokemons/venonat.png'
 import gymIcon from '../../assets/images/game/event3.png'
 
 export default function GameHeader() {
@@ -47,7 +48,15 @@ export default function GameHeader() {
                     ></Image>
                 </Button> */}
 
-                <Button onClick={() => updateGame({ openDayCareModal: true })}>
+                <Button mx={1} onClick={() => updateGame({ openPokeItemModal: true })}>
+                    <Image
+                        src={venonatIcon} 
+                        title={'Pokémon Items'} 
+                        w="32px"
+                    ></Image>
+                </Button>
+
+                <Button mx={1} onClick={() => updateGame({ openDayCareModal: true })}>
                     <Image
                         src={bulbasaurIcon} 
                         title={'Pokémon Day Care'}
@@ -56,7 +65,7 @@ export default function GameHeader() {
                 </Button>
                 
                 <Button 
-                    mx={2}
+                    mx={1}
                     onClick={() => {
                         updateGame({ openPokeBoxModal: true, showBagLength: false })
                     }}
@@ -77,7 +86,7 @@ export default function GameHeader() {
                     )}
                 </Button>
 
-                <Button onClick={() => updateGame({ openPokeShop: true })}>
+                <Button mx={1} onClick={() => updateGame({ openPokeShop: true })}>
                     <Image
                         src={shopIcon} 
                         title={'Shop'}

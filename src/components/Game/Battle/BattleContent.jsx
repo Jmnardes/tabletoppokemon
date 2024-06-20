@@ -6,6 +6,7 @@ import BattleScreen from "./BattleScreen";
 import { useEffect } from "react";
 import socket from "../../../client";
 import OpponentPoke from "./OpponentPoke";
+import ElementsList from "../Team/ElementsList";
 
 export default function BattleContent({
     trainerName,
@@ -68,6 +69,9 @@ export default function BattleContent({
                     />
                 </Center>
                 <Center h={60} w="100%" background={colorMode === 'light' ? "gray.300" : "gray.600"} borderRadius={16}>
+                    <Center position={"absolute"} mb={52}>
+                        <ElementsList />
+                    </Center>
                     <ControlBox
                         battleId={battleId}
                         isMyTurn={isMyTurn}

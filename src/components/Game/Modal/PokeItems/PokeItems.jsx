@@ -28,7 +28,6 @@ export default function PokeItems({ selectedPokemon }) {
                 <Center flexDir={"column"}>
                     <Text mb={6}>Poke Items</Text>
 
-                    {console.log(items.incense)}
                     {items &&
                         <Center flexDir={"column"}>
                             <ShowItem itemName={"Dust"} amount={items.dust} icon={"dust"} />

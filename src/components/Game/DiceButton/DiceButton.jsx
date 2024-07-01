@@ -3,45 +3,9 @@ import SixSidesDiceIcon from '../../Icons/dices/SixSidesDice'
 import { useState } from 'react'
 import { diceRoll } from '../../../util'
 import TwentySidesDice from '../../Icons/dices/TwentySidesDice'
+import { diceShakeAnimation, diceRollAnimation, diceSpinAnimation, textShowAnimation } from '../../Animations'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
-
-const diceShakeAnimation = keyframes`
-    0% { transform: rotate(0deg) }
-    5% { transform: rotate(-15deg) }
-    10% { transform: rotate(0deg) }
-    15% { transform: rotate(15deg) }
-    20% { transform: rotate(0deg) }
-    35% { transform: rotate(0deg) }
-    40% { transform: rotate(-15deg) }
-    45% { transform: rotate(0deg) }
-    50% { transform: rotate(15deg) }
-    55% { transform: rotate(0deg) }
-` + ' 0.8s ease-in-out infinite'
-
-const diceRollAnimation = keyframes`
-    0% { transform: translateY(0) }
-    100% { transform: translateY(-50px) }
-` + ' 0.4s cubic-bezier(0, 0.6, 0.4, 1) 0s 1, '
-+ keyframes`
-    0% { transform: translateY(-50px) }
-    100% { transform: translateY(0) }
-` + ' 0.4s cubic-bezier(0.6, 0, 1, 0.4) 0.4s 1'
-
-const diceSpinAnimation = keyframes`
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
-` + ' 0.3s linear 0s infinite'
-
-const textShowAnimation = keyframes`
-    0% {
-        transform: translateY(-1rem);
-        opacity: 0.3;
-    }
-    100% {
-        transform: translateY(-2rem);
-    }
-` + ' 0.2s ease-out 0s 1 normal forwards'
 
 const endAnimationName = diceRollAnimation.match(regex)[2]
 

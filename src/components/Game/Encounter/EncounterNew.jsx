@@ -1,19 +1,22 @@
-import { Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react"
+import { Button, Center, Flex, Image, SimpleGrid, Text, Tooltip, keyframes, useColorMode } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import PlayerContext from "../../../Contexts/PlayerContext"
-import { typeColor } from "../../../util"
+import { detailedDifficultyColors, typeColor } from "../../../util"
 import EncounterBalls from "./EncounterBalls"
-import { catchDifficulty } from "../../../util/pokemonFunctions"
+import { catchDifficulty, varianceCatchDifficulty } from "../../../util/pokemonFunctions"
 import { FaStar } from "react-icons/fa"
 import pokeballIcon from "../../../assets/images/pokeballs/pokeball.png"
 import { pulseAnimation } from "../../Animations"
+import { FaInfoCircle } from "react-icons/fa";
+import CustomTooltip from "../Modal/CustomTooltip"
 
-export default function Encounter() {
+export default function EncounterNew() {
     const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false);
     const divisibleByThree = encounter.length % 3 === 0
+    const { colorMode } = useColorMode()
     
     const handleCatchDiceRoll = (result) => {
         setCatchDiceWasRolled(true)
@@ -58,6 +61,10 @@ export default function Encounter() {
 
     const PokemonEncounterCard = ({ poke }) => {
         const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam)
+        const catchMediumDifficulty = varianceCatchDifficulty(poke.level)
+
+        const { color, label } = detailedDifficultyColors(catchRollDifficulty - catchMediumDifficulty)
+        console.log(catchRollDifficulty, catchMediumDifficulty)
 
         const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
@@ -76,10 +83,18 @@ export default function Encounter() {
                     }}
                 >
                     <>
-                        <Center position="absolute" mb={28}>
-                            <Text fontSize={"2xs"}>{
-                                session.turns === 1 ? 1 : poke.level
-                            }</Text>
+                        <Center position="absolute" w={"80%"} p={0.5} borderRadius={12} zIndex={5} mb={28}
+                            backgroundColor={colorMode === 'light' ? 'white' : 'gray.600'}
+                        >
+                            <CustomTooltip
+                                label={label}
+                                fontSize="xs"
+                                color={color}
+                            >
+                                <Text fontSize={"2xs"} color={color}>
+                                    {poke.name}
+                                </Text>
+                            </CustomTooltip>
                         </Center>
                         <Image
                             h="100%" w="100%"
@@ -90,9 +105,6 @@ export default function Encounter() {
                             _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
                             boxShadow={`0 0 4px 1px ${colorByType}`}
                         />
-                        <Center position="absolute" mt={28}>
-                            <PokeRarity rarity={poke.rarity} />
-                        </Center>
                     </>
                 </Button>
             </Flex>
@@ -122,6 +134,17 @@ export default function Encounter() {
                     </Button>
             ) : (
                 <Center flexDir={"column"}>
+                    <CustomTooltip
+                        label={'Your chances of successfully catching a Pokemon during an encounter increase with the strength of the Pokemon on your team.'}
+                    >
+                        <Text style={{
+                            'position': 'absolute',
+                            'top': '30px',
+                            'right': '25px'
+                        }}>
+                            <FaInfoCircle size={20} />
+                        </Text>
+                    </CustomTooltip>
                     <Center>
                         <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll} isStarter={divisibleByThree}>
                             <Center>

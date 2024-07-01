@@ -1,3 +1,4 @@
+import { useColorMode } from "@chakra-ui/react"
 import { mixColors } from "./colorMix"
 
 // tier options 
@@ -204,4 +205,27 @@ export const rarityName = (rarity) => {
     if (rarity === 1) return 'Uncommon'
     if (rarity === 2) return 'Rare'
     if (rarity === 3) return 'Shiny'
+}
+
+export const commomDifficultyColors = (difficulty) => {
+    if (difficulty < -1) return '#00cf1c' // EASY
+    if (difficulty === -1) return '#ffe600' // MEDIUM
+    if (difficulty === 0) return '#ff9100' // MODERATE
+    if (difficulty === 1) return '#ff0000' // HARD
+    if (difficulty > 1) return '#a30000' // IMPOSSIBLE
+}
+
+export const detailedDifficultyColors = (difficulty) => {
+    if (difficulty < -2) return { color: '#00cf1c', label: 'Very High Success Rate' }
+    if (difficulty === -2) return { color: '#93c900', label: 'High Success Rate' }
+    if (difficulty === -1) return { color: '#ffe600', label: 'Above Average Success Rate' }
+    if (difficulty === 0) return { color: '#ff9100', label: 'Average Success Rate' }
+    if (difficulty === 1) return { color: '#ff0000', label: 'Below Average Success Rate' }
+    if (difficulty === 2) return { color: '#a30000', label: 'Low Success Rate' }
+    if (difficulty > 2) return { color: '#330000', label: 'Very Low Success Rate' }
+}
+
+export const bgColorByTheme = (theme) => {
+    if (theme === 'dark') return 'gray.400'
+    if (theme === 'light') return 'gray.600'
 }

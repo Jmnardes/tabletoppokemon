@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "../../../../Contexts/PlayerContext"
 import Encounter from "../../Encounter/Encounter"
+import EncounterNew from "../../Encounter/EncounterNew"
 
 export default function EncounterModal() {
     const { session } = useContext(PlayerContext)
@@ -27,7 +28,8 @@ export default function EncounterModal() {
                         )}
                     </ModalHeader>
 
-                    <Encounter />
+                    {/* <Encounter /> */}
+                    <EncounterNew />
                 </ModalContent>
             </Modal>
         </>

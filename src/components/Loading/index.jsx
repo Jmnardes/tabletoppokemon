@@ -1,11 +1,7 @@
 import { Box, Center, Flex, keyframes } from '@chakra-ui/react'
 import PokeballIcon from '../Icons/PokeballIcon'
 import { motion } from 'framer-motion'
-
-const rotationKeyframes = keyframes`
-    0% { transform: rotate(360deg) }
-    100% { transform: rotate(0deg) }
-`
+import { fullRotationAnimation } from '../Animations'
 
 const Loading = ({
     children,
@@ -33,7 +29,7 @@ const Loading = ({
                 <Flex flexDirection='column' gap='1rem' zIndex='1402'>
                     {showSpinner && (
                         <Center>
-                            <Box as={motion.div} animation={`${rotationKeyframes} 2s linear infinite`}>
+                            <Box as={motion.div} animation={`${fullRotationAnimation} 2s linear infinite`}>
                                 <PokeballIcon c='white'/>
                             </Box>
                         </Center>

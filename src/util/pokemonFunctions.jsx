@@ -1,22 +1,34 @@
 import { stringToUpperCase } from "."
 
+export const initialCatchDifficulty = 6
+
+export const pokemonTeamStrength = (team) => {
+  return team.reduce((acc, curr) => acc + curr.level + curr.rarity.rarity, 0)
+}
+
+export const levelVarianceDifficulty = (level) => {
+  return Math.floor((level - 1) / 10)
+}
+
+export const varianceCatchDifficulty = (level) => {
+  return initialCatchDifficulty + levelVarianceDifficulty(level)
+}
+
 export const catchDifficulty = (session, poke, team) => {
   const { gameDifficulty, turns } = session
-  const { level, rarity } = poke
+  const { level, rarity } = poke //wild pokemon
 
   if (turns === 1) {
     return 0
   }
 
-  const initialDifficulty = 6
-  const turnVarianceDifficulty = Math.floor((level - 1) / 10)
-
-  const teamPokemonStrength = team.reduce((acc, curr) => acc + curr.level + curr.rarity.rarity, 0)
+  const teamPokemonStrength = pokemonTeamStrength(team)
   const teamPokemonStrengthMean = Math.ceil(teamPokemonStrength / team.length)
   const wildPokemonStrength = gameDifficulty + rarity + level
   const battleDifficulty = wildPokemonStrength - teamPokemonStrengthMean
+  const varianceDifficulty = varianceCatchDifficulty(level)
 
-  return initialDifficulty + battleDifficulty + turnVarianceDifficulty
+  return varianceDifficulty + battleDifficulty
 }
 
 export const endTurnExp = () => {

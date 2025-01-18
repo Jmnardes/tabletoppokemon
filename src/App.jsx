@@ -14,24 +14,28 @@ const App = () => {
 
   return (
     <Flex flexDirection='column' h='100vh' w='100vw' m={0} backgroundImage={colorMode === 'light' ? day : night}>
-      {(waitingForPlayers || loadingApi) && (
-        <Loading showSpinner>
-            <Heading color='white'>
-              {loadingApi ? loadingText : 'Waiting for other players...'}
-            </Heading>
-        </Loading>
-      )}
+      <LoadingScreen waitingForPlayers={waitingForPlayers} loadingApi={loadingApi} loadingText={loadingText} />
       {hasGameStarted ? (
         <>
-          {confetti ? (
-                <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
-            ): null}
+          {confetti && <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />}
           <Game game={game} />
         </>
-      ): (
-          <GameMenu />
+      ) : (
+        <GameMenu />
       )}
     </Flex>
   )
 }
+
+const LoadingScreen = ({ waitingForPlayers, loadingApi, loadingText }) => {
+  if (!waitingForPlayers && !loadingApi) return null;
+  return (
+    <Loading showSpinner>
+      <Heading color='white'>
+        {loadingApi ? loadingText : 'Waiting for other players...'}
+      </Heading>
+    </Loading>
+  );
+}
+
 export default App

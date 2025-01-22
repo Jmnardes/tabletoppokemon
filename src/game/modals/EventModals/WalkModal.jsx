@@ -15,9 +15,9 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import SuccessIcon from "@components/Icons/SuccessIcon"
-import coinIcon from '@images/game/coin.png'
-import starIcon from '@images/game/star.png'
-import crownIcon from '@images/game/crown.png'
+import coinIcon from '@assets/images/game/coin.png'
+import starIcon from '@assets/images/game/star.png'
+import crownIcon from '@assets/images/game/crown.png'
 
 const PrizeIcon = ({ type }) => {
     switch (type) {

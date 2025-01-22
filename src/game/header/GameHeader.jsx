@@ -5,12 +5,12 @@ import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 
-import shopIcon from '@images/game/shop.png';
-import bagIcon from '@images/game/bag.png';
-import bulbasaurIcon from '@images/pokemons/bulbasaur.png';
-import venonatIcon from '@images/pokemons/venonat.png';
-import battleIcon from '@images/game/battle.png';
-import gymIcon from '@images/game/event3.png';
+import shopIcon from '@assets/images/game/shop.png';
+import bagIcon from '@assets/images/game/bag.png';
+import bulbasaurIcon from '@assets/images/pokemons/bulbasaur.png';
+import venonatIcon from '@assets/images/pokemons/venonat.png';
+import battleIcon from '@assets/images/game/battle.png';
+import gymIcon from '@assets/images/game/event3.png';
 
 export default function GameHeader() {
     const { player, updateGame, pokeBox, game } = useContext(PlayerContext)

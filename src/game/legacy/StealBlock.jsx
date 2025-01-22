@@ -1,6 +1,6 @@
 // import { Button, Center, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
 // import PokeModal from "../Modal/Modal";
-// import stealIcon from '@images/items/steal.png'
+// import stealIcon from '@assets/images/items/steal.png'
 // import { diceRoll } from "../../../util";
 // import { useEffect, useState } from "react";
 

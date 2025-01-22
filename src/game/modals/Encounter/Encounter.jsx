@@ -5,7 +5,7 @@ import { typeColor } from "@utils";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "@utils/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
-import pokeballIcon from "@images/pokeballs/pokeball.png"
+import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
     const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)

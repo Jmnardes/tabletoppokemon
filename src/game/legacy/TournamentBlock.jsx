@@ -1,6 +1,6 @@
 // import { Center, Heading, Image, Text } from "@chakra-ui/react";
 // import PokeModal from "../Modal/Modal";
-// import event3Icon from '@images/game/event3.png'
+// import event3Icon from '@assets/images/game/event3.png'
 // import { diceRoll } from "../../../util";
 
 // export default function TournamentBlock({ disable }) {

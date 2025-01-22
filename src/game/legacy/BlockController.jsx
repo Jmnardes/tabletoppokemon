@@ -3,7 +3,7 @@
 // import pokemonJSON from '../../../assets/json/pokemons.json'
 // import PlayerContext from "@Contexts/PlayerContext";
 
-// import eggIcon from '@images/items/egg.png'
+// import eggIcon from '@assets/images/items/egg.png'
 
 // function BlockController({ 
 //     block,

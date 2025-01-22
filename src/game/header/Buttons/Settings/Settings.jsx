@@ -6,7 +6,7 @@ import PlayerContext from "@Contexts/PlayerContext";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch";
 import ElementsList from "../../../body/Team/ElementsList"
 
-import settingsIcon from '@images/game/settings.png'
+import settingsIcon from '@assets/images/game/settings.png'
 
 export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)

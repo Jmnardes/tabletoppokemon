@@ -23,9 +23,9 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon"
 import OpponentsResult from "./OpponentsResult"
 import { FaInfoCircle, FaRedo } from "react-icons/fa";
-import coinIcon from '@images/game/coin.png'
-import starIcon from '@images/game/star.png'
-import crownIcon from '@images/game/crown.png'
+import coinIcon from '@assets/images/game/coin.png'
+import starIcon from '@assets/images/game/star.png'
+import crownIcon from '@assets/images/game/crown.png'
 import DiceButton from '../../../components/AnimatedButton/Dice/DiceButton'
 import socket from "@client"
 // import SadIcon from "../../../Icons/emote/SadIcon"

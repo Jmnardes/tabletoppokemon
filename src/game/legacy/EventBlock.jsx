@@ -1,6 +1,6 @@
 // import { Center, Heading, Image, Text } from "@chakra-ui/react";
 // import PokeModal from "../Modal/Modal";
-// import event1Icon from '@images/game/event1.png'
+// import event1Icon from '@assets/images/game/event1.png'
 // import { useEffect, useState } from "react";
 // import { rollEventType } from "./events";
 

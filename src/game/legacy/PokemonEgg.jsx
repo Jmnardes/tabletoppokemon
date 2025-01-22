@@ -5,10 +5,10 @@
 // import { motion } from 'framer-motion'
 
 // import PokeModal from "../Modal/Modal";
-// import eggIcon from '@images/items/egg.png'
-// import eggHatchedIcon from '@images/items/egg-hatching.png'
-// import incubatorBasicIcon from '@images/items/incubator-basic.png'
-// import incubatorGreatIcon from '@images/items/incubator-great.png'
+// import eggIcon from '@assets/images/items/egg.png'
+// import eggHatchedIcon from '@assets/images/items/egg-hatching.png'
+// import incubatorBasicIcon from '@assets/images/items/incubator-basic.png'
+// import incubatorGreatIcon from '@assets/images/items/incubator-great.png'
 // import PlayerContext from "@Contexts/PlayerContext";
 
 // export default function PokemonEgg({ handleAddInventory, tier }) {

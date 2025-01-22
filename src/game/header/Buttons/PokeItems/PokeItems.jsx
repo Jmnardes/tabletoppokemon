@@ -3,8 +3,8 @@ import { Text, Center, Image, Wrap, Button } from "@chakra-ui/react"
 import SelectedPokemon from "./SelectedPokemon"
 
 import PlayerContext from "@Contexts/PlayerContext"
-import incenseIcon from '@images/items/lure.png'
-import dustIcon from '@images/items/dust.png'
+import incenseIcon from '@assets/images/items/lure.png'
+import dustIcon from '@assets/images/items/dust.png'
 
 export default function PokeItems({ selectedPokemon }) {
     const { player, updateItem, updatePokemonOnTeam } = useContext(PlayerContext)

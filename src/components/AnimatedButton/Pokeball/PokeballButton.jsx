@@ -4,10 +4,10 @@ import { useContext, useState } from 'react'
 import PlayerContext from '../../../Contexts/PlayerContext'
 import { diceRoll } from '../../../utils'
 
-import pokeballIcon from '@images/pokeballs/pokeball.png'
-import greatballIcon from '@images/pokeballs/greatball.png'
-import ultraballIcon from '@images/pokeballs/ultraball.png'
-import masterballIcon from '@images/pokeballs/masterball.png'
+import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
+import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
+import masterballIcon from '@assets/images/pokeballs/masterball.png'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
 

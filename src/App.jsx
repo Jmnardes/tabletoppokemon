@@ -1,12 +1,12 @@
 import { Flex, Heading, useColorMode } from "@chakra-ui/react"
 import { useContext } from "react"
-import Game from "./pages/GameScreen/Game"
-import GameMenu from "./pages/Menu/GameMenu"
+import Game from "@pages/GameScreen/Game"
+import GameMenu from "@pages/Menu/GameMenu"
 import PlayerContext from "./Contexts/PlayerContext"
 import Loading from "@components/Loading"
 
-import day from "@images/background/day.jpg"
-import night from "@images/background/night.jpg"
+import day from "@assets/images/background/day.jpg"
+import night from "@assets/images/background/night.jpg"
 
 const App = () => {
   const { hasGameStarted, waitingForPlayers, loadingApi, loadingText, game } = useContext(PlayerContext)

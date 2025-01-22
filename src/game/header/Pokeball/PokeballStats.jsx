@@ -3,14 +3,14 @@ import { Center, Image, Text } from "@chakra-ui/react";
 
 import PlayerContext from "@Contexts/PlayerContext";
 
-import greatballIcon from '@images/pokeballs/pokeball.png'
-import superballIcon from '@images/pokeballs/greatball.png'
-import ultraballIcon from '@images/pokeballs/ultraball.png'
-import masterballIcon from '@images/pokeballs/masterball.png'
-import stealIcon from '@images/items/steal.png'
-import fightIcon from '@images/items/fight.png'
-import eggIcon from '@images/items/egg.png'
-import incubatorGreatIcon from '@images/items/incubator-great.png'
+import greatballIcon from '@assets/images/pokeballs/pokeball.png'
+import superballIcon from '@assets/images/pokeballs/greatball.png'
+import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
+import masterballIcon from '@assets/images/pokeballs/masterball.png'
+import stealIcon from '@assets/images/items/steal.png'
+import fightIcon from '@assets/images/items/fight.png'
+import eggIcon from '@assets/images/items/egg.png'
+import incubatorGreatIcon from '@assets/images/items/incubator-great.png'
 
 export default function PokeballStats() {
     const { player } = useContext(PlayerContext)

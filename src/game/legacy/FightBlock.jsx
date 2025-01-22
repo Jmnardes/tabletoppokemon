@@ -1,6 +1,6 @@
 // import { Button, Center, Heading, Image, Text } from "@chakra-ui/react";
 // import PokeModal from "../Modal/Modal";
-// import fightIcon from '@images/items/fight.png'
+// import fightIcon from '@assets/images/items/fight.png'
 
 // export default function FightBlock({ disable, fight, setFight }) {
 //     return (

@@ -1,14 +1,14 @@
 // import { Button, Center, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
 // import { diceRoll, parseNumberToNatural } from "../../../util";
 // import { useEffect, useState } from "react";
-// import swordIcon from '@images/stats/sword.png'
-// import shieldIcon from '@images/stats/shield.png'
-// import speedIcon from '@images/stats/speed.png'
-// import accuracyIcon from '@images/stats/accuracy.svg'
-// import criticalIcon from '@images/stats/critical.svg'
-// import healthIcon from '@images/stats/health.png'
-// import fightIcon from '@images/items/fight.png'
-// import starIcon from '@images/game/star.png'
+// import swordIcon from '@assets/images/stats/sword.png'
+// import shieldIcon from '@assets/images/stats/shield.png'
+// import speedIcon from '@assets/images/stats/speed.png'
+// import accuracyIcon from '@assets/images/stats/accuracy.svg'
+// import criticalIcon from '@assets/images/stats/critical.svg'
+// import healthIcon from '@assets/images/stats/health.png'
+// import fightIcon from '@assets/images/items/fight.png'
+// import starIcon from '@assets/images/game/star.png'
 // import Element from '../Team/Element'
 // import { useContext } from "react";
 // import PlayerContext from "@Contexts/PlayerContext";

@@ -3,8 +3,8 @@
 // import { diceRoll } from "../../../util";
 // import BlockController from "./BlockController";
 // import { blockType } from "./blockFunctions";
-// import swarmIcon from '@images/game/swarm.png'
-// import directionIcon from '@images/game/direction.png'
+// import swarmIcon from '@assets/images/game/swarm.png'
+// import directionIcon from '@assets/images/game/direction.png'
 
 // export default function TurnController({ 
 //     setIsPokemonEncounter, 

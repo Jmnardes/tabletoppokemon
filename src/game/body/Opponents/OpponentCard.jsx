@@ -2,9 +2,9 @@ import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
 import { Center, Divider, Flex, Text } from "@chakra-ui/layout"
-import crownIcon from '@images/game/crown.png'
-import starIcon from '@images/game/star.png'
-import coinIcon from '@images/game/coin.png'
+import crownIcon from '@assets/images/game/crown.png'
+import starIcon from '@assets/images/game/star.png'
+import coinIcon from '@assets/images/game/coin.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 import StepsIcon from "@components/Icons/StepsIcon"
 import SuccessIcon from "@components/Icons/SuccessIcon"

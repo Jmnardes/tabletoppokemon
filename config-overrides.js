@@ -3,13 +3,13 @@ const path = require('path');
 module.exports = function override(config, env) {
   config.resolve.alias = {
     ...config.resolve.alias,
-    '@components': path.resolve(__dirname, 'src/components'),
-    '@game': path.resolve(__dirname, 'src/game'),
     '@assets': path.resolve(__dirname, 'src/assets'),
-    '@images': path.resolve(__dirname, 'src/assets/images'),
+    '@components': path.resolve(__dirname, 'src/components'),
     '@Contexts': path.resolve(__dirname, 'src/Contexts'),
-    '@client': path.resolve(__dirname, 'src/client'),
+    '@game': path.resolve(__dirname, 'src/game'),
+    '@pages': path.resolve(__dirname, 'src/pages'),
     '@utils': path.resolve(__dirname, 'src/utils'),
+    '@client': path.resolve(__dirname, 'src/client'),
   };
 
   config.resolve.modules = [

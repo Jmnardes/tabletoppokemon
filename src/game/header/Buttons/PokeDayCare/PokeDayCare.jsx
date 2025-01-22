@@ -13,7 +13,7 @@ import {
     Image,
 } from "@chakra-ui/react"
 import DayCareContent from "./DayCareContent"
-import dustIcon from '@images/items/dust.png'
+import dustIcon from '@assets/images/items/dust.png'
 
 export default function PokeDayCare() {
     const { updateGame, pokeBox, removeFromPokeBoxById, setLoadingApi, emit, handleToast, updateItem } = useContext(PlayerContext)

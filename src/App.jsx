@@ -1,15 +1,14 @@
 import { Flex, Heading, useColorMode } from "@chakra-ui/react"
 import { useContext } from "react"
-import Game from "./pages/Game"
+import Game from "./pages/GameScreen/Game"
 import GameMenu from "./pages/Menu/GameMenu"
 import PlayerContext from "./Contexts/PlayerContext"
 import day from "./assets/images/background/day.jpg"
 import night from "./assets/images/background/night.jpg"
 import Loading from "./components/Loading"
-import { ConfettiCanvas } from "react-raining-confetti";
 
 const App = () => {
-  const { hasGameStarted, waitingForPlayers, loadingApi, loadingText, confetti, game } = useContext(PlayerContext)
+  const { hasGameStarted, waitingForPlayers, loadingApi, loadingText, game } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
 
   return (
@@ -17,7 +16,6 @@ const App = () => {
       <LoadingScreen waitingForPlayers={waitingForPlayers} loadingApi={loadingApi} loadingText={loadingText} />
       {hasGameStarted ? (
         <>
-          {confetti && <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />}
           <Game game={game} />
         </>
       ) : (

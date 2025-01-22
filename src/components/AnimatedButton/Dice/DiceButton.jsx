@@ -1,8 +1,8 @@
 import { Box, Center, Flex, Heading, IconButton, Image, keyframes, useColorMode } from '@chakra-ui/react'
 import { useState } from 'react'
-import { diceRoll } from '../../util'
-import SixSidesDiceIcon from '../Icons/dices/SixSidesDice'
-import TwentySidesDice from '../Icons/dices/TwentySidesDice'
+import { diceRoll } from '../../../util'
+import SixSidesDiceIcon from '../../Icons/dices/SixSidesDice'
+import TwentySidesDice from '../../Icons/dices/TwentySidesDice'
 
 const regex = /_EMO_(.*)_@[\S\s]+,\s*_EMO_(.*)_@/m
 

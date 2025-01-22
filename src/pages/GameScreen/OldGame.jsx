@@ -19,7 +19,6 @@
 // import EndGame from "./Pokemon/Game/EndGame"
 // import Items from "./Pokemon/Inventary/Items"
 // import StealBlock from "./Pokemon/Block/StealBlock"
-// import { ConfettiCanvas } from "react-raining-confetti";
 // import ElementsList from "./Pokemon/Team/ElementsList"
 // import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 // import { useContext } from "react";
@@ -48,7 +47,6 @@
 //     const [endTurnButton, setEndTurnButton] = useState(true)
 //     const [disablePokeCatch, setDisablePokeCatch] = useState(true)
 //     const [closeModal, setCloseModal] = useState(false)
-//     const [confetti, setConfetti] = useState(true)
 
 //     const handlePokemonEncounter = () => {
 //         let pokemon = [{
@@ -91,7 +89,6 @@
             
 //             if(shiny.shiny) {
 //                 setShinyCatches(shinyCatches + 1)
-//                 setConfetti(true)
 //             } else {
 //                 setTotalCatches(totalCatches + 1)
 //             }
@@ -168,7 +165,6 @@
 //         if(result === 19) setCriticals(criticals + 1)
 //         setDisablePokeCatch(false)
 //         setResultDiceRoll(bonusOnCatch + result + 1)
-//         setConfetti(false)
 //     }
 
 //     const handlePokemonRollClean = (pokemonCatchExp) => {
@@ -224,9 +220,6 @@
 //     return (
 //         <>
 //             <Center pt={3} pr={2} pb={1} display="flex" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-//             {confetti ? (
-//                 <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
-//             ): null}
 //                 <Grid templateColumns='repeat(5, 1fr)' width="100%" h={12}>
 //                     <GridItem colSpan={2}>
 //                         <Center justifyContent="left">
@@ -259,7 +252,6 @@
 //                                 </PlayTurn>
 //                             ) : (
 //                                 <>
-//                                     <ConfettiCanvas active={true} fadingMode="LIGHT" stopAfterMs={4000} />
 //                                     <EndGame>
 //                                         <TrainerStats />
 //                                     </EndGame>

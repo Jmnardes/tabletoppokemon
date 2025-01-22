@@ -1,10 +1,12 @@
-import PokeModal from "./Modal/Modal";
-import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
-import settingsIcon from '../assets/images/game/settings.png'
 import { useContext } from "react";
-import PlayerContext from "../Contexts/PlayerContext";
-import ThemeSwitch from "../components/Chakra/ThemeSwitch/ThemeSwitch";
-import ElementsList from "./Team/ElementsList"
+import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
+
+import PokeModal from "../../../Modal/Modal";
+import PlayerContext from "../../../../Contexts/PlayerContext";
+import ThemeSwitch from "../../../../components/Chakra/ThemeSwitch/ThemeSwitch";
+import ElementsList from "../../../Team/ElementsList"
+
+import settingsIcon from '../../../../assets/images/game/settings.png'
 
 export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)

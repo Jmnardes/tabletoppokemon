@@ -1,14 +1,16 @@
-import { Button, Center, Image, Text } from "@chakra-ui/react";
-import greatballIcon from '../assets/images/pokeballs/pokeball.png'
-import superballIcon from '../assets/images/pokeballs/greatball.png'
-import ultraballIcon from '../assets/images/pokeballs/ultraball.png'
-import masterballIcon from '../assets/images/pokeballs/masterball.png'
-import coinIcon from '../assets/images/game/coin.png'
-import starIcon from '../assets/images/game/star.png'
-import crownIcon from '../assets/images/game/crown.png'
-import buyIcon from '../assets/images/game/buy.png'
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "../Contexts/PlayerContext";
+import { Button, Center, Image, Text } from "@chakra-ui/react";
+
+import PlayerContext from "../../../../Contexts/PlayerContext";
+
+import greatballIcon from '../../../../assets/images/pokeballs/pokeball.png'
+import superballIcon from '../../../../assets/images/pokeballs/greatball.png'
+import ultraballIcon from '../../../../assets/images/pokeballs/ultraball.png'
+import masterballIcon from '../../../../assets/images/pokeballs/masterball.png'
+import coinIcon from '../../../../assets/images/game/coin.png'
+import starIcon from '../../../../assets/images/game/star.png'
+import crownIcon from '../../../../assets/images/game/crown.png'
+import buyIcon from '../../../../assets/images/game/buy.png'
 
 export default function PokeShop() {
     const { 

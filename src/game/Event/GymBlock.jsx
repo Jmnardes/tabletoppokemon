@@ -15,7 +15,7 @@ import PlayerContext from "../../../Contexts/PlayerContext";
 import SadIcon from "../../Icons/emote/SadIcon";
 
 export default function GymBlock({ gymTier }) {
-    const { player, updateItem, updateCurrency, pokeTeam, setConfetti } = useContext(PlayerContext)
+    const { player, updateItem, updateCurrency, pokeTeam } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [showResult, setShowResult] = useState(false)
     const [trainerWin, setTrainerWin] = useState(false)
@@ -82,7 +82,6 @@ export default function GymBlock({ gymTier }) {
         if(challengeRoll < winPercentage) {
             setTrainerWin(true)
             updateCurrency(1, 'stars')
-            setConfetti(true)
         } else {
             setTrainerWin(false)
         }

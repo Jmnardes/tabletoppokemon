@@ -1,9 +1,9 @@
 import { Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import PlayerContext from "../Contexts/PlayerContext";
-import Settings from "./Settings";
-import TrainerBar from "./Trainer/TrainerBar";
-import PokeballStats from './Trainer/PokeballStats'
+import Settings from "./header/Menu/Buttons/Settings";
+import TrainerBar from "./header/Trainer/TrainerBar";
+import PokeballStats from './header/Menu/Pokeball/PokeballStats'
 
 import shopIcon from '../assets/images/game/shop.png'
 import bagIcon from '../assets/images/game/bag.png'

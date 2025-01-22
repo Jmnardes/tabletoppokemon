@@ -11,7 +11,6 @@ export function PlayerProvider({children}) {
     const [loadingText, setLoadingText] = useState('')
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
-    const [confetti, setConfetti] = useState(true)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -400,9 +399,6 @@ export function PlayerProvider({children}) {
             updateStatusAmount,
 
             results,
-
-            confetti,
-            setConfetti
         }}>
             {children}
         </PlayerContext.Provider>

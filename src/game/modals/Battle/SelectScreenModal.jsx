@@ -6,7 +6,7 @@ import {
     Button,
     ModalOverlay,
 } from "@chakra-ui/react"
-import PlayerContext from "../../../../Contexts/PlayerContext"
+import PlayerContext from "@Contexts/PlayerContext"
 import ShowBattleTeam from "./ShowBattleTeam"
 
 export default function SelectScreenModal() {

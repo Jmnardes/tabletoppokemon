@@ -10,7 +10,7 @@ import {
     Center,
     ModalBody,
 } from "@chakra-ui/react"
-import PlayerContext from "../../../../Contexts/PlayerContext"
+import PlayerContext from "@Contexts/PlayerContext"
 import GymBlock from "../../Event/GymBlock"
 
 

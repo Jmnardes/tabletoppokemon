@@ -1,5 +1,5 @@
 import { Center, Image, Text } from "@chakra-ui/react"
-import Card from "../../../../components/Pokemon/Card"
+import Card from "@components/Pokemon/Card"
 
 import dustIcon from '@assets/images/items/dust.png'
 

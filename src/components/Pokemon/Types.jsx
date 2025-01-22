@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import { Box} from "@chakra-ui/react";
-import Element from "../../game/body/Team/Element";
+import Element from "@game/body/Team/Element";
 
 function Types({ types, w, h }) {
 

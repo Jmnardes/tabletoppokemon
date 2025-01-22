@@ -9,8 +9,8 @@ import {
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 
-import PokeBox from "../../../../components/Trainer/PokeBox"
-import PokeTeam from "../../../../components/Trainer/PokeTeam"
+import PokeBox from "@components/Trainer/PokeBox"
+import PokeTeam from "@components/Trainer/PokeTeam"
 
 export default function PokeBag() {
     const { updateGame, pokeTeam, pokeBox, emit } = useContext(PlayerContext)

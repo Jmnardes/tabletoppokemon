@@ -1,10 +1,10 @@
 import { Flex, Kbd, Text } from "@chakra-ui/react";
-import Accuracy from '../../assets/svgs/stats/accuracy'
-import Attack from '../../assets/svgs/stats/attack'
-import Defense from '../../assets/svgs/stats/defense'
-import Evasion from '../../assets/svgs/stats/evasion'
-import Critical from '../../assets/svgs/stats/critical'
-import Health from '../../assets/svgs/stats/health'
+import Accuracy from '@assets/svgs/stats/accuracy'
+import Attack from '@assets/svgs/stats/attack'
+import Defense from '@assets/svgs/stats/defense'
+import Evasion from '@assets/svgs/stats/evasion'
+import Critical from '@assets/svgs/stats/critical'
+import Health from '@assets/svgs/stats/health'
 
 function PokeStats({ poke }) {
     const StatInventary = ({ stat, statName, statIcon }) => {

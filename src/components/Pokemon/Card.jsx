@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import PokeStats from "./PokeStats"
-import { stringToUpperCase, typeColor } from '../../utils'
+import { stringToUpperCase, typeColor } from '@utils'
 import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
 import Types from "./Types"
 import { FaStar } from "react-icons/fa"

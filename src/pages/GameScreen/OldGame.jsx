@@ -7,7 +7,7 @@
 // import Inventary from "./Pokemon/Inventary/Inventary"
 // import Team from "./Pokemon/Inventary/Team"
 // import { FaPlusSquare, FaDollarSign, FaArrowRight } from "react-icons/fa";
-// import pokemonJSON from '../assets/json/pokemons.json'
+// import pokemonJSON from '@pages/json/pokemons.json'
 // import { pokemonBaseStat } from './pokemonFunctions'
 // import { PlayTurn } from "./Pokemon/PlayTurn"
 // import { SimpleGrid } from "@chakra-ui/react"
@@ -22,7 +22,7 @@
 // import ElementsList from "./Pokemon/Team/ElementsList"
 // import PokemonEgg from "./Pokemon/Block/PokemonEgg"
 // import { useContext } from "react";
-// import PlayerContext from "../Contexts/PlayerContext"
+// import PlayerContext from "@Contexts/PlayerContext"
 // import Opponents from "./Pokemon/Players/Opponents"
 // import ChallengeModal from "./Pokemon/Modal/EventModals/ChallengeModal"
 // import WalkModal from "./Pokemon/Modal/EventModals/WalkModal"

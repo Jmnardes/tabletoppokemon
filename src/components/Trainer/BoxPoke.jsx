@@ -5,7 +5,7 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase } from "@utils"
-import Card from "../../components/Pokemon/Card"
+import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 
 export default function BoxPoke({ poke, pokeBox }) {

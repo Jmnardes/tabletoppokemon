@@ -5,7 +5,7 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "@utils"
-import Card from "../../../components/Pokemon/Card"
+import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 

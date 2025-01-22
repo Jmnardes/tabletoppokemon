@@ -1,7 +1,7 @@
 // import { Button, Center, Image, Text, useColorMode, keyframes } from "@chakra-ui/react";
 // import { useContext, useEffect, useState } from "react";
 // import { diceRoll, stringToUpperCase } from "../../../util";
-// import pokemonJSON from '../../../assets/json/pokemons.json'
+// import pokemonJSON from '@pages/json/pokemons.json'
 // import { motion } from 'framer-motion'
 
 // import PokeModal from "../Modal/Modal";

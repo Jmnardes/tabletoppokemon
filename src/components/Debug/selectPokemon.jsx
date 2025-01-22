@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { FaSearch } from "react-icons/fa"
-import natures from "../../assets/json/natures.json"
+import natures from "@assets/json/natures.json"
 import { Star } from "phosphor-react"
 import socket from "@client"
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Tooltip, Image, Box } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "@utils"
-import Types from "../../../components/Pokemon/Types"
+import Types from "@components/Pokemon/Types"
 
 export default function OpponentPoke({ poke }) {
     const [colorByType, setColorByType] = useState('#000000')

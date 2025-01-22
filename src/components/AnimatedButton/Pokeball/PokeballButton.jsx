@@ -1,8 +1,8 @@
 import { Box, Center, Flex, Heading, IconButton, Image, keyframes, useColorMode } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 
-import PlayerContext from '../../../Contexts/PlayerContext'
-import { diceRoll } from '../../../utils'
+import PlayerContext from '@Contexts/PlayerContext'
+import { diceRoll } from '@utils'
 
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Tooltip, Image, Center } from "@chakra-ui/react"
 import { stringToUpperCase } from "@utils"
-import Card from "../../../../components/Pokemon/Card"
+import Card from "@components/Pokemon/Card"
 
 export default function PokeCard({ pokemon, setSelectedPokemon }) {
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')

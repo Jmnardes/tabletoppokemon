@@ -1,6 +1,6 @@
 // import { Flex, Heading, Image, Text } from '@chakra-ui/react'
 // import { useContext, useEffect } from 'react'
-// import pokemonJSON from '../../../assets/json/pokemons.json'
+// import pokemonJSON from '@pages/json/pokemons.json'
 // import PlayerContext from "@Contexts/PlayerContext";
 
 // import eggIcon from '@assets/images/items/egg.png'

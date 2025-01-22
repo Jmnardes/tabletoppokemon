@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Heading, IconButton, Image, keyframes, useColorMode } from '@chakra-ui/react'
 import { useState } from 'react'
-import { diceRoll } from '../../../utils'
+import { diceRoll } from '@utils'
 import SixSidesDiceIcon from '../../Icons/dices/SixSidesDice'
 import TwentySidesDice from '../../Icons/dices/TwentySidesDice'
 

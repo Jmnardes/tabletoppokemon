@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Tooltip, Image, Center, Text } from "@chakra-ui/react"
 import { stringToUpperCase } from "@utils"
-import Card from "../../../../components/Pokemon/Card"
+import Card from "@components/Pokemon/Card"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 
 export default function DayCareBoxPoke({ pokemon, handleTrade }) {

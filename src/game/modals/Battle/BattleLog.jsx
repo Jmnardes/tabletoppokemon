@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Divider, Text, keyframes } from '@chakra-ui/react';
-import { diceRoll, stringToUpperCase } from '../../../utils';
+import { diceRoll, stringToUpperCase } from '@utils';
 
 const BattleLog = ({ pokemon, battleLog, turnWinner }) => {
     const [logFadeAnimation, setLogFadeAnimation] = useState('')

@@ -6,7 +6,7 @@ import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "@Contexts/PlayerContext";
 import GameNew from "./GameNew";
-import ConfirmationModal from "../../components/Modal/ConfirmationModal"
+import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import DebugPage from "@components/Debug/debugPage";
 
 export default function GameMenu() {

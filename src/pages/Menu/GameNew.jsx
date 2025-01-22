@@ -1,6 +1,6 @@
 import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import socket from "../../client";
+import socket from "@client";
 
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')

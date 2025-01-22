@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Divider, Flex, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "../../Contexts/PlayerContext";
+import PlayerContext from "@Contexts/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
 export default function GameLobby() {

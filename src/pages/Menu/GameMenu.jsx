@@ -2,12 +2,12 @@ import { Button, Flex, Heading, useColorMode } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import GameJoin from "./GameJoin";
 import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
-import ThemeSwitch from "../../components/Chakra/ThemeSwitch/ThemeSwitch"
+import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
-import PlayerContext from "../../Contexts/PlayerContext";
+import PlayerContext from "@Contexts/PlayerContext";
 import GameNew from "./GameNew";
-import ConfirmationModal from "../../game/Modal/ConfirmationModal"
-import DebugPage from "../../components/Debug/debugPage";
+import ConfirmationModal from "../../components/Modal/ConfirmationModal"
+import DebugPage from "@components/Debug/debugPage";
 
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)
@@ -59,7 +59,7 @@ export default function GameMenu() {
             >
                 {!isGameTypeSelected && (
                     <>
-                        <Heading size="2xl">I'ma Poke</Heading>
+                        <Heading size="2xl">Poké Tactics</Heading>
                     </>
                 )}
                 <Flex

@@ -1,7 +1,7 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '../client'
-import { rarityName, stringToUpperCase } from "../util";
+import { rarityName, stringToUpperCase } from "@utils";
 
 const PlayerContext = createContext();
 

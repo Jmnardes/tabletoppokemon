@@ -1,6 +1,6 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import socket from "../../client";
+import socket from "@client";
 
 export default function GameJoin() {
     const [trainerName, setTrainerName] = useState('')

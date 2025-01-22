@@ -4,7 +4,7 @@ import { GiCheckeredFlag } from "react-icons/gi";
 import { TrainerBar } from "../Trainer/TrainerBar";
 
 import { useContext } from "react";
-import PlayerContext from "../../../Contexts/PlayerContext";
+import PlayerContext from "@Contexts/PlayerContext";
 
 export default function EndGame({ children }) {
     const { updateCurrency } = useContext(PlayerContext)

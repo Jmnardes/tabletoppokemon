@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { Flex, Image, Text } from "@chakra-ui/react";
 
-import PlayerContext from "../../../Contexts/PlayerContext";
+import PlayerContext from "@Contexts/PlayerContext";
 
-import clockIcon from '../../../assets/images/game/clock.png'
-import crownIcon from '../../../assets/images/game/crown.png'
-import starIcon from '../../../assets/images/game/star.png'
-import coinIcon from '../../../assets/images/game/coin.png'
-import dustIcon from '../../../assets/images/items/dust.png'
-import lureIcon from '../../../assets/images/items/lure.png'
+import clockIcon from '@images/game/clock.png'
+import crownIcon from '@images/game/crown.png'
+import starIcon from '@images/game/star.png'
+import coinIcon from '@images/game/coin.png'
+import dustIcon from '@images/items/dust.png'
+import lureIcon from '@images/items/lure.png'
 
 
 export default function TrainerBar() {

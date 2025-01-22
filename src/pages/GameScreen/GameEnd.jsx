@@ -1,13 +1,13 @@
 import { Center, Divider, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import PlayerContext from "../../Contexts/PlayerContext";
+import PlayerContext from "@Contexts/PlayerContext";
 
-import crownIcon from '../../assets/images/game/crown.png'
-import starIcon from '../../assets/images/game/star.png'
-import coinIcon from '../../assets/images/game/coin.png'
-import FirstPlaceIcon from "../../components/Icons/places/FirstPlaceIcon";
-import SecondPlaceIcon from "../../components/Icons/places/SecondPlaceIcon";
-import ThirdPlaceIcon from "../../components/Icons/places/ThirdPlaceIcon";
+import crownIcon from '@images/game/crown.png'
+import starIcon from '@images/game/star.png'
+import coinIcon from '@images/game/coin.png'
+import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon";
+import SecondPlaceIcon from "@components/Icons/places/SecondPlaceIcon";
+import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon";
 
 export default function GameEnd() {
     const { results, setWaitingForPlayers } = useContext(PlayerContext)

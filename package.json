@@ -13,7 +13,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-icons": "^4.4.0",
-    "react-raining-confetti": "^1.0.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.3.1",
     "socket.io-client": "^4.6.1",
@@ -44,7 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@chakra-ui/react": "^2.5.5",
+    "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "chakra-react-select": "^4.0.0",

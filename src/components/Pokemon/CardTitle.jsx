@@ -1,8 +1,9 @@
+import { useState, useEffect } from "react";
 import { Center, Kbd, Text, Tooltip } from "@chakra-ui/react";
 import { stringToUpperCase } from "@utils";
-import { useState } from "react";
-import Types from "./Types";
-import { useEffect } from "react";
+
+import Types from "../Elements/Types"
+
 import { FaStar } from "react-icons/fa"
 
 export default function CardTitle({ poke }) {

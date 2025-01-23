@@ -1,9 +1,9 @@
 import { HStack } from "@chakra-ui/react"
 import { useContext } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
-import BoxPoke from "./BoxPoke"
+import PokeBox from "./PokeBox"
 
-export default function PokeBox() {
+export default function TeamInBox() {
     const { pokeBox } = useContext(PlayerContext)
 
     return (
@@ -30,7 +30,7 @@ export default function PokeBox() {
         >
             {pokeBox?.map((poke) => {
                 return (
-                    <BoxPoke 
+                    <PokeBox 
                         key={poke.id} 
                         poke={poke}
                         pokeBox={pokeBox}

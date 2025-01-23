@@ -2,7 +2,7 @@ import { Button, Flex, Text, useStyleConfig } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 
-import PokeTeam from "@components/Trainer/PokeTeam";
+import PokeTeam from "./PokeTeam";
 
 import { FaArrowRight } from "react-icons/fa";
 

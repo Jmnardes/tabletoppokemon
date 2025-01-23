@@ -4,10 +4,10 @@ import { useContext, useState, useEffect } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 import socket from "@client";
 
-import ControlBox from "../Battle/ControlBox";
-import BattleScreen from "../Battle/BattleScreen";
-import OpponentPoke from "../Battle/OpponentPoke";
-import ElementsList from "../../body/Team/ElementsList";
+import ElementsList from "@components/Elements/ElementsList";
+import ControlBox from "./Menu/ControlBox";
+import BattleScreen from "./Screen/BattleScreen";
+import OpponentPoke from "./Screen/OpponentPoke";
 
 export default function BattleContent({
     trainerName,

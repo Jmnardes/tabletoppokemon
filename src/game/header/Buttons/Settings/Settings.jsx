@@ -4,7 +4,7 @@ import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
 import PokeModal from "@components/Modal/Modal";
 import PlayerContext from "@Contexts/PlayerContext";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch";
-import ElementsList from "../../../body/Team/ElementsList"
+import ElementsList from "@components/Elements/ElementsList"
 
 import settingsIcon from '@assets/images/game/settings.png'
 

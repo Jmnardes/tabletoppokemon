@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
-import PokeStats from "./PokeStats"
-import { stringToUpperCase, typeColor } from '@utils'
 import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
-import Types from "./Types"
-import { FaStar } from "react-icons/fa"
+import { stringToUpperCase, typeColor } from '@utils'
+
+import PokeStats from "./PokeStats"
+import Types from "../Elements/Types"
 import CardTitle from "./CardTitle"
+
+import { FaStar } from "react-icons/fa"
 
 function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')

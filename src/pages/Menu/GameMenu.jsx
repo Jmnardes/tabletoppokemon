@@ -1,7 +1,7 @@
-import { Button, Flex, Heading, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Heading, useColorMode, Link } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+
 import GameJoin from "./GameJoin";
-import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
 import PlayerContext from "@Contexts/PlayerContext";
@@ -9,11 +9,15 @@ import GameNew from "./GameNew";
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import DebugPage from "@components/Debug/debugPage";
 
+import { FaArrowLeft, FaDoorOpen, FaInfoCircle, FaGithub } from "react-icons/fa";
+import GameInfo from "./GameInfo";
+
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
+    const [gameInfoModal, setGameInfoModal] = useState(false)
 
     const [debug, setDebug] = useState(false)
 
@@ -35,20 +39,34 @@ export default function GameMenu() {
 
     return (
         <>
-            <Flex justifyContent={isGameTypeSelected ? "space-between" : "end"}>
-                {player.id ? (
-                    <ConfirmationModal event={leaveRoom}>
-                        <FaDoorOpen size="16px"/>
-                    </ConfirmationModal>
-                ):(
-                    isGameTypeSelected &&
-                    <Button h={12} m={4} onClick={goBack} display={isGameTypeSelected}>
-                        <FaArrowLeft size="16px"/>
-                    </Button>
-                )}
+            <Flex justifyContent="space-between">
+                <Flex>
+                    {player.id ? (
+                        <ConfirmationModal event={leaveRoom}>
+                            <FaDoorOpen size="16px"/>
+                        </ConfirmationModal>
+                    ):(
+                        isGameTypeSelected &&
+                        <Button h={12} m={4} onClick={goBack} display={isGameTypeSelected} zIndex={1}>
+                            <FaArrowLeft size="16px"/>
+                        </Button>
+                    )}
+                </Flex>
 
-                <Flex justifyContent="end">
-                    <ThemeSwitch />
+                <Flex>
+                    <Button w="100%" h={12} m={4} title="GitHub">
+                        <Link href="https://github.com/Jmnardes" isExternal>
+                            <FaGithub/>
+                        </Link>
+                    </Button>
+                    
+                    <Button w="100%" h={12} m={4} title="Game Info" onClick={() => setGameInfoModal(true)}>
+                        <FaInfoCircle/>
+                    </Button>
+
+                    <Flex>
+                        <ThemeSwitch />
+                    </Flex>
                 </Flex>
             </Flex>
             <Flex 
@@ -74,17 +92,17 @@ export default function GameMenu() {
                 >
                     {!isGameTypeSelected ? (
                         <>
-                            <Button w="100%" h={12} mt={4} mb={2} onClick={() => {
+                            <Button w="100%" h={12} my={4} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(true)
                             }}>Join Room</Button>
-                            <Button w="100%" h={12} mt={4} mb={2} onClick={() => {
+                            <Button w="100%" h={12} my={4} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(false)
                             }}>New Room</Button>
-                            <Button w="100%" h={12} mt={4} mb={2} onClick={
+                            {/* <Button w="100%" h={12} my={4} onClick={
                                 () => setDebug(true)
-                            }>Simulator</Button>
+                            }>Simulator</Button> */}
                         </>
                     ) : (
 
@@ -100,6 +118,8 @@ export default function GameMenu() {
                     )}
                 </Flex>
             </Flex>
+            
+            {gameInfoModal && <GameInfo setGameInfoModal={setGameInfoModal} />}
         </>
     )
 }

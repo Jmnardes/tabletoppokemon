@@ -11,7 +11,6 @@ import socket from "@client"
 export default function BattleModal({ battleId, participants, event }) {
     const { player, setLoadingApi } = useContext(PlayerContext)
     const [isMyTurn, setIsMyTurn] = useState(false)
-    const [myPokemonHp, setMyPokemonHp] = useState()
     const [opponent, setOpponent] = useState()
     const [opponentTrainer, setOpponentTrainer] = useState()
     const [isPokemonBattling, setIsPokemonBattling] = useState(false)
@@ -38,8 +37,6 @@ export default function BattleModal({ battleId, participants, event }) {
             }
 
             if(battling_player.player === player.id) {
-                setMyPokemonHp(battling_player.hp)
-
                 if(battling_player.pokemon) {
                     setLoadingApi(false)
                     setIsPokemonBattling(true)
@@ -81,9 +78,7 @@ export default function BattleModal({ battleId, participants, event }) {
                 />
                 <ModalContent p={4}>
                     <BattleContent
-                        trainerName={player.status.trainerName}
                         battleId={battleId}
-                        myPokemonHp={myPokemonHp}
                         isMyTurn={isMyTurn}
                         opponentTrainer={opponentTrainer}
                         opponent={opponent}

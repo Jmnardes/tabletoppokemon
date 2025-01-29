@@ -10,9 +10,7 @@ import BattleScreen from "./Screen/BattleScreen";
 import OpponentPoke from "./Screen/OpponentPoke";
 
 export default function BattleContent({
-    trainerName,
     battleId,
-    myPokemonHp,
     isMyTurn,
     opponent,
     opponentTrainer,
@@ -26,6 +24,7 @@ export default function BattleContent({
     const [pokemon, setPokemon] = useState()
     const [displayText, setDisaplayText] = useState('')
     const [hitAnimation, setHitAnimation] = useState('')
+    const [battleEnded, setBattleEnded] = useState(false);
 
     const battleEnd = () => {
         updateGame({ openBattleModal: false, openEncounterModal: true })
@@ -62,11 +61,12 @@ export default function BattleContent({
                         pokemon={pokemon} 
                         hitAnimation={hitAnimation} 
                         setHitAnimation={setHitAnimation}
-                        myPokemonHp={myPokemonHp}
                         opponent={opponent}
                         battleLog={battleLog}
                         turnWinner={turnWinner}
                         event={event}
+                        battleEnded={battleEnded}
+                        setBattleEnded={setBattleEnded}
                     />
                 </Center>
                 <Center h={60} w="100%" background={colorMode === 'light' ? "gray.300" : "gray.600"} borderRadius={16}>
@@ -85,6 +85,7 @@ export default function BattleContent({
                         isPokemonBattling={isPokemonBattling}
                         turnWinner={turnWinner}
                         event={event}
+                        battleEnded={battleEnded}
                     />
                 </Center>
             </Center>

@@ -17,7 +17,8 @@ export default function ControlBox({
     setDisaplayText,
     isPokemonBattling,
     turnWinner,
-    event
+    event,
+    battleEnded
 }) {
     const { emit, setLoadingApi, updateGame, updateCurrency, updateStatus } = useContext(PlayerContext)
 
@@ -64,11 +65,11 @@ export default function ControlBox({
         <>
             {isPokemonBattling ? (
                 <Flex flex="1" justifyContent="space-between">
-                    {turnWinner ? (
+                    {battleEnded ? (
                         <>
                             <Center flex="1">
                                 <Text ml={4} fontSize={"3xl"}>
-                                    Battle ended, {turnWinner === pokemon?.id? `you received ${event.prizes[1].amount} coin(s)` : 'you lost!'}
+                                    Battle ended, {turnWinner === pokemon?.id? `you received ${event.prizes[1].amount} coin(s)` : 'sorry, you lost'}
                                 </Text>
                             </Center>
                             <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
@@ -89,7 +90,7 @@ export default function ControlBox({
                     ) : (
                         <Center w="100%">
                             <Spinner size='xl' mr={8}/>
-                            <Text fontSize={"3xl"}>Waiting for battle results</Text>
+                            <Text fontSize={"3xl"}>Wait for the battle to end...</Text>
                         </Center>
                     )}
                 </Flex>

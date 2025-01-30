@@ -205,3 +205,10 @@ export const rarityName = (rarity) => {
     if (rarity === 2) return 'Rare'
     if (rarity === 3) return 'Shiny'
 }
+
+// const rarityColor = (rarity) => {
+//     if(rarity === 1) return '#f06f6f'
+//     if(rarity === 2) return '#4682B4'
+//     if(rarity === 3) return '#d4af37'
+//     return '#8a8a8a'
+// }

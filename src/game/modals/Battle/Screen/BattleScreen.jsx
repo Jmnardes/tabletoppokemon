@@ -81,27 +81,27 @@ export default function BattleScreen({
     `;
     
     const handleSelfHitAnimation = () => {
-      setSelfHitAnimation(`${hitAnimation} 0.8s ease-in-out`);
+      setSelfHitAnimation(`${hitAnimation} 1s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleOpponentHitAnimation = () => {
-      setOpponentHitAnimation(`${hitAnimation} 0.8s ease-in-out`);
+      setOpponentHitAnimation(`${hitAnimation} 1s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleSelfMissAnimation = () => {
-      setSelfHitAnimation(`${missAnimation} 0.8s ease-in-out`);
+      setSelfHitAnimation(`${missAnimation} 1s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleOpponentMissAnimation = () => {
-      setOpponentHitAnimation(`${missAnimation} 0.8s ease-in-out`);
+      setOpponentHitAnimation(`${missAnimation} 1s ease-in-out`);
       handleDamageTextAnimation();
     };
 
     const handleDamageTextAnimation = () => {
-      setDamageTextAnimation(`${textAnimation} 0.8s ease-in-out`);
+      setDamageTextAnimation(`${textAnimation} 1s ease-in-out`);
     }
   
     useEffect(() => {
@@ -152,7 +152,7 @@ export default function BattleScreen({
   
         timer = setTimeout(() => {
           setCurrentLogIndex((prevIndex) => prevIndex + 1);
-        }, 2000);
+        }, 1000);
       }
   
       return () => clearTimeout(timer);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
+import { Flex, Image, Text, Center, useColorMode, Divider, Progress } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from '@utils'
 
 import PokeStats from "./PokeStats"
@@ -11,13 +11,6 @@ import { FaStar } from "react-icons/fa"
 function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
-
-    // const rarityColor = (rarity) => {
-    //     if(rarity === 1) return '#f06f6f'
-    //     if(rarity === 2) return '#4682B4'
-    //     if(rarity === 3) return '#d4af37'
-    //     return '#8a8a8a'
-    // }
 
     const PokeRarity = ({ rarity }) => {
         const renderStars = () => {
@@ -45,7 +38,7 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
 
     useEffect(() => {
         let color = typeColor(poke.types)
-
+        console.log(poke)
         setColorByType(color)
     }, [poke])
 
@@ -113,6 +106,15 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                     </Center>
                 )}
             </Flex>
+            <Progress
+                w={"full"}
+                size="md"
+                colorScheme="purple"
+                title="Experience"
+                borderRadius={4}
+                value={2}
+                max={10}
+            />
         </Flex>
     )    
 }

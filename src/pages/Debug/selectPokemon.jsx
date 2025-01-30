@@ -19,9 +19,9 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { FaSearch } from "react-icons/fa"
-import natures from "@assets/json/natures.json"
 import { Star } from "phosphor-react"
 import socket from "@client"
+import natures from "@assets/json/natures.json"
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 

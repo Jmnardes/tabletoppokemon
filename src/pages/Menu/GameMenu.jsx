@@ -7,10 +7,11 @@ import GameLobby from "./GameLobby";
 import PlayerContext from "@Contexts/PlayerContext";
 import GameNew from "./GameNew";
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
-import DebugPage from "@components/Debug/debugPage";
+import DebugPage from "@pages/Debug/debugPage";
+import StatisticsPage from "@pages/Statistics/StatisticsPage";
+import GameInfo from "./GameInfo";
 
 import { FaArrowLeft, FaDoorOpen, FaInfoCircle, FaGithub } from "react-icons/fa";
-import GameInfo from "./GameInfo";
 
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)
@@ -20,6 +21,7 @@ export default function GameMenu() {
     const [gameInfoModal, setGameInfoModal] = useState(false)
 
     const [debug, setDebug] = useState(false)
+    const [statistics, setStatistics] = useState(false)
 
     const goBack = () => {
         setIsGameTypeSelected(false)
@@ -35,6 +37,10 @@ export default function GameMenu() {
   
     if (debug) {
       return <DebugPage setDebug={setDebug} />
+    }
+
+    if (statistics) {
+      return <StatisticsPage setStatistics={setStatistics} />
     }
 
     return (
@@ -103,6 +109,9 @@ export default function GameMenu() {
                             {/* <Button w="100%" h={12} my={4} onClick={
                                 () => setDebug(true)
                             }>Simulator</Button> */}
+                            <Button w="100%" h={12} my={4} onClick={
+                                () => setStatistics(true)
+                            }>Statistics</Button>
                         </>
                     ) : (
 

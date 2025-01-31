@@ -10,27 +10,11 @@ import {
     Center,
     useColorMode,
     Divider,
-    Flex,
-    Image
+    Flex
 } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import SuccessIcon from "@components/Icons/SuccessIcon"
-import coinIcon from '@assets/images/game/coin.png'
-import starIcon from '@assets/images/game/star.png'
-import crownIcon from '@assets/images/game/crown.png'
-
-const PrizeIcon = ({ type }) => {
-    switch (type) {
-        case 'coins':
-            return <Image src={coinIcon} title="Coin" w="20px" ml={1} />
-        case 'stars':
-            return <Image src={starIcon} title="Poke star" w="20px" ml={1} />
-        case 'crowns':
-            return <Image src={crownIcon} title="Poke crown" w="20px" ml={1} />
-        default:
-            return
-    }
-}
+import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function WalkModal({ event }) {
     const { updateGame, updatePlayer, player, pokeTeam } = useContext(PlayerContext)
@@ -103,7 +87,7 @@ export default function WalkModal({ event }) {
                                     </Text>
                                 )}
                                 <Center>
-                                    <Text>{prize.amount}x</Text>
+                                    <Text>{prize.amount}</Text>
                                     <PrizeIcon type={prize.name} />
                                 </Center>
                             </Flex>

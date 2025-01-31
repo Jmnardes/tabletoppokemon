@@ -1,9 +1,11 @@
 import { Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+
 import PlayerContext from "@Contexts/PlayerContext";
 import { typeColor } from "@utils";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "@utils/pokemonFunctions";
+
 import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 

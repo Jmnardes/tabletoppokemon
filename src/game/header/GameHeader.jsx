@@ -5,12 +5,9 @@ import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 
-import shopIcon from '@assets/images/game/shop.png';
 import bagIcon from '@assets/images/game/bag.png';
 import bulbasaurIcon from '@assets/images/pokemons/bulbasaur.png';
 import venonatIcon from '@assets/images/pokemons/venonat.png';
-import battleIcon from '@assets/images/game/battle.png';
-import gymIcon from '@assets/images/game/event3.png';
 
 export default function GameHeader() {
     const { player, updateGame, pokeBox, game } = useContext(PlayerContext)
@@ -25,28 +22,9 @@ export default function GameHeader() {
                 <TrainerBar />
             </Center>
             <Center>
-                {/* <StealBlock />
-                <PokemonEgg /> */}
-
-                {/* {session.turns % 10 === 0 && session.turns !== 0 && pokeTeam?.length > 0 && (
-                    <Button mr={2} onClick={() => updateGame({ openGymModal: true })}>
-                        <Image
-                            src={gymIcon} 
-                            title={'Gym'}
-                            w="32px"
-                        ></Image>
-                    </Button>
-                )} */}
+                {/* <PokemonEgg /> */}
 
                 <PokeballStats />
-
-                {/* <Button onClick={() => updateGame({ openBattleModal: true })}>
-                    <Image
-                        src={battleIcon} 
-                        title={'Battle'}
-                        w="32px"
-                    ></Image>
-                </Button> */}
 
                 <Button mx={1} onClick={() => updateGame({ openPokeItemModal: true })}>
                     <Image
@@ -84,14 +62,6 @@ export default function GameHeader() {
                             <Text fontSize={"xx-small"}>{pokeBox?.length}</Text>
                         </Center>
                     )}
-                </Button>
-
-                <Button mx={1} onClick={() => updateGame({ openPokeShop: true })}>
-                    <Image
-                        src={shopIcon} 
-                        title={'Shop'}
-                        w="32px"
-                    ></Image>
                 </Button>
 
                 <Settings />

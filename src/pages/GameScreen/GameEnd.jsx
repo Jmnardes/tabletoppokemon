@@ -2,16 +2,14 @@ import { Center, Divider, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 
-import crownIcon from '@assets/images/game/crown.png'
 import starIcon from '@assets/images/game/star.png'
-import coinIcon from '@assets/images/game/coin.png'
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon";
 import SecondPlaceIcon from "@components/Icons/places/SecondPlaceIcon";
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon";
 
 export default function GameEnd() {
     const { results, setWaitingForPlayers } = useContext(PlayerContext)
-    const { players, achievements } = results
+    const { players } = results
 
     function handlePlacement (place) {
         switch (place) {
@@ -26,11 +24,11 @@ export default function GameEnd() {
         }
     }
 
-    function PlayerCurrencyBlock ({ img, currency }) {
+    function PlayerStatusBlock ({ img, status }) {
         return (
             <Center px={4}>
                 <Image src={img} w={22}></Image>
-                <Text ml={2}>{currency}</Text>
+                <Text ml={2}>Ranking Points: {status.ranking}</Text>
             </Center>
         )
     }
@@ -48,9 +46,7 @@ export default function GameEnd() {
                         </Text>
                         <Divider my={4} />
                         <Center w="100%" flex justifyContent="space-between">
-                            <PlayerCurrencyBlock img={coinIcon} currency={player.status.coins} />
-                            <PlayerCurrencyBlock img={starIcon} currency={player.status.stars} />
-                            <PlayerCurrencyBlock img={crownIcon} currency={player.status.crowns} />
+                            <PlayerStatusBlock img={starIcon} status={player.status} />
                         </Center>
                     </Center>
                 </Center>

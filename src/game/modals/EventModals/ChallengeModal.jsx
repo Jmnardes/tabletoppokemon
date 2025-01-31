@@ -12,8 +12,7 @@ import {
     useColorMode,
     Box,
     Divider,
-    Tooltip,
-    Image
+    Tooltip
 } from "@chakra-ui/react"
 import { useContext, useEffect, useRef, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
@@ -23,15 +22,12 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon"
 import OpponentsResult from "./OpponentsResult"
 import { FaInfoCircle, FaRedo } from "react-icons/fa";
-import coinIcon from '@assets/images/game/coin.png'
-import starIcon from '@assets/images/game/star.png'
-import crownIcon from '@assets/images/game/crown.png'
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
 import socket from "@client"
-// import SadIcon from "../../../Icons/emote/SadIcon"
+import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, updateCurrency, pokeTeam, updateStatus } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, pokeTeam, updateStatus, updateRanking } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -52,19 +48,6 @@ export default function ChallengeModal({ event }) {
 
     const [overlay, setOverlay] = useState(<Overlay />)
 
-    const PrizeIcon = ({ type, size = '20px' }) => {
-        switch (type) {
-            case 'coins':
-                return <Image src={coinIcon} w={size} title="Coin" ml={2} />
-            case 'stars':
-                return <Image src={starIcon} w={size} title="Poke star" ml={2} />
-            case 'crowns':
-                return <Image src={crownIcon} w={size} title="Poke crown" ml={2} />
-            default:
-                return
-        }
-    }
-
     const PlaceBox = ({ icon, prize }) => {
         return (
             <Flex alignItems="center" w="100%" minW={32} mx={6} bg={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={8}>
@@ -73,7 +56,7 @@ export default function ChallengeModal({ event }) {
                 </Box>
 
                 <Flex w="100%" justifyContent="center" mx={2}>
-                    <Text fontSize="xs">{prize.amount}x</Text>
+                    <Text fontSize="xs">{prize.amount}</Text>
                     <PrizeIcon type={prize.name} />
                 </Flex>
 
@@ -150,7 +133,7 @@ export default function ChallengeModal({ event }) {
         myPlacing.current = place
         
         place === 0 && updateStatus('challenges')
-        updateCurrency(event.prizes[place].amount, event.prizes[place].name)
+        updateRanking(event.prizes[place].amount, event.prizes[place].name)
     }
 
     useEffect(() => {
@@ -224,8 +207,6 @@ export default function ChallengeModal({ event }) {
                                             ): (
                                                 <Center flexDirection="column">
                                                     <Text my={4}>Sorry...</Text>
-
-                                                    {/* <SadIcon h={16} w={16} /> */}
                                                     
                                                     <Text my={4} fontSize="2xl" fontWeight="bold" color="red.400">You lose</Text>
                                                 </Center>
@@ -317,7 +298,7 @@ export default function ChallengeModal({ event }) {
                                     flex
                                     justifyContent="space-between"
                                 >
-                                    <OpponentsResult opponentsRoll={opponentsRoll} />
+                                    <OpponentsResult myRoll={myRoll.current} myBonus={bonus.current} opponentsRoll={opponentsRoll} />
                                     <DiceButton bonus={bonus.current} onRoll={(roll) => {
                                         myRoll.current = roll + bonus.current
                                         setHasIRolled(true)

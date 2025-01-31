@@ -21,8 +21,6 @@ export function PlayerProvider({children}) {
     const [game, setGame] = useState({
         gameEnded: false,
         isPokemonRollDisabled: false,
-        openPokeShop: false,
-        updateShop: false,
         showBagLength: false,
         openChallengeModal: false,
         openWalkModal: false,
@@ -173,21 +171,10 @@ export function PlayerProvider({children}) {
     const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
     const updateItem = (amount, type) => updatePlayer(player.items[type] + amount, 'items', type)
 
-    // const changeCurrency = (qty, which) => {
-    //     let newQty = player.currency[which] + qty;
-    //     if (newQty < 0) {
-    //         newQty = 0;
-    //     }
-    //     updatePlayer(newQty, 'currency', which)
-    // }
-    const updateCurrency = (amount, which) => {
-        const newAmount = player.currency[which] + amount;
-        updatePlayer(newAmount < 0 ? 0 : newAmount, 'currency', which);
+    const updateRanking = (amount) => {
+        const newAmount = player.status.ranking + amount
+        updateStatusAmount(newAmount, 'ranking')
     }
-
-    const updateCoins = (amount) => updateCurrency(amount, 'coins')
-    const updateStars = (amount) => updateCurrency(amount, 'stars')
-    const updateCrowns = (amount) => updateCurrency(amount, 'crowns')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
     const updateStatusAmount = (amount, status) => updatePlayer(player.status[status] + amount, 'status', status)
@@ -196,17 +183,10 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         if (player.status) {
-            emit('player-update-status', { level: player.status.level })
+            emit('player-update-status', { level: player.status.level, ranking: player.status.ranking })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.status?.level])
-
-    useEffect(() => {
-        if (player.currency) {
-            emit('player-update-currency', player.currency)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.currency?.coins, player.currency?.stars, player.currency?.crowns])
+    }, [player.status?.level, player.status?.ranking])
 
     useEffect(() => {
         socket.on('error', res => {
@@ -299,10 +279,6 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        socket.on('player-update-currency-other', res => {
-            updateOpponent(res.id, res.data, 'currency')
-        })
-
         socket.on('player-capture-pokemon', res => {
             updateLoading(false)
             // console.log('catch pokemon:', res)
@@ -379,12 +355,6 @@ export function PlayerProvider({children}) {
             removeFromPokeBox,
             removeFromPokeBoxById,
 
-            // changeCurrency,
-            updateCurrency,
-            updateCoins,
-            updateStars,
-            updateCrowns,
-
             updateBall,
             changeBall,
             updatePokeball,
@@ -397,6 +367,7 @@ export function PlayerProvider({children}) {
 
             updateStatus,
             updateStatusAmount,
+            updateRanking,
 
             results,
         }}>

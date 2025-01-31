@@ -1,8 +1,10 @@
 import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+
 import PlayerContext from "@Contexts/PlayerContext"
 import PokeSelector from "./PokeSelector"
-import { FaDoorOpen } from "react-icons/fa";
+
+import { FaDoorOpen, FaRedo } from "react-icons/fa";
 
 export default function ControlBox({ 
     battleId,
@@ -14,7 +16,9 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateCurrency, updateStatus } = useContext(PlayerContext)
+    const { updateGame, updateStatus, updateRanking } = useContext(PlayerContext)
+    const [refreshResults, setRefreshResults] = useState(false)
+    const refreshButtonTimer = 30000
 
     // const battleChooseMove = (move) => {
     //     setLoadingApi(false)
@@ -37,6 +41,15 @@ export default function ControlBox({
     // // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [])
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setRefreshResults(true);
+        }, refreshButtonTimer);
+
+        return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <>
             {isPokemonBattling ? (
@@ -53,7 +66,7 @@ export default function ControlBox({
 
                                 if (turnWinner === pokemon?.id) {
                                     updateStatus('wins')
-                                    updateCurrency(prize.amount, prize.name)
+                                    updateRanking(prize.amount, prize.name)
                                 } else {
                                     updateStatus('loses')
                                 }
@@ -67,6 +80,13 @@ export default function ControlBox({
                         <Center w="100%">
                             <Spinner size='xl' mr={8}/>
                             <Text fontSize={"3xl"}>Wait for the battle to end...</Text>
+                            {refreshResults && (
+                                <FaRedo
+                                    title="Refresh results" size={24}
+                                    cursor={"pointer"}
+                                    onClick={() => setRefreshResults(true)}
+                                />
+                            )}
                         </Center>
                     )}
                 </Flex>

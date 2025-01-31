@@ -8,7 +8,6 @@ import BattleModal from "./EventModals/BattleModal";
 import ChallengeModal from "./EventModals/ChallengeModal";
 import EncounterModal from "./EventModals/EncounterModal";
 import WalkModal from "./EventModals/WalkModal";
-import PokeShopModal from "../header/Buttons/PokeShop/PokeShopModal";
 import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeItemsModal from "../header/Buttons/PokeItems/PokeItemsModal";
@@ -87,7 +86,6 @@ export default function ModalController() {
 
     return(
         <>
-            {game.openPokeShop && <PokeShopModal />}
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
             {/* {game.openGymModal && <GymModal />} */}

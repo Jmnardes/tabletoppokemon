@@ -1,4 +1,4 @@
-import { Center, Flex, Image, Kbd, Progress, Text, keyframes } from "@chakra-ui/react";
+import { Center, Flex, Image, Kbd, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
@@ -21,29 +21,31 @@ export default function BattleScreen({
     const [currentLogIndex, setCurrentLogIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [logMessages, setLogMessages] = useState([]);
+    const turnsInMilisecondsDuration = 1200;
+    const animationInSecondsDuration = 0.8;
     
     const handleSelfHitAnimation = () => {
-      setSelfHitAnimation(`${hitAnimation} 1s ease-in-out`);
+      setSelfHitAnimation(`${hitAnimation} ${animationInSecondsDuration}s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleOpponentHitAnimation = () => {
-      setOpponentHitAnimation(`${hitAnimation} 1s ease-in-out`);
+      setOpponentHitAnimation(`${hitAnimation} ${animationInSecondsDuration}s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleSelfMissAnimation = () => {
-      setSelfHitAnimation(`${missAnimation} 1s ease-in-out`);
+      setSelfHitAnimation(`${missAnimation} ${animationInSecondsDuration}s ease-in-out`);
       handleDamageTextAnimation();
     };
   
     const handleOpponentMissAnimation = () => {
-      setOpponentHitAnimation(`${missAnimation} 1s ease-in-out`);
+      setOpponentHitAnimation(`${missAnimation} ${animationInSecondsDuration}s ease-in-out`);
       handleDamageTextAnimation();
     };
 
     const handleDamageTextAnimation = () => {
-      setDamageTextAnimation(`${textAnimation} 1s ease-in-out`);
+      setDamageTextAnimation(`${textAnimation} ${animationInSecondsDuration}s ease-in-out`);
     }
   
     useEffect(() => {
@@ -94,10 +96,11 @@ export default function BattleScreen({
   
         timer = setTimeout(() => {
           setCurrentLogIndex((prevIndex) => prevIndex + 1);
-        }, 1000);
+        }, turnsInMilisecondsDuration);
       }
   
       return () => clearTimeout(timer);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentLogIndex, isPlaying, battleLog, pokemon]);
   
     const handleStart = () => {

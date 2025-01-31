@@ -2,9 +2,7 @@ import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
 import { Center, Divider, Flex, Text } from "@chakra-ui/layout"
-import crownIcon from '@assets/images/game/crown.png'
 import starIcon from '@assets/images/game/star.png'
-import coinIcon from '@assets/images/game/coin.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 import StepsIcon from "@components/Icons/StepsIcon"
 import SuccessIcon from "@components/Icons/SuccessIcon"
@@ -27,6 +25,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
             gap="0.75rem"
             border={borderStyle}
             zIndex={inFront ? '2' : 'auto'}
+            minW={"160px"}
         >
             {opponent.online && (
                 <Center
@@ -49,33 +48,16 @@ export default function OpponentCard({ opponent, inFront = false }) {
             </Flex>
             <Divider />
             {opponent.online ? (
-                <Flex justify="space-between">
-                    <Flex alignItems="center" mx={2}>
-                        <Image
-                            mb={1}
-                            src={crownIcon}
-                            title={'Poke Crown'}
-                            w="34px"
-                        ></Image>
-                        <Text fontSize="2xs" ml={2}>{opponent.currency.crowns}</Text>
-                    </Flex>
+                <Center flex justify="space-between">
                     <Flex alignItems="center" mx={2}>
                         <Image
                             src={starIcon}
-                            title={'Poke Star'}
+                            title={'Ranking Points'}
                             w="24px"
                         ></Image>
-                        <Text fontSize="2xs" ml={2}>{opponent.currency.stars}</Text>
+                        <Text fontSize="2xs" ml={2}>{opponent.status.ranking}</Text>
                     </Flex>
-                    <Flex alignItems="center" mx={2}>
-                        <Image
-                            src={coinIcon}
-                            title={'Coins'}
-                            w="24px"
-                        ></Image>
-                        <Text fontSize="2xs" ml={2}>{opponent.currency.coins}</Text>
-                    </Flex>
-                </Flex>
+                </Center>
             ) : (
                 <Center>
                     <DisconnectedIcon />

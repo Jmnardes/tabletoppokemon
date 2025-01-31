@@ -2,8 +2,8 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/reac
 import { useContext } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 
-export default function OpponentsResult({ opponentsRoll }) {
-    const { opponents } = useContext(PlayerContext)
+export default function OpponentsResult({ myRoll, myBonus, opponentsRoll }) {
+    const { opponents, player } = useContext(PlayerContext)
 
     const OpponentRow = ({opponent}) => {
         return (
@@ -31,6 +31,12 @@ export default function OpponentsResult({ opponentsRoll }) {
                         <Th pt={0} pb={2} fontSize="2xs">Result</Th>
                     </Tr>
                 </Thead>
+                <Tbody>
+                    <Tr>
+                        <Td pt={1} pb={2} fontSize="2xs">{player.status.trainerName}</Td>
+                        <Td pt={1} pb={2} fontSize="2xs">{myRoll && myRoll + myBonus}</Td>
+                    </Tr>
+                </Tbody>
                 <Tbody>
                     {
                         opponents.map(opponent => {

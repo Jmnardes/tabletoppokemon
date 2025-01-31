@@ -28,11 +28,10 @@ export default function PokeDayCare() {
             setLoadingApi(false)
             
             if (res) {
-                console.log(res)
                 removeFromPokeBoxById(res.pokeId, pokeBox)
                 updateItem(res.dust, 'dust')
                 handleToast({
-                    title: 'Pokémon care',
+                    title: 'Pokémon Day Care',
                     description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
                     status: 'info',
                     duration: 6000,

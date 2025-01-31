@@ -20,12 +20,18 @@ export default function PokeCard({ pokemon, setSelectedPokemon }) {
     }, [pokemon])
 
     return (
-        <Center flexDir={"column"} backgroundColor={"gray.600"} w={52} _hover={{ opacity: 0.8 }} cursor={"pointer"} onClick={() => {
-            setSelectedPokemon(pokemon)
-        }}>
-            {/* <Text position={"absolute"} mt={24}>{stringToUpperCase(pokemon.name)}</Text> */}
+        <Center 
+            flexDir={"column"} 
+            backgroundColor={"gray.600"} 
+            w={52} 
+            _hover={{ opacity: 0.8 }} 
+            cursor={"pointer"}
+            onClick={() => {
+                setSelectedPokemon(pokemon)
+            }}
+        >
             <Tooltip label={pokeStatsTooltip} background="none">
-                <Image w={36} minH={36} minW={36}
+                <Image w={32} minH={32} minW={32}
                     title={stringToUpperCase(pokemon.name)} 
                     src={pokemon.sprites.front}
                 />

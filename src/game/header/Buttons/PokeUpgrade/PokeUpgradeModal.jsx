@@ -10,10 +10,10 @@ import {
     ModalOverlay,
     Text,
 } from "@chakra-ui/react"
-import PokeItems from "./PokeItems"
 import PokeList from "./PokeList"
+import PokeUpgrade from "./PokeUpgrade"
 
-export default function PokeItemsModal() {
+export default function PokeUpgradeModal() {
     const { updateGame, pokeBox, pokeTeam } = useContext(PlayerContext)
     const [ allPokemon, setAllPokemon ] = useState([ ...pokeTeam, ...pokeBox ])
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
@@ -32,12 +32,12 @@ export default function PokeItemsModal() {
                 <ModalContent>
                     <ModalHeader fontSize="3xl" textAlign="center">
                         <Center>
-                            <Text>Poke Items</Text>
+                            <Text>Poke Upgrade</Text>
                             <CloseButton
                                 position="absolute" 
                                 right="20px"
                                 title={'Fechar'}
-                                onClick={() => updateGame({ openPokeItemModal: false })}
+                                onClick={() => updateGame({ openPokeUpgradeModal: false })}
                             />
                         </Center>
                     </ModalHeader>
@@ -46,7 +46,7 @@ export default function PokeItemsModal() {
                         <Text textAlign={"center"} mt={4}>Select the pokemon you wanna use your item</Text>
                         <PokeList allPokemon={allPokemon} setSelectedPokemon={setSelectedPokemon} />
 
-                        <PokeItems selectedPokemon={selectedPokemon} />
+                        <PokeUpgrade selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
                     </ModalBody>
                 </ModalContent>
             </Modal>

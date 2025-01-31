@@ -26,10 +26,10 @@ export default function GameHeader() {
 
                 <PokeballStats />
 
-                <Button mx={1} onClick={() => updateGame({ openPokeItemModal: true })}>
+                <Button mx={1} onClick={() => updateGame({ openPokeUpgradeModal: true })}>
                     <Image
                         src={venonatIcon} 
-                        title={'Pokémon Items'} 
+                        title={'Pokémon Upgrade'} 
                         w="32px"
                     ></Image>
                 </Button>

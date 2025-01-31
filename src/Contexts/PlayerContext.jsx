@@ -31,6 +31,7 @@ export function PlayerProvider({children}) {
         openBattleModal: false,
         openDayCareModal: false,
         openPokeItemModal: false,
+        openPokeUpgradeModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -171,10 +172,7 @@ export function PlayerProvider({children}) {
     const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
     const updateItem = (amount, type) => updatePlayer(player.items[type] + amount, 'items', type)
 
-    const updateRanking = (amount) => {
-        const newAmount = player.status.ranking + amount
-        updateStatusAmount(newAmount, 'ranking')
-    }
+    const updateRanking = (amount) => updateStatusAmount(amount, 'ranking')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
     const updateStatusAmount = (amount, status) => updatePlayer(player.status[status] + amount, 'status', status)
@@ -183,7 +181,7 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         if (player.status) {
-            emit('player-update-status', { level: player.status.level, ranking: player.status.ranking })
+            emit('player-update-status', { level: player.status.level })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.status?.level, player.status?.ranking])

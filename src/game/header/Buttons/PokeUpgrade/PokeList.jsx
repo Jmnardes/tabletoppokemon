@@ -5,7 +5,7 @@ import PokeCard from './PokeCard'
 export default function PokeList ({ allPokemon, setSelectedPokemon }) {
     return (
         <HStack 
-            p={2} h={44} overflowX={"auto"} spacing={1} my={8}
+            h={44} overflowX={"auto"} spacing={1} my={2}
             direction={['column', 'row']}
             css={{
                 "&::-webkit-scrollbar": {

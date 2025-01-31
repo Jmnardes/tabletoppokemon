@@ -90,3 +90,36 @@ export const textAnimation = keyframes`
     transform: translateY(-30px); 
     }
 `;
+
+const starterGlowColor = 'rgba(174, 0, 255, 0.7)';
+const GlowColorOne = 'rgba(111, 0, 255, 0.86)';
+const GlowColorTwo = 'rgba(255, 0, 255, 0.7)';
+const GlowColorThree = 'rgba(162, 0, 255, 0.7)';
+
+export const glowAnimation = keyframes`
+    0% {
+        box-shadow: 
+            15px 0 var(--glow-size) ${starterGlowColor},
+            -5px 0 var(--glow-size) ${starterGlowColor};
+    }
+    25% {
+        box-shadow: 
+            0 15px calc(var(--glow-size) * 0.8) ${GlowColorOne},
+            0 -5px calc(var(--glow-size) * 0.8) ${GlowColorOne};
+    }
+    50% {
+        box-shadow: 
+            -15px 0 calc(var(--glow-size) * 1.2) ${GlowColorTwo},
+            5px 0 calc(var(--glow-size) * 1.2) ${GlowColorTwo};
+    }
+    75% {
+        box-shadow: 
+            0 -15px calc(var(--glow-size) * 0.8) ${GlowColorThree},
+            0 5px calc(var(--glow-size) * 0.8) ${GlowColorThree};
+    }
+    100% {
+        box-shadow: 
+            15px 0 var(--glow-size) ${starterGlowColor},
+            -5px 0 var(--glow-size) ${starterGlowColor};
+    }
+`;

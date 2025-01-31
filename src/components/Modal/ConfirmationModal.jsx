@@ -7,23 +7,28 @@ import {
     Button,
     useDisclosure,
     ModalFooter,
+    ModalBody,
+    Text,
 } from "@chakra-ui/react"
 
-function ConfirmationModal({ children, event, text = "Are you sure?", bh = 12}) {
+function ConfirmationModal({ children, event, modalTitle = "Are you sure?", modalText, ...props }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
         <>
-            <Button h={bh} m={4} onClick={onOpen}>
+            <Button onClick={onOpen} {...props}>
                 {children}
             </Button>
 
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader textAlign={"center"}>{text}</ModalHeader>
+                    <ModalHeader textAlign={"center"}>{modalTitle}</ModalHeader>
                     <ModalCloseButton />
-                    <ModalFooter justifyContent="center">
+                    <ModalBody textAlign={"center"}>
+                        <Text fontSize={"sm"} my={8}>{modalText}</Text>
+                    </ModalBody>
+                    <ModalFooter justifyContent="center" gap={4}>
                         <Button w={24} onClick={() => {
                             event()
                             onClose()

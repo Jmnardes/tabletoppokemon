@@ -1,10 +1,11 @@
-import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
+import { Button, Center, Flex, Text, Spinner, Image } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import PokeSelector from "./PokeSelector"
 
 import { FaDoorOpen, FaRedo } from "react-icons/fa";
+import starIcon from "@assets/images/game/star.png"
 
 export default function ControlBox({ 
     battleId,
@@ -58,7 +59,18 @@ export default function ControlBox({
                         <>
                             <Center flex="1">
                                 <Text ml={4} fontSize={"3xl"}>
-                                    Battle ended, {turnWinner === pokemon?.id? `you received ${event.prizes[1].amount} coin(s)` : 'sorry, you lost'}
+                                    {turnWinner === pokemon?.id ? (
+                                        <>
+                                        You won and received {event.prizes[1].amount} Ranking Points
+                                        <Image
+                                            src={starIcon}
+                                            title={'Ranking Points'}
+                                            w={8}
+                                            display="inline-block"
+                                            ml={4}
+                                        />
+                                        </>
+                                    ) : 'Sorry, you lost the battle'}
                                 </Text>
                             </Center>
                             <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {

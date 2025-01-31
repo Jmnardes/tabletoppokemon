@@ -6,25 +6,11 @@ import PokeStats from "./PokeStats"
 import Types from "../Elements/Types"
 import CardTitle from "./CardTitle"
 
-import { FaStar } from "react-icons/fa"
+import { PokeRarity } from "./PokemonRarity"
 
 function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
-
-    const PokeRarity = ({ rarity }) => {
-        const renderStars = () => {
-          const stars = [];
-          
-          for (let i = 0; i < rarity; i++) {
-            stars.push(<FaStar key={i} size={12} />);
-          }
-      
-          return stars;
-        };
-      
-        return renderStars();
-    };
 
     const handleBackgroundColor = (poke) => {
         if (poke.shiny) {

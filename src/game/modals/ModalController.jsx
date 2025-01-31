@@ -10,7 +10,7 @@ import EncounterModal from "./EventModals/EncounterModal";
 import WalkModal from "./EventModals/WalkModal";
 import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
-import PokeItemsModal from "../header/Buttons/PokeItems/PokeItemsModal";
+import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
 
 export default function ModalController() {
     const { 
@@ -93,7 +93,7 @@ export default function ModalController() {
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBoxModal />}
             {game.openDayCareModal && <PokeDayCare />}
-            {game.openPokeItemModal && <PokeItemsModal />}
+            {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

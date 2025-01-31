@@ -1,18 +1,17 @@
 import React from 'react';
-import { Box, Center, Divider, Text } from '@chakra-ui/react';
+import { Box, Center, Divider, Flex, Text } from '@chakra-ui/react';
 import { stringToUpperCase } from '@utils';
 import { colorByHitType } from '@utils/battle';
 
 const BattleLog = ({ logMessages }) => {
     return (
-        <>
+        <Flex flexDirection="column" w="100%" h="100%">
+            <Center pb={4}>
+                <Text>Battle Log</Text>
+            </Center>
             {logMessages.length > 0 && (
-                <Box w="100%" p={6} maxH="465px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
+                <Box w="100%" p={4} maxH="465px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
                     <>
-                        <Center flexDirection="column">
-                            <Text>Battle Log</Text>
-                            <Divider mt={4} mb={2} />
-                        </Center>
                         {logMessages.map((log, index) => (
                             <Box key={index}>
                                 <Box
@@ -43,7 +42,7 @@ const BattleLog = ({ logMessages }) => {
                     </>
                 </Box>
             )}
-        </>
+        </Flex>
     );
 };
 

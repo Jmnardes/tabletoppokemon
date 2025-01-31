@@ -11,7 +11,6 @@ import OpponentPoke from "./Screen/OpponentPoke";
 
 export default function BattleContent({
     battleId,
-    isMyTurn,
     opponent,
     opponentTrainer,
     isPokemonBattling,
@@ -22,8 +21,6 @@ export default function BattleContent({
     const { pokeTeam, updateGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemon, setPokemon] = useState()
-    const [displayText, setDisaplayText] = useState('')
-    const [hitAnimation, setHitAnimation] = useState('')
     const [battleEnded, setBattleEnded] = useState(false);
 
     const battleEnd = () => {
@@ -59,8 +56,6 @@ export default function BattleContent({
                 <Center w="100%" flex="1" p={4}>
                     <BattleScreen 
                         pokemon={pokemon} 
-                        hitAnimation={hitAnimation} 
-                        setHitAnimation={setHitAnimation}
                         opponent={opponent}
                         battleLog={battleLog}
                         turnWinner={turnWinner}
@@ -75,13 +70,9 @@ export default function BattleContent({
                     </Center>
                     <ControlBox
                         battleId={battleId}
-                        isMyTurn={isMyTurn}
                         team={pokeTeam}
                         pokemon={pokemon}
                         setPokemon={setPokemon}
-                        displayText={displayText}
-                        setDisaplayText={setDisaplayText}
-                        setHitAnimation={setHitAnimation}
                         isPokemonBattling={isPokemonBattling}
                         turnWinner={turnWinner}
                         event={event}

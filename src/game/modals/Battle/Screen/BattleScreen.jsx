@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
 import { stringToUpperCase } from "@utils";
+import { winAnimation, hitAnimation, missAnimation, textAnimation, littleBounceAnimation } from "@utils/animations";
 
 export default function BattleScreen({
     pokemon,
@@ -20,65 +21,6 @@ export default function BattleScreen({
     const [currentLogIndex, setCurrentLogIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [logMessages, setLogMessages] = useState([]);
-  
-    const winAnimation = keyframes`
-      0% { 
-        transform: translate(0px, 0px) rotate(0deg) scale(1);
-      }
-      25% { 
-        transform: translate(6px, 6px) rotate(20deg) scale(1.3);
-      }
-      50% { 
-        transform: translate(0px, 0px) rotate(0deg) scale(1);
-      }
-      75% { 
-        transform: translate(6px, 6px) rotate(-20deg) scale(1.3);
-      }
-      100% { 
-        transform: translate(0px, 0px) rotate(0deg) scale(1);
-      }
-    `;
-  
-    const hitAnimation = keyframes`
-      0% { 
-        transform: translate(1.5px, 1.5px) rotate(3deg) scale(1.03); 
-        filter: brightness(1.3); 
-      }
-      50% { 
-        transform: translate(-1.5px, -1.5px) rotate(-3deg) scale(1); 
-        filter: brightness(0.7); 
-      }
-      100% { 
-        transform: translate(0px, 0px) rotate(0deg) scale(1.03); 
-        filter: brightness(1.3); 
-      }
-    `;
-
-    const missAnimation = keyframes`
-      0% { 
-        opacity: 1; 
-        transform: translate(0, 0); 
-      }
-      50% { 
-        opacity: 0.2; 
-        transform: translate(20px, 0); 
-      }
-      100% { 
-        opacity: 1; 
-        transform: translate(0, 0); 
-      }
-    `;
-
-    const textAnimation = keyframes`
-      0% { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
-      100% { 
-        opacity: 0; 
-        transform: translateY(-30px); 
-      }
-    `;
     
     const handleSelfHitAnimation = () => {
       setSelfHitAnimation(`${hitAnimation} 1s ease-in-out`);
@@ -242,9 +184,9 @@ export default function BattleScreen({
         <Image
           w={48}
           src={sprite}
-          animation={`${winAnimation} 3s ease-in-out infinite`}
+          animation={`${winAnimation} 4s ease-in-out infinite`}
         />
-        <Text fontSize={"2xl"}>{stringToUpperCase(name)} wins!!!</Text>
+        <Text mt={2} fontSize={"2xl"} animation={`${littleBounceAnimation} 10s ease-in-out infinite`}>{stringToUpperCase(name)} wins!!!</Text>
       </Center>
     )
   

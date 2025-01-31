@@ -32,9 +32,13 @@ export default function GameInfo({ setGameInfoModal }) {
                     
                     <ModalBody p={8}>
                         <Text textAlign={"center"} mt={4}>
-                            This is a fan made based on pokemon
+                            This is a non-financial game made by a fan of the pokemon series
                             <br/>
-                            The game is a multiplayer game where you can play with your friends, the goal is to catch and level up your pokemons to battle and conquest the gyms.
+                            The objective of the game is to be the best pokemon master, to be the best you must earn points in the pokemon league ranking.
+                            <br/>
+                            You play against your friends and earn points by winning battles, catching pokemons, completing missions and others.
+                            <br/>
+                            Just create your room, invite your friends and start playing now!
                         </Text>
                     </ModalBody>
                 </ModalContent>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Flex, Image, Text, Center, useColorMode, Divider, Progress } from "@chakra-ui/react"
+import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from '@utils'
 
 import PokeStats from "./PokeStats"
@@ -38,7 +38,6 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
 
     useEffect(() => {
         let color = typeColor(poke.types)
-        console.log(poke)
         setColorByType(color)
     }, [poke])
 
@@ -106,15 +105,6 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                     </Center>
                 )}
             </Flex>
-            <Progress
-                w={"full"}
-                size="md"
-                colorScheme="purple"
-                title="Experience"
-                borderRadius={4}
-                value={2}
-                max={10}
-            />
         </Flex>
     )    
 }

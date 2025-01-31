@@ -1,47 +1,23 @@
-import { Button, Center, Flex, Text, keyframes, Spinner } from "@chakra-ui/react"
-import { useContext, useEffect } from "react"
-import socket from "@client"
+import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
+import { useContext } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
-import { diceRoll, stringToUpperCase } from "@utils"
 import PokeSelector from "./PokeSelector"
 import { FaDoorOpen } from "react-icons/fa";
 
 export default function ControlBox({ 
     battleId,
-    isMyTurn,
     team, 
     pokemon,
     setPokemon,
-    setHitAnimation,
-    displayText,
-    setDisaplayText,
     isPokemonBattling,
     turnWinner,
     event,
     battleEnded
 }) {
-    const { emit, setLoadingApi, updateGame, updateCurrency, updateStatus } = useContext(PlayerContext)
-
-    const handleHitAnimation = () => {
-        setHitAnimation(keyframes`
-        0% { transform: translate(1px, 1px) rotate(6deg); opacity: 0.1 }
-        10% { transform: translate(10px, 10px) rotate(12deg); opacity: 0.4 }
-        20% { transform: translate(-10px, -10px) rotate(6deg); opacity: 0.7 }
-        30% { transform: translate(5px, 5px) rotate(0deg); }
-        40% { transform: translate(-5px, -5px) rotate(-6deg); }
-        50% { transform: translate(10px, 1px) rotate(-12deg); }
-        60% { transform: translate(1px, 10px) rotate(-6deg); opacity: 0.1 }
-        70% { transform: translate(-5px, 5px) rotate(0deg); opacity: 0.4 }
-        80% { transform: translate(5px, -5px) rotate(6deg); opacity: 0.7 }
-        90% { transform: translate(-1px, -1px) rotate(12deg); }
-        100% { transform: translate(0px, 0px) rotate(6deg); }
-        ` + ' 0.5s ease-in-out 1s')
-    }
+    const { updateGame, updateCurrency, updateStatus } = useContext(PlayerContext)
 
     // const battleChooseMove = (move) => {
     //     setLoadingApi(false)
-    //     handleHitAnimation()
-    //     setDisaplayText(move)
     // }
 
     // const pokeMoveName = (index) => {

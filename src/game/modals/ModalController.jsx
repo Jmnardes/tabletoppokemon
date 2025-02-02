@@ -21,7 +21,8 @@ export default function ModalController() {
         updateGame, 
         updatePokemonOnTeam,
         setEncounter,
-        handleToast
+        handleToast,
+        setTasks
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
@@ -62,6 +63,8 @@ export default function ModalController() {
             })
             
             setEncounter([...res.encounter])
+            // setTasks([...res.tasks])
+            console.log(res.tasks)
             
             switch (res.event.type) {
                 case 'challenge':

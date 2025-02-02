@@ -17,6 +17,7 @@ export function PlayerProvider({children}) {
     const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
+    const [tasks, setTasks] = useState([])
     const [results, setResults] = useState({})
     const [game, setGame] = useState({
         gameEnded: false,
@@ -257,6 +258,7 @@ export function PlayerProvider({children}) {
 
         socket.on('lobby-start', (res) => {
             setEncounter([...res.starters])
+            setTasks([...res.initialTasks])
             setHasGameStarted(true)
             updateGame({ openEncounterModal: true })
         })
@@ -334,6 +336,9 @@ export function PlayerProvider({children}) {
 
             encounter,
             setEncounter,
+
+            tasks,
+            setTasks,
 
             hasGameStarted,
             setHasGameStarted,

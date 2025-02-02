@@ -1,25 +1,27 @@
+import { useContext } from "react";
 import { Center, Divider, Flex, Image, Text, Tooltip } from "@chakra-ui/react";
+import PlayerContext from "@Contexts/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
 
 export default function TaskBoard() {
-    const tasks = [
-        {
-            name: 'Catch a pokemon',
-            description: 'You must catch a pokemon',
-            rank: 10,
-            difficulty: 'easy',
-            done: true
-        },
-        {
-            name: 'Win 3 battles',
-            description: 'You must win three battles against players',
-            rank: 30,
-            difficulty: 'medium',
-            done: false
-        }
-    ]
+    const { tasks } = useContext(PlayerContext)
+    // const tasks = [
+    //     {
+    //         name: "Catch 5 Pokémon",
+    //         description: "Catch at least 5 Pokémon in this episode.",
+    //         rank: 30,
+    //         type: "easy",
+    //         condition: {
+    //             type: "catch",
+    //             status: {
+    //                 start: 0,
+    //                 final: 5,
+    //             },
+    //         },
+    //     },
+    // ]
 
     const TaskContainer = ({ task }) => {
         return (
@@ -35,17 +37,20 @@ export default function TaskBoard() {
                                 - {task.name}
                             </Text>
                         </Tooltip>
-                        <Flex justifyContent={"center"}>
-                            <Text ml={4} mt={1} fontSize={"xx-small"}>{task.rank}</Text>
-                            <Image
-                                ml={2}
-                                src={starIcon}
-                                title={'Ranking Points'}
-                                w={4}
-                            ></Image>
+                        <Flex justifyContent={"space-between"}>
+                            <Text mt={1} fontSize={"xx-small"}>Progress: {task.condition.status.start}/{task.condition.status.final}</Text>
+                            <Flex>
+                                <Text mt={1} fontSize={"xx-small"}>{task.rank}</Text>
+                                <Image
+                                    ml={2}
+                                    src={starIcon}
+                                    title={'Ranking Points'}
+                                    w={4}
+                                ></Image>
+                            </Flex>
                         </Flex>
                     </Flex>
-                    {task.done ? (
+                    {task.condition.status.start === task.condition.status.final ? (
                         <FaCheckCircle color="green" />
                     ) : (
                         <FaRegCircle color="green" />
@@ -68,8 +73,8 @@ export default function TaskBoard() {
             <Divider />
             <Center flexDir={"column"} p={4} w="full">
                 {tasks &&
-                    tasks.map((task) => (
-                        <TaskContainer key={task.id} task={task} />
+                    tasks.map((task, index) => (
+                        <TaskContainer key={index} task={task} />
                     ))}
             </Center>
         </Flex>

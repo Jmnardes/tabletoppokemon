@@ -11,9 +11,6 @@ import WalkModal from "./EventModals/WalkModal";
 import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
-import { isTeamThisRank } from "@utils/pokemonFunctions";
-import useHandleTasks from "@hooks/useHandleTask";
-import { taskTypeEnum } from "@enum"
 
 export default function ModalController() {
     const { 
@@ -26,9 +23,7 @@ export default function ModalController() {
         setEncounter,
         handleToast,
         setTasks,
-        pokeTeam
     } = useContext(PlayerContext)
-    const handleTasks = useHandleTasks()
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
 
@@ -69,13 +64,7 @@ export default function ModalController() {
             
             setEncounter([...res.encounter])
 
-            if (res.tasks) {
-                setTasks([...res.tasks])
-            }
-
-            if (isTeamThisRank(pokeTeam, 0)) {
-                handleTasks({ type: taskTypeEnum.fairPlay, amount: 1 })
-            }
+            setTasks([...res.tasks])
             
             switch (res.event.type) {
                 case 'challenge':
@@ -95,6 +84,10 @@ export default function ModalController() {
             setWaitingForPlayers(false)
             updateGame({ isPokemonRollDisabled: false })
         })
+
+        return () => {
+            socket.off('turn-start')
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

@@ -19,7 +19,6 @@ import { useContext, useEffect, useRef, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 import OpponentsResult from "./OpponentsResult"
-import useHandleTasks from "@hooks/useHandleTask";
 import { taskTypeEnum } from "@enum"
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
 
@@ -32,7 +31,6 @@ import { FaInfoCircle, FaRedo } from "react-icons/fa";
 
 export default function ChallengeModal({ event }) {
     const { updateGame, emit, opponents, pokeTeam, updateStatus, updateRanking } = useContext(PlayerContext)
-    const handleTasks = useHandleTasks()
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -70,12 +68,7 @@ export default function ChallengeModal({ event }) {
     }
 
     const Placing = ({ place }) => {
-        if (place === 0) {
-            handleTasks({ type: taskTypeEnum.winChallenge, amount: 1 })
-
-            return <FirstPlaceIcon h={16} w={16} />
-        }
-
+        if (place === 0)  return <FirstPlaceIcon h={16} w={16} />
         if (place === 1) return <SecondPlaceIcon h={16} w={16} />
         if (place === 2) return <ThirdPlaceIcon h={16} w={16} />
     }
@@ -154,7 +147,6 @@ export default function ChallengeModal({ event }) {
 
     useEffect(() => {
         if(opponents.length === opponentsRoll.length && hasIRolled) {
-            awardDistribution()
             setAllResultsShown(true)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -196,7 +188,7 @@ export default function ChallengeModal({ event }) {
                                                     <Center flexDirection="column">
                                                         <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
-                                                        <Placing place={myPlacing} />
+                                                        <Placing place={myPlacing.current} />
                                                         
                                                         <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
                                                             You won 
@@ -224,6 +216,9 @@ export default function ChallengeModal({ event }) {
                                 <ModalFooter px={0}>
 
                                     <Button h={12} isDisabled={!showAwarding} onClick={() => {
+                                        if (myPlacing.current === 0) {
+                                            emit('player-update-task', { type: taskTypeEnum.winChallenge, amount: 1 })
+                                        }
                                         updateGame({ openChallengeModal: false, openEncounterModal: true })
                                     }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
 
@@ -318,7 +313,10 @@ export default function ChallengeModal({ event }) {
 
                                     {allResultsShown || (refreshResults && hasIRolled) ? (
                                         <Flex w="100%" h={12} justifyContent="center">
-                                            <Button w="100%" onClick={() => setShowAwarding(true)}>
+                                            <Button w="100%" onClick={() => {
+                                                awardDistribution()
+                                                setShowAwarding(true)
+                                            }}>
                                                 Show results
                                             </Button>
                                         </Flex>

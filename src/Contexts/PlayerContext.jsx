@@ -84,34 +84,16 @@ export function PlayerProvider({children}) {
 
     const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
-            const newObj = { ...player[key] }
-    
-            newObj[type] = amount
-    
-            setPlayer(old => ({...old, [key]: newObj}))
-        } else {
-            setPlayer(old => ({...old, [key]: amount}))
-        }
-    }, [player])
+            setPlayer(prevPlayer => {
+                const newPlayerKey = { ...prevPlayer[key] }
+                newPlayerKey[type] += amount
 
-    // const updatePlayer = useCallback((amount, key, type) => {
-    //     setPlayer(prev => {
-    //         if (type) {
-    //             return {
-    //                 ...prev,
-    //                 [key]: {
-    //                     ...prev[key],
-    //                     [type]: prev[key][type] + amount
-    //                 }
-    //             };
-    //         } else {
-    //             return {
-    //                 ...prev,
-    //                 [key]: amount
-    //             };
-    //         }
-    //     });
-    // }, []);
+                return {...prevPlayer, [key]: newPlayerKey}
+            })
+        } else {
+            setPlayer(prevPlayer => ({...prevPlayer, [key]: amount}))
+        }
+    }, [])
 
     const updateOpponent = useCallback((id, value, key, type = null) => {
         if(type) {
@@ -181,8 +163,8 @@ export function PlayerProvider({children}) {
         })
     }
 
-    const changeBall = (amount, which) => updatePlayer(amount, 'balls', which)
-    const updateBall = (amount, which) => updatePlayer(player.balls[which] + amount, 'balls', which)
+    const changeBall = (amount, type) => updatePlayer(amount, 'balls', type)
+    const updateBall = (amount, type) => updatePlayer(amount, 'balls', type)
 
     const updatePokeball = (amount) => updateBall(amount, 'pokeball')
     const updateGreatball = (amount) => updateBall(amount, 'greatball')
@@ -190,12 +172,12 @@ export function PlayerProvider({children}) {
     const updateMasterball = (amount) => updateBall(amount,'masterball')
 
     const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
-    const updateItem = (amount, type) => updatePlayer(player.items[type] + amount, 'items', type)
+    const updateItem = (amount, type) => updatePlayer(amount, 'items', type)
 
     const updateRanking = (amount) => updateStatusAmount(amount, 'ranking')
 
-    const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
-    const updateStatusAmount = (amount, status) => updatePlayer(amount, 'status', status)
+    const updateStatus = (type) => updatePlayer(1, 'status', type)
+    const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
 
     const updateLoading = (bool) => setLoadingApi(bool)
 
@@ -326,6 +308,20 @@ export function PlayerProvider({children}) {
             }
 
             updateGame({ openEncounterModal: false })
+        })
+
+        socket.on('player-update-task', res => {
+            setTasks([...res.tasks])
+            if (res.ranking > 0) {
+                handleToast({
+                    id: 'task-done',
+                    title: "You've completed a task",
+                    description: `You gained ${res.ranking} ranking points for this task!`,
+                    position: 'top',
+                    status: 'success',
+                })
+            }
+            updateRanking(res.ranking)
         })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

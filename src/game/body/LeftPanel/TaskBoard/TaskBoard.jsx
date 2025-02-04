@@ -24,10 +24,8 @@ export default function TaskBoard() {
                         </Tooltip>
                         <Flex justifyContent={"space-between"}>
                             <Text mt={1} fontSize={"xx-small"}>Progress: {
-                                task.condition.status.current}/{task.condition.status.final}</Text>
-                                {/* task.condition.status.current >= task.condition.status.final ? 
-                                    task.condition.status.final : task.condition.status.current
-                                }/{task.condition.status.final}</Text> */}
+                                task.condition.status.current}/{task.condition.status.final
+                            }</Text>
                             <Flex>
                                 <Text 
                                     mt={1} 
@@ -64,10 +62,9 @@ export default function TaskBoard() {
             </Text>
             <Divider />
             <Center flexDir={"column"} p={4} w="full">
-                {tasks &&
-                    tasks.map((task, index) => (
-                        <TaskContainer key={index} task={task} />
-                    ))}
+                {tasks?.map((task, index) => (
+                    <TaskContainer key={index} task={task} />
+                ))}
             </Center>
         </Flex>
     );

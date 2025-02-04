@@ -17,7 +17,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function WalkModal({ event }) {
-    const { updateGame, updatePlayer, player, pokeTeam } = useContext(PlayerContext)
+    const { updateGame, updatePlayer, pokeTeam } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -43,8 +43,7 @@ export default function WalkModal({ event }) {
 
     useEffect(() => {
         if (conditionMet) {
-            const newAmount = player[prize.type][prize.name] + prize.amount
-            updatePlayer(newAmount, prize.type, prize.name)
+            updatePlayer(prize.amount, prize.type, prize.name)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [conditionMet])

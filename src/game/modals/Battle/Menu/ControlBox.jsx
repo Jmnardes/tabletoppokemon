@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import PokeSelector from "./PokeSelector"
-import useHandleTasks from "@hooks/useHandleTask";
 import { taskTypeEnum } from "@enum"
 
 import { FaDoorOpen, FaRedo } from "react-icons/fa";
@@ -19,8 +18,7 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, updateRanking } = useContext(PlayerContext)
-    const handleTasks = useHandleTasks()
+    const { updateGame, updateStatus, updateRanking, emit } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 30000
 
@@ -81,7 +79,7 @@ export default function ControlBox({
 
                                 if (turnWinner === pokemon?.id) {
                                     updateStatus('wins')
-                                    handleTasks({ type: taskTypeEnum.winBattle, amount: 1 })
+                                    emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
                                     updateRanking(prize.amount)
                                 } else {
                                     updateStatus('loses')

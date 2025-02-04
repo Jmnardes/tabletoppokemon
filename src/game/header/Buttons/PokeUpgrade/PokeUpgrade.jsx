@@ -2,12 +2,15 @@ import { useContext, useEffect, useState } from "react"
 import { Text, Center, Image, Wrap, Button, Box } from "@chakra-ui/react"
 import SelectedPokemon from "./SelectedPokemon"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
+import useHandleTasks from "@hooks/useHandleTask";
+import { taskTypeEnum } from "@enum"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import dustIcon from '@assets/images/items/dust.png'
 
 export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     const { player, updateItem, updatePokemonOnTeam } = useContext(PlayerContext)
+    const handleTasks = useHandleTasks()
     const [ items, setItems ] = useState(player.items)
 
     const handleUseItem = (item) => {
@@ -24,6 +27,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         const pokemon = selectedPokemon
         pokemon.dust += 1
 
+        handleTasks({ type: taskTypeEnum.useDust, amount: 1 })
         updateItem(-1, 'dust')
         updatePokemonOnTeam(pokemon)
     }

@@ -15,19 +15,24 @@ import {
     Tooltip
 } from "@chakra-ui/react"
 import { useContext, useEffect, useRef, useState } from "react"
+
 import PlayerContext from "@Contexts/PlayerContext"
+import socket from "@client"
+import OpponentsResult from "./OpponentsResult"
+import useHandleTasks from "@hooks/useHandleTask";
+import { taskTypeEnum } from "@enum"
+import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
+
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon"
 import SecondPlaceIcon from "@components/Icons/places/SecondPlaceIcon"
 import SuccessIcon from "@components/Icons/SuccessIcon"
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon"
-import OpponentsResult from "./OpponentsResult"
-import { FaInfoCircle, FaRedo } from "react-icons/fa";
-import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
-import socket from "@client"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import { FaInfoCircle, FaRedo } from "react-icons/fa";
 
 export default function ChallengeModal({ event }) {
     const { updateGame, emit, opponents, pokeTeam, updateStatus, updateRanking } = useContext(PlayerContext)
+    const handleTasks = useHandleTasks()
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -62,6 +67,17 @@ export default function ChallengeModal({ event }) {
 
             </Flex>
         )
+    }
+
+    const Placing = ({ place }) => {
+        if (place === 0) {
+            handleTasks({ type: taskTypeEnum.winChallenge, amount: 1 })
+
+            return <FirstPlaceIcon h={16} w={16} />
+        }
+
+        if (place === 1) return <SecondPlaceIcon h={16} w={16} />
+        if (place === 2) return <ThirdPlaceIcon h={16} w={16} />
     }
 
     const checkChallengeBonus = (pokeTeam) => {
@@ -133,7 +149,7 @@ export default function ChallengeModal({ event }) {
         myPlacing.current = place
         
         place === 0 && updateStatus('challenges')
-        updateRanking(event.prizes[place].amount, event.prizes[place].name)
+        updateRanking(event.prizes[place].amount)
     }
 
     useEffect(() => {
@@ -180,17 +196,7 @@ export default function ChallengeModal({ event }) {
                                                     <Center flexDirection="column">
                                                         <Text my={4} fontSize="2xl" fontWeight="bold">Congratulations!</Text>
 
-                                                        {myPlacing.current === 0 && (
-                                                            <>
-                                                                <FirstPlaceIcon h={16} w={16} />
-                                                            </>
-                                                        )}
-                                                        {myPlacing.current === 1 && (
-                                                            <SecondPlaceIcon h={16} w={16} />
-                                                        )}
-                                                        {myPlacing.current === 2 && (
-                                                            <ThirdPlaceIcon h={16} w={16} /> 
-                                                        )}
+                                                        <Placing place={myPlacing} />
                                                         
                                                         <Text my={4} fontSize="2xl" fontWeight="bold" color="green.400">
                                                             You won 

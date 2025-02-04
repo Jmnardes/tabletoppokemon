@@ -89,3 +89,11 @@ export function pokemonTypes(types) {
     })
     return pokemonTypes
 }
+
+export function isTeamThisRank(team, rank) {
+  if (team) {
+    return team.every(poke => poke.rarity.rarity === rank);
+  }
+
+  return false
+}

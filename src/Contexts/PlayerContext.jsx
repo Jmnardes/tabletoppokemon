@@ -88,11 +88,30 @@ export function PlayerProvider({children}) {
     
             newObj[type] = amount
     
-            setPlayer({...player, [key]: newObj})
+            setPlayer(old => ({...old, [key]: newObj}))
         } else {
-            setPlayer({...player, [key]: amount})
+            setPlayer(old => ({...old, [key]: amount}))
         }
     }, [player])
+
+    // const updatePlayer = useCallback((amount, key, type) => {
+    //     setPlayer(prev => {
+    //         if (type) {
+    //             return {
+    //                 ...prev,
+    //                 [key]: {
+    //                     ...prev[key],
+    //                     [type]: prev[key][type] + amount
+    //                 }
+    //             };
+    //         } else {
+    //             return {
+    //                 ...prev,
+    //                 [key]: amount
+    //             };
+    //         }
+    //     });
+    // }, []);
 
     const updateOpponent = useCallback((id, value, key, type = null) => {
         if(type) {
@@ -176,7 +195,7 @@ export function PlayerProvider({children}) {
     const updateRanking = (amount) => updateStatusAmount(amount, 'ranking')
 
     const updateStatus = (status) => updatePlayer(player.status[status]++, 'status', status)
-    const updateStatusAmount = (amount, status) => updatePlayer(player.status[status] + amount, 'status', status)
+    const updateStatusAmount = (amount, status) => updatePlayer(amount, 'status', status)
 
     const updateLoading = (bool) => setLoadingApi(bool)
 
@@ -185,7 +204,7 @@ export function PlayerProvider({children}) {
             emit('player-update-status', { level: player.status.level })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.status?.level, player.status?.ranking])
+    }, [player.status?.level])
 
     useEffect(() => {
         socket.on('error', res => {

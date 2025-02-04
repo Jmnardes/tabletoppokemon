@@ -11,6 +11,9 @@ import WalkModal from "./EventModals/WalkModal";
 import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
+import { isTeamThisRank } from "@utils/pokemonFunctions";
+import useHandleTasks from "@hooks/useHandleTask";
+import { taskTypeEnum } from "@enum"
 
 export default function ModalController() {
     const { 
@@ -22,8 +25,10 @@ export default function ModalController() {
         updatePokemonOnTeam,
         setEncounter,
         handleToast,
-        setTasks
+        setTasks,
+        pokeTeam
     } = useContext(PlayerContext)
+    const handleTasks = useHandleTasks()
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
 
@@ -33,7 +38,7 @@ export default function ModalController() {
 
             setSession(old => ({...old, turns: res.turn}))
             updateOpponents(false, 'turnReady')
-            if (trainedPokemons.length > 0) {
+            if (trainedPokemons.length) {
                 trainedPokemons.forEach(pokemon => {
                     updatePokemonOnTeam(pokemon)
                     handleToast({
@@ -63,8 +68,14 @@ export default function ModalController() {
             })
             
             setEncounter([...res.encounter])
-            // setTasks([...res.tasks])
-            console.log(res.tasks)
+
+            if (res.tasks) {
+                setTasks([...res.tasks])
+            }
+
+            if (isTeamThisRank(pokeTeam, 0)) {
+                handleTasks({ type: taskTypeEnum.fairPlay, amount: 1 })
+            }
             
             switch (res.event.type) {
                 case 'challenge':

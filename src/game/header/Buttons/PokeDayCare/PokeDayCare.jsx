@@ -1,6 +1,4 @@
 import { useContext, useEffect } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
-import socket from "@client"
 import {
     Modal,
     ModalContent,
@@ -12,11 +10,18 @@ import {
     ModalBody,
     Image,
 } from "@chakra-ui/react"
+
+import PlayerContext from "@Contexts/PlayerContext"
+import socket from "@client"
 import DayCareContent from "./DayCareContent"
+import useHandleTasks from "@hooks/useHandleTask";
+import { taskTypeEnum } from "@enum"
+
 import dustIcon from '@assets/images/items/dust.png'
 
 export default function PokeDayCare() {
     const { updateGame, pokeBox, removeFromPokeBoxById, setLoadingApi, emit, handleToast, updateItem } = useContext(PlayerContext)
+    const handleTasks = useHandleTasks()
 
     const handleTrade = (pokemon) => {
         emit('player-pokemon-trade', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
@@ -24,27 +29,55 @@ export default function PokeDayCare() {
     };
 
     useEffect(() => {
-        socket.on('player-pokemon-trade', res => {
-            setLoadingApi(false)
-            
+        const handleTradeResponse = (res) => {
+            setLoadingApi(false);
+    
             if (res) {
-                removeFromPokeBoxById(res.pokeId, pokeBox)
-                updateItem(res.dust, 'dust')
+                removeFromPokeBoxById(res.pokeId, pokeBox);
+                updateItem(res.dust, 'dust');
+                handleTasks({ type: taskTypeEnum.gainDust, amount: res.dust });
+    
                 handleToast({
                     title: 'Pokémon Day Care',
                     description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
                     status: 'info',
                     duration: 6000,
-                    icon:<Image src={dustIcon} w={12}></Image>
-                })
+                    icon: <Image src={dustIcon} w={12} />,
+                });
             }
-        })
-
+        };
+    
+        socket.off('player-pokemon-trade', handleTradeResponse);
+        socket.on('player-pokemon-trade', handleTradeResponse);
+    
         return () => {
-            socket.off('player-pokemon-trade')
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+            socket.off('player-pokemon-trade', handleTradeResponse);
+        };
+    }, [removeFromPokeBoxById, updateItem, handleTasks, setLoadingApi, handleToast]);
+
+    // useEffect(() => {
+    //     socket.on('player-pokemon-trade', res => {
+    //         setLoadingApi(false)
+            
+    //         if (res) {
+    //             removeFromPokeBoxById(res.pokeId, pokeBox)
+    //             changeItem(res.dust.current, 'dust')
+    //             handleTasks({ type: taskTypeEnum.gainDust, amount: res.dust.received })
+    //             handleToast({
+    //                 title: 'Pokémon Day Care',
+    //                 description: `Your ${res.name} will be treated with kindness, you received ${res.dust.received} dust(s)`,
+    //                 status: 'info',
+    //                 duration: 6000,
+    //                 icon:<Image src={dustIcon} w={12}></Image>
+    //             })
+    //         }
+    //     })
+
+    //     return () => {
+    //         socket.off('player-pokemon-trade')
+    //     }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     return (
         <>

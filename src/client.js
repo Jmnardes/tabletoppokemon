@@ -5,7 +5,7 @@ const socket = io('http://localhost:3001')
 
 socket.on('connect', () => {
     if (socket.recovered)
-    console.log("session recovered!");
+    // console.log("session recovered!");
 
     setTimeout(() => {
       if (socket.io.engine) {
@@ -16,7 +16,7 @@ socket.on('connect', () => {
 })
 
 socket.on('disconnect', () => {
-    console.log('user disconnected')
+    // console.log('user disconnected')
 })
 
 export default socket

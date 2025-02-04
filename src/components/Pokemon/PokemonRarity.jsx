@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 
 export function PokeRarity ({ rarity }) {
@@ -11,5 +12,9 @@ export function PokeRarity ({ rarity }) {
         return stars;
     };
     
-    return renderStars();
+    return (
+        <Flex>
+            {renderStars()}
+        </Flex>
+    );
 };

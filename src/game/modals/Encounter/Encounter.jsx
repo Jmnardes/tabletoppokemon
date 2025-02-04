@@ -5,12 +5,15 @@ import PlayerContext from "@Contexts/PlayerContext";
 import { typeColor } from "@utils";
 import EncounterBalls from "./EncounterBalls";
 import { catchDifficulty } from "@utils/pokemonFunctions";
+import useHandleTasks from "@hooks/useHandleTask";
+import { taskTypeEnum } from "@enum"
 
 import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
     const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
+    const handleTasks = useHandleTasks()
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false);
@@ -88,6 +91,7 @@ export default function Encounter() {
                     isDisabled={disableCatch}
                     _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.8 }}
                     onClick={() => {
+                        handleTasks({ type: taskTypeEnum.catch, amount: 1 })
                         emit('player-capture-pokemon', poke.id)
                         setLoadingApi(true)
                     }}

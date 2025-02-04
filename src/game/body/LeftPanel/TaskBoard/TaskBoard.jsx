@@ -7,21 +7,6 @@ import starIcon from '@assets/images/game/star.png'
 
 export default function TaskBoard() {
     const { tasks } = useContext(PlayerContext)
-    // const tasks = [
-    //     {
-    //         name: "Catch 5 Pokémon",
-    //         description: "Catch at least 5 Pokémon in this episode.",
-    //         rank: 30,
-    //         type: "easy",
-    //         condition: {
-    //             type: "catch",
-    //             status: {
-    //                 start: 0,
-    //                 final: 5,
-    //             },
-    //         },
-    //     },
-    // ]
 
     const TaskContainer = ({ task }) => {
         return (
@@ -38,9 +23,16 @@ export default function TaskBoard() {
                             </Text>
                         </Tooltip>
                         <Flex justifyContent={"space-between"}>
-                            <Text mt={1} fontSize={"xx-small"}>Progress: {task.condition.status.start}/{task.condition.status.final}</Text>
+                            <Text mt={1} fontSize={"xx-small"}>Progress: {
+                                task.condition.status.current}/{task.condition.status.final}</Text>
+                                {/* task.condition.status.current >= task.condition.status.final ? 
+                                    task.condition.status.final : task.condition.status.current
+                                }/{task.condition.status.final}</Text> */}
                             <Flex>
-                                <Text mt={1} fontSize={"xx-small"}>{task.rank}</Text>
+                                <Text 
+                                    mt={1} 
+                                    fontSize={"xx-small"}
+                                >{task.rank}</Text>
                                 <Image
                                     ml={2}
                                     src={starIcon}
@@ -50,7 +42,7 @@ export default function TaskBoard() {
                             </Flex>
                         </Flex>
                     </Flex>
-                    {task.condition.status.start === task.condition.status.final ? (
+                    {task.condition.status.current === task.condition.status.final ? (
                         <FaCheckCircle color="green" />
                     ) : (
                         <FaRegCircle color="green" />

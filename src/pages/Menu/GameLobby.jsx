@@ -4,7 +4,7 @@ import PlayerContext from "@Contexts/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
 export default function GameLobby() {
-    const {emit, session, opponents, player} = useContext(PlayerContext)
+    const {emit, session, opponents, player, version} = useContext(PlayerContext)
     const [isLoading, setIsLoading] = useState(false)
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
@@ -106,6 +106,8 @@ export default function GameLobby() {
             }
             
             <Divider my={4} />
+
+            <Text fontSize={"2xl"} position={"absolute"} bottom={0} left={0}>@Version {Number(version).toFixed(2)}</Text>
 
             <Button isDisabled={isLoading} mb={4} mt={2} width="100%" onClick={() => {
                 setIsLoading(true)

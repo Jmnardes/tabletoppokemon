@@ -19,6 +19,7 @@ export function PlayerProvider({children}) {
     const [pokeBox, setPokeBox] = useState([])
     const [tasks, setTasks] = useState([])
     const [results, setResults] = useState({})
+    const [version, setVersion] = useState(0)
     const [game, setGame] = useState({
         gameEnded: false,
         isPokemonRollDisabled: false,
@@ -206,6 +207,7 @@ export function PlayerProvider({children}) {
             setSession(res.session)
             setOpponents(res.opponents)
             setPlayer(res.player)
+            setVersion(res.version)
 
             localStorage.setItem('session', JSON.stringify(res.session))
         })
@@ -363,6 +365,7 @@ export function PlayerProvider({children}) {
 
             game,
             updateGame,
+            version,
 
             pokeTeam,
             updatePokeTeam,

@@ -1,20 +1,44 @@
 import { useContext } from "react";
-import { Center, Divider, Flex, Image, Text, Tooltip } from "@chakra-ui/react";
+import { Badge, Center, Divider, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import PlayerContext from "@Contexts/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
+import { Divide } from "phosphor-react";
 
 export default function TaskBoard() {
-    const { tasks } = useContext(PlayerContext)
+    const { tasks, session } = useContext(PlayerContext)
+    const { colorMode } = useColorMode()
+
+    const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
+
+    function getTurnsLeft(turn) {
+        return (turn % 10 === 0) ? 1 : 11 - (turn % 10);
+    }
 
     const TaskContainer = ({ task }) => {
+        let taskTypeColor
+        switch (task.type) {
+            case "easy":
+                taskTypeColor = "green.500";
+                break;
+            case "medium":
+                taskTypeColor = "yellow.500";
+                break;
+            case "hard":
+                taskTypeColor = "red.600";
+                break;
+            default:
+                taskTypeColor = "gray.500";
+        }
+
         return (
-            <Flex
-                py={4} w="full"  direction="column" 
-                borderBottom="1px solid"
-                borderColor="gray.500"
-            >
+            <Flex py={3} w="full"  direction="column">
+                <Center>
+                    <Divider ml={4} backgroundColor={taskTypeColor} /> 
+                    <Badge px={4} pt={1} mb={2} borderRadius={8} fontSize={"xx-small"} backgroundColor={taskTypeColor} textAlign={"center"}>{task.type}</Badge>
+                    <Divider mr={4} backgroundColor={taskTypeColor} />
+                </Center>
                 <Center justifyContent={"space-between"} w={"full"} gap={4}>
                     <Flex direction="column" gap={1} w={"full"}>
                         <Tooltip label={task.description} p={4} textAlign={"center"}>
@@ -41,9 +65,9 @@ export default function TaskBoard() {
                         </Flex>
                     </Flex>
                     {task.condition.status.current === task.condition.status.final ? (
-                        <FaCheckCircle color="green" />
+                        <FaCheckCircle size={20} color={bgColor} />
                     ) : (
-                        <FaRegCircle color="green" />
+                        <FaRegCircle size={20} color={bgColor} />
                     )}
                 </Center>
             </Flex>
@@ -53,19 +77,20 @@ export default function TaskBoard() {
     return (
         <Flex
             h={"full"} w={"full"}
-            backgroundColor={"gray.600"}
+            backgroundColor={bgColor}
             borderRadius={8}
             direction="column"
+            justifyContent={"space-between"}
         >
-            <Text textAlign={"center"} w={"full"} py={4}>
+            <Badge textAlign={"center"} w={"full"} py={4}>
                 Tasks
-            </Text>
-            <Divider />
-            <Center flexDir={"column"} p={4} w="full">
+            </Badge>
+            <Center flexDir={"column"} px={4} w="full">
                 {tasks?.map((task, index) => (
                     <TaskContainer key={index} task={task} />
                 ))}
             </Center>
+            <Badge mt={3} py={1} fontSize={"x-small"} textAlign={"center"}>{getTurnsLeft(session.turns)} turn(s) left</Badge>
         </Flex>
     );
 }

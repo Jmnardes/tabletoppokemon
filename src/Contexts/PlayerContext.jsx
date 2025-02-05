@@ -19,6 +19,7 @@ export function PlayerProvider({children}) {
     const [pokeBox, setPokeBox] = useState([])
     const [tasks, setTasks] = useState([])
     const [results, setResults] = useState({})
+    const [nextEvent, setNextEvent] = useState()
     const [version, setVersion] = useState(0)
     const [game, setGame] = useState({
         gameEnded: false,
@@ -350,6 +351,9 @@ export function PlayerProvider({children}) {
             player,
             setPlayer,
             updatePlayer,
+
+            nextEvent,
+            setNextEvent,
 
             encounter,
             setEncounter,

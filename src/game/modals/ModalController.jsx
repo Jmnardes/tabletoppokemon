@@ -23,6 +23,7 @@ export default function ModalController() {
         setEncounter,
         handleToast,
         setTasks,
+        setNextEvent,
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
@@ -61,6 +62,8 @@ export default function ModalController() {
                 disadvantage: res.event.disadvantage,
                 dice: res.event.dice
             })
+
+            setNextEvent(res.nextEventType)
             
             setEncounter([...res.encounter])
 

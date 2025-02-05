@@ -1,4 +1,4 @@
-import { Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
+import { Badge, Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 import Settings from "./Buttons/Settings/Settings";
@@ -8,20 +8,36 @@ import PokeballStats from './Pokeball/PokeballStats'
 import bagIcon from '@assets/images/game/bag.png';
 import bulbasaurIcon from '@assets/images/pokemons/bulbasaur.png';
 import venonatIcon from '@assets/images/pokemons/venonat.png';
+import NextEvent from "./NextEvent/NextEvent";
 
 export default function GameHeader() {
-    const { player, updateGame, pokeBox, game } = useContext(PlayerContext)
+    const { player, updateGame, pokeBox, game, nextEvent } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+
+    const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
 
     return (
         <Center py={2} pr={2} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-            <Center>
-                <Text ml={2} pb={1} px={4} fontWeight="bold" backgroundColor={colorMode === 'light' ? "gray.200" : "gray.650"} borderRadius={6}>
+            <Center flex="1" justifyContent={"start"}>
+                <Badge
+                    title={player.status.trainerName}
+                    maxW={48} p={2} px={4} ml={4}
+                    backgroundColor={bgColor}
+                    borderRadius={6}
+                    isTruncated
+                    fontWeight="bold"
+                    overflow="hidden"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis"
+                >
                     {player.status.trainerName}
-                </Text>
+                </Badge>
                 <TrainerBar />
             </Center>
             <Center>
+                <NextEvent nextEvent={nextEvent} />
+            </Center>
+            <Center flex="1" justifyContent={"end"}>
                 {/* <PokemonEgg /> */}
 
                 <PokeballStats />

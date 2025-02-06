@@ -1,4 +1,4 @@
-import { Center, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Center, Flex, useColorMode } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 
 import PlayerContext from "@Contexts/PlayerContext";
@@ -7,7 +7,7 @@ import socket from "@client";
 import ElementsList from "@components/Elements/ElementsList";
 import ControlBox from "./Menu/ControlBox";
 import BattleScreen from "./Screen/BattleScreen";
-import OpponentPoke from "./Screen/OpponentPoke";
+import OpponentPokes from "./Screen/OpponentPokes";
 
 export default function BattleContent({
     battleId,
@@ -39,20 +39,7 @@ export default function BattleContent({
     return (
         <Flex flex="1">
             <Center flexDir="column" flex="1">
-                {opponentTrainer && (
-                    <Center position={"absolute"} top={2} left={2}>
-                        <Center flexDir={"column"} mx={4}>
-                            <Text fontStyle={"italic"} color={"red.400"} my={1}>VS.</Text>
-                            <Text my={1}>{opponentTrainer.status.trainerName}</Text>
-                        </Center>
-                        {opponentTrainer.pokeTeam.map(pokemon => {
-                            return <OpponentPoke
-                                key={pokemon.id}
-                                poke={pokemon}
-                            />
-                        })}
-                    </Center>
-                )}
+                <OpponentPokes opponent={opponentTrainer} prizes={event.prizes} />
                 <Center w="100%" flex="1" p={4}>
                     <BattleScreen 
                         pokemon={pokemon} 

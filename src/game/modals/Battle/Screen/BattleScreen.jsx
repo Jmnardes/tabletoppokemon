@@ -1,5 +1,6 @@
 import { Center, Flex, Image, Kbd, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
 import { stringToUpperCase } from "@utils";

@@ -3,6 +3,8 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
 import { rarityName, stringToUpperCase } from "@utils";
 
+import starIcon from '@assets/images/game/star.png'
+
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
@@ -176,8 +178,6 @@ export function PlayerProvider({children}) {
     const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
     const updateItem = (amount, type) => updatePlayer(amount, 'items', type)
 
-    const updateRanking = (amount) => updateStatusAmount(amount, 'ranking')
-
     const updateStatus = (type) => updatePlayer(1, 'status', type)
     const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
 
@@ -185,10 +185,10 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         if (player.status) {
-            emit('player-update-status', { level: player.status.level })
+            emit('player-update-status', { ...player.status })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.status?.level])
+    }, [player.status])
 
     useEffect(() => {
         socket.on('error', res => {
@@ -320,11 +320,16 @@ export function PlayerProvider({children}) {
                     id: 'task-done',
                     title: "You've completed a task",
                     description: `You gained ${res.ranking} ranking points for this task!`,
+                    icon: <Image 
+                            width="32px"
+                            src={starIcon} 
+                            fallbackSrc={starIcon}
+                        ></Image>,
                     position: 'top',
                     status: 'success',
                 })
             }
-            updateRanking(res.ranking)
+            updatePlayer(res.ranking, 'status', 'ranking')
         })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -392,7 +397,6 @@ export function PlayerProvider({children}) {
 
             updateStatus,
             updateStatusAmount,
-            updateRanking,
 
             results,
         }}>

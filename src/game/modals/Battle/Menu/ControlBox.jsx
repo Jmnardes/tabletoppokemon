@@ -1,12 +1,12 @@
-import { Button, Center, Flex, Text, Spinner, Image } from "@chakra-ui/react"
+import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import PokeSelector from "./PokeSelector"
+import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { taskTypeEnum } from "@enum"
 
 import { FaDoorOpen, FaRedo } from "react-icons/fa";
-import starIcon from "@assets/images/game/star.png"
 
 export default function ControlBox({ 
     battleId,
@@ -18,9 +18,10 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, updateRanking, emit } = useContext(PlayerContext)
+    const { updateGame, updateStatus, updatePlayer, emit } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 30000
+    const prize = event.prizes[2]
 
     // const battleChooseMove = (move) => {
     //     setLoadingApi(false)
@@ -59,28 +60,20 @@ export default function ControlBox({
                     {battleEnded ? (
                         <>
                             <Center flex="1">
-                                <Text ml={4} fontSize={"3xl"}>
-                                    {turnWinner === pokemon?.id ? (
-                                        <>
-                                        You won and received {event.prizes[1].amount} Ranking Points
-                                        <Image
-                                            src={starIcon}
-                                            title={'Ranking Points'}
-                                            w={8}
-                                            display="inline-block"
-                                            ml={4}
-                                        />
-                                        </>
-                                    ) : 'Sorry, you lost the battle'}
-                                </Text>
+                                {turnWinner === pokemon?.id ? (
+                                    <>
+                                        <Flex justifyContent="center" mx={2}>
+                                            <Text mt={2} fontSize={"3xl"}>You won and received {prize.amount}</Text>
+                                            <PrizeIcon type={prize.name} size={12} />
+                                        </Flex>
+                                    </>
+                                ) : <Text ml={4} fontSize={"3xl"}>Sorry, you lost the battle</Text>}
                             </Center>
                             <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
-                                const prize = event.prizes[1]
-
                                 if (turnWinner === pokemon?.id) {
                                     updateStatus('wins')
                                     emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
-                                    updateRanking(prize.amount)
+                                    updatePlayer(prize.amount, prize.type, prize.name)
                                 } else {
                                     updateStatus('loses')
                                 }

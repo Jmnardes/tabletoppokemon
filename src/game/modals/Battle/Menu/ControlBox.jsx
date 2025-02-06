@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Text, Spinner, Image } from "@chakra-ui/react"
+import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 
 import PlayerContext from "@Contexts/PlayerContext"
@@ -7,7 +7,6 @@ import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { taskTypeEnum } from "@enum"
 
 import { FaDoorOpen, FaRedo } from "react-icons/fa";
-import starIcon from "@assets/images/game/star.png"
 
 export default function ControlBox({ 
     battleId,

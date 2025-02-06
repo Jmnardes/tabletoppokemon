@@ -3,6 +3,8 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
 import { rarityName, stringToUpperCase } from "@utils";
 
+import starIcon from '@assets/images/game/star.png'
+
 const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
@@ -183,10 +185,10 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         if (player.status) {
-            emit('player-update-status', { level: player.status.level })
+            emit('player-update-status', { ...player.status })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.status?.level])
+    }, [player.status])
 
     useEffect(() => {
         socket.on('error', res => {
@@ -318,6 +320,11 @@ export function PlayerProvider({children}) {
                     id: 'task-done',
                     title: "You've completed a task",
                     description: `You gained ${res.ranking} ranking points for this task!`,
+                    icon: <Image 
+                            width="32px"
+                            src={starIcon} 
+                            fallbackSrc={starIcon}
+                        ></Image>,
                     position: 'top',
                     status: 'success',
                 })

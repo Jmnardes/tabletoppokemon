@@ -176,8 +176,6 @@ export function PlayerProvider({children}) {
     const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
     const updateItem = (amount, type) => updatePlayer(amount, 'items', type)
 
-    const updateRanking = (amount) => updateStatusAmount(amount, 'ranking')
-
     const updateStatus = (type) => updatePlayer(1, 'status', type)
     const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
 
@@ -324,7 +322,7 @@ export function PlayerProvider({children}) {
                     status: 'success',
                 })
             }
-            updateRanking(res.ranking)
+            updatePlayer(res.ranking, 'status', 'ranking')
         })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -392,7 +390,6 @@ export function PlayerProvider({children}) {
 
             updateStatus,
             updateStatusAmount,
-            updateRanking,
 
             results,
         }}>

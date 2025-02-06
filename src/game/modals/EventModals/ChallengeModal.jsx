@@ -30,7 +30,7 @@ import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { FaInfoCircle, FaRedo } from "react-icons/fa";
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, pokeTeam, updateStatus, updateRanking } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, pokeTeam, updateStatus, updatePlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -41,6 +41,7 @@ export default function ChallengeModal({ event }) {
     const myRoll = useRef(0)
     const myPlacing = useRef(0)
     const won = useRef(false)
+    const prizes = event.prizes
 
     const Overlay = () => (
         <ModalOverlay
@@ -95,14 +96,6 @@ export default function ChallengeModal({ event }) {
 
                 return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes
             }
-            // if(event.advantage.type === 'stats_all') {
-            // }
-
-            // if(event.advantage.type === 'stats_highest') {
-            // }
-
-            // if(event.advantage.type === 'stats_sum') {
-            // }
         }, 0);
     }
 
@@ -142,7 +135,7 @@ export default function ChallengeModal({ event }) {
         myPlacing.current = place
         
         place === 0 && updateStatus('challenges')
-        updateRanking(event.prizes[place].amount)
+        updatePlayer(prizes[place].amount, prizes[place].type, prizes[place].name)
     }
 
     useEffect(() => {
@@ -198,8 +191,8 @@ export default function ChallengeModal({ event }) {
                                                     <Divider my={2} mb={4} />
 
                                                     <Center>
-                                                        {event.prizes[myPlacing.current].amount}x
-                                                        <PrizeIcon type={event.prizes[myPlacing.current].name} size={8}/>
+                                                        {prizes[myPlacing.current].amount}x
+                                                        <PrizeIcon type={prizes[myPlacing.current].name} size={8}/>
                                                     </Center>
                                                 </>
                                             ): (
@@ -322,10 +315,10 @@ export default function ChallengeModal({ event }) {
                                         </Flex>
                                     ) : (
                                         <Flex w="100%" h={12} justifyContent="space-between">
-                                            <PlaceBox icon={<FirstPlaceIcon />} prize={event.prizes[0]} />
-                                            <PlaceBox icon={<SecondPlaceIcon />} prize={event.prizes[1]} />
+                                            <PlaceBox icon={<FirstPlaceIcon />} prize={prizes[0]} />
+                                            <PlaceBox icon={<SecondPlaceIcon />} prize={prizes[1]} />
                                             {opponents.length > 1 && (
-                                                <PlaceBox icon={<ThirdPlaceIcon />} prize={event.prizes[2]} />
+                                                <PlaceBox icon={<ThirdPlaceIcon />} prize={prizes[2]} />
                                             )}
                                         </Flex>
                                     )}

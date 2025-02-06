@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Box, Heading, VStack, Select, Text } from "@chakra-ui/react";
+import { Box, Heading, VStack, Select, Text, Button } from "@chakra-ui/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from "recharts";
 import Element from "@components/Elements/Element";
 import { elementCounts, tierResults } from "@utils/groups";
 
-// Function to transform tierResults into Recharts-compatible format
 const transformTierData = (tierData) => {
     return tierData.map((item) => {
         const [element, count] = item.split(": ");
@@ -12,7 +11,6 @@ const transformTierData = (tierData) => {
     });
 };
 
-// Custom tick component for XAxis
 const CustomTick = ({ x, y, payload }) => {
     return (
         <foreignObject x={x - 25} y={y} width={50} height={50}>
@@ -22,13 +20,15 @@ const CustomTick = ({ x, y, payload }) => {
     );
 };
 
-export default function StatisticsPage() {
-    const [selectedView, setSelectedView] = useState("elements"); // State to track selected view
+export default function StatisticsPage({ setStatistics }) {
+    const [selectedView, setSelectedView] = useState("elements");
 
     return (
         <Box p={5}>
+            <Box>
+                <Button mb={8} onClick={() => setStatistics(false)}>Voltar</Button>
+            </Box>
             <VStack spacing={8} align="stretch">
-                {/* Dropdown to switch between views */}
                 <Box>
                     <Select
                         value={selectedView}
@@ -45,7 +45,6 @@ export default function StatisticsPage() {
                 </Box>
 
                 {selectedView === "elements" ? (
-                    // Element Counts Chart
                     <Box>
                         <Heading size="md" mb={4}>
                             Element Counts
@@ -55,9 +54,9 @@ export default function StatisticsPage() {
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis
                                     dataKey="element"
-                                    interval={0} // Ensure all labels are shown
-                                    height={70} // Increase height to accommodate custom labels
-                                    tick={<CustomTick />} // Use custom tick component
+                                    interval={0} 
+                                    height={70} 
+                                    tick={<CustomTick />}
                                 />
                                 <YAxis />
                                 <Tooltip />
@@ -69,7 +68,6 @@ export default function StatisticsPage() {
                         </ResponsiveContainer>
                     </Box>
                 ) : (
-                    // Tier-Specific Chart
                     <Box>
                         <Heading size="md" mb={4}>
                             Tier {selectedView} Element Counts
@@ -79,9 +77,9 @@ export default function StatisticsPage() {
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis
                                     dataKey="element"
-                                    interval={0} // Ensure all labels are shown
-                                    height={70} // Increase height to accommodate custom labels
-                                    tick={<CustomTick />} // Use custom tick component
+                                    interval={0} 
+                                    height={70} 
+                                    tick={<CustomTick />} 
                                 />
                                 <YAxis />
                                 <Tooltip />

@@ -1,22 +1,23 @@
-const io = require("socket.io-client")
+const io = require("socket.io-client");
 
-const socket = io('https://tabletoppokemon-server.onrender.com')
-// const socket = io('http://localhost:3001')
+const SERVER_URL = process.env.SOCKET_SERVER || "http://localhost:3001";
 
-socket.on('connect', () => {
-    if (socket.recovered)
-    // console.log("session recovered!");
+const socket = io(SERVER_URL);
 
-    setTimeout(() => {
-      if (socket.io.engine) {
-        // close the low-level connection and trigger a reconnection
-        socket.io.engine.close();
-      }
-    }, 3.1 * 60 * 1000);
-})
+socket.on("connect", () => {
+  if (socket.recovered) {
+    console.log("Session recovered!");
+  }
 
-socket.on('disconnect', () => {
-    // console.log('user disconnected')
-})
+  setTimeout(() => {
+    if (socket.io.engine) {
+      socket.io.engine.close();
+    }
+  }, 3.1 * 60 * 1000);
+});
 
-export default socket
+socket.on("disconnect", () => {
+  console.log("User disconnected");
+});
+
+export default socket;

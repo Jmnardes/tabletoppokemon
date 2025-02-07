@@ -20,6 +20,7 @@ export function PlayerProvider({children}) {
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
     const [tasks, setTasks] = useState([])
+    const [berries, setBerries] = useState([])
     const [results, setResults] = useState({})
     const [nextEvent, setNextEvent] = useState()
     const [version, setVersion] = useState(0)
@@ -37,6 +38,7 @@ export function PlayerProvider({children}) {
         openDayCareModal: false,
         openPokeItemModal: false,
         openPokeUpgradeModal: false,
+        openBerriesModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -332,6 +334,23 @@ export function PlayerProvider({children}) {
             updatePlayer(res.ranking, 'status', 'ranking')
         })
 
+        socket.on('player-use-berry', res => {
+            setBerries(prevBerries => {
+                const berry = res.berry
+                const usedBerryIndex = prevBerries.findIndex(prevBerry => prevBerry.type === berry.type);
+
+                if (usedBerryIndex !== -1) {
+                    if (prevBerries[usedBerryIndex].amount > 1) {
+                        prevBerries[usedBerryIndex].amount--
+                    } else {
+                        prevBerries.splice(usedBerryIndex, 1)
+                    }
+                }
+
+                return [...prevBerries]
+            })
+        })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -365,6 +384,9 @@ export function PlayerProvider({children}) {
 
             tasks,
             setTasks,
+
+            berries,
+            setBerries,
 
             hasGameStarted,
             setHasGameStarted,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { HStack } from '@chakra-ui/react'
-import PokeCard from './PokeCard'
+import PokeCard from '@components/Pokemon/PokeCard'
 
 export default function PokeList ({ allPokemon, setSelectedPokemon }) {
     return (

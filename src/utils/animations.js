@@ -91,12 +91,12 @@ export const textAnimation = keyframes`
     }
 `;
 
-const starterGlowColor = 'rgba(174, 0, 255, 0.7)';
-const GlowColorOne = 'rgba(111, 0, 255, 0.86)';
-const GlowColorTwo = 'rgba(255, 0, 255, 0.7)';
-const GlowColorThree = 'rgba(162, 0, 255, 0.7)';
-
-export const glowAnimation = keyframes`
+export const glowAnimation = (
+    starterGlowColor = 'rgba(174, 0, 255, 0.7)',
+    GlowColorOne = 'rgba(111, 0, 255, 0.86)',
+    GlowColorTwo = 'rgba(255, 0, 255, 0.7)',
+    GlowColorThree = 'rgba(162, 0, 255, 0.7)',
+) => keyframes`
     0% {
         box-shadow: 
             15px 0 var(--glow-size) ${starterGlowColor},

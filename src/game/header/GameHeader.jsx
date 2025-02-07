@@ -4,11 +4,12 @@ import PlayerContext from "@Contexts/PlayerContext";
 import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
+import NextEvent from "./NextEvent/NextEvent";
 
 import bagIcon from '@assets/images/game/bag.png';
 import bulbasaurIcon from '@assets/images/pokemons/bulbasaur.png';
 import venonatIcon from '@assets/images/pokemons/venonat.png';
-import NextEvent from "./NextEvent/NextEvent";
+import berryIcon from '@assets/images/berries/berry.png';
 
 export default function GameHeader() {
     const { player, updateGame, pokeBox, game, nextEvent } = useContext(PlayerContext)
@@ -41,6 +42,14 @@ export default function GameHeader() {
                 {/* <PokemonEgg /> */}
 
                 <PokeballStats />
+
+                <Button mx={1} onClick={() => updateGame({ openBerriesModal: true })}>
+                    <Image
+                        src={berryIcon} 
+                        title={'Berries'}
+                        w="32px"
+                    ></Image>
+                </Button>
 
                 <Button mx={1} onClick={() => updateGame({ openPokeUpgradeModal: true })}>
                     <Image

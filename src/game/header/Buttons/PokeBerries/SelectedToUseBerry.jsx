@@ -1,13 +1,12 @@
 import { Center, Divider, Image, Text } from "@chakra-ui/react"
 
 import CardTitle from "@components/Pokemon/CardTitle"
+import { PokeRarity } from "@components/Pokemon/PokemonRarity"
 import { stringToUpperCase } from '@utils'
+import { getBerryIcon } from "@utils/berryIcon"
 import { glowAnimation } from "@utils/animations"
 
-import dustIcon from '@assets/images/items/dust.png'
-import { PokeRarity } from "@components/Pokemon/PokemonRarity"
-
-export default function SelectedPokemon({ selectedPokemon, setSelectedPokemon }) {
+export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon }) {
     const SelectedPokemonCard = () => {
         return (
             <Center
@@ -15,7 +14,9 @@ export default function SelectedPokemon({ selectedPokemon, setSelectedPokemon })
                 flexDirection="column"
                 borderRadius={8}
                 p={2} mx={2} w={64}
-                animation={selectedPokemon.dust ? `${glowAnimation} 4s infinite ease-in-out` : null}
+                animation={`${
+                    glowAnimation('rgba(217, 255, 0, 0.7)', 'rgba(208, 255, 0, 0.86)', 'rgba(255, 153, 0, 0.7)', 'rgba(238, 255, 0, 0.82)')
+                } 4s infinite ease-in-out`}
                 style={{
                     '--glow-size': `${Math.min(selectedPokemon.dust, 3) * 20}px`,
                 }}
@@ -34,6 +35,19 @@ export default function SelectedPokemon({ selectedPokemon, setSelectedPokemon })
         )
     }
 
+    const AppliedBerry = ({ berry }) => {
+        return (
+            <>
+                <Text ml={4} fontSize={"2xs"}>{berry.amount}x</Text>
+                <Image
+                    title={berry.name}
+                    src={getBerryIcon(berry.type)}
+                    w={8}
+                />
+            </>
+        )
+    }
+
     return (
         <Center backgroundColor={"gray.600"} minW={"full"} h={96} borderRadius={8} p={12}>
             {selectedPokemon && (
@@ -44,12 +58,11 @@ export default function SelectedPokemon({ selectedPokemon, setSelectedPokemon })
                     position="relative"
                 >
                     <SelectedPokemonCard />
-                    <Text ml={4} fontSize={"2xs"}>{selectedPokemon.dust}x</Text>
-                    <Image
-                        src={dustIcon}
-                        title={'dust'}
-                        w={8}
-                    />
+                    <Center>
+                        {selectedPokemon.berries?.map((berry, index) => (
+                            <AppliedBerry key={index} berry={berry} />
+                        ))}
+                    </Center>
                 </Center>
             )}
         </Center>

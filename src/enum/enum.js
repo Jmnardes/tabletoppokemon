@@ -6,4 +6,5 @@ export const taskTypeEnum = {
     useDust: "useDust",
     gainDust: "gainDust",
     fairPlay: "fairPlay",
+    useBerry: "useBerry",
 }

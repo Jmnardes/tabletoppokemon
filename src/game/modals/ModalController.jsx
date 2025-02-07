@@ -11,6 +11,7 @@ import WalkModal from "./EventModals/WalkModal";
 import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
+import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 
 export default function ModalController() {
     const { 
@@ -104,6 +105,7 @@ export default function ModalController() {
             {game.openPokeBoxModal && <PokeBoxModal />}
             {game.openDayCareModal && <PokeDayCare />}
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
+            {game.openBerriesModal && <BerriesModal />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

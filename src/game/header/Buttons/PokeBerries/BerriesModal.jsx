@@ -11,9 +11,9 @@ import {
     Text,
 } from "@chakra-ui/react"
 import PokeList from "@components/Pokemon/PokeList"
-import PokeUpgrade from "./PokeUpgrade"
+import BerriesPage from "./BerriesPage"
 
-export default function PokeUpgradeModal() {
+export default function BerriesModal() {
     const { updateGame, pokeBox, pokeTeam } = useContext(PlayerContext)
     const [ allPokemon, setAllPokemon ] = useState([ ...pokeTeam, ...pokeBox ])
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
@@ -32,21 +32,21 @@ export default function PokeUpgradeModal() {
                 <ModalContent>
                     <ModalHeader fontSize="3xl" textAlign="center">
                         <Center>
-                            <Text>Poke Upgrade</Text>
+                            <Text>Berries</Text>
                             <CloseButton
                                 position="absolute" 
                                 right="20px"
                                 title={'Fechar'}
-                                onClick={() => updateGame({ openPokeUpgradeModal: false })}
+                                onClick={() => updateGame({ openBerriesModal: false })}
                             />
                         </Center>
                     </ModalHeader>
                     
                     <ModalBody>
-                        <Text textAlign={"center"} mt={4}>Select the pokemon you wanna use your item</Text>
+                        <Text textAlign={"center"} mt={4}>Select the pokemon you wanna use your berry</Text>
                         <PokeList allPokemon={allPokemon} setSelectedPokemon={setSelectedPokemon} />
 
-                        <PokeUpgrade selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
+                        <BerriesPage selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
                     </ModalBody>
                 </ModalContent>
             </Modal>

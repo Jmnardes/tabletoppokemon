@@ -1,10 +1,9 @@
-import { Center, Divider, Image, Text } from "@chakra-ui/react"
+import { Center, Divider, Image } from "@chakra-ui/react"
 
 import CardTitle from "@components/Pokemon/CardTitle"
 import { PokeRarity } from "@components/Pokemon/PokemonRarity"
 import { stringToUpperCase } from '@utils'
 import { getBerryIcon } from "@utils/berryIcon"
-import { glowAnimation } from "@utils/animations"
 
 export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon }) {
     const SelectedPokemonCard = () => {
@@ -14,12 +13,6 @@ export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon
                 flexDirection="column"
                 borderRadius={8}
                 p={2} mx={2} w={64}
-                animation={selectedPokemon.berries.length > 0 && `${
-                    glowAnimation('rgba(217, 255, 0, 0.7)', 'rgba(208, 255, 0, 0.86)', 'rgba(255, 153, 0, 0.7)', 'rgba(238, 255, 0, 0.82)')
-                } 4s infinite ease-in-out`}
-                style={{
-                    '--glow-size': `${Math.min(selectedPokemon.berries, 3) * 20}px`,
-                }}
             >
                 <PokeRarity rarity={selectedPokemon.rarity.rarity} />
                 <Divider my={2} />
@@ -37,14 +30,13 @@ export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon
 
     const AppliedBerry = ({ berry }) => {
         return (
-            <>
-                <Text ml={4} fontSize={"2xs"}>{berry.amount}x</Text>
+            <Center p={4} borderRadius={8} backgroundColor={"gray.500"}>
                 <Image
                     title={berry.name}
                     src={getBerryIcon(berry.type)}
                     w={8}
                 />
-            </>
+            </Center>
         )
     }
 
@@ -58,7 +50,7 @@ export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon
                     position="relative"
                 >
                     <SelectedPokemonCard />
-                    <Center>
+                    <Center ml={12} flex flexDir={"column"} gap={6}>
                         {selectedPokemon.berries?.map((berry, index) => (
                             <AppliedBerry key={index} berry={berry} />
                         ))}

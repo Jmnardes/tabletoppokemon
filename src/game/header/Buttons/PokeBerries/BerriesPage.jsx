@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
 
 import PlayerContext from "@Contexts/PlayerContext"
@@ -20,7 +20,6 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
     }
 
     const BerrySlot = ({ berry }) => {
-        {console.log('berry')}
         return (
             <ConfirmationModal
                 event={() => handleBerry(berry)} 
@@ -31,6 +30,7 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
                 borderRadius={8}
                 flexDir={"column"}
                 h={28} w={28}
+                backgroundColor={"gray.500"}
             >
                     <Text mb={4} fontSize={"xs"}>{berry.name}</Text>
                     <Center>

@@ -7,8 +7,8 @@ import PokeballStats from './Pokeball/PokeballStats'
 import NextEvent from "./NextEvent/NextEvent";
 
 import bagIcon from '@assets/images/game/bag.png';
-import bulbasaurIcon from '@assets/images/pokemons/bulbasaur.png';
-import venonatIcon from '@assets/images/pokemons/venonat.png';
+import dayCareIcon from '@assets/images/game/heart_ball.png';
+import dustIcon from '@assets/images/items/dust.png';
 import berryIcon from '@assets/images/berries/berry.png';
 
 export default function GameHeader() {
@@ -53,17 +53,17 @@ export default function GameHeader() {
 
                 <Button mx={1} onClick={() => updateGame({ openPokeUpgradeModal: true })}>
                     <Image
-                        src={venonatIcon} 
+                        src={dustIcon} 
                         title={'Pokémon Upgrade'} 
-                        w="32px"
+                        w="26px"
                     ></Image>
                 </Button>
 
                 <Button mx={1} onClick={() => updateGame({ openDayCareModal: true })}>
                     <Image
-                        src={bulbasaurIcon} 
+                        src={dayCareIcon} 
                         title={'Pokémon Day Care'}
-                        w="32px"
+                        w="28px"
                     ></Image>
                 </Button>
                 

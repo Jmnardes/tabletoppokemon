@@ -14,11 +14,11 @@ export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon
                 flexDirection="column"
                 borderRadius={8}
                 p={2} mx={2} w={64}
-                animation={`${
+                animation={selectedPokemon.berries.length > 0 && `${
                     glowAnimation('rgba(217, 255, 0, 0.7)', 'rgba(208, 255, 0, 0.86)', 'rgba(255, 153, 0, 0.7)', 'rgba(238, 255, 0, 0.82)')
                 } 4s infinite ease-in-out`}
                 style={{
-                    '--glow-size': `${Math.min(selectedPokemon.dust, 3) * 20}px`,
+                    '--glow-size': `${Math.min(selectedPokemon.berries, 3) * 20}px`,
                 }}
             >
                 <PokeRarity rarity={selectedPokemon.rarity.rarity} />

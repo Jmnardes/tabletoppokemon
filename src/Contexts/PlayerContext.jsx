@@ -334,9 +334,8 @@ export function PlayerProvider({children}) {
             updatePlayer(res.ranking, 'status', 'ranking')
         })
 
-        socket.on('player-use-berry', res => {
+        socket.on('player-use-berry', ({ berry, pokemon }) => {
             setBerries(prevBerries => {
-                const berry = res.berry
                 const usedBerryIndex = prevBerries.findIndex(prevBerry => prevBerry.type === berry.type);
 
                 if (usedBerryIndex !== -1) {
@@ -349,6 +348,8 @@ export function PlayerProvider({children}) {
 
                 return [...prevBerries]
             })
+
+            updatePokemonOnTeam(pokemon)
         })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

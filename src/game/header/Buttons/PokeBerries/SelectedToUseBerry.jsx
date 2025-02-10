@@ -1,4 +1,4 @@
-import { Center, Divider, Image } from "@chakra-ui/react"
+import { Center, Divider, Image, Text, Tooltip } from "@chakra-ui/react"
 
 import CardTitle from "@components/Pokemon/CardTitle"
 import { PokeRarity } from "@components/Pokemon/PokemonRarity"
@@ -30,13 +30,20 @@ export default function SelectedToUseBerry({ selectedPokemon, setSelectedPokemon
 
     const AppliedBerry = ({ berry }) => {
         return (
-            <Center p={4} borderRadius={8} backgroundColor={"gray.500"}>
-                <Image
-                    title={berry.name}
-                    src={getBerryIcon(berry.type)}
-                    w={8}
-                />
-            </Center>
+            <Tooltip label={
+                <Center flex flexDir={"column"} gap={4}>
+                    <Text>{berry.effect.description}</Text>
+                    <Text>{berry.turns} turns left</Text>
+                </Center>
+            } p={4} borderRadius={8}>
+                <Center p={4} borderRadius={8} backgroundColor={"gray.500"}>
+                    <Image
+                        title={berry.name}
+                        src={getBerryIcon(berry.type)}
+                        w={8}
+                    />
+                </Center>
+            </Tooltip>
         )
     }
 

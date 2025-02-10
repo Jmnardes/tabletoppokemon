@@ -211,6 +211,7 @@ export function PlayerProvider({children}) {
             setOpponents(res.opponents)
             setPlayer(res.player)
             setVersion(res.version)
+            setBerries(res.player.berries)
 
             localStorage.setItem('session', JSON.stringify(res.session))
         })
@@ -351,6 +352,8 @@ export function PlayerProvider({children}) {
 
             updatePokemonOnTeam(pokemon)
         })
+
+        socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

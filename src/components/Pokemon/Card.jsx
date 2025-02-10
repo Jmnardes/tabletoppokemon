@@ -7,6 +7,7 @@ import Types from "../Elements/Types"
 import CardTitle from "./CardTitle"
 
 import { PokeRarity } from "./PokemonRarity"
+import AppliedItems from "./AppliedItems"
 
 function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
     const [colorByType, setColorByType] = useState('#000000')
@@ -81,6 +82,10 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
                     />
                     <PokeStats poke={poke} />
                 </Center>
+
+                <Divider />
+
+                <AppliedItems poke={poke} />
 
                 {tooltip && (
                     <Center justifyContent="space-between">

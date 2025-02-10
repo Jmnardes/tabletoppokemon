@@ -1,20 +1,18 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
-import { taskTypeEnum } from "@enum"
 import { getBerryIcon } from "@utils/berryIcon"
 import SelectedToUseBerry from "./SelectedToUseBerry"
 
 export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
-    const { player, updatePokemonOnTeam, emit, berries, setBerries } = useContext(PlayerContext)
+    const { updatePokemonOnTeam, emit, berries } = useContext(PlayerContext)
 
     const handleBerry = (berry) => {
         const pokemon = selectedPokemon
         pokemon.berries.push(berry)
 
-        emit('player-update-task', { type: taskTypeEnum.useBerry, amount: 1 })
         emit('player-use-berry', { berry, pokeId: pokemon.id })
         updatePokemonOnTeam(pokemon)
     }
@@ -44,10 +42,6 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
             </ConfirmationModal>
         )
     }
-
-    useEffect(() => {
-        setBerries(player.berries)
-    }, [player.berries])
 
     return (
         <>

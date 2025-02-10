@@ -1,6 +1,7 @@
 const io = require("socket.io-client");
 
-const SERVER_URL = process.env.SOCKET_SERVER || "http://localhost:3001";
+const SERVER_URL = process.env.REACT_APP_SOCKET_SERVER;
+console.log(SERVER_URL)
 
 const socket = io(SERVER_URL);
 

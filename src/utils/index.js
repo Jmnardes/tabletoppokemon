@@ -212,3 +212,11 @@ export const rarityName = (rarity) => {
 //     if(rarity === 3) return '#d4af37'
 //     return '#8a8a8a'
 // }
+
+export const pokemonHasChallengeBerry = (pokemon) => {
+    if (pokemon.effects.includes('boost_challenge')) {
+        return true
+    }
+
+    return false
+}

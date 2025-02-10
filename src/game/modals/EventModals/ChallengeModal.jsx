@@ -28,6 +28,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { FaInfoCircle, FaRedo } from "react-icons/fa";
+import { pokemonHasChallengeBerry } from "../../../utils"
 
 export default function ChallengeModal({ event }) {
     const { updateGame, emit, opponents, pokeTeam, updateStatus, updatePlayer } = useContext(PlayerContext)
@@ -80,12 +81,13 @@ export default function ChallengeModal({ event }) {
                 return acc + (poke.types).reduce((acc2, element) => {
                     const checkIfAdvIncludes = event.advantage.value.includes(element)
                     const checkIfDisIncludes = event.disadvantage?.value.includes(element)
+                    const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
 
-                    if(checkIfAdvIncludes) return acc2 + 1
+                    if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus
                     if(checkIfDisIncludes) {
-                        return acc2 - 1
+                        return acc2 - 1 + challengeBonus
                     } else {
-                        return acc2
+                        return acc2 + challengeBonus
                     }
                 }, 0)
             }
@@ -93,8 +95,9 @@ export default function ChallengeModal({ event }) {
             if(event.advantage.type === 'nature') {
                 const checkIfNatureIncludes = event.advantage.value.includes(poke.nature)
                 const checkIfNatureDontIncludes = event.disadvantage?.value.includes(poke.nature)
+                const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
 
-                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes
+                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes + challengeBonus
             }
         }, 0);
     }

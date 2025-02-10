@@ -32,10 +32,10 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
     const battleTurnUpdate = (res) => {
         let players = res.players
 
-        players.forEach(battling_player => {
-            if(battling_player.player === player.id) {
-                if(battling_player.pokemon) {
-                    battleChoosePokemon(battling_player.pokemon.pokemonId)
+        players.forEach(battlingPlayer => {
+            if(battlingPlayer.player === player.id) {
+                if(battlingPlayer.pokemon) {
+                    battleChoosePokemon(battlingPlayer.pokemon.pokemonId)
                 }
             }
         })

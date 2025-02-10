@@ -24,18 +24,18 @@ export default function BattleModal({ battleId, participants, event }) {
         setBattleLog(log)
         setTurnWinner(winner)
 
-        players.forEach(battling_player => {
-            if(battling_player.player !== player.id && battling_player.pokemon) {
-                // setOpponents(old => [...old, {...battling_player.pokemon, hp: battling_player.hp}])
+        players.forEach(battlingPlayer => {
+            if(battlingPlayer.player !== player.id && battlingPlayer.pokemon) {
+                // setOpponents(old => [...old, {...battlingPlayer.pokemon, hp: battlingPlayer.hp}])
                 
-                battling_player.pokemon && setOpponent({
-                    ...battling_player.pokemon,
-                    hp: battling_player.hp
+                battlingPlayer.pokemon && setOpponent({
+                    ...battlingPlayer.pokemon,
+                    hp: battlingPlayer.hp
                 })
             }
 
-            if(battling_player.player === player.id) {
-                if(battling_player.pokemon) {
+            if(battlingPlayer.player === player.id) {
+                if(battlingPlayer.pokemon) {
                     setLoadingApi(false)
                     setIsPokemonBattling(true)
                 }

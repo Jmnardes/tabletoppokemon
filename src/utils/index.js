@@ -220,3 +220,7 @@ export const pokemonHasChallengeBerry = (pokemon) => {
 
     return false
 }
+
+export const pokemonHasBerry = (pokemon, berryType) => {
+    return pokemon.berries && pokemon.berries.some(berry => berry.type === berryType);
+}

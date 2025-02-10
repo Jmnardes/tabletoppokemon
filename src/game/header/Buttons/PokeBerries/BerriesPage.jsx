@@ -5,16 +5,41 @@ import PlayerContext from "@Contexts/PlayerContext"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import { getBerryIcon } from "@utils/berryIcon"
 import SelectedToUseBerry from "./SelectedToUseBerry"
+import { pokemonHasBerry } from "@utils"
+
+import berryIcon from '@assets/images/berries/berry.png';
+import { stringToUpperCase } from "../../../../utils"
 
 export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
-    const { updatePokemonOnTeam, emit, berries } = useContext(PlayerContext)
+    const { updatePokemonOnTeam, emit, berries, handleToast, setLoadingApi, setLoadingText } = useContext(PlayerContext)
 
     const handleBerry = (berry) => {
         const pokemon = selectedPokemon
+
+        if (pokemonHasBerry(pokemon, berry.type)) {
+            handleToast({
+                id: 'berry-exists',
+                title: `${stringToUpperCase(pokemon.name)} denied`,
+                description: `${stringToUpperCase(pokemon.name)} already ate a ${berry.name} berry before and it's effect still up, try again later!`,
+                icon: <Image 
+                        width="32px"
+                        src={getBerryIcon(berry.type)} 
+                        fallbackSrc={berryIcon}
+                    ></Image>,
+                position: 'top',
+                duration: 6000,
+                status: 'warning',
+            })
+
+            return
+        }
+
         pokemon.berries.push(berry)
 
         emit('player-use-berry', { berry, pokeId: pokemon.id })
         updatePokemonOnTeam(pokemon)
+        setLoadingText('Applying berry...')
+        setLoadingApi(true)
     }
 
     const BerrySlot = ({ berry }) => {

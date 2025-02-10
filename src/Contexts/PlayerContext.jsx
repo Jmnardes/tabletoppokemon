@@ -351,6 +351,7 @@ export function PlayerProvider({children}) {
             })
 
             updatePokemonOnTeam(pokemon)
+            setLoadingApi(false)
         })
 
         socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))

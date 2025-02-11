@@ -18,6 +18,7 @@ export default function Opponents() {
                 key={index}
                 direction="column"
                 justify="space-evenly"
+                h="full"
             >
                 {column.map(opponent => (
                     <OpponentCard

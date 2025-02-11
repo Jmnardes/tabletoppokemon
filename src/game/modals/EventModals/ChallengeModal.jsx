@@ -107,30 +107,33 @@ export default function ChallengeModal({ event }) {
     const awardDistribution = () => {
         const resultArray = []
 
-        resultArray.push(myRoll.current)
+        resultArray.push(myRoll.current + bonus.current)
 
         opponentsRoll.forEach(roll => {
             resultArray.push(roll.roll)
         })
 
         resultArray.sort(function(a, b){return b-a})
+        const resultArrayWithouDuplicates = [...new Set(resultArray)]
 
-        if(myRoll.current === resultArray[0]) {
+        if(myRoll.current === resultArrayWithouDuplicates[0]) {
             awarding(0)
             return
         }
 
-        if(myRoll.current === resultArray[1]) {
+        if(myRoll.current === resultArrayWithouDuplicates[1]) {
             awarding(1)
             return
         }
 
         if(opponents.length > 1) {
-            if(myRoll.current === resultArray[2]) {
+            if(myRoll.current === resultArrayWithouDuplicates[2]) {
                 awarding(2)
                 return
             }
         }
+
+        myPlacing.current = 4
     }
 
     const awarding = (place) => {
@@ -297,7 +300,7 @@ export default function ChallengeModal({ event }) {
                                 >
                                     <OpponentsResult myRoll={myRoll.current} myBonus={bonus.current} opponentsRoll={opponentsRoll} />
                                     <DiceButton bonus={bonus.current} onRoll={(roll) => {
-                                        myRoll.current = roll + bonus.current
+                                        myRoll.current = roll
                                         setHasIRolled(true)
                                         emit('event-roll', roll + bonus.current)
                                     }} />

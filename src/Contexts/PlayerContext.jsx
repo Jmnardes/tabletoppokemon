@@ -276,6 +276,10 @@ export function PlayerProvider({children}) {
             updateOpponent(res, true, 'turnReady')
         })
 
+        socket.on('turn-end-other-return', res => {
+            updateOpponent(res, false, 'turnReady')
+        })
+
         socket.on('game-end', res => {
             setResults(res)
             updateGame({ gameEnded: true })

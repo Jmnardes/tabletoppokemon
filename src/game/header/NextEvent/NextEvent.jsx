@@ -3,7 +3,7 @@ import { useContext } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 
 export default function NextEvent() {
-    const { player, nextEvent } = useContext(PlayerContext)
+    const { nextEvent } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     if (!nextEvent) return

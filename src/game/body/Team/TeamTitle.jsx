@@ -1,4 +1,4 @@
-import { Center, Flex, Image, Kbd, Text, useColorMode } from "@chakra-ui/react";
+import { Center, Flex, Text, useColorMode } from "@chakra-ui/react";
 
 import Accuracy from '@assets/svgs/stats/accuracy'
 import Attack from '@assets/svgs/stats/attack'

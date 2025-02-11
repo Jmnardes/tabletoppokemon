@@ -4,7 +4,6 @@ import PlayerContext from "@Contexts/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
-import { Divide } from "phosphor-react";
 
 export default function TaskBoard() {
     const { tasks, session } = useContext(PlayerContext)

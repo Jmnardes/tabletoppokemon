@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react"
+import { Box, Center, Flex } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import Card from "@components/Pokemon/Card"

@@ -8,12 +8,12 @@ export const catchDifficulty = (session, poke, team) => {
     return 0
   }
 
-  const initialDifficulty = 6
+  const initialDifficulty = 4
   const turnVarianceDifficulty = Math.floor((level - 1) / 10)
 
   const teamPokemonStrength = team.reduce((acc, curr) => acc + curr.level + curr.rarity.rarity, 0)
   const teamPokemonStrengthMean = Math.ceil(teamPokemonStrength / team.length)
-  const wildPokemonStrength = gameDifficulty + rarity + level
+  const wildPokemonStrength = gameDifficulty + (rarity * 2) + level
   const battleDifficulty = wildPokemonStrength - teamPokemonStrengthMean
 
   return initialDifficulty + battleDifficulty + turnVarianceDifficulty

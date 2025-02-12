@@ -127,38 +127,26 @@ export default function Encounter() {
 
     return (
         <Center>
-            {(player.balls.pokeball === 0 &&
-                player.balls.greatball === 0 && 
-                player.balls.ultraball === 0 &&
-                player.balls.masterball === 0 &&
-                !catchDiceWasRolled) ? (
-                    <Button mt={6} h={12} onClick={() => {
-                        updateGame({ openEncounterModal: false })
-                    }}>
-                        Sorry, you don't have pokeballs
-                    </Button>
-            ) : (
-                <Center flexDir={"column"}>
-                    <Center>
-                        <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll} isStarter={divisibleByThree}>
-                            <Center>
-                                <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
-                                    {encounter.map((poke, index) => {
-                                        return <PokemonEncounterCard key={poke.id} index={index} poke={poke} />
-                                    })}
-                                </SimpleGrid>
-                            </Center>
-                        </EncounterBalls>
-                    </Center>
-                    {!divisibleByThree && (
-                        <Button mt={6} h={12} w="100%" isDisabled={!allDisabled || !catchDiceWasRolled} 
-                            onClick={() => {updateGame({ openEncounterModal: false })}}
-                        >
-                            Leave encounter
-                        </Button>
-                    )}
+            <Center flexDir={"column"}>
+                <Center>
+                    <EncounterBalls handleCatchDiceRoll={handleCatchDiceRoll} isStarter={divisibleByThree}>
+                        <Center>
+                            <SimpleGrid columns={divisibleByThree ? 3 : 2} p={2}>
+                                {encounter.map((poke, index) => {
+                                    return <PokemonEncounterCard key={poke.id} index={index} poke={poke} />
+                                })}
+                            </SimpleGrid>
+                        </Center>
+                    </EncounterBalls>
                 </Center>
-            )}
+                {!divisibleByThree && (
+                    <Button mt={6} h={12} w="100%" isDisabled={!allDisabled || !catchDiceWasRolled} 
+                        onClick={() => {updateGame({ openEncounterModal: false })}}
+                    >
+                        Leave encounter
+                    </Button>
+                )}
+            </Center>
         </Center>
     )
 }

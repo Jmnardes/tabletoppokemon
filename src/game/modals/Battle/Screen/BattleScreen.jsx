@@ -1,4 +1,4 @@
-import { Center, Flex, Image, Kbd, Progress, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Image, Kbd, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import BattleLog from "./BattleLog";
@@ -22,8 +22,8 @@ export default function BattleScreen({
     const [currentLogIndex, setCurrentLogIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [logMessages, setLogMessages] = useState([]);
-    const turnsInMilisecondsDuration = 1200;
-    const animationInSecondsDuration = 0.8;
+    const turnsInMilisecondsDuration = 800;
+    const animationInSecondsDuration = 0.5;
     
     const handleSelfHitAnimation = () => {
       setSelfHitAnimation(`${hitAnimation} ${animationInSecondsDuration}s ease-in-out`);
@@ -148,18 +148,23 @@ export default function BattleScreen({
           }}
         />
 
-        <Kbd display="flex" flexDir="row" alignItems="center">
-          HP
+        <Box>
           <Progress
-            w={24}
-            ml={1}
-            size="md"
-            colorScheme="green"
+            value={hp} max={maxHp} 
+            size={"lg"} w={24}
+            colorScheme={"green"}
             borderRadius={4}
-            value={hp}
-            max={maxHp}
           />
-        </Kbd>
+          <Text
+            position="relative"
+            textAlign={"center"}
+            w={"100%"}
+            bottom={3.5}
+            fontSize={"x-small"}
+          >
+            {hp}/{maxHp}
+          </Text>
+        </Box>
         
         {!myPoke && battleLog[currentLogIndex].defender.id === opponent?.pokemonId && (
           <Text

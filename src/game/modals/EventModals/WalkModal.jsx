@@ -104,7 +104,7 @@ export default function WalkModal({ event }) {
                                 if (prize.type === 'berry') {
                                     emit('player-gain-berry', { berry: prize.data })
                                 } else {
-                                    emit('player-win-prize', { amount: prize.amount, key: prize.type, type: prize.name })
+                                    emit('player-win-prize', { prize: prize })
                                 }
                             }
 

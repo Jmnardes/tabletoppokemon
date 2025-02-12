@@ -6,7 +6,7 @@ import PokeSelector from "./PokeSelector"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { taskTypeEnum } from "@enum"
 
-import { FaDoorOpen, FaRedo } from "react-icons/fa";
+import { FaDoorOpen } from "react-icons/fa";
 
 export default function ControlBox({ 
     battleId,
@@ -18,9 +18,9 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, updatePlayer, emit } = useContext(PlayerContext)
+    const { updateGame, updateStatus, emit, setLoadingApi } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
-    const refreshButtonTimer = 50000
+    const refreshButtonTimer = 60000
     const prize = event.prizes[2]
 
     // const battleChooseMove = (move) => {
@@ -43,6 +43,25 @@ export default function ControlBox({
     //     }
     // // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [])
+
+    const LeaveBattlebutton = () => {
+        return (
+            <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
+                if (turnWinner === pokemon?.id) {
+                    setLoadingApi(true)
+                    updateStatus('wins')
+                    emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
+                    emit('player-win-prize', { prize: prize })
+                } else {
+                    updateStatus('loses')
+                }
+
+                updateGame({ openBattleModal: false, openEncounterModal: true })
+            }}>
+                <FaDoorOpen size="24px"/>
+            </Button>
+        )
+    }
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -69,19 +88,7 @@ export default function ControlBox({
                                     </>
                                 ) : <Text ml={4} fontSize={"3xl"}>Sorry, you lost the battle</Text>}
                             </Center>
-                            <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
-                                if (turnWinner === pokemon?.id) {
-                                    updateStatus('wins')
-                                    emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
-                                    updatePlayer(prize.amount, prize.type, prize.name)
-                                } else {
-                                    updateStatus('loses')
-                                }
-
-                                updateGame({ openBattleModal: false, openEncounterModal: true })
-                            }}>
-                                <FaDoorOpen size="24px"/>
-                            </Button>
+                            <LeaveBattlebutton />
                         </>
                     ) : (
                         <Center w="100%">
@@ -89,19 +96,7 @@ export default function ControlBox({
                             {refreshResults ? (
                                 <>
                                     <Text fontSize={"3xl"} mr={4}>Something went wrong!</Text>
-                                    <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
-                                        if (turnWinner === pokemon?.id) {
-                                            updateStatus('wins')
-                                            emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
-                                            updatePlayer(prize.amount, prize.type, prize.name)
-                                        } else {
-                                            updateStatus('loses')
-                                        }
-        
-                                        updateGame({ openBattleModal: false, openEncounterModal: true })
-                                    }}>
-                                        <FaDoorOpen size="24px"/>
-                                    </Button>
+                                    <LeaveBattlebutton />
                                 </>
                             ) : (
                                 <Text fontSize={"3xl"}>Wait for the battle to end...</Text>

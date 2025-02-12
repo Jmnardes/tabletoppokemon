@@ -345,7 +345,7 @@ export function PlayerProvider({children}) {
         socket.on('player-use-berry', ({ berry, pokemon }) => {
             setBerries(prevBerries => {
                 const usedBerryIndex = prevBerries.findIndex(prevBerry => prevBerry.type === berry.type);
-
+    
                 if (usedBerryIndex !== -1) {
                     if (prevBerries[usedBerryIndex].amount > 1) {
                         prevBerries[usedBerryIndex].amount--
@@ -353,13 +353,15 @@ export function PlayerProvider({children}) {
                         prevBerries.splice(usedBerryIndex, 1)
                     }
                 }
-
+    
                 return [...prevBerries]
             })
 
             updatePokemonOnTeam(pokemon)
             setLoadingApi(false)
         })
+
+        socket.on('player-gain-berry', ({ berries }) => setBerries(berries))
 
         socket.on('player-use-dust', ({ pokemon, amount }) => {
             updateItem(-amount, 'dust')

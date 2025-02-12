@@ -116,18 +116,18 @@ export default function ChallengeModal({ event }) {
         resultArray.sort(function(a, b){return b-a})
         const resultArrayWithouDuplicates = [...new Set(resultArray)]
 
-        if(myRoll.current === resultArrayWithouDuplicates[0]) {
+        if((myRoll.current + bonus.current) === resultArrayWithouDuplicates[0]) {
             awarding(0)
             return
         }
 
-        if(myRoll.current === resultArrayWithouDuplicates[1]) {
+        if((myRoll.current + bonus.current) === resultArrayWithouDuplicates[1]) {
             awarding(1)
             return
         }
 
         if(opponents.length > 1) {
-            if(myRoll.current === resultArrayWithouDuplicates[2]) {
+            if((myRoll.current + bonus.current) === resultArrayWithouDuplicates[2]) {
                 awarding(2)
                 return
             }

@@ -257,6 +257,16 @@ export function PlayerProvider({children}) {
             } 
         })
 
+        socket.on("connect", () => {
+          if (socket.recovered) {
+            updateLoading(false)
+
+            if (waitingForPlayers === true) {
+                setWaitingForPlayers(false)
+            } 
+          }
+        });
+
             // LOBBY
         socket.on('lobby-ready', res => {
             setPlayer(old => ({ ...old, ready: res }))
@@ -361,11 +371,19 @@ export function PlayerProvider({children}) {
             setLoadingApi(false)
         })
 
-        socket.on('player-gain-berry', ({ berries }) => setBerries(berries))
+        socket.on('player-gain-berry', ({ berries }) => {
+            setBerries(berries)
+            setLoadingApi(false)
+        })
 
         socket.on('player-use-dust', ({ pokemon, amount }) => {
             updateItem(-amount, 'dust')
             updatePokemonOnTeam(pokemon)
+            setLoadingApi(false)
+        })
+
+        socket.on('player-win-prize', ({ amount, key, type }) => {
+            updatePlayer(amount, key, type)
             setLoadingApi(false)
         })
 

@@ -8,7 +8,6 @@ import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import masterballIcon from '@assets/images/pokeballs/masterball.png'
 
 export default function PrizeIcon ({ type, size = '20px', ...props }) {
-    console.log(type)
     switch (type) {
         case 'dust':
             return <Image src={dustIcon} w={size} title="Dusts" ml={2} {...props} />

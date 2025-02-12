@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useContext } from "react"
+import { useMemo, useContext } from "react"
 import {
     Modal,
     ModalContent,
@@ -17,7 +17,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function WalkModal({ event }) {
-    const { emit, updateGame, updatePlayer, pokeTeam } = useContext(PlayerContext)
+    const { emit, updateGame, pokeTeam, setLoadingApi } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -40,17 +40,6 @@ export default function WalkModal({ event }) {
         }, false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        if (conditionMet) {
-            if (prize.type === 'berry') {
-                emit('player-gain-berry', { berry: prize.data })
-            } else {
-                updatePlayer(prize.amount, prize.type, prize.name)
-            }
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [conditionMet])
 
     return (
         <>
@@ -109,6 +98,16 @@ export default function WalkModal({ event }) {
                     <ModalFooter p={0}>
 
                         <Button h={12} onClick={() => {
+                            if (conditionMet) {
+                                setLoadingApi(true)
+
+                                if (prize.type === 'berry') {
+                                    emit('player-gain-berry', { berry: prize.data })
+                                } else {
+                                    emit('player-win-prize', { amount: prize.amount, key: prize.type, type: prize.name })
+                                }
+                            }
+
                             updateGame({ openWalkModal: false, openEncounterModal: true })
                         }}>
                             <SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} />

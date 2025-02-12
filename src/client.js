@@ -17,7 +17,10 @@ socket.on("connect", () => {
 });
 
 socket.on("disconnect", () => {
-  console.log("User disconnected");
+  console.log('Disconnected. Attempting to reconnect...')
+  setTimeout(() => {
+    socket.connect()
+  }, 5000)
 });
 
 export default socket;

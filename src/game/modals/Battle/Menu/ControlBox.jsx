@@ -86,13 +86,25 @@ export default function ControlBox({
                     ) : (
                         <Center w="100%">
                             <Spinner size='xl' mr={8}/>
-                            <Text fontSize={"3xl"}>Wait for the battle to end...</Text>
-                            {refreshResults && (
-                                <FaRedo
-                                    title="Refresh results" size={24}
-                                    cursor={"pointer"}
-                                    onClick={() => setRefreshResults(true)}
-                                />
+                            {refreshResults ? (
+                                <>
+                                    <Text fontSize={"3xl"} mr={4}>Something went wrong!</Text>
+                                    <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
+                                        if (turnWinner === pokemon?.id) {
+                                            updateStatus('wins')
+                                            emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
+                                            updatePlayer(prize.amount, prize.type, prize.name)
+                                        } else {
+                                            updateStatus('loses')
+                                        }
+        
+                                        updateGame({ openBattleModal: false, openEncounterModal: true })
+                                    }}>
+                                        <FaDoorOpen size="24px"/>
+                                    </Button>
+                                </>
+                            ) : (
+                                <Text fontSize={"3xl"}>Wait for the battle to end...</Text>
                             )}
                         </Center>
                     )}

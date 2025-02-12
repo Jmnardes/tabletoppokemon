@@ -235,23 +235,27 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-session-disconnected', res => {
-            handleToast({
-                id: 'session-disconnection',
-                title: 'User disconnected',
-                description: `${res} was disconnected from the server`,
-                status: 'error',
-            })
+            // handleToast({
+            //     id: 'session-disconnection',
+            //     title: 'User disconnected',
+            //     description: `${res} was disconnected from the server`,
+            //     status: 'error',
+            // })
             updateLoading(true)
         })
 
         socket.on('player-session-reconnected', res => {
-            handleToast({
-                id: 'session-reconnection',
-                title: 'User reconnected',
-                description: `${res} reconnected`,
-                status: 'success',
-            })
+            // handleToast({
+            //     id: 'session-reconnection',
+            //     title: 'User reconnected',
+            //     description: `${res} reconnected`,
+            //     status: 'success',
+            // })
             updateLoading(false)
+
+            if (waitingForPlayers === true) {
+                setWaitingForPlayers(false)
+            } 
         })
 
             // LOBBY

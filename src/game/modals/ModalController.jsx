@@ -30,8 +30,10 @@ export default function ModalController() {
     const [battle, setBattle] = useState({})
 
     useEffect(() => {
-        socket.on('turn-start', res => {
+        socket.on('turn-start', (res, callback) => {
             const trainedPokemons = res.trained
+
+            callback(true)
 
             setSession(old => ({...old, turns: res.turn}))
             updateOpponents(false, 'turnReady')

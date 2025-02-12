@@ -23,7 +23,7 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
                 description: `${stringToUpperCase(pokemon.name)} already ate a ${berry.name} berry before and it's effect still up, try again later!`,
                 icon: <Image 
                         width="32px"
-                        src={getBerryIcon(berry.type)} 
+                        src={getBerryIcon(berry.type)}
                         fallbackSrc={berryIcon}
                     ></Image>,
                 position: 'top',

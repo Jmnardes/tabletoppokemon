@@ -8,8 +8,7 @@ import NextEvent from "./NextEvent/NextEvent";
 
 import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
-import dustIcon from '@assets/images/items/dust.png';
-import berryIcon from '@assets/images/berries/berry.png';
+import arrowIcon from '@assets/images/game/arrow.png';
 
 export default function GameHeader() {
     const { player, updateGame, pokeBox, game, nextEvent } = useContext(PlayerContext)
@@ -43,17 +42,17 @@ export default function GameHeader() {
 
                 <PokeballStats />
 
-                <Button mx={1} onClick={() => updateGame({ openBerriesModal: true })}>
+                {/* <Button mx={1} onClick={() => updateGame({ openBerriesModal: true })}>
                     <Image
                         src={berryIcon} 
                         title={'Berries'}
                         w="32px"
                     ></Image>
-                </Button>
+                </Button> */}
 
                 <Button mx={1} onClick={() => updateGame({ openPokeUpgradeModal: true })}>
                     <Image
-                        src={dustIcon} 
+                        src={arrowIcon} 
                         title={'Pokémon Upgrade'} 
                         w="26px"
                     ></Image>

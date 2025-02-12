@@ -5,51 +5,92 @@ import PlayerContext from "@Contexts/PlayerContext"
 import SelectedToUpgrade from "./SelectedToUpgrade"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import { taskTypeEnum } from "@enum"
+import { getBerryIcon } from "@utils/berryIcon"
+import { pokemonHasBerry, stringToUpperCase } from "@utils"
 
 import dustIcon from '@assets/images/items/dust.png'
+import berryIcon from '@assets/images/berries/berry.png';
 
 export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
-    const { player, updateItem, updatePokemonOnTeam, emit } = useContext(PlayerContext)
-    const [ items, setItems ] = useState(player.items)
+    const { 
+        player, 
+        emit, 
+        setLoadingApi, 
+        handleToast, 
+        setLoadingText,
+        updateItem, 
+        updatePokemonOnTeam, 
+        berries, 
+    } = useContext(PlayerContext)
+    const [ upgrades, setUpgrades ] = useState([ { type: 'dust', amount: player.items.dust }, ...berries ])
 
-    const handleUseItem = (type) => {
+    const handleDust = () => {
         const pokemon = selectedPokemon
 
-        switch (type) {
-            case "dust":
-                handleDust(pokemon)
-                break
-            default:
-                break
-        }
-    }
-
-    const handleDust = (pokemon) => {
         pokemon.dust += 1
 
         emit('player-update-task', { type: taskTypeEnum.useDust, amount: 1 })
         updateItem(-1, 'dust')
         updatePokemonOnTeam(pokemon)
     }
+    
+    const handleBerry = (berry) => {
+        const pokemon = selectedPokemon
 
-    const ShowItem = ({ itemName, type, icon, amount, text }) => {
+        if (pokemonHasBerry(pokemon, berry.type)) {
+            handleToast({
+                id: 'berry-exists',
+                title: `${stringToUpperCase(pokemon.name)} denied`,
+                description: `${stringToUpperCase(pokemon.name)} already ate a ${berry.name} berry before and it's effect still up, try again later!`,
+                icon: <Image 
+                        width="32px"
+                        src={getBerryIcon(berry.type)}
+                        fallbackSrc={berryIcon}
+                    ></Image>,
+                position: 'top',
+                duration: 6000,
+                status: 'warning',
+            })
+
+            return
+        }
+
+        pokemon.berries.push(berry)
+
+        emit('player-use-berry', { berry, pokeId: pokemon.id })
+        updatePokemonOnTeam(pokemon)
+        setLoadingText('Applying berry...')
+        setLoadingApi(true)
+    }
+
+    const UpgradeSlot = ({ item, isDust }) => {
+        const modalTitle = `Are you sure you want to use ${isDust ? 'dust' : (item.type + ' berry')}?`
+        const description = isDust
+            ? "By using a Dust in your pokemon, you will increase the chance for him to level up on the next turn, but it will only apply the next turn. The more Dusts you use higher are the chances."
+            : item.description
+        const isDisabled = isDust 
+            ? item.amount === 0 || !selectedPokemon 
+            : item.amount === 0 || !selectedPokemon || selectedPokemon.berries.length === 3
+        const name = isDust ? 'Dust' : item.name
+        const icon = isDust ? dustIcon : getBerryIcon(item.type)
+
         return (
             <ConfirmationModal
-                event={() => handleUseItem(type)} 
-                modalTitle={`Are you sure you want to use ${itemName}?`}
-                modalText={text} title={text}
+                event={() => isDust ? handleDust() : handleBerry(item)} 
+                modalTitle={modalTitle}
+                modalText={description} title={description}
                 cursor={"pointer"}
-                isDisabled={amount === 0 || !selectedPokemon}
+                isDisabled={isDisabled}
                 borderRadius={8}
                 flexDir={"column"}
                 h={28} w={28}
             >
-                    <Text mb={4} fontSize={"xs"}>{itemName}</Text>
+                    <Text mb={4} fontSize={"xs"}>{name}</Text>
                     <Center>
-                        <Text fontSize={"xs"}>{amount}x</Text>
+                        <Text fontSize={"xs"}>{item.amount}x</Text>
                         <Image
                             src={icon}
-                            title={itemName}
+                            title={name}
                             w={12}
                         ></Image>
                     </Center>
@@ -58,8 +99,8 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     }
 
     useEffect(() => {
-        setItems(player.items)
-    }, [player.items])
+        setUpgrades([ { type: 'dust', amount: player.items.dust }, ...berries ])
+    }, [player.items.dust, berries])
 
     return (
         <>
@@ -70,19 +111,13 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
                 </Center>
                 
                 <Center flexDir={"column"} w={"100%"} mx={4}>
-                    <Text mb={4}>Poke Items</Text>
+                    <Text mb={4}>Upgrades</Text>
                     <Box backgroundColor={"gray.600"} minW={"full"} minH={96} borderRadius={8}>
-                        {items &&
-                            <Wrap p={4} justify={"center"}>
-                                <ShowItem 
-                                    itemName={"Dust"} 
-                                    type="dust" 
-                                    amount={items.dust} 
-                                    icon={dustIcon} 
-                                    text={"By using a Dust in your pokemon, you will increase the chance for him to level up on the next turn, but it will only apply the next turn. The more Dusts you use higher are the chances."}
-                                />
-                            </Wrap>
-                        }
+                        <Wrap p={4} justify={"center"}>
+                            {upgrades.map((upgradeItem, index) => (
+                                <UpgradeSlot key={index} item={upgradeItem} isDust={upgradeItem.type === 'dust'} />
+                            ))}
+                        </Wrap>
                     </Box>
                 </Center>
             </Center>

@@ -297,22 +297,22 @@ export function PlayerProvider({children}) {
         socket.on('player-capture-pokemon', res => {
             updateLoading(false)
             // console.log('catch pokemon:', res)
-            handleToast({
-                id: 'catch',
-                title: 'You caught a Pokémon!',
-                description: (
-                    'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
-                    'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
-                ),
-                icon: <Image 
-                        width="32px"
-                        src={res.pokemon.sprites.mini} 
-                        fallbackSrc={res.pokemon.sprites.front}
-                    ></Image>,
-                duration: 5000,
-                position: 'bottom-left',
-                status: 'success',
-            })
+            // handleToast({
+            //     id: 'catch',
+            //     title: 'You caught a Pokémon!',
+            //     description: (
+            //         'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
+            //         'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
+            //     ),
+            //     icon: <Image 
+            //             width="32px"
+            //             src={res.pokemon.sprites.mini} 
+            //             fallbackSrc={res.pokemon.sprites.front}
+            //         ></Image>,
+            //     duration: 5000,
+            //     position: 'bottom-left',
+            //     status: 'success',
+            // })
 
             if (res.catches > 3) {
                 updatePokeBox(res.pokemon)

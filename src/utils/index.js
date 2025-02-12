@@ -221,6 +221,26 @@ export const pokemonHasChallengeBerry = (pokemon) => {
     return false
 }
 
-export const pokemonHasBerry = (pokemon, berryType) => {
-    return pokemon.berries && pokemon.berries.some(berry => berry.type === berryType);
+export const berryExistsInBerries = ({ berries, berryType }) => {
+    return berries && berries.some(berry => berry.type === berryType);
+}
+
+export const upgradePokemonLevelChance = ({ sessionLevel, pokeLevel, dusts, berries }) => {
+    const berryBoost = berryExistsInBerries({ berries: berries, berryType: "belue_berry" }) ? 30 : 0
+    let chanceToUpgrade = 0
+
+    if (pokeLevel < sessionLevel - 3) chanceToUpgrade = 90
+    if (pokeLevel === sessionLevel - 3) chanceToUpgrade = 80
+    if (pokeLevel === sessionLevel - 2) chanceToUpgrade = 60
+    if (pokeLevel === sessionLevel - 1) chanceToUpgrade = 40
+    if (pokeLevel === sessionLevel) chanceToUpgrade = 20
+    if (pokeLevel === sessionLevel + 1) chanceToUpgrade = 10
+    if (pokeLevel > sessionLevel + 1) chanceToUpgrade = 0
+
+    chanceToUpgrade  += berryBoost
+    chanceToUpgrade += dusts * 20
+
+    if (chanceToUpgrade > 100) chanceToUpgrade = 100
+
+    return chanceToUpgrade
 }

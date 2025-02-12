@@ -5,7 +5,7 @@ import PlayerContext from "@Contexts/PlayerContext"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import { getBerryIcon } from "@utils/berryIcon"
 import SelectedToUseBerry from "./SelectedToUseBerry"
-import { pokemonHasBerry } from "@utils"
+import { berryExistsInBerries } from "@utils"
 
 import berryIcon from '@assets/images/berries/berry.png';
 import { stringToUpperCase } from "../../../../utils"
@@ -16,7 +16,7 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
     const handleBerry = (berry) => {
         const pokemon = selectedPokemon
 
-        if (pokemonHasBerry(pokemon, berry.type)) {
+        if (berryExistsInBerries({ berries: pokemon.berries, berryType: berry.type })) {
             handleToast({
                 id: 'berry-exists',
                 title: `${stringToUpperCase(pokemon.name)} denied`,

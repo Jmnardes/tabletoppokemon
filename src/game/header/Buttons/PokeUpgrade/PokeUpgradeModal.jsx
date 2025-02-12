@@ -19,7 +19,21 @@ export default function PokeUpgradeModal() {
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
 
     useEffect(() => {
-        setAllPokemon([ ...pokeTeam, ...pokeBox ])
+        setAllPokemon(() => {
+            const newAllTeam = [ ...pokeTeam, ...pokeBox ]
+
+            if (selectedPokemon) {
+                const updatedSelectedPokemon = newAllTeam.find(
+                  poke => poke.id === selectedPokemon.id
+                )
+
+                if (updatedSelectedPokemon) {
+                  setSelectedPokemon(updatedSelectedPokemon)
+                }
+            }
+
+            return newAllTeam
+        })
     }, [pokeBox, pokeTeam])
 
     return (

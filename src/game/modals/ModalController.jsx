@@ -35,7 +35,7 @@ export default function ModalController() {
 
             callback(true)
 
-            setSession(old => ({...old, turns: res.turn}))
+            setSession(old => ({...old, turns: res.turn, level: res.level}))
             updateOpponents(false, 'turnReady')
             if (trainedPokemons.length) {
                 trainedPokemons.forEach(pokemon => {

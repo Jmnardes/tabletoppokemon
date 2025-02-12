@@ -1,25 +1,57 @@
-import { Center, Divider, Image, Text, Tooltip } from "@chakra-ui/react"
+import { Box, Center, Divider, Image, Progress, Text, Tooltip } from "@chakra-ui/react"
+import { useContext, useEffect, useState } from "react"
+import PlayerContext from "@Contexts/PlayerContext"
 
 import CardTitle from "@components/Pokemon/CardTitle"
 import { PokeRarity } from "@components/Pokemon/PokemonRarity"
 import { getBerryIcon } from "@utils/berryIcon"
-import { stringToUpperCase } from '@utils'
+import { stringToUpperCase, upgradePokemonLevelChance } from '@utils'
 
 import dustIcon from '@assets/images/items/dust.png'
 
 export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon }) {
+    const { session } = useContext(PlayerContext)
+    const [changeToLevelUp, setChanceToLevelUp] = useState(0)
+
+    const ChanceToLevelUp = () => {
+        return (
+            <Tooltip label="Chance in leveling up next turn" p={4} borderRadius={6}>
+                <Box position="absolute" bottom={0}>
+                    <Progress
+                        value={changeToLevelUp} max={100} 
+                        size="lg" w={48}
+                        colorScheme={"purple"}
+                        borderRadius={6}
+                    />
+                    <Text
+                        position="absolute"
+                        top="50%" left="50%"
+                        transform="translate(-50%, -50%)"
+                        fontSize="x-small"
+                    >
+                        {changeToLevelUp}%
+                    </Text>
+                </Box>
+            </Tooltip>
+        )
+    }
+
     const SelectedPokemonCard = () => {
         return (
             <Center
+                onClick={() => setSelectedPokemon(null)}
+                _hover={{ opacity: 0.8 }}
+                cursor={"pointer"}
                 alignItems="center"
                 flexDirection="column"
                 borderRadius={8}
-                p={2} mx={2} w={64}
+                p={4} mx={2} w={64}
             >
-                Lv.{selectedPokemon.level}
-                <Divider my={2} />
-                <PokeRarity rarity={selectedPokemon.rarity.rarity} />
-                <CardTitle poke={selectedPokemon} />
+                <Center position="absolute" flex flexDirection="column" top={-8}>
+                    <Text fontSize={"x-small"}>Lv.{selectedPokemon.level}</Text>
+                    <CardTitle poke={selectedPokemon} />
+                    <PokeRarity rarity={selectedPokemon.rarity.rarity} />
+                </Center>
                 <Image
                     w={52}
                     my={4}
@@ -69,15 +101,17 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
         )
     }
 
+    useEffect(() => {
+        if (selectedPokemon) {
+            const levelChance = upgradePokemonLevelChance({ sessionLevel: session.level, pokeLevel: selectedPokemon.level, dusts: selectedPokemon.dust, berries: selectedPokemon.berries })
+            setChanceToLevelUp(levelChance)
+        }
+    }, [selectedPokemon, selectedPokemon?.dust, selectedPokemon?.berries])
+
     return (
         <Center backgroundColor={"gray.600"} minW={"full"} h={96} borderRadius={8} p={12}>
             {selectedPokemon && (
-                <Center
-                    onClick={() => setSelectedPokemon(null)}
-                    _hover={{ opacity: 0.8 }}
-                    cursor={"pointer"}
-                    position="relative"
-                >
+                <Center position="relative">
                     <SelectedPokemonCard />
                     <Center flex flexDir="column" gap={2}>
                         <AppliedItem amount={selectedPokemon.dust} title={'dust'} icon={dustIcon} />
@@ -85,6 +119,7 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
                             <AppliedBerry key={index} berry={berry} />
                         ))}
                     </Center>
+                    <ChanceToLevelUp />
                 </Center>
             )}
         </Center>

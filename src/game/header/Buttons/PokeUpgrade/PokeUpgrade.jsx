@@ -6,7 +6,7 @@ import SelectedToUpgrade from "./SelectedToUpgrade"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import { taskTypeEnum } from "@enum"
 import { getBerryIcon } from "@utils/berryIcon"
-import { pokemonHasBerry, stringToUpperCase } from "@utils"
+import { berryExistsInBerries, stringToUpperCase } from "@utils"
 
 import dustIcon from '@assets/images/items/dust.png'
 import berryIcon from '@assets/images/berries/berry.png';
@@ -18,7 +18,6 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         setLoadingApi, 
         handleToast, 
         setLoadingText,
-        updateItem, 
         updatePokemonOnTeam, 
         berries, 
     } = useContext(PlayerContext)
@@ -27,17 +26,16 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     const handleDust = () => {
         const pokemon = selectedPokemon
 
-        pokemon.dust += 1
-
         emit('player-update-task', { type: taskTypeEnum.useDust, amount: 1 })
-        updateItem(-1, 'dust')
-        updatePokemonOnTeam(pokemon)
+        emit('player-use-dust', { pokemon: pokemon })
+        setLoadingText('Applying dust...')
+        setLoadingApi(true)
     }
     
     const handleBerry = (berry) => {
         const pokemon = selectedPokemon
 
-        if (pokemonHasBerry(pokemon, berry.type)) {
+        if (berryExistsInBerries({ berries: pokemon.berries, berryType: berry.type })) {
             handleToast({
                 id: 'berry-exists',
                 title: `${stringToUpperCase(pokemon.name)} denied`,

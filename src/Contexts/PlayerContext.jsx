@@ -1,7 +1,6 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
-import { rarityName, stringToUpperCase } from "@utils";
 
 import starIcon from '@assets/images/game/star.png'
 
@@ -358,6 +357,12 @@ export function PlayerProvider({children}) {
                 return [...prevBerries]
             })
 
+            updatePokemonOnTeam(pokemon)
+            setLoadingApi(false)
+        })
+
+        socket.on('player-use-dust', ({ pokemon, amount }) => {
+            updateItem(-amount, 'dust')
             updatePokemonOnTeam(pokemon)
             setLoadingApi(false)
         })

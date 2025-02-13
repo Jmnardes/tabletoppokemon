@@ -4,10 +4,11 @@ import PlayerContext from "@Contexts/PlayerContext";
 import PokeballButton from "@components/AnimatedButton/Pokeball/PokeballButton";
 
 export default function EncounterBalls({ children, handleCatchDiceRoll, isStarter }) {
-    const { game, player, updateBall, updateGame } = useContext(PlayerContext)
+    const { game, emit, player, updateBall, updateGame } = useContext(PlayerContext)
 
     const handleBallClick = (updateAmount, type, bonus, roll) => {
         updateBall(updateAmount, type)
+        emit('player-use-ball', {catchRoll: roll + bonus, ballType: type })
         updateGame({ isPokemonRollDisabled: true })
         handleCatchDiceRoll(roll + bonus)
     }
@@ -29,7 +30,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                             type={'gb'}
                             isDisabled={player.balls.greatball === 0 || game.isPokemonRollDisabled}
                             onRoll={(roll) => handleBallClick(-1, 'greatball', 2, roll)}
-                            bonus={2}
+                            bonus={3}
                         />
                     </Box>
 
@@ -38,7 +39,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                             type={'ub'}
                             isDisabled={player.balls.ultraball === 0 || game.isPokemonRollDisabled}
                             onRoll={(roll) => handleBallClick(-1, 'ultraball', 5, roll)} 
-                            bonus={5}
+                            bonus={6}
                         />
                     </Box>
 
@@ -47,7 +48,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                             type={'mb'}
                             isDisabled={player.balls.masterball === 0 || game.isPokemonRollDisabled}
                             onRoll={(roll) => handleBallClick(-1, 'masterball', 99, roll)} 
-                            bonus={99}
+                            bonus={10}
                         />
                     </Box>
                 </Flex>

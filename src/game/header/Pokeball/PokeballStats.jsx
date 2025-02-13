@@ -28,7 +28,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.greatball}x</Text>
                 <Image
                     src={superballIcon} 
-                    title={'+2'}
+                    title={'+3'}
                     w="24px"
                 ></Image>
             </Center>
@@ -36,7 +36,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.ultraball}x</Text>
                 <Image
                     src={ultraballIcon} 
-                    title={'+5'}
+                    title={'+6'}
                     w="24px"
                 ></Image>
             </Center>
@@ -44,7 +44,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.masterball}x</Text>
                 <Image
                     src={masterballIcon} 
-                    title={'+99'}
+                    title={'+10'}
                     w="24px"
                 ></Image>
             </Center>

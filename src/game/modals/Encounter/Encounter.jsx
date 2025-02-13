@@ -13,7 +13,7 @@ export default function Encounter() {
     const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
-    const [allDisabled, setAllDisabled] = useState(false);
+    const [allDisabled, setAllDisabled] = useState(false)
     const divisibleByThree = encounter.length % 3 === 0
     
     const handleCatchDiceRoll = (result) => {
@@ -88,7 +88,7 @@ export default function Encounter() {
                     isDisabled={disableCatch}
                     _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.8 }}
                     onClick={() => {
-                        emit('player-capture-pokemon', poke.id)
+                        emit('player-capture-pokemon', { capturedId: poke.id })
                         setLoadingApi(true)
                     }}
                 >

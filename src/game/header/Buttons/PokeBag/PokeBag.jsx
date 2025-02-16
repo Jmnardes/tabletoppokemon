@@ -40,7 +40,7 @@ export default function PokeBag() {
                         title={pokeTeam.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
                         onClick={() => {
                             const newTeamIds = pokeTeam.map((poke) => poke.id)
-                            emit('player-update-bag', { pokeTeamIds: newTeamIds })
+                            emit('player-update-bag', { newTeamIds: newTeamIds })
                         }} 
                     />
                 </Center>

@@ -58,35 +58,39 @@ export default function GameHeader() {
                     ></Image>
                 </Button>
 
-                <Button mx={1} onClick={() => updateGame({ openDayCareModal: true })}>
-                    <Image
-                        src={dayCareIcon} 
-                        title={'Pokémon Day Care'}
-                        w="28px"
-                    ></Image>
-                </Button>
+                {pokeBox.length > 1 && (
+                    <Button mx={1} onClick={() => updateGame({ openDayCareModal: true })}>
+                        <Image
+                            src={dayCareIcon} 
+                            title={'Pokémon Day Care'}
+                            w="28px"
+                        ></Image>
+                    </Button>
+                )}
                 
-                <Button 
-                    mx={1}
-                    onClick={() => {
-                        updateGame({ openPokeBoxModal: true, showBagLength: false })
-                    }}
-                >
-                    <Image
-                        src={bagIcon} 
-                        title={'Bag'}
-                        w="32px"
-                    ></Image>
-                    {game.showBagLength && (
-                        <Center 
-                            position="absolute" right="-1" bottom="-10px"
-                            borderRadius="50%" width="20px" height="20px"
-                            background={colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'}
-                        >
-                            <Text fontSize={"xx-small"}>{pokeBox?.length}</Text>
-                        </Center>
-                    )}
-                </Button>
+                {pokeBox.length >= 1 && (
+                    <Button 
+                        mx={1}
+                        onClick={() => {
+                            updateGame({ openPokeBoxModal: true, showBagLength: false })
+                        }}
+                    >
+                        <Image
+                            src={bagIcon} 
+                            title={'Bag'}
+                            w="32px"
+                        ></Image>
+                        {game.showBagLength && (
+                            <Center 
+                                position="absolute" right="-1" bottom="-10px"
+                                borderRadius="50%" width="20px" height="20px"
+                                background={colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'}
+                            >
+                                <Text fontSize={"xx-small"}>{pokeBox?.length}</Text>
+                            </Center>
+                        )}
+                    </Button>
+                )}
 
                 <Settings />
             </Center>

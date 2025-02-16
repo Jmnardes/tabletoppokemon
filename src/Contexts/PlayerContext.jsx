@@ -3,6 +3,7 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
 
 import starIcon from '@assets/images/game/star.png'
+import dustIcon from '@assets/images/items/dust.png'
 
 const PlayerContext = createContext();
 
@@ -304,36 +305,21 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        // socket.on('player-capture-pokemon', res => {
-        //     updateLoading(false)
-        //     // console.log('catch pokemon:', res)
-        //     // handleToast({
-        //     //     id: 'catch',
-        //     //     title: 'You caught a Pokémon!',
-        //     //     description: (
-        //     //         'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
-        //     //         'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
-        //     //     ),
-        //     //     icon: <Image 
-        //     //             width="32px"
-        //     //             src={res.pokemon.sprites.mini} 
-        //     //             fallbackSrc={res.pokemon.sprites.front}
-        //     //         ></Image>,
-        //     //     duration: 5000,
-        //     //     position: 'bottom-left',
-        //     //     status: 'success',
-        //     // })
-
-        //     if (res.catches > 3) {
-        //         updatePokeBox(res.pokemon)
-        //         updateGame({ showBagLength: true })
-        //     } else {
-        //         updatePokeTeam(res.pokemon)
-        //     }
-
-        //     // updateGame({ openEncounterModal: false })
-        //     updateGame({ openPokemonCaptureModal: false })
-        // })
+        socket.on('player-pokemon-trade', res => {
+            setLoadingApi(false)
+            
+            if (res) {
+                removeFromPokeBoxById(res.pokeId, pokeBox)
+                updateItem(res.dust, 'dust')
+                handleToast({
+                    title: 'Pokémon Day Care',
+                    description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
+                    status: 'info',
+                    duration: 6000,
+                    icon:<Image src={dustIcon} w={12}></Image>
+                })
+            }
+        })
 
         socket.on('player-update-task', res => {
             setTasks([...res.tasks])

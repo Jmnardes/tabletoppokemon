@@ -20,9 +20,9 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
     const [selectedToRemove, setSelectedToRemove] = useState(null)
     const isTeamFull = pokeTeam.length > 2
 
-    const handleFinishCapture = (removedId = false) => {
+    const handleFinishCapture = ({ removedId, dayCare, starterTeam }) => {
         emit('pokemon-handle-capture', { 
-            capturedPokemonId: capturedPokemon.id, attackType, specialType, removedId
+            capturedPokemonId: capturedPokemon.id, attackType, specialType, removedId, dayCare, starterTeam
         })
         setLoadingApi(true)
     }
@@ -35,7 +35,7 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
         })
 
         if (!isTeamFull) {
-            handleFinishCapture()
+            handleFinishCapture({ removedId: null, dayCare: false, starterTeam: true })
         } else {
             setLoadingApi(false)
         }
@@ -98,11 +98,14 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
                     <Card poke={capturedPokemon} isCaptured />
 
                     <Center gap={4}>
-                        <Button mt={4} onClick={() => handleFinishCapture()}>
+                        <Button mt={4} onClick={() => handleFinishCapture({ removedId: null, dayCare: false, starterTeam: false })}>
                             Add to box
                         </Button>
-                        <Button mt={4} isDisabled={!selectedToRemove} onClick={() => handleFinishCapture(selectedToRemove)}>
+                        <Button mt={4} isDisabled={!selectedToRemove} onClick={() => handleFinishCapture({ removedId: selectedToRemove, dayCare: false, starterTeam: false })}>
                             Add to team
+                        </Button>
+                        <Button mt={4} onClick={() => handleFinishCapture({ removedId: null, dayCare: true, starterTeam: false })}>
+                            Left on Day Care
                         </Button>
                     </Center>
 

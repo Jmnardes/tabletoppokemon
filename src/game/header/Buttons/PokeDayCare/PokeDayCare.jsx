@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import {
     Modal,
     ModalContent,
@@ -8,45 +8,18 @@ import {
     CloseButton,
     Center,
     ModalBody,
-    Image,
 } from "@chakra-ui/react"
 
 import PlayerContext from "@Contexts/PlayerContext"
-import socket from "@client"
 import DayCareContent from "./DayCareContent"
 
-import dustIcon from '@assets/images/items/dust.png'
-
 export default function PokeDayCare() {
-    const { updateGame, pokeBox, removeFromPokeBoxById, setLoadingApi, emit, handleToast, updateItem } = useContext(PlayerContext)
+    const { updateGame, pokeBox, setLoadingApi, emit } = useContext(PlayerContext)
 
     const handleTrade = (pokemon) => {
         emit('player-pokemon-trade', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
         setLoadingApi(true)
     };
-
-    useEffect(() => {
-        socket.on('player-pokemon-trade', res => {
-            setLoadingApi(false)
-            
-            if (res) {
-                removeFromPokeBoxById(res.pokeId, pokeBox)
-                updateItem(res.dust, 'dust')
-                handleToast({
-                    title: 'Pokémon Day Care',
-                    description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
-                    status: 'info',
-                    duration: 6000,
-                    icon:<Image src={dustIcon} w={12}></Image>
-                })
-            }
-        })
-
-        return () => {
-            socket.off('player-pokemon-trade')
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [handleTrade])
 
     return (
         <>

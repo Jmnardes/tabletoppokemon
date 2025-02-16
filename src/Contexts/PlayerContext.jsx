@@ -38,6 +38,7 @@ export function PlayerProvider({children}) {
         openPokeItemModal: false,
         openPokeUpgradeModal: false,
         openBerriesModal: false,
+        openPokemonCaptureModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -303,35 +304,36 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        socket.on('player-capture-pokemon', res => {
-            updateLoading(false)
-            // console.log('catch pokemon:', res)
-            // handleToast({
-            //     id: 'catch',
-            //     title: 'You caught a Pokémon!',
-            //     description: (
-            //         'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
-            //         'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
-            //     ),
-            //     icon: <Image 
-            //             width="32px"
-            //             src={res.pokemon.sprites.mini} 
-            //             fallbackSrc={res.pokemon.sprites.front}
-            //         ></Image>,
-            //     duration: 5000,
-            //     position: 'bottom-left',
-            //     status: 'success',
-            // })
+        // socket.on('player-capture-pokemon', res => {
+        //     updateLoading(false)
+        //     // console.log('catch pokemon:', res)
+        //     // handleToast({
+        //     //     id: 'catch',
+        //     //     title: 'You caught a Pokémon!',
+        //     //     description: (
+        //     //         'lv.' + res.pokemon.level + ' ' + stringToUpperCase(res.pokemon.name) + ' | ' + 
+        //     //         'Rarity: ' + rarityName(res.pokemon.rarity.rarity)
+        //     //     ),
+        //     //     icon: <Image 
+        //     //             width="32px"
+        //     //             src={res.pokemon.sprites.mini} 
+        //     //             fallbackSrc={res.pokemon.sprites.front}
+        //     //         ></Image>,
+        //     //     duration: 5000,
+        //     //     position: 'bottom-left',
+        //     //     status: 'success',
+        //     // })
 
-            if (res.catches > 3) {
-                updatePokeBox(res.pokemon)
-                updateGame({ showBagLength: true })
-            } else {
-                updatePokeTeam(res.pokemon)
-            }
+        //     if (res.catches > 3) {
+        //         updatePokeBox(res.pokemon)
+        //         updateGame({ showBagLength: true })
+        //     } else {
+        //         updatePokeTeam(res.pokemon)
+        //     }
 
-            updateGame({ openEncounterModal: false })
-        })
+        //     // updateGame({ openEncounterModal: false })
+        //     updateGame({ openPokemonCaptureModal: false })
+        // })
 
         socket.on('player-update-task', res => {
             setTasks([...res.tasks])
@@ -388,6 +390,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
+        socket.on('player-update-box', res => setPokeBox(res.pokeBox))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

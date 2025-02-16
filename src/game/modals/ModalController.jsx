@@ -12,6 +12,7 @@ import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
 import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
 import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
+import CaptureModal from "./Capture/CaptureModal";
 
 export default function ModalController() {
     const { 
@@ -24,10 +25,11 @@ export default function ModalController() {
         setEncounter,
         handleToast,
         setTasks,
-        setNextEvent,
+        setNextEvent
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
+    const [capturedPokemon, setCapturedPokemon] = useState({})
 
     useEffect(() => {
         socket.on('turn-start', (res, callback) => {
@@ -91,8 +93,14 @@ export default function ModalController() {
             updateGame({ isPokemonRollDisabled: false })
         })
 
+        socket.on('player-capture-pokemon', res => {
+            setCapturedPokemon(res.pokemon)
+            updateGame({ openEncounterModal: false, openPokemonCaptureModal: true })
+        })
+
         return () => {
             socket.off('turn-start')
+            socket.off('player-capture-pokemon')
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -108,6 +116,7 @@ export default function ModalController() {
             {game.openDayCareModal && <PokeDayCare />}
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBerriesModal && <BerriesModal />}
+            {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

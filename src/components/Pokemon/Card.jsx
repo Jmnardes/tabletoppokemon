@@ -9,7 +9,7 @@ import CardTitle from "./CardTitle"
 import { PokeRarity } from "./PokemonRarity"
 import AppliedItems from "./AppliedItems"
 
-function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag }) {
+function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag, isCaptured }) {
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
 
@@ -35,7 +35,6 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
             border={`2px solid ${colorByType}`}
             borderRadius={8}
             p={2}
-            mx={2}
             backgroundColor={tooltip && colorByType}
             background={handleBackgroundColor(poke)}
             shadow="dark-lg"
@@ -75,17 +74,21 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag 
 
                 <Center>
                     <Image
-                        w={52}
+                        w={isCaptured ? 24 : 52}
                         my={4}
                         title={stringToUpperCase(poke.name)} 
                         src={poke.sprites.main}
                     />
-                    <PokeStats poke={poke} />
+                    <PokeStats poke={poke} isCaptured={isCaptured} />
                 </Center>
 
-                <Divider />
+                {!isCaptured && (
+                    <>
+                        <Divider />
 
-                <AppliedItems poke={poke} />
+                        <AppliedItems poke={poke} />
+                    </>
+                )}
 
                 {tooltip && (
                     <Center justifyContent="space-between">

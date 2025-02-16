@@ -13,10 +13,12 @@ import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
 import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 import CaptureModal from "./Capture/CaptureModal";
+import NewTasksModal from "./NewTasks/NewTasks";
 
 export default function ModalController() {
     const { 
-        game, 
+        game,
+        session,
         setSession, 
         updateOpponents, 
         setWaitingForPlayers, 
@@ -24,11 +26,13 @@ export default function ModalController() {
         updatePokemonOnTeam,
         setEncounter,
         handleToast,
+        tasks,
         setTasks,
         setNextEvent
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
+    const [showTasksModal, setShowTasksModal] = useState({})
     const [capturedPokemon, setCapturedPokemon] = useState({})
 
     useEffect(() => {
@@ -105,6 +109,15 @@ export default function ModalController() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        if (session.turns % 10 === 1 && showTasksModal) {
+            updateGame({ openNewTasksModal: true })
+            setShowTasksModal(false)
+        } else {
+            setShowTasksModal(true)
+        }
+    }, [tasks])
+
     return(
         <>
             {game.openChallengeModal && <ChallengeModal event={event} />}
@@ -117,6 +130,7 @@ export default function ModalController() {
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}
+            {game.openNewTasksModal && <NewTasksModal />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

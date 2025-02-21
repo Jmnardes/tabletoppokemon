@@ -14,6 +14,7 @@ import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
 import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 import CaptureModal from "./Capture/CaptureModal";
 import NewTasksModal from "./NewTasks/NewTasks";
+import AugmentsModal from "./Augments/AugmentsModal";
 
 export default function ModalController() {
     const { 
@@ -32,6 +33,7 @@ export default function ModalController() {
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
+    const [augments, setAugments] = useState([])
     const [showTasksModal, setShowTasksModal] = useState({})
     const [capturedPokemon, setCapturedPokemon] = useState({})
 
@@ -62,6 +64,8 @@ export default function ModalController() {
                 })
             }
 
+            setAugments(...res.augments)
+
             setEvent({
                 title: res.event.title,
                 label: res.event.label,
@@ -78,19 +82,24 @@ export default function ModalController() {
 
             setTasks([...res.tasks])
             
-            switch (res.event.type) {
-                case 'challenge':
-                    updateGame({ openChallengeModal: true })
-                    break
-                case 'walk':
-                    updateGame({ openWalkModal: true })
-                    break
-                case 'battle':
-                    updateGame({ openBattleModal: true })
-                    setBattle(res.event.battle)
-                    break
-                default:
-                    break
+            if (augments.length > 0) {
+                if (res.event.type = 'battle') setBattle(res.event.battle)
+                updateGame({ openAugmentsModal: true })
+            } else {
+                switch (res.event.type) {
+                    case 'challenge':
+                        updateGame({ openChallengeModal: true })
+                        break
+                    case 'walk':
+                        updateGame({ openWalkModal: true })
+                        break
+                    case 'battle':
+                        updateGame({ openBattleModal: true })
+                        setBattle(res.event.battle)
+                        break
+                    default:
+                        break
+                }
             }
 
             setWaitingForPlayers(false)
@@ -131,6 +140,7 @@ export default function ModalController() {
             {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}
             {game.openNewTasksModal && <NewTasksModal />}
+            {game.openAugmentsModal && <AugmentsModal augments={augments} />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

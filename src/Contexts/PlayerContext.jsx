@@ -41,6 +41,7 @@ export function PlayerProvider({children}) {
         openBerriesModal: false,
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
+        openAugmentsModal: false,
     })
 
     const emit = useCallback((name, data) => {

@@ -14,11 +14,18 @@ import { useContext } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 
 export default function AugmentsModal({ augments }) {
-    const { updateGame, event } = useContext(PlayerContext)
+    const { updateGame, event, emit } = useContext(PlayerContext)
 
     const AugmentContainer = ({ augment }) => {
         return (
-            <Center flex flexDir={"column"} backgroundColor={"gray.600"} borderRadius={8} p={4} gap={4}>
+            <Center 
+                flex flexDir={"column"} 
+                backgroundColor={"gray.600"} 
+                borderRadius={8} 
+                p={4} gap={4}
+                _hover={{ opacity: 0.5 }}
+                onClick={() => emit('augment-selected', augment)}
+            >
                 <Badge p={2} borderRadius={8} textAlign={"center"}>
                     {augment.name}
                 </Badge>

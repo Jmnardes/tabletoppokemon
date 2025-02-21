@@ -112,6 +112,7 @@ export default function ModalController() {
         })
 
         return () => {
+            console.log('disconnect turn-start socket')
             socket.off('turn-start')
             socket.off('player-capture-pokemon')
         }

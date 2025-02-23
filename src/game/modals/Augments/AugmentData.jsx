@@ -12,9 +12,6 @@ export default function AugmentData({ augment }) {
         case 'elementBonus':
             jsx = <AugmentElements augment={augment} />
             break
-        case 'pokeballBonus':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus +{augment.amount}</Badge>
-            break
         case 'balls':
             jsx = <AugmentBalls balls={augment.data} />
             break
@@ -25,30 +22,21 @@ export default function AugmentData({ augment }) {
                 </Center>
             )
             break
-        case 'challengeRank':
-        case 'battleRank':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus {augment.amount}%</Badge>
-            break
         case 'bonusDust':
             jsx = <DustMini dusts={augment.amount} absolute={false} />
             break
+        case 'pokeballBonus':
+        case 'challengeBonus':
+        case 'challengeRank':
+        case 'battleRank':
         case 'onDuty':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus Rank +{augment.amount}</Badge>
+            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount}</Badge>
             break
         case 'shinyCharm':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus {augment.amount}%</Badge>
-            break
-        case 'challengeBonus':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus +{augment.amount}</Badge>
-            break
         case 'levelBonus':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus {augment.amount}%</Badge>
-            break
         case 'encounterRarity':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus {augment.amount}%</Badge>
-            break
         case 'encounterLevel':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus {augment.amount}%</Badge>
+            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>{augment.amount}%</Badge>
             break
         default:
             break

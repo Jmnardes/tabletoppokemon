@@ -97,7 +97,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
 
     useEffect(() => {
         setUpgrades([ { type: 'dust', amount: player.items.dust }, ...berries ])
-    }, [player.items.dust, berries, player])
+    }, [player.items.dust, berries])
 
     return (
         <>

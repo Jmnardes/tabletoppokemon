@@ -15,7 +15,7 @@ import AugmentData from "./AugmentData"
 import socket from "@client"
 
 export default function AugmentsModal({ augments, event }) {
-    const { emit, updateGame, setLoadingApi, setPlayer } = useContext(PlayerContext)
+    const { emit, updateGame, setLoadingApi, setPlayer, setBerries } = useContext(PlayerContext)
 
     const handleSelectAugment = (augment) => {
         setLoadingApi(true)
@@ -67,6 +67,7 @@ export default function AugmentsModal({ augments, event }) {
     useEffect(() => {
         socket.on('augment-selected', (res) => {
             setPlayer(res.player)
+            setBerries(res.player.berries)
             updateModals()
             setLoadingApi(false)
         })

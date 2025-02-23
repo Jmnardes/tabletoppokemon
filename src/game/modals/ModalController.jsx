@@ -64,7 +64,7 @@ export default function ModalController() {
                 })
             }
 
-            setAugments(...res.augments)
+            setAugments(res.augments)
 
             setEvent({
                 title: res.event.title,
@@ -82,7 +82,7 @@ export default function ModalController() {
 
             setTasks([...res.tasks])
             
-            if (augments.length > 0) {
+            if (res.augments.length > 0) {
                 if (res.event.type = 'battle') setBattle(res.event.battle)
                 updateGame({ openAugmentsModal: true })
             } else {
@@ -141,7 +141,7 @@ export default function ModalController() {
             {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}
             {game.openNewTasksModal && <NewTasksModal />}
-            {game.openAugmentsModal && <AugmentsModal augments={augments} />}
+            {game.openAugmentsModal && <AugmentsModal augments={augments} event={event} />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

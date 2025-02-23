@@ -5,34 +5,45 @@ import {
     ModalOverlay,
     Text,
     ModalBody,
-    CloseButton,
     Center,
     Flex,
     Badge,
 } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
+import AugmentData from "./AugmentData"
+import socket from "@client"
 
-export default function AugmentsModal({ augments }) {
-    const { updateGame, event, emit } = useContext(PlayerContext)
+export default function AugmentsModal({ augments, event }) {
+    const { emit, updateGame, setLoadingApi, setPlayer } = useContext(PlayerContext)
+
+    const handleSelectAugment = (augment) => {
+        setLoadingApi(true)
+        emit('augment-selected', { augment })
+    }
 
     const AugmentContainer = ({ augment }) => {
         return (
-            <Center 
-                flex flexDir={"column"} 
+            <Flex 
+                direction={"column"} 
                 backgroundColor={"gray.600"} 
                 borderRadius={8} 
-                p={4} gap={4}
-                _hover={{ opacity: 0.5 }}
-                onClick={() => emit('augment-selected', augment)}
+                p={4} gap={4} w={72}
+                opacity={0.6}
+                _hover={{ opacity: 1 }}
+                cursor={"pointer"}
+                onClick={() => handleSelectAugment(augment)}
             >
                 <Badge p={2} borderRadius={8} textAlign={"center"}>
                     {augment.name}
                 </Badge>
-                <Text textAlign={"center"}>
-                    {augment.description}
-                </Text>
-            </Center>
+                <Center h={"100%"} flex flexDir={"column"} justifyContent={"space-around"} gap={8}>
+                    <Text fontSize={"small"} textAlign={"center"}>
+                        {augment.description}
+                    </Text>
+                    <AugmentData augment={augment} />
+                </Center>
+            </Flex>
         );
     };
 
@@ -53,6 +64,18 @@ export default function AugmentsModal({ augments }) {
         }
     }
 
+    useEffect(() => {
+        socket.on('augment-selected', (res) => {
+            setPlayer(res.player)
+            updateModals()
+            setLoadingApi(false)
+        })
+
+        return () => {
+            socket.off('augment-selected')
+        }
+    }, [])
+
     return (
         <>
             <Modal isOpen size="6xl" isCentered>
@@ -60,17 +83,16 @@ export default function AugmentsModal({ augments }) {
                     bg='blackAlpha.300'
                     backdropFilter='blur(2px) hue-rotate(0deg)'
                 />
-                <ModalContent>
+                <ModalContent p={4}>
                     <ModalHeader fontSize="3xl" textAlign="center">
-                        <Center justifyContent="space-between">
-                            <Flex />
-                            <Text ml={8}>Choose a new Augment</Text>
-                            <CloseButton onClick={updateModals} />
-                        </Center>
+                        <Text textAlign={"center"}>Choose a new Augment</Text>
                     </ModalHeader>
                     
                     <ModalBody>
-                        <Flex direction={"row"} justifyContent={"space-between"}>
+                        <Text fontSize={"x-small"} textAlign={"center"}>
+                            Augments are special features that give you bonuses until the end of the game.
+                        </Text>
+                        <Flex direction={"row"} justifyContent={"space-around"} p={4}>
                             {augments?.map((augment, index) => (
                                 <AugmentContainer key={index} augment={augment} />
                             ))}

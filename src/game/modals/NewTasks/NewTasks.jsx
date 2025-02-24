@@ -59,7 +59,7 @@ export default function NewTasksModal() {
                                     ml={2}
                                     src={starIcon}
                                     title={'Ranking Points'}
-                                    w={4}
+                                    w={6}
                                 ></Image>
                             </Flex>
                         </Flex>
@@ -80,7 +80,7 @@ export default function NewTasksModal() {
                     <ModalHeader fontSize="3xl" textAlign="center">
                         <Center justifyContent="space-between">
                             <Flex />
-                            <Text ml={8}>New Episode Tasks</Text>
+                            <Text ml={8}>New Tasks</Text>
                             <CloseButton onClick={() => updateGame({ openNewTasksModal: false })} />
                         </Center>
                     </ModalHeader>

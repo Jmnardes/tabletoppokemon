@@ -11,7 +11,7 @@ import {
 import { useEffect } from "react"
 import { stringToUpperCase } from "@utils"
 
-function PokeModal({ title, button, children, size, modalClose, disableModalClose, setCloseModal, disableButton }) {
+export default function ButtonModal({ title, button, children, size, modalClose, disableModalClose, setCloseModal, disableButton }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
@@ -24,7 +24,7 @@ function PokeModal({ title, button, children, size, modalClose, disableModalClos
     return (
         <>
             <Button 
-                ml={1}
+                mx={1}
                 title={title}
                 onClick={onOpen}
                 isDisabled={disableButton}
@@ -45,5 +45,3 @@ function PokeModal({ title, button, children, size, modalClose, disableModalClos
         </>
     )
 }
-
-export default PokeModal

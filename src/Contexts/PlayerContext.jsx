@@ -41,6 +41,7 @@ export function PlayerProvider({children}) {
         openBerriesModal: false,
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
+        openAugmentsModal: false,
     })
 
     const emit = useCallback((name, data) => {
@@ -310,7 +311,7 @@ export function PlayerProvider({children}) {
             setLoadingApi(false)
             
             if (res) {
-                removeFromPokeBoxById(res.pokeId, pokeBox)
+                setPokeBox(res.pokeBox)
                 updateItem(res.dust, 'dust')
                 handleToast({
                     title: 'Pokémon Day Care',

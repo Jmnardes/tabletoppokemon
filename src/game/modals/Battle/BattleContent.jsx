@@ -37,7 +37,7 @@ export default function BattleContent({
     }, [])
 
     return (
-        <Flex flex="1">
+        <Flex flex="1" h={"100%"}>
             <Center flexDir="column" flex="1">
                 <OpponentPokes opponent={opponentTrainer} prizes={event.prizes} />
                 <Center w="100%" flex="1" p={4}>

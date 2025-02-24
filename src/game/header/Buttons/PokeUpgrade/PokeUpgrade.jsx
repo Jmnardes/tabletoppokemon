@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
+import { Text, Center, Image, Wrap, Box, Tooltip } from "@chakra-ui/react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import SelectedToUpgrade from "./SelectedToUpgrade"
@@ -62,10 +62,10 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     }
 
     const UpgradeSlot = ({ item, isDust }) => {
-        const modalTitle = `Are you sure you want to use ${isDust ? 'dust' : (item.type + ' berry')}?`
+        const modalTitle = `Are you sure you want to use ${isDust ? 'dust' : (item.name + ' berry')}?`
         const description = isDust
             ? "By using a Dust in your pokemon, you will increase the chance for him to level up on the next turn, but it will only apply the next turn. The more Dusts you use higher are the chances."
-            : item.description
+            : item.effect.description
         const isDisabled = isDust 
             ? item.amount === 0 || !selectedPokemon 
             : item.amount === 0 || !selectedPokemon || selectedPokemon.berries.length === 3
@@ -73,26 +73,25 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         const icon = isDust ? dustIcon : getBerryIcon(item.type)
 
         return (
-            <ConfirmationModal
-                event={() => isDust ? handleDust() : handleBerry(item)} 
-                modalTitle={modalTitle}
-                modalText={description} title={description}
-                cursor={"pointer"}
-                isDisabled={isDisabled}
-                borderRadius={8}
-                flexDir={"column"}
-                h={28} w={28}
-            >
-                    <Text mb={4} fontSize={"xs"}>{name}</Text>
-                    <Center>
+                <ConfirmationModal
+                    event={() => isDust ? handleDust() : handleBerry(item)} 
+                    modalTitle={modalTitle}
+                    modalText={description}
+                    cursor={"pointer"}
+                    isDisabled={isDisabled}
+                    borderRadius={8}
+                    flexDir={"column"}
+                    h={28} w={28}
+                >
+                    <Text mb={4} fontSize={"xs"} title={description}>{name}</Text>
+                    <Center title={description}>
                         <Text fontSize={"xs"}>{item.amount}x</Text>
                         <Image
                             src={icon}
-                            title={name}
                             w={12}
                         ></Image>
                     </Center>
-            </ConfirmationModal>
+                </ConfirmationModal>
         )
     }
 

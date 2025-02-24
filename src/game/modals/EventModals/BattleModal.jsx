@@ -1,12 +1,8 @@
 import { useContext, useEffect, useState } from "react"
-import {
-    Modal,
-    ModalContent,
-    ModalOverlay,
-} from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import BattleContent from "../Battle/BattleContent"
 import socket from "@client"
+import GenericModal from "@components/Modal/GenericModal"
 
 export default function BattleModal({ battleId, participants, event }) {
     const { player, setLoadingApi } = useContext(PlayerContext)
@@ -60,24 +56,16 @@ export default function BattleModal({ battleId, participants, event }) {
     }, [])
 
     return (
-        <>
-            <Modal isOpen size={"full"} isCentered>
-                <ModalOverlay
-                    bg='blackAlpha.300'
-                    backdropFilter='blur(2px) hue-rotate(0deg)'
-                />
-                <ModalContent p={4}>
-                    <BattleContent
-                        battleId={battleId}
-                        opponentTrainer={opponentTrainer}
-                        opponent={opponent}
-                        isPokemonBattling={isPokemonBattling}
-                        battleLog={battleLog}
-                        turnWinner={turnWinner}
-                        event={event}
-                    />
-                </ModalContent>
-            </Modal>
-        </>
+        <GenericModal title={"Poke Battle"}>
+            <BattleContent
+                battleId={battleId}
+                opponentTrainer={opponentTrainer}
+                opponent={opponent}
+                isPokemonBattling={isPokemonBattling}
+                battleLog={battleLog}
+                turnWinner={turnWinner}
+                event={event}
+            />
+        </GenericModal>
     )
 }

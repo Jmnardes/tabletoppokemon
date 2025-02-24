@@ -23,7 +23,7 @@ export default function PokeCard ({ pokemon, setSelectedPokemon }) {
         <Center 
             flexDir={"column"} 
             backgroundColor={"gray.600"} 
-            w={52} 
+            w={36} 
             _hover={{ opacity: 0.8 }} 
             cursor={"pointer"}
             onClick={() => {

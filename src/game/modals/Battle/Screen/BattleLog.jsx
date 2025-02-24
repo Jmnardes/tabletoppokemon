@@ -10,7 +10,7 @@ const BattleLog = ({ logMessages }) => {
                 <Text>Battle Log</Text>
             </Center>
             {logMessages.length > 0 && (
-                <Box w="100%" p={4} maxH="465px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
+                <Box w="100%" p={4} maxH="400px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
                     <>
                         {logMessages.map((log, index) => (
                             <Box key={index}>

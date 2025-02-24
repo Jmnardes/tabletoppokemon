@@ -7,10 +7,12 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
     const { game, emit, player, updateBall, updateGame } = useContext(PlayerContext)
 
     const handleBallClick = (updateAmount, type, bonus, roll) => {
+        const ballCatchBonus = player.catchBonus.balls
+        const newBonus = (ballCatchBonus.find(ball => ball.type === type)?.bonus || 0) + bonus
         updateBall(updateAmount, type)
         emit('player-use-ball', {catchRoll: roll + bonus, ballType: type })
         updateGame({ isPokemonRollDisabled: true })
-        handleCatchDiceRoll(roll + bonus)
+        handleCatchDiceRoll(roll + newBonus)
     }
 
     return (
@@ -29,7 +31,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         <PokeballButton
                             type={'gb'}
                             isDisabled={player.balls.greatball === 0 || game.isPokemonRollDisabled}
-                            onRoll={(roll) => handleBallClick(-1, 'greatball', 2, roll)}
+                            onRoll={(roll) => handleBallClick(-1, 'greatball', 3, roll)}
                             bonus={3}
                         />
                     </Box>
@@ -38,7 +40,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         <PokeballButton 
                             type={'ub'}
                             isDisabled={player.balls.ultraball === 0 || game.isPokemonRollDisabled}
-                            onRoll={(roll) => handleBallClick(-1, 'ultraball', 5, roll)} 
+                            onRoll={(roll) => handleBallClick(-1, 'ultraball', 6, roll)} 
                             bonus={6}
                         />
                     </Box>
@@ -47,7 +49,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         <PokeballButton 
                             type={'mb'}
                             isDisabled={player.balls.masterball === 0 || game.isPokemonRollDisabled}
-                            onRoll={(roll) => handleBallClick(-1, 'masterball', 99, roll)} 
+                            onRoll={(roll) => handleBallClick(-1, 'masterball', 10, roll)} 
                             bonus={10}
                         />
                     </Box>

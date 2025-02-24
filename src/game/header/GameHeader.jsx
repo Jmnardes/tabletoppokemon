@@ -9,6 +9,7 @@ import NextEvent from "./NextEvent/NextEvent";
 import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import arrowIcon from '@assets/images/game/arrow.png';
+import PlayerAugments from "./Buttons/Augments/PlayerAugments";
 
 export default function GameHeader() {
     const { player, updateGame, pokeBox, game, nextEvent } = useContext(PlayerContext)
@@ -91,6 +92,8 @@ export default function GameHeader() {
                         )}
                     </Button>
                 )}
+
+                <PlayerAugments />
 
                 <Settings />
             </Center>

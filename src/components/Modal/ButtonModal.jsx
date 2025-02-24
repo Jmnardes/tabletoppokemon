@@ -24,7 +24,7 @@ export default function ButtonModal({ title, button, children, size, modalClose,
     return (
         <>
             <Button 
-                ml={1}
+                mx={1}
                 title={title}
                 onClick={onOpen}
                 isDisabled={disableButton}

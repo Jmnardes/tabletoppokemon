@@ -58,7 +58,7 @@ export default function Encounter() {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam)
+        const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
 
         const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
@@ -118,7 +118,7 @@ export default function Encounter() {
 
     useEffect(() => {
         const allDisabled = encounter.every(poke => {
-            const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam)
+            const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
             return (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree;
         });
         setAllDisabled(allDisabled);

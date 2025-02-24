@@ -1,8 +1,10 @@
 import { stringToUpperCase } from "."
 
-export const catchDifficulty = (session, poke, team) => {
+export const catchDifficulty = (session, poke, team, player) => {
   const { gameDifficulty, turns } = session
-  const { level, rarity } = poke
+  const { level, rarity, types } = poke
+  const elementsCatchBonus = player.catchBonus.elements
+  let elementBonus = 0
 
   if (turns === 1) {
     return 0
@@ -16,7 +18,16 @@ export const catchDifficulty = (session, poke, team) => {
   const wildPokemonStrength = gameDifficulty + (rarity * 2) + level
   const battleDifficulty = wildPokemonStrength - teamPokemonStrengthMean
 
-  return initialDifficulty + battleDifficulty + turnVarianceDifficulty
+  types.forEach(type => {
+    elementsCatchBonus.forEach(element => {
+      if(element.type === type) {
+        elementBonus += element.bonus
+      }
+    })
+  })
+
+  const difficulty = initialDifficulty + battleDifficulty + turnVarianceDifficulty - elementBonus
+  return difficulty ? difficulty : 0
 }
 
 export const endTurnExp = () => {

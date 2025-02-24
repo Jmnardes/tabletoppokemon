@@ -1,10 +1,5 @@
 import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
     Text,
-    ModalBody,
     Center,
     Flex,
     Badge,
@@ -13,6 +8,7 @@ import { useContext, useEffect } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import AugmentData from "./AugmentData"
 import socket from "@client"
+import GenericModal from "@components/Modal/GenericModal"
 
 export default function AugmentsModal({ augments, event }) {
     const { emit, updateGame, setLoadingApi, setPlayer, setBerries } = useContext(PlayerContext)
@@ -78,29 +74,17 @@ export default function AugmentsModal({ augments, event }) {
     }, [])
 
     return (
-        <>
-            <Modal isOpen size="6xl" isCentered>
-                <ModalOverlay
-                    bg='blackAlpha.300'
-                    backdropFilter='blur(2px) hue-rotate(0deg)'
-                />
-                <ModalContent p={4}>
-                    <ModalHeader fontSize="3xl" textAlign="center">
-                        <Text textAlign={"center"}>Choose a new Augment</Text>
-                    </ModalHeader>
-                    
-                    <ModalBody>
-                        <Text fontSize={"x-small"} textAlign={"center"}>
-                            Augments are special features that give you bonuses until the end of the game.
-                        </Text>
-                        <Flex direction={"row"} justifyContent={"space-around"} p={4}>
-                            {augments?.map((augment, index) => (
-                                <AugmentContainer key={index} augment={augment} />
-                            ))}
-                        </Flex>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
-        </>
+        <GenericModal title={"Choose a new Augment"}>
+            <Center flex flexDir={"column"} gap={12} h={"100%"} p={40}>
+                <Text textAlign={"center"}>
+                    Augments are special features that give you bonuses until the end of the game.
+                </Text>
+                <Flex direction={"row"} justifyContent={"space-around"} gap={8}>
+                    {augments?.map((augment, index) => (
+                        <AugmentContainer key={index} augment={augment} />
+                    ))}
+                </Flex>
+            </Center>
+        </GenericModal>
     )
 }

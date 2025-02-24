@@ -28,10 +28,10 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import ThirdPlaceIcon from "@components/Icons/places/ThirdPlaceIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { FaInfoCircle, FaRedo } from "react-icons/fa";
-import { pokemonHasChallengeBerry } from "../../../utils"
+import { pokemonHasChallengeBerry } from "@utils"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoadingApi } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoadingApi, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -82,12 +82,13 @@ export default function ChallengeModal({ event }) {
                     const checkIfAdvIncludes = event.advantage.value.includes(element)
                     const checkIfDisIncludes = event.disadvantage?.value.includes(element)
                     const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
+                    const augmentBonus = player.status.challengeBonus
 
-                    if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus
+                    if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus + augmentBonus
                     if(checkIfDisIncludes) {
-                        return acc2 - 1 + challengeBonus
+                        return acc2 - 1 + challengeBonus + augmentBonus
                     } else {
-                        return acc2 + challengeBonus
+                        return acc2 + challengeBonus + augmentBonus
                     }
                 }, 0)
             }
@@ -96,8 +97,9 @@ export default function ChallengeModal({ event }) {
                 const checkIfNatureIncludes = event.advantage.value.includes(poke.nature)
                 const checkIfNatureDontIncludes = event.disadvantage?.value.includes(poke.nature)
                 const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
+                const augmentBonus = player.status.challengeBonus
 
-                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes + challengeBonus
+                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes + challengeBonus + augmentBonus
             }
         }, 0);
     }
@@ -276,6 +278,15 @@ export default function ChallengeModal({ event }) {
                                                     Disadvantages: 
                                                     <Text ml={2} fontWeight="bold">
                                                         {joinArr(event.disadvantage?.value)}
+                                                    </Text>
+                                                </Flex>
+                                            )}
+
+                                            {player.status.challengeBonus > 0 && (
+                                                <Flex color="red.400" fontSize="2xs" my={1}>
+                                                    Augment Bonus: 
+                                                    <Text ml={2} fontWeight="bold">
+                                                    {player.status.challengeBonus}
                                                     </Text>
                                                 </Flex>
                                             )}

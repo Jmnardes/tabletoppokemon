@@ -84,12 +84,12 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
                         selectedType={attackType}
                         types={capturedPokemon.types}
                     />
-                    <ChooseTypes
+                    {/* <ChooseTypes
                         title="Choose his special type:"
                         setter={setSpecialType}
                         selectedType={specialType}
                         types={capturedPokemon.types}
-                    />
+                    /> */}
 
                     <Button w={"100%"} mt={2} onClick={() => setChooseAttackType(false)}>Confirm</Button>
                 </>
@@ -122,7 +122,7 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
                                             cursor={"pointer"}
                                             _hover={{ opacity: 1 }}
                                             opacity={selectedToRemove === poke.id ? 1 : 0.4}
-                                            boxShadow={selectedToRemove === poke.id ? "0 0 10px 6px rgba(0, 255, 0, 0.7)" : "none"}
+                                            boxShadow={selectedToRemove === poke.id ? "0 0 10px 6px rgba(255, 255, 255, 0.7)" : "none"}
                                             borderRadius={8}
                                             onClick={() => setSelectedToRemove(poke.id)}
                                         >

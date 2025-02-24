@@ -7,6 +7,7 @@ export default function PokeList ({ allPokemon, setSelectedPokemon }) {
         <HStack 
             h={44} overflowX={"auto"} spacing={1} my={2}
             direction={['column', 'row']}
+            justify={"center"}
             css={{
                 "&::-webkit-scrollbar": {
                     height: "14px",

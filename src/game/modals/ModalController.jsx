@@ -8,13 +8,13 @@ import BattleModal from "./EventModals/BattleModal";
 import ChallengeModal from "./EventModals/ChallengeModal";
 import EncounterModal from "./EventModals/EncounterModal";
 import WalkModal from "./EventModals/WalkModal";
-import PokeDayCare from "../header/Buttons/PokeDayCare/PokeDayCare";
-import PokeBoxModal from "../header/Buttons/PokeBag/PokeBoxModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
 import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 import CaptureModal from "./Capture/CaptureModal";
 import NewTasksModal from "./NewTasks/NewTasks";
 import AugmentsModal from "./Augments/AugmentsModal";
+import PokeBagModal from "../header/Buttons/PokeBag/PokeBagModal";
+import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
 
 export default function ModalController() {
     const { 
@@ -135,8 +135,8 @@ export default function ModalController() {
             {/* {game.openGymModal && <GymModal />} */}
             {game.openEncounterModal && <EncounterModal />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
-            {game.openPokeBoxModal && <PokeBoxModal />}
-            {game.openDayCareModal && <PokeDayCare />}
+            {game.openPokeBoxModal && <PokeBagModal />}
+            {game.openDayCareModal && <DayCareModal />}
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}

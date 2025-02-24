@@ -4,7 +4,7 @@ import DayCarePoke from './DayCarePoke'
 
 export default function DayCare ({ handleTrade, pokeBox }) {
     return (
-        <Wrap direction={['column', 'row']} spacing={4} p={4}>
+        <Wrap direction={['column', 'row']} spacing={4} p={4} justify={"center"}>
             {pokeBox?.map((poke) => {
                 return (
                     <DayCarePoke

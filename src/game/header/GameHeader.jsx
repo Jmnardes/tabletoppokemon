@@ -53,12 +53,12 @@ export default function GameHeader() {
                 <Button mx={1} onClick={() => updateGame({ openPokeUpgradeModal: true })}>
                     <Image
                         src={arrowIcon} 
-                        title={'Pokémon Upgrade'} 
+                        title={'Poke Upgrade'} 
                         w="26px"
                     ></Image>
                 </Button>
 
-                {pokeBox.length > 1 && (
+                {pokeBox.length >= 1 && (
                     <Button mx={1} onClick={() => updateGame({ openDayCareModal: true })}>
                         <Image
                             src={dayCareIcon} 

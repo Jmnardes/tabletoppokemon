@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
 
-import PokeModal from "@components/Modal/Modal";
+import ButtonModal from "@components/Modal/ButtonModal";
 import PlayerContext from "@Contexts/PlayerContext";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch";
 import ElementsList from "@components/Elements/ElementsList"
@@ -12,7 +12,7 @@ export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
 
     return (
-        <PokeModal title={'Settings'} size={'xl'} button={
+        <ButtonModal title={'Settings'} size={'xl'} button={
             <Image
                 src={settingsIcon} 
                 title={'Settings'}
@@ -38,6 +38,6 @@ export default function Settings() {
                     setOpponents({})
                 }}>Restart game!</Button>
             </Center>
-        </PokeModal>
+        </ButtonModal>
     )
 }

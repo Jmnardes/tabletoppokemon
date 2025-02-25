@@ -5,7 +5,7 @@ import socket from "@client";
 import PlayerContext from "@Contexts/PlayerContext";
 
 import BattleModal from "./EventModals/BattleModal";
-import ChallengeModal from "./EventModals/ChallengeModal";
+import ChallengeModal from "./Challenge/ChallengeModal";
 import EncounterModal from "./EventModals/EncounterModal";
 import WalkModal from "./EventModals/WalkModal";
 import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";

@@ -29,7 +29,11 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
 
     const ElementComponent = React.forwardRef(({ type, icon }, ref) => {
         return (
-            <Tooltip ref={ref} label={elementsTooltip} borderRadius={16}>
+            <Tooltip ref={ref} label={elementTable ? (
+                elementsTooltip
+            ) : (
+                <Text>{type}</Text>
+            )} borderRadius={16}>
                 <Image
                     _hover={{ opacity: '0.6' }}
                     cursor="pointer"
@@ -37,7 +41,7 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
                     src={icon}
                     w={w} 
                     h={h}
-                    mx={elementTable && 2}
+                    mx={2}
                     ml={!elementTable && 1}
                     my={!elementTable && 0.5}
                 />

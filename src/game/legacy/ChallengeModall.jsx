@@ -18,7 +18,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
-import OpponentsResult from "./OpponentsResult"
+import OpponentsResult from "../modals/Challenge/OpponentsResult"
 import { taskTypeEnum } from "@enum"
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
 

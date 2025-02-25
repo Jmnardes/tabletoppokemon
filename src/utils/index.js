@@ -244,3 +244,5 @@ export const upgradePokemonLevelChance = ({ sessionLevel, pokeLevel, dusts, berr
 
     return chanceToUpgrade
 }
+
+export const joinArr = (arr) => {if(arr) return arr.join(', ')}

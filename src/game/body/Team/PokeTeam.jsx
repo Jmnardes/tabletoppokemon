@@ -4,7 +4,7 @@ import PlayerContext from "@Contexts/PlayerContext"
 import Card from "@components/Pokemon/Card"
 import TeamTitle from '@game/body/Team/TeamTitle'
 
-export default function PokeTeam({ bag }) {
+export default function PokeTeam({ bag, challenge = false }) {
     const { pokeTeam, updatePokeBox, removeFromPokeTeam, session } = useContext(PlayerContext)
 
     useEffect(() => {
@@ -16,7 +16,9 @@ export default function PokeTeam({ bag }) {
 
     return (
         <Center flexDir="column" flex="1">
-            <TeamTitle pokeTeam={pokeTeam} />
+            {!challenge && (
+                <TeamTitle pokeTeam={pokeTeam} />
+            )}
             <Flex justifyContent="center" alignItems="center" flex="1">
                 {pokeTeam?.map((poke) => {
                     return (
@@ -27,6 +29,7 @@ export default function PokeTeam({ bag }) {
                                 updatePokeBox={updatePokeBox}
                                 removeFromPokeTeam={removeFromPokeTeam}
                                 bag={bag}
+                                challenge={challenge}
                             />
                         </Box>
                     )

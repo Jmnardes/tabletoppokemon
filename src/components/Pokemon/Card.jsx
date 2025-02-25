@@ -9,9 +9,10 @@ import CardTitle from "./CardTitle"
 import { PokeRarity } from "./PokemonRarity"
 import AppliedItems from "./AppliedItems"
 
-function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag, isCaptured }) {
+function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag, isCaptured, challenge }) {
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
+    const isMini = isCaptured || challenge
 
     const handleBackgroundColor = (poke) => {
         if (poke.shiny) {
@@ -68,21 +69,24 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag,
 
                 <Divider mt={2} />
 
-                <Center pt={2} minH={6}>
+                <Center pt={2} minH={6} justifyContent={challenge ? "space-between" : "center"}>
                     <PokeRarity rarity={poke.rarity.rarity} />
+                    {challenge && (
+                        <Types types={poke.types} w={6} h={6}/>
+                    )}
                 </Center>
 
                 <Center>
                     <Image
-                        w={isCaptured ? 24 : 52}
+                        w={isMini ? 24 : 52}
                         my={4}
                         title={stringToUpperCase(poke.name)} 
                         src={poke.sprites.main}
                     />
-                    <PokeStats poke={poke} isCaptured={isCaptured} />
+                    <PokeStats poke={poke} isMini={isMini} />
                 </Center>
 
-                {!isCaptured && (
+                {!isMini && (
                     <>
                         <Divider />
 

@@ -3,7 +3,7 @@ import { CloseButton } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 
-import PokeBox from "./TeamInBox"
+import TeamInBox from "./TeamInBox"
 import PokeTeam from "@game/body/Team/PokeTeam"
 import GenericModal from "@components/Modal/GenericModal"
 
@@ -39,7 +39,7 @@ export default function PokeBagModal() {
                 />
             )}
         >
-            <PokeBox />
+            <TeamInBox />
 
             <PokeTeam bag={true} />
         </GenericModal>

@@ -60,9 +60,9 @@ export default function DiceButton({
     const rolled = !!value
     const critical = value === maxRow
 
-    const setDiceBySides = (sides, c) => {
-        if(sides === 6) return <SixSidesDiceIcon w={12} h={12} c={c}/>
-        if(sides === 20) return <TwentySidesDice w={12} h={12} c={c} />
+    const setDiceBySides = (sides, c, w = 16) => {
+        if(sides === 6) return <SixSidesDiceIcon w={w} h={w} c={c}/>
+        if(sides === 20) return <TwentySidesDice w={w} h={w} c={c} />
     }
 
     return (
@@ -110,8 +110,6 @@ export default function DiceButton({
                 </>
             ) : (
                 <IconButton
-                    w='4rem'
-                    h='4rem'
                     _hover={{ 'animation': diceShakeAnimation }}
                     onClick={() => setRolling(true)}
                     icon={setDiceBySides(diceSides)}

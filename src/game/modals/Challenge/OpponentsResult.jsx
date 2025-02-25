@@ -8,8 +8,8 @@ export default function OpponentsResult({ myRoll, myBonus, opponentsRoll }) {
     const OpponentRow = ({opponent}) => {
         return (
             <Tr>
-                <Td pt={1} pb={2} fontSize="2xs">{opponent.status.trainerName}</Td>
-                <Td pt={1} pb={2} fontSize="2xs">{opponentRollMatch(opponent)}</Td>
+                <Td p={4}>{opponent.status.trainerName}</Td>
+                <Td p={4} textAlign={"center"}>{opponentRollMatch(opponent)}</Td>
             </Tr>
         )
     }
@@ -23,18 +23,18 @@ export default function OpponentsResult({ myRoll, myBonus, opponentsRoll }) {
     }
 
     return (
-        <TableContainer>
-            <Table variant='simple' w="60%">
+        <TableContainer bg={"gray.650"} p={4} borderRadius={6}>
+            <Table variant='simple' mb={4}>
                 <Thead>
                     <Tr>
-                        <Th pt={0} pb={2} fontSize="2xs">Player</Th>
-                        <Th pt={0} pb={2} fontSize="2xs">Result</Th>
+                        <Th p={4} fontSize={"2md"}>Player</Th>
+                        <Th p={4} fontSize={"2md"}>Result</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td pt={1} pb={2} fontSize="2xs">{player.status.trainerName}</Td>
-                        <Td pt={1} pb={2} fontSize="2xs">{myRoll && myRoll + myBonus}</Td>
+                        <Td p={4} color={"yellow.400"}>{player.status.trainerName}</Td>
+                        <Td p={4} color={"yellow.400"} textAlign={"center"}>{myRoll ? (myRoll + myBonus) : null}</Td>
                     </Tr>
                 </Tbody>
                 <Tbody>

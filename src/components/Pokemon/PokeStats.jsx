@@ -6,7 +6,7 @@ import Evasion from '@assets/svgs/stats/evasion'
 import Critical from '@assets/svgs/stats/critical'
 import Health from '@assets/svgs/stats/health'
 
-function PokeStats({ poke, isCaptured }) {
+function PokeStats({ poke, isMini }) {
     const StatInventary = ({ stat, statName, statIcon }) => {
         return (
             <Kbd display="flex" alignItems="center" my={1} ml={2} title={statName}>
@@ -18,7 +18,7 @@ function PokeStats({ poke, isCaptured }) {
 
     return (
         <Flex mt={2} flexDir="column">
-            {isCaptured ? (
+            {isMini ? (
                 <Grid templateColumns="repeat(3, 1fr)" gap={2}>
                 <StatInventary
                     stat={poke.stats.hp}

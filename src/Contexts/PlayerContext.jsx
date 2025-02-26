@@ -3,7 +3,7 @@ import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
 
 import starIcon from '@assets/images/game/star.png'
-import dustIcon from '@assets/images/items/dust.png'
+import tokenIcon from '@assets/images/game/coin.png'
 
 const PlayerContext = createContext();
 
@@ -19,6 +19,7 @@ export function PlayerProvider({children}) {
     const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
+    const [daycarePokes, setDaycarePokes] = useState([])
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
     const [results, setResults] = useState({})
@@ -186,6 +187,8 @@ export function PlayerProvider({children}) {
     const updateStatus = (type) => updatePlayer(1, 'status', type)
     const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
 
+    const updateDaycareToken = (amount) => updatePlayer(amount, 'daycare', 'token')
+
     const updateLoading = (bool) => setLoadingApi(bool)
 
     useEffect(() => {
@@ -307,20 +310,41 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        socket.on('player-pokemon-trade', res => {
+        socket.on('daycare-pokemon-release', res => {
             setLoadingApi(false)
             
             if (res) {
                 setPokeBox(res.pokeBox)
-                updateItem(res.dust, 'dust')
+                updateDaycareToken(res.token)
+                setDaycarePokes(prevPokes => [...prevPokes, res.pokemon])
                 handleToast({
-                    title: 'Pokémon Day Care',
-                    description: `Your ${res.name} will be treated with kindness, you received ${res.dust} dust(s)`,
+                    title: 'Daycare Token',
+                    description: `Your ${res.pokemon.name} will be treated with kindness, you received ${res.token} token(s)`,
                     status: 'info',
                     duration: 6000,
-                    icon:<Image src={dustIcon} w={12}></Image>
+                    icon:<Image src={tokenIcon} w={12}></Image>
                 })
             }
+        })
+
+        socket.on('daycare-buy-item', res => {
+            updateDaycareToken(-res.price)
+
+            switch (res.item) {
+                case 'greatball':
+                case 'ultraball':
+                    updateBall(1, res.item)
+                    break
+                case 'dust':
+                    updateItem(1, res.item)
+                    break
+                case 'berry':
+                    break
+                default:
+                    break
+            }
+
+            setLoadingApi(false)
         })
 
         socket.on('player-update-task', res => {
@@ -435,6 +459,10 @@ export function PlayerProvider({children}) {
             updatePokeBox,
             removeFromPokeBox,
             removeFromPokeBoxById,
+
+            updateDaycareToken,
+            daycarePokes,
+            setDaycarePokes,
 
             updateBall,
             changeBall,

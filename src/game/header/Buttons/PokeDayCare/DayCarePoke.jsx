@@ -24,7 +24,7 @@ export default function DayCareBoxPoke({ pokemon, handleTrade }) {
         <ConfirmationModal
             event={() => handleTrade(pokemon)}
             modalTitle={`Leave on Day Care`}
-            modalText={`You will receive ${(pokemon.rarity.rarity * 2) + 1} Dusts for him.`}
+            modalText={`You will receive ${pokemon.rarity.rarity + 1} Daycare Tokens for him.`}
             h={36}
             m={4}
         >

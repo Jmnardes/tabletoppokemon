@@ -32,24 +32,20 @@ export default function PlayerAugments() {
     }
 
     return (
-        <ButtonModal title={'Player augments'} size={'xl'} button={
+        <ButtonModal title={'Augments'} size={'xl'} disableButton={player.augments?.length === 0} button={
             <Image
                 src={chipIcon}
-                title={'Player augments'}
+                title={'Augments'}
                 w="28px"
                 overflow={"hidden"}
             ></Image>
         }>
             <Center flexDirection="column" p={4}>
-                {player.augments.length > 0 ? (
-                    <Wrap gap={4} justify={"center"} my={4}>
-                        {player.augments?.map((augment, index) => (
-                            <AugmentContainer key={index} augment={augment} />
-                        ))}
-                    </Wrap>
-                ) : (
-                    <Text fontSize="2xs">No augments yet</Text>
-                )}
+                <Wrap gap={4} justify={"center"} my={4}>
+                    {player.augments?.map((augment, index) => (
+                        <AugmentContainer key={index} augment={augment} />
+                    ))}
+                </Wrap>
             </Center>
         </ButtonModal>
     )

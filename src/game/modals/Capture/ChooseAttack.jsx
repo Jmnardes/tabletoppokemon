@@ -12,7 +12,7 @@ export default function ChooseAttack({
 }) {
     const ChooseTypes = ({ title, setter, selectedType, types }) => {
         return (
-            <>
+            <Center flex flexDir={"column"}>
                 <Text fontSize={"small"}>{title}</Text>
                 <Center m={4} gap={4}>
                     {types.map((type) => (
@@ -26,23 +26,26 @@ export default function ChooseAttack({
                         </Button>
                     ))}
                 </Center>
-            </>
+            </Center>
         );
     };
 
     return (
         <>
-            <Text>You caught a {stringToUpperCase(capturedPokemon.name)}!</Text>
+            <Center flex flexDir={"column"}>
+                <Text>You've caught a Pókemon!</Text>
+                <Text mt={4} fontSize={"2xl"}>{stringToUpperCase(capturedPokemon.name)}</Text>
+            </Center>
 
             <Image
-                h={24} w={24} mb={8}
+                h={52} w={52} mb={8}
                 title={stringToUpperCase(capturedPokemon.name)} 
-                src={capturedPokemon.sprites.mini}
-                fallbackSrc={capturedPokemon.sprites.front}
+                src={capturedPokemon.sprites.front}
+                fallbackSrc={capturedPokemon.sprites.mini}
             />
 
             <ChooseTypes
-                title="Choose his attack type:"
+                title={`Choose ${stringToUpperCase(capturedPokemon.name)}'s attack type:`}
                 setter={setAttackType}
                 selectedType={attackType}
                 types={capturedPokemon.types}
@@ -54,7 +57,7 @@ export default function ChooseAttack({
                 types={capturedPokemon.types}
             /> */}
 
-            <Button w={"100%"} mt={2} onClick={() => setChooseAttackType(false)}>Confirm</Button>
+            <Button w={"100%"} h={16} mt={2} onClick={() => setChooseAttackType(false)}>Confirm</Button>
         </>
     )
 }

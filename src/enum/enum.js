@@ -3,7 +3,7 @@ export const taskTypeEnum = {
     winBattle: "winBattle",
     winChallenge: "winChallenge",
     useDust: "useDust",
-    gainDust: "gainDust",
+    gainTokens: "gainTokens",
     useBerry: "useBerry",
     fairPlay: "fairPlay",
     daycare: "daycare",

@@ -100,7 +100,7 @@ export default function Challenge({ event, bonus }) {
                         <DiceButton bonus={bonus} onRoll={(roll) => {
                             setRoll(roll)
                             setDiceWasRolled(true)
-                            emit('event-roll', roll + bonus)
+                            emit('event-roll', { roll, bonus })
                         }} />
                     </Center>
                 ) }

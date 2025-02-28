@@ -10,9 +10,9 @@ export default function OpponentsResult({ myRoll, myBonus, opponentsRoll }) {
         return (
             <Tr>
                 <Td p={4}>{opponent.status.trainerName}</Td>
-                <Td p={4} textAlign={"center"}>{oppResult[0].roll}</Td>
-                <Td p={4} textAlign={"center"}>+{oppResult[0].bonus}</Td>
-                <Td p={4} textAlign={"center"}>{oppResult[0].total}</Td>
+                <Td p={4} textAlign={"center"}>{oppResult[0]?.roll}</Td>
+                <Td p={4} textAlign={"center"}>{oppResult[0]?.bonus}</Td>
+                <Td p={4} textAlign={"center"}>{oppResult[0]?.total}</Td>
             </Tr>
         )
     }

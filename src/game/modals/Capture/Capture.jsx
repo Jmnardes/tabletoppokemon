@@ -13,10 +13,8 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
     const [selectedToRemove, setSelectedToRemove] = useState(null)
     const isTeamFull = pokeTeam.length > 2
 
-    const handleFinishCapture = ({ removedId, dayCare, starterTeam }) => {
-        emit('pokemon-handle-capture', { 
-            capturedPokemonId: capturedPokemon.id, attackType, specialType, removedId, dayCare, starterTeam
-        })
+    const handleFinishCapture = ({ removedId, dayCare }) => {
+        emit('pokemon-handle-capture', { attackType, specialType, removedId, dayCare })
         setLoadingApi(true)
     }
 
@@ -27,11 +25,7 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
             setLoadingApi(false)
         })
 
-        if (!isTeamFull) {
-            handleFinishCapture({ removedId: null, dayCare: false, starterTeam: true })
-        } else {
-            setLoadingApi(false)
-        }
+        setLoadingApi(false)
 
         return () => {
             socket.off('pokemon-handle-capture')

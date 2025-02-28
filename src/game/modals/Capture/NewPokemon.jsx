@@ -40,19 +40,21 @@ export default function NewPokemon({
                     icon={ballIcon}
                     selectedToRemove={selectedToRemove}
                     daycare={false}
-                    disable={!selectedToRemove}
+                    disable={!selectedToRemove && isTeamFull}
                 ></ButtonComponent>
                 <ButtonComponent
                     label={"Add to Poke Bag"}
                     icon={bagIcon}
                     selectedToRemove={null}
                     daycare={false}
+                    disable={!isTeamFull}
                 ></ButtonComponent>
                 <ButtonComponent
                     label={"Leave on Daycare"}
                     icon={daycareIcon}
                     selectedToRemove={null}
                     daycare={true}
+                    disable={!isTeamFull}
                 ></ButtonComponent>
             </Center>
 

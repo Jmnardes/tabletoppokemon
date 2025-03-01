@@ -18,13 +18,13 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, emit, setLoadingApi } = useContext(PlayerContext)
+    const { updateGame, updateStatus, emit, setLoading } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 60000
     const prize = event.prizes[2]
 
     // const battleChooseMove = (move) => {
-    //     setLoadingApi(false)
+    //     setLoading({ loading: false })(false)
     // }
 
     // const pokeMoveName = (index) => {
@@ -48,7 +48,7 @@ export default function ControlBox({
         return (
             <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
                 if (turnWinner === pokemon?.id) {
-                    setLoadingApi(true)
+                    setLoading({ loading: true, text: "Awarding..." })
                     updateStatus('wins')
                     emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
                     emit('player-win-prize', { prize: prize })

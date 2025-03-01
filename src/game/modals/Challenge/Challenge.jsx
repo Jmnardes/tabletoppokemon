@@ -11,7 +11,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import Prizes from "./Prizes";
 
 export default function Challenge({ event, bonus }) {
-    const { emit, opponents, setLoadingApi, updateStatus, updateGame } = useContext(PlayerContext)
+    const { emit, opponents, setLoading, updateStatus, updateGame } = useContext(PlayerContext)
     const [diceWasRolled, setDiceWasRolled] = useState(false)
     const [won, setWon] = useState(false)
     const [place, setPlace] = useState(null)
@@ -57,7 +57,7 @@ export default function Challenge({ event, bonus }) {
         setPlace(place)
         
         place === 0 && updateStatus('challenges')
-        setLoadingApi(true)
+        setLoading({ loading: true, text: 'Awarding...' })
         emit('player-win-prize', { prize: prizes[place] })
     }
 

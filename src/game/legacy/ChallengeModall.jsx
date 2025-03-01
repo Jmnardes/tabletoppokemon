@@ -31,7 +31,7 @@ import { FaInfoCircle, FaRedo } from "react-icons/fa";
 import { pokemonHasChallengeBerry } from "@utils"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoadingApi, player } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoading, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -143,7 +143,7 @@ export default function ChallengeModal({ event }) {
         myPlacing.current = place
         
         place === 0 && updateStatus('challenges')
-        setLoadingApi(true)
+        setLoading({ loading: true, text: "Awarding..." })
         emit('player-win-prize', { prize: prizes[place] })
     }
 

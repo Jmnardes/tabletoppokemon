@@ -15,9 +15,8 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     const { 
         player, 
         emit, 
-        setLoadingApi, 
-        handleToast, 
-        setLoadingText,
+        setLoading, 
+        handleToast,
         updatePokemonOnTeam, 
         berries, 
     } = useContext(PlayerContext)
@@ -28,8 +27,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
 
         emit('player-update-task', { type: taskTypeEnum.useDust, amount: 1 })
         emit('player-use-dust', { pokemon: pokemon })
-        setLoadingText('Applying dust...')
-        setLoadingApi(true)
+        setLoading({ loading: true, text: "Applying dust..." })
     }
     
     const handleBerry = (berry) => {
@@ -57,8 +55,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
 
         emit('player-use-berry', { berry, pokeId: pokemon.id })
         updatePokemonOnTeam(pokemon)
-        setLoadingText('Applying berry...')
-        setLoadingApi(true)
+        setLoading({ loading: true, text: "Applying berry..." })
     }
 
     const UpgradeSlot = ({ item, isDust }) => {

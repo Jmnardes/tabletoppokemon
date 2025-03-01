@@ -11,10 +11,10 @@ import socket from "@client"
 import GenericModal from "@components/Modal/GenericModal"
 
 export default function AugmentsModal({ augments, event }) {
-    const { emit, updateGame, setLoadingApi, setPlayer, setBerries } = useContext(PlayerContext)
+    const { emit, updateGame, setLoading, setPlayer, setBerries } = useContext(PlayerContext)
 
     const handleSelectAugment = (augment) => {
-        setLoadingApi(true)
+        setLoading({ loading: true, text: "Selecting augment..." })
         emit('augment-selected', { augment })
     }
 
@@ -65,7 +65,7 @@ export default function AugmentsModal({ augments, event }) {
             setPlayer(res.player)
             setBerries(res.player.berries)
             updateModals()
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         return () => {

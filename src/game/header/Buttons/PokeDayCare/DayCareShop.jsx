@@ -10,10 +10,10 @@ import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import eggIcon from '@assets/images/items/egg.png'
 
 export default function DayCareShop() {
-    const { player, emit, setLoadingApi } = useContext(PlayerContext)
+    const { player, emit, setLoading } = useContext(PlayerContext)
 
     const handleBuyItem = (item, price) => {
-        setLoadingApi(true)
+        setLoading(true, `Buying ${item}...`)
         emit('daycare-buy-item', { item, price })
     }
 

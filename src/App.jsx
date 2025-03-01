@@ -9,12 +9,12 @@ import day from "@assets/images/background/day.jpg"
 import night from "@assets/images/background/night.jpg"
 
 const App = () => {
-  const { hasGameStarted, waitingForPlayers, loadingApi, loadingText, game } = useContext(PlayerContext)
+  const { hasGameStarted, waitingForPlayers, loading, game } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
 
   return (
     <Flex flexDirection='column' h='100vh' w='100vw' m={0} backgroundImage={colorMode === 'light' ? day : night}>
-      <LoadingScreen waitingForPlayers={waitingForPlayers} loadingApi={loadingApi} loadingText={loadingText} />
+      <LoadingScreen waitingForPlayers={waitingForPlayers} loading={loading.loading} loadingText={loading.text} />
       {hasGameStarted ? (
         <>
           <Game game={game} />
@@ -26,12 +26,12 @@ const App = () => {
   )
 }
 
-const LoadingScreen = ({ waitingForPlayers, loadingApi, loadingText }) => {
-  if (!waitingForPlayers && !loadingApi) return null;
+const LoadingScreen = ({ waitingForPlayers, loading, loadingText }) => {
+  if (!waitingForPlayers && !loading) return null;
   return (
     <Loading showSpinner>
       <Heading color='white'>
-        {loadingApi ? loadingText : 'Waiting for other players...'}
+        {loadingText ? loadingText : 'Waiting for other players...'}
       </Heading>
     </Loading>
   );

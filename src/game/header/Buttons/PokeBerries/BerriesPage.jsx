@@ -11,7 +11,7 @@ import berryIcon from '@assets/images/berries/berry.png';
 import { stringToUpperCase } from "../../../../utils"
 
 export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
-    const { updatePokemonOnTeam, emit, berries, handleToast, setLoadingApi, setLoadingText } = useContext(PlayerContext)
+    const { updatePokemonOnTeam, emit, berries, handleToast, setLoading } = useContext(PlayerContext)
 
     const handleBerry = (berry) => {
         const pokemon = selectedPokemon
@@ -38,8 +38,7 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
 
         emit('player-use-berry', { berry, pokeId: pokemon.id })
         updatePokemonOnTeam(pokemon)
-        setLoadingText('Applying berry...')
-        setLoadingApi(true)
+        setLoading(true, 'Applying berry...')
     }
 
     const BerrySlot = ({ berry }) => {

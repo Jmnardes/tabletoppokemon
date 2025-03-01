@@ -17,7 +17,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function WalkModal({ event }) {
-    const { emit, updateGame, pokeTeam, setLoadingApi } = useContext(PlayerContext)
+    const { emit, updateGame, pokeTeam, setLoading } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -99,7 +99,7 @@ export default function WalkModal({ event }) {
 
                         <Button h={12} onClick={() => {
                             if (conditionMet) {
-                                setLoadingApi(true)
+                                setLoading({ loading: true, text: "Awarding..." })
 
                                 if (prize.type === 'berry') {
                                     emit('player-gain-berry', { berry: prize.data })

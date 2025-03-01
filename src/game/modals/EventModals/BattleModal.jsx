@@ -5,7 +5,7 @@ import socket from "@client"
 import GenericModal from "@components/Modal/GenericModal"
 
 export default function BattleModal({ battleId, participants, event }) {
-    const { player, setLoadingApi } = useContext(PlayerContext)
+    const { player, setLoading } = useContext(PlayerContext)
     const [opponent, setOpponent] = useState()
     const [opponentTrainer, setOpponentTrainer] = useState()
     const [isPokemonBattling, setIsPokemonBattling] = useState(false)
@@ -32,7 +32,7 @@ export default function BattleModal({ battleId, participants, event }) {
 
             if(battlingPlayer.player === player.id) {
                 if(battlingPlayer.pokemon) {
-                    setLoadingApi(false)
+                    setLoading({ loading: false })
                     setIsPokemonBattling(true)
                 }
             }

@@ -10,7 +10,7 @@ import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 
 export default function PokeSelector({ poke, setPokemon, battleId }) {
-    const { emit, setLoadingApi, player } = useContext(PlayerContext)
+    const { emit, setLoading, player } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
@@ -25,7 +25,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
     const battleChoosePokemon = (pokeId) => {
         if(poke.id === pokeId) {
             setPokemon(poke)
-            setLoadingApi(false)
+            setLoading({ loading: false })
         }
     }
     
@@ -68,7 +68,7 @@ export default function PokeSelector({ poke, setPokemon, battleId }) {
             border={`2px solid ${colorByType}`}
             borderRadius={8}
             onClick={() => {
-                setLoadingApi(true)
+                setLoading({ loading: true, text: 'Choosing pokemon...' })
                 emit('battle-choose-pokemon', {battleId: battleId, pokemonId: poke.id, moveElement: 0})
             }}
         >

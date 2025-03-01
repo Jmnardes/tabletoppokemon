@@ -9,8 +9,7 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
-    const [loadingApi, setLoadingApi] = useState(false)
-    const [loadingText, setLoadingText] = useState('')
+    const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const [session, setSession] = useState({})
@@ -189,8 +188,6 @@ export function PlayerProvider({children}) {
 
     const updateDaycareToken = (amount) => updatePlayer(amount, 'daycare', 'token')
 
-    const updateLoading = (bool) => setLoadingApi(bool)
-
     useEffect(() => {
         if (player.status) {
             emit('player-update-status', { ...player.status })
@@ -240,37 +237,25 @@ export function PlayerProvider({children}) {
             removeOpponentById(res.id)
         })
 
-        socket.on('player-session-disconnected', res => {
-            // handleToast({
-            //     id: 'session-disconnection',
-            //     title: 'User disconnected',
-            //     description: `${res} was disconnected from the server`,
-            //     status: 'error',
-            // })
-            updateLoading(true)
+        socket.on('player-session-disconnected', () => {
+            setLoading({ loading: true, text: "Trying to reconnecting..." })
         })
 
-        socket.on('player-session-reconnected', res => {
-            // handleToast({
-            //     id: 'session-reconnection',
-            //     title: 'User reconnected',
-            //     description: `${res} reconnected`,
-            //     status: 'success',
-            // })
-            updateLoading(false)
+        socket.on('player-session-reconnected', () => {
+            setLoading({ loading: false })
 
-            if (waitingForPlayers === true) {
-                setWaitingForPlayers(false)
-            } 
+            // if (waitingForPlayers === true) {
+            //     setWaitingForPlayers(false)
+            // } 
         })
 
         socket.on("connect", () => {
           if (socket.recovered) {
-            updateLoading(false)
+            setLoading({ loading: false })
 
-            if (waitingForPlayers === true) {
-                setWaitingForPlayers(false)
-            } 
+            // if (waitingForPlayers === true) {
+            //     setWaitingForPlayers(false)
+            // } 
           }
         });
 
@@ -311,7 +296,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('daycare-pokemon-release', res => {
-            setLoadingApi(false)
+            setLoading({ loading: false })
             
             if (res) {
                 setPokeBox(res.pokeBox)
@@ -344,7 +329,7 @@ export function PlayerProvider({children}) {
                     break
             }
 
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         socket.on('player-update-task', res => {
@@ -382,23 +367,23 @@ export function PlayerProvider({children}) {
             })
 
             updatePokemonOnTeam(pokemon)
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         socket.on('player-gain-berry', ({ berries }) => {
             setBerries(berries)
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         socket.on('player-use-dust', ({ pokemon, amount }) => {
             updateItem(-amount, 'dust')
             updatePokemonOnTeam(pokemon)
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         socket.on('player-win-prize', ({ amount, key, type }) => {
             updatePlayer(amount, key, type)
-            setLoadingApi(false)
+            setLoading({ loading: false })
         })
 
         socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
@@ -412,10 +397,8 @@ export function PlayerProvider({children}) {
             emit,
             handleToast,
 
-            loadingApi,
-            setLoadingApi,
-            loadingText,
-            setLoadingText,
+            loading,
+            setLoading,
 
             session,
             setSession,

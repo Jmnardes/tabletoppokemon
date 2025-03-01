@@ -10,7 +10,7 @@ import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
-    const { session, encounter, emit, setLoadingApi, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
+    const { session, encounter, emit, setLoading, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false)
@@ -89,7 +89,7 @@ export default function Encounter() {
                     _hover={disableCatch ? {} : { 'cursor': 'pointer', 'opacity': 0.8 }}
                     onClick={() => {
                         emit('player-capture-pokemon', { capturedId: poke.id })
-                        setLoadingApi(true)
+                        setLoading({ loading: true, text: "Capturing..." })
                     }}
                 >
                     <>

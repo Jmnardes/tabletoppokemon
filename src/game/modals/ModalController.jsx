@@ -34,7 +34,7 @@ export default function ModalController() {
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
     const [augments, setAugments] = useState([])
-    const [showTasksModal, setShowTasksModal] = useState({})
+    const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
 
     useEffect(() => {
@@ -120,11 +120,11 @@ export default function ModalController() {
     }, [])
 
     useEffect(() => {
-        if (session.turns % 10 === 1 && showTasksModal) {
+        setLastTurnModalTaskShown(session.turns)
+
+        if (session.turns % 10 === 1 && lastTurnModalTaskShown !== session.turns) {
             updateGame({ openNewTasksModal: true })
-            setShowTasksModal(false)
-        } else {
-            setShowTasksModal(true)
+            setLastTurnModalTaskShown(session.turns)
         }
     }, [tasks])
 

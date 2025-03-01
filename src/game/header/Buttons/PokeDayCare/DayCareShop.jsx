@@ -41,9 +41,12 @@ export default function DayCareShop() {
         <Center flexDirection="column">
             <Text fontSize="2xl" mb={4}>Daycare Shop</Text>
             <Center flex justifyContent={"space-around"} w={"full"} p={4}>
-                <Center>
-                    <Text fontSize={"4xl"} mr={2}>{player.daycare.token}x</Text>
-                    <Image src={tokenIcon} alt={"Daycare Token"} w={24} />
+                <Center flex flexDir={"column"}>
+                    <Text fontSize={"2xl"} mb={8}>Daycare Tokens</Text>
+                    <Center>
+                        <Text fontSize={"4xl"} mr={2}>{player.daycare.token}x</Text>
+                        <Image src={tokenIcon} alt={"Daycare Token"} w={24} />
+                    </Center>
                 </Center>
                 <Table variant="simple" w={42}>
                     <Thead>

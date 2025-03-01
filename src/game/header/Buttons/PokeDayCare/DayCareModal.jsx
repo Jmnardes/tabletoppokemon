@@ -21,7 +21,13 @@ export default function DayCareModal() {
             onModalClose={() => updateGame({ openDayCareModal: false })}
         >
             <Text fontSize={"small"} textAlign={"center"}>Select a pokémon to leave in Daycare dependencies</Text>
-            <DayCareContent handleTrade={handleTrade} pokeBox={pokeBox} />
+            {pokeBox.length < 1 ? (
+                <Text h={28} textAlign={"center"} mt={20} color={"red.400"}>
+                    You don't have Pókemons to leave on Daycare
+                </Text>
+            ) : (
+                <DayCareContent handleTrade={handleTrade} pokeBox={pokeBox} />
+            )}
             <DayCareShop />
         </GenericModal>
     )

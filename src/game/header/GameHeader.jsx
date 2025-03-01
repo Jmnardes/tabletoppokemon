@@ -60,8 +60,7 @@ export default function GameHeader() {
                 </Button>
 
                 <Button 
-                    mx={1} 
-                    isDisabled={pokeBox.length < 1}
+                    mx={1}
                     onClick={() => updateGame({ openDayCareModal: true })}
                 >
                     <Image

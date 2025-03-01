@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
-import { Button, Center } from "@chakra-ui/react";
+import { Button, Center, Text } from "@chakra-ui/react";
 import ChallengeInfo from "./ChallengeInfo";
 import OpponentsResult from "./OpponentsResult";
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
@@ -26,7 +26,7 @@ export default function Challenge({ event, bonus }) {
         resultArray.push(roll + bonus)
 
         opponentsRoll.forEach(oppRoll => {
-            resultArray.push(oppRoll.roll)
+            resultArray.push(oppRoll.roll + oppRoll.bonus)
         })
 
         resultArray.sort(function(a, b){return b-a})
@@ -96,7 +96,8 @@ export default function Challenge({ event, bonus }) {
                 { allResultsShown ? (
                     <ChallengeResult won={won} place={place} prizes={prizes} />
                 ) : (
-                    <Center minW={44}>
+                    <Center minW={44} flex flexDir={"column"}>
+                        <Text fontSize={"2xl"} mb={8}>Roll the die!</Text>
                         <DiceButton bonus={bonus} onRoll={(roll) => {
                             setRoll(roll)
                             setDiceWasRolled(true)

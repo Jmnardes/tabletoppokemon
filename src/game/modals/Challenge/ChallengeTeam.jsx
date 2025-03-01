@@ -8,7 +8,7 @@ import TeamInBox from "../../header/Buttons/PokeBag/TeamInBox";
 import { pokemonHasChallengeBerry } from "@utils";
 
 export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) {
-    const { pokeTeam, player, emit } = useContext(PlayerContext)
+    const { pokeTeam, pokeBox, player, emit } = useContext(PlayerContext)
     const [ready, setReady] = useState(false)
 
     const checkChallengeBonus = (team) => {
@@ -69,7 +69,7 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
                 </Center>
             </Center>
 
-            <Button h={24} w={"100%"} mb={2} isDisabled={pokeTeam.length < 1 || ready} onClick={() => {
+            <Button h={24} w={"100%"} mb={2} isDisabled={(pokeTeam.length < 3 && pokeBox.length > 0) || ready} onClick={() => {
                 setReady(true)
                 emit('event-challenge-ready')
             }}>

@@ -5,10 +5,7 @@ const SERVER_URL = process.env.REACT_APP_SOCKET_SERVER;
 const socket = io(SERVER_URL);
 
 socket.on("connect", () => {
-  if (socket.recovered) {
-    console.log("Session recovered!");
-  }
-
+  console.log('Reconnected...')
   setTimeout(() => {
     if (socket.io.engine) {
       socket.io.engine.close();

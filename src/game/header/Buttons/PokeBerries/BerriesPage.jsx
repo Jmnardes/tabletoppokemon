@@ -38,7 +38,7 @@ export default function BerriesPage({ selectedPokemon, setSelectedPokemon }) {
 
         emit('player-use-berry', { berry, pokeId: pokemon.id })
         updatePokemonOnTeam(pokemon)
-        setLoading(true, 'Applying berry...')
+        setLoading({ loading: true, text: `Applying berry...` })
     }
 
     const BerrySlot = ({ berry }) => {

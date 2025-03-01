@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { Text, Center, Image, Wrap, Box, Tooltip } from "@chakra-ui/react"
+import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
 
 import PlayerContext from "@Contexts/PlayerContext"
 import SelectedToUpgrade from "./SelectedToUpgrade"
@@ -62,7 +62,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         const modalTitle = `Use ${isDust ? 'dust' : (item.name + ' berry')}?`
         const description = isDust
             ? "By using a Dust in your pokemon, you will increase the chance for him to level up on the next turn, but it will only apply the next turn. The more Dusts you use higher are the chances."
-            : item.effect.description
+            : (item.effect.description + `The berry has ${item.turns} turns duration.`)
         const isDisabled = isDust 
             ? item.amount === 0 || !selectedPokemon 
             : item.amount === 0 || !selectedPokemon || selectedPokemon.berries.length === 3

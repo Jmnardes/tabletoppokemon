@@ -1,9 +1,13 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
+import { getBerryIcon } from "@utils/berryIcon"
 
 import starIcon from '@assets/images/game/star.png'
 import tokenIcon from '@assets/images/game/coin.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
+import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
+import dustIcon from '@assets/images/items/dust.png'
 
 const PlayerContext = createContext();
 
@@ -22,7 +26,7 @@ export function PlayerProvider({children}) {
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
     const [results, setResults] = useState({})
-    const [nextEvent, setNextEvent] = useState()
+    const [nextEvent, setNextEvent] = useState('Walk')
     const [version, setVersion] = useState(0)
     const [game, setGame] = useState({
         gameEnded: false,
@@ -317,10 +321,33 @@ export function PlayerProvider({children}) {
 
             switch (res.item) {
                 case 'greatball':
+                    handleToast({
+                        title: 'Greatball',
+                        description: `A new Greatball has been added to your bag`,
+                        status: 'info',
+                        duration: 4000,
+                        icon:<Image src={greatballIcon} w={12}></Image>
+                    })
+                    updateBall(1, res.item)
+                    break
                 case 'ultraball':
+                    handleToast({
+                        title: 'Ultraball',
+                        description: `A new Ultraball has been added to your bag`,
+                        status: 'info',
+                        duration: 4000,
+                        icon:<Image src={ultraballIcon} w={12}></Image>
+                    })
                     updateBall(1, res.item)
                     break
                 case 'dust':
+                    handleToast({
+                        title: 'Dust',
+                        description: `A new Dust has been added to your bag`,
+                        status: 'info',
+                        duration: 4000,
+                        icon:<Image src={dustIcon} w={12}></Image>
+                    })
                     updateItem(1, res.item)
                     break
                 case 'berry':
@@ -370,8 +397,17 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
         })
 
-        socket.on('player-gain-berry', ({ berries }) => {
+        socket.on('player-gain-berry', ({ berries, newBerry }) => {
             setBerries(berries)
+
+            handleToast({
+                title: newBerry.name,
+                description: `A new Berry has been added to your bag`,
+                status: 'info',
+                duration: 4000,
+                icon:<Image src={getBerryIcon(newBerry.type)} w={12}></Image>
+            })
+
             setLoading({ loading: false })
         })
 

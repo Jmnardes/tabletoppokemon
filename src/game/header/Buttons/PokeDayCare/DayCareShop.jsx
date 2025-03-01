@@ -13,7 +13,7 @@ export default function DayCareShop() {
     const { player, emit, setLoading } = useContext(PlayerContext)
 
     const handleBuyItem = (item, price) => {
-        setLoading(true, `Buying ${item}...`)
+        setLoading({ loading: true, text: `Buying ${item}...` })
         emit('daycare-buy-item', { item, price })
     }
 

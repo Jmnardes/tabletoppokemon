@@ -11,7 +11,7 @@ export default function DayCareModal() {
 
     const handleTrade = (pokemon) => {
         emit('daycare-pokemon-release', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
-        setLoading(true, 'Releasing pokémon')
+        setLoading({ loading: true, text: `Releasing pokémon...` })
     };
 
     return (

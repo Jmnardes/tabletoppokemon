@@ -1,14 +1,14 @@
 import {
     Text,
     Center,
-    Flex,
-    Badge,
+    Wrap,
 } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
-import AugmentData from "./AugmentData"
 import socket from "@client"
 import GenericModal from "@components/Modal/GenericModal"
+import { augmentColor } from "@utils"
+import AugmentContainer from "../../../components/Augments/AugmentContainer"
 
 export default function AugmentsModal({ augments, event }) {
     const { emit, updateGame, setLoading, setPlayer, setBerries } = useContext(PlayerContext)
@@ -17,31 +17,6 @@ export default function AugmentsModal({ augments, event }) {
         setLoading({ loading: true, text: "Selecting augment..." })
         emit('augment-selected', { augment })
     }
-
-    const AugmentContainer = ({ augment }) => {
-        return (
-            <Flex 
-                direction={"column"} 
-                backgroundColor={"gray.600"} 
-                borderRadius={8} 
-                p={4} gap={4} w={72}
-                opacity={0.6}
-                _hover={{ opacity: 1 }}
-                cursor={"pointer"}
-                onClick={() => handleSelectAugment(augment)}
-            >
-                <Badge p={2} borderRadius={8} textAlign={"center"}>
-                    {augment.name}
-                </Badge>
-                <Center h={"100%"} flex flexDir={"column"} justifyContent={"space-around"} gap={8}>
-                    <Text fontSize={"small"} textAlign={"center"}>
-                        {augment.description}
-                    </Text>
-                    <AugmentData augment={augment} />
-                </Center>
-            </Flex>
-        );
-    };
 
     const updateModals = () => {
         updateGame({ openAugmentsModal: false })
@@ -75,15 +50,25 @@ export default function AugmentsModal({ augments, event }) {
 
     return (
         <GenericModal title={"Choose a new Augment"}>
-            <Center flex flexDir={"column"} gap={12} h={"100%"} p={40}>
-                <Text textAlign={"center"}>
+            <Center flex flexDir={"column"} gap={4} h={"100%"} px={8}>
+                <Text fontSize={"sm"} textAlign={"center"}>
                     Augments are special features that give you bonuses until the end of the game.
                 </Text>
-                <Flex direction={"row"} justifyContent={"space-around"} gap={8}>
-                    {augments?.map((augment, index) => (
-                        <AugmentContainer key={index} augment={augment} />
-                    ))}
-                </Flex>
+                <Text fontSize={"sm"} textAlign={"center"} color={augmentColor(augments.type)}>
+                    Augments type: {augments.type}
+                </Text>
+                <Center h="100%" pb={8}>
+                    <Wrap justify={"center"} alignItems={"center"} mx={8}>
+                        {augments.list?.map((augment, index) => (
+                            <AugmentContainer 
+                                key={index} 
+                                augment={augment} 
+                                handler={() => handleSelectAugment(augment)} 
+                                choose={true}
+                            />
+                        ))}
+                    </Wrap>
+                </Center>
             </Center>
         </GenericModal>
     )

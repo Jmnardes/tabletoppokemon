@@ -225,6 +225,13 @@ export const rarityName = (rarity) => {
 //     return '#8a8a8a'
 // }
 
+export const augmentColor = (dif) => {
+    if(dif === 'common') return '#8a8a8a'
+    if(dif === 'uncommon') return '#6b91bf'
+    if(dif === 'rare') return '#ad900e'
+    return '#8a8a8a'
+}
+
 export const pokemonHasChallengeBerry = (pokemon) => {
     if (pokemon.effects.includes('boost_challenge')) {
         return true

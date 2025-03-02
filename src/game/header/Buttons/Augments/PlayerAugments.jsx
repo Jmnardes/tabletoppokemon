@@ -1,35 +1,14 @@
 import { useContext } from "react";
-import { Badge, Center, Flex, Image, Text, Wrap } from "@chakra-ui/react";
+import { Center, Image, Wrap } from "@chakra-ui/react";
 
 import ButtonModal from "@components/Modal/ButtonModal";
 import PlayerContext from "@Contexts/PlayerContext";
-import AugmentData from "../../../modals/Augments/AugmentData";
 
 import chipIcon from '@assets/images/game/chip.png'
+import AugmentContainer from "@components/Augments/AugmentContainer";
 
 export default function PlayerAugments() {
     const { player } = useContext(PlayerContext)
-
-    const AugmentContainer = ({ augment }) => {
-        return (
-            <Flex 
-                direction={"column"} 
-                backgroundColor={"gray.600"} 
-                borderRadius={8} 
-                p={1} gap={4} w={60} my={2}
-            >
-                <Badge p={2} borderRadius={8} textAlign={"center"}>
-                    {augment.name}
-                </Badge>
-                <Center h={"100%"} flex flexDir={"column"} justifyContent={"space-around"} gap={8}>
-                    <Text fontSize={"small"} textAlign={"center"}>
-                        {augment.description}
-                    </Text>
-                    <AugmentData augment={augment} />
-                </Center>
-            </Flex>
-        );
-    }
 
     return (
         <ButtonModal title={'Augments'} size={'xl'} disableButton={player.augments?.length === 0} button={

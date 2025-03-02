@@ -17,17 +17,17 @@ function PokeStats({ poke, isMini }) {
             <Kbd display="flex" alignItems="center" my={1} ml={2} title={statName}>
                 {statIcon}
                 {poke.rarity.stats.includes(statKey) && (
-                    <Flex position={"absolute"} mb={5} right={0}>
+                    <Flex position={"absolute"} mb={5} ml={10}>
                         <FaStar title="Rarity buff" color="green" size={12} />
                     </Flex>
                 )}
                 {natureIncreaseStat === statKey && (
-                    <Flex position={"absolute"} mt={5} right={0}>
+                    <Flex position={"absolute"} mt={5} ml={10}>
                         <FaAngleDoubleUp title="Nature buff" color="green" size={12} />
                     </Flex>
                 )}
                 {natureDecreaseStat === statKey && (
-                    <Flex position={"absolute"} mt={5} right={0}>
+                    <Flex position={"absolute"} mt={5} ml={10}>
                         <FaAngleDoubleDown title="Nature debuff" color="red" size={12} />
                     </Flex>
                 )}

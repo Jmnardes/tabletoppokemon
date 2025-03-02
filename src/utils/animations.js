@@ -123,3 +123,20 @@ export const glowAnimation = (
             -5px 0 var(--glow-size) ${starterGlowColor};
     }
 `;
+
+export const pulseAnimation = (color, shiny = false) => keyframes`
+    0% {
+        transform: scale(0.99);
+        box-shadow: 0 0 0 0 ${shiny ? 'white' : color};
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 ${shiny ? '35px' : '15px'} rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.99);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+`;

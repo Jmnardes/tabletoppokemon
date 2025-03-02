@@ -33,7 +33,7 @@ export default function ModalController() {
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
-    const [augments, setAugments] = useState([])
+    const [augments, setAugments] = useState({})
     const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
 
@@ -82,7 +82,7 @@ export default function ModalController() {
 
             setTasks([...res.tasks])
             
-            if (res.augments.length > 0) {
+            if (res.augments.list.length > 0) {
                 if (res.event.type = 'battle') setBattle(res.event.battle)
                 updateGame({ openAugmentsModal: true })
             } else {

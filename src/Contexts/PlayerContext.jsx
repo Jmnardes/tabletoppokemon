@@ -248,9 +248,9 @@ export function PlayerProvider({children}) {
         socket.on('player-session-reconnected', () => {
             setLoading({ loading: false })
 
-            // if (waitingForPlayers === true) {
-            //     setWaitingForPlayers(false)
-            // } 
+            if (waitingForPlayers === true) {
+                setWaitingForPlayers(false)
+            } 
         })
 
         socket.on("connect", () => {

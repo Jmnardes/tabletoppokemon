@@ -257,9 +257,9 @@ export function PlayerProvider({children}) {
           if (socket.recovered) {
             setLoading({ loading: false })
 
-            // if (waitingForPlayers === true) {
-            //     setWaitingForPlayers(false)
-            // } 
+            if (waitingForPlayers === true) {
+                setWaitingForPlayers(false)
+            } 
           }
         });
 

@@ -16,34 +16,46 @@ export const options = [
 ]
 
 // pokemon characteristics
-export const pokemonNature = [
-    { nature: 'Naughty', statUp: 'atk', statDown: 'hp'},
-    { nature: 'Lonely', statUp: 'atk', statDown: 'def'},
-    { nature: 'Brave', statUp: 'atk', statDown: 'spd'},
-    { nature: 'Adamant', statUp: 'atk', statDown: ''},
-
-    { nature: 'Calm', statUp: 'hp', statDown: 'atk'},
-    { nature: 'Gentle', statUp: 'hp', statDown: 'def'},
-    { nature: 'Sassy', statUp: 'hp', statDown: 'spd'},
-    { nature: 'Careful', statUp: 'hp', statDown: ''},
-
-    { nature: 'Bold', statUp: 'def', statDown: 'atk'},
-    { nature: 'Lax', statUp: 'def', statDown: 'hp'},
-    { nature: 'Relaxed', statUp: '', statDown: 'spd'},
-    { nature: 'Impish', statUp: 'def', statDown: ''},
-    
-    { nature: 'Timid', statUp: 'spd', statDown: 'atk'},
-    { nature: 'Naive', statUp: 'spd', statDown: 'hp'},
-    { nature: 'Hasty', statUp: 'spd', statDown: 'def'},
-    { nature: 'Jolly', statUp: 'spd', statDown: ''},
-    
-    { nature: 'Bashful', statUp: '', statDown: 'atk'},
-    { nature: 'Rickety', statUp: '', statDown: 'hp'},
-    { nature: 'Sloppy', statUp: '', statDown: 'def'},
-    { nature: 'Lazy', statUp: '', statDown: 'spd'},
-
-    { nature: 'Serious', statUp: '', statDown: ''},
-]
+export const pokemonNature = {
+    adamant: { name: "adamant", increase: "atk", decrease: "crt" },
+    bashful: { name: "bashful", increase: "crt", decrease: null },
+    bold: { name: "bold", increase: "def", decrease: "atk" },
+    brave: { name: "brave", increase: "atk", decrease: "acc" },
+    calm: { name: "calm", increase: "evs", decrease: "atk" },
+    careful: { name: "careful", increase: "evs", decrease: "crt" },
+    docile: { name: "docile", increase: "def", decrease: null },
+    gentle: { name: "gentle", increase: "evs", decrease: "def" },
+    hardy: { name: "hardy", increase: "atk", decrease: null },
+    hasty: { name: "hasty", increase: "acc", decrease: "def" },
+    impish: { name: "impish", increase: "def", decrease: "crt" },
+    jolly: { name: "jolly", increase: "acc", decrease: "crt" },
+    lax: { name: "lax", increase: "def", decrease: "evs" },
+    lonely: { name: "lonely", increase: "atk", decrease: "def" },
+    mild: { name: "mild", increase: "crt", decrease: "def" },
+    modest: { name: "modest", increase: "crt", decrease: "atk" },
+    naive: { name: "naive", increase: "acc", decrease: "evs" },
+    naughty: { name: "naughty", increase: "atk", decrease: "evs" },
+    quiet: { name: "quiet", increase: "crt", decrease: "acc" },
+    quirky: { name: "quirky", increase: "evs", decrease: null },
+    rash: { name: "rash", increase: "crt", decrease: "evs" },
+    relaxed: { name: "relaxed", increase: "def", decrease: "acc" },
+    sassy: { name: "sassy", increase: "evs", decrease: "acc" },
+    serious: { name: "serious", increase: "acc", decrease: null },
+    timid: { name: "timid", increase: "acc", decrease: "atk" },
+    shaky: { name: "shaky", increase: null, decrease: "def" },
+    lazy: { name: "lazy", increase: null, decrease: "acc" },
+    frail: { name: "frail", increase: null, decrease: "atk" },
+    sloppy: { name: "sloppy", increase: null, decrease: "crt" },
+    apathetic: { name: "apathetic", increase: null, decrease: "evs" },
+    ordinary: { name: "ordinary", increase: null, decrease: null },
+    buffed: { name: "buffed", increase: "hp", decrease: null },
+    rickety: { name: "rickety", increase: null, decrease: "hp" },
+    gloomy: { name: "gloomy", increase: "hp", decrease: "atk" },
+    vague: { name: "vague", increase: "hp", decrease: "def" },
+    rebellious: { name: "rebellious", increase: "hp", decrease: "crt" },
+    chubby: { name: "chubby", increase: "hp", decrease: "evs" },
+    clumsy: { name: "clumsy", increase: "hp", decrease: "acc" },
+};
 
 // nature options
 export const natureOptions = [

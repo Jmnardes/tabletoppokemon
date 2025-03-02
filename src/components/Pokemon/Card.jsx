@@ -49,7 +49,7 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag,
                 removeFromPokeTeam(poke, pokeTeam)
             }}
         >
-            <Flex flexDirection="column" position="relative">
+            <Flex flexDirection="column" position="relative" px={2}>
                 <Flex
                     h={8}
                     w={8}

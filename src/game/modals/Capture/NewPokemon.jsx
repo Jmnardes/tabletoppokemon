@@ -3,7 +3,6 @@ import Card from "@components/Pokemon/Card"
 
 import bagIcon from "@assets/images/game/bag.png"
 import ballIcon from "@assets/images/pokeballs/pokeball.png"
-import daycareIcon from "@assets/images/game/heart_ball.png"
 
 export default function NewPokemon({
     capturedPokemon, 
@@ -13,13 +12,13 @@ export default function NewPokemon({
     setSelectedToRemove, 
     isTeamFull
  }) {
-    const ButtonComponent = ({ label, icon, selectedToRemove, daycare, disable = false }) => {
+    const ButtonComponent = ({ label, icon, selectedToRemove, disable = false }) => {
         return (
             <Tooltip label={label} p={4} borderRadius={6}>
                 <Button 
                     h={16} 
                     isDisabled={disable} 
-                    onClick={() => handleFinishCapture({ removedId: selectedToRemove, dayCare: daycare, starterTeam: false })}
+                    onClick={() => handleFinishCapture({ removedId: selectedToRemove, starterTeam: false })}
                 >
                     <Image
                         h={12} w={12}
@@ -47,13 +46,6 @@ export default function NewPokemon({
                     icon={bagIcon}
                     selectedToRemove={null}
                     daycare={false}
-                    disable={!isTeamFull}
-                ></ButtonComponent>
-                <ButtonComponent
-                    label={"Leave on Daycare"}
-                    icon={daycareIcon}
-                    selectedToRemove={null}
-                    daycare={true}
                     disable={!isTeamFull}
                 ></ButtonComponent>
             </Center>

@@ -8,8 +8,8 @@ import { stringToUpperCase } from "@utils"
 import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 
-export default function PokeBox({ poke, pokeBox }) {
-    const { pokeTeam, updatePokeTeam, removeFromPokeBox, session } = useContext(PlayerContext)
+export default function PokeBox({ poke }) {
+    const { pokeTeam, setPokeTeam, setPokeBox, session } = useContext(PlayerContext)
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
     const PokemonTooltip = () => {
@@ -31,8 +31,8 @@ export default function PokeBox({ poke, pokeBox }) {
             w={"auto"}
             isDisabled={pokeTeam?.length === session.teamLength}
             onClick={() => {
-                updatePokeTeam(poke)
-                removeFromPokeBox(poke, pokeBox)
+                setPokeTeam((oldTeam) => [...oldTeam, poke.id])
+                setPokeBox((oldBox) => oldBox.filter((id) => id !== poke.id))
             }}
         >
             <Tooltip label={pokeStatsTooltip} background="none">

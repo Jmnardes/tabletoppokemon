@@ -22,6 +22,7 @@ export function PlayerProvider({children}) {
     const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
+    const [pokemonData, setPokemonData] = useState({})
     const [daycarePokes, setDaycarePokes] = useState([])
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
@@ -138,43 +139,58 @@ export function PlayerProvider({children}) {
     const newOpponent = (opponent) => setOpponents(old => [...old, opponent])
     const removeOpponentById = (id) => setOpponents(old => old.filter(player => player.id!== id))
 
-    const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
-    const updatePokemonOnTeam = (updatedPoke) => {
-        setPokeTeam(old => old.map(poke => {
-            if(poke.id === updatedPoke.id) {
-                return updatedPoke
-            }
-            return poke
-        }))
-    }
-    const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
-    const removeFromPokeTeam = (poke, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === poke.id) {
-                arr.splice(index, 1)
-            }
-            setPokeTeam(arr)
-        })
-    }
-    const removeFromPokeBox = (poke, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === poke.id) {
-                arr.splice(index, 1)
-            }
-            setPokeBox(arr)
-        })
-    }
-    const removeFromPokeBoxById = (id, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === id) {
-                arr.splice(index, 1)
-            }
-            setPokeBox(arr)
-        })
-    }
+
+    // HANDLE POKEMON TEAM AND BOX
+    const addPokemon = (poke) => {
+        setPokeBox((old) => [...old, poke.id]);
+        setPokemonData((old) => ({ ...old, [poke.id]: poke }));
+    };
+    
+    const removePokemon = (id) => {
+        setPokeBox((old) => old.filter((pokeId) => pokeId !== id));
+        setPokemonData((old) => {
+            const newData = { ...old };
+            delete newData[id];
+            return newData;
+        });
+    };
+    // const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
+    // const updatePokemonOnTeam = (updatedPoke) => {
+    //     setPokeTeam(old => old.map(poke => {
+    //         if(poke.id === updatedPoke.id) {
+    //             return updatedPoke
+    //         }
+    //         return poke
+    //     }))
+    // }
+    // const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
+    // const removeFromPokeTeam = (poke, arr) => {
+    //     // eslint-disable-next-line array-callback-return
+    //     arr.filter((data, index) => {
+    //         if(data.id === poke.id) {
+    //             arr.splice(index, 1)
+    //         }
+    //         setPokeTeam(arr)
+    //     })
+    // }
+    // const removeFromPokeBox = (poke, arr) => {
+    //     // eslint-disable-next-line array-callback-return
+    //     arr.filter((data, index) => {
+    //         if(data.id === poke.id) {
+    //             arr.splice(index, 1)
+    //         }
+    //         setPokeBox(arr)
+    //     })
+    // }
+    // const removeFromPokeBoxById = (id, arr) => {
+    //     // eslint-disable-next-line array-callback-return
+    //     arr.filter((data, index) => {
+    //         if(data.id === id) {
+    //             arr.splice(index, 1)
+    //         }
+    //         setPokeBox(arr)
+    //     })
+    // }
 
     const changeBall = (amount, type) => updatePlayer(amount, 'balls', type)
     const updateBall = (amount, type) => updatePlayer(amount, 'balls', type)
@@ -191,6 +207,14 @@ export function PlayerProvider({children}) {
     const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
 
     const updateDaycareToken = (amount) => updatePlayer(amount, 'daycare', 'token')
+
+    const getTeamWithData = () => {
+        return pokeTeam.map((id) => pokemonData[id]).filter(Boolean);
+    };
+    
+    const getBoxWithData = () => {
+        return pokeBox.map((id) => pokemonData[id]).filter(Boolean);
+    };
 
     useEffect(() => {
         if (player.status) {
@@ -299,22 +323,21 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        socket.on('daycare-pokemon-release', res => {
-            setLoading({ loading: false })
-            
+        socket.on('daycare-pokemon-release', (res) => {
+            setLoading({ loading: false });
+          
             if (res) {
-                setPokeBox(res.pokeBox)
-                updateDaycareToken(res.token)
-                setDaycarePokes(prevPokes => [...prevPokes, res.pokemon])
+                setPokeBox(res.pokeBox);
+                updateDaycareToken(res.token);
                 handleToast({
-                    title: 'Daycare Token',
-                    description: `Your ${res.pokemon.name} will be treated with kindness, you received ${res.token} token(s)`,
-                    status: 'info',
-                    duration: 6000,
-                    icon:<Image src={tokenIcon} w={12}></Image>
-                })
+                title: 'Daycare Token',
+                description: `You received ${res.token} token(s) for releasing your Pokémon.`,
+                status: 'info',
+                duration: 6000,
+                icon: <Image src={tokenIcon} w={12} />,
+                });
             }
-        })
+          });
 
         socket.on('daycare-buy-item', res => {
             updateDaycareToken(-res.price)
@@ -378,7 +401,7 @@ export function PlayerProvider({children}) {
             updatePlayer(res.ranking, 'status', 'ranking')
         })
 
-        socket.on('player-use-berry', ({ berry, pokemon }) => {
+        socket.on('player-use-berry', ({ berry }) => {
             setBerries(prevBerries => {
                 const usedBerryIndex = prevBerries.findIndex(prevBerry => prevBerry.type === berry.type);
     
@@ -393,7 +416,6 @@ export function PlayerProvider({children}) {
                 return [...prevBerries]
             })
 
-            updatePokemonOnTeam(pokemon)
             setLoading({ loading: false })
         })
 
@@ -411,11 +433,10 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
         })
 
-        socket.on('player-use-dust', ({ pokemon, amount }) => {
-            updateItem(-amount, 'dust')
-            updatePokemonOnTeam(pokemon)
-            setLoading({ loading: false })
-        })
+        socket.on('player-use-dust', ({ amount }) => {
+            updateItem(-amount, 'dust');
+            setLoading({ loading: false });
+        });
 
         socket.on('player-win-prize', ({ amount, key, type }) => {
             updatePlayer(amount, key, type)
@@ -423,7 +444,16 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
-        socket.on('player-update-box', res => setPokeBox(res.pokeBox))
+
+        socket.on('player-update-pokemons', ({ updatedPokemon }) => {
+            setPokemonData((old) => {
+                const newData = { ...old };
+                updatedPokemon.forEach((poke) => {
+                newData[poke.id] = poke;
+                });
+                return newData;
+            });
+        });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -471,13 +501,22 @@ export function PlayerProvider({children}) {
             version,
 
             pokeTeam,
-            updatePokeTeam,
-            updatePokemonOnTeam,
-            removeFromPokeTeam,
+            setPokeTeam,
+            getTeamWithData,
             pokeBox,
-            updatePokeBox,
-            removeFromPokeBox,
-            removeFromPokeBoxById,
+            setPokeBox,
+            getBoxWithData,
+            pokemonData,
+            setPokemonData,
+            addPokemon,
+            removePokemon,
+
+            // updatePokeTeam,
+            // updatePokemonOnTeam,
+            // removeFromPokeTeam,
+            // updatePokeBox,
+            // removeFromPokeBox,
+            // removeFromPokeBoxById,
 
             updateDaycareToken,
             daycarePokes,

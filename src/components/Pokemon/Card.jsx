@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
+import PlayerContext from "@Contexts/PlayerContext"
 import { stringToUpperCase, typeColor } from '@utils'
 
 import PokeStats from "./PokeStats"
@@ -9,7 +10,8 @@ import CardTitle from "./CardTitle"
 import { PokeRarity } from "./PokemonRarity"
 import AppliedItems from "./AppliedItems"
 
-function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag, isCaptured, challenge }) {
+function Card({ poke, tooltip, bag, isCaptured, challenge }) {
+    const { setPokeTeam, setPokeBox } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
     const isMini = isCaptured || challenge
@@ -45,8 +47,8 @@ function Card({ poke, pokeTeam, updatePokeBox, removeFromPokeTeam, tooltip, bag,
             }}
             onClick={() => {
                 if(!bag) return
-                updatePokeBox(poke)
-                removeFromPokeTeam(poke, pokeTeam)
+                setPokeBox((oldBox) => [...oldBox, poke.id])
+                setPokeTeam((oldTeam) => oldTeam.filter((id) => id !== poke.id))
             }}
         >
             <Flex flexDirection="column" position="relative" px={2}>

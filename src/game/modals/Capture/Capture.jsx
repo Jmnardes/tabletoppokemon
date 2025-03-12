@@ -6,7 +6,7 @@ import ChooseAttack from "./ChooseAttack"
 import NewPokemon from "./NewPokemon"
 
 export default function Capture({ capturedPokemon, setCapturedPokemon }) {
-    const { updateGame, pokeTeam, emit, setLoading} = useContext(PlayerContext)
+    const { updateGame, pokeTeam, setPoketeam, setPokeBox, setPokemonData, emit, setLoading} = useContext(PlayerContext)
     const [chooseAttackType, setChooseAttackType] = useState(capturedPokemon.types.length > 1)
     const [attackType, setAttackType] = useState(capturedPokemon.types[0])
     const [specialType, setSpecialType] = useState(capturedPokemon.types[0])
@@ -19,7 +19,18 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
     }
 
     useEffect(() => {
-        socket.on('pokemon-handle-capture', () => {
+        socket.on('pokemon-handle-capture', ({ pokeTeam, pokeBox, capturedPoke }) => {
+            setPoketeam(pokeTeam);
+            setPokeBox(pokeBox);
+          
+            setPokemonData((old) => ({
+              ...old,
+              [capturedPoke.id]: {
+                id: capturedPoke.id,
+                types: capturedPoke.types,
+              },
+            }));
+
             setCapturedPokemon({})
             updateGame({ openPokemonCaptureModal: false })
             setLoading({ loading: false })

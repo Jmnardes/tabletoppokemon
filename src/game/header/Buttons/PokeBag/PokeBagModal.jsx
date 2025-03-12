@@ -33,8 +33,7 @@ export default function PokeBagModal() {
                     isDisabled={pokeTeam.length !== 3 && (pokeBox.length + pokeTeam.length) >= 3}
                     title={pokeTeam.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
                     onClick={() => {
-                        const newTeamIds = pokeTeam.map((poke) => poke.id)
-                        emit('player-update-bag', { newTeamIds: newTeamIds })
+                        emit('player-update-bag', { updatedTeam: pokeTeam, updatedBox: pokeBox })
                     }} 
                 />
             )}

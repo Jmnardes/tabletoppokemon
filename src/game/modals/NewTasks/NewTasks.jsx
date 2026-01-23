@@ -54,7 +54,7 @@ export default function NewTasksModal() {
                             <Flex>
                                 <Text 
                                     mt={1}
-                                >{task.rank}</Text>
+                                >Reward: {task.rank}</Text>
                                 <Image
                                     ml={2}
                                     src={starIcon}

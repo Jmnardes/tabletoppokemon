@@ -443,7 +443,9 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
         })
 
-        socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
+        socket.on('player-update-team', res => {
+            setPokeTeam(res.pokeTeam)
+        })
 
         socket.on('player-update-pokemons', ({ updatedPokemon }) => {
             setPokemonData((old) => {

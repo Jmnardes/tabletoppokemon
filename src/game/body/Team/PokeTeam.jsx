@@ -10,7 +10,7 @@ export default function PokeTeam({ bag, challenge = false }) {
     return (
         <Center flexDir="column" flex="1">
             {!challenge && (
-                <TeamTitle pokeTeam={getTeamWithData} />
+                <TeamTitle />
             )}
             <Flex justifyContent="center" alignItems="center" flex="1">
                 {getTeamWithData?.map((poke) => {

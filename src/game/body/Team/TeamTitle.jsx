@@ -1,4 +1,6 @@
 import { Center, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { useContext } from "react"
+import PlayerContext from "@Contexts/PlayerContext"
 
 import Accuracy from '@assets/svgs/stats/accuracy'
 import Attack from '@assets/svgs/stats/attack'
@@ -7,11 +9,12 @@ import Evasion from '@assets/svgs/stats/evasion'
 import Critical from '@assets/svgs/stats/critical'
 import Health from '@assets/svgs/stats/health'
 
-export default function TeamTitle({ pokeTeam }) {
+export default function TeamTitle() {
+    const { getTeamWithData } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     
     const sumPokeStat = (stat) => {
-        return pokeTeam?.reduce((acc, poke) => {
+        return getTeamWithData?.reduce((acc, poke) => {
             acc += poke.stats[stat];
             if (stat === 'crt' || stat === 'evs') {
                 acc += poke.tier;

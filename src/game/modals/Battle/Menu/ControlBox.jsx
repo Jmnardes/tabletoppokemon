@@ -10,7 +10,6 @@ import { FaDoorOpen } from "react-icons/fa";
 
 export default function ControlBox({ 
     battleId,
-    team, 
     pokemon,
     setPokemon,
     isPokemonBattling,
@@ -18,7 +17,7 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, emit, setLoading } = useContext(PlayerContext)
+    const { updateGame, updateStatus, emit, setLoading, teamWithData } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 60000
     const prize = event.prizes[2]
@@ -108,7 +107,7 @@ export default function ControlBox({
                 <Flex flex="1" justifyContent="space-between" alignItems="center" mx={32}>
                     <Text fontSize={"4xl"} m={8}>Select your pokemon</Text>
                     <Center>
-                        {team.map(poke => {
+                        {teamWithData?.map(poke => {
                             return <PokeSelector
                                 key={poke.id} 
                                 poke={poke} 

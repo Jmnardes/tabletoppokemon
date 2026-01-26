@@ -2,7 +2,7 @@ import React from 'react'
 import { HStack } from '@chakra-ui/react'
 import PokeCard from '@components/Pokemon/PokeCard'
 
-export default function PokeList ({ allPokemon, setSelectedPokemon }) {
+export default function PokeList ({ pokemons, setSelectedPokemon }) {
     return (
         <HStack 
             h={44} overflowX={"auto"} spacing={1} my={2}
@@ -22,7 +22,7 @@ export default function PokeList ({ allPokemon, setSelectedPokemon }) {
                 },
             }}
         >
-            {allPokemon?.map((poke) => {
+            {pokemons?.map((poke) => {
                 return (
                     <PokeCard
                         key={poke.id} 

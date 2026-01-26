@@ -10,11 +10,11 @@ import Critical from '@assets/svgs/stats/critical'
 import Health from '@assets/svgs/stats/health'
 
 export default function TeamTitle() {
-    const { getTeamWithData } = useContext(PlayerContext)
+    const { teamWithData } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     
     const sumPokeStat = (stat) => {
-        return getTeamWithData?.reduce((acc, poke) => {
+        return teamWithData?.reduce((acc, poke) => {
             acc += poke.stats[stat];
             if (stat === 'crt' || stat === 'evs') {
                 acc += poke.tier;

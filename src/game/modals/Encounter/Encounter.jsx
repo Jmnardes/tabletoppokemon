@@ -10,7 +10,7 @@ import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function Encounter() {
-    const { session, encounter, emit, setLoading, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
+    const { session, encounter, emit, setLoading, updateGame, player, handleToast, teamWithData } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false)
@@ -58,7 +58,7 @@ export default function Encounter() {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
+        const catchRollDifficulty = catchDifficulty(session, poke, teamWithData, player)
 
         const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
@@ -118,7 +118,7 @@ export default function Encounter() {
 
     useEffect(() => {
         const allDisabled = encounter.every(poke => {
-            const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
+            const catchRollDifficulty = catchDifficulty(session, poke, teamWithData, player)
             return (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree;
         });
         setAllDisabled(allDisabled);

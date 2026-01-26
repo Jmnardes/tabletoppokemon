@@ -8,49 +8,57 @@ import TeamInBox from "../../header/Buttons/PokeBag/TeamInBox";
 import { pokemonHasChallengeBerry } from "@utils";
 
 export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) {
-    const { pokeTeam, pokeBox, player, emit } = useContext(PlayerContext)
+    const { pokeTeam, teamWithData, pokeBox, player, emit } = useContext(PlayerContext)
     const [ready, setReady] = useState(false)
 
     const checkChallengeBonus = (team) => {
         setBonus(() => {
-            const generalBonuses = team?.reduce((acc, poke) => {
-                if(event.advantage.type === 'element') {
-                    return acc + (poke.types).reduce((acc2, element) => {
-                        const checkIfAdvIncludes = event.advantage.value.includes(element)
-                        const checkIfDisIncludes = event.disadvantage?.value.includes(element)
-                        const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
-                        const augmentBonus = player.status.challengeBonus
-    
-                        if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus + augmentBonus
-                        if(checkIfDisIncludes) {
-                            return acc2 - 1 + challengeBonus + augmentBonus
-                        } else {
-                            return acc2 + challengeBonus + augmentBonus
-                        }
-                    }, 0)
-                }
-            }, 0)
-            const teamBonuses = team.length
+            const teamBonuses = team.length;
 
-            return (generalBonuses + teamBonuses)
-        })
-    }
+            const berryBonus = team.reduce((acc, poke) => {
+            return acc + (pokemonHasChallengeBerry(poke) ? 1 : 0);
+            }, 0);
+
+            const augmentBonus = player?.status?.challengeBonus ?? 0;
+
+            let typeBonus = 0;
+
+            if (event?.advantage?.type === "element") {
+            const advList = event?.advantage?.value ?? [];
+            const disList = event?.disadvantage?.value ?? [];
+
+            for (const poke of team) {
+                const types = (poke?.types ?? [])
+                .map((t) => (typeof t === "string" ? t : t?.type?.name))
+                .filter(Boolean);
+
+                for (const element of types) {
+                if (advList.includes(element)) typeBonus += 1;
+                else if (disList.includes(element)) typeBonus -= 1;
+                }
+            }
+            }
+
+            return teamBonuses + berryBonus + augmentBonus + typeBonus;
+        });
+    };
 
     useEffect(() => {
-        socket.on('event-challenge-start', res => {
-            if (res.start === true) {
-                setTeamReady(true)
-            }
-        })
+        checkChallengeBonus(teamWithData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [teamWithData, event, player?.status?.challengeBonus]);
+
+    useEffect(() => {
+        const handleStart = (res) => {
+            if (res?.start === true) setTeamReady(true);
+        };
+
+        socket.on("event-challenge-start", handleStart);
 
         return () => {
-            socket.off('event-challenge-start')
-        }
+            socket.off("event-challenge-start", handleStart);
+        };
     }, [])
-
-    useEffect(() => {
-        checkChallengeBonus(pokeTeam)
-    }, [pokeTeam])
 
     return (
         <Center flex flexDir={"column"} justifyContent={"space-between"} h="100%">

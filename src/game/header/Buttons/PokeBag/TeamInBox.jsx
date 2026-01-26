@@ -4,7 +4,7 @@ import PlayerContext from "@Contexts/PlayerContext"
 import PokeBox from "./PokeBox"
 
 export default function TeamInBox() {
-    const { getBoxWithData } = useContext(PlayerContext)
+    const { boxWithData } = useContext(PlayerContext)
 
     return (
         <HStack
@@ -28,7 +28,7 @@ export default function TeamInBox() {
                 },
             }}
         >
-            {getBoxWithData?.map((poke) => {
+            {boxWithData?.map((poke) => {
                 return (
                     <PokeBox 
                         key={poke.id} 

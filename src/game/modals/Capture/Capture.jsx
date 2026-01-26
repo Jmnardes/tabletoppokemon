@@ -6,12 +6,11 @@ import ChooseAttack from "./ChooseAttack"
 import NewPokemon from "./NewPokemon"
 
 export default function Capture({ capturedPokemon, setCapturedPokemon }) {
-    const { updateGame, pokeTeam, setPoketeam, setPokeBox, setPokemonData, emit, setLoading} = useContext(PlayerContext)
+    const { updateGame, setPokeTeam, setPokeBox, setPokemonData, emit, setLoading} = useContext(PlayerContext)
     const [chooseAttackType, setChooseAttackType] = useState(capturedPokemon.types.length > 1)
     const [attackType, setAttackType] = useState(capturedPokemon.types[0])
     const [specialType, setSpecialType] = useState(capturedPokemon.types[0])
     const [selectedToRemove, setSelectedToRemove] = useState(null)
-    const isTeamFull = pokeTeam.length > 2
 
     const handleFinishCapture = ({ removedId, dayCare }) => {
         emit('pokemon-handle-capture', { attackType, specialType, removedId, dayCare })
@@ -20,12 +19,13 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
 
     useEffect(() => {
         socket.on('pokemon-handle-capture', ({ pokeTeam, pokeBox, capturedPoke }) => {
-            setPoketeam(pokeTeam);
+            setPokeTeam(pokeTeam);
             setPokeBox(pokeBox);
           
             setPokemonData((old) => ({
               ...old,
               [capturedPoke.id]: {
+                ...capturedPokemon,
                 id: capturedPoke.id,
                 types: capturedPoke.types,
               },
@@ -58,11 +58,9 @@ export default function Capture({ capturedPokemon, setCapturedPokemon }) {
             ) : (
                 <NewPokemon
                     capturedPokemon={capturedPokemon}
-                    handleFinishCapture={handleFinishCapture} 
-                    pokeTeam={pokeTeam} 
+                    handleFinishCapture={handleFinishCapture}
                     selectedToRemove={selectedToRemove} 
-                    setSelectedToRemove={setSelectedToRemove} 
-                    isTeamFull={isTeamFull}
+                    setSelectedToRemove={setSelectedToRemove}
                 ></NewPokemon>
             )}
         </Center>

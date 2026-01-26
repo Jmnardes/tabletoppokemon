@@ -1,4 +1,6 @@
+import { useContext } from "react"
 import { Box, Button, Center, Image, Text, Tooltip } from "@chakra-ui/react"
+import PlayerContext from "@Contexts/PlayerContext"
 import Card from "@components/Pokemon/Card"
 
 import bagIcon from "@assets/images/game/bag.png"
@@ -6,12 +8,12 @@ import ballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function NewPokemon({
     capturedPokemon, 
-    handleFinishCapture, 
-    pokeTeam, 
+    handleFinishCapture,
     selectedToRemove, 
-    setSelectedToRemove, 
-    isTeamFull
+    setSelectedToRemove,
  }) {
+    const { pokeTeam, teamWithData } = useContext(PlayerContext)
+    const isTeamFull = pokeTeam.length === 3
     const ButtonComponent = ({ label, icon, selectedToRemove, disable = false }) => {
         return (
             <Tooltip label={label} p={4} borderRadius={6}>
@@ -58,7 +60,7 @@ export default function NewPokemon({
                     </Center>
 
                     <Center flex flexDir={"row"} gap={4} mt={4}>
-                        {pokeTeam?.map((poke) => {
+                        {teamWithData?.map((poke) => {
                             return (
                                 <Box
                                     key={poke.id}
@@ -71,7 +73,6 @@ export default function NewPokemon({
                                 >
                                     <Card
                                         poke={poke}
-                                        pokeTeam={pokeTeam}
                                         isCaptured
                                     />
                                 </Box>

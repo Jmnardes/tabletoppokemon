@@ -7,7 +7,7 @@ import GenericModal from "@components/Modal/GenericModal"
 import DayCareShop from "./DayCareShop"
 
 export default function DayCareModal() {
-    const { updateGame, pokeBox, getBoxWithData, setLoading, emit } = useContext(PlayerContext)
+    const { updateGame, pokeBox, boxWithData, setLoading, emit } = useContext(PlayerContext)
 
     const handleTrade = (pokemon) => {
         emit('daycare-pokemon-release', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
@@ -26,7 +26,7 @@ export default function DayCareModal() {
                     You don't have Pókemons to leave on Daycare
                 </Text>
             ) : (
-                <DayCareContent handleTrade={handleTrade} pokeBox={getBoxWithData} />
+                <DayCareContent handleTrade={handleTrade} boxWithData={boxWithData} />
             )}
             <DayCareShop />
         </GenericModal>

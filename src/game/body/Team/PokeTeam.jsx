@@ -5,7 +5,7 @@ import Card from "@components/Pokemon/Card"
 import TeamTitle from '@game/body/Team/TeamTitle'
 
 export default function PokeTeam({ bag, challenge = false }) {
-    const { getTeamWithData } = useContext(PlayerContext)
+    const { teamWithData } = useContext(PlayerContext)
 
     return (
         <Center flexDir="column" flex="1">
@@ -13,7 +13,7 @@ export default function PokeTeam({ bag, challenge = false }) {
                 <TeamTitle />
             )}
             <Flex justifyContent="center" alignItems="center" flex="1">
-                {getTeamWithData?.map((poke) => {
+                {teamWithData?.map((poke) => {
                     return (
                         <Box key={poke.id} m={2} mt={4}>
                             <Card

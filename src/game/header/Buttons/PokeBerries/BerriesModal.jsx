@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import {
     Center,
@@ -14,13 +14,12 @@ import PokeList from "@components/Pokemon/PokeList"
 import BerriesPage from "./BerriesPage"
 
 export default function BerriesModal() {
-    const { updateGame, pokeBox, pokeTeam } = useContext(PlayerContext)
-    const [ allPokemon, setAllPokemon ] = useState([ ...pokeTeam, ...pokeBox ])
+    const { updateGame, teamWithData, boxWithData } = useContext(PlayerContext)
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
 
-    useEffect(() => {
-        setAllPokemon([ ...pokeTeam, ...pokeBox ])
-    }, [pokeBox, pokeTeam])
+    const allPokemon = useMemo(
+        () => [...teamWithData, ...boxWithData],
+    [teamWithData, boxWithData]);
 
     return (
         <>
@@ -44,7 +43,7 @@ export default function BerriesModal() {
                     
                     <ModalBody>
                         <Text textAlign={"center"} mt={4}>Select the pokemon you wanna use your berry</Text>
-                        <PokeList allPokemon={allPokemon} setSelectedPokemon={setSelectedPokemon} />
+                        <PokeList pokemons={allPokemon} setSelectedPokemon={setSelectedPokemon} />
 
                         <BerriesPage selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
                     </ModalBody>

@@ -1,5 +1,5 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import socket from '@client'
 import { getBerryIcon } from "@utils/berryIcon"
 
@@ -208,12 +208,24 @@ export function PlayerProvider({children}) {
 
     const updateDaycareToken = (amount) => updatePlayer(amount, 'daycare', 'token')
 
-    const getTeamWithData = () => {
-        return pokeTeam.map((id) => pokemonData[id]).filter(Boolean);
-    };
-    
-    const getBoxWithData = () => {
-        return pokeBox.map((id) => pokemonData[id]).filter(Boolean);
+    const teamWithData = useMemo(
+        () => pokeTeam.map((id) => pokemonData[id]).filter(Boolean),
+        [pokeTeam, pokemonData]
+    );
+
+    const boxWithData = useMemo(
+        () => pokeBox.map((id) => pokemonData[id]).filter(Boolean),
+        [pokeBox, pokemonData]
+    );
+
+    const upsertPokemonData = (poke) => {
+        setPokemonData((old) => ({
+            ...old,
+            [poke.id]: {
+            ...(old[poke.id] ?? {}),
+            ...poke,
+            },
+        }));
     };
 
     useEffect(() => {
@@ -504,14 +516,15 @@ export function PlayerProvider({children}) {
 
             pokeTeam,
             setPokeTeam,
-            getTeamWithData,
+            teamWithData,
             pokeBox,
             setPokeBox,
-            getBoxWithData,
+            boxWithData,
             pokemonData,
             setPokemonData,
             addPokemon,
             removePokemon,
+            upsertPokemonData,
 
             // updatePokeTeam,
             // updatePokemonOnTeam,

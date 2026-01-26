@@ -31,7 +31,7 @@ import { FaInfoCircle, FaRedo } from "react-icons/fa";
 import { pokemonHasChallengeBerry } from "@utils"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoading, player } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, teamWithData, updateStatus, setLoading, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -75,34 +75,47 @@ export default function ChallengeModal({ event }) {
         if (place === 2) return <ThirdPlaceIcon h={16} w={16} />
     }
 
-    const checkChallengeBonus = (pokeTeam) => {
-        bonus.current = pokeTeam?.reduce((acc, poke) => {
-            if(event.advantage.type === 'element') {
-                return acc + (poke.types).reduce((acc2, element) => {
-                    const checkIfAdvIncludes = event.advantage.value.includes(element)
-                    const checkIfDisIncludes = event.disadvantage?.value.includes(element)
-                    const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
-                    const augmentBonus = player.status.challengeBonus
+    const checkChallengeBonus = (team) => {
+        const teamArr = Array.isArray(team) ? team : [];
 
-                    if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus + augmentBonus
-                    if(checkIfDisIncludes) {
-                        return acc2 - 1 + challengeBonus + augmentBonus
-                    } else {
-                        return acc2 + challengeBonus + augmentBonus
-                    }
-                }, 0)
+        const teamBonuses = teamArr.length;
+
+        const berryBonus = teamArr.reduce((acc, poke) => acc + (pokemonHasChallengeBerry(poke) ? 1 : 0), 0);
+
+        const augmentBonus = player?.status?.challengeBonus ?? 0;
+
+        let bonusByRules = 0;
+
+        if (event?.advantage?.type === "element") {
+            const advList = event?.advantage?.value ?? [];
+            const disList = event?.disadvantage?.value ?? [];
+
+            for (const poke of teamArr) {
+                const types = (poke?.types ?? [])
+                    .map((t) => (typeof t === "string" ? t : t?.type?.name))
+                    .filter(Boolean);
+
+                for (const element of types) {
+                    if (advList.includes(element)) bonusByRules += 1;
+                    else if (disList.includes(element)) bonusByRules -= 1;
+                }
             }
+        }
 
-            if(event.advantage.type === 'nature') {
-                const checkIfNatureIncludes = event.advantage.value.includes(poke.nature)
-                const checkIfNatureDontIncludes = event.disadvantage?.value.includes(poke.nature)
-                const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
-                const augmentBonus = player.status.challengeBonus
+        if (event?.advantage?.type === "nature") {
+            const advList = event?.advantage?.value ?? [];
+            const disList = event?.disadvantage?.value ?? [];
 
-                return (acc + checkIfNatureIncludes) - checkIfNatureDontIncludes + challengeBonus + augmentBonus
+            for (const poke of teamArr) {
+            const nature = poke?.nature;
+            if (!nature) continue;
+            if (advList.includes(nature)) bonusByRules += 1;
+            else if (disList.includes(nature)) bonusByRules -= 1;
             }
-        }, 0);
-    }
+        }
+
+        bonus.current = teamBonuses + berryBonus + augmentBonus + bonusByRules;
+    };
 
     const joinArr = (arr) => {if(arr) return arr.join(', ')}
 
@@ -160,7 +173,7 @@ export default function ChallengeModal({ event }) {
         }, 15000);
 
         setOverlay(<Overlay />)
-        checkChallengeBonus(pokeTeam)
+        checkChallengeBonus(teamWithData)
 
         socket.on('event-roll-other', res => {
             setOpponentsRoll(old => [...old, res])

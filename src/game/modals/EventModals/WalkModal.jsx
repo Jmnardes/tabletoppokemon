@@ -17,7 +17,7 @@ import SuccessIcon from "@components/Icons/SuccessIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function WalkModal({ event }) {
-    const { emit, updateGame, pokeTeam, setLoading } = useContext(PlayerContext)
+    const { emit, updateGame, teamWithData, setLoading } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -26,7 +26,7 @@ export default function WalkModal({ event }) {
         const advantage = event.advantage?.value?.[0]
         if (!advantage) return true
         
-        return pokeTeam?.reduce((acc, cur) => {
+        return teamWithData?.reduce((acc, cur) => {
             switch (event.advantage.type) {
                 case 'element': {
                     return acc || (cur.types?.includes(advantage))

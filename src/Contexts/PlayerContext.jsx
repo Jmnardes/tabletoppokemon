@@ -19,6 +19,7 @@ export function PlayerProvider({children}) {
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
+    const [connected, setConnected] = useState(socket.connected)
     const [encounter, setEncounter] = useState({})
     const [pokeTeam, setPokeTeam] = useState([])
     const [pokeBox, setPokeBox] = useState([])
@@ -48,14 +49,33 @@ export function PlayerProvider({children}) {
         openAugmentsModal: false,
     })
 
-    const emit = useCallback((name, data) => {
-        const request = {
-            id: player.id,
-            sessionCode: session.sessionCode,
-            data,
-        }
-
-        socket.emit(name, request)
+    const emit = useCallback((name, data, timeout = 5000) => {
+        return new Promise((resolve, reject) => {
+            if (!socket.connected) {
+                reject(new Error('Socket not connected')) 
+                return
+            }
+            if (!player?.id || !session?.sessionCode) {
+                reject(new Error('Invalid player or session')) 
+                return
+            }
+            const request = {
+                id: player.id,
+                sessionCode: session.sessionCode,
+                data,
+            }
+            const timer = setTimeout(() => {
+                reject(new Error(`Timeout on ${name}`))
+            }, timeout) 
+            socket.emit(name, request, (response) => {
+                clearTimeout(timer) 
+                if (response?.success) {
+                    resolve(response.result)
+                } else {
+                    reject(new Error(response?.error || 'Unknown error'))
+                }
+            })
+        })
     }, [player, session])
     
     const handleToast = (args) => {
@@ -241,28 +261,6 @@ export function PlayerProvider({children}) {
             removeOpponentById(res.id)
         })
 
-        socket.on('player-session-disconnected', () => {
-            setLoading({ loading: true, text: "Trying to reconnecting..." })
-        })
-
-        socket.on('player-session-reconnected', () => {
-            setLoading({ loading: false })
-
-            if (waitingForPlayers === true) {
-                setWaitingForPlayers(false)
-            } 
-        })
-
-        socket.on("connect", () => {
-          if (socket.recovered) {
-            setLoading({ loading: false })
-
-            if (waitingForPlayers === true) {
-                setWaitingForPlayers(false)
-            } 
-          }
-        });
-
             // LOBBY
         socket.on('lobby-ready', res => {
             setPlayer(old => ({ ...old, ready: res }))
@@ -427,6 +425,80 @@ export function PlayerProvider({children}) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        function onConnect() {
+            console.log('✅ Connected to server') 
+            setConnected(true) 
+            setLoading({
+                loading: false
+            })
+        }
+
+        function onDisconnect(reason) {
+            console.log('❌ Disconnected:', reason) 
+            setConnected(false)
+            if (reason !== 'io client disconnect') {
+                setLoading({
+                    loading: true,
+                    text: 'Connection lost. Reconnecting...'
+                })
+            }
+        }
+
+        function onReconnecting(attempt) {
+            console.log(`🔄 Reconnecting... Attempt ${attempt}`) 
+            setLoading({
+                loading: true,
+                text: `Reconnecting... (${attempt})`
+            })
+        }
+
+        function onReconnected(data) {
+            console.log('✅ Reconnected successfully!', data)
+            if (data.player) 
+                setPlayer(data.player) 
+            if (data.session) 
+                setSession(data.session) 
+            setLoading({
+                loading: false
+            })
+        }
+
+        function onSessionExpired() {
+            console.log('⚠️ Session expired') 
+            setLoading({
+                loading: false
+            })
+            localStorage.removeItem('playerId') 
+            localStorage.removeItem('sessionCode') 
+            setPlayer({}) 
+            setSession({})
+            window.location.href = '/lobby'
+        }
+
+        socket.on('connect', onConnect) 
+        socket.on('disconnect', onDisconnect) 
+        socket.io.on('reconnect_attempt', onReconnecting) 
+        socket.on('player-session-reconnected', onReconnected) 
+        socket.on('session-expired', onSessionExpired)
+        return () => {
+            socket.off('connect', onConnect) 
+            socket.off('disconnect', onDisconnect) 
+            socket.io.off('reconnect_attempt', onReconnecting) 
+            socket.off('player-session-reconnected', onReconnected) 
+            socket.off('session-expired', onSessionExpired)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (player?.id) {
+            localStorage.setItem('playerId', player.id)
+        }
+        if (session?.sessionCode) {
+            localStorage.setItem('sessionCode', session.sessionCode)
+        }
+    }, [player, session])
 
     return (
         <PlayerContext.Provider value={{

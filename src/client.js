@@ -2,22 +2,27 @@ const io = require("socket.io-client");
 
 const SERVER_URL = process.env.REACT_APP_SOCKET_SERVER;
 
-const socket = io(SERVER_URL);
-
-socket.on("connect", () => {
-  console.log('Reconnected...')
-  setTimeout(() => {
-    if (socket.io.engine) {
-      socket.io.engine.close();
+const getStoredAuth = () => {
+  try {
+    return {
+      playerId: localStorage.getItem('playerId'),
+      sessionCode: localStorage.getItem('sessionCode')
     }
-  }, 3.1 * 60 * 1000);
-});
+  } catch {
+    return {}
+  }
+}
 
-socket.on("disconnect", () => {
-  console.log('Disconnected. Attempting to reconnect...')
-  setTimeout(() => {
-    socket.connect()
-  }, 5000)
-});
+const socket = io(SERVER_URL, {
+  autoConnect: true,
+  reconnection: true,
+  reconnectionAttempts: 10,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  timeout: 20000,
+  auth: (cb) => {
+    cb(getStoredAuth())
+  }
+})
 
 export default socket;

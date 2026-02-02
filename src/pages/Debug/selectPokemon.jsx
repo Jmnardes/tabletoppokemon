@@ -50,6 +50,7 @@ const SelectPokemon = ({ onChange }) => {
         return () => {
             socket.off('request-pokemon', listener)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

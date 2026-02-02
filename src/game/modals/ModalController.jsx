@@ -121,6 +121,7 @@ export default function ModalController() {
             updateGame({ openNewTasksModal: true })
             setLastTurnModalTaskShown(session.turns)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tasks])
 
     return(

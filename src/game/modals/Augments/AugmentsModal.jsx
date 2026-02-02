@@ -29,6 +29,8 @@ export default function AugmentsModal({ augments }) {
         return () => {
             socket.off('augment-selected')
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

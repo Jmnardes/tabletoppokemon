@@ -12,6 +12,7 @@ export default function PokeTeam({ bag, challenge = false }) {
             updatePokeBox(pokeTeam[3])
             removeFromPokeTeam(pokeTeam[3], pokeTeam)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pokeTeam])
 
     return (

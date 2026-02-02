@@ -46,10 +46,14 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
         return () => {
             socket.off('event-challenge-start')
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         checkChallengeBonus(pokeTeam)
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pokeTeam])
 
     return (

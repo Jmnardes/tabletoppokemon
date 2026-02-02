@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Image, Progress, Text, Tooltip } from "@chakra-ui/react"
+import { Box, Center, Image, Progress, Text, Tooltip } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 
@@ -106,6 +106,8 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
             const levelChance = upgradePokemonLevelChance({ sessionLevel: session.level, pokeLevel: selectedPokemon.level, dusts: selectedPokemon.dust, berries: selectedPokemon.berries })
             setChanceToLevelUp(levelChance)
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPokemon, selectedPokemon?.dust, selectedPokemon?.berries])
 
     return (

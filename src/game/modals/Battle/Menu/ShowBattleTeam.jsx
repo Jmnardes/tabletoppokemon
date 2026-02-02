@@ -7,7 +7,7 @@ import Types from "../../Card/Types";
 import TeamTitle from "../../Team/TeamTitle";
 
 export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
-    const { updatePokeBox } = useContext(PlayerContext)
+    const { addToBox } = useContext(PlayerContext)
     
     const updateBattleTeam = (poke, arr) => {
         // eslint-disable-next-line array-callback-return
@@ -46,7 +46,7 @@ export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
                     }}
                     onClick={() => {
                         updateBattleTeam(poke, battleTeam)
-                        updatePokeBox(poke)
+                        addToBox(poke)
                     }}
                 >
                     <Flex flexDirection="column">
@@ -84,7 +84,7 @@ export default function ShowBattleTeam({ battleTeam, setBattleTeam }) {
 
     return (
         <Center flexDir="column">
-            <TeamTitle pokeTeam={battleTeam} />
+            <TeamTitle pokemons={battleTeam} />
             <Center pt={4}>
                 {battleTeam?.map(poke => {
                     return <BattlePokeCard key={poke.id} poke={poke} />

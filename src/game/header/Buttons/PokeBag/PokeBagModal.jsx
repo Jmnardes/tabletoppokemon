@@ -8,7 +8,7 @@ import PokeTeam from "@game/body/Team/PokeTeam"
 import GenericModal from "@components/Modal/GenericModal"
 
 export default function PokeBagModal() {
-    const { updateGame, pokeTeam, pokeBox, emit } = useContext(PlayerContext)
+    const { updateGame, teamIds, boxIds, emit } = useContext(PlayerContext)
 
     const playerUpdateBag = () => {
         updateGame({ openPokeBoxModal: false, showBagLength: false })
@@ -23,6 +23,8 @@ export default function PokeBagModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const totalPokemons = teamIds.length + boxIds.length
+
     return (
         <GenericModal
             title={"Poke Bag"}
@@ -30,11 +32,10 @@ export default function PokeBagModal() {
                 <CloseButton 
                     position="absolute" 
                     right="20px"
-                    isDisabled={pokeTeam.length !== 3 && (pokeBox.length + pokeTeam.length) >= 3}
-                    title={pokeTeam.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
+                    isDisabled={teamIds.length !== 3 && totalPokemons >= 3}
+                    title={teamIds.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
                     onClick={() => {
-                        const newTeamIds = pokeTeam.map((poke) => poke.id)
-                        emit('player-update-bag', { newTeamIds: newTeamIds })
+                        emit('player-update-bag', { newTeamIds: teamIds })
                     }} 
                 />
             )}

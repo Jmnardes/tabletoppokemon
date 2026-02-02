@@ -24,7 +24,7 @@ export default function ModalController() {
         updateOpponents, 
         setWaitingForPlayers, 
         updateGame, 
-        updatePokemonOnTeam,
+        updatePokemon,
         setEncounter,
         handleToast,
         tasks,
@@ -47,7 +47,7 @@ export default function ModalController() {
             updateOpponents(false, 'turnReady')
             if (trainedPokemons.length) {
                 trainedPokemons.forEach(pokemon => {
-                    updatePokemonOnTeam(pokemon)
+                    updatePokemon(pokemon.id, pokemon)
                     handleToast({
                         id: pokemon.id,
                         title: "Pokémon level up!",

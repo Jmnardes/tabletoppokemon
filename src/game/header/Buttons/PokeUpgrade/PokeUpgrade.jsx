@@ -17,7 +17,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         emit, 
         setLoading, 
         handleToast,
-        updatePokemonOnTeam, 
+        updatePokemon, 
         berries, 
     } = useContext(PlayerContext)
     const [ upgrades, setUpgrades ] = useState([ { type: 'dust', amount: player.items.dust }, ...berries ])
@@ -54,7 +54,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
         pokemon.berries.push(berry)
 
         emit('player-use-berry', { berry, pokeId: pokemon.id })
-        updatePokemonOnTeam(pokemon)
+        updatePokemon(pokemon.id, pokemon)
         setLoading({ loading: true, text: "Applying berry..." })
     }
 

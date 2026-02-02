@@ -9,7 +9,7 @@ import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 
 export default function PokeBox({ poke, pokeBox }) {
-    const { pokeTeam, updatePokeTeam, removeFromPokeBox, session } = useContext(PlayerContext)
+    const { teamIds, moveToTeam, session } = useContext(PlayerContext)
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 
     const PokemonTooltip = () => {
@@ -29,10 +29,9 @@ export default function PokeBox({ poke, pokeBox }) {
         <Button
             h={"auto"}
             w={"auto"}
-            isDisabled={pokeTeam?.length === session.teamLength}
+            isDisabled={teamIds?.length === session.teamLength}
             onClick={() => {
-                updatePokeTeam(poke)
-                removeFromPokeBox(poke, pokeBox)
+                moveToTeam(poke.id)
             }}
         >
             <Tooltip label={pokeStatsTooltip} background="none">

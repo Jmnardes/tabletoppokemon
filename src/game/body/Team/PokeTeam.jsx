@@ -5,30 +5,32 @@ import Card from "@components/Pokemon/Card"
 import TeamTitle from '@game/body/Team/TeamTitle'
 
 export default function PokeTeam({ bag, challenge = false }) {
-    const { pokeTeam, updatePokeBox, removeFromPokeTeam, session } = useContext(PlayerContext)
+    const { teamIds, pokemonData, moveToBox, session } = useContext(PlayerContext)
 
     useEffect(() => {
-        if(pokeTeam.length > session.teamLength) {
-            updatePokeBox(pokeTeam[3])
-            removeFromPokeTeam(pokeTeam[3], pokeTeam)
+        if(teamIds.length > session.teamLength) {
+            // Move o excedente para a box
+            const excessId = teamIds[session.teamLength]
+            if (excessId) {
+                moveToBox(excessId)
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pokeTeam])
+    }, [teamIds])
+
+    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
 
     return (
         <Center flexDir="column" flex="1">
             {!challenge && (
-                <TeamTitle pokeTeam={pokeTeam} />
+                <TeamTitle pokemons={teamPokemons} />
             )}
             <Flex justifyContent="center" alignItems="center" flex="1">
-                {pokeTeam?.map((poke) => {
+                {teamPokemons.map((poke) => {
                     return (
                         <Box key={poke.id} m={2} mt={4}>
                             <Card
                                 poke={poke}
-                                pokeTeam={pokeTeam}
-                                updatePokeBox={updatePokeBox}
-                                removeFromPokeTeam={removeFromPokeTeam}
                                 bag={bag}
                                 challenge={challenge}
                             />

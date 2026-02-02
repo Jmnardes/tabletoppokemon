@@ -21,8 +21,9 @@ export function PlayerProvider({children}) {
     const [player, setPlayer] = useState({})
     const [connected, setConnected] = useState(socket.connected)
     const [encounter, setEncounter] = useState({})
-    const [pokeTeam, setPokeTeam] = useState([])
-    const [pokeBox, setPokeBox] = useState([])
+    const [pokemonData, setPokemonData] = useState({})
+    const [teamIds, setTeamIds] = useState([])
+    const [boxIds, setBoxIds] = useState([])
     const [daycarePokes, setDaycarePokes] = useState([])
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
@@ -158,43 +159,113 @@ export function PlayerProvider({children}) {
     const newOpponent = (opponent) => setOpponents(old => [...old, opponent])
     const removeOpponentById = (id) => setOpponents(old => old.filter(player => player.id!== id))
 
-    const updatePokeTeam = (poke) => setPokeTeam(old => old ? [...old, poke] : [poke])
-    const updatePokemonOnTeam = (updatedPoke) => {
-        setPokeTeam(old => old.map(poke => {
-            if(poke.id === updatedPoke.id) {
-                return updatedPoke
-            }
-            return poke
+    const setPokemon = useCallback((pokemon) => {
+        setPokemonData(prev => ({
+            ...prev,
+            [pokemon.id]: pokemon
         }))
-    }
-    const updatePokeBox = (poke) => setPokeBox(old => old ? [...old, poke] : [poke])
-    const removeFromPokeTeam = (poke, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === poke.id) {
-                arr.splice(index, 1)
-            }
-            setPokeTeam(arr)
+    }, [])
+
+    const setPokemons = useCallback((pokemons) => {
+        const newData = pokemons.reduce((acc, pokemon) => {
+            acc[pokemon.id] = pokemon
+            return acc
+        }, {})
+        setPokemonData(prev => ({ ...prev, ...newData }))
+    }, [])
+
+    const updatePokemon = useCallback((pokemonId, updates) => {
+        setPokemonData(prev => ({
+            ...prev,
+            [pokemonId]: { ...prev[pokemonId], ...updates }
+        }))
+    }, [])
+
+    const removePokemon = useCallback((pokemonId) => {
+        setPokemonData(prev => {
+            const newData = { ...prev }
+            delete newData[pokemonId]
+            return newData
         })
-    }
-    const removeFromPokeBox = (poke, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === poke.id) {
-                arr.splice(index, 1)
+        setTeamIds(prev => prev.filter(id => id !== pokemonId))
+        setBoxIds(prev => prev.filter(id => id !== pokemonId))
+    }, [])
+
+    const addToTeam = useCallback((pokemon) => {
+        setPokemon(pokemon)
+        setTeamIds(prev => {
+            if (prev.length >= (session?.teamLength || 3)) {
+                console.warn('Time já está cheio')
+                return prev
             }
-            setPokeBox(arr)
+            if (prev.includes(pokemon.id)) return prev
+            return [...prev, pokemon.id]
         })
-    }
-    const removeFromPokeBoxById = (id, arr) => {
-        // eslint-disable-next-line array-callback-return
-        arr.filter((data, index) => {
-            if(data.id === id) {
-                arr.splice(index, 1)
+    }, [session?.teamLength, setPokemon])
+
+    const addToBox = useCallback((pokemon) => {
+        setPokemon(pokemon)
+        setBoxIds(prev => {
+            if (prev.includes(pokemon.id)) return prev
+            return [...prev, pokemon.id]
+        })
+    }, [setPokemon])
+
+    const moveToBox = useCallback((pokemonId) => {
+        setTeamIds(prev => prev.filter(id => id !== pokemonId))
+        setBoxIds(prev => {
+            if (prev.includes(pokemonId)) return prev
+            return [...prev, pokemonId]
+        })
+    }, [])
+
+    const moveToTeam = useCallback((pokemonId) => {
+        setBoxIds(prev => prev.filter(id => id !== pokemonId))
+        setTeamIds(prev => {
+            if (prev.length >= (session?.teamLength || 3)) {
+                console.warn('Time já está cheio')
+                return prev
             }
-            setPokeBox(arr)
+            if (prev.includes(pokemonId)) return prev
+            return [...prev, pokemonId]
         })
-    }
+    }, [session?.teamLength])
+
+    const getTeamPokemons = useCallback(() => {
+        return teamIds.map(id => pokemonData[id]).filter(Boolean)
+    }, [teamIds, pokemonData])
+
+    const getBoxPokemons = useCallback(() => {
+        return boxIds.map(id => pokemonData[id]).filter(Boolean)
+    }, [boxIds, pokemonData])
+
+    const getAllPokemons = useCallback(() => {
+        return [...getTeamPokemons(), ...getBoxPokemons()]
+    }, [getTeamPokemons, getBoxPokemons])
+
+    const getPokemon = useCallback((pokemonId) => {
+        return pokemonData[pokemonId]
+    }, [pokemonData])
+
+    // Sincroniza estrutura antiga com nova quando receber dados do servidor
+    const syncPokemonsFromServer = useCallback((teamArray, boxArray) => {
+        const allPokemon = [...(teamArray || []), ...(boxArray || [])]
+        setPokemons(allPokemon)
+        setTeamIds((teamArray || []).map(p => p.id))
+        setBoxIds((boxArray || []).map(p => p.id))
+    }, [setPokemons])
+    
+    const syncTeamFromServer = useCallback((teamArray) => {
+        if (!teamArray) return
+        setPokemons(teamArray)
+        setTeamIds(teamArray.map(p => p.id))
+    }, [setPokemons])
+    
+    const syncBoxFromServer = useCallback((boxArray) => {
+        if (!boxArray) return
+        setPokemons(boxArray)
+        setBoxIds(boxArray.map(p => p.id))
+    }, [setPokemons])
 
     const changeBall = (amount, type) => updatePlayer(amount, 'balls', type)
     const updateBall = (amount, type) => updatePlayer(amount, 'balls', type)
@@ -232,13 +303,18 @@ export function PlayerProvider({children}) {
             }
         })
 
-            // SESSION
         socket.on('session-join', (res) => {
             setSession(res.session)
             setOpponents(res.opponents)
             setPlayer(res.player)
             setVersion(res.version)
             setBerries(res.player.berries)
+
+            if (res.player.pokeTeam || res.player.pokeBox) {
+                const team = res.player.pokeTeam || []
+                const box = res.player.pokeBox || []
+                syncPokemonsFromServer(team, box)
+            }
 
             localStorage.setItem('session', JSON.stringify(res.session))
         })
@@ -261,7 +337,6 @@ export function PlayerProvider({children}) {
             removeOpponentById(res.id)
         })
 
-            // LOBBY
         socket.on('lobby-ready', res => {
             setPlayer(old => ({ ...old, ready: res }))
         })
@@ -277,8 +352,6 @@ export function PlayerProvider({children}) {
             updateGame({ openEncounterModal: true })
         })
 
-            //TURNS
-        // receiveng other players turn ready
         socket.on('turn-end-other', res => {
             updateOpponent(res, true, 'turnReady')
         })
@@ -291,8 +364,7 @@ export function PlayerProvider({children}) {
             setResults(res)
             updateGame({ gameEnded: true })
         })
-        
-            //PLAYERS
+
         socket.on('player-update-status-other', res => {
             updateOpponent(res.id, res.data, 'status')
         })
@@ -301,7 +373,7 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
             
             if (res) {
-                setPokeBox(res.pokeBox)
+                syncBoxFromServer(res.pokeBox)
                 updateDaycareToken(res.token)
                 setDaycarePokes(prevPokes => [...prevPokes, res.pokemon])
                 handleToast({
@@ -391,7 +463,9 @@ export function PlayerProvider({children}) {
                 return [...prevBerries]
             })
 
-            updatePokemonOnTeam(pokemon)
+            if (pokemon?.id) {
+                updatePokemon(pokemon.id, pokemon)
+            }
             setLoading({ loading: false })
         })
 
@@ -411,7 +485,9 @@ export function PlayerProvider({children}) {
 
         socket.on('player-use-dust', ({ pokemon, amount }) => {
             updateItem(-amount, 'dust')
-            updatePokemonOnTeam(pokemon)
+            if (pokemon?.id) {
+                updatePokemon(pokemon.id, pokemon)
+            }
             setLoading({ loading: false })
         })
 
@@ -420,8 +496,13 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
         })
 
-        socket.on('player-update-team', res => setPokeTeam(res.pokeTeam))
-        socket.on('player-update-box', res => setPokeBox(res.pokeBox))
+        socket.on('player-update-team', res => {
+            syncTeamFromServer(res.pokeTeam)
+        })
+        
+        socket.on('player-update-box', res => {
+            syncBoxFromServer(res.pokeBox)
+        })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -543,14 +624,24 @@ export function PlayerProvider({children}) {
             updateGame,
             version,
 
-            pokeTeam,
-            updatePokeTeam,
-            updatePokemonOnTeam,
-            removeFromPokeTeam,
-            pokeBox,
-            updatePokeBox,
-            removeFromPokeBox,
-            removeFromPokeBoxById,
+            pokemonData,
+            teamIds,
+            boxIds,
+            setPokemon,
+            setPokemons,
+            updatePokemon,
+            removePokemon,
+            addToTeam,
+            addToBox,
+            moveToBox,
+            moveToTeam,
+            getTeamPokemons,
+            getBoxPokemons,
+            getAllPokemons,
+            getPokemon,
+            syncPokemonsFromServer,
+            syncTeamFromServer,
+            syncBoxFromServer,
 
             updateDaycareToken,
             daycarePokes,

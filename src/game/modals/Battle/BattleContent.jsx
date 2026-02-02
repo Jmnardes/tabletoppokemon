@@ -18,10 +18,12 @@ export default function BattleContent({
     turnWinner,
     event
 }) {
-    const { pokeTeam, updateGame } = useContext(PlayerContext)
+    const { teamIds, pokemonData, updateGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [pokemon, setPokemon] = useState()
     const [battleEnded, setBattleEnded] = useState(false);
+
+    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
 
     const battleEnd = () => {
         updateGame({ openBattleModal: false, openEncounterModal: true })
@@ -57,7 +59,7 @@ export default function BattleContent({
                     </Center>
                     <ControlBox
                         battleId={battleId}
-                        team={pokeTeam}
+                        team={teamPokemons}
                         pokemon={pokemon}
                         setPokemon={setPokemon}
                         isPokemonBattling={isPokemonBattling}

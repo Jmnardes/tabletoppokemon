@@ -7,11 +7,14 @@ import Evasion from '@assets/svgs/stats/evasion'
 import Critical from '@assets/svgs/stats/critical'
 import Health from '@assets/svgs/stats/health'
 
-export default function TeamTitle({ pokeTeam }) {
+export default function TeamTitle({ pokeTeam, pokemons }) {
     const { colorMode } = useColorMode()
     
+    // Aceita tanto pokeTeam (antigo) quanto pokemons (novo)
+    const team = pokemons || pokeTeam
+    
     const sumPokeStat = (stat) => {
-        return pokeTeam?.reduce((acc, poke) => {
+        return team?.reduce((acc, poke) => {
             acc += poke.stats[stat];
             if (stat === 'crt' || stat === 'evs') {
                 acc += poke.tier;

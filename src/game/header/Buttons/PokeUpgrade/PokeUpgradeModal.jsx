@@ -6,7 +6,7 @@ import PokeUpgrade from "./PokeUpgrade"
 import GenericModal from "@components/Modal/GenericModal"
 
 export default function PokeUpgradeModal() {
-    const { updateGame, pokeTeam } = useContext(PlayerContext)
+    const { updateGame, getTeamPokemons } = useContext(PlayerContext)
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
 
     return (
@@ -16,7 +16,7 @@ export default function PokeUpgradeModal() {
             onModalClose={() => updateGame({ openPokeUpgradeModal: false })}
         >
             <Text fontSize={"small"} textAlign={"center"} mt={4}>Select the pokemon you wanna use your item</Text>
-            <PokeList allPokemon={pokeTeam} setSelectedPokemon={setSelectedPokemon} />
+            <PokeList allPokemon={getTeamPokemons()} setSelectedPokemon={setSelectedPokemon} />
 
             <PokeUpgrade selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
         </GenericModal>

@@ -10,11 +10,13 @@ import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
 export default function Encounter({ augments }) {
-    const { session, encounter, emit, setLoading, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
+    const { session, encounter, emit, setLoading, updateGame, player, handleToast, teamIds, pokemonData } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false)
     const divisibleByThree = encounter.length % 3 === 0
+    
+    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
     
     const handleCatchDiceRoll = (result) => {
         setCatchDiceWasRolled(true)
@@ -58,7 +60,7 @@ export default function Encounter({ augments }) {
     };
 
     const PokemonEncounterCard = ({ poke }) => {
-        const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
+        const catchRollDifficulty = catchDifficulty(session, poke, teamPokemons, player)
 
         const disableCatch = (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree
         const colorByType = typeColor(poke.types)
@@ -118,7 +120,7 @@ export default function Encounter({ augments }) {
 
     useEffect(() => {
         const allDisabled = encounter.every(poke => {
-            const catchRollDifficulty = catchDifficulty(session, poke, pokeTeam, player)
+            const catchRollDifficulty = catchDifficulty(session, poke, teamPokemons, player)
             return (!catchDiceWasRolled || catchRollDifficulty > catchRoll) && !divisibleByThree;
         });
         setAllDisabled(allDisabled);

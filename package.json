@@ -45,10 +45,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
     "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@eslint/js": "^9.18.0",
+    "@testing-library/dom": "^10.4.1",
     "chakra-react-select": "^4.0.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
@@ -62,6 +64,7 @@
     "framer-motion": "^6.3.6",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "typescript": "^5.9.3"
   }
 }

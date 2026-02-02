@@ -13,28 +13,28 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
 
     const checkChallengeBonus = (team) => {
         setBonus(() => {
-            const generalBonuses = team?.reduce((acc, poke) => {
-                if(event.advantage.type === 'element') {
-                    return acc + (poke.types).reduce((acc2, element) => {
-                        const checkIfAdvIncludes = event.advantage.value.includes(element)
-                        const checkIfDisIncludes = event.disadvantage?.value.includes(element)
-                        const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0
-                        const augmentBonus = player.status.challengeBonus
-    
-                        if(checkIfAdvIncludes) return acc2 + 1 + challengeBonus + augmentBonus
-                        if(checkIfDisIncludes) {
-                            return acc2 - 1 + challengeBonus + augmentBonus
-                        } else {
-                            return acc2 + challengeBonus + augmentBonus
-                        }
-                    }, 0)
-                }
-            }, 0)
-            const teamBonuses = team.length
+            const generalBonuses =
+            team?.reduce((acc, poke) => {
+                if (event.advantage.type !== "element") return acc;
 
-            return (generalBonuses + teamBonuses)
-        })
-    }
+                const types = poke.types ?? [];
+                const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0;
+                const augmentBonus = player.status.challengeBonus;
+
+                const perType = types.reduce((sum, element) => {
+                const isAdv = event.advantage.value.includes(element);
+                const isDis = event.disadvantage?.value?.includes(element);
+
+                const base = isAdv ? 1 : isDis ? -1 : 0;
+                return sum + base + challengeBonus + augmentBonus;
+                }, 0);
+
+                return acc + perType;
+            }, 0) ?? 0;
+
+            return generalBonuses + (team?.length ?? 0);
+        });
+    };
 
     useEffect(() => {
         socket.on('event-challenge-start', res => {

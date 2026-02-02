@@ -24,20 +24,21 @@ export default function WalkModal({ event }) {
 
     const conditionMet = useMemo(() => {
         const advantage = event.advantage?.value?.[0]
+        
         if (!advantage) return true
         
-        return pokeTeam?.reduce((acc, cur) => {
+        return pokeTeam?.some((cur) => {
             switch (event.advantage.type) {
-                case 'element': {
-                    return acc || (cur.types?.includes(advantage))
-                }
-                case 'nature': {
-                    return acc || (cur.nature?.toLowerCase() === advantage)
-                }
+                case "element":
+                return cur.types?.includes(advantage);
+
+                case "nature":
+                return cur.nature?.toLowerCase() === advantage;
+
                 default:
-                    break
+                return false;
             }
-        }, false)
+        }) ?? false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

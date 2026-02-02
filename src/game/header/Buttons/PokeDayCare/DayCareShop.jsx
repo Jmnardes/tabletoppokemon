@@ -7,7 +7,6 @@ import dustIcon from '@assets/images/items/dust.png'
 import berryIcon from '@assets/images/berries/berry.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
-import eggIcon from '@assets/images/items/egg.png'
 
 export default function DayCareShop() {
     const { player, emit, setLoading } = useContext(PlayerContext)

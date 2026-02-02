@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Image, Kbd, Progress, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Image, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import BattleLog from "./BattleLog";

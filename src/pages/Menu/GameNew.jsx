@@ -5,9 +5,10 @@ import socket from "@client";
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
     const [gameDuration, setGameDuration] = useState(50)
-    const [generation, setGeneration] = useState(8)
+    // const [generation, setGeneration] = useState(8)
     const [gameDifficulty, setGameDifficulty] = useState(0)
     const [formInvalid, setFormInvalid] = useState(true)
+    const generation = 8;
 
     const handleTrainerName = (e) => {
         let name = e.target.value

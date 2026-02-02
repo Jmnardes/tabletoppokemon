@@ -429,7 +429,7 @@ export function PlayerProvider({children}) {
     useEffect(() => {
         function onConnect() {
             console.log('✅ Connected to server') 
-            setConnected(true) 
+            setConnected(true)
             setLoading({
                 loading: false
             })
@@ -507,6 +507,7 @@ export function PlayerProvider({children}) {
 
             loading,
             setLoading,
+            connected,
 
             session,
             setSession,

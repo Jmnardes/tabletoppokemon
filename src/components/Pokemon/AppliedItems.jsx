@@ -1,4 +1,4 @@
-import { Center, Image, Text } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import BerriesMini from "../Items/BerriesMini";
 import DustMini from "../Items/DustMini";
 

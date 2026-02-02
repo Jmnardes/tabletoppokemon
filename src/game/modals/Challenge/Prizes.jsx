@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon"

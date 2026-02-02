@@ -20,7 +20,7 @@ export default function ControlBox({
 }) {
     const { updateGame, updateStatus, emit, setLoading } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
-    const refreshButtonTimer = 60000
+    const refreshButtonTimer = 30000
     const prize = event.prizes[2]
 
     // const battleChooseMove = (move) => {

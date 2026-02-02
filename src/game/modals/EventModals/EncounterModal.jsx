@@ -8,7 +8,7 @@ import {
 import PlayerContext from "@Contexts/PlayerContext"
 import Encounter from "../Encounter/Encounter"
 
-export default function EncounterModal() {
+export default function EncounterModal({ augments }) {
     const { session } = useContext(PlayerContext)
 
     return (
@@ -27,7 +27,7 @@ export default function EncounterModal() {
                         )}
                     </ModalHeader>
 
-                    <Encounter />
+                    <Encounter augments={augments} />
                 </ModalContent>
             </Modal>
         </>

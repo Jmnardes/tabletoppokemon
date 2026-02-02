@@ -33,7 +33,7 @@ export default function ModalController() {
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
-    const [augments, setAugments] = useState({})
+    const [augments, setAugments] = useState({ type: '', list: []})
     const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
 
@@ -82,24 +82,19 @@ export default function ModalController() {
 
             setTasks([...res.tasks])
             
-            if (res.augments.list.length > 0) {
-                if (res.event.type = 'battle') setBattle(res.event.battle)
-                updateGame({ openAugmentsModal: true })
-            } else {
-                switch (res.event.type) {
-                    case 'challenge':
-                        updateGame({ openChallengeModal: true })
-                        break
-                    case 'walk':
-                        updateGame({ openWalkModal: true })
-                        break
-                    case 'battle':
-                        updateGame({ openBattleModal: true })
-                        setBattle(res.event.battle)
-                        break
-                    default:
-                        break
-                }
+            switch (res.event.type) {
+                case 'challenge':
+                    updateGame({ openChallengeModal: true })
+                    break
+                case 'walk':
+                    updateGame({ openWalkModal: true })
+                    break
+                case 'battle':
+                    updateGame({ openBattleModal: true })
+                    setBattle(res.event.battle)
+                    break
+                default:
+                    break
             }
 
             setWaitingForPlayers(false)
@@ -133,15 +128,15 @@ export default function ModalController() {
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
             {/* {game.openGymModal && <GymModal />} */}
-            {game.openEncounterModal && <EncounterModal />}
+            {game.openEncounterModal && <EncounterModal augments={augments} />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBagModal />}
             {game.openDayCareModal && <DayCareModal />}
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBerriesModal && <BerriesModal />}
-            {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} />}
+            {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
             {game.openNewTasksModal && <NewTasksModal />}
-            {game.openAugmentsModal && <AugmentsModal augments={augments} event={event} />}
+            {game.openAugmentsModal && <AugmentsModal augments={augments} />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )

@@ -9,7 +9,7 @@ import { catchDifficulty } from "@utils/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
-export default function Encounter() {
+export default function Encounter({ augments }) {
     const { session, encounter, emit, setLoading, updateGame, player, handleToast, pokeTeam } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
@@ -141,7 +141,13 @@ export default function Encounter() {
                 </Center>
                 {!divisibleByThree && (
                     <Button mt={6} h={12} w="100%" isDisabled={!allDisabled || !catchDiceWasRolled} 
-                        onClick={() => {updateGame({ openEncounterModal: false })}}
+                        onClick={() => {
+                            if (augments.list.length > 0) {
+                                updateGame({ openEncounterModal: false, openAugmentsModal: true })
+                            } else {
+                                updateGame({ openEncounterModal: false })
+                            }
+                        }}
                     >
                         Leave encounter
                     </Button>

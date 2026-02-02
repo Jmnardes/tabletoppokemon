@@ -10,7 +10,7 @@ import GenericModal from "@components/Modal/GenericModal"
 import { augmentColor } from "@utils"
 import AugmentContainer from "../../../components/Augments/AugmentContainer"
 
-export default function AugmentsModal({ augments, event }) {
+export default function AugmentsModal({ augments }) {
     const { emit, updateGame, setLoading, setPlayer, setBerries } = useContext(PlayerContext)
 
     const handleSelectAugment = (augment) => {
@@ -18,28 +18,11 @@ export default function AugmentsModal({ augments, event }) {
         emit('augment-selected', { augment })
     }
 
-    const updateModals = () => {
-        updateGame({ openAugmentsModal: false })
-        switch (event.type) {
-            case 'challenge':
-                updateGame({ openChallengeModal: true })
-                break
-            case 'walk':
-                updateGame({ openWalkModal: true })
-                break
-            case 'battle':
-                updateGame({ openBattleModal: true })
-                break
-            default:
-                break
-        }
-    }
-
     useEffect(() => {
         socket.on('augment-selected', (res) => {
             setPlayer(res.player)
             setBerries(res.player.berries)
-            updateModals()
+            updateGame({ openAugmentsModal: false })
             setLoading({ loading: false })
         })
 

@@ -8,7 +8,7 @@ import { stringToUpperCase } from "@utils"
 import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 
-export default function PokeBox({ poke, pokeBox }) {
+export default function PokeBox({ poke }) {
     const { teamIds, moveToTeam, session } = useContext(PlayerContext)
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
 

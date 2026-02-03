@@ -15,6 +15,8 @@ import NewTasksModal from "./NewTasks/NewTasks";
 import AugmentsModal from "./Augments/AugmentsModal";
 import PokeBagModal from "../header/Buttons/PokeBag/PokeBagModal";
 import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
+import GymModal from "./Gym/GymModal";
+import BadgeCollectionModal from "../header/Buttons/BadgeCollection/BadgeCollectionModal";
 
 export default function ModalController() {
     const { 
@@ -29,13 +31,19 @@ export default function ModalController() {
         handleToast,
         tasks,
         setTasks,
-        setNextEvent
+        setNextEvent,
+        setGym,
+        setNextGym,
+        gym,
+        nextGym
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
     const [augments, setAugments] = useState({ type: '', list: []})
     const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
+    const [lastNextGymNotified, setLastNextGymNotified] = useState(null)
+    const [lastGymAvailableNotified, setLastGymAvailableNotified] = useState(null)
 
     useEffect(() => {
         socket.on('turn-start', (res, callback) => {
@@ -45,6 +53,15 @@ export default function ModalController() {
 
             setSession(old => ({...old, turns: res.turn, level: res.level}))
             updateOpponents(false, 'turnReady')
+            
+            // Atualizar gym e nextGym se vierem no response
+            if (res.gym !== undefined) {
+                setGym(res.gym)
+            }
+            if (res.nextGym !== undefined) {
+                setNextGym(res.nextGym)
+            }
+            
             if (trainedPokemons.length) {
                 trainedPokemons.forEach(pokemon => {
                     updatePokemon(pokemon.id, pokemon)
@@ -124,11 +141,48 @@ export default function ModalController() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tasks])
 
+    // Toast quando nextGym muda (nova rota decidida)
+    useEffect(() => {
+        if (nextGym && nextGym.id !== lastNextGymNotified) {
+            setLastNextGymNotified(nextGym.id)
+            
+            handleToast({
+                id: `next-gym-${nextGym.id}`,
+                title: "🗺️ Next Gym Route Decided!",
+                description: `The path to ${nextGym.name} has been set. Available on turn ${nextGym.turnStart}.`,
+                status: 'info',
+                duration: 6000,
+                position: 'top-right'
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nextGym])
+
+    // Toast quando gym fica disponível
+    useEffect(() => {
+        const currentTurn = session?.turns || 0
+        
+        if (gym && gym.id !== lastGymAvailableNotified && gym.turnStart <= currentTurn) {
+            setLastGymAvailableNotified(gym.id)
+            
+            handleToast({
+                id: `gym-available-${gym.id}`,
+                title: "🏆 Gym Challenge Available!",
+                description: `${gym.name} is now open for challenges. Face ${gym.leader} and earn the ${gym.badge}!`,
+                status: 'success',
+                duration: 8000,
+                position: 'top-right'
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gym, session?.turns])
+
     return(
         <>
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
-            {/* {game.openGymModal && <GymModal />} */}
+            {game.openGymModal && <GymModal />}
+            {game.openBadgeCollectionModal && <BadgeCollectionModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBagModal />}

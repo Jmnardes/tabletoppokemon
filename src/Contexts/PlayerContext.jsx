@@ -27,6 +27,9 @@ export function PlayerProvider({children}) {
     const [daycarePokes, setDaycarePokes] = useState([])
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
+    const [gym, setGym] = useState(null)
+    const [nextGym, setNextGym] = useState(null)
+    const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
     const [nextEvent, setNextEvent] = useState('Walk')
     const [version, setVersion] = useState(0)
@@ -48,6 +51,7 @@ export function PlayerProvider({children}) {
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
         openAugmentsModal: false,
+        openBadgeCollectionModal: false,
     })
 
     const emit = useCallback((name, data, timeout = 5000) => {
@@ -309,6 +313,10 @@ export function PlayerProvider({children}) {
             setPlayer(res.player)
             setVersion(res.version)
             setBerries(res.player.berries)
+            
+            // Apenas como fallback se vier no session-join
+            if (res.gym !== undefined) setGym(res.gym)
+            if (res.nextGym !== undefined) setNextGym(res.nextGym)
 
             if (res.player.pokeTeam || res.player.pokeBox) {
                 const team = res.player.pokeTeam || []
@@ -492,6 +500,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-win-prize', ({ amount, key, type }) => {
+            console.log('player win prize', { amount, key, type })
             updatePlayer(amount, key, type)
             setLoading({ loading: false })
         })
@@ -613,6 +622,13 @@ export function PlayerProvider({children}) {
 
             berries,
             setBerries,
+
+            gym,
+            setGym,
+            nextGym,
+            setNextGym,
+            lastGymBattleTurn,
+            setLastGymBattleTurn,
 
             hasGameStarted,
             setHasGameStarted,

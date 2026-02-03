@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { VStack, HStack, Flex, Text, Progress, Image, Badge, Box, Button, useColorMode } from "@chakra-ui/react"
 import Element from "@components/Elements/Element"
-import { winAnimation, hitAnimation, missAnimation, textAnimation } from "@utils/animations"
+import { hitAnimation, missAnimation, textAnimation } from "@utils/animations"
 import { colorByHitType } from "@utils/battle"
 
 export default function GymBattleScreen({ playerTeam, leaderTeam, battleLog, currentPlayerPokemon, currentLeaderPokemon, onSkipLogs, onBattleLogComplete, hasBattleResult }) {
@@ -18,7 +18,6 @@ export default function GymBattleScreen({ playerTeam, leaderTeam, battleLog, cur
     const [showContinueButton, setShowContinueButton] = useState(false)
     const animationInSecondsDuration = 0.5
 
-    const bgColor = colorMode === 'light' ? "gray.100" : "gray.800"
     const defeatedBg = colorMode === 'light' ? "red.200" : "red.900"
     const activeBg = colorMode === 'light' ? "blue.500" : "blue.600"
     const slotBg = colorMode === 'light' ? "gray.100" : "gray.700"
@@ -93,15 +92,6 @@ export default function GymBattleScreen({ playerTeam, leaderTeam, battleLog, cur
         setCurrentLogIndex(0)
         setShowContinueButton(false)
     }, [battleLog])
-
-    // Função para pular animação dos logs
-    const handleSkipLogs = () => {
-        setAnimatingLog(battleLog)
-        setCurrentLogIndex(battleLog.length)
-        if (onSkipLogs) {
-            onSkipLogs()
-        }
-    }
 
     const PokemonSlot = ({ pokemon, isActive, isDefeated, isHidden = false }) => {
         if (!pokemon && isHidden) {

@@ -31,7 +31,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, player, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const [battleState, setBattleState] = useState('info')
@@ -47,11 +47,9 @@ export default function GymModal() {
     const [shouldClearGym, setShouldClearGym] = useState(false)
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
-    const currentTurn = session?.turns || 0
 
     const displayGym = gym || nextGym
     const isAvailable = !!gym
-    const turnsUntil = displayGym && !isAvailable && displayGym.turnStart ? displayGym.turnStart - currentTurn : 0
 
     useEffect(() => {
         socket.on('gym-battle-fight-result', (res) => {

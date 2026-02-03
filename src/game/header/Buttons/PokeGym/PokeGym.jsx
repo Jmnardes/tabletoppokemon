@@ -1,7 +1,6 @@
 import { useContext } from "react"
-import { Button, Image, Badge, Center, Text, useColorMode } from "@chakra-ui/react"
+import { Button, Image, Badge } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
-import Element from "@components/Elements/Element"
 
 import gymIcon from '@assets/images/game/battle.png'
 
@@ -19,7 +18,6 @@ const getBadgeIcon = (badgeName) => {
 
 export default function PokeGym() {
     const { gym, nextGym, player, updateGame } = useContext(PlayerContext)
-    const { colorMode } = useColorMode()
 
     const currentTurn = player?.status?.turn || 0
 

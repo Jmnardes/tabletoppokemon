@@ -75,7 +75,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function BadgeCollectionModal() {
-    const { updateGame, player, session, emit } = useContext(PlayerContext)
+    const { updateGame, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [defeatedGyms, setDefeatedGyms] = useState([])
     const [isLoading, setIsLoading] = useState(true)

@@ -15,26 +15,27 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
 
     const checkChallengeBonus = (team) => {
         setBonus(() => {
+            const augmentBonus = player.status.challengeBonus || 0;
+            
             const generalBonuses =
             team?.reduce((acc, poke) => {
                 if (event.advantage.type !== "element") return acc;
 
                 const types = poke.types ?? [];
                 const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0;
-                const augmentBonus = player.status.challengeBonus;
 
                 const perType = types.reduce((sum, element) => {
                 const isAdv = event.advantage.value.includes(element);
                 const isDis = event.disadvantage?.value?.includes(element);
 
                 const base = isAdv ? 1 : isDis ? -1 : 0;
-                return sum + base + challengeBonus + augmentBonus;
+                return sum + base + challengeBonus;
                 }, 0);
 
                 return acc + perType;
             }, 0) ?? 0;
 
-            return generalBonuses + (team?.length ?? 0);
+            return generalBonuses + (team?.length ?? 0) + augmentBonus;
         });
     };
 

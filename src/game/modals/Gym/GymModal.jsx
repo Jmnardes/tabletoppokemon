@@ -11,34 +11,37 @@ import GymPokemonChoice from "./GymPokemonChoice"
 import GymBattleResult from "./GymBattleResult"
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, player, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, player, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
-    const [battleState, setBattleState] = useState('info') // 'info', 'pre-battle', 'battling', 'choosing', 'result'
-    const [playerTeam, setPlayerTeam] = useState([]) // 3 pokémons selecionados
-    const [leaderTeam, setLeaderTeam] = useState([]) // 3 pokémons do líder
+    const [battleState, setBattleState] = useState('info')
+    const [playerTeam, setPlayerTeam] = useState([])
+    const [leaderTeam, setLeaderTeam] = useState([])
     const [currentPlayerPokemon, setCurrentPlayerPokemon] = useState(null)
     const [currentLeaderPokemon, setCurrentLeaderPokemon] = useState(null)
     const [battleLog, setBattleLog] = useState([])
     const [availablePokemons, setAvailablePokemons] = useState([])
     const [battleResult, setBattleResult] = useState(null)
-    const [showPokemonChoice, setShowPokemonChoice] = useState(false) // Mostrar escolha dentro da tela de batalha
+    const [showPokemonChoice, setShowPokemonChoice] = useState(false)
+    const [loadingTimeout, setLoadingTimeout] = useState(null)
+    const [shouldClearGym, setShouldClearGym] = useState(false)
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
     const currentTurn = session?.turns || 0
 
-    // Determina qual gym mostrar (antes dos hooks)
-    // Se tem gym, mostra ele (já está disponível). Senão, mostra nextGym
     const displayGym = gym || nextGym
-    const isAvailable = !!gym // Se gym existe, está disponível
+    const isAvailable = !!gym
     const turnsUntil = displayGym && !isAvailable && displayGym.turnStart ? displayGym.turnStart - currentTurn : 0
 
-    // Socket listeners (hooks devem vir antes de qualquer return)
     useEffect(() => {
-        // Resultado de uma luta
         socket.on('gym-battle-fight-result', (res) => {
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout)
+                setLoadingTimeout(null)
+            }
+
             if (!res.fight || !res.battleState) {
-                console.warn('Invalid data in gym-battle-fight-result:', res)
+                setLoading({ loading: false })
                 return
             }
 
@@ -46,65 +49,38 @@ export default function GymModal() {
             const { needsChoice, availablePokemons } = res.battleState
 
             if (!log || !Array.isArray(log)) {
-                console.warn('Invalid log in gym-battle-fight-result:', res)
+                setLoading({ loading: false })
                 return
             }
 
             setBattleLog(log)
 
-            // Atualizar pokémon atual com dados completos
             if (winnerSide === 'attacker') {
-                // Player ganhou, atualizar player pokemon
                 setCurrentPlayerPokemon(winner)
-                // Leader pokemon foi derrotado
                 if (loser) {
                     setCurrentLeaderPokemon({ ...loser, defeated: true })
                     setLeaderTeam(prev => prev.map(p => 
                         p.id === loser.id ? { ...loser, defeated: true, revealed: true } : p
                     ))
                 }
-                
-                // Se player ganhou mas não precisa escolher, significa que o leader 
-                // precisa trocar o pokemon dele. Vamos pedir ao backend para continuar.
-                if (!needsChoice) {
-                    setTimeout(() => {
-                        emit('gym-battle-continue', {}).catch(err => console.error('Error gym-battle-continue:', err))
-                    }, 1500)
-                }
             } else {
-                // Leader ganhou, atualizar leader pokemon
                 setCurrentLeaderPokemon({ ...winner, revealed: true })
-                // Player pokemon foi derrotado
                 if (loser) {
                     setCurrentPlayerPokemon({ ...loser, defeated: true })
                     setPlayerTeam(prev => prev.map(p => 
                         p.id === loser.id ? { ...loser, defeated: true } : p
                     ))
                 }
-                
-                // Se leader ganhou mas needsChoice é false, backend não enviou corretamente
-                if (!needsChoice) {
-                    const alivePokemon = playerTeam.filter(p => !p.defeated && p.id !== loser?.id)
-                    if (alivePokemon.length > 0) {
-                        setTimeout(() => {
-                            emit('gym-battle-continue', {}).catch(err => console.error('Error gym-battle-continue:', err))
-                        }, 1500)
-                    }
-                }
             }
 
-            // Se precisa escolher próximo pokémon
             if (needsChoice && availablePokemons) {
-                // Calcular tempo baseado no tamanho do log (800ms por linha + buffer)
                 const logAnimationTime = log.length * 800 + 1000
                 
                 setTimeout(() => {
-                    // Mapear availablePokemons com dados completos do playerTeam
                     const fullPokemons = availablePokemons.map(ap => {
                         const fullPokemon = playerTeam.find(p => p.id === ap.id)
                         
                         if (!fullPokemon) {
-                            // Fallback: buscar do contexto
                             const fromContext = getPokemon(ap.id)
                             return {
                                 ...fromContext,
@@ -122,115 +98,121 @@ export default function GymModal() {
                         }
                     })
                     
-                    // IMPORTANTE: setar availablePokemons ANTES de showPokemonChoice
                     setAvailablePokemons(fullPokemons)
-                    // Aguardar próximo tick para garantir que estado foi atualizado
                     setTimeout(() => {
                         setShowPokemonChoice(true)
                     }, 100)
-                }, logAnimationTime) // Delay dinâmico baseado no log
+                }, logAnimationTime)
             }
 
             setLoading({ loading: false })
         })
 
-        // Precisa escolher próximo pokémon (evento separado, se backend enviar)
-        socket.on('gym-battle-needs-choice', (res) => {
-            setShowPokemonChoice(true)
-            
-            // Mapear availablePokemons com dados completos
-            if (res.availablePokemons) {
-                const fullPokemons = res.availablePokemons.map(ap => {
-                    const fullPokemon = playerTeam.find(p => p.id === ap.id)
-                    return {
-                        ...fullPokemon,
-                        index: ap.index,
-                        defeated: ap.defeated
-                    }
-                })
-                setAvailablePokemons(fullPokemons)
-            } else {
-                setAvailablePokemons(playerTeam)
-            }
-        })
-
-        // Resultado final da batalha
         socket.on('gym-battle-result', (res) => {
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout)
+                setLoadingTimeout(null)
+            }
+
+            if (res.finalFight && res.finalFight.log) {
+                const { winner, loser, winnerSide, log } = res.finalFight
+                
+                setBattleLog(log)
+                
+                if (winnerSide === 'attacker') {
+                    setCurrentPlayerPokemon(winner)
+                    if (loser) {
+                        setCurrentLeaderPokemon({ ...loser, defeated: true })
+                        setLeaderTeam(prev => prev.map(p => 
+                            p.id === loser.id ? { ...loser, defeated: true, revealed: true } : p
+                        ))
+                    }
+                } else {
+                    setCurrentLeaderPokemon({ ...winner, revealed: true })
+                    if (loser) {
+                        setCurrentPlayerPokemon({ ...loser, defeated: true })
+                        setPlayerTeam(prev => prev.map(p => 
+                            p.id === loser.id ? { ...loser, defeated: true } : p
+                        ))
+                    }
+                }
+            }
+            
             setBattleResult(res)
-            setBattleState('result')
             setLoading({ loading: false })
         })
 
-        // Atualização de estado da batalha
-        socket.on('gym-battle-update', (res) => {
-            // Atualizar pokémon atual do player
-            if (res.currentPlayerPokemon) {
-                setCurrentPlayerPokemon(res.currentPlayerPokemon)
-                // Atualizar no team também
-                setPlayerTeam(prev => prev.map(p => 
-                    p.id === res.currentPlayerPokemon.id ? res.currentPlayerPokemon : p
-                ))
+        socket.on('gym-battle-error', (error) => {
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout)
+                setLoadingTimeout(null)
             }
-            
-            // Atualizar pokémon atual do líder
-            if (res.currentLeaderPokemon) {
-                setCurrentLeaderPokemon({ ...res.currentLeaderPokemon, revealed: true })
-                // Atualizar leader team para revelar pokémon
-                setLeaderTeam(prev => prev.map((p, idx) => 
-                    idx === res.leaderPokemonIndex ? { ...res.currentLeaderPokemon, revealed: true } : p
-                ))
-            }
-
             setLoading({ loading: false })
+            setBattleState('info')
+        })
+
+        socket.on('gym-victory', (res) => {
+            setShouldClearGym(true)
+            if (res.nextGym) {
+                setNextGym(res.nextGym)
+            }
         })
 
         return () => {
             socket.off('gym-battle-fight-result')
-            socket.off('gym-battle-needs-choice')
             socket.off('gym-battle-result')
-            socket.off('gym-battle-update')
+            socket.off('gym-battle-error')
+            socket.off('gym-victory')
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout)
+            }
         }
-    }, [currentPlayerPokemon, currentLeaderPokemon, playerTeam, setLoading, getPokemon])
+    }, [currentPlayerPokemon, currentLeaderPokemon, playerTeam, setLoading, getPokemon, loadingTimeout, setGym, setNextGym])
 
-    // Handlers
     const handleStartBattle = (pokemonIds) => {
         emit('gym-battle-start', { gymId: displayGym.id, pokemonIds })
         
-        // Inicializar team do player com dados COMPLETOS dos pokémons
         const selectedPokemons = pokemonIds.map(id => {
-            const fullPokemon = getPokemon(id) // Buscar pokémon completo do contexto
+            const fullPokemon = getPokemon(id)
             if (!fullPokemon) {
-                console.warn('Pokemon not found:', id)
                 return { id, currentHp: 0, defeated: false }
             }
             return {
                 ...fullPokemon,
-                currentHp: fullPokemon.hp, // Inicializar com HP máximo
+                currentHp: fullPokemon.hp,
                 defeated: false
             }
         })
         
         setPlayerTeam(selectedPokemons)
-        setLastGymBattleTurn(session.turns)  // Marca o turno da tentativa
+        setLastGymBattleTurn(session.turns)
         
-        // Inicializar team do líder (escondido)
         setLeaderTeam(displayGym.leaderTeam.map(p => ({ ...p, revealed: false, defeated: false })))
         
         setBattleState('battling')
         setLoading({ loading: true, text: 'Starting gym battle...' })
+
+        const timeout = setTimeout(() => {
+            setLoading({ loading: false })
+            setBattleState('info')
+        }, 15000)
+        setLoadingTimeout(timeout)
     }
 
     const handleChoosePokemon = (arrayIndex) => {
         const selectedPokemon = availablePokemons[arrayIndex]
         const pokemonIndex = selectedPokemon?.index !== undefined ? selectedPokemon.index : arrayIndex
         
+        setShowPokemonChoice(false)
+        setBattleLog([])
+        setLoading({ loading: true, text: 'Selecting pokémon...' })
+        
         emit('gym-battle-choose', { pokemonIndex })
         
-        // Limpa o log e esconde a escolha
-        setBattleLog([])
-        setShowPokemonChoice(false)
-        
-        setLoading({ loading: true, text: 'Switching pokémon...' })
+        const timeout = setTimeout(() => {
+            setLoading({ loading: false })
+        }, 15000)
+        setLoadingTimeout(timeout)
     }
 
     const handleRetry = () => {
@@ -241,7 +223,19 @@ export default function GymModal() {
         setBattleResult(null)
     }
 
+    const handleBattleLogComplete = () => {
+        if (battleResult) {
+            setBattleState('result')
+            setLoading({ loading: false })
+        }
+    }
+
     const handleClose = () => {
+        if (shouldClearGym) {
+            setGym(null)
+            setShouldClearGym(false)
+        }
+        
         updateGame({ openGymModal: false })
         setBattleState('info')
         setPlayerTeam([])
@@ -254,7 +248,6 @@ export default function GymModal() {
         setBattleState('pre-battle')
     }
 
-    // Early return após todos os hooks
     if (!gym && !nextGym) {
         return null
     }
@@ -420,6 +413,8 @@ export default function GymModal() {
                                     setShowPokemonChoice(true)
                                 }
                             }}
+                            onBattleLogComplete={handleBattleLogComplete}
+                            hasBattleResult={!!battleResult}
                         />
                     ) : (
                         availablePokemons && availablePokemons.length > 0 ? (

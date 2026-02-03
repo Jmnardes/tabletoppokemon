@@ -1,7 +1,9 @@
 import { useState, useContext } from "react"
-import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Grid } from "@chakra-ui/react"
+import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Grid, Tooltip, Box } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import Element from "@components/Elements/Element"
+import Card from "@components/Pokemon/Card"
+import { PokeRarity } from "@components/Pokemon/PokemonRarity"
 
 export default function GymPreBattle({ gym, onStartBattle }) {
     const { getTeamPokemons, getBoxPokemons } = useContext(PlayerContext)
@@ -48,9 +50,14 @@ export default function GymPreBattle({ gym, onStartBattle }) {
             </Flex>
 
             {/* Instructions */}
-            <Text fontSize="md" fontWeight="bold" textAlign="center">
-                Select exactly 3 Pokémon for battle
-            </Text>
+            <VStack spacing={2}>
+                <Text fontSize="md" fontWeight="bold" textAlign="center">
+                    Select exactly 3 Pokémon for battle
+                </Text>
+                <Text fontSize="sm" color="orange.400" textAlign="center">
+                    ⚠️ The first Pokémon selected will be your STARTER
+                </Text>
+            </VStack>
             <HStack>
                 <Badge colorScheme={selectedPokemons.length === 3 ? "green" : "orange"}>
                     Selected: {selectedPokemons.length}/3
@@ -59,7 +66,7 @@ export default function GymPreBattle({ gym, onStartBattle }) {
 
             {/* Pokemon Grid */}
             <Grid
-                templateColumns="repeat(auto-fill, minmax(120px, 1fr))"
+                templateColumns="repeat(auto-fill, minmax(140px, 1fr))"
                 gap={3}
                 w="100%"
                 maxH="400px"
@@ -69,46 +76,95 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                 {allPokemons.map((pokemon) => {
                     const isSelected = selectedPokemons.find(p => p.id === pokemon.id)
                     const isDisabled = !isSelected && selectedPokemons.length >= 3
+                    const selectionOrder = isSelected ? selectedPokemons.findIndex(p => p.id === pokemon.id) + 1 : null
+                    const isStarter = selectionOrder === 1
 
                     return (
-                        <Flex
+                        <Tooltip 
                             key={pokemon.id}
-                            bg={isSelected ? selectedBg : bgColor}
-                            p={3}
-                            borderRadius={8}
-                            flexDirection="column"
-                            alignItems="center"
-                            cursor={isDisabled ? "not-allowed" : "pointer"}
-                            opacity={isDisabled ? 0.5 : 1}
-                            onClick={() => !isDisabled && togglePokemon(pokemon)}
-                            border={isSelected ? "2px solid" : "2px solid transparent"}
-                            borderColor={isSelected ? "blue.400" : "transparent"}
-                            transition="all 0.2s"
-                            _hover={!isDisabled ? { transform: "scale(1.05)" } : {}}
+                            label={<Card poke={pokemon} tooltip={true} />}
+                            background="none"
+                            placement="top"
                         >
-                            <Image
-                                src={pokemon.sprites?.front || pokemon.sprites?.mini}
-                                w="64px"
-                                h="64px"
-                                fallback={<Text>?</Text>}
-                            />
-                            <Text fontSize="sm" fontWeight="bold" isTruncated maxW="100px">
-                                {pokemon.name}
-                            </Text>
-                            <HStack spacing={1}>
-                                <Badge fontSize="xx-small" colorScheme="blue">
-                                    Lv {pokemon.level}
-                                </Badge>
-                                <Badge fontSize="xx-small" colorScheme="green">
-                                    HP: {pokemon.hp}
-                                </Badge>
-                            </HStack>
-                            <HStack spacing={1} mt={1}>
-                                {pokemon.types?.map((type, idx) => (
-                                    <Element key={idx} element={type} size={12} />
-                                ))}
-                            </HStack>
-                        </Flex>
+                            <Flex
+                                bg={isSelected ? selectedBg : bgColor}
+                                p={3}
+                                borderRadius={8}
+                                flexDirection="column"
+                                alignItems="center"
+                                cursor={isDisabled ? "not-allowed" : "pointer"}
+                                opacity={isDisabled ? 0.5 : 1}
+                                onClick={() => !isDisabled && togglePokemon(pokemon)}
+                                border={isSelected ? "3px solid" : "2px solid transparent"}
+                                borderColor={isSelected ? (isStarter ? "orange.400" : "blue.400") : "transparent"}
+                                transition="all 0.2s"
+                                _hover={!isDisabled ? { transform: "scale(1.05)" } : {}}
+                                position="relative"
+                            >
+                                {/* Selection order badge */}
+                                {isSelected && (
+                                    <Badge
+                                        position="absolute"
+                                        top="-8px"
+                                        right="-8px"
+                                        borderRadius="full"
+                                        colorScheme={isStarter ? "orange" : "blue"}
+                                        fontSize="sm"
+                                        px={2}
+                                        py={1}
+                                        fontWeight="bold"
+                                        zIndex={1}
+                                    >
+                                        {selectionOrder}
+                                    </Badge>
+                                )}
+
+                                {/* Starter badge */}
+                                {isStarter && (
+                                    <Badge
+                                        position="absolute"
+                                        top="-8px"
+                                        left="-8px"
+                                        borderRadius="md"
+                                        colorScheme="orange"
+                                        fontSize="xs"
+                                        px={2}
+                                        py={0.5}
+                                        fontWeight="bold"
+                                        zIndex={1}
+                                    >
+                                        STARTER
+                                    </Badge>
+                                )}
+
+                                <Image
+                                    src={pokemon.sprites?.front || pokemon.sprites?.mini}
+                                    w="80px"
+                                    h="80px"
+                                    fallback={<Text>?</Text>}
+                                />
+                                <Text fontSize="sm" fontWeight="bold" isTruncated maxW="100%" textAlign="center">
+                                    {pokemon.name}
+                                </Text>
+                                
+                                {/* Level and Rarity */}
+                                <HStack spacing={2} mt={1}>
+                                    <Badge fontSize="xs" colorScheme="blue">
+                                        Lv {pokemon.level}
+                                    </Badge>
+                                    <Box transform="scale(0.8)">
+                                        <PokeRarity rarity={pokemon.rarity?.rarity} />
+                                    </Box>
+                                </HStack>
+
+                                {/* Types */}
+                                <HStack spacing={1} mt={1}>
+                                    {pokemon.types?.map((type, idx) => (
+                                        <Element key={idx} element={type} size={14} />
+                                    ))}
+                                </HStack>
+                            </Flex>
+                        </Tooltip>
                     )
                 })}
             </Grid>

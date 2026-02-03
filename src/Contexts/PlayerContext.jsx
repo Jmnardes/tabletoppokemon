@@ -253,22 +253,25 @@ export function PlayerProvider({children}) {
 
     // Sincroniza estrutura antiga com nova quando receber dados do servidor
     const syncPokemonsFromServer = useCallback((teamArray, boxArray) => {
-        const allPokemon = [...(teamArray || []), ...(boxArray || [])]
+        const allPokemon = [...(teamArray || []), ...(boxArray || [])].filter(Boolean)
         setPokemons(allPokemon)
-        setTeamIds((teamArray || []).map(p => p.id))
-        setBoxIds((boxArray || []).map(p => p.id))
+        setTeamIds((teamArray || []).map(p => p?.id).filter(Boolean))
+        setBoxIds((boxArray || []).map(p => p?.id).filter(Boolean))
     }, [setPokemons])
     
     const syncTeamFromServer = useCallback((teamArray) => {
         if (!teamArray) return
-        setPokemons(teamArray)
-        setTeamIds(teamArray.map(p => p.id))
+        const validTeam = teamArray.filter(Boolean)
+        setPokemons(validTeam)
+        setTeamIds(validTeam.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
     
     const syncBoxFromServer = useCallback((boxArray) => {
         if (!boxArray) return
+        // Fazer merge dos pokémons ao invés de sobrescrever
+        // para evitar race condition com pokémons do time
         setPokemons(boxArray)
-        setBoxIds(boxArray.map(p => p.id))
+        setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
 
     const changeBall = (amount, type) => updatePlayer(amount, 'balls', type)

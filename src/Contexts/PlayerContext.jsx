@@ -51,6 +51,7 @@ export function PlayerProvider({children}) {
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
         openAugmentsModal: false,
+        openBadgeCollectionModal: false,
     })
 
     const emit = useCallback((name, data, timeout = 5000) => {
@@ -499,6 +500,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-win-prize', ({ amount, key, type }) => {
+            console.log('player win prize', { amount, key, type })
             updatePlayer(amount, key, type)
             setLoading({ loading: false })
         })

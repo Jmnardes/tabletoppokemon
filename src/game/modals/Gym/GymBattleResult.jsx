@@ -1,9 +1,21 @@
 import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Center } from "@chakra-ui/react"
+import { useContext } from "react"
+import PlayerContext from "@Contexts/PlayerContext"
 import Element from "@components/Elements/Element"
+import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
-export default function GymBattleResult({ victory, gym, rewards, onClose, onRetry, canRetry = true }) {
+export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true }) {
     const { colorMode } = useColorMode()
+    const { emit, setLoading } = useContext(PlayerContext)
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
+
+    const handleClose = () => {
+        if (victory && reward) {
+            setLoading({ loading: true, text: "Awarding..." })
+            emit('player-win-prize', { prize: reward })
+        }
+        onClose()
+    }
 
     if (victory) {
         return (
@@ -24,20 +36,20 @@ export default function GymBattleResult({ victory, gym, rewards, onClose, onRetr
                     </Text>
                 </Center>
 
-                {/* Badge Earned */}
+                {/* Badge and Reward */}
                 <Flex
                     bg={bgColor}
                     p={6}
                     borderRadius={12}
                     flexDirection="column"
                     alignItems="center"
-                    gap={3}
+                    gap={4}
                     w="100%"
                 >
-                    <Text fontSize="xl" fontWeight="bold">
-                        Badge Earned!
-                    </Text>
-                    <VStack>
+                    <VStack spacing={3}>
+                        <Text fontSize="xl" fontWeight="bold">
+                            Badge Earned!
+                        </Text>
                         <Image
                             src={require(`@assets/images/badges/${gym.badge.toLowerCase().replace(/\s+/g, '_')}.png`)}
                             w="96px"
@@ -46,47 +58,28 @@ export default function GymBattleResult({ victory, gym, rewards, onClose, onRetr
                         />
                         <Text fontSize="lg" fontWeight="bold">{gym.badge}</Text>
                     </VStack>
-                </Flex>
 
-                {/* Rewards */}
-                {rewards && (
-                    <Flex
-                        bg={bgColor}
-                        p={4}
-                        borderRadius={12}
-                        flexDirection="column"
-                        gap={2}
-                        w="100%"
-                    >
-                        <Text fontSize="md" fontWeight="bold" textAlign="center">
-                            Rewards:
-                        </Text>
-                        <VStack spacing={2}>
-                            {rewards.experience && (
-                                <Badge colorScheme="purple" fontSize="sm" p={2}>
-                                    +{rewards.experience} EXP
-                                </Badge>
-                            )}
-                            {rewards.money && (
-                                <Badge colorScheme="yellow" fontSize="sm" p={2}>
-                                    +{rewards.money} 💰
-                                </Badge>
-                            )}
-                            {rewards.ranking && (
-                                <Badge colorScheme="blue" fontSize="sm" p={2}>
-                                    +{rewards.ranking} Ranking Points
-                                </Badge>
-                            )}
+                    {reward && (
+                        <VStack spacing={2} pt={2}>
+                            <Text fontSize="md" fontWeight="bold">
+                                Victory Reward
+                            </Text>
+                            <HStack>
+                                <Text fontSize="xl" fontWeight="bold" color="green.400">
+                                    +{reward.amount}
+                                </Text>
+                                <PrizeIcon type={reward.name} size="28px" />
+                            </HStack>
                         </VStack>
-                    </Flex>
-                )}
+                    )}
+                </Flex>
 
                 {/* Close Button */}
                 <Button
                     colorScheme="green"
                     size="lg"
                     w="100%"
-                    onClick={onClose}
+                    onClick={handleClose}
                 >
                     Continue
                 </Button>

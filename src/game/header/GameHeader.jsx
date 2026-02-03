@@ -6,6 +6,7 @@ import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 import NextEvent from "./NextEvent/NextEvent";
 import PokeGym from "./Buttons/PokeGym/PokeGym";
+import BadgeCollection from "./Buttons/BadgeCollection/BadgeCollection";
 
 import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
@@ -95,6 +96,8 @@ export default function GameHeader() {
                         </Center>
                     )}
                 </Button>
+
+                <BadgeCollection />
 
                 <PlayerAugments />
 

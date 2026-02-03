@@ -239,8 +239,6 @@ export default function GymBattleScreen({ playerTeam, leaderTeam, battleLog, cur
     }
 
     const BattleLogDisplay = () => {
-        const isAnimating = currentLogIndex < battleLog.length
-        
         return (
             <Box
                 bg={cardBg}
@@ -252,14 +250,7 @@ export default function GymBattleScreen({ playerTeam, leaderTeam, battleLog, cur
                 border="2px solid"
                 borderColor={borderColor}
             >
-                <HStack justify="space-between" mb={2}>
-                    <Text fontSize="sm" fontWeight="bold">Battle Log:</Text>
-                    {isAnimating && onSkipLogs && (
-                        <Button size="xs" colorScheme="blue" onClick={handleSkipLogs}>
-                            Skip ⏩
-                        </Button>
-                    )}
-                </HStack>
+                <Text fontSize="sm" fontWeight="bold" mb={2}>Battle Log:</Text>
                 <VStack align="stretch" spacing={1}>
                     {animatingLog.map((log, idx) => {
                         const hitColor = 

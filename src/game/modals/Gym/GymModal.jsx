@@ -3,12 +3,32 @@ import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack,
 import PlayerContext from "@Contexts/PlayerContext"
 import GenericModal from "@components/Modal/GenericModal"
 import Element from "@components/Elements/Element"
+import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import socket from "@client"
 
 import GymPreBattle from "./GymPreBattle"
 import GymBattleScreen from "./GymBattleScreen"
 import GymPokemonChoice from "./GymPokemonChoice"
 import GymBattleResult from "./GymBattleResult"
+
+const getBadgeIcon = (badgeName) => {
+    if (!badgeName) return null
+    const iconName = badgeName.toLowerCase().replace(/\s+/g, '_')
+    try {
+        return require(`@assets/images/badges/${iconName}.png`)
+    } catch (e) {
+        return null
+    }
+}
+
+const getLeaderIcon = (leaderId) => {
+    if (!leaderId) return null
+    try {
+        return require(`@assets/images/leaders/${leaderId}.png`)
+    } catch (e) {
+        return null
+    }
+}
 
 export default function GymModal() {
     const { gym, nextGym, updateGame, player, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym } = useContext(PlayerContext)
@@ -153,9 +173,7 @@ export default function GymModal() {
 
         socket.on('gym-victory', (res) => {
             setShouldClearGym(true)
-            if (res.nextGym) {
-                setNextGym(res.nextGym)
-            }
+            setNextGym(res.nextGym || null)
         })
 
         return () => {
@@ -269,54 +287,69 @@ export default function GymModal() {
             {/* Tela de Informação do Gym */}
             {battleState === 'info' && (
                 <VStack spacing={4} p={4}>
-                    {/* Banner de informação se for próximo gym */}
-                    {!isAvailable && turnsUntil > 0 && (
+                    {/* Informações do Gym com Badge e Leader */}
+                    <HStack w="100%" spacing={4} align="start">
+                        {/* Imagem do Leader */}
                         <Flex
-                            w="100%"
-                            bg="blue.500"
-                            p={3}
+                            bg={bgColor}
+                            w="100px"
+                            h="140px"
                             borderRadius={8}
+                            alignItems="center"
                             justifyContent="center"
+                            borderWidth="2px"
+                            borderColor={colorMode === 'light' ? "gray.300" : "gray.600"}
+                            overflow="hidden"
                         >
-                            <Text fontSize="sm" fontWeight="bold" textAlign="center">
-                                This gym will be available in {turnsUntil} turn{turnsUntil > 1 ? 's' : ''} (Turn {displayGym.turnStart})
-                            </Text>
+                            {displayGym.leaderId && getLeaderIcon(displayGym.leaderId) ? (
+                                <Image
+                                    src={getLeaderIcon(displayGym.leaderId)}
+                                    w="100%"
+                                    h="100%"
+                                    objectFit="cover"
+                                />
+                            ) : (
+                                <Text fontSize="sm" color="gray.500">
+                                    Leader
+                                </Text>
+                            )}
                         </Flex>
-                    )}
 
-                    {/* Informações do Gym */}
-                    <Flex
-                        w="100%"
-                        bg={bgColor}
-                        p={4}
-                        borderRadius={8}
-                        flexDirection="column"
-                        gap={2}
-                    >
-                        <HStack justify="space-between">
-                            <Text fontSize="lg" fontWeight="bold">
-                                Leader: {displayGym.leader}
-                            </Text>
-                            <Element element={displayGym.element} size={24} />
-                        </HStack>
-                        
-                        <HStack justify="space-between">
-                            <Text fontSize="sm" color="gray.400">
-                                Badge: {displayGym.badge}
-                            </Text>
-                            <Text fontSize="sm" fontWeight="bold">
-                                {displayGym.element}
-                            </Text>
-                        </HStack>
-
-                        {displayGym.attempts > 0 && (
-                            <HStack justify="center">
-                                <Badge colorScheme="orange" fontSize="xs">
-                                    Attempts: {displayGym.attempts}
-                                </Badge>
+                        {/* Info do Gym */}
+                        <Flex
+                            flex={1}
+                            bg={bgColor}
+                            p={4}
+                            borderRadius={8}
+                            flexDirection="column"
+                            gap={3}
+                        >
+                            <HStack>
+                                <Image
+                                    src={getBadgeIcon(displayGym.badge)}
+                                    w="32px"
+                                    h="32px"
+                                />
+                                <VStack align="start" spacing={0}>
+                                    <Text fontSize="lg" fontWeight="bold">
+                                        Leader: {displayGym.leader}
+                                    </Text>
+                                    <Text fontSize="md" color="gray.400">
+                                        Badge: {displayGym.badge}
+                                    </Text>
+                                </VStack>
+                                <Element element={displayGym.element} size={24} />
                             </HStack>
-                        )}
-                    </Flex>
+
+                            {displayGym.attempts > 0 && (
+                                <HStack justify="center">
+                                    <Badge colorScheme="orange" fontSize="xs">
+                                        Attempts: {displayGym.attempts}
+                                    </Badge>
+                                </HStack>
+                            )}
+                        </Flex>
+                    </HStack>
 
                     <Divider />
 
@@ -325,28 +358,28 @@ export default function GymModal() {
                         <Text fontSize="md" fontWeight="bold" textAlign="center">
                             Leader's Team
                         </Text>
-                        <Flex wrap="wrap" justify="center" gap={2}>
+                        <Flex wrap="wrap" justify="center" gap={3}>
                             {displayGym.leaderTeam && displayGym.leaderTeam.length > 0 ? (
                                 displayGym.leaderTeam.map((pokemon, index) => (
                                     <Flex
                                         key={index}
                                         bg={bgColor}
-                                        p={2}
-                                        borderRadius={6}
+                                        p={3}
+                                        borderRadius={8}
                                         flexDirection="column"
                                         alignItems="center"
-                                        minW="80px"
+                                        minW="120px"
                                     >
                                         <Image
-                                            src={pokemon.sprites?.front || pokemon.sprites?.mini}
-                                            w="48px"
-                                            h="48px"
+                                            src={pokemon.sprites?.front}
+                                            w="96px"
+                                            h="96px"
                                             fallback={<Text>?</Text>}
                                         />
-                                        <Text fontSize="xs" isTruncated maxW="80px">
+                                        <Text fontSize="sm" fontWeight="bold" textAlign="center">
                                             {pokemon.name}
                                         </Text>
-                                        <Badge fontSize="xx-small" colorScheme="blue">
+                                        <Badge fontSize="xs" colorScheme="blue">
                                             Lv {pokemon.level}
                                         </Badge>
                                     </Flex>
@@ -361,12 +394,39 @@ export default function GymModal() {
 
                     <Divider />
 
-                    {/* Ação */}
-                    <Center flexDirection="column" gap={2} pt={2}>
-                        {!isAvailable ? (
-                            <Text fontSize="sm" color="yellow.400" textAlign="center">
-                                Come back on turn {displayGym.turnStart} to challenge this gym!
+                    {/* Reward */}
+                    {displayGym.reward && (
+                        <Flex
+                            w="100%"
+                            bg={bgColor}
+                            p={4}
+                            borderRadius={8}
+                            flexDirection="column"
+                            alignItems="center"
+                            gap={2}
+                        >
+                            <Text fontSize="md" fontWeight="bold">
+                                Victory Reward
                             </Text>
+                            <HStack>
+                                <Text fontSize="lg" fontWeight="bold" color="green.400">
+                                    +{displayGym.reward.amount}
+                                </Text>
+                                <PrizeIcon type={displayGym.reward.name} size="24px" />
+                            </HStack>
+                        </Flex>
+                    )}
+
+                    {displayGym.reward && <Divider />}
+
+                    {/* Ação */}
+                    <Center flexDirection="column" gap={2} pt={2} minH="120px">
+                        {!isAvailable ? (
+                            <Center flex={1} w="100%">
+                                <Text fontSize="xl" fontWeight="bold" color="yellow.400" textAlign="center">
+                                    Come back on turn {displayGym.turnStart} to challenge this gym!
+                                </Text>
+                            </Center>
                         ) : (
                             <>
                                 <Button
@@ -442,7 +502,7 @@ export default function GymModal() {
                 <GymBattleResult
                     victory={battleResult.victory}
                     gym={displayGym}
-                    rewards={battleResult.rewards}
+                    reward={displayGym.reward}
                     onClose={handleClose}
                     onRetry={handleRetry}
                     canRetry={lastGymBattleTurn !== session.turns}

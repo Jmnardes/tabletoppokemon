@@ -16,6 +16,7 @@ import AugmentsModal from "./Augments/AugmentsModal";
 import PokeBagModal from "../header/Buttons/PokeBag/PokeBagModal";
 import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
 import GymModal from "./Gym/GymModal";
+import BadgeCollectionModal from "../header/Buttons/BadgeCollection/BadgeCollectionModal";
 
 export default function ModalController() {
     const { 
@@ -34,8 +35,7 @@ export default function ModalController() {
         setGym,
         setNextGym,
         gym,
-        nextGym,
-        player
+        nextGym
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
@@ -182,6 +182,7 @@ export default function ModalController() {
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
             {game.openGymModal && <GymModal />}
+            {game.openBadgeCollectionModal && <BadgeCollectionModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
             {game.openPokeBoxModal && <PokeBagModal />}

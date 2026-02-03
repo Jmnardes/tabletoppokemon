@@ -5,6 +5,8 @@ import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 import NextEvent from "./NextEvent/NextEvent";
+import PokeGym from "./Buttons/PokeGym/PokeGym";
+import BadgeCollection from "./Buttons/BadgeCollection/BadgeCollection";
 
 import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
@@ -12,7 +14,7 @@ import arrowIcon from '@assets/images/game/arrow.png';
 import PlayerAugments from "./Buttons/Augments/PlayerAugments";
 
 export default function GameHeader() {
-    const { player, updateGame, pokeBox, game, nextEvent } = useContext(PlayerContext)
+    const { player, updateGame, boxIds, game, nextEvent } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
@@ -59,6 +61,8 @@ export default function GameHeader() {
                     ></Image>
                 </Button>
 
+                <PokeGym />
+
                 <Button 
                     mx={1}
                     onClick={() => updateGame({ openDayCareModal: true })}
@@ -72,7 +76,7 @@ export default function GameHeader() {
                 
                 <Button 
                     mx={1}
-                    isDisabled={pokeBox.length < 1}
+                    isDisabled={boxIds.length < 1}
                     onClick={() => {
                         updateGame({ openPokeBoxModal: true, showBagLength: false })
                     }}
@@ -88,10 +92,12 @@ export default function GameHeader() {
                             borderRadius="50%" width="20px" height="20px"
                             background={colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'}
                         >
-                            <Text fontSize={"xx-small"}>{pokeBox?.length}</Text>
+                            <Text fontSize={"xx-small"}>{boxIds?.length}</Text>
                         </Center>
                     )}
                 </Button>
+
+                <BadgeCollection />
 
                 <PlayerAugments />
 

@@ -8,9 +8,14 @@ import { stringToUpperCase } from "@utils"
 import Card from "@components/Pokemon/Card"
 import PlayerContext from "@Contexts/PlayerContext"
 
-export default function PokeBox({ poke, pokeBox }) {
-    const { pokeTeam, updatePokeTeam, removeFromPokeBox, session } = useContext(PlayerContext)
+export default function PokeBox({ poke }) {
+    const { teamIds, moveToTeam, session } = useContext(PlayerContext)
     const [pokeStatsTooltip, setpokeStatsTooltip] = useState('')
+
+    // Proteção contra poke undefined
+    if (!poke || !poke.id) {
+        return null
+    }
 
     const PokemonTooltip = () => {
         setpokeStatsTooltip(() => {
@@ -29,10 +34,9 @@ export default function PokeBox({ poke, pokeBox }) {
         <Button
             h={"auto"}
             w={"auto"}
-            isDisabled={pokeTeam?.length === session.teamLength}
+            isDisabled={teamIds?.length === session.teamLength}
             onClick={() => {
-                updatePokeTeam(poke)
-                removeFromPokeBox(poke, pokeBox)
+                moveToTeam(poke.id)
             }}
         >
             <Tooltip label={pokeStatsTooltip} background="none">
@@ -40,9 +44,9 @@ export default function PokeBox({ poke, pokeBox }) {
                     h={12}
                     w={16}
                     position="absolute"
-                    title={stringToUpperCase(poke.name)} 
-                    src={poke.sprites.mini}
-                    fallbackSrc={poke.sprites.front}
+                    title={stringToUpperCase(poke?.name || 'Unknown')} 
+                    src={poke?.sprites?.mini}
+                    fallbackSrc={poke?.sprites?.front}
                 />
             </Tooltip>
         </Button>

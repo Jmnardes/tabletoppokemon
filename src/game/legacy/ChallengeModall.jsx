@@ -31,7 +31,7 @@ import { FaInfoCircle, FaRedo } from "react-icons/fa";
 import { pokemonHasChallengeBerry } from "@utils"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, pokeTeam, updateStatus, setLoading, player } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, getTeamPokemons, updateStatus, setLoading, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -43,6 +43,8 @@ export default function ChallengeModal({ event }) {
     const myPlacing = useRef(0)
     const won = useRef(false)
     const prizes = event.prizes
+
+    const teamPokemons = getTeamPokemons()
 
     const Overlay = () => (
         <ModalOverlay
@@ -160,7 +162,7 @@ export default function ChallengeModal({ event }) {
         }, 15000);
 
         setOverlay(<Overlay />)
-        checkChallengeBonus(pokeTeam)
+        checkChallengeBonus(teamPokemons)
 
         socket.on('event-roll-other', res => {
             setOpponentsRoll(old => [...old, res])

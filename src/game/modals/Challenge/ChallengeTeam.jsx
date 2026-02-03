@@ -8,31 +8,34 @@ import TeamInBox from "../../header/Buttons/PokeBag/TeamInBox";
 import { pokemonHasChallengeBerry } from "@utils";
 
 export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) {
-    const { pokeTeam, pokeBox, player, emit } = useContext(PlayerContext)
+    const { teamIds, boxIds, pokemonData, player, emit } = useContext(PlayerContext)
     const [ready, setReady] = useState(false)
+
+    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
 
     const checkChallengeBonus = (team) => {
         setBonus(() => {
+            const augmentBonus = player.status.challengeBonus || 0;
+            
             const generalBonuses =
             team?.reduce((acc, poke) => {
                 if (event.advantage.type !== "element") return acc;
 
                 const types = poke.types ?? [];
                 const challengeBonus = pokemonHasChallengeBerry(poke) ? 1 : 0;
-                const augmentBonus = player.status.challengeBonus;
 
                 const perType = types.reduce((sum, element) => {
                 const isAdv = event.advantage.value.includes(element);
                 const isDis = event.disadvantage?.value?.includes(element);
 
                 const base = isAdv ? 1 : isDis ? -1 : 0;
-                return sum + base + challengeBonus + augmentBonus;
+                return sum + base + challengeBonus;
                 }, 0);
 
                 return acc + perType;
             }, 0) ?? 0;
 
-            return generalBonuses + (team?.length ?? 0);
+            return generalBonuses + (team?.length ?? 0) + augmentBonus;
         });
     };
 
@@ -51,10 +54,10 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
     }, [])
 
     useEffect(() => {
-        checkChallengeBonus(pokeTeam)
+        checkChallengeBonus(teamPokemons)
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pokeTeam])
+    }, [teamIds, pokemonData])
 
     return (
         <Center flex flexDir={"column"} justifyContent={"space-between"} h="100%">
@@ -73,7 +76,7 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
                 </Center>
             </Center>
 
-            <Button h={24} w={"100%"} mb={2} isDisabled={(pokeTeam.length < 3 && pokeBox.length > 0) || ready} onClick={() => {
+            <Button h={24} w={"100%"} mb={2} isDisabled={(teamIds.length < 3 && boxIds.length > 0) || ready} onClick={() => {
                 setReady(true)
                 emit('event-challenge-ready')
             }}>

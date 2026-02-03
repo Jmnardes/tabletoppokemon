@@ -6,12 +6,14 @@ import ChooseAttack from "./ChooseAttack"
 import NewPokemon from "./NewPokemon"
 
 export default function Capture({ capturedPokemon, setCapturedPokemon, augments }) {
-    const { updateGame, pokeTeam, emit, setLoading} = useContext(PlayerContext)
+    const { updateGame, teamIds, pokemonData, emit, setLoading} = useContext(PlayerContext)
     const [chooseAttackType, setChooseAttackType] = useState(capturedPokemon.types.length > 1)
     const [attackType, setAttackType] = useState(capturedPokemon.types[0])
     const [specialType, setSpecialType] = useState(capturedPokemon.types[0])
     const [selectedToRemove, setSelectedToRemove] = useState(null)
-    const isTeamFull = pokeTeam.length > 2
+    const isTeamFull = teamIds.length > 2
+
+    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
 
     const handleFinishCapture = ({ removedId, dayCare }) => {
         emit('pokemon-handle-capture', { attackType, specialType, removedId, dayCare })
@@ -52,7 +54,7 @@ export default function Capture({ capturedPokemon, setCapturedPokemon, augments 
                 <NewPokemon
                     capturedPokemon={capturedPokemon}
                     handleFinishCapture={handleFinishCapture} 
-                    pokeTeam={pokeTeam} 
+                    teamPokemons={teamPokemons} 
                     selectedToRemove={selectedToRemove} 
                     setSelectedToRemove={setSelectedToRemove} 
                     isTeamFull={isTeamFull}

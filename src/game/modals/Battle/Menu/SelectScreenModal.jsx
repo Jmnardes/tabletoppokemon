@@ -10,11 +10,11 @@ import PlayerContext from "@Contexts/PlayerContext"
 import ShowBattleTeam from "./ShowBattleTeam"
 
 export default function SelectScreenModal() {
-    const { updateGame, pokeTeam } = useContext(PlayerContext)
+    const { updateGame, getTeamPokemons } = useContext(PlayerContext)
     const [battleTeam, setBattleTeam] = useState([])
 
     useEffect(() => {
-        setBattleTeam(pokeTeam)
+        setBattleTeam(getTeamPokemons())
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

@@ -14,13 +14,13 @@ import PokeList from "@components/Pokemon/PokeList"
 import BerriesPage from "./BerriesPage"
 
 export default function BerriesModal() {
-    const { updateGame, pokeBox, pokeTeam } = useContext(PlayerContext)
-    const [ allPokemon, setAllPokemon ] = useState([ ...pokeTeam, ...pokeBox ])
+    const { updateGame, getAllPokemons } = useContext(PlayerContext)
+    const [ allPokemon, setAllPokemon ] = useState([])
     const [ selectedPokemon, setSelectedPokemon ] = useState(null)
 
     useEffect(() => {
-        setAllPokemon([ ...pokeTeam, ...pokeBox ])
-    }, [pokeBox, pokeTeam])
+        setAllPokemon(getAllPokemons())
+    }, [getAllPokemons])
 
     return (
         <>

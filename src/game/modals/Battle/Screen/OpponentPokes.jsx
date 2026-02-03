@@ -25,7 +25,10 @@ export default function OpponentPoke({ opponent, prizes }) {
                         <Text mt={2} fontSize={"sm"}>Prize: {prize.amount}</Text>
                         <PrizeIcon type={prize.name} size={6} />
                     </Box>
-                    {opponent.pokeTeam.map(poke => {
+                    {opponent.pokeTeam?.filter(Boolean).map(poke => {
+                        // Proteção adicional contra pokémons inválidos
+                        if (!poke || !poke.id || !poke.name) return null
+                        
                         return <Box
                             key={poke.id}
                             mt={12} mx={2} h={20} w={20} borderRadius={8}
@@ -35,8 +38,8 @@ export default function OpponentPoke({ opponent, prizes }) {
                             <Tooltip label={<PokemonTooltip poke={poke} />} background="none">
                                 <Image
                                     position="absolute" h={20}
-                                    title={stringToUpperCase(poke.name)} 
-                                    src={poke.sprites.front}
+                                    title={stringToUpperCase(poke?.name || 'Unknown')} 
+                                    src={poke?.sprites?.front}
                                 />
                             </Tooltip>
                         </Box>

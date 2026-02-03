@@ -5,6 +5,7 @@ import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 import NextEvent from "./NextEvent/NextEvent";
+import PokeGym from "./Buttons/PokeGym/PokeGym";
 
 import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
@@ -58,6 +59,8 @@ export default function GameHeader() {
                         w="26px"
                     ></Image>
                 </Button>
+
+                <PokeGym />
 
                 <Button 
                     mx={1}

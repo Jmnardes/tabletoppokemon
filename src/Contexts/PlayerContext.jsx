@@ -251,7 +251,6 @@ export function PlayerProvider({children}) {
         return pokemonData[pokemonId]
     }, [pokemonData])
 
-    // Sincroniza estrutura antiga com nova quando receber dados do servidor
     const syncPokemonsFromServer = useCallback((teamArray, boxArray) => {
         const allPokemon = [...(teamArray || []), ...(boxArray || [])].filter(Boolean)
         setPokemons(allPokemon)
@@ -268,8 +267,6 @@ export function PlayerProvider({children}) {
     
     const syncBoxFromServer = useCallback((boxArray) => {
         if (!boxArray) return
-        // Fazer merge dos pokémons ao invés de sobrescrever
-        // para evitar race condition com pokémons do time
         setPokemons(boxArray)
         setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
@@ -503,7 +500,6 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-win-prize', ({ amount, key, type }) => {
-            console.log('player win prize', { amount, key, type })
             updatePlayer(amount, key, type)
             setLoading({ loading: false })
         })

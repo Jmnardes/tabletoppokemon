@@ -31,7 +31,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const [battleState, setBattleState] = useState('info')
@@ -431,10 +431,12 @@ export default function GymModal() {
                                     colorScheme="green"
                                     size="lg"
                                     onClick={handleChallenge}
-                                    isDisabled={lastGymBattleTurn === session.turns}
+                                    isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3)}
                                 >
                                     {lastGymBattleTurn === session.turns 
                                         ? 'Already challenged this turn' 
+                                        : (teamIds && teamIds.length < 3)
+                                        ? 'Need at least 3 Pokémon'
                                         : `Challenge ${displayGym.leader}`}
                                 </Button>
                                 {displayGym.attempts > 0 && (

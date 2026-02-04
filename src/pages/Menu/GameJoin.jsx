@@ -1,10 +1,8 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import { useState } from "react";
 import socket from "@client";
 
 export default function GameJoin() {
-    const { handleToast } = useContext(PlayerContext)
     const [trainerName, setTrainerName] = useState('')
     const [sessionCode, setSessionCode] = useState('')
 
@@ -24,18 +22,7 @@ export default function GameJoin() {
                 <Input textAlign="center" maxLength={14} onChange={(e) => {setSessionCode(e.target.value)}} />
             </Flex>
 
-            <Button w="100%" h={12} mt={4} mb={4} onClick={() => {
-
-                if (trainerName.length < 3) {
-                    handleToast({
-                        id: 'name-length',
-                        title: "Error",
-                        description: "Name should have at least 3 caracters",
-                        position: 'top',
-                        status: 'error',
-                    })
-                    return
-                }
+            <Button w="100%" h={12} mt={4} mb={4} isDisabled={trainerName.length < 3} onClick={() => {
 
                 socket.emit('session-join', {
                     trainerName,

@@ -5,13 +5,14 @@ import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true }) {
     const { colorMode } = useColorMode()
-    const { emit, setLoading } = useContext(PlayerContext)
+    const { emit, setLoading, updateStatus } = useContext(PlayerContext)
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
 
     const handleClose = () => {
         if (victory && reward) {
             setLoading({ loading: true, text: "Awarding..." })
             emit('player-win-prize', { prize: reward })
+            updateStatus('badges')
         }
         onClose()
     }
@@ -19,7 +20,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
     if (victory) {
         return (
             <VStack spacing={6} p={6} w="100%">
-                {/* Victory Banner */}
                 <Center
                     bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                     p={6}
@@ -35,7 +35,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     </Text>
                 </Center>
 
-                {/* Badge and Reward */}
                 <Flex
                     bg={bgColor}
                     p={6}
@@ -73,7 +72,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     )}
                 </Flex>
 
-                {/* Close Button */}
                 <Button
                     colorScheme="green"
                     size="lg"
@@ -89,7 +87,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
     // Defeat Screen
     return (
         <VStack spacing={6} p={6} w="100%">
-            {/* Defeat Banner */}
             <Center
                 bg="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
                 p={6}
@@ -105,7 +102,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                 </Text>
             </Center>
 
-            {/* Message */}
             <Flex
                 bg={bgColor}
                 p={6}
@@ -123,7 +119,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                 </Text>
             </Flex>
 
-            {/* Buttons */}
             <VStack spacing={3} w="100%">
                 <Button
                     colorScheme="orange"

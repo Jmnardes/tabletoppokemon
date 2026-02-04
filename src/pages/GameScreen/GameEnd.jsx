@@ -1,4 +1,4 @@
-import { Box, Center, Collapse, Divider, Flex, Grid, GridItem, Image, Text, useColorMode, VStack, HStack, Tooltip } from "@chakra-ui/react";
+import { Box, Collapse, Divider, Flex, Grid, GridItem, Image, Text, useColorMode, VStack, HStack, Tooltip } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 

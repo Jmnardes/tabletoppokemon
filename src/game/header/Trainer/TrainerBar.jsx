@@ -4,6 +4,7 @@ import { Flex, Image, Text } from "@chakra-ui/react";
 import PlayerContext from "@Contexts/PlayerContext";
 
 import clockIcon from '@assets/images/game/clock.png'
+import crownIcon from '@assets/images/game/crown.png'
 import starIcon from '@assets/images/game/star.png'
 import dustIcon from '@assets/images/items/dust.png'
 import daycareTokenIcon from '@assets/images/game/coin.png'
@@ -21,7 +22,7 @@ export default function TrainerBar() {
                         title={'Turns'}
                         w="24px"
                     ></Image>
-                    <Text ml={2} fontSize="2xs">{session.turns}/{session.gameDuration}</Text>
+                    <Text ml={2} fontSize="2xs">{session.turns}</Text>
                 </Flex>
             )}
             <Flex alignItems="center" mx={2} mt={game.hasEnded ? 4 : 0}>
@@ -56,6 +57,16 @@ export default function TrainerBar() {
                 ></Image>
                 <Text fontSize='2xs' title={'Shiny chance ' + (player.items.incense + 1) + '%'} cursor="pointer" ml={2}>{player.items.incense}</Text>
             </Flex>
+            {!game.hasEnded && (
+                <Flex alignItems="center" mx={2}>
+                    <Image
+                        src={crownIcon} 
+                        title={'Badges'}
+                        w="24px"
+                    ></Image>
+                    <Text ml={2} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
+                </Flex>
+            )}
         </>
     )
 }

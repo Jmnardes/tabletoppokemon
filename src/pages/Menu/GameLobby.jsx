@@ -1,7 +1,10 @@
-import { Button, CircularProgress, Divider, Flex, Text } from "@chakra-ui/react";
+import { Button, CircularProgress, Divider, Flex, Text, Image } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
+
+import crownIcon from '@assets/images/game/crown.png'
+import starIcon from '@assets/images/game/star.png'
 
 export default function GameLobby() {
     const {emit, session, opponents, player, version} = useContext(PlayerContext)
@@ -58,23 +61,86 @@ export default function GameLobby() {
                 </Flex>
             </Flex>
             <Divider my={4} />
+            
+            <Flex 
+                width="100%" 
+                flexDirection="column" 
+                alignItems="center" 
+                bg="rgba(255, 215, 0, 0.1)" 
+                borderRadius="md" 
+                p={3} 
+                mb={4}
+            >
+                <Text fontSize="sm" fontWeight="bold" mb={3}>
+                    Game Objective
+                </Text>
+                <Flex width="100%" gap={2} justifyContent="space-between">
+                    <Flex 
+                        flex={1}
+                        flexDirection="column" 
+                        alignItems="center" 
+                        justifyContent="center"
+                        bg="rgba(255, 215, 0, 0.15)"
+                        borderRadius="md"
+                        p={2}
+                    >
+                        <Image
+                            src={crownIcon} 
+                            title={'Badges'}
+                            w="28px"
+                            mb={1}
+                        />
+                        <Text fontSize="2xs" textAlign="center">
+                            Win {session.badgesToWin || 8} badges to end the game
+                        </Text>
+                    </Flex>
+                    <Flex 
+                        flex={1}
+                        flexDirection="column" 
+                        alignItems="center" 
+                        justifyContent="center"
+                        bg="rgba(255, 215, 0, 0.15)"
+                        borderRadius="md"
+                        p={2}
+                    >
+                        <Image
+                            src={starIcon}
+                            title={'Ranking Points'}
+                            w="28px"
+                            mb={1}
+                        />
+                        <Text fontSize="2xs" textAlign="center">
+                            Highest ranking wins
+                        </Text>
+                    </Flex>
+                </Flex>
+            </Flex>
+
+            <Divider my={4} />
+
                 <ConfigurationSlot 
                     name1={'Difficulty'}
                     data1={session.gameDifficulty}
+                    name2={'Shiny chance %'}
+                    data2={session.shinyChance}
+                />
+                <ConfigurationSlot 
+                    name1={'Badges to win'}
+                    data1={session.badgesToWin}
                     name2={'Team length'}
                     data2={session.teamLength}
                 />
                 <ConfigurationSlot 
-                    name1={'Min players'}
-                    data1={session.minPlayers}
-                    name2={'Max players'}
-                    data2={session.maxPlayers}
+                    name1={'Level up/turn'}
+                    data1={session.levelUpgradePerTurn}
+                    name2={'Turns until gym'}
+                    data2={session.turnsUntilNextGym}
                 />
                 <ConfigurationSlot 
-                    name1={'Game duration'}
-                    data1={session.gameDuration}
-                    name2={'Shiny percent'}
-                    data2={session.shinyChance}
+                    name1={'Gym strength'}
+                    data1={session.gymStrengthBonus}
+                    name2={'Generation'}
+                    data2={session.generation}
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>

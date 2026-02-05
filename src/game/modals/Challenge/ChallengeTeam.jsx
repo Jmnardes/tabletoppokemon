@@ -2,18 +2,22 @@ import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
 import socket from "@client"
 import { Button, Center, Text } from "@chakra-ui/react";
-import PokeTeam from "../../body/Team/PokeTeam";
 import ChallengeInfo from "./ChallengeInfo";
-import TeamInBox from "../../header/Buttons/PokeBag/TeamInBox";
+import ChallengePokemonChoice from "./ChallengePokemonChoice";
 import { pokemonHasChallengeBerry } from "@utils";
 
 export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) {
-    const { teamIds, boxIds, pokemonData, player, emit } = useContext(PlayerContext)
+    const { teamIds, boxIds, pokemonData, player, session, emit } = useContext(PlayerContext)
     const [ready, setReady] = useState(false)
+    const [selectedPokemonIds, setSelectedPokemonIds] = useState([])
 
-    const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
+    const allAvailableIds = [...teamIds, ...boxIds]
+    const availablePokemons = allAvailableIds.map(id => pokemonData[id]).filter(Boolean)
+    const selectedPokemons = selectedPokemonIds.map(id => pokemonData[id]).filter(Boolean)
 
     const checkChallengeBonus = (team) => {
+        if (!player?.status) return
+
         setBonus(() => {
             const augmentBonus = player.status.challengeBonus || 0;
             
@@ -42,6 +46,9 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
     useEffect(() => {
         socket.on('event-challenge-start', res => {
             if (res.start === true) {
+                if (res.bonus !== undefined) {
+                    setBonus(res.bonus)
+                }
                 setTeamReady(true)
             }
         })
@@ -54,32 +61,61 @@ export default function ChallengeTeam({ event, bonus, setBonus, setTeamReady }) 
     }, [])
 
     useEffect(() => {
-        checkChallengeBonus(teamPokemons)
-        
+        checkChallengeBonus(selectedPokemons)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [teamIds, pokemonData])
+    }, [selectedPokemonIds, pokemonData])
+
+    const handleTogglePokemon = (pokemonId) => {
+        setSelectedPokemonIds(prev => {
+            if (prev.includes(pokemonId)) {
+                return prev.filter(id => id !== pokemonId)
+            } else if (prev.length < 3) {
+                return [...prev, pokemonId]
+            }
+            return prev
+        })
+    }
+
+    const handleReady = async () => {
+        if (!player?.id || !session?.sessionCode || selectedPokemonIds.length !== 3) {
+            return
+        }
+
+        setReady(true)
+        try {
+            await emit('event-challenge-ready', { pokemonIds: selectedPokemonIds })
+        } catch (error) {
+            setReady(false)
+        }
+    }
 
     return (
         <Center flex flexDir={"column"} justifyContent={"space-between"} h="100%">
             <ChallengeInfo event={event} bonus={bonus} />
 
-            <Center flex flexDir={"column"}>
+            <Center flex flexDir={"column"} w="100%">
                 {!ready && (
-                    <>
-                        <Text>Bag</Text>
-                        <TeamInBox />
-                    </>
+                    <ChallengePokemonChoice 
+                        availablePokemons={availablePokemons}
+                        selectedIds={selectedPokemonIds}
+                        onToggle={handleTogglePokemon}
+                        maxSelection={3}
+                    />
                 )}
-                <Text>Team</Text>
-                <Center minH={60}>
-                    <PokeTeam bag={!ready} challenge={true} />
-                </Center>
+                {ready && (
+                    <Text fontSize="lg" color="green.400">
+                        Waiting for other players...
+                    </Text>
+                )}
             </Center>
 
-            <Button h={24} w={"100%"} mb={2} isDisabled={(teamIds.length < 3 && boxIds.length > 0) || ready} onClick={() => {
-                setReady(true)
-                emit('event-challenge-ready')
-            }}>
+            <Button 
+                h={24} 
+                w={"100%"} 
+                mb={2} 
+                isDisabled={selectedPokemonIds.length !== 3 || ready} 
+                onClick={handleReady}
+            >
                 {ready ? 'Waiting for players...' : 'Ready'}
             </Button>
         </Center>

@@ -1,13 +1,8 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useState } from "react";
 import socket from '@client'
-import { getBerryIcon } from "@utils/berryIcon"
 
 import starIcon from '@assets/images/game/star.png'
-import tokenIcon from '@assets/images/game/coin.png'
-import greatballIcon from '@assets/images/pokeballs/greatball.png'
-import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
-import dustIcon from '@assets/images/items/dust.png'
 
 const PlayerContext = createContext();
 
@@ -377,66 +372,6 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
-        socket.on('daycare-pokemon-release', res => {
-            setLoading({ loading: false })
-            
-            if (res) {
-                syncBoxFromServer(res.pokeBox)
-                updateDaycareToken(res.token)
-                setDaycarePokes(prevPokes => [...prevPokes, res.pokemon])
-                handleToast({
-                    title: 'Daycare Token',
-                    description: `Your ${res.pokemon.name} will be treated with kindness, you received ${res.token} token(s)`,
-                    status: 'info',
-                    duration: 6000,
-                    icon:<Image src={tokenIcon} w={12}></Image>
-                })
-            }
-        })
-
-        socket.on('daycare-buy-item', res => {
-            updateDaycareToken(-res.price)
-
-            switch (res.item) {
-                case 'greatball':
-                    handleToast({
-                        title: 'Greatball',
-                        description: `A new Greatball has been added to your bag`,
-                        status: 'info',
-                        duration: 4000,
-                        icon:<Image src={greatballIcon} w={12}></Image>
-                    })
-                    updateBall(1, res.item)
-                    break
-                case 'ultraball':
-                    handleToast({
-                        title: 'Ultraball',
-                        description: `A new Ultraball has been added to your bag`,
-                        status: 'info',
-                        duration: 4000,
-                        icon:<Image src={ultraballIcon} w={12}></Image>
-                    })
-                    updateBall(1, res.item)
-                    break
-                case 'dust':
-                    handleToast({
-                        title: 'Dust',
-                        description: `A new Dust has been added to your bag`,
-                        status: 'info',
-                        duration: 4000,
-                        icon:<Image src={dustIcon} w={12}></Image>
-                    })
-                    updateItem(1, res.item)
-                    break
-                case 'berry':
-                    break
-                default:
-                    break
-            }
-
-            setLoading({ loading: false })
-        })
-
         socket.on('player-update-task', res => {
             setTasks([...res.tasks])
             if (res.ranking > 0) {
@@ -474,20 +409,6 @@ export function PlayerProvider({children}) {
             if (pokemon?.id) {
                 updatePokemon(pokemon.id, pokemon)
             }
-            setLoading({ loading: false })
-        })
-
-        socket.on('player-gain-berry', ({ berries, newBerry }) => {
-            setBerries(berries)
-
-            handleToast({
-                title: newBerry.name,
-                description: `A new Berry has been added to your bag`,
-                status: 'info',
-                duration: 4000,
-                icon:<Image src={getBerryIcon(newBerry.type)} w={12}></Image>
-            })
-
             setLoading({ loading: false })
         })
 

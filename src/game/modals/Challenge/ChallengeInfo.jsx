@@ -14,21 +14,27 @@ export default function ChallengeInfo({ event, bonus }) {
         return "-"
     }
 
+    if (!event || typeof event !== 'object') {
+        return null
+    }
+
     return (
         <Center flex flexDir={"column"}>
             <Text fontSize={"lg"} mb={2} textAlign="center">
-                {event.label}
+                {typeof event.label === 'string' ? event.label : event.title || 'Challenge'}
             </Text>
             <Center gap={24}>
                 <Center flex flexDir={"column"}>
-                    <Flex color="green.400" my={1}>
-                        <Text mt={2}>Advantages:</Text>
-                        {event.advantage.value.map(element => (
-                            <Element key={element} element={element} elementTable={false} w={8} h={8} />
-                        ))}
-                    </Flex>
+                    {event.advantage?.value && Array.isArray(event.advantage.value) && (
+                        <Flex color="green.400" my={1}>
+                            <Text mt={2}>Advantages:</Text>
+                            {event.advantage.value.map(element => (
+                                <Element key={element} element={element} elementTable={false} w={8} h={8} />
+                            ))}
+                        </Flex>
+                    )}
 
-                    {event.disadvantage?.value && (
+                    {event.disadvantage?.value && Array.isArray(event.disadvantage.value) && (
                         <Flex color="red.400" my={1}>
                             <Text mt={2}>Disadvantages: </Text>
                             {event.disadvantage.value.map(element => (

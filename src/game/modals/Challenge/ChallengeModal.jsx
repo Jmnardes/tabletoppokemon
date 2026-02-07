@@ -7,6 +7,10 @@ export default function ChallengeModal({ event }) {
     const [bonus, setBonus] = useState(0)
     const [teamReady, setTeamReady] = useState(false)
 
+    if (!event || typeof event !== 'object' || !event.advantage) {
+        return null
+    }
+
     return (
         <GenericModal title={"Challenge"}>
             {teamReady ? (

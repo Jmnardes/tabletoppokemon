@@ -10,14 +10,16 @@ import {
     Center,
     useColorMode,
     Divider,
-    Flex
+    Flex,
+    Image
 } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import SuccessIcon from "@components/Icons/SuccessIcon"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import { getBerryIcon } from "@utils/berryIcon"
 
 export default function WalkModal({ event }) {
-    const { emit, updateGame, getTeamPokemons, setLoading } = useContext(PlayerContext)
+    const { emit, updateGame, getTeamPokemons, setLoading, setBerries, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -100,15 +102,40 @@ export default function WalkModal({ event }) {
 
                     <ModalFooter p={0}>
 
-                        <Button h={12} onClick={() => {
+                        <Button h={12} onClick={async () => {
                             if (conditionMet) {
                                 setLoading({ loading: true, text: "Awarding..." })
 
-                                if (prize.type === 'berry') {
-                                    emit('player-gain-berry', { berry: prize.data })
-                                } else {
-                                    emit('player-win-prize', { prize: prize })
+                                try {
+                                    if (prize.type === 'berry') {
+                                        const result = await emit('player-gain-berry', { berry: prize.data })
+                                        
+                                        // Atualiza berries com a resposta do servidor
+                                        if (result) {
+                                            setBerries(result.berries)
+                                            handleToast({
+                                                title: result.newBerry.name,
+                                                description: 'A new Berry has been added to your bag',
+                                                status: 'info',
+                                                duration: 4000,
+                                                icon: <Image src={getBerryIcon(result.newBerry.type)} w={12} />
+                                            })
+                                        }
+                                    } else {
+                                        await emit('player-win-prize', { prize: prize })
+                                    }
+                                } catch (error) {
+                                    handleToast({
+                                        id: 'walk-prize-error',
+                                        title: 'Error claiming prize',
+                                        description: error.message || 'Connection error. Please try again.',
+                                        status: 'error',
+                                        position: 'top'
+                                    })
+                                    console.error('Error claiming walk prize:', error)
                                 }
+                                
+                                setLoading({ loading: false })
                             }
 
                             updateGame({ openWalkModal: false, openEncounterModal: true })

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Center, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import PlayerContext from "@Contexts/PlayerContext";
+import { getBerryIcon } from "@utils/berryIcon";
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
@@ -9,11 +10,79 @@ import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 
 export default function DayCareShop() {
-    const { player, emit, setLoading } = useContext(PlayerContext)
+    const { player, emit, setLoading, updateDaycareToken, updateBall, updateItem, setBerries, handleToast } = useContext(PlayerContext)
 
-    const handleBuyItem = (item, price) => {
+    const handleBuyItem = async (item, price) => {
         setLoading({ loading: true, text: `Buying ${item}...` })
-        emit('daycare-buy-item', { item, price })
+        
+        try {
+            // Aguarda resposta do servidor com os dados do item comprado
+            const result = await emit('daycare-buy-item', { item, price })
+            
+            // Atualiza estado local baseado na resposta do servidor
+            updateDaycareToken(-result.price)
+
+            // Atualiza inventário e mostra toast baseado no item
+            switch (result.item) {
+                case 'greatball':
+                    updateBall(1, result.item)
+                    handleToast({
+                        title: 'Greatball',
+                        description: 'A new Greatball has been added to your bag',
+                        status: 'info',
+                        duration: 4000,
+                        icon: <Image src={greatballIcon} w={12} />
+                    })
+                    break
+                case 'ultraball':
+                    updateBall(1, result.item)
+                    handleToast({
+                        title: 'Ultraball',
+                        description: 'A new Ultraball has been added to your bag',
+                        status: 'info',
+                        duration: 4000,
+                        icon: <Image src={ultraballIcon} w={12} />
+                    })
+                    break
+                case 'dust':
+                    updateItem(1, result.item)
+                    handleToast({
+                        title: 'Dust',
+                        description: 'A new Dust has been added to your bag',
+                        status: 'info',
+                        duration: 4000,
+                        icon: <Image src={dustIcon} w={12} />
+                    })
+                    break
+                case 'berry':
+                    // Atualiza lista de berries com a resposta do servidor
+                    if (result.berries && result.berry) {
+                        setBerries(result.berries)
+                        handleToast({
+                            title: result.berry.name || 'Berry',
+                            description: 'A new Berry has been added to your bag',
+                            status: 'info',
+                            duration: 4000,
+                            icon: <Image src={getBerryIcon(result.berry.type)} w={12} />
+                        })
+                    }
+                    break
+                default:
+                    break
+            }
+
+            setLoading({ loading: false })
+        } catch (error) {
+            setLoading({ loading: false })
+            handleToast({
+                id: 'buy-item-error',
+                title: 'Error buying item',
+                description: error.message || 'Connection error. Please try again.',
+                status: 'error',
+                position: 'top'
+            })
+            console.error('Error buying daycare item:', error)
+        }
     }
 
     const TableItem = ({ icon, name, item, price }) => {

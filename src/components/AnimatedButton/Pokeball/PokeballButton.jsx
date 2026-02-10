@@ -100,7 +100,9 @@ export default function PokeballButton({
                     onAnimationEnd={(e) => {
                         if (endAnimationName === e.animationName) {
                             const rollValue = diceRoll(maxRow) + 1
-                            rollValue === (maxRow + 1) && updateStatus('critics')
+                            if (rollValue === (maxRow + 1)) {
+                                updateStatus('critics').catch(err => console.error('Error updating critics:', err))
+                            }
                             setRolling(false)
                             setValue(rollValue)
                             onRoll && onRoll(rollValue)

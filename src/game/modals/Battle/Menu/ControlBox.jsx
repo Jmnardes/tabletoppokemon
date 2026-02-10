@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import PokeSelector from "./PokeSelector"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
-import { taskTypeEnum } from "@enum"
 
 import { FaDoorOpen } from "react-icons/fa";
 
@@ -18,7 +17,7 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, emit, setLoading } = useContext(PlayerContext)
+    const { updateGame, updateStatus, setLoading, playerWinPrize } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 30000
     const prize = event.prizes[2]
@@ -46,14 +45,15 @@ export default function ControlBox({
 
     const LeaveBattlebutton = () => {
         return (
-            <Button h="100%" py={4} mr={4} title="Leave" onClick={() => {
+            <Button h="100%" py={4} mr={4} title="Leave" onClick={async () => {
                 if (turnWinner === pokemon?.id) {
                     setLoading({ loading: true, text: "Awarding..." })
-                    updateStatus('wins')
-                    emit('player-update-task', { type: taskTypeEnum.winBattle, amount: 1 })
-                    emit('player-win-prize', { prize: prize })
+                    await updateStatus('wins')
+                    // Backend atualiza tasks automaticamente ao detectar vitória na batalha
+                    await playerWinPrize(prize)
+                    setLoading({ loading: false })
                 } else {
-                    updateStatus('loses')
+                    await updateStatus('loses')
                 }
 
                 updateGame({ openBattleModal: false, openEncounterModal: true })

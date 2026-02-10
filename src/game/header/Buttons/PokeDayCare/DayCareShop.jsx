@@ -20,12 +20,12 @@ export default function DayCareShop() {
             const result = await emit('daycare-buy-item', { item, price })
             
             // Atualiza estado local baseado na resposta do servidor
-            updateDaycareToken(-result.price)
+            await updateDaycareToken(-result.price)
 
             // Atualiza inventário e mostra toast baseado no item
             switch (result.item) {
                 case 'greatball':
-                    updateBall(1, result.item)
+                    await updateBall(1, result.item)
                     handleToast({
                         title: 'Greatball',
                         description: 'A new Greatball has been added to your bag',
@@ -35,7 +35,7 @@ export default function DayCareShop() {
                     })
                     break
                 case 'ultraball':
-                    updateBall(1, result.item)
+                    await updateBall(1, result.item)
                     handleToast({
                         title: 'Ultraball',
                         description: 'A new Ultraball has been added to your bag',
@@ -45,7 +45,7 @@ export default function DayCareShop() {
                     })
                     break
                 case 'dust':
-                    updateItem(1, result.item)
+                    await updateItem(1, result.item)
                     handleToast({
                         title: 'Dust',
                         description: 'A new Dust has been added to your bag',

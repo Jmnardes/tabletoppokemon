@@ -4,7 +4,6 @@ import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import SelectedToUpgrade from "./SelectedToUpgrade"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
-import { taskTypeEnum } from "@enum"
 import { getBerryIcon } from "@utils/berryIcon"
 import { berryExistsInBerries, stringToUpperCase } from "@utils"
 
@@ -25,7 +24,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     const handleDust = () => {
         const pokemon = selectedPokemon
 
-        emit('player-update-task', { type: taskTypeEnum.useDust, amount: 1 })
+        // Backend atualiza tasks automaticamente ao detectar uso de dust
         emit('player-use-dust', { pokemon: pokemon })
         setLoading({ loading: true, text: "Applying dust..." })
     }

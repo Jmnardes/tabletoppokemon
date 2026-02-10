@@ -5,14 +5,15 @@ import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 
 export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true }) {
     const { colorMode } = useColorMode()
-    const { emit, setLoading, updateStatus } = useContext(PlayerContext)
+    const { setLoading, updateStatus, playerWinPrize } = useContext(PlayerContext)
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
 
-    const handleClose = () => {
+    const handleClose = async () => {
         if (victory && reward) {
             setLoading({ loading: true, text: "Awarding..." })
-            emit('player-win-prize', { prize: reward })
-            updateStatus('badges')
+            await updateStatus('badges')
+            await playerWinPrize(reward)
+            setLoading({ loading: false })
         }
         onClose()
     }

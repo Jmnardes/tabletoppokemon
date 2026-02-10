@@ -19,7 +19,7 @@ import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 import { getBerryIcon } from "@utils/berryIcon"
 
 export default function WalkModal({ event }) {
-    const { emit, updateGame, getTeamPokemons, setLoading, setBerries, handleToast } = useContext(PlayerContext)
+    const { emit, updateGame, getTeamPokemons, setLoading, setBerries, handleToast, playerWinPrize } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const prize = event.prizes[0]
@@ -122,7 +122,7 @@ export default function WalkModal({ event }) {
                                             })
                                         }
                                     } else {
-                                        await emit('player-win-prize', { prize: prize })
+                                        await playerWinPrize(prize)
                                     }
                                 } catch (error) {
                                     handleToast({

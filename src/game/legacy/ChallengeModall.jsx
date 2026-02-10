@@ -19,7 +19,6 @@ import { useContext, useEffect, useRef, useState } from "react"
 import PlayerContext from "@Contexts/PlayerContext"
 import socket from "@client"
 import OpponentsResult from "../modals/Challenge/OpponentsResult"
-import { taskTypeEnum } from "@enum"
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
 
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon"
@@ -31,7 +30,7 @@ import { FaInfoCircle, FaRedo } from "react-icons/fa";
 import { pokemonHasChallengeBerry } from "@utils"
 
 export default function ChallengeModal({ event }) {
-    const { updateGame, emit, opponents, getTeamPokemons, updateStatus, setLoading, player } = useContext(PlayerContext)
+    const { updateGame, emit, opponents, getTeamPokemons, updateStatus, setLoading, player, playerWinPrize } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [opponentsRoll, setOpponentsRoll] = useState([])
     const [allResultsShown, setAllResultsShown] = useState(false)
@@ -140,13 +139,16 @@ export default function ChallengeModal({ event }) {
         myPlacing.current = 4
     }
 
-    const awarding = (place) => {
+    const awarding = async (place) => {
         won.current = true
         myPlacing.current = place
         
-        place === 0 && updateStatus('challenges')
+        if (place === 0) {
+            await updateStatus('challenges')
+        }
         setLoading({ loading: true, text: "Awarding..." })
-        emit('player-win-prize', { prize: prizes[place] })
+        await playerWinPrize(prizes[place])
+        setLoading({ loading: false })
     }
 
     useEffect(() => {
@@ -220,9 +222,7 @@ export default function ChallengeModal({ event }) {
                                 <ModalFooter px={0}>
 
                                     <Button h={12} isDisabled={!showAwarding} onClick={() => {
-                                        if (myPlacing.current === 0) {
-                                            emit('player-update-task', { type: taskTypeEnum.winChallenge, amount: 1 })
-                                        }
+                                        // Backend atualiza tasks automaticamente ao detectar vitória no desafio
                                         updateGame({ openChallengeModal: false, openEncounterModal: true })
                                     }}><SuccessIcon c={colorMode === 'light' ? "green.500" : "green.400"} /></Button>
 

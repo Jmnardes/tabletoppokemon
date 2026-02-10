@@ -6,12 +6,11 @@ import ChallengeInfo from "./ChallengeInfo";
 import OpponentsResult from "./OpponentsResult";
 import DiceButton from '@components/AnimatedButton/Dice/DiceButton'
 import ChallengeResult from "./ChallengeResult";
-import { taskTypeEnum } from "@enum"
 import SuccessIcon from "@components/Icons/SuccessIcon"
 import Prizes from "./Prizes";
 
 export default function Challenge({ event, bonus }) {
-    const { emit, opponents, setLoading, updateStatus, updateGame } = useContext(PlayerContext)
+    const { emit, opponents, setLoading, updateStatus, updateGame, playerWinPrize } = useContext(PlayerContext)
     const [diceWasRolled, setDiceWasRolled] = useState(false)
     const [won, setWon] = useState(false)
     const [place, setPlace] = useState(null)
@@ -52,13 +51,16 @@ export default function Challenge({ event, bonus }) {
         setPlace(4)
     }
 
-    const awarding = (place) => {
+    const awarding = async (place) => {
         setWon(true)
         setPlace(place)
         
-        place === 0 && updateStatus('challenges')
+        if (place === 0) {
+            await updateStatus('challenges')
+        }
         setLoading({ loading: true, text: 'Awarding...' })
-        emit('player-win-prize', { prize: prizes[place] })
+        await playerWinPrize(prizes[place])
+        setLoading({ loading: false })
     }
 
     useEffect(() => {
@@ -111,9 +113,7 @@ export default function Challenge({ event, bonus }) {
                 <Prizes prizes={prizes} opponents={opponents} />
                 { allResultsShown && (
                     <Button ml={8} mb={4} h={16} w={24} onClick={() => {
-                        if (place === 0) {
-                            emit('player-update-task', { type: taskTypeEnum.winChallenge, amount: 1 })
-                        }
+                        // Backend atualiza tasks automaticamente ao detectar vitória no desafio
                         updateGame({ openChallengeModal: false, openEncounterModal: true })
                     }}><SuccessIcon c={"green.400"} /></Button>
                 )}

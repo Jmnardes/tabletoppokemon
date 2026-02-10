@@ -266,28 +266,108 @@ export function PlayerProvider({children}) {
         setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
 
-    const changeBall = (amount, type) => updatePlayer(amount, 'balls', type)
-    const updateBall = (amount, type) => updatePlayer(amount, 'balls', type)
+    const changeBall = async (amount, type) => {
+        const result = await emit('player-update-balls', { [type]: amount })
+        if (result?.balls) {
+            setPlayer(prev => ({ ...prev, balls: result.balls }))
+        }
+        return result
+    }
+    const updateBall = async (amount, type) => {
+        const result = await emit('player-update-balls', { [type]: amount })
+        if (result?.balls) {
+            setPlayer(prev => ({ ...prev, balls: result.balls }))
+        }
+        return result
+    }
 
     const updatePokeball = (amount) => updateBall(amount, 'pokeball')
     const updateGreatball = (amount) => updateBall(amount, 'greatball')
     const updateUltraball = (amount) => updateBall(amount, 'ultraball')
     const updateMasterball = (amount) => updateBall(amount,'masterball')
 
-    const changeItem = (amount, type) => updatePlayer(amount, 'items', type)
-    const updateItem = (amount, type) => updatePlayer(amount, 'items', type)
-
-    const updateStatus = (type) => updatePlayer(1, 'status', type)
-    const updateStatusAmount = (amount, type) => updatePlayer(amount, 'status', type)
-
-    const updateDaycareToken = (amount) => updatePlayer(amount, 'daycare', 'token')
-
-    useEffect(() => {
-        if (player.status) {
-            emit('player-update-status', { ...player.status })
+    const changeItem = async (amount, type) => {
+        const result = await emit('player-update-status', { [type]: amount })
+        // Atualiza status e items com o retorno do backend
+        if (result?.status) {
+            setPlayer(prev => ({ ...prev, status: result.status }))
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [player.status])
+        if (result?.items) {
+            setPlayer(prev => ({ ...prev, items: result.items }))
+        }
+        return result
+    }
+    const updateItem = async (amount, type) => {
+        const result = await emit('player-update-status', { [type]: amount })
+        // Atualiza status e items com o retorno do backend
+        if (result?.status) {
+            setPlayer(prev => ({ ...prev, status: result.status }))
+        }
+        if (result?.items) {
+            setPlayer(prev => ({ ...prev, items: result.items }))
+        }
+        return result
+    }
+
+    const updateStatus = async (type) => {
+        const result = await emit('player-update-status', { [type]: 1 })
+        if (result?.status) {
+            setPlayer(prev => ({ ...prev, status: result.status }))
+        }
+        if (result?.items) {
+            setPlayer(prev => ({ ...prev, items: result.items }))
+        }
+        if (result?.augments) {
+            setPlayer(prev => ({ ...prev, augments: result.augments }))
+        }
+        if (result?.rankBonus) {
+            setPlayer(prev => ({ ...prev, rankBonus: result.rankBonus }))
+        }
+        return result
+    }
+    const updateStatusAmount = async (amount, type) => {
+        const result = await emit('player-update-status', { [type]: amount })
+
+        if (result?.status) {
+            setPlayer(prev => ({ ...prev, status: result.status }))
+        }
+        if (result?.items) {
+            setPlayer(prev => ({ ...prev, items: result.items }))
+        }
+
+        if (result?.augments) {
+            setPlayer(prev => ({ ...prev, augments: result.augments }))
+        }
+        if (result?.rankBonus) {
+            setPlayer(prev => ({ ...prev, rankBonus: result.rankBonus }))
+        }
+        return result
+    }
+
+    const updateDaycareToken = async (amount) => {
+        const result = await emit('player-update-daycare', { token: amount })
+
+        if (result?.daycare) {
+            setPlayer(prev => ({ ...prev, daycare: result.daycare }))
+        }
+        return result
+    }
+
+    const playerWinPrize = async (prize) => {
+        const result = await emit('player-win-prize', { prize })
+        if (result) {
+            const { amount, key, type } = result
+            if (type) {
+                setPlayer(prev => ({
+                    ...prev,
+                    [key]: { ...prev[key], [type]: prev[key][type] + amount }
+                }))
+            } else {
+                setPlayer(prev => ({ ...prev, [key]: prev[key] + amount }))
+            }
+        }
+        return result
+    }
 
     useEffect(() => {
         socket.on('error', res => {
@@ -388,7 +468,7 @@ export function PlayerProvider({children}) {
                     status: 'success',
                 })
             }
-            updatePlayer(res.ranking, 'status', 'ranking')
+            setPlayer(prev => ({ ...prev, status: { ...prev.status, ranking: prev.status.ranking + res.ranking } }))
         })
 
         socket.on('player-use-berry', ({ berry, pokemon }) => {
@@ -413,15 +493,13 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('player-use-dust', ({ pokemon, amount }) => {
-            updateItem(-amount, 'dust')
+            setPlayer(prev => ({
+                ...prev,
+                items: { ...prev.items, dust: prev.items.dust - amount }
+            }))
             if (pokemon?.id) {
                 updatePokemon(pokemon.id, pokemon)
             }
-            setLoading({ loading: false })
-        })
-
-        socket.on('player-win-prize', ({ amount, key, type }) => {
-            updatePlayer(amount, key, type)
             setLoading({ loading: false })
         })
 
@@ -595,6 +673,8 @@ export function PlayerProvider({children}) {
 
             updateStatus,
             updateStatusAmount,
+
+            playerWinPrize,
 
             results,
         }}>

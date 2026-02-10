@@ -17,8 +17,8 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
             // Aguarda confirmação do servidor ANTES de atualizar estado
             await emit('player-use-ball', {catchRoll: roll + bonus, ballType: type })
             
-            // Só atualiza se o servidor confirmar sucesso
-            updateBall(-1, type)
+            // Atualiza ball após confirmação do servidor
+            await updateBall(-1, type)
             handleCatchDiceRoll(roll + newBonus)
         } catch (error) {
             // Em caso de erro, re-habilita os botões e mostra mensagem

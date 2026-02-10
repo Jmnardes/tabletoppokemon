@@ -16,13 +16,11 @@ export default function DayCareModal() {
         setLoading({ loading: true, text: `Releasing pokémon...` })
         
         try {
-            // Aguarda resposta do servidor com os dados do release
             const result = await emit('daycare-pokemon-release', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
             
-            // Atualiza estado local baseado na resposta do servidor
             if (result) {
                 syncBoxFromServer(result.pokeBox)
-                updateDaycareToken(result.token)
+                await updateDaycareToken(result.token)
                 setDaycarePokes(prevPokes => [...prevPokes, result.pokemon])
                 handleToast({
                     title: 'Daycare Token',

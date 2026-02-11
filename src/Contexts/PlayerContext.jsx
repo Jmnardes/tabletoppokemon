@@ -1,5 +1,5 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import socket from '@client'
 
 import starIcon from '@assets/images/game/star.png'
@@ -8,6 +8,7 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const loadingWatchdogRef = useRef(null) // Watchdog timer to prevent infinite loading
     const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
@@ -49,6 +50,42 @@ export function PlayerProvider({children}) {
         openBadgeCollectionModal: false,
     })
 
+    // Pokemon management functions - defined early for use in resync
+    const setPokemon = useCallback((pokemon) => {
+        setPokemonData(prev => ({
+            ...prev,
+            [pokemon.id]: pokemon
+        }))
+    }, [])
+
+    const setPokemons = useCallback((pokemons) => {
+        const newData = pokemons.reduce((acc, pokemon) => {
+            acc[pokemon.id] = pokemon
+            return acc
+        }, {})
+        setPokemonData(prev => ({ ...prev, ...newData }))
+    }, [])
+
+    const syncPokemonsFromServer = useCallback((teamArray, boxArray) => {
+        const allPokemon = [...(teamArray || []), ...(boxArray || [])].filter(Boolean)
+        setPokemons(allPokemon)
+        setTeamIds((teamArray || []).map(p => p?.id).filter(Boolean))
+        setBoxIds((boxArray || []).map(p => p?.id).filter(Boolean))
+    }, [setPokemons])
+    
+    const syncTeamFromServer = useCallback((teamArray) => {
+        if (!teamArray) return
+        const validTeam = teamArray.filter(Boolean)
+        setPokemons(validTeam)
+        setTeamIds(validTeam.map(p => p?.id).filter(Boolean))
+    }, [setPokemons])
+    
+    const syncBoxFromServer = useCallback((boxArray) => {
+        if (!boxArray) return
+        setPokemons(boxArray)
+        setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
+    }, [setPokemons])
+
     const emit = useCallback((name, data, timeout = 5000) => {
         return new Promise((resolve, reject) => {
             if (!socket.connected) {
@@ -77,6 +114,71 @@ export function PlayerProvider({children}) {
             })
         })
     }, [player, session])
+
+    /**
+     * RESYNC STRATEGY: Request full session snapshot from server
+     * This prevents the UI from getting stuck when critical events are lost during disconnection.
+     * Called automatically on reconnection and can be called manually when state seems inconsistent.
+     */
+    const resync = useCallback(async () => {
+        console.log('🔄 Requesting session resync...')
+        try {
+            const snapshot = await emit('session-resync', {}, 8000)
+            
+            // Apply the complete snapshot from server
+            if (snapshot?.session) setSession(snapshot.session)
+            if (snapshot?.player) {
+                setPlayer(snapshot.player)
+                setBerries(snapshot.player.berries || [])
+                
+                // Sync Pokemon data
+                if (snapshot.player.pokeTeam || snapshot.player.pokeBox) {
+                    syncPokemonsFromServer(
+                        snapshot.player.pokeTeam || [],
+                        snapshot.player.pokeBox || []
+                    )
+                }
+            }
+            if (snapshot?.opponents) setOpponents(snapshot.opponents)
+            if (snapshot?.version !== undefined) setVersion(snapshot.version)
+            if (snapshot?.gym !== undefined) setGym(snapshot.gym)
+            if (snapshot?.nextGym !== undefined) setNextGym(snapshot.nextGym)
+            
+            // Clear loading state after successful resync
+            setLoading({ loading: false })
+            
+            console.log('✅ Resync completed successfully')
+            return snapshot
+        } catch (error) {
+            console.error('❌ Resync failed:', error)
+            
+            // Handle session expired
+            if (error?.message?.includes('expired') || error?.message?.includes('not found')) {
+                handleToast({
+                    id: 'session-expired',
+                    title: 'Session Expired',
+                    description: 'Returning to lobby...',
+                    status: 'warning',
+                    position: 'top'
+                })
+                localStorage.removeItem('playerId')
+                localStorage.removeItem('sessionCode')
+                setTimeout(() => {
+                    window.location.href = '/lobby'
+                }, 1500)
+            } else {
+                handleToast({
+                    id: 'resync-error',
+                    title: 'Sync Error',
+                    description: 'Failed to sync with server',
+                    status: 'error',
+                    position: 'top'
+                })
+                setLoading({ loading: false })
+            }
+            throw error
+        }
+    }, [emit, syncPokemonsFromServer])
     
     const handleToast = (args) => {
         let bgColor = "gray.400"
@@ -158,21 +260,6 @@ export function PlayerProvider({children}) {
     const newOpponent = (opponent) => setOpponents(old => [...old, opponent])
     const removeOpponentById = (id) => setOpponents(old => old.filter(player => player.id!== id))
 
-    const setPokemon = useCallback((pokemon) => {
-        setPokemonData(prev => ({
-            ...prev,
-            [pokemon.id]: pokemon
-        }))
-    }, [])
-
-    const setPokemons = useCallback((pokemons) => {
-        const newData = pokemons.reduce((acc, pokemon) => {
-            acc[pokemon.id] = pokemon
-            return acc
-        }, {})
-        setPokemonData(prev => ({ ...prev, ...newData }))
-    }, [])
-
     const updatePokemon = useCallback((pokemonId, updates) => {
         setPokemonData(prev => ({
             ...prev,
@@ -245,26 +332,6 @@ export function PlayerProvider({children}) {
     const getPokemon = useCallback((pokemonId) => {
         return pokemonData[pokemonId]
     }, [pokemonData])
-
-    const syncPokemonsFromServer = useCallback((teamArray, boxArray) => {
-        const allPokemon = [...(teamArray || []), ...(boxArray || [])].filter(Boolean)
-        setPokemons(allPokemon)
-        setTeamIds((teamArray || []).map(p => p?.id).filter(Boolean))
-        setBoxIds((boxArray || []).map(p => p?.id).filter(Boolean))
-    }, [setPokemons])
-    
-    const syncTeamFromServer = useCallback((teamArray) => {
-        if (!teamArray) return
-        const validTeam = teamArray.filter(Boolean)
-        setPokemons(validTeam)
-        setTeamIds(validTeam.map(p => p?.id).filter(Boolean))
-    }, [setPokemons])
-    
-    const syncBoxFromServer = useCallback((boxArray) => {
-        if (!boxArray) return
-        setPokemons(boxArray)
-        setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
-    }, [setPokemons])
 
     const changeBall = async (amount, type) => {
         const result = await emit('player-update-balls', { [type]: amount })
@@ -514,13 +581,51 @@ export function PlayerProvider({children}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    /**
+     * WATCHDOG: Anti-infinite loading mechanism
+     * If loading persists for too long (8s), automatically trigger resync
+     */
+    useEffect(() => {
+        // Clear any existing timer
+        if (loadingWatchdogRef.current) {
+            clearTimeout(loadingWatchdogRef.current)
+            loadingWatchdogRef.current = null
+        }
+
+        // Start watchdog timer when loading begins
+        if (loading.loading && player?.id && session?.sessionCode) {
+            console.log('⏱️ Loading watchdog started (8s)')
+            loadingWatchdogRef.current = setTimeout(() => {
+                console.warn('⚠️ Loading timeout detected - triggering resync')
+                resync().catch(err => {
+                    console.error('Watchdog resync failed:', err)
+                })
+            }, 8000) // 8 seconds timeout
+        }
+
+        // Cleanup on unmount or when loading changes
+        return () => {
+            if (loadingWatchdogRef.current) {
+                clearTimeout(loadingWatchdogRef.current)
+                loadingWatchdogRef.current = null
+            }
+        }
+    }, [loading.loading, player?.id, session?.sessionCode, resync])
+
     useEffect(() => {
         function onConnect() {
             console.log('✅ Connected to server') 
             setConnected(true)
-            setLoading({
-                loading: false
-            })
+            
+            // Automatically resync on connection if we have session data
+            if (player?.id && session?.sessionCode) {
+                resync().catch(err => {
+                    console.error('Connect resync failed:', err)
+                    setLoading({ loading: false })
+                })
+            } else {
+                setLoading({ loading: false })
+            }
         }
 
         function onDisconnect(reason) {
@@ -544,20 +649,20 @@ export function PlayerProvider({children}) {
 
         function onReconnected(data) {
             console.log('✅ Reconnected successfully!', data)
-            if (data.player) 
-                setPlayer(data.player) 
-            if (data.session) 
-                setSession(data.session) 
-            setLoading({
-                loading: false
+            
+            // Instead of trusting the event data, trigger full resync
+            resync().catch(err => {
+                console.error('Reconnect resync failed:', err)
+                // Fallback to event data if resync fails
+                if (data?.player) setPlayer(data.player)
+                if (data?.session) setSession(data.session)
+                setLoading({ loading: false })
             })
         }
 
         function onSessionExpired() {
             console.log('⚠️ Session expired') 
-            setLoading({
-                loading: false
-            })
+            setLoading({ loading: false })
             localStorage.removeItem('playerId') 
             localStorage.removeItem('sessionCode') 
             setPlayer({}) 
@@ -577,7 +682,7 @@ export function PlayerProvider({children}) {
             socket.off('player-session-reconnected', onReconnected) 
             socket.off('session-expired', onSessionExpired)
         }
-    }, [])
+    }, [player?.id, session?.sessionCode, resync])
 
     useEffect(() => {
         if (player?.id) {
@@ -591,6 +696,7 @@ export function PlayerProvider({children}) {
     return (
         <PlayerContext.Provider value={{
             emit,
+            resync, // Exposed for manual resync if needed
             handleToast,
 
             loading,

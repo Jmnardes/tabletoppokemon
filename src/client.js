@@ -25,4 +25,12 @@ const socket = io(SERVER_URL, {
   }
 })
 
+// Update auth on each reconnection attempt to ensure fresh credentials
+socket.io.on('reconnect_attempt', () => {
+  const auth = getStoredAuth()
+  if (auth.playerId && auth.sessionCode) {
+    socket.auth = auth
+  }
+})
+
 export default socket;

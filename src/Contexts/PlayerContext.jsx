@@ -594,7 +594,6 @@ export function PlayerProvider({children}) {
 
         // Start watchdog timer when loading begins
         if (loading.loading && player?.id && session?.sessionCode) {
-            console.log('⏱️ Loading watchdog started (8s)')
             loadingWatchdogRef.current = setTimeout(() => {
                 console.warn('⚠️ Loading timeout detected - triggering resync')
                 resync().catch(err => {

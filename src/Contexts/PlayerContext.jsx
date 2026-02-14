@@ -22,6 +22,7 @@ export function PlayerProvider({children}) {
     const [boxIds, setBoxIds] = useState([])
     const [daycarePokes, setDaycarePokes] = useState([])
     const [tasks, setTasks] = useState([])
+    const [achievements, setAchievements] = useState([])
     const [berries, setBerries] = useState([])
     const [gym, setGym] = useState(null)
     const [nextGym, setNextGym] = useState(null)
@@ -498,6 +499,10 @@ export function PlayerProvider({children}) {
         socket.on('lobby-start', (res) => {
             setEncounter([...res.starters])
             setTasks([...res.initialTasks])
+            if (res.achievements) {
+                console.log('🎯 Achievements received:', res.achievements)
+                setAchievements([...res.achievements])
+            }
             setHasGameStarted(true)
             updateGame({ openEncounterModal: true })
         })
@@ -517,6 +522,12 @@ export function PlayerProvider({children}) {
 
         socket.on('player-update-status-other', res => {
             updateOpponent(res.id, res.data, 'status')
+        })
+
+        socket.on('player-update-status', res => {
+            if (res?.status) {
+                setPlayer(prev => ({ ...prev, status: res.status }))
+            }
         })
 
         socket.on('player-update-task', res => {
@@ -594,7 +605,6 @@ export function PlayerProvider({children}) {
 
         // Start watchdog timer when loading begins
         if (loading.loading && player?.id && session?.sessionCode) {
-            console.log('⏱️ Loading watchdog started (8s)')
             loadingWatchdogRef.current = setTimeout(() => {
                 console.warn('⚠️ Loading timeout detected - triggering resync')
                 resync().catch(err => {
@@ -723,6 +733,9 @@ export function PlayerProvider({children}) {
 
             tasks,
             setTasks,
+
+            achievements,
+            setAchievements,
 
             berries,
             setBerries,

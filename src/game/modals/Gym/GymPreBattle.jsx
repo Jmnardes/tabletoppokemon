@@ -1,5 +1,5 @@
 import { useState, useContext } from "react"
-import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Grid, Tooltip, Box } from "@chakra-ui/react"
+import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Tooltip, Box } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import Element from "@components/Elements/Element"
 import Card from "@components/Pokemon/Card"
@@ -65,13 +65,18 @@ export default function GymPreBattle({ gym, onStartBattle }) {
             </HStack>
 
             {/* Pokemon Grid */}
-            <Grid
-                templateColumns="repeat(auto-fill, minmax(140px, 1fr))"
+            <Flex
                 gap={3}
                 w="100%"
-                maxH="400px"
-                overflowY="auto"
+                overflowX="auto"
+                overflowY="hidden"
                 p={2}
+                flexWrap="nowrap"
+                sx={{
+                    '&::-webkit-scrollbar': { height: '8px' },
+                    '&::-webkit-scrollbar-track': { bg: 'transparent' },
+                    '&::-webkit-scrollbar-thumb': { bg: colorMode === 'light' ? 'gray.300' : 'gray.600', borderRadius: '4px' }
+                }}
             >
                 {allPokemons.map((pokemon) => {
                     const isSelected = selectedPokemons.find(p => p.id === pokemon.id)
@@ -100,6 +105,9 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                                 transition="all 0.2s"
                                 _hover={!isDisabled ? { transform: "scale(1.05)" } : {}}
                                 position="relative"
+                                minW="140px"
+                                maxW="140px"
+                                flexShrink={0}
                             >
                                 {/* Selection order badge */}
                                 {isSelected && (
@@ -167,7 +175,7 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                         </Tooltip>
                     )
                 })}
-            </Grid>
+            </Flex>
 
             {/* Start Button */}
             <Button

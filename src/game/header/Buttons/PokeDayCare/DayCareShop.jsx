@@ -10,59 +10,64 @@ import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 
 export default function DayCareShop() {
-    const { player, emit, setLoading, updateDaycareToken, updateBall, updateItem, setBerries, handleToast } = useContext(PlayerContext)
+    const { player, emit, setLoading, setPlayer, setBerries, handleToast } = useContext(PlayerContext)
 
     const handleBuyItem = async (item, price) => {
         setLoading({ loading: true, text: `Buying ${item}...` })
         
         try {
-            // Aguarda resposta do servidor com os dados do item comprado
             const result = await emit('daycare-buy-item', { item, price })
             
-            // Atualiza estado local baseado na resposta do servidor
-            await updateDaycareToken(-result.price)
+            if (result?.balls) {
+                setPlayer(prev => ({ ...prev, balls: result.balls }))
+            }
+            if (result?.items) {
+                setPlayer(prev => ({ ...prev, items: result.items }))
+            }
+            if (result?.daycare) {
+                setPlayer(prev => ({ ...prev, daycare: result.daycare }))
+            }
+            if (result?.berries) {
+                setBerries(result.berries)
+            }
 
-            // Atualiza inventário e mostra toast baseado no item
+            // Mostra toast baseado no item comprado
+            const toastConfig = {
+                status: 'info',
+                duration: 4000,
+            }
+
             switch (result.item) {
                 case 'greatball':
-                    await updateBall(1, result.item)
                     handleToast({
+                        ...toastConfig,
                         title: 'Greatball',
                         description: 'A new Greatball has been added to your bag',
-                        status: 'info',
-                        duration: 4000,
                         icon: <Image src={greatballIcon} w={12} />
                     })
                     break
                 case 'ultraball':
-                    await updateBall(1, result.item)
                     handleToast({
+                        ...toastConfig,
                         title: 'Ultraball',
                         description: 'A new Ultraball has been added to your bag',
-                        status: 'info',
-                        duration: 4000,
                         icon: <Image src={ultraballIcon} w={12} />
                     })
                     break
                 case 'dust':
-                    await updateItem(1, result.item)
                     handleToast({
+                        ...toastConfig,
                         title: 'Dust',
                         description: 'A new Dust has been added to your bag',
-                        status: 'info',
-                        duration: 4000,
                         icon: <Image src={dustIcon} w={12} />
                     })
                     break
                 case 'berry':
-                    // Atualiza lista de berries com a resposta do servidor
-                    if (result.berries && result.berry) {
-                        setBerries(result.berries)
+                    if (result.berry) {
                         handleToast({
+                            ...toastConfig,
                             title: result.berry.name || 'Berry',
                             description: 'A new Berry has been added to your bag',
-                            status: 'info',
-                            duration: 4000,
                             icon: <Image src={getBerryIcon(result.berry.type)} w={12} />
                         })
                     }

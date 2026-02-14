@@ -28,7 +28,7 @@ export const gameConfig = {
     
     gymStrengthBonus: {
         default: 2,
-        min: 1,
+        min: 0,
         max: 3,
         step: 1,
     },

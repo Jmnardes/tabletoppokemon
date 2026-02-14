@@ -8,7 +8,6 @@ import socket from "@client"
 
 import GymPreBattle from "./GymPreBattle"
 import GymBattleScreen from "./GymBattleScreen"
-import GymPokemonChoice from "./GymPokemonChoice"
 import GymBattleResult from "./GymBattleResult"
 
 const getBadgeIcon = (badgeName) => {
@@ -31,7 +30,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const [battleState, setBattleState] = useState('info')
@@ -41,8 +40,8 @@ export default function GymModal() {
     const [currentLeaderPokemon, setCurrentLeaderPokemon] = useState(null)
     const [battleLog, setBattleLog] = useState([])
     const [availablePokemons, setAvailablePokemons] = useState([])
+    const [needsChoice, setNeedsChoice] = useState(false)
     const [battleResult, setBattleResult] = useState(null)
-    const [showPokemonChoice, setShowPokemonChoice] = useState(false)
     const [loadingTimeout, setLoadingTimeout] = useState(null)
     const [shouldClearGym, setShouldClearGym] = useState(false)
 
@@ -63,8 +62,14 @@ export default function GymModal() {
                 return
             }
 
-            const { winner, loser, winnerSide, log } = res.fight
-            const { needsChoice, availablePokemons } = res.battleState
+            const { log } = res.fight
+            const { 
+                playerTurn, 
+                availablePokemons, 
+                leaderPokemons, 
+                currentPlayerPokemon, 
+                currentLeaderPokemon 
+            } = res.battleState
 
             if (!log || !Array.isArray(log)) {
                 setLoading({ loading: false })
@@ -73,54 +78,46 @@ export default function GymModal() {
 
             setBattleLog(log)
 
-            if (winnerSide === 'attacker') {
-                setCurrentPlayerPokemon(winner)
-                if (loser) {
-                    setCurrentLeaderPokemon({ ...loser, defeated: true })
-                    setLeaderTeam(prev => prev.map(p => 
-                        p.id === loser.id ? { ...loser, defeated: true, revealed: true } : p
-                    ))
+            if (currentPlayerPokemon) {
+                setCurrentPlayerPokemon(currentPlayerPokemon)
+            } else if (availablePokemons && availablePokemons.length > 0) {
+                const activePokemon = availablePokemons.find(p => !p.defeated && p.currentHp > 0)
+                if (activePokemon) {
+                    setCurrentPlayerPokemon(activePokemon)
                 }
-            } else {
-                setCurrentLeaderPokemon({ ...winner, revealed: true })
-                if (loser) {
-                    setCurrentPlayerPokemon({ ...loser, defeated: true })
-                    setPlayerTeam(prev => prev.map(p => 
-                        p.id === loser.id ? { ...loser, defeated: true } : p
-                    ))
+            }
+            
+            if (currentLeaderPokemon) {
+                setCurrentLeaderPokemon(currentLeaderPokemon)
+            } else if (leaderPokemons && leaderPokemons.length > 0) {
+                const activePokemon = leaderPokemons.find(p => !p.defeated && p.currentHp > 0)
+                if (activePokemon) {
+                    setCurrentLeaderPokemon(activePokemon)
                 }
             }
 
-            if (needsChoice && availablePokemons) {
-                const logAnimationTime = log.length * 800 + 1000
-                
-                setTimeout(() => {
-                    const fullPokemons = availablePokemons.map(ap => {
-                        const fullPokemon = playerTeam.find(p => p.id === ap.id)
-                        
-                        if (!fullPokemon) {
-                            const fromContext = getPokemon(ap.id)
-                            return {
-                                ...fromContext,
-                                index: ap.index,
-                                defeated: ap.defeated,
-                                currentHp: ap.currentHp
-                            }
-                        }
-                        
-                        return {
-                            ...fullPokemon,
-                            index: ap.index,
-                            defeated: ap.defeated,
-                            currentHp: ap.currentHp !== undefined ? ap.currentHp : fullPokemon.currentHp
-                        }
-                    })
-                    
-                    setAvailablePokemons(fullPokemons)
-                    setTimeout(() => {
-                        setShowPokemonChoice(true)
-                    }, 100)
-                }, logAnimationTime)
+            if (leaderPokemons && leaderPokemons.length > 0) {
+                const formattedLeaderTeam = leaderPokemons.map(p => ({
+                    ...p,
+                    id: p.id || p.name,
+                    revealed: p.defeated || p.currentHp < p.hp
+                }))
+                setLeaderTeam(formattedLeaderTeam)
+            }
+
+            if (availablePokemons && availablePokemons.length > 0) {
+                const formattedPlayerTeam = availablePokemons.map(p => ({
+                    ...p,
+                    defeated: p.defeated || false
+                }))
+                setPlayerTeam(formattedPlayerTeam)
+            }
+
+            if (playerTurn && availablePokemons) {
+                setAvailablePokemons(availablePokemons)
+                setNeedsChoice(true)
+            } else {
+                setNeedsChoice(false)
             }
 
             setLoading({ loading: false })
@@ -133,26 +130,46 @@ export default function GymModal() {
             }
 
             if (res.finalFight && res.finalFight.log) {
-                const { winner, loser, winnerSide, log } = res.finalFight
+                const { log } = res.finalFight
+                const { 
+                    leaderPokemons, 
+                    currentPlayerPokemon, 
+                    currentLeaderPokemon,
+                    availablePokemons
+                } = res.battleState || {}
                 
                 setBattleLog(log)
                 
-                if (winnerSide === 'attacker') {
-                    setCurrentPlayerPokemon(winner)
-                    if (loser) {
-                        setCurrentLeaderPokemon({ ...loser, defeated: true })
-                        setLeaderTeam(prev => prev.map(p => 
-                            p.id === loser.id ? { ...loser, defeated: true, revealed: true } : p
-                        ))
+                // Update final state with full data from server
+                if (currentPlayerPokemon) {
+                    setCurrentPlayerPokemon(currentPlayerPokemon)
+                } else if (availablePokemons && availablePokemons.length > 0) {
+                    const lastActivePokemon = availablePokemons.find(p => p.currentHp >= 0)
+                    if (lastActivePokemon) {
+                        setCurrentPlayerPokemon(lastActivePokemon)
                     }
-                } else {
-                    setCurrentLeaderPokemon({ ...winner, revealed: true })
-                    if (loser) {
-                        setCurrentPlayerPokemon({ ...loser, defeated: true })
-                        setPlayerTeam(prev => prev.map(p => 
-                            p.id === loser.id ? { ...loser, defeated: true } : p
-                        ))
+                }
+                
+                if (currentLeaderPokemon) {
+                    setCurrentLeaderPokemon(currentLeaderPokemon)
+                } else if (leaderPokemons && leaderPokemons.length > 0) {
+                    const lastActivePokemon = leaderPokemons.find(p => p.currentHp >= 0)
+                    if (lastActivePokemon) {
+                        setCurrentLeaderPokemon(lastActivePokemon)
                     }
+                }
+
+                if (leaderPokemons && leaderPokemons.length > 0) {
+                    const formattedLeaderTeam = leaderPokemons.map(p => ({
+                        ...p,
+                        id: p.id || p.name,
+                        revealed: true
+                    }))
+                    setLeaderTeam(formattedLeaderTeam)
+                }
+
+                if (availablePokemons && availablePokemons.length > 0) {
+                    setPlayerTeam(availablePokemons)
                 }
             }
             
@@ -183,28 +200,12 @@ export default function GymModal() {
                 clearTimeout(loadingTimeout)
             }
         }
-    }, [currentPlayerPokemon, currentLeaderPokemon, playerTeam, setLoading, getPokemon, loadingTimeout, setGym, setNextGym])
+    }, [setLoading, getPokemon, loadingTimeout, setGym, setNextGym])
 
     const handleStartBattle = (pokemonIds) => {
-        emit('gym-battle-start', { gymId: displayGym.id, pokemonIds })
+        emit('gym-battle-start', { playerPokemonIds: pokemonIds })
         
-        const selectedPokemons = pokemonIds.map(id => {
-            const fullPokemon = getPokemon(id)
-            if (!fullPokemon) {
-                return { id, currentHp: 0, defeated: false }
-            }
-            return {
-                ...fullPokemon,
-                currentHp: fullPokemon.hp,
-                defeated: false
-            }
-        })
-        
-        setPlayerTeam(selectedPokemons)
         setLastGymBattleTurn(session.turns)
-        
-        setLeaderTeam(displayGym.leaderTeam.map(p => ({ ...p, revealed: false, defeated: false })))
-        
         setBattleState('battling')
         setLoading({ loading: true, text: 'Starting gym battle...' })
 
@@ -219,11 +220,26 @@ export default function GymModal() {
         const selectedPokemon = availablePokemons[arrayIndex]
         const pokemonIndex = selectedPokemon?.index !== undefined ? selectedPokemon.index : arrayIndex
         
-        setShowPokemonChoice(false)
-        setBattleLog([])
+        // Update current player pokemon optimistically
+        if (selectedPokemon) {
+            setCurrentPlayerPokemon(selectedPokemon)
+        }
+        
+        setNeedsChoice(false)
         setLoading({ loading: true, text: 'Selecting pokémon...' })
         
         emit('gym-battle-choose', { pokemonIndex })
+        
+        const timeout = setTimeout(() => {
+            setLoading({ loading: false })
+        }, 15000)
+        setLoadingTimeout(timeout)
+    }
+
+    const handleNext = () => {
+        setLoading({ loading: true, text: 'Continuing battle...' })
+        
+        emit('gym-battle-next', {})
         
         const timeout = setTimeout(() => {
             setLoading({ loading: false })
@@ -237,6 +253,8 @@ export default function GymModal() {
         setLeaderTeam([])
         setBattleLog([])
         setBattleResult(null)
+        setNeedsChoice(false)
+        setAvailablePokemons([])
     }
 
     const handleBattleLogComplete = () => {
@@ -258,6 +276,8 @@ export default function GymModal() {
         setLeaderTeam([])
         setBattleLog([])
         setBattleResult(null)
+        setNeedsChoice(false)
+        setAvailablePokemons([])
     }
 
     const handleChallenge = () => {
@@ -271,7 +291,6 @@ export default function GymModal() {
     const modalTitle = 
         battleState === 'pre-battle' ? `Select Team - ${displayGym?.name}` :
         battleState === 'battling' ? `Battle - ${displayGym?.name}` :
-        battleState === 'choosing' ? 'Choose Pokémon' :
         battleState === 'result' ? (battleResult?.victory ? 'Victory!' : 'Defeat') :
         isAvailable ? displayGym?.name : `Next Gym: ${displayGym?.name}`
 
@@ -280,7 +299,7 @@ export default function GymModal() {
             title={modalTitle}
             closeButton={battleState === 'info' || battleState === 'result'}
             onModalClose={handleClose}
-            size="xl"
+            size={battleState === 'battling' ? 'full' : 'xl'}
         >
             {/* Tela de Informação do Gym */}
             {battleState === 'info' && (
@@ -347,6 +366,28 @@ export default function GymModal() {
                                 </HStack>
                             )}
                         </Flex>
+
+                        {/* Reward */}
+                        {displayGym.reward && (
+                            <Flex
+                                bg={bgColor}
+                                p={4}
+                                borderRadius={8}
+                                flexDirection="column"
+                                alignItems="center"
+                                gap={2}
+                            >
+                                <Text fontSize="md" fontWeight="bold">
+                                    Reward
+                                </Text>
+                                <HStack>
+                                    <Text fontSize="lg" fontWeight="bold" color="green.400">
+                                        +{displayGym.reward.amount}
+                                    </Text>
+                                    <PrizeIcon type={displayGym.reward.name} size="24px" />
+                                </HStack>
+                            </Flex>
+                        )}
                     </HStack>
 
                     <Divider />
@@ -392,31 +433,6 @@ export default function GymModal() {
 
                     <Divider />
 
-                    {/* Reward */}
-                    {displayGym.reward && (
-                        <Flex
-                            w="100%"
-                            bg={bgColor}
-                            p={4}
-                            borderRadius={8}
-                            flexDirection="column"
-                            alignItems="center"
-                            gap={2}
-                        >
-                            <Text fontSize="md" fontWeight="bold">
-                                Victory Reward
-                            </Text>
-                            <HStack>
-                                <Text fontSize="lg" fontWeight="bold" color="green.400">
-                                    +{displayGym.reward.amount}
-                                </Text>
-                                <PrizeIcon type={displayGym.reward.name} size="24px" />
-                            </HStack>
-                        </Flex>
-                    )}
-
-                    {displayGym.reward && <Divider />}
-
                     {/* Ação */}
                     <Center flexDirection="column" gap={2} pt={2} minH="120px">
                         {!isAvailable ? (
@@ -460,40 +476,17 @@ export default function GymModal() {
 
             {/* Tela de Batalha */}
             {battleState === 'battling' && (
-                <VStack spacing={4} w="full">
-                    {!showPokemonChoice ? (
-                        <GymBattleScreen
-                            playerTeam={playerTeam}
-                            leaderTeam={leaderTeam}
-                            battleLog={battleLog}
-                            currentPlayerPokemon={currentPlayerPokemon}
-                            currentLeaderPokemon={currentLeaderPokemon}
-                            onSkipLogs={() => {
-                                if (availablePokemons && availablePokemons.length > 0) {
-                                    setShowPokemonChoice(true)
-                                }
-                            }}
-                            onBattleLogComplete={handleBattleLogComplete}
-                            hasBattleResult={!!battleResult}
-                        />
-                    ) : (
-                        availablePokemons && availablePokemons.length > 0 ? (
-                            <GymPokemonChoice
-                                availablePokemons={availablePokemons}
-                                onChoose={handleChoosePokemon}
-                            />
-                        ) : (
-                            <Text color="yellow.400">Loading...</Text>
-                        )
-                    )}
-                </VStack>
-            )}
-
-            {/* Tela de Escolha de Pokémon */}
-            {battleState === 'choosing' && (
-                <GymPokemonChoice
-                    availablePokemons={availablePokemons}
-                    onChoose={handleChoosePokemon}
+                <GymBattleScreen
+                    playerTeam={playerTeam}
+                    leaderTeam={leaderTeam}
+                    battleLog={battleLog}
+                    currentPlayerPokemon={currentPlayerPokemon}
+                    currentLeaderPokemon={currentLeaderPokemon}
+                    onBattleLogComplete={handleBattleLogComplete}
+                    hasBattleResult={!!battleResult}
+                    needsChoice={needsChoice}
+                    onChoosePokemon={handleChoosePokemon}
+                    onNext={handleNext}
                 />
             )}
 

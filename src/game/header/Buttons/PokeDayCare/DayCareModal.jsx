@@ -8,7 +8,7 @@ import DayCareShop from "./DayCareShop"
 import tokenIcon from '@assets/images/game/coin.png'
 
 export default function DayCareModal() {
-    const { updateGame, getBoxPokemons, setLoading, emit, syncBoxFromServer, updateDaycareToken, setDaycarePokes, handleToast } = useContext(PlayerContext)
+    const { updateGame, getBoxPokemons, setLoading, emit, syncBoxFromServer, setPlayer, setDaycarePokes, handleToast } = useContext(PlayerContext)
 
     const boxPokemons = getBoxPokemons()
 
@@ -20,11 +20,16 @@ export default function DayCareModal() {
             
             if (result) {
                 syncBoxFromServer(result.pokeBox)
-                await updateDaycareToken(result.token)
-                setDaycarePokes(prevPokes => [...prevPokes, result.pokemon])
+                
+                if (result.daycare) {
+                    setPlayer(prev => ({ ...prev, daycare: result.daycare }))
+                }
+                
+                setDaycarePokes(prevPokes => [...prevPokes, pokemon])
+                
                 handleToast({
                     title: 'Daycare Token',
-                    description: `Your ${result.pokemon.name} will be treated with kindness, you received ${result.token} token(s)`,
+                    description: `Your ${pokemon.name} will be treated with kindness`,
                     status: 'info',
                     duration: 6000,
                     icon: <Image src={tokenIcon} w={12} />

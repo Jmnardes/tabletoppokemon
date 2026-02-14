@@ -17,7 +17,6 @@ import {
     HStack
 } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
-import socket from "@client"
 import Element from "@components/Elements/Element"
 
 // Lista de todas as badges disponíveis no jogo
@@ -84,23 +83,24 @@ export default function BadgeCollectionModal() {
     const borderColor = colorMode === 'light' ? "gray.300" : "gray.600"
 
     useEffect(() => {
-        socket.on('gym-check-badges', (response) => {
-            if (response?.defeatedGyms) {
-                setDefeatedGyms(Array.isArray(response.defeatedGyms) ? response.defeatedGyms : [])
-            } else {
-                setDefeatedGyms([])
-            }
-            setIsLoading(false)
-        })
-
         emit('gym-check-badges')
+            .then((response) => {
+                if (response?.defeatedGyms) {
+                    const badges = Array.isArray(response.defeatedGyms) ? response.defeatedGyms : []
+                    // Remove duplicates based on badgeId
+                    const uniqueBadges = badges.filter((badge, index, self) => 
+                        index === self.findIndex((b) => b.badgeId === badge.badgeId)
+                    )
+                    setDefeatedGyms(uniqueBadges)
+                } else {
+                    setDefeatedGyms([])
+                }
+                setIsLoading(false)
+            })
             .catch(() => {
                 setDefeatedGyms([])
                 setIsLoading(false)
             })
-        return () => {
-            socket.off('gym-check-badges')
-        }
     }, [emit])
 
     const handleClose = () => {

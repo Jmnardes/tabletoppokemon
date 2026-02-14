@@ -11,7 +11,8 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
     const handleClose = async () => {
         if (victory && reward) {
             setLoading({ loading: true, text: "Awarding..." })
-            await updateStatus('badges')
+            // Badge increment is handled by the server on gym-victory event
+            // await updateStatus('badges') // REMOVED: This was causing duplicate badge increments
             await playerWinPrize(reward)
             setLoading({ loading: false })
         }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Center, useColorMode, IconButton } from "@chakra-ui/react";
 import TaskBoard from "./TaskBoard/TaskBoard";
-import Chat from "./Chat/Chat";
+import Objectives from "./Objectives/Objectives";
 
 import { FaChevronDown } from "react-icons/fa";
 
@@ -53,7 +53,7 @@ export default function LeftPanel() {
             {!isCollapsed && (
                 <>
                     <TaskBoard />
-                    <Chat />
+                    <Objectives />
                 </>
             )}
         </Center>

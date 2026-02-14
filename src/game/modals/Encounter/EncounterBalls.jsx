@@ -4,7 +4,7 @@ import PlayerContext from "@Contexts/PlayerContext";
 import PokeballButton from "@components/AnimatedButton/Pokeball/PokeballButton";
 
 export default function EncounterBalls({ children, handleCatchDiceRoll, isStarter }) {
-    const { game, emit, player, updateBall, updateGame, handleToast } = useContext(PlayerContext)
+    const { game, emit, player, setPlayer, updateGame, handleToast } = useContext(PlayerContext)
 
     const handleBallClick = async (type, bonus, roll) => {
         const ballCatchBonus = player.catchBonus?.balls
@@ -14,11 +14,14 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
         updateGame({ isPokemonRollDisabled: true })
         
         try {
-            // Aguarda confirmação do servidor ANTES de atualizar estado
-            await emit('player-use-ball', {catchRoll: roll + bonus, ballType: type })
+            // Servidor processa o uso da ball e retorna o novo estado
+            const result = await emit('player-use-ball', {catchRoll: roll + bonus, ballType: type })
             
-            // Atualiza ball após confirmação do servidor
-            await updateBall(-1, type)
+            // Atualiza estado local com o retorno do servidor
+            if (result?.balls) {
+                setPlayer(prev => ({ ...prev, balls: result.balls }))
+            }
+            
             handleCatchDiceRoll(roll + newBonus)
         } catch (error) {
             // Em caso de erro, re-habilita os botões e mostra mensagem

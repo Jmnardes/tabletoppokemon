@@ -1,6 +1,7 @@
-import { Box, Collapse, Divider, Flex, Grid, GridItem, Image, Text, useColorMode, VStack, HStack, Tooltip } from "@chakra-ui/react";
+import { Box, Collapse, Divider, Flex, Grid, Image, Text, useColorMode, VStack, HStack, Tooltip, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@Contexts/PlayerContext";
+import { FaTrophy } from "react-icons/fa";
 
 import starIcon from '@assets/images/game/star.png'
 import crownIcon from '@assets/images/game/crown.png'
@@ -20,9 +21,9 @@ const getBadgeIcon = (badgeName) => {
 export default function GameEnd() {
     const { results, setWaitingForPlayers, player, emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
-    const { players } = results
     const [showFullStats, setShowFullStats] = useState(false)
     const [playerBadges, setPlayerBadges] = useState([])
+    const [tabIndex, setTabIndex] = useState(0)
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
     const cardBgColor = colorMode === 'light' ? "white" : "gray.800"
@@ -31,27 +32,53 @@ export default function GameEnd() {
     useEffect(() => {
         setWaitingForPlayers(false)
         
+        // Fetch badges
         emit('gym-check-badges')
             .then((response) => {
                 if (response?.defeatedGyms) {
-                    setPlayerBadges(Array.isArray(response.defeatedGyms) ? response.defeatedGyms : [])
+                    const badges = Array.isArray(response.defeatedGyms) ? response.defeatedGyms : []
+                    // Remove duplicates based on badgeId
+                    const uniqueBadges = badges.filter((badge, index, self) => 
+                        index === self.findIndex((b) => b.badgeId === badge.badgeId)
+                    )
+                    setPlayerBadges(uniqueBadges)
+                } else {
+                    // Fallback to player data from results
+                    const playerData = results?.player || player
+                    if (playerData?.defeatedGyms) {
+                        const badges = Array.isArray(playerData.defeatedGyms) ? playerData.defeatedGyms : []
+                        const uniqueBadges = badges.filter((badge, index, self) => 
+                            index === self.findIndex((b) => b.badgeId === badge.badgeId)
+                        )
+                        setPlayerBadges(uniqueBadges)
+                    }
                 }
             })
             .catch(() => {
-                setPlayerBadges([])
+                // Fallback to player data
+                const playerData = results?.player || player
+                if (playerData?.defeatedGyms) {
+                    const badges = Array.isArray(playerData.defeatedGyms) ? playerData.defeatedGyms : []
+                    const uniqueBadges = badges.filter((badge, index, self) => 
+                        index === self.findIndex((b) => b.badgeId === badge.badgeId)
+                    )
+                    setPlayerBadges(uniqueBadges)
+                } else {
+                    setPlayerBadges([])
+                }
             })
-    }, [setWaitingForPlayers, emit])
+    }, [setWaitingForPlayers, emit, results, player])
 
     function handlePlacement (place) {
         switch (place) {
-            case 0:
-                return <FirstPlaceIcon h={20} w={20} />
             case 1:
-                return <SecondPlaceIcon h={20} w={20} />
+                return <FirstPlaceIcon h={20} w={20} />
             case 2:
+                return <SecondPlaceIcon h={20} w={20} />
+            case 3:
                 return <ThirdPlaceIcon h={20} w={20} />
             default:
-                return <Text fontSize="3xl" fontWeight="bold" color="gray.500">#{place + 1}</Text>
+                return <Text fontSize="3xl" fontWeight="bold" color="gray.500">#{place}</Text>
         }
     }
 
@@ -66,48 +93,49 @@ export default function GameEnd() {
     }
 
     function PlayerResultBlock ({ place, playerData }) {
-        const isCurrentPlayer = playerData.id === player.id
+        const currentPlayerId = results?.player?.id || player?.id
+        const isCurrentPlayer = playerData.playerId === currentPlayerId
         
         return (
-            <GridItem>
-                <Box position="relative">
-                    <Box 
-                        bg={cardBgColor}
-                        borderWidth={isCurrentPlayer ? 3 : 1}
-                        borderColor={isCurrentPlayer ? "gold" : borderColor}
-                        borderRadius="xl"
-                        p={6}
-                        boxShadow="lg"
-                        _hover={{ transform: 'translateY(-4px)', transition: '0.2s' }}
-                    >
-                        <Box position="absolute" top={2} left={2} zIndex={2}>
-                            {handlePlacement(place)}
-                        </Box>
-                        
-                        <VStack spacing={3}>
-                            <Text fontSize="xl" fontWeight="bold" textAlign="center" mt={8}>
-                                {playerData.status.trainerName}
-                                {isCurrentPlayer && <Text as="span" fontSize="xs" ml={2} color="gold">(You)</Text>}
-                            </Text>
-                            
-                            <Divider />
-                            
-                            <VStack spacing={2} w="100%">
-                                <StatItem icon={starIcon} label="Ranking" value={playerData.status.ranking} />
-                                <StatItem icon={pokeballIcon} label="Catches" value={playerData.status.catches} />
-                                <StatItem icon={crownIcon} label="Badges" value={playerData.status.badges} />
-                            </VStack>
-                        </VStack>
+            <Box position="relative" minW="250px">
+                <Box 
+                    bg={cardBgColor}
+                    borderWidth={isCurrentPlayer ? 3 : 1}
+                    borderColor={isCurrentPlayer ? "gold" : borderColor}
+                    borderRadius="xl"
+                    p={6}
+                    boxShadow="lg"
+                    _hover={{ transform: 'translateY(-4px)', transition: '0.2s' }}
+                    h="100%"
+                >
+                    <Box position="absolute" top={2} left={2} zIndex={2}>
+                        {handlePlacement(place)}
                     </Box>
+                    
+                    <VStack spacing={3}>
+                        <Text fontSize="xl" fontWeight="bold" textAlign="center" mt={8}>
+                            {playerData.playerName}
+                            {isCurrentPlayer && <Text as="span" fontSize="xs" ml={2} color="gold">(You)</Text>}
+                        </Text>
+                        
+                        <Divider />
+                        
+                        <VStack spacing={2} w="100%">
+                            <StatItem icon={starIcon} label="Ranking" value={playerData.ranking} />
+                            <StatItem icon={crownIcon} label="Badges" value={playerData.badges} />
+                            <StatItem icon={pokeballIcon} label="Catches" value={playerData.catches || 0} />
+                        </VStack>
+                    </VStack>
                 </Box>
-            </GridItem>
+            </Box>
         )
     }
 
     function FullStatsSection() {
-        if (!player?.status) return null
+        const statsSource = results?.player || player
+        if (!statsSource?.status) return null
         
-        const stats = player.status
+        const stats = statsSource.status
         
         return (
             <Box 
@@ -208,10 +236,11 @@ export default function GameEnd() {
                 </Text>
                 <Flex flexWrap="wrap" gap={4} justifyContent="center">
                     {playerBadges.map((gym, index) => {
+                        if (!gym?.badgeId) return null
                         const badgeIcon = getBadgeIcon(gym.badgeId)
                         return (
                             <Tooltip 
-                                key={index} 
+                                key={gym.badgeId || index} 
                                 label={`${gym.badgeId.replace('_', ' ').toUpperCase()}`}
                                 placement="top"
                             >
@@ -237,12 +266,101 @@ export default function GameEnd() {
         )
     }
 
+    function AchievementsDisplay() {
+        const achievementsData = results?.achievements || []
+        if (achievementsData.length === 0) return null
+        
+        return (
+            <Box 
+                mb={8}
+                bg={cardBgColor}
+                borderWidth={2}
+                borderColor="gold"
+                borderRadius="xl"
+                p={6}
+                boxShadow="xl"
+                maxW="1200px"
+                w="100%"
+            >
+                <Text fontSize="2xl" fontWeight="bold" mb={6} textAlign="center">
+                    🏆 Achievements Completed
+                </Text>
+                <Grid
+                    templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+                    gap={4}
+                    w="100%"
+                >
+                    {achievementsData.map((achievement, index) => (
+                        <Tooltip 
+                            key={achievement.id || index}
+                            label={achievement.message} 
+                            placement="top" 
+                            hasArrow
+                        >
+                            <Box 
+                                bg={bgColor}
+                                p={4}
+                                borderRadius="lg"
+                                borderWidth={1}
+                                borderColor={borderColor}
+                                _hover={{ transform: 'translateY(-2px)', transition: '0.2s' }}
+                            >
+                                <VStack spacing={3} align="stretch">
+                                    <HStack spacing={2}>
+                                        <FaTrophy size={20} color="gold" />
+                                        <Text fontSize="md" fontWeight="semibold" noOfLines={2}>
+                                            {achievement.label}
+                                        </Text>
+                                    </HStack>
+                                    
+                                    <Divider />
+                                    
+                                    <HStack spacing={2}>
+                                        <Text fontSize="sm" color="gray.500">
+                                            Reward:
+                                        </Text>
+                                        <Text fontSize="sm" fontWeight="bold" color="gold">
+                                            +{achievement.reward || 15}
+                                        </Text>
+                                        <Image src={starIcon} w={4} h={4} />
+                                    </HStack>
+                                    
+                                    {achievement.winners && achievement.winners.length > 0 && (
+                                        <Box>
+                                            <Text fontSize="xs" fontWeight="medium" color="gold" mb={1}>
+                                                🎉 Winner{achievement.winners.length > 1 ? 's' : ''}:
+                                            </Text>
+                                            <VStack align="stretch" spacing={1}>
+                                                {achievement.winners.map((winner, idx) => (
+                                                    <HStack key={idx} spacing={2}>
+                                                        <Text fontSize="sm" fontWeight="medium">
+                                                            {winner.playerName}
+                                                        </Text>
+                                                        <Text fontSize="xs" color="gray.500">
+                                                            ({winner.score})
+                                                        </Text>
+                                                    </HStack>
+                                                ))}
+                                            </VStack>
+                                        </Box>
+                                    )}
+                                </VStack>
+                            </Box>
+                        </Tooltip>
+                    ))}
+                </Grid>
+            </Box>
+        )
+    }
+
     function renderPlayers() {
-        if (players) {
-            return players.map((playerData, index) => {
-                return <PlayerResultBlock key={index} place={index} playerData={playerData} />
+        const rankings = results?.ranking || []
+        if (rankings.length > 0) {
+            return rankings.map((playerData) => {
+                return <PlayerResultBlock key={playerData.playerId} place={playerData.position} playerData={playerData} />
             })
         }
+        return null
     }
 
     return (
@@ -252,9 +370,9 @@ export default function GameEnd() {
             py={10} 
             px={4}
             bg={bgColor}
-            overflowY="auto"
-            overflowX="hidden"
+            minH="100vh"
             w="100%"
+            overflowY="auto"
         >
             <VStack spacing={2} mb={8}>
                 <Text fontSize="6xl" fontWeight="bold" bgGradient="linear(to-r, gold, yellow.400)" bgClip="text">
@@ -262,19 +380,38 @@ export default function GameEnd() {
                 </Text>
             </VStack>
 
-            <Grid
-                templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }}
-                gap={6}
-                mb={8}
-                w="100%"
-                maxW="1600px"
-            >
-                {renderPlayers()}
-            </Grid>
-
-            <FullStatsSection />
-
-            <BadgeCollectionDisplay />
+            <Tabs index={tabIndex} onChange={setTabIndex} variant="soft-rounded" colorScheme="yellow" isFitted w="100%" maxW="1200px">
+                <TabList mb={6}>
+                    <Tab>Ranking</Tab>
+                    <Tab>Achievements</Tab>
+                    <Tab>Player Info</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        {/* Ranking: lista dos players com posição, ranking, badges, catches */}
+                        <Box w="100%" overflowX="auto" mb={8}>
+                            <Flex
+                                gap={6}
+                                px={4}
+                                minW="fit-content"
+                                justifyContent="center"
+                            >
+                                {renderPlayers()}
+                            </Flex>
+                        </Box>
+                    </TabPanel>
+                    <TabPanel>
+                        {/* Achievements: mostra os 3 separados e quem venceu */}
+                        <AchievementsDisplay />
+                    </TabPanel>
+                    <TabPanel>
+                        {/* Player Info: status, balls, tokens do daycare */}
+                        <FullStatsSection />
+                        <BadgeCollectionDisplay />
+                        {/* Balls e tokens do daycare removidos temporariamente */}
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Flex>
     )
 }

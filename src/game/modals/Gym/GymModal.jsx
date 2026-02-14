@@ -30,7 +30,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const [battleState, setBattleState] = useState('info')

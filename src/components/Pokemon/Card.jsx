@@ -9,6 +9,7 @@ import CardTitle from "./CardTitle"
 
 import { PokeRarity } from "./PokemonRarity"
 import AppliedItems from "./AppliedItems"
+import ChanceToLevelUp from "./ChanceToLevelUp"
 
 function Card({ poke, tooltip, bag, isCaptured, challenge }) {
     const { moveToBox } = useContext(PlayerContext)
@@ -92,6 +93,8 @@ function Card({ poke, tooltip, bag, isCaptured, challenge }) {
                         <Divider />
 
                         <AppliedItems poke={poke} />
+
+                        <ChanceToLevelUp selectedPokemon={poke} />
                     </>
                 )}
 

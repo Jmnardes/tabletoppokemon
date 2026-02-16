@@ -570,15 +570,12 @@ export function PlayerProvider({children}) {
             setLoading({ loading: false })
         })
 
-        socket.on('player-use-dust', ({ pokemon, amount }) => {
-            setPlayer(prev => ({
-                ...prev,
-                items: { ...prev.items, dust: prev.items.dust - amount }
-            }))
-            if (pokemon?.id) {
-                updatePokemon(pokemon.id, pokemon)
+
+        // New: Update all items from server
+        socket.on('player-update-items', res => {
+            if (res?.items) {
+                setPlayer(prev => ({ ...prev, items: res.items }))
             }
-            setLoading({ loading: false })
         })
 
         socket.on('player-update-team', res => {

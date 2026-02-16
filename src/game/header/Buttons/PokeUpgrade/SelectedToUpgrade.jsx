@@ -1,40 +1,14 @@
-import { Box, Center, Image, Progress, Text, Tooltip } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import { Center, Image, Text, Tooltip } from "@chakra-ui/react"
 
 import CardTitle from "@components/Pokemon/CardTitle"
 import { PokeRarity } from "@components/Pokemon/PokemonRarity"
 import { getBerryIcon } from "@utils/berryIcon"
-import { stringToUpperCase, upgradePokemonLevelChance } from '@utils'
+import { stringToUpperCase } from '@utils'
 
 import dustIcon from '@assets/images/items/dust.png'
+import ChanceToLevelUp from "../../../../components/Pokemon/ChanceToLevelUp"
 
 export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon }) {
-    const { session } = useContext(PlayerContext)
-    const [changeToLevelUp, setChanceToLevelUp] = useState(0)
-
-    const ChanceToLevelUp = () => {
-        return (
-            <Tooltip label="Chance in leveling up next turn" p={4} borderRadius={6}>
-                <Box position="absolute" bottom={0}>
-                    <Progress
-                        value={changeToLevelUp} max={100} 
-                        size="lg" w={48}
-                        colorScheme={"purple"}
-                        borderRadius={6}
-                    />
-                    <Text
-                        position="absolute"
-                        top="50%" left="50%"
-                        transform="translate(-50%, -50%)"
-                        fontSize="x-small"
-                    >
-                        {changeToLevelUp}%
-                    </Text>
-                </Box>
-            </Tooltip>
-        )
-    }
 
     const SelectedPokemonCard = () => {
         return (
@@ -101,15 +75,6 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
         )
     }
 
-    useEffect(() => {
-        if (selectedPokemon) {
-            const levelChance = upgradePokemonLevelChance({ sessionLevel: session.level, pokeLevel: selectedPokemon.level, dusts: selectedPokemon.dust, berries: selectedPokemon.berries })
-            setChanceToLevelUp(levelChance)
-        }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPokemon, selectedPokemon?.dust, selectedPokemon?.berries])
-
     return (
         <Center backgroundColor={"gray.600"} minW={"full"} h={96} borderRadius={8} p={12}>
             {selectedPokemon && (
@@ -121,7 +86,7 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
                             <AppliedBerry key={index} berry={berry} />
                         ))}
                     </Center>
-                    <ChanceToLevelUp />
+                    <ChanceToLevelUp selectedPokemon={selectedPokemon} />
                 </Center>
             )}
         </Center>

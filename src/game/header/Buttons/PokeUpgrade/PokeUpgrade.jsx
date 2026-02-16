@@ -21,12 +21,26 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     } = useContext(PlayerContext)
     const [ upgrades, setUpgrades ] = useState([ { type: 'dust', amount: player.items.dust }, ...berries ])
 
-    const handleDust = () => {
+    const handleDust = async () => {
         const pokemon = selectedPokemon
-
-        // Backend atualiza tasks automaticamente ao detectar uso de dust
-        emit('player-use-dust', { pokemon: pokemon })
         setLoading({ loading: true, text: "Applying dust..." })
+        try {
+            const result = await emit('player-use-dust', { pokemon })
+            if (result?.pokemon) {
+                updatePokemon(result.pokemon.id, result.pokemon)
+                setSelectedPokemon(result.pokemon)
+            }
+        } catch (err) {
+            handleToast({
+                id: 'dust-error',
+                title: 'Failed to use dust',
+                description: err.message,
+                status: 'error',
+                position: 'top',
+            })
+        } finally {
+            setLoading({ loading: false })
+        }
     }
     
     const handleBerry = (berry) => {
@@ -100,7 +114,10 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
             <Center justifyContent={"space-around"} py={4} px={24}>
                 <Center flexDir={"column"} w={"100%"} mx={4}>
                     <Text mb={4}>Selected Pokémon</Text>
-                    <SelectedToUpgrade selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
+                    <SelectedToUpgrade 
+                        selectedPokemon={selectedPokemon} 
+                        setSelectedPokemon={setSelectedPokemon} 
+                    />
                 </Center>
                 
                 <Center flexDir={"column"} w={"100%"} mx={4}>

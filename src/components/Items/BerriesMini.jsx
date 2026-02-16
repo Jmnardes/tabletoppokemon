@@ -17,7 +17,7 @@ export default function BerriesMini({ berries, isUsed=true }) {
                 }>
                     <Center flex flexDir={isUsed ? "column" : "row"}>
                         {isUsed && (
-                            <Text bottom={0} mr={6} position={"absolute"} fontSize={"xx-small"}>
+                            <Text bottom={4} mr={6} position={"absolute"} fontSize={"xx-small"}>
                                 {berry.turns}
                             </Text>
                         )}

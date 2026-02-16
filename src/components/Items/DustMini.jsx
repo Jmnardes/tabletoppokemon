@@ -7,7 +7,7 @@ export default function DustMini({ dusts, absolute=true }) {
             {dusts > 0 && (
                 <Center flex flexDir={absolute ? "column" : "row"}>
                     {absolute ? (
-                        <Text bottom={0} ml={8} position={"absolute"} fontSize={"xx-small"}>
+                        <Text bottom={4} ml={8} position={"absolute"} fontSize={"xx-small"}>
                             {dusts}x
                         </Text>
                     ): (

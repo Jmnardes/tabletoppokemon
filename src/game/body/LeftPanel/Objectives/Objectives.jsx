@@ -20,6 +20,7 @@ export default function Objectives() {
                 <Flex 
                     py={3} 
                     w="full" 
+                    h="full" 
                     direction="column" 
                     alignItems="center"
                     opacity={0.6}
@@ -63,20 +64,12 @@ export default function Objectives() {
             backgroundColor={bgColor}
             borderRadius={8}
             direction="column"
-            justifyContent="space-between"
         >
             <Badge textAlign="center" w="full" py={4}>
                 Objectives
             </Badge>
             
             <Center flexDir="column" px={4} py={2}>
-                <Flex alignItems="center" gap={2} mb={4}>
-                    <Text fontSize="sm" fontWeight="bold">
-                        +{achievements?.[0]?.reward || 15}
-                    </Text>
-                    <Image src={starIcon} w={5} h={5} />
-                </Flex>
-
                 {achievements && achievements.length > 0 ? (
                     achievements.map((achievement, index) => (
                         <AchievementItem key={achievement.id || index} achievement={achievement} />

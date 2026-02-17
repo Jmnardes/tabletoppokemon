@@ -179,6 +179,8 @@ export function PlayerProvider({children}) {
             }
             throw error
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [emit, syncPokemonsFromServer])
     
     const handleToast = (args) => {

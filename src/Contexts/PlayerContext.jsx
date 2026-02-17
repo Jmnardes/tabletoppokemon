@@ -21,6 +21,7 @@ export function PlayerProvider({children}) {
     const [teamIds, setTeamIds] = useState([])
     const [boxIds, setBoxIds] = useState([])
     const [daycarePokes, setDaycarePokes] = useState([])
+    const [trainingCamp, setTrainingCamp] = useState([])
     const [tasks, setTasks] = useState([])
     const [achievements, setAchievements] = useState([])
     const [berries, setBerries] = useState([])
@@ -49,6 +50,7 @@ export function PlayerProvider({children}) {
         openNewTasksModal: false,
         openAugmentsModal: false,
         openBadgeCollectionModal: false,
+        openTrainingCampModal: false,
     })
 
     // Pokemon management functions - defined early for use in resync
@@ -81,11 +83,23 @@ export function PlayerProvider({children}) {
         setTeamIds(validTeam.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
     
+
     const syncBoxFromServer = useCallback((boxArray) => {
         if (!boxArray) return
         setPokemons(boxArray)
         setBoxIds(boxArray.map(p => p?.id).filter(Boolean))
     }, [setPokemons])
+
+    // Update box and pokemonData with trainedCamp (array of pokes)
+    const updateTrainedCamp = useCallback((trainedCamp) => {
+        if (!trainedCamp || !Array.isArray(trainedCamp)) return;
+        setPokemons(trainedCamp);
+        setBoxIds(prev => {
+            const trainedIds = trainedCamp.map(p => p.id);
+            // Ensure no duplicates
+            return Array.from(new Set([...prev, ...trainedIds]));
+        });
+    }, [setPokemons]);
 
     const emit = useCallback((name, data, timeout = 5000) => {
         return new Promise((resolve, reject) => {
@@ -578,6 +592,12 @@ export function PlayerProvider({children}) {
             }
         })
 
+        socket.on('player-update-daycare', res => {
+            if (res?.daycare) {
+                setPlayer(prev => ({ ...prev, daycare: res.daycare }));
+            }
+        });
+
         socket.on('player-update-team', res => {
             syncTeamFromServer(res.pokeTeam)
         })
@@ -776,6 +796,9 @@ export function PlayerProvider({children}) {
             updateDaycareToken,
             daycarePokes,
             setDaycarePokes,
+
+            trainingCamp,
+            setTrainingCamp,
 
             updateBall,
             changeBall,

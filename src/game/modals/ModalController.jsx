@@ -17,6 +17,7 @@ import PokeBagModal from "../header/Buttons/PokeBag/PokeBagModal";
 import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
 import GymModal from "./Gym/GymModal";
 import BadgeCollectionModal from "../header/Buttons/BadgeCollection/BadgeCollectionModal";
+import TrainingCamp from "../header/Buttons/TrainingCamp";
 
 export default function ModalController() {
     const { 
@@ -35,7 +36,8 @@ export default function ModalController() {
         setGym,
         setNextGym,
         gym,
-        nextGym
+        nextGym,
+        updateTrainedCamp
     } = useContext(PlayerContext)
     const [event, setEvent] = useState({})
     const [battle, setBattle] = useState({})
@@ -48,6 +50,11 @@ export default function ModalController() {
     useEffect(() => {
         socket.on('turn-start', (res, callback) => {
             const trainedPokemons = res.trained
+
+            // Update trained camp pokes in box and pokemonData
+            if (res.trainedCamp) {
+                updateTrainedCamp(res.trainedCamp)
+            }
 
             callback(true)
 
@@ -191,6 +198,7 @@ export default function ModalController() {
             {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
             {game.openNewTasksModal && <NewTasksModal />}
+            {game.openTrainingCampModal && <TrainingCamp />}
             {game.openAugmentsModal && <AugmentsModal augments={augments} />}
             {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>

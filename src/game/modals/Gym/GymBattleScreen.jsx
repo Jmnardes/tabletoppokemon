@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { VStack, HStack, Flex, Text, Progress, Image, Badge, Box, Button, useColorMode, Tooltip } from "@chakra-ui/react"
 import Element from "@components/Elements/Element"
-import { colorByHitType } from "@utils/battle"
 
 export default function GymBattleScreen({ 
     playerTeam, 
@@ -21,7 +20,6 @@ export default function GymBattleScreen({
     const defeatedBg = colorMode === 'light' ? "red.200" : "red.900"
     const activeBg = colorMode === 'light' ? "blue.500" : "blue.600"
     const slotBg = colorMode === 'light' ? "gray.100" : "gray.700"
-    const cardBg = colorMode === 'light' ? "gray.100" : "gray.800"
     const borderColor = colorMode === 'light' ? "gray.200" : "gray.600"
     const logBg = colorMode === 'light' ? "white" : "gray.900"
 

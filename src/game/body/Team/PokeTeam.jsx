@@ -1,6 +1,6 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import Card from "@components/Pokemon/Card"
 import TeamTitle from '@game/body/Team/TeamTitle'
 

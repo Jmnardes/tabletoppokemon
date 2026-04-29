@@ -1,6 +1,6 @@
 import { Box, Collapse, Divider, Flex, Grid, Image, Text, useColorMode, VStack, HStack, Tooltip, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import { FaTrophy } from "react-icons/fa";
 
 import starIcon from '@assets/images/game/star.png'

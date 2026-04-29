@@ -1,6 +1,6 @@
 import { useState, useContext } from "react"
 import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Tooltip, Box } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import Element from "@components/Elements/Element"
 import Card from "@components/Pokemon/Card"
 import { PokeRarity } from "@components/Pokemon/PokemonRarity"

@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import GameJoin from "./GameJoin";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch"
 import GameLobby from "./GameLobby";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import GameNew from "./GameNew";
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import DebugPage from "@pages/Debug/debugPage";

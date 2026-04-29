@@ -1,6 +1,6 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 
 import PokeTeam from "./PokeTeam";
 

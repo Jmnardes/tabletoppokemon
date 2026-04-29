@@ -1,7 +1,7 @@
 import { Button, Center, Flex, Text, Spinner } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
 
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import PokeSelector from "./PokeSelector"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
 

@@ -20,7 +20,7 @@ src/
 │   ├── json/        # Dados estáticos (pokémons, moves, items, etc.)
 │   └── svgs/        # Ícones SVG como componentes React
 ├── components/      # Componentes reutilizáveis (UI genérica)
-├── Contexts/        # React Context (PlayerContext)
+├── context/         # React Context (PlayerContext)
 ├── enum/            # Constantes e enums
 ├── game/            # Componentes específicos da tela de jogo
 │   ├── body/        # Layout principal (panels, team)
@@ -44,7 +44,7 @@ src/
 - Usar **path aliases** definidos em `config-overrides.js`:
   ```js
   import Component from '@components/Pokemon/Card'
-  import { PlayerContext } from '@Contexts/PlayerContext'
+  import { PlayerContext } from '@context/PlayerContext'
   import socket from '@client'
   import { taskTypeEnum } from '@enum'
   ```
@@ -113,7 +113,7 @@ src/
 |-------|---------|
 | `@assets` | `src/assets` |
 | `@components` | `src/components` |
-| `@Contexts` | `src/Contexts` |
+| `@context` | `src/context` |
 | `@game` | `src/game` |
 | `@pages` | `src/pages` |
 | `@utils` | `src/utils` |

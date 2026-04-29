@@ -1,6 +1,6 @@
 import { Badge, Center, Text, Tooltip, useColorMode } from "@chakra-ui/react"
 import { useContext } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 
 export default function NextEvent() {
     const { nextEvent } = useContext(PlayerContext)

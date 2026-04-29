@@ -1,6 +1,6 @@
 import { Center, Flex, Image, Kbd, Text } from "@chakra-ui/react";
 import { useContext } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import { stringToUpperCase, typeColor } from "../../../../util";
 import PokeStats from "../../Card/PokeStats";
 import Types from "../../Card/Types";

@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Image, Text } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import DayCareContent from "./DayCareContent"
 import GenericModal from "@components/Modal/GenericModal"
 

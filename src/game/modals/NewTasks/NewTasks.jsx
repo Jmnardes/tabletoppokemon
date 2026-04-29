@@ -12,7 +12,7 @@ import {
     Image,
 } from "@chakra-ui/react"
 import { useContext } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 
 import starIcon from '@assets/images/game/star.png'
 

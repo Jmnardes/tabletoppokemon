@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useRef } from "react"
 import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import GenericModal from "@components/Modal/GenericModal"
 import Element from "@components/Elements/Element"
 import PrizeIcon from "@components/PrizeIcon/PrizeIcon"

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { CloseButton } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 
 import TeamInBox from "./TeamInBox"

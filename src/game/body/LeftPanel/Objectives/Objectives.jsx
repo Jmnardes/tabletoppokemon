@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Badge, Center, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 
 import { FaTrophy } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'

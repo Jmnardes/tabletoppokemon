@@ -1,6 +1,6 @@
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 
 export default function OpponentsResult({ myRoll, myBonus, opponentsRoll }) {
     const { opponents, player } = useContext(PlayerContext)

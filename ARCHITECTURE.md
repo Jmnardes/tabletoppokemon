@@ -86,7 +86,7 @@ Acionado automaticamente na reconexão. Solicita snapshot completo via `session-
 
 ## Gerenciamento de Estado
 
-### PlayerContext (`src/Contexts/PlayerContext.jsx`)
+### PlayerContext (`src/context/PlayerContext.jsx`)
 
 Contexto central (~600 linhas) que armazena todo o estado do jogo:
 
@@ -295,7 +295,7 @@ WebSocket Server
 ```
 @assets     → src/assets
 @components → src/components
-@Contexts   → src/Contexts
+@context    → src/context
 @game       → src/game
 @pages      → src/pages
 @utils      → src/utils

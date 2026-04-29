@@ -1,7 +1,7 @@
 import { Center, Flex, useColorMode } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import socket from "@client";
 
 import ElementsList from "@components/Elements/ElementsList";

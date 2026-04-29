@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Flex, Image, Text } from "@chakra-ui/react";
 
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 
 import clockIcon from '@assets/images/game/clock.png'
 import crownIcon from '@assets/images/game/crown.png'

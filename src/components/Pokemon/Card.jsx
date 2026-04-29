@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Flex, Image, Text, Center, useColorMode, Divider } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from '@utils'
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 
 import PokeStats from "./PokeStats"
 import Types from "../Elements/Types"

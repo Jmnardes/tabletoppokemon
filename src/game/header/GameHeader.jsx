@@ -1,6 +1,6 @@
 import { Badge, Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'

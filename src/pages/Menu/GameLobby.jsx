@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Divider, Flex, Text, Image } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
 import crownIcon from '@assets/images/game/crown.png'

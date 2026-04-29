@@ -1,5 +1,5 @@
 import { Center, Divider, Text } from "@chakra-ui/react";
-import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import PrizeIcon from "@features/prizes/PrizeIcon"
 
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon"
 import SecondPlaceIcon from "@components/Icons/places/SecondPlaceIcon"

@@ -1,5 +1,5 @@
 import { Button, Center, Image, Text } from "@chakra-ui/react";
-import Element from "@components/Elements/Element";
+import Element from "@features/elements/Element";
 import { stringToUpperCase } from "@utils"
 
 export default function ChooseAttack({ 

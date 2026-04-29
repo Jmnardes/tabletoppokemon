@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Center, Image, Text } from "@chakra-ui/react";
 
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 
 import greatballIcon from '@assets/images/pokeballs/pokeball.png'
 import superballIcon from '@assets/images/pokeballs/greatball.png'

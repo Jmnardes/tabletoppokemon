@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Image } from "@chakra-ui/react";
 
 import socket from "@client";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 
 import BattleModal from "./EventModals/BattleModal";
 import ChallengeModal from "./Challenge/ChallengeModal";

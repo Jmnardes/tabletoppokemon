@@ -16,9 +16,9 @@ const getStoredAuth = () => {
 const socket = io(SERVER_URL, {
   autoConnect: true,
   reconnection: true,
-  reconnectionAttempts: 10,
+  reconnectionAttempts: Infinity,
   reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
+  reconnectionDelayMax: 10000,
   timeout: 20000,
   auth: (cb) => {
     cb(getStoredAuth())

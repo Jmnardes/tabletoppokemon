@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { Text, Center, Image, Wrap, Box } from "@chakra-ui/react"
 
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import { getBerryIcon } from "@utils/berryIcon"
 import SelectedToUseBerry from "./SelectedToUseBerry"

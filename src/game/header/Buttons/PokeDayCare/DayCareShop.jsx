@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Center, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import { getBerryIcon } from "@utils/berryIcon";
 
 import tokenIcon from '@assets/images/game/coin.png'

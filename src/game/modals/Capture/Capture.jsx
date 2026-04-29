@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { Center } from "@chakra-ui/react"
 import socket from '@client'
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import ChooseAttack from "./ChooseAttack"
 import NewPokemon from "./NewPokemon"
 

@@ -5,7 +5,7 @@ import {
     ModalHeader,
     ModalOverlay,
 } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import Encounter from "../Encounter/Encounter"
 
 export default function EncounterModal({ augments }) {

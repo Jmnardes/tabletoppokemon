@@ -2,7 +2,7 @@ import { Flex, Heading, useColorMode } from "@chakra-ui/react"
 import { useContext } from "react"
 import Game from "@pages/GameScreen/Game"
 import GameMenu from "@pages/Menu/GameMenu"
-import PlayerContext from "./Contexts/PlayerContext"
+import PlayerContext from "./context/PlayerContext"
 import Loading from "@components/Loading"
 
 import day from "@assets/images/background/day.jpg"

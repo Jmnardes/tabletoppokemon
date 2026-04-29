@@ -1,12 +1,12 @@
 import { Center, Image, Text, Tooltip } from "@chakra-ui/react"
 
-import CardTitle from "@components/Pokemon/CardTitle"
-import { PokeRarity } from "@components/Pokemon/PokemonRarity"
+import CardTitle from "@features/pokemon/CardTitle"
+import { PokeRarity } from "@features/pokemon/PokemonRarity"
 import { getBerryIcon } from "@utils/berryIcon"
 import { stringToUpperCase } from '@utils'
 
 import dustIcon from '@assets/images/items/dust.png'
-import ChanceToLevelUp from "../../../../components/Pokemon/ChanceToLevelUp"
+import ChanceToLevelUp from "@features/pokemon/ChanceToLevelUp"
 
 export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon }) {
 

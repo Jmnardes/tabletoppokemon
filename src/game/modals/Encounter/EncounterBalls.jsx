@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react"
 import { useContext } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import PokeballButton from "@components/AnimatedButton/Pokeball/PokeballButton";
 
 export default function EncounterBalls({ children, handleCatchDiceRoll, isStarter }) {

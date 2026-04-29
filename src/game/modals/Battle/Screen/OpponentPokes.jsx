@@ -1,8 +1,8 @@
 import { Tooltip, Image, Box, Text, Center } from "@chakra-ui/react"
 
 import { stringToUpperCase, typeColor } from "@utils"
-import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
-import Types from "@components/Elements/Types"
+import PrizeIcon from "@features/prizes/PrizeIcon"
+import Types from "@features/elements/Types"
 
 export default function OpponentPoke({ opponent, prizes }) {
     const prize = prizes[2]

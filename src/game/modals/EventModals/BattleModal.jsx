@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import BattleContent from "../Battle/BattleContent"
 import socket from "@client"
 import GenericModal from "@components/Modal/GenericModal"

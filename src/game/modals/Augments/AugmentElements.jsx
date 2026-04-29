@@ -1,5 +1,5 @@
 import { Badge, Center } from "@chakra-ui/react"
-import Element from "@components/Elements/Element"
+import Element from "@features/elements/Element"
 
 export default function AugmentElements({ augment }) {
     return (

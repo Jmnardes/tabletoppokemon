@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { Button, Image } from "@chakra-ui/react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 
 import crownIcon from '@assets/images/game/crown.png'
 

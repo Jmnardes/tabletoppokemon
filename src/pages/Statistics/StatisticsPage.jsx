@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Heading, VStack, Select, Text, Button } from "@chakra-ui/react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from "recharts";
-import Element from "@components/Elements/Element";
+import Element from "@features/elements/Element";
 import { elementCounts, tierResults } from "@utils/groups";
 
 const transformTierData = (tierData) => {

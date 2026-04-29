@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ChakraProvider, ColorModeScript  } from '@chakra-ui/react'
 import theme from './theme'
-import { PlayerProvider } from "./Contexts/PlayerContext"
+import { PlayerProvider } from "./context/PlayerContext"
 
 import "@fontsource/press-start-2p"; // Defaults to weight 400
 import "@fontsource/press-start-2p/400.css"; // Specify weight

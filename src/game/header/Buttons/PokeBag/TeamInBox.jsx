@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react"
 import { useContext } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import PokeBox from "./PokeBox"
 
 export default function TeamInBox() {

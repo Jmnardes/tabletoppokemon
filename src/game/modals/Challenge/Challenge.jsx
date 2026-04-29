@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import { Button, Center, Text } from "@chakra-ui/react";
 import ChallengeInfo from "./ChallengeInfo";

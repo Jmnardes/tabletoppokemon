@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import {
     Center,
     CloseButton,
@@ -10,7 +10,7 @@ import {
     ModalOverlay,
     Text,
 } from "@chakra-ui/react"
-import PokeList from "@components/Pokemon/PokeList"
+import PokeList from "@features/pokemon/PokeList"
 import BerriesPage from "./BerriesPage"
 
 export default function BerriesModal() {

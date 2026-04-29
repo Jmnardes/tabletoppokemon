@@ -1,6 +1,6 @@
 import { Center, Flex } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import OpponentCard from "./OpponentCard";
 
 export default function Opponents() {

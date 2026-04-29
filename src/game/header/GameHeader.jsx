@@ -1,6 +1,6 @@
 import { Badge, Button, Center, Image, Text, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import Settings from "./Buttons/Settings/Settings";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
@@ -12,6 +12,7 @@ import bagIcon from '@assets/images/game/bag.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import arrowIcon from '@assets/images/game/arrow.png';
 import PlayerAugments from "./Buttons/Augments/PlayerAugments";
+import fightIcon from '@assets/images/items/fight.png';
 
 export default function GameHeader() {
     const { player, updateGame, boxIds, game, nextEvent } = useContext(PlayerContext)
@@ -98,6 +99,14 @@ export default function GameHeader() {
                 </Button>
 
                 <BadgeCollection />
+
+                <Button colorScheme="blue" onClick={() => updateGame({ openTrainingCampModal: true })}>
+                    <Image
+                        src={fightIcon} 
+                        title={'Training Camp'}
+                        w="28px"
+                    ></Image>
+                </Button>
 
                 <PlayerAugments />
 

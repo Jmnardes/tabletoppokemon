@@ -5,8 +5,8 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase } from "@utils"
-import Card from "@components/Pokemon/Card"
-import PlayerContext from "@Contexts/PlayerContext"
+import Card from "@features/pokemon/Card"
+import PlayerContext from "@context/PlayerContext"
 
 export default function PokeBox({ poke }) {
     const { teamIds, moveToTeam, session } = useContext(PlayerContext)

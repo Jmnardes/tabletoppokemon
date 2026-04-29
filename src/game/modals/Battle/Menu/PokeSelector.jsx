@@ -5,8 +5,8 @@ import {
     Image
 } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from "@utils"
-import Card from "@components/Pokemon/Card"
-import PlayerContext from "@Contexts/PlayerContext"
+import Card from "@features/pokemon/Card"
+import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 
 export default function PokeSelector({ poke, setPokemon, battleId }) {

@@ -1,7 +1,7 @@
 import { Badge, Center } from "@chakra-ui/react"
 
-import BerriesMini from "@components/Items/BerriesMini"
-import DustMini from "@components/Items/DustMini"
+import BerriesMini from "@features/items/BerriesMini"
+import DustMini from "@features/items/DustMini"
 import AugmentElements from "./AugmentElements"
 import AugmentBalls from "./AugmentBalls"
 

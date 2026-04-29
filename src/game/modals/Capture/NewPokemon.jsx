@@ -1,5 +1,5 @@
 import { Box, Button, Center, Image, Text, Tooltip } from "@chakra-ui/react"
-import Card from "@components/Pokemon/Card"
+import Card from "@features/pokemon/Card"
 
 import bagIcon from "@assets/images/game/bag.png"
 import ballIcon from "@assets/images/pokeballs/pokeball.png"

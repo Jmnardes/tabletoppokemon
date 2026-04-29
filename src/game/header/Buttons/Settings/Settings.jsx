@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
 
 import ButtonModal from "@components/Modal/ButtonModal";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch";
-import ElementsList from "@components/Elements/ElementsList"
+import ElementsList from "@features/elements/ElementsList"
 
 import settingsIcon from '@assets/images/game/settings.png'
 

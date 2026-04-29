@@ -4,11 +4,11 @@ import {
     Wrap,
 } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
-import PlayerContext from "@Contexts/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import GenericModal from "@components/Modal/GenericModal"
 import { augmentColor } from "@utils"
-import AugmentContainer from "../../../components/Augments/AugmentContainer"
+import AugmentContainer from "@features/augments/AugmentContainer"
 
 export default function AugmentsModal({ augments }) {
     const { emit, updateGame, setLoading, setPlayer, setBerries } = useContext(PlayerContext)

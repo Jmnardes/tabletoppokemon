@@ -10,7 +10,7 @@ module.exports = function override(config, env) {
     '@pages': path.resolve(__dirname, 'src/pages'),
     '@utils': path.resolve(__dirname, 'src/utils'),
     '@client': path.resolve(__dirname, 'src/client'),
-    '@enum': path.resolve(__dirname, 'src/enum/enum'),
+    '@enum': path.resolve(__dirname, 'src/constants/enum'),
     '@hooks': path.resolve(__dirname, 'src/hooks'),
   };
 

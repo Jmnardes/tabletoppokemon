@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect, useRef } from "react"
 import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
 import PlayerContext from "@Contexts/PlayerContext"
 import GenericModal from "@components/Modal/GenericModal"
@@ -42,7 +42,7 @@ export default function GymModal() {
     const [availablePokemons, setAvailablePokemons] = useState([])
     const [needsChoice, setNeedsChoice] = useState(false)
     const [battleResult, setBattleResult] = useState(null)
-    const [loadingTimeout, setLoadingTimeout] = useState(null)
+    const loadingTimeoutRef = useRef(null)
     const [shouldClearGym, setShouldClearGym] = useState(false)
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
@@ -52,9 +52,9 @@ export default function GymModal() {
 
     useEffect(() => {
         socket.on('gym-battle-fight-result', (res) => {
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout)
-                setLoadingTimeout(null)
+            if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current)
+                loadingTimeoutRef.current = null
             }
 
             if (!res.fight || !res.battleState) {
@@ -124,9 +124,9 @@ export default function GymModal() {
         })
 
         socket.on('gym-battle-result', (res) => {
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout)
-                setLoadingTimeout(null)
+            if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current)
+                loadingTimeoutRef.current = null
             }
 
             if (res.finalFight && res.finalFight.log) {
@@ -178,9 +178,9 @@ export default function GymModal() {
         })
 
         socket.on('gym-battle-error', (error) => {
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout)
-                setLoadingTimeout(null)
+            if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current)
+                loadingTimeoutRef.current = null
             }
             setLoading({ loading: false })
             setBattleState('info')
@@ -196,11 +196,11 @@ export default function GymModal() {
             socket.off('gym-battle-result')
             socket.off('gym-battle-error')
             socket.off('gym-victory')
-            if (loadingTimeout) {
-                clearTimeout(loadingTimeout)
+            if (loadingTimeoutRef.current) {
+                clearTimeout(loadingTimeoutRef.current)
             }
         }
-    }, [setLoading, getPokemon, loadingTimeout, setGym, setNextGym])
+    }, [setLoading, getPokemon, setGym, setNextGym])
 
     const handleStartBattle = (pokemonIds) => {
         emit('gym-battle-start', { playerPokemonIds: pokemonIds })
@@ -209,11 +209,11 @@ export default function GymModal() {
         setBattleState('battling')
         setLoading({ loading: true, text: 'Starting gym battle...' })
 
-        const timeout = setTimeout(() => {
+        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
+        loadingTimeoutRef.current = setTimeout(() => {
             setLoading({ loading: false })
             setBattleState('info')
         }, 15000)
-        setLoadingTimeout(timeout)
     }
 
     const handleChoosePokemon = (arrayIndex) => {
@@ -230,10 +230,10 @@ export default function GymModal() {
         
         emit('gym-battle-choose', { pokemonIndex })
         
-        const timeout = setTimeout(() => {
+        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
+        loadingTimeoutRef.current = setTimeout(() => {
             setLoading({ loading: false })
         }, 15000)
-        setLoadingTimeout(timeout)
     }
 
     const handleNext = () => {
@@ -241,10 +241,10 @@ export default function GymModal() {
         
         emit('gym-battle-next', {})
         
-        const timeout = setTimeout(() => {
+        if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
+        loadingTimeoutRef.current = setTimeout(() => {
             setLoading({ loading: false })
         }, 15000)
-        setLoadingTimeout(timeout)
     }
 
     const handleRetry = () => {

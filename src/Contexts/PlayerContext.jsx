@@ -88,7 +88,8 @@ export function PlayerProvider({children}) {
     }, [setPokemons])
 
     const emit = useCallback((name, data, timeout = 5000) => {
-        return new Promise((resolve, reject) => {
+        let cancelled = false
+        const promise = new Promise((resolve, reject) => {
             if (!socket.connected) {
                 reject(new Error('Socket not connected')) 
                 return
@@ -103,10 +104,11 @@ export function PlayerProvider({children}) {
                 data,
             }
             const timer = setTimeout(() => {
-                reject(new Error(`Timeout on ${name}`))
+                if (!cancelled) reject(new Error(`Timeout on ${name}`))
             }, timeout) 
             socket.emit(name, request, (response) => {
-                clearTimeout(timer) 
+                clearTimeout(timer)
+                if (cancelled) return
                 if (response?.success) {
                     resolve(response.result)
                 } else {
@@ -114,6 +116,8 @@ export function PlayerProvider({children}) {
                 }
             })
         })
+        promise.cancel = () => { cancelled = true }
+        return promise
     }, [player, session])
 
     /**

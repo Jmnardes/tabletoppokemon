@@ -170,7 +170,10 @@ export default function ChallengeModal({ event }) {
             setOpponentsRoll(old => [...old, res])
         })
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timer);
+            socket.off('event-roll-other')
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

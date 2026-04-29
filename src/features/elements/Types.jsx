@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import { Box} from "@chakra-ui/react";
-import Element from "@components/Elements/Element";
+import Element from "@features/elements/Element";
 
 function Types({ types, w, h }) {
 

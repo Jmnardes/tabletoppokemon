@@ -4,7 +4,7 @@ import { stringToUpperCase, typeColor } from '@utils'
 import PlayerContext from "@context/PlayerContext"
 
 import PokeStats from "./PokeStats"
-import Types from "../Elements/Types"
+import Types from "@features/elements/Types"
 import CardTitle from "./CardTitle"
 
 import { PokeRarity } from "./PokemonRarity"

@@ -5,7 +5,7 @@ import ButtonModal from "@components/Modal/ButtonModal";
 import PlayerContext from "@context/PlayerContext";
 
 import chipIcon from '@assets/images/game/chip.png'
-import AugmentContainer from "@components/Augments/AugmentContainer";
+import AugmentContainer from "@features/augments/AugmentContainer";
 
 export default function PlayerAugments() {
     const { player } = useContext(PlayerContext)

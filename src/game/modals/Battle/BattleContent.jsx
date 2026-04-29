@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import PlayerContext from "@context/PlayerContext";
 import socket from "@client";
 
-import ElementsList from "@components/Elements/ElementsList";
+import ElementsList from "@features/elements/ElementsList";
 import ControlBox from "./Menu/ControlBox";
 import BattleScreen from "./Screen/BattleScreen";
 import OpponentPokes from "./Screen/OpponentPokes";

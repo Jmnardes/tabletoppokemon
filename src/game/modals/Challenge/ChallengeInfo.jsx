@@ -1,5 +1,5 @@
 import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
-import Element from "@components/Elements/Element";
+import Element from "@features/elements/Element";
 
 export default function ChallengeInfo({ event, bonus }) {
     const bonusColor = (bonus) => {

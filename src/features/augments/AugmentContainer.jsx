@@ -1,7 +1,7 @@
 import { Badge, Center, Flex, Text } from "@chakra-ui/react";
 import { augmentColor } from "@utils";
 import { pulseAnimation } from "@utils/animations";
-import AugmentData from "../../game/modals/Augments/AugmentData";
+import AugmentData from "@game/modals/Augments/AugmentData";
 
 export default function AugmentContainer ({ augment, handler = () => {}, choose = false }) {
     return (

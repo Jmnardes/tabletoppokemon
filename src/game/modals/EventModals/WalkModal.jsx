@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import SuccessIcon from "@components/Icons/SuccessIcon"
-import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import PrizeIcon from "@features/prizes/PrizeIcon"
 import { getBerryIcon } from "@utils/berryIcon"
 
 export default function WalkModal({ event }) {

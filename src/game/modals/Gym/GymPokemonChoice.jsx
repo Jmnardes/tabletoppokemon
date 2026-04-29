@@ -1,5 +1,5 @@
 import { VStack, Text, Flex, Box } from "@chakra-ui/react"
-import Card from "@components/Pokemon/Card"
+import Card from "@features/pokemon/Card"
 
 export default function GymPokemonChoice({ availablePokemons, onChoose }) {
     return (

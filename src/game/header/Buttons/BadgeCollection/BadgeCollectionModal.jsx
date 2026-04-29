@@ -17,7 +17,7 @@ import {
     HStack
 } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
-import Element from "@components/Elements/Element"
+import Element from "@features/elements/Element"
 
 // Lista de todas as badges disponíveis no jogo
 const ALL_BADGES = [

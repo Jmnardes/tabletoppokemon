@@ -1,6 +1,6 @@
 import { Center } from "@chakra-ui/react";
-import BerriesMini from "../Items/BerriesMini";
-import DustMini from "../Items/DustMini";
+import BerriesMini from "@features/items/BerriesMini";
+import DustMini from "@features/items/DustMini";
 
 export default function AppliedItems({ poke }) {
     return (

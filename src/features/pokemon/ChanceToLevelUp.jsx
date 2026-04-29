@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import PlayerContext from "../../context/PlayerContext"
+import PlayerContext from "@context/PlayerContext"
 import { Box, Progress, Text, Tooltip } from "@chakra-ui/react"
 import { upgradePokemonLevelChance } from '@utils'
 

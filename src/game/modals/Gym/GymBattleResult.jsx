@@ -1,7 +1,7 @@
 import { VStack, HStack, Text, Button, Flex, Image, useColorMode, Center } from "@chakra-ui/react"
 import { useContext } from "react"
 import PlayerContext from "@context/PlayerContext"
-import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import PrizeIcon from "@features/prizes/PrizeIcon"
 
 export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true }) {
     const { colorMode } = useColorMode()

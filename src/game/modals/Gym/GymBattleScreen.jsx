@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { VStack, HStack, Flex, Text, Progress, Image, Badge, Box, Button, useColorMode, Tooltip } from "@chakra-ui/react"
-import Element from "@components/Elements/Element"
+import Element from "@features/elements/Element"
 
 export default function GymBattleScreen({ 
     playerTeam, 

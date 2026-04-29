@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Center, Text, Tooltip } from "@chakra-ui/react";
 import { stringToUpperCase } from "@utils";
 
-import Types from "../Elements/Types"
+import Types from "@features/elements/Types"
 
 export default function CardTitle({ poke }) {
     const [titleStatsTooltip, setTitleStatsTooltip] = useState('')

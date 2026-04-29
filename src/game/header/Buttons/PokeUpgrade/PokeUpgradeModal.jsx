@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import PlayerContext from "@context/PlayerContext"
 import { Text } from "@chakra-ui/react"
-import PokeList from "@components/Pokemon/PokeList"
+import PokeList from "@features/pokemon/PokeList"
 import PokeUpgrade from "./PokeUpgrade"
 import GenericModal from "@components/Modal/GenericModal"
 

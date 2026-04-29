@@ -10,7 +10,7 @@ import {
     ModalOverlay,
     Text,
 } from "@chakra-ui/react"
-import PokeList from "@components/Pokemon/PokeList"
+import PokeList from "@features/pokemon/PokeList"
 import BerriesPage from "./BerriesPage"
 
 export default function BerriesModal() {

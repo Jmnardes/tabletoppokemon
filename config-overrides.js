@@ -12,6 +12,7 @@ module.exports = function override(config, env) {
     '@client': path.resolve(__dirname, 'src/client'),
     '@enum': path.resolve(__dirname, 'src/constants/enum'),
     '@hooks': path.resolve(__dirname, 'src/hooks'),
+    '@features': path.resolve(__dirname, 'src/features'),
   };
 
   config.resolve.modules = [

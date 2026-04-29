@@ -1,6 +1,6 @@
 import { Flex, Image, Text, Box } from "@chakra-ui/react"
 import { stringToUpperCase, typeColor } from '@utils'
-import Types from "@components/Elements/Types"
+import Types from "@features/elements/Types"
 import { useEffect, useState } from "react"
 
 export default function ChallengePokemonCard({ poke }) {

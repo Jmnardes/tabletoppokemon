@@ -1,7 +1,7 @@
 import { Box, Center, Flex } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
 import PlayerContext from "@context/PlayerContext"
-import Card from "@components/Pokemon/Card"
+import Card from "@features/pokemon/Card"
 import TeamTitle from '@game/body/Team/TeamTitle'
 
 export default function PokeTeam({ bag, challenge = false }) {

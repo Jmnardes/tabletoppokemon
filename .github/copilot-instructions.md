@@ -43,7 +43,7 @@ src/
 
 - Usar **path aliases** definidos em `config-overrides.js`:
   ```js
-  import Component from '@components/Pokemon/Card'
+  import Component from '@features/pokemon/Card'
   import { PlayerContext } from '@context/PlayerContext'
   import socket from '@client'
   import { taskTypeEnum } from '@enum'

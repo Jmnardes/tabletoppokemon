@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 
 import PlayerContext from "@context/PlayerContext"
 import PokeSelector from "./PokeSelector"
-import PrizeIcon from "@components/PrizeIcon/PrizeIcon"
+import PrizeIcon from "@features/prizes/PrizeIcon"
 
 import { FaDoorOpen } from "react-icons/fa";
 

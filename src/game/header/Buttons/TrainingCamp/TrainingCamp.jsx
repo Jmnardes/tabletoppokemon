@@ -1,10 +1,10 @@
 import { useContext, useState, useMemo } from "react";
 import { Button, Text, Center, Box, Image, Flex } from "@chakra-ui/react";
-import PlayerContext from "@Contexts/PlayerContext";
+import PlayerContext from "@context/PlayerContext";
 import ConfirmationModal from "@components/Modal/ConfirmationModal";
 import coinIcon from "@assets/images/game/coin.png";
-import GenericModal from "../../../../components/Modal/GenericModal";
-import HorizontalArray from "../../../../components/Pokemon/HorizontalArray";
+import GenericModal from "@components/Modal/GenericModal";
+import HorizontalArray from "@features/pokemon/HorizontalArray";
 
 export default function TrainingCamp() {
     const {

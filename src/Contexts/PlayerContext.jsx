@@ -588,6 +588,26 @@ export function PlayerProvider({children}) {
             syncBoxFromServer(res.pokeBox)
         })
 
+        return () => {
+            socket.off('error')
+            socket.off('session-join')
+            socket.off('session-join-other')
+            socket.off('session-leave-other')
+            socket.off('lobby-ready')
+            socket.off('lobby-ready-other')
+            socket.off('lobby-start')
+            socket.off('turn-end-other')
+            socket.off('turn-end-other-return')
+            socket.off('game-end')
+            socket.off('player-update-status-other')
+            socket.off('player-update-status')
+            socket.off('player-update-task')
+            socket.off('player-use-berry')
+            socket.off('player-update-items')
+            socket.off('player-update-team')
+            socket.off('player-update-box')
+        }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

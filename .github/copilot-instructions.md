@@ -20,8 +20,14 @@ src/
 │   ├── json/        # Dados estáticos (pokémons, moves, items, etc.)
 │   └── svgs/        # Ícones SVG como componentes React
 ├── components/      # Componentes reutilizáveis (UI genérica)
+├── constants/       # Constantes e enums
 ├── context/         # React Context (PlayerContext)
-├── enum/            # Constantes e enums
+├── features/        # Componentes de domínio do jogo
+│   ├── pokemon/     # Cards, stats, listas de pokémon
+│   ├── elements/    # Tipos e efetividade
+│   ├── items/       # Berries, dust, itens
+│   ├── augments/    # Augments do jogador
+│   └── prizes/      # Ícones de prêmios
 ├── game/            # Componentes específicos da tela de jogo
 │   ├── body/        # Layout principal (panels, team)
 │   ├── header/      # Header do jogo (stats, botões)
@@ -114,11 +120,12 @@ src/
 | `@assets` | `src/assets` |
 | `@components` | `src/components` |
 | `@context` | `src/context` |
+| `@features` | `src/features` |
 | `@game` | `src/game` |
 | `@pages` | `src/pages` |
 | `@utils` | `src/utils` |
 | `@client` | `src/client` |
-| `@enum` | `src/enum/enum` |
+| `@enum` | `src/constants/enum` |
 | `@hooks` | `src/hooks` |
 
 ## Dependências Principais

@@ -300,6 +300,7 @@ WebSocket Server
 @pages      → src/pages
 @utils      → src/utils
 @client     → src/client
-@enum       → src/enum/enum
+@enum       → src/constants/enum
 @hooks      → src/hooks
+@features   → src/features
 ```

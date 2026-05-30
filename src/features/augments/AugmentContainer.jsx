@@ -8,8 +8,9 @@ export default function AugmentContainer ({ augment, handler = () => {}, choose 
         <Flex
             direction={"column"}
             borderRadius={8}
-            h={64}
-            p={4} w={choose ? 72 : 60}
+            h={choose ? 52 : 64}
+            p={4} w={choose ? "100%" : 60}
+            minW={choose ? 0 : undefined}
             opacity={choose && 0.6}
             backgroundColor={augmentColor(augment.rarity)}
             _hover={choose && { 'animation': `${pulseAnimation(augmentColor(augment.rarity))} 1.5s infinite`, opacity: 1 }}

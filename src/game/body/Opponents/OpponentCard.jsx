@@ -1,68 +1,59 @@
 import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
-import { Center, Divider, Flex, Text } from "@chakra-ui/layout"
+import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
 import starIcon from '@assets/images/game/star.png'
+import crownIcon from '@assets/images/game/crown.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
-import StepsIcon from "@components/Icons/StepsIcon"
-import SuccessIcon from "@components/Icons/SuccessIcon"
 
 export default function OpponentCard({ opponent, inFront = false }) {
     const { colorMode } = useColorMode()
 
     const light = colorMode === 'light'
-    const bgColor = opponent.online
-        ? (light ? "gray.200" : "gray.650")
-        : 'transparent'
-    const borderStyle = opponent.online
-        ? undefined
-        : "4px solid red"
+
+    const getBackgroundColor = () => {
+        if (!opponent.online) return 'transparent'
+        if (opponent.turnReady) return light ? 'green.200' : 'green.800'
+        return light ? 'gray.200' : 'gray.650'
+    }
+
+    const bgColor = getBackgroundColor()
+    const borderStyle = opponent.online ? undefined : "4px solid red"
+
+    const shortName = opponent.status.trainerName?.slice(0, 3) || '???'
+
     return (
-        <Card
-            backgroundColor={bgColor}
-            padding="1rem"
-            borderRadius={12}
-            gap="0.75rem"
-            border={borderStyle}
-            zIndex={inFront ? '2' : 'auto'}
-            minW={"160px"}
-        >
-            {opponent.online && (
-                <Center
-                    boxSize="48px"
-                    backgroundColor={bgColor}
-                    borderRadius="50%"
-                    position="absolute"
-                    top="-18px"
-                    left="0px"
-                >
-                    {opponent.turnReady ? (
-                        <SuccessIcon c={light ? "green.500" : "green.400"} />
-                    ) : (
-                        <StepsIcon c={light ? "blue.500" : "blue.400"} />
-                    )}
-                </Center>
-            )}
-            <Flex direction="column" align="center">
-                <Text>{opponent.status.trainerName}</Text>
-            </Flex>
-            <Divider />
-            {opponent.online ? (
-                <Center flex justify="space-between">
-                    <Flex alignItems="center" mx={2}>
-                        <Image
-                            src={starIcon}
-                            title={'Ranking Points'}
-                            w="24px"
-                        ></Image>
-                        <Text fontSize="2xs" ml={2}>{opponent.status.ranking}</Text>
+        <Tooltip label={opponent.status.trainerName} placement="left" hasArrow>
+            <Card
+                backgroundColor={bgColor}
+                padding="0.5rem"
+                borderRadius={8}
+                gap="0.25rem"
+                border={borderStyle}
+                zIndex={inFront ? '2' : 'auto'}
+                minW={"80px"}
+                align="center"
+            >
+                <Text fontSize="xs" fontWeight="bold" textAlign="center">
+                    {shortName}
+                </Text>
+                {opponent.online ? (
+                    <Flex direction="column" align="center" gap={1}>
+                        <Flex alignItems="center">
+                            <Image src={crownIcon} w="14px" />
+                            <Text fontSize="2xs" ml={1}>{opponent.status.badges || 0}</Text>
+                        </Flex>
+                        <Flex alignItems="center">
+                            <Image src={starIcon} w="14px" />
+                            <Text fontSize="2xs" ml={1}>{opponent.status.ranking}</Text>
+                        </Flex>
                     </Flex>
-                </Center>
-            ) : (
-                <Center>
-                    <DisconnectedIcon />
-                </Center>
-            )}
-        </Card>
+                ) : (
+                    <Center>
+                        <DisconnectedIcon />
+                    </Center>
+                )}
+            </Card>
+        </Tooltip>
     )
 }

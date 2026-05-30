@@ -44,7 +44,7 @@ export default function BerriesModal() {
                     
                     <ModalBody>
                         <Text textAlign={"center"} mt={4}>Select the pokemon you wanna use your berry</Text>
-                        <PokeList allPokemon={allPokemon} setSelectedPokemon={setSelectedPokemon} />
+                        <PokeList pokemons={allPokemon} onSelect={setSelectedPokemon} />
 
                         <BerriesPage selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
                     </ModalBody>

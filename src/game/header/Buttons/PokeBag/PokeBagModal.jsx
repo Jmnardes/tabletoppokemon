@@ -3,12 +3,12 @@ import { CloseButton } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 
-import TeamInBox from "./TeamInBox"
+import PokeList from "@features/pokemon/PokeList"
 import PokeTeam from "@game/body/Team/PokeTeam"
 import GenericModal from "@components/Modal/GenericModal"
 
 export default function PokeBagModal() {
-    const { updateGame, teamIds, boxIds, emit } = useContext(PlayerContext)
+    const { updateGame, teamIds, boxIds, pokemonData, moveToTeam, session, emit } = useContext(PlayerContext)
 
     const playerUpdateBag = () => {
         updateGame({ openPokeBoxModal: false, showBagLength: false })
@@ -24,6 +24,8 @@ export default function PokeBagModal() {
     }, [])
 
     const totalPokemons = teamIds.length + boxIds.length
+    const boxPokemons = boxIds.map(id => pokemonData[id]).filter(Boolean)
+    const teamFull = teamIds?.length === session.teamLength
 
     return (
         <GenericModal
@@ -40,7 +42,14 @@ export default function PokeBagModal() {
                 />
             )}
         >
-            <TeamInBox />
+            <PokeList
+                pokemons={boxPokemons}
+                onSelect={(poke) => moveToTeam(poke.id)}
+                size="xs"
+                sprite="mini"
+                isDisabled={teamFull}
+                containerProps={{ h: 14 }}
+            />
 
             <PokeTeam bag={true} />
         </GenericModal>

@@ -94,7 +94,7 @@ export default function DayCareShop() {
         return (
             <Tr>
                 <Td>
-                    <Image src={icon} alt={name} boxSize={10} />
+                    <Image src={icon} alt={name} boxSize={8} />
                 </Td>
                 <Td fontSize={"2xl"} textAlign={"center"}>{price}x</Td>
                 <Td>
@@ -115,10 +115,10 @@ export default function DayCareShop() {
             <Text fontSize="2xl" mb={4}>Daycare Shop</Text>
             <Center flex justifyContent={"space-around"} w={"full"} p={4}>
                 <Center flex flexDir={"column"}>
-                    <Text fontSize={"2xl"} mb={8}>Daycare Tokens</Text>
+                    <Text fontSize={"2xl"} mb={4}>Daycare Tokens</Text>
                     <Center>
-                        <Text fontSize={"4xl"} mr={2}>{player.daycare.token}x</Text>
-                        <Image src={tokenIcon} alt={"Daycare Token"} w={24} />
+                        <Text fontSize={"2xl"} mr={2}>{player.daycare.token}x</Text>
+                        <Image src={tokenIcon} alt={"Daycare Token"} w={16} />
                     </Center>
                 </Center>
                 <Table variant="simple" w={42}>

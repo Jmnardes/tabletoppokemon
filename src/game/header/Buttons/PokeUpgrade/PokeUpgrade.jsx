@@ -111,7 +111,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
 
     return (
         <>
-            <Center justifyContent={"space-around"} py={4} px={24}>
+            <Center justifyContent={"space-around"} py={4} px={12}>
                 <Center flexDir={"column"} w={"100%"} mx={4}>
                     <Text mb={4}>Selected Pokémon</Text>
                     <SelectedToUpgrade 
@@ -122,7 +122,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
                 
                 <Center flexDir={"column"} w={"100%"} mx={4}>
                     <Text mb={4}>Upgrades</Text>
-                    <Box backgroundColor={"gray.600"} minW={"full"} minH={96} borderRadius={8}>
+                    <Box backgroundColor={"gray.600"} minW={"full"} minH={64} borderRadius={8}>
                         <Wrap p={4} justify={"center"}>
                             {upgrades.map((upgradeItem, index) => (
                                 <UpgradeSlot key={index} item={upgradeItem} isDust={upgradeItem.type === 'dust'} />

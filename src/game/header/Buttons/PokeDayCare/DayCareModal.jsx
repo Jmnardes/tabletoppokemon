@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { Image, Text } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
-import DayCareContent from "./DayCareContent"
+import PokeList from "@features/pokemon/PokeList"
 import GenericModal from "@components/Modal/GenericModal"
 
 import DayCareShop from "./DayCareShop"
@@ -62,7 +62,15 @@ export default function DayCareModal() {
                     You don't have Pókemons to leave on Daycare
                 </Text>
             ) : (
-                <DayCareContent handleTrade={handleTrade} pokeBox={boxPokemons} />
+                <PokeList
+                    pokemons={boxPokemons}
+                    onSelect={handleTrade}
+                    size="xs"
+                    confirmAction={(poke) => ({
+                        title: "Leave on Day Care",
+                        text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
+                    })}
+                />
             )}
             <DayCareShop />
         </GenericModal>

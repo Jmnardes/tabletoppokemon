@@ -1,8 +1,12 @@
 import { useContext } from "react";
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, Text, Tooltip } from "@chakra-ui/react";
 
 import PlayerContext from "@context/PlayerContext";
+import TaskBoardTooltip from "./TaskBoardTooltip";
+import ObjectivesTooltip from "./ObjectivesTooltip";
 
+import { FaExclamationCircle } from "react-icons/fa";
+import { FaTrophy } from "react-icons/fa";
 import clockIcon from '@assets/images/game/clock.png'
 import crownIcon from '@assets/images/game/crown.png'
 import starIcon from '@assets/images/game/star.png'
@@ -66,6 +70,20 @@ export default function TrainerBar() {
                     ></Image>
                     <Text ml={2} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
                 </Flex>
+            )}
+            {!game.hasEnded && (
+                <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">
+                    <Flex alignItems="center" mx={2} cursor="pointer">
+                        <FaExclamationCircle size={20} color="orange" />
+                    </Flex>
+                </Tooltip>
+            )}
+            {!game.hasEnded && (
+                <Tooltip label={<ObjectivesTooltip />} p={0} borderRadius={8} background="none">
+                    <Flex alignItems="center" mx={2} cursor="pointer">
+                        <FaTrophy size={18} color="gold" />
+                    </Flex>
+                </Tooltip>
             )}
         </>
     )

@@ -16,7 +16,7 @@ export default function PokeUpgradeModal() {
             onModalClose={() => updateGame({ openPokeUpgradeModal: false })}
         >
             <Text fontSize={"small"} textAlign={"center"} mt={4}>Select the pokemon you wanna use your item</Text>
-            <PokeList allPokemon={getTeamPokemons()} setSelectedPokemon={setSelectedPokemon} />
+            <PokeList pokemons={getTeamPokemons()} onSelect={setSelectedPokemon} />
 
             <PokeUpgrade selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} />
         </GenericModal>

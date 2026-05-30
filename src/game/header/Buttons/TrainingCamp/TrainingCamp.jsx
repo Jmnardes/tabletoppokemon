@@ -4,7 +4,7 @@ import PlayerContext from "@context/PlayerContext";
 import ConfirmationModal from "@components/Modal/ConfirmationModal";
 import coinIcon from "@assets/images/game/coin.png";
 import GenericModal from "@components/Modal/GenericModal";
-import HorizontalArray from "@features/pokemon/HorizontalArray";
+import PokeList from "@features/pokemon/PokeList";
 
 export default function TrainingCamp() {
     const {
@@ -145,10 +145,9 @@ export default function TrainingCamp() {
                         No Pokémon in box
                     </Text>
                 ) : (
-                    <HorizontalArray
-                        box
-                        size="md"
-                        handler={handleSelectFromBox}
+                    <PokeList
+                        pokemons={getBoxPokemons()}
+                        onSelect={(pokemon) => handleSelectFromBox(pokemon.id)}
                         isDisabled={slotsFull || tokens === 0}
                     />
                 )}

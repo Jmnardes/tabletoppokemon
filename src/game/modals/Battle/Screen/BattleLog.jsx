@@ -5,12 +5,12 @@ import { colorByHitType } from '@utils/battle';
 
 const BattleLog = ({ logMessages }) => {
     return (
-        <Flex flexDirection="column" w="100%" h="100%">
+        <Flex flexDirection="column" w="100%" maxW="280px" h="100%" flexShrink={0}>
             <Center pb={4}>
                 <Text>Battle Log</Text>
             </Center>
             {logMessages.length > 0 && (
-                <Box w="100%" p={4} maxH="400px" overflow="hidden" overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
+                <Box w="100%" p={4} flex="1" minH={0} overflowY="auto" backgroundColor="gray.600" borderRadius={6} style={{ scrollbarWidth: 'thin' }}>
                     <>
                         {logMessages.map((log, index) => (
                             <Box key={index}>

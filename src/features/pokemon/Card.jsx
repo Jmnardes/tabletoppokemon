@@ -80,8 +80,8 @@ function Card({ poke, tooltip, bag, isCaptured, challenge }) {
 
                 <Center>
                     <Image
-                        w={isMini ? 24 : 52}
-                        my={4}
+                        w={isMini ? 20 : 52}
+                        my={isMini ? 2 : 4}
                         title={stringToUpperCase(poke.name)} 
                         src={poke.sprites.main}
                     />

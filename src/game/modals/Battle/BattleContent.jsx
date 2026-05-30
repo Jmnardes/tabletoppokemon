@@ -39,10 +39,10 @@ export default function BattleContent({
     }, [])
 
     return (
-        <Flex flex="1" h={"100%"}>
-            <Center flexDir="column" flex="1">
+        <Flex flex="1" h={"100%"} overflow="hidden">
+            <Center flexDir="column" flex="1" h="100%">
                 <OpponentPokes opponent={opponentTrainer} prizes={event.prizes} />
-                <Center w="100%" flex="1" p={4}>
+                <Center w="100%" flex="1" p={4} overflow="hidden" minH={0}>
                     <BattleScreen 
                         pokemon={pokemon} 
                         opponent={opponent}

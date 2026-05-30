@@ -200,7 +200,7 @@ export default function BattleScreen({
     )
   
     return (
-      <Flex flex="1" h="100%" flexDirection="row">
+      <Flex flex="1" h="100%" flexDirection="row" overflow="hidden" minH={0}>
         {battleLog && battleLog[currentLogIndex] && !battleEnded && (
           <Flex w="100%" h="100%" mx={24} flexDirection="row">
             <Center w="100%" h="100%">

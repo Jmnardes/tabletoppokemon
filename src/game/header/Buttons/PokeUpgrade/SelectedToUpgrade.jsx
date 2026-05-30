@@ -19,7 +19,7 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
                 alignItems="center"
                 flexDirection="column"
                 borderRadius={8}
-                p={4} mx={2} w={64}
+                p={4} mx={2} w={52}
             >
                 <Center position="absolute" flex flexDirection="column" top={-8}>
                     <Text fontSize={"x-small"}>Lv.{selectedPokemon.level}</Text>
@@ -27,8 +27,8 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
                     <PokeRarity rarity={selectedPokemon.rarity.rarity} />
                 </Center>
                 <Image
-                    w={52}
-                    my={4}
+                    w={28}
+                    my={2}
                     title={stringToUpperCase(selectedPokemon.name)}
                     src={selectedPokemon.sprites.main}
                 />
@@ -76,7 +76,7 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
     }
 
     return (
-        <Center backgroundColor={"gray.600"} minW={"full"} h={96} borderRadius={8} p={12}>
+        <Center backgroundColor={"gray.600"} minW={"full"} h={64} borderRadius={8} p={6}>
             {selectedPokemon && (
                 <Center position="relative">
                     <SelectedPokemonCard />

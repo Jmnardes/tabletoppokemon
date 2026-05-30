@@ -1,23 +1,26 @@
-import { Center, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
 import PlayerContext from "@context/PlayerContext";
 import OpponentCard from "./OpponentCard";
+
+const MAX_PER_COLUMN = 5
 
 export default function Opponents() {
     const { opponents, waitingForPlayers } = useContext(PlayerContext)
 
     const columns = useMemo(() => {
-        const columns = opponents.reduce((acc, cur, index) => {
-            if (index % 4 === 0) acc.push([])
+        const cols = opponents.reduce((acc, cur, index) => {
+            if (index % MAX_PER_COLUMN === 0) acc.push([])
             acc[acc.length - 1].push(cur)
             return acc
         }, [])
 
-        return columns.map((column, index) => (
+        return cols.map((column, index) => (
             <Flex
                 key={index}
                 direction="column"
-                justify="space-evenly"
+                gap="0.5rem"
+                justify="center"
                 h="full"
             >
                 {column.map(opponent => (
@@ -32,10 +35,8 @@ export default function Opponents() {
     }, [opponents, waitingForPlayers])
 
     return (
-        <>
-            <Center minW={56} h={"full"}>
-                {columns}
-            </Center>
-        </>
+        <Flex gap="0.5rem" h="full" align="center">
+            {columns}
+        </Flex>
     )
 }

@@ -1,7 +1,7 @@
 import {
     Text,
     Center,
-    Wrap,
+    SimpleGrid,
 } from "@chakra-ui/react"
 import { useContext, useEffect } from "react"
 import PlayerContext from "@context/PlayerContext"
@@ -42,8 +42,8 @@ export default function AugmentsModal({ augments }) {
                 <Text fontSize={"sm"} textAlign={"center"} color={augmentColor(augments.type)}>
                     Augments type: {augments.type}
                 </Text>
-                <Center h="100%" pb={8}>
-                    <Wrap justify={"center"} alignItems={"center"} mx={8}>
+                <Center h="100%" pb={4}>
+                    <SimpleGrid columns={2} spacing={4} mx={4}>
                         {augments.list?.map((augment, index) => (
                             <AugmentContainer 
                                 key={index} 
@@ -52,7 +52,7 @@ export default function AugmentsModal({ augments }) {
                                 choose={true}
                             />
                         ))}
-                    </Wrap>
+                    </SimpleGrid>
                 </Center>
             </Center>
         </GenericModal>

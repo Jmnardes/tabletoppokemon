@@ -1,12 +1,17 @@
-import { Badge, Center, useColorMode } from "@chakra-ui/react";
+import { Badge, Center, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import PlayerContext from "@context/PlayerContext";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 import NextEvent from "./NextEvent/NextEvent";
+import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionModal";
+import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
+import ObjectivesTooltip from "./Trainer/ObjectivesTooltip";
+import { FaExclamationCircle, FaTrophy } from "react-icons/fa";
+import crownIcon from '@assets/images/game/crown.png';
 
 export default function GameHeader() {
-    const { player, nextEvent } = useContext(PlayerContext)
+    const { player, nextEvent, game, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
@@ -33,6 +38,28 @@ export default function GameHeader() {
                 <NextEvent nextEvent={nextEvent} />
             </Center>
             <Center flex="1" justifyContent={"end"}>
+                {!game.hasEnded && (
+                    <Tooltip label={<BadgeCollectionTooltip />} p={0} borderRadius={8} background="none">
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <Image src={crownIcon} title={'Badges'} w="24px" />
+                            <Text ml={1} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
+                        </Flex>
+                    </Tooltip>
+                )}
+                {!game.hasEnded && (
+                    <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <FaExclamationCircle size={20} color="orange" />
+                        </Flex>
+                    </Tooltip>
+                )}
+                {!game.hasEnded && (
+                    <Tooltip label={<ObjectivesTooltip />} p={0} borderRadius={8} background="none">
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <FaTrophy size={18} color="gold" />
+                        </Flex>
+                    </Tooltip>
+                )}
                 <PokeballStats />
             </Center>
         </Center>

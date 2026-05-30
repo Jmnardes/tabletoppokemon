@@ -33,7 +33,7 @@ export default function TeamTitle({ pokeTeam, pokemons }) {
     }
 
     return (
-        <Flex mt={12} flexDir={"column"} alignItems={"center"} background={colorMode === 'light' ? 'gray.400' : 'gray.600'} borderRadius={8}>
+        <Flex mt={4} flexDir={"column"} alignItems={"center"} background={colorMode === 'light' ? 'gray.400' : 'gray.600'} borderRadius={8}>
             <Text pt={2} fontSize={"xs"}>Team strength</Text>
             <Flex display="flex" flexDir="row" py={2} title="Team stats" cursor="pointer">
                 <StatTitle

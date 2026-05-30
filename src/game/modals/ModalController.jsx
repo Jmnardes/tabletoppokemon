@@ -13,10 +13,8 @@ import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 import CaptureModal from "./Capture/CaptureModal";
 import NewTasksModal from "./NewTasks/NewTasks";
 import AugmentsModal from "./Augments/AugmentsModal";
-import PokeBagModal from "../header/Buttons/PokeBag/PokeBagModal";
 import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
 import GymModal from "./Gym/GymModal";
-import BadgeCollectionModal from "../header/Buttons/BadgeCollection/BadgeCollectionModal";
 import TrainingCamp from "../header/Buttons/TrainingCamp";
 
 export default function ModalController() {
@@ -189,10 +187,8 @@ export default function ModalController() {
             {game.openChallengeModal && <ChallengeModal event={event} />}
             {game.openWalkModal && <WalkModal event={event} />}
             {game.openGymModal && <GymModal />}
-            {game.openBadgeCollectionModal && <BadgeCollectionModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
-            {game.openPokeBoxModal && <PokeBagModal />}
             {game.openDayCareModal && <DayCareModal />}
             {game.openPokeUpgradeModal && <PokeUpgradeModal />}
             {game.openBerriesModal && <BerriesModal />}

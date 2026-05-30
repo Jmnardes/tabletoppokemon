@@ -49,7 +49,6 @@ export function PlayerProvider({children}) {
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
         openAugmentsModal: false,
-        openBadgeCollectionModal: false,
         openTrainingCampModal: false,
     })
 

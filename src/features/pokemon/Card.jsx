@@ -22,9 +22,7 @@ function Card({ poke, tooltip, bag, isCaptured, challenge }) {
             return `linear-gradient(145deg, ${colorByType} 35%, #d1d1d1 50%, ${colorByType} 65%)`
         }
 
-        if (!bag) {
-            return colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'
-        }
+        return colorMode === 'light' ? 'whiteAlpha.900' : 'gray.600'
     }
 
     useEffect(() => {

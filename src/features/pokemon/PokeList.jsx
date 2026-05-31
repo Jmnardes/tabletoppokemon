@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { Box, Center, Flex, HStack, Image, Text, Tooltip } from "@chakra-ui/react"
+import { Center, Flex, HStack, Image, Text, Tooltip } from "@chakra-ui/react"
 import { stringToUpperCase } from "@utils"
 import Card from "@features/pokemon/Card"
 import ConfirmationModal from "@components/Modal/ConfirmationModal"

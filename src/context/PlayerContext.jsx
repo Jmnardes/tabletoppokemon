@@ -90,15 +90,15 @@ export function PlayerProvider({children}) {
     }, [setPokemons])
 
     // Update box and pokemonData with trainedCamp (array of pokes)
-    const updateTrainedCamp = useCallback((trainedCamp) => {
-        if (!trainedCamp || !Array.isArray(trainedCamp)) return;
-        setPokemons(trainedCamp);
-        setBoxIds(prev => {
-            const trainedIds = trainedCamp.map(p => p.id);
-            // Ensure no duplicates
-            return Array.from(new Set([...prev, ...trainedIds]));
-        });
-    }, [setPokemons]);
+    // const updateTrainedCamp = useCallback((trainedCamp) => {
+    //     if (!trainedCamp || !Array.isArray(trainedCamp)) return;
+    //     setPokemons(trainedCamp);
+    //     setBoxIds(prev => {
+    //         const trainedIds = trainedCamp.map(p => p.id);
+    //         // Ensure no duplicates
+    //         return Array.from(new Set([...prev, ...trainedIds]));
+    //     });
+    // }, [setPokemons]);
 
     const emit = useCallback((name, data, timeout = 5000) => {
         let cancelled = false

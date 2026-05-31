@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Center, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Image, useColorMode } from "@chakra-ui/react";
 import PlayerContext from "@context/PlayerContext";
 
 import PokeGym from "@game/header/Buttons/PokeGym/PokeGym";

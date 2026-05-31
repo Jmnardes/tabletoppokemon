@@ -10,7 +10,6 @@ export default function TrainingCamp() {
     const {
         emit,
         player,
-        boxIds,
         setBoxIds,
         setPokemonData,
         setLoading,

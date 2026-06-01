@@ -4,7 +4,6 @@ import PlayerContext from "@context/PlayerContext";
 
 import PokeGym from "@game/header/Buttons/PokeGym/PokeGym";
 import PlayerAugments from "@game/header/Buttons/Augments/PlayerAugments";
-import Settings from "@game/header/Buttons/Settings/Settings";
 
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import arrowIcon from '@assets/images/game/arrow.png';
@@ -56,8 +55,6 @@ export default function ActionPanel() {
                     />
                 </Button>
 
-                <PokeGym />
-
                 <Button
                     onClick={() => updateGame({ openDayCareModal: true })}
                 >
@@ -77,18 +74,20 @@ export default function ActionPanel() {
                 </Button>
 
                 <PlayerAugments />
-
-                <Settings />
             </Flex>
 
-            <Button
-                colorScheme="green"
-                onClick={finishTurn}
-                isDisabled={isTurnDisabled}
-                title={isTurnDisabled ? "Você precisa de 3 pokémons no time" : "Finish your turn"}
-            >
-                <FaArrowRight size="20px" color="white" />
-            </Button>
+            <Flex flexDir="column" gap="0.5rem">
+                <PokeGym />
+
+                <Button
+                    colorScheme="green"
+                    onClick={finishTurn}
+                    isDisabled={isTurnDisabled}
+                    title={isTurnDisabled ? "Você precisa de 3 pokémons no time" : "Finish your turn"}
+                >
+                    <FaArrowRight size="20px" color="white" />
+                </Button>
+            </Flex>
         </Flex>
     )
 }

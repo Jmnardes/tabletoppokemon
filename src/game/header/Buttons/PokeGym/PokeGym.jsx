@@ -74,6 +74,7 @@ export default function PokeGym() {
             onClick={handleClick}
             cursor="pointer"
             position="relative"
+            colorScheme={gymDisplay.isAvailable ? "green" : "red"}
         >
             <Image
                 src={badgeIcon}

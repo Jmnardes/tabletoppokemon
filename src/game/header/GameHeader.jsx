@@ -3,6 +3,7 @@ import { useContext } from "react";
 import PlayerContext from "@context/PlayerContext";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
+import Settings from './Buttons/Settings/Settings'
 import NextEvent from "./NextEvent/NextEvent";
 import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionModal";
 import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
@@ -61,6 +62,7 @@ export default function GameHeader() {
                     </Tooltip>
                 )}
                 <PokeballStats />
+                <Settings />
             </Center>
         </Center>
     )

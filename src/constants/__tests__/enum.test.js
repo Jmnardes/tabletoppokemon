@@ -3,9 +3,11 @@ import { taskTypeEnum } from '../enum'
 describe('taskTypeEnum', () => {
   it('has all expected task types', () => {
     const expectedTypes = [
-      'catch', 'winBattle', 'useDust',
-      'gainTokens', 'useBerry', 'fairPlay', 'daycare',
-      'usePokeballs', 'useGreatballs', 'useUltraballs', 'throwEffectiveness',
+      'catch', 'defeatWild', 'useDust',
+      'gainTokens', 'useBerry',
+      'useGreatballs', 'useUltraballs',
+      'farmHarvest', 'farmFertilize', 'trainPokemon', 'levelUp',
+      'usePotion', 'defeatGym', 'finishTasks', 'winBattle',
     ]
 
     expectedTypes.forEach(type => {
@@ -19,7 +21,7 @@ describe('taskTypeEnum', () => {
     })
   })
 
-  it('has exactly 11 task types', () => {
-    expect(Object.keys(taskTypeEnum)).toHaveLength(11)
+  it('has exactly 15 task types', () => {
+    expect(Object.keys(taskTypeEnum)).toHaveLength(15)
   })
 })

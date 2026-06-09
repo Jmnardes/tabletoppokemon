@@ -6,14 +6,10 @@ import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
 
 export default function TaskBoardTooltip() {
-    const { tasks, session } = useContext(PlayerContext)
+    const { tasks } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
-
-    function getTurnsLeft(turn) {
-        return (turn % 10 === 0) ? 1 : 11 - (turn % 10);
-    }
 
     const TaskContainer = ({ task }) => {
         let taskTypeColor
@@ -42,9 +38,6 @@ export default function TaskBoardTooltip() {
                     <Flex direction="column" gap={1} w={"full"}>
                         <Text fontSize={"x-small"}>
                             - {task.name}
-                        </Text>
-                        <Text fontSize={"xx-small"} color="gray.400" fontStyle="italic">
-                            {task.description}
                         </Text>
                         <Flex justifyContent={"space-between"}>
                             <Text mt={1} fontSize={"xx-small"}>Progress: {
@@ -90,7 +83,6 @@ export default function TaskBoardTooltip() {
                     <TaskContainer key={index} task={task} />
                 ))}
             </Center>
-            <Badge mt={3} py={1} fontSize={"x-small"} textAlign={"center"}>{getTurnsLeft(session.turns)} turn(s) left</Badge>
         </Flex>
     );
 }

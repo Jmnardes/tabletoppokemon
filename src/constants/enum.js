@@ -1,15 +1,19 @@
 export const taskTypeEnum = {
     catch: "catch",
-    winBattle: "winBattle",
+    defeatWild: "defeatWild",
     useDust: "useDust",
     gainTokens: "gainTokens",
     useBerry: "useBerry",
-    fairPlay: "fairPlay",
-    daycare: "daycare",
-    usePokeballs: "usePokeballs",
     useGreatballs: "useGreatballs",
     useUltraballs: "useUltraballs",
-    throwEffectiveness: "throwEffectiveness",
+    farmHarvest: "farmHarvest",
+    farmFertilize: "farmFertilize",
+    trainPokemon: "trainPokemon",
+    levelUp: "levelUp",
+    usePotion: "usePotion",
+    defeatGym: "defeatGym",
+    finishTasks: "finishTasks",
+    winBattle: "winBattle",
 }
 
 export const eventTypeEnum = {

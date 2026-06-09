@@ -290,12 +290,6 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
         <Flex flex="1" direction="column" align="center" justify="center" w="100%" maxW="600px">
             <Text fontSize="lg" mb={2}>Battle!</Text>
 
-            {fights.length > 1 && (
-                <Text fontSize="2xs" color="gray.400" mb={2}>
-                    Fight {fightIndex + 1} / {fights.length}
-                </Text>
-            )}
-
             {/* Battle arena — PvP style side-by-side */}
             <Flex w="100%" h="100%" mx={8} flexDirection="row" align="center" justify="center">
                 <Center w="100%" h="100%">

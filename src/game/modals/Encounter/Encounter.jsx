@@ -102,7 +102,7 @@ function StarterEncounter({ encounter, emit, setLoading }) {
 
 export default function Encounter({ augments }) {
     const { session, encounter, emit, setLoading } = useContext(PlayerContext)
-    const isStarter = session.turns === 1
+    const isStarter = session.turns === 0
 
     if (isStarter) {
         return <StarterEncounter encounter={encounter} emit={emit} setLoading={setLoading} />
@@ -199,7 +199,7 @@ function NormalEncounter({ augments }) {
                     <>
                         <Center position="absolute" mb={28}>
                             <Text fontSize={"2xs"}>{
-                                session.turns === 1 ? 1 : poke.level
+                                session.turns === 0 ? 1 : poke.level
                             }</Text>
                         </Center>
                         <Image

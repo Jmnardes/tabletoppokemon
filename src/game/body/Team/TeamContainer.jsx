@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Image, Text, Tooltip, useColorMode, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Image, Text, Tooltip, useColorMode, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import PlayerContext from "@context/PlayerContext";
 import { stringToUpperCase } from "@utils";
@@ -15,7 +15,7 @@ const scrollbarCSS = {
 }
 
 export default function TeamContainer() {
-    const { boxIds, pokemonData, moveToTeam, teamIds } = useContext(PlayerContext)
+    const { boxIds, pokemonData, moveToTeam, teamIds, bagDirty, confirmBag } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const boxPokemons = boxIds.map(id => pokemonData[id]).filter(Boolean)
@@ -69,6 +69,20 @@ export default function TeamContainer() {
                             })}
                         </VStack>
                     </Box>
+                    {bagDirty && (
+                        <Button
+                            colorScheme="yellow"
+                            size="xs"
+                            w={14}
+                            h={14}
+                            minH={14}
+                            borderRadius={8}
+                            onClick={confirmBag}
+                            title="Confirm team changes"
+                        >
+                            ✓
+                        </Button>
+                    )}
                 </Flex>
             )}
             <PokeTeam bag={hasBox} />

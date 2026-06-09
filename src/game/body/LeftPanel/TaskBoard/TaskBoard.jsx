@@ -1,19 +1,15 @@
 import { useContext } from "react";
-import { Badge, Center, Divider, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
+import { Badge, Center, Divider, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
 import PlayerContext from "@context/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
 
 export default function TaskBoard() {
-    const { tasks, session } = useContext(PlayerContext)
+    const { tasks } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
-
-    function getTurnsLeft(turn) {
-        return (turn % 10 === 0) ? 1 : 11 - (turn % 10);
-    }
 
     const TaskContainer = ({ task }) => {
         let taskTypeColor
@@ -40,11 +36,9 @@ export default function TaskBoard() {
                 </Center>
                 <Center justifyContent={"space-between"} w={"full"} gap={4}>
                     <Flex direction="column" gap={1} w={"full"}>
-                        <Tooltip label={task.description} p={4} textAlign={"center"}>
-                            <Text fontSize={"x-small"}>
-                                - {task.name}
-                            </Text>
-                        </Tooltip>
+                        <Text fontSize={"x-small"}>
+                            - {task.name}
+                        </Text>
                         <Flex justifyContent={"space-between"}>
                             <Text mt={1} fontSize={"xx-small"}>Progress: {
                                 task.condition.status.current}/{task.condition.status.final
@@ -89,7 +83,6 @@ export default function TaskBoard() {
                     <TaskContainer key={index} task={task} />
                 ))}
             </Center>
-            <Badge mt={3} py={1} fontSize={"x-small"} textAlign={"center"}>{getTurnsLeft(session.turns)} turn(s) left</Badge>
         </Flex>
     );
 }

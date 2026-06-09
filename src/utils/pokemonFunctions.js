@@ -6,7 +6,7 @@ export const catchDifficulty = (session, poke, team, player) => {
   const elementsCatchBonus = player.catchBonus.elements
   let elementBonus = 0
 
-  if (turns === 1) {
+  if (turns === 0) {
     return 0
   }
 

@@ -25,11 +25,13 @@ export function PlayerProvider({children}) {
     const [tasks, setTasks] = useState([])
     const [achievements, setAchievements] = useState([])
     const [berries, setBerries] = useState([])
+    const [farm, setFarm] = useState(null)
     const [gym, setGym] = useState(null)
     const [nextGym, setNextGym] = useState(null)
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
     const [activeTab, setActiveTab] = useState('bag')
+    const [bagDirty, setBagDirty] = useState(false)
     const [turnPhases, setTurnPhases] = useState([])
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
     // nextEvent removed — no longer shown in header
@@ -45,7 +47,6 @@ export function PlayerProvider({children}) {
         openBattleModal: false,
         openPokeItemModal: false,
         openPokemonCaptureModal: false,
-        openNewTasksModal: false,
         openAugmentsModal: false,
         openJourneySelection: false,
         isInJourney: false,
@@ -148,6 +149,8 @@ export function PlayerProvider({children}) {
             if (snapshot?.player) {
                 setPlayer(snapshot.player)
                 setBerries(snapshot.player.berries || [])
+                if (snapshot.player.farm) setFarm(snapshot.player.farm)
+                if (snapshot.player.trainingCamp) setTrainingCamp(snapshot.player.trainingCamp)
                 
                 // Sync Pokemon data
                 if (snapshot.player.pokeTeam || snapshot.player.pokeBox) {
@@ -246,14 +249,15 @@ export function PlayerProvider({children}) {
         if (nextIndex >= turnPhases.length) {
             // All phases done — finish turn
             setWaitingForPlayers(true)
-            if (boxIds.length > 0) {
+            if (bagDirty || boxIds.length > 0) {
                 await emit('player-update-bag', { newTeamIds: teamIds })
+                setBagDirty(false)
             }
             emit('turn-end')
         } else {
             setCurrentPhaseIndex(nextIndex)
         }
-    }, [currentPhaseIndex, turnPhases, boxIds, teamIds, emit, setWaitingForPlayers])
+    }, [currentPhaseIndex, turnPhases, boxIds, bagDirty, teamIds, emit, setWaitingForPlayers])
 
     const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
@@ -341,6 +345,7 @@ export function PlayerProvider({children}) {
             if (prev.includes(pokemonId)) return prev
             return [...prev, pokemonId]
         })
+        setBagDirty(true)
     }, [])
 
     const moveToTeam = useCallback((pokemonId) => {
@@ -353,7 +358,14 @@ export function PlayerProvider({children}) {
             if (prev.includes(pokemonId)) return prev
             return [...prev, pokemonId]
         })
+        setBagDirty(true)
     }, [])
+
+    const confirmBag = useCallback(async () => {
+        if (!bagDirty) return
+        await emit('player-update-bag', { newTeamIds: teamIds })
+        setBagDirty(false)
+    }, [bagDirty, teamIds, emit])
 
     const getTeamPokemons = useCallback(() => {
         return teamIds.map(id => pokemonData[id]).filter(Boolean)
@@ -493,6 +505,8 @@ export function PlayerProvider({children}) {
             setPlayer(res.player)
             setVersion(res.version)
             setBerries(res.player.berries)
+            if (res.player.farm) setFarm(res.player.farm)
+            if (res.player.trainingCamp) setTrainingCamp(res.player.trainingCamp)
             
             // Apenas como fallback se vier no session-join
             if (res.gym !== undefined) setGym(res.gym)
@@ -799,6 +813,9 @@ export function PlayerProvider({children}) {
             berries,
             setBerries,
 
+            farm,
+            setFarm,
+
             gym,
             setGym,
             nextGym,
@@ -818,6 +835,8 @@ export function PlayerProvider({children}) {
 
             activeTab,
             setActiveTab,
+            bagDirty,
+            confirmBag,
 
             turnPhases,
             setTurnPhases,

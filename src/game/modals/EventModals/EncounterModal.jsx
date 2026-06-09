@@ -11,7 +11,7 @@ import Encounter from "../Encounter/Encounter"
 export default function EncounterModal({ augments }) {
     const { session } = useContext(PlayerContext)
 
-    const isStarter = session.turns === 1
+    const isStarter = session.turns === 0
 
     return (
         <>
@@ -22,7 +22,7 @@ export default function EncounterModal({ augments }) {
                 />
                 <ModalContent p={4}>
                     <ModalHeader fontSize="3xl" textAlign="center" pt={0}>
-                        {session.turns === 1 ? (
+                        {session.turns === 0 ? (
                             'Starter Pokémon'
                         ) : (
                             'Pokémon Encounter'

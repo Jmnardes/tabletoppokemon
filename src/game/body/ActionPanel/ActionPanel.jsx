@@ -8,11 +8,12 @@ import dayCareIcon from '@assets/images/game/heart_ball.png';
 import arrowIcon from '@assets/images/game/arrow.png';
 import fightIcon from '@assets/images/items/fight.png';
 import chipIcon from '@assets/images/game/chip.png';
+import farmIcon from '@assets/images/berries/berry.png';
 
 import { FaArrowRight } from "react-icons/fa";
 
 export default function ActionPanel() {
-    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex } = useContext(PlayerContext)
+    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, bagDirty } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const totalPokemons = teamIds.length + boxIds.length
@@ -21,7 +22,7 @@ export default function ActionPanel() {
     
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
     
-    const isTurnDisabled = needsFullTeam
+    const isTurnDisabled = needsFullTeam || bagDirty
 
     const getButtonLabel = () => {
         if (!nextPhase) return "End Turn"
@@ -37,7 +38,7 @@ export default function ActionPanel() {
             onClick={() => setActiveTab(tab)}
             variant={activeTab === tab ? "solid" : "outline"}
             colorScheme={activeTab === tab ? "blue" : "gray"}
-            isDisabled={activeTab === tab}
+            isDisabled={activeTab === tab || (bagDirty && tab !== 'bag')}
             {...extraProps}
         >
             <Image
@@ -70,6 +71,7 @@ export default function ActionPanel() {
                 {tabButton('upgrade', arrowIcon, 'Poke Upgrade')}
                 {tabButton('daycare', dayCareIcon, 'Poke Day Care')}
                 {tabButton('training', fightIcon, 'Training Camp', { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
+                {farm && tabButton('farm', farmIcon, 'Berry Farm')}
 
                 {player.augments?.length > 0 && tabButton('augments', chipIcon, 'Augments')}
             </Flex>
@@ -81,7 +83,7 @@ export default function ActionPanel() {
                     colorScheme="green"
                     onClick={advancePhase}
                     isDisabled={isTurnDisabled}
-                    title={needsFullTeam ? "Você precisa de 3 pokémons no time" : getButtonLabel()}
+                    title={needsFullTeam ? "Você precisa de 3 pokémons no time" : bagDirty ? "Confirm your team first" : getButtonLabel()}
                 >
                     <FaArrowRight size="20px" color="white" />
                 </Button>

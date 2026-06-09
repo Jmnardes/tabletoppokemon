@@ -9,6 +9,7 @@ import DayCarePanel from "@game/header/Buttons/PokeDayCare/DayCarePanel";
 import TrainingCampPanel from "@game/header/Buttons/TrainingCamp/TrainingCampPanel";
 import PlayerAugmentsPanel from "@game/header/Buttons/Augments/PlayerAugmentsPanel";
 import GymPanel from "@game/modals/Gym/GymPanel";
+import FarmPanel from "@features/farm/FarmPanel";
 import JourneyScreen from "@features/journey/JourneyScreen";
 import JourneySelection from "@features/journey/JourneySelection";
 import BattleScreen from "@game/modals/EventModals/BattleModal";
@@ -20,6 +21,7 @@ const panels = {
     training: TrainingCampPanel,
     augments: PlayerAugmentsPanel,
     gym: GymPanel,
+    farm: FarmPanel,
 }
 
 export default function GameContent() {

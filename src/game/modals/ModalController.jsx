@@ -6,7 +6,6 @@ import PlayerContext from "@context/PlayerContext";
 
 import EncounterModal from "./EventModals/EncounterModal";
 import CaptureModal from "./Capture/CaptureModal";
-import NewTasksModal from "./NewTasks/NewTasks";
 import AugmentsModal from "./Augments/AugmentsModal";
 import GymModal from "./Gym/GymModal";
 
@@ -20,20 +19,19 @@ export default function ModalController() {
         updateGame, 
         updatePokemon,
         handleToast,
-        tasks,
         setTasks,
         setGym,
         setNextGym,
         gym,
         nextGym,
-        updateTrainedCamp,
+        setTrainingCamp,
         setActiveTab,
         setLoading,
         setTurnPhases,
         setCurrentPhaseIndex,
+        setFarm,
     } = useContext(PlayerContext)
     const [augments, setAugments] = useState({ type: '', list: []})
-    const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
     const [lastNextGymNotified, setLastNextGymNotified] = useState(null)
     const [lastGymAvailableNotified, setLastGymAvailableNotified] = useState(null)
@@ -42,10 +40,8 @@ export default function ModalController() {
         socket.on('turn-start', (res, callback) => {
             const trainedPokemons = res.trained
 
-            // Update trained camp pokes in box and pokemonData
-            if (res.trainedCamp) {
-                updateTrainedCamp(res.trainedCamp)
-            }
+            // Update training camp state from turn tick
+            if (res.trainingCamp) setTrainingCamp(res.trainingCamp)
 
             callback(true)
 
@@ -83,6 +79,9 @@ export default function ModalController() {
             setAugments(res.augments)
             setTasks([...res.tasks])
 
+            // Update farm state from turn tick
+            if (res.farm) setFarm(res.farm)
+
             // Set turn phases from server
             const phases = res.phases || ['freeActions']
             setTurnPhases(phases)
@@ -117,16 +116,6 @@ export default function ModalController() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        setLastTurnModalTaskShown(session.turns)
-
-        if (session.turns % 10 === 1 && lastTurnModalTaskShown !== session.turns) {
-            updateGame({ openNewTasksModal: true })
-            setLastTurnModalTaskShown(session.turns)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tasks])
 
     // Toast quando nextGym muda (nova rota decidida)
     useEffect(() => {
@@ -167,7 +156,6 @@ export default function ModalController() {
             {game.openGymModal && <GymModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
-            {game.openNewTasksModal && <NewTasksModal />}
             {game.openAugmentsModal && <AugmentsModal augments={augments} />}
         </>
     )

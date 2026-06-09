@@ -4,7 +4,7 @@ import PlayerContext from "@context/PlayerContext"
 import Card from "@features/pokemon/Card"
 
 export default function PokeTeam({ bag, challenge = false }) {
-    const { teamIds, pokemonData, moveToBox } = useContext(PlayerContext)
+    const { teamIds, boxIds, pokemonData, moveToBox } = useContext(PlayerContext)
 
     useEffect(() => {
         if(teamIds.length > 6) {
@@ -18,6 +18,8 @@ export default function PokeTeam({ bag, challenge = false }) {
     }, [teamIds])
 
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
+    const totalPokemons = teamIds.length + boxIds.length
+    const mustKeepFullTeam = totalPokemons >= 6
     const cardWidth = "31%"
 
     return (
@@ -28,7 +30,7 @@ export default function PokeTeam({ bag, challenge = false }) {
                         <Box key={poke.id} m={1} mt={3} w={cardWidth}>
                             <Card
                                 poke={poke}
-                                bag={bag}
+                                bag={bag && !(mustKeepFullTeam && teamIds.length <= 6)}
                                 challenge={challenge}
                                 size="L"
                             />

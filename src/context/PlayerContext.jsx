@@ -29,27 +29,27 @@ export function PlayerProvider({children}) {
     const [nextGym, setNextGym] = useState(null)
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
-    const [nextEvent, setNextEvent] = useState('Walk')
+    const [activeTab, setActiveTab] = useState('bag')
+    const [turnPhases, setTurnPhases] = useState([])
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
+    // nextEvent removed — no longer shown in header
     const [version, setVersion] = useState(0)
     const [game, setGame] = useState({
         gameEnded: false,
         isPokemonRollDisabled: false,
         showBagLength: false,
-        openChallengeModal: false,
-        openWalkModal: false,
         openGymModal: false,
         openEncounterModal: false,
         openSelectScreenModal: false,
         openPokeBoxModal: false,
         openBattleModal: false,
-        openDayCareModal: false,
         openPokeItemModal: false,
-        openPokeUpgradeModal: false,
-        openBerriesModal: false,
         openPokemonCaptureModal: false,
         openNewTasksModal: false,
         openAugmentsModal: false,
-        openTrainingCampModal: false,
+        openJourneySelection: false,
+        isInJourney: false,
+        journeyBagLocked: false,
     })
 
     // Pokemon management functions - defined early for use in resync
@@ -237,6 +237,24 @@ export function PlayerProvider({children}) {
 
     const updateGame = (newData) => {setGame(old => ({...old, ...newData}))}
 
+    const getCurrentPhase = useCallback(() => {
+        return turnPhases[currentPhaseIndex] || null
+    }, [turnPhases, currentPhaseIndex])
+
+    const advancePhase = useCallback(async () => {
+        const nextIndex = currentPhaseIndex + 1
+        if (nextIndex >= turnPhases.length) {
+            // All phases done — finish turn
+            setWaitingForPlayers(true)
+            if (boxIds.length > 0) {
+                await emit('player-update-bag', { newTeamIds: teamIds })
+            }
+            emit('turn-end')
+        } else {
+            setCurrentPhaseIndex(nextIndex)
+        }
+    }, [currentPhaseIndex, turnPhases, boxIds, teamIds, emit, setWaitingForPlayers])
+
     const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
             setPlayer(prevPlayer => {
@@ -300,14 +318,14 @@ export function PlayerProvider({children}) {
     const addToTeam = useCallback((pokemon) => {
         setPokemon(pokemon)
         setTeamIds(prev => {
-            if (prev.length >= (session?.teamLength || 3)) {
+            if (prev.length >= 6) {
                 console.warn('Time já está cheio')
                 return prev
             }
             if (prev.includes(pokemon.id)) return prev
             return [...prev, pokemon.id]
         })
-    }, [session?.teamLength, setPokemon])
+    }, [setPokemon])
 
     const addToBox = useCallback((pokemon) => {
         setPokemon(pokemon)
@@ -328,14 +346,14 @@ export function PlayerProvider({children}) {
     const moveToTeam = useCallback((pokemonId) => {
         setBoxIds(prev => prev.filter(id => id !== pokemonId))
         setTeamIds(prev => {
-            if (prev.length >= (session?.teamLength || 3)) {
+            if (prev.length >= 6) {
                 console.warn('Time já está cheio')
                 return prev
             }
             if (prev.includes(pokemonId)) return prev
             return [...prev, pokemonId]
         })
-    }, [session?.teamLength])
+    }, [])
 
     const getTeamPokemons = useCallback(() => {
         return teamIds.map(id => pokemonData[id]).filter(Boolean)
@@ -516,7 +534,7 @@ export function PlayerProvider({children}) {
         })
 
         socket.on('lobby-start', (res) => {
-            setEncounter([...res.starters])
+            setEncounter(res.starters)
             setTasks([...res.initialTasks])
             if (res.achievements) {
                 console.log('🎯 Achievements received:', res.achievements)
@@ -767,8 +785,7 @@ export function PlayerProvider({children}) {
             setPlayer,
             updatePlayer,
 
-            nextEvent,
-            setNextEvent,
+
 
             encounter,
             setEncounter,
@@ -798,6 +815,16 @@ export function PlayerProvider({children}) {
             game,
             updateGame,
             version,
+
+            activeTab,
+            setActiveTab,
+
+            turnPhases,
+            setTurnPhases,
+            currentPhaseIndex,
+            setCurrentPhaseIndex,
+            getCurrentPhase,
+            advancePhase,
 
             pokemonData,
             teamIds,

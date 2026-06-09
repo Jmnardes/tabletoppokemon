@@ -119,7 +119,7 @@ export default function GameLobby() {
             <Divider my={4} />
 
                 <ConfigurationSlot 
-                    name1={'Difficulty'}
+                    name1={'Catch difficulty'}
                     data1={session.gameDifficulty}
                     name2={'Shiny chance %'}
                     data2={session.shinyChance}
@@ -131,10 +131,10 @@ export default function GameLobby() {
                     data2={session.teamLength}
                 />
                 <ConfigurationSlot 
-                    name1={'Level up/turn'}
-                    data1={session.levelUpgradePerTurn}
-                    name2={'Turns until gym'}
-                    data2={session.turnsUntilNextGym}
+                    name1={'Stages/journey'}
+                    data1={session.stagesPerJourney}
+                    name2={'Battle frequency'}
+                    data2={session.battleFrequency}
                 />
                 <ConfigurationSlot 
                     name1={'Gym strength'}

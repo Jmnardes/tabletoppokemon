@@ -11,9 +11,11 @@ import Encounter from "../Encounter/Encounter"
 export default function EncounterModal({ augments }) {
     const { session } = useContext(PlayerContext)
 
+    const isStarter = session.turns === 1
+
     return (
         <>
-            <Modal isOpen size="xl" isCentered>
+            <Modal isOpen size={isStarter ? "3xl" : "xl"} isCentered>
                 <ModalOverlay
                     bg='blackAlpha.300'
                     backdropFilter='blur(2px) hue-rotate(0deg)'

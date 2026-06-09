@@ -30,10 +30,10 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, getCurrentPhase, advancePhase } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
-    const [battleState, setBattleState] = useState('info')
+    const [battleState, setBattleState] = useState('pre-battle')
     const [playerTeam, setPlayerTeam] = useState([])
     const [leaderTeam, setLeaderTeam] = useState([])
     const [currentPlayerPokemon, setCurrentPlayerPokemon] = useState(null)
@@ -44,6 +44,7 @@ export default function GymModal() {
     const [battleResult, setBattleResult] = useState(null)
     const loadingTimeoutRef = useRef(null)
     const [shouldClearGym, setShouldClearGym] = useState(false)
+    const [victoryRewards, setVictoryRewards] = useState(null)
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
 
@@ -189,6 +190,10 @@ export default function GymModal() {
         socket.on('gym-victory', (res) => {
             setShouldClearGym(true)
             setNextGym(res.nextGym || null)
+            setVictoryRewards({
+                leveledUpPokemons: res.leveledUpPokemons || [],
+                newBerries: res.newBerries || [],
+            })
         })
 
         return () => {
@@ -271,13 +276,18 @@ export default function GymModal() {
         }
         
         updateGame({ openGymModal: false })
-        setBattleState('info')
+        setBattleState('pre-battle')
         setPlayerTeam([])
         setLeaderTeam([])
         setBattleLog([])
         setBattleResult(null)
         setNeedsChoice(false)
         setAvailablePokemons([])
+
+        // If we're in a gym phase, advance to the next phase
+        if (getCurrentPhase() === 'gym') {
+            advancePhase()
+        }
     }
 
     const handleChallenge = () => {
@@ -499,6 +509,8 @@ export default function GymModal() {
                     onClose={handleClose}
                     onRetry={handleRetry}
                     canRetry={lastGymBattleTurn !== session.turns}
+                    leveledUpPokemons={victoryRewards?.leveledUpPokemons}
+                    newBerries={victoryRewards?.newBerries}
                 />
             )}
         </GenericModal>

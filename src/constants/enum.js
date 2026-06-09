@@ -1,7 +1,6 @@
 export const taskTypeEnum = {
     catch: "catch",
     winBattle: "winBattle",
-    winChallenge: "winChallenge",
     useDust: "useDust",
     gainTokens: "gainTokens",
     useBerry: "useBerry",
@@ -11,4 +10,11 @@ export const taskTypeEnum = {
     useGreatballs: "useGreatballs",
     useUltraballs: "useUltraballs",
     throwEffectiveness: "throwEffectiveness",
+}
+
+export const eventTypeEnum = {
+    battle: "battle",
+    journey: "journey",
+    freeActions: "freeActions",
+    gym: "gym",
 }

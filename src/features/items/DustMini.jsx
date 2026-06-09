@@ -7,7 +7,7 @@ export default function DustMini({ dusts, absolute=true }) {
             {dusts > 0 && (
                 <Center flex flexDir={absolute ? "column" : "row"}>
                     {absolute ? (
-                        <Text bottom={4} ml={8} position={"absolute"} fontSize={"xx-small"}>
+                        <Text bottom={2} ml={4} position={"absolute"} fontSize={"xx-small"}>
                             {dusts}x
                         </Text>
                     ): (
@@ -18,7 +18,7 @@ export default function DustMini({ dusts, absolute=true }) {
                     <Image
                         title={"Dusts"}
                         src={dustIcon}
-                        w={8}
+                        w={4}
                     />
                 </Center>
             )}

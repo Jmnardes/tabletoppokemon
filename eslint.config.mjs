@@ -19,6 +19,7 @@ export default [
       },
     },
     rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }], // Capturar imports e variáveis não utilizados
       'react/react-in-jsx-scope': 'off', // Desativar regra para runtime automático
       'plugin:react/jsx-runtime': 'off', // Desativar regra para runtime automático
       'prettier/prettier': ['error', {

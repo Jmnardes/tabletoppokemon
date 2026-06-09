@@ -9,7 +9,6 @@ import {
   augmentColor,
   pokemonHasChallengeBerry,
   berryExistsInBerries,
-  upgradePokemonLevelChance,
   joinArr,
   options,
   pokemonNature,
@@ -166,50 +165,6 @@ describe('berryExistsInBerries', () => {
   it('returns falsy when berries is null/undefined', () => {
     expect(berryExistsInBerries({ berries: null, berryType: 'oran_berry' })).toBeFalsy()
     expect(berryExistsInBerries({ berries: undefined, berryType: 'oran_berry' })).toBeFalsy()
-  })
-})
-
-describe('upgradePokemonLevelChance', () => {
-  it('returns 90% when poke is 4+ levels below session', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 5, dusts: 0, berries: [] })).toBe(90)
-  })
-
-  it('returns 80% when poke is 3 levels below session', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 7, dusts: 0, berries: [] })).toBe(80)
-  })
-
-  it('returns 60% when poke is 2 levels below', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 8, dusts: 0, berries: [] })).toBe(60)
-  })
-
-  it('returns 40% when poke is 1 level below', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 9, dusts: 0, berries: [] })).toBe(40)
-  })
-
-  it('returns 20% when poke is same level', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 10, dusts: 0, berries: [] })).toBe(20)
-  })
-
-  it('returns 10% when poke is 1 level above', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 11, dusts: 0, berries: [] })).toBe(10)
-  })
-
-  it('returns 0% when poke is 2+ levels above', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 12, dusts: 0, berries: [] })).toBe(0)
-  })
-
-  it('adds 20% per dust', () => {
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 10, dusts: 2, berries: [] })).toBe(60)
-  })
-
-  it('adds 30% with belue_berry', () => {
-    const berries = [{ type: 'belue_berry' }]
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 10, dusts: 0, berries })).toBe(50)
-  })
-
-  it('caps at 100%', () => {
-    const berries = [{ type: 'belue_berry' }]
-    expect(upgradePokemonLevelChance({ sessionLevel: 10, pokeLevel: 5, dusts: 3, berries })).toBe(100)
   })
 })
 

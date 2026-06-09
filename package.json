@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "lucide-react": "^1.17.0",
     "phosphor": "^0.7.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.0.0",
@@ -24,7 +25,9 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "dev": "set PORT=3077 && react-app-rewired start"
+    "dev": "set PORT=3077 && react-app-rewired start",
+    "lint": "eslint src/",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +55,7 @@
     "@eslint/js": "^9.18.0",
     "@testing-library/dom": "^10.4.1",
     "chakra-react-select": "^4.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.0.1",
@@ -63,8 +67,13 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "framer-motion": "^6.3.6",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
     "prettier": "^3.4.2",
     "react-app-rewired": "^2.2.1",
     "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint --max-warnings=0"
   }
 }

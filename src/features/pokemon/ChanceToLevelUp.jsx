@@ -1,29 +1,21 @@
-import { useContext, useEffect, useState } from "react"
-import PlayerContext from "@context/PlayerContext"
 import { Box, Progress, Text, Tooltip } from "@chakra-ui/react"
-import { upgradePokemonLevelChance } from '@utils'
 
-export default function ChanceToLevelUp({ selectedPokemon }) {
-    const { session } = useContext(PlayerContext)
-    const [changeToLevelUp, setChanceToLevelUp] = useState(0)
+const EXP_TO_LEVEL = 5
+const EXP_TO_LEVEL_BERRY = 4
 
-    useEffect(() => {
-        if (selectedPokemon) {
-            const levelChance = upgradePokemonLevelChance({ sessionLevel: session.level, pokeLevel: selectedPokemon.level, dusts: selectedPokemon.dust, berries: selectedPokemon.berries })
-            setChanceToLevelUp(levelChance)
-        }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPokemon, selectedPokemon?.dust, selectedPokemon?.berries])
+export default function ExpBar({ selectedPokemon }) {
+    const exp = selectedPokemon?.exp ?? 0
+    const hasBerry = selectedPokemon?.effects?.includes('boost_level')
+    const maxExp = hasBerry ? EXP_TO_LEVEL_BERRY : EXP_TO_LEVEL
 
     return (
-        <Tooltip label="Chance in leveling up next turn" p={4} borderRadius={6}>
-            <Box position="absolute" bottom={0}>
+        <Tooltip label={`EXP: ${exp}/${maxExp} — Derrote pokémons selvagens para ganhar EXP`} p={4} borderRadius={6}>
+            <Box position="relative" mt={2} mb="2px">
                 <Progress
-                    value={changeToLevelUp} max={100} 
-                    size="md" w={64}
-                    colorScheme={"purple"}
-                    borderRadius={6}
+                    value={exp} max={maxExp} 
+                    size="sm" w="100%"
+                    colorScheme={"cyan"}
+                    borderRadius="full"
                 />
                 <Text
                     position="absolute"
@@ -31,7 +23,7 @@ export default function ChanceToLevelUp({ selectedPokemon }) {
                     transform="translate(-50%, -50%)"
                     fontSize="xx-small"
                 >
-                    {changeToLevelUp}%
+                    {exp}/{maxExp}
                 </Text>
             </Box>
         </Tooltip>

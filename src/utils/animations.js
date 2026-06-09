@@ -50,6 +50,33 @@ export const hitAnimation = keyframes`
     filter: brightness(1.3); 
     }
 `;
+
+export const journeyHitAnimation = keyframes`
+    0% { 
+    transform: translate(0, 0) scale(1); 
+    filter: brightness(1); 
+    }
+    20% { 
+    transform: translate(-3px, 2px) scale(0.95); 
+    filter: brightness(1.5); 
+    }
+    40% { 
+    transform: translate(3px, -2px) scale(1.05); 
+    filter: brightness(0.6); 
+    }
+    60% { 
+    transform: translate(-2px, 0) scale(0.97); 
+    filter: brightness(1.2); 
+    }
+    80% { 
+    transform: translate(1px, 1px) scale(1.02); 
+    filter: brightness(0.8); 
+    }
+    100% { 
+    transform: translate(0, 0) scale(1); 
+    filter: brightness(1); 
+    }
+`;
   
 export const shakeAnimation = keyframes`
     0% { transform: translate(1px, 1px) rotate(6deg); opacity: 0.1 }
@@ -89,6 +116,45 @@ export const textAnimation = keyframes`
     opacity: 0; 
     transform: translateY(-30px); 
     }
+`;
+
+export const healAnimation = keyframes`
+    0% {
+    filter: brightness(1);
+    box-shadow: 0 0 0px rgba(72, 187, 120, 0);
+    }
+    30% {
+    filter: brightness(1.4);
+    box-shadow: 0 0 12px rgba(72, 187, 120, 0.7);
+    }
+    60% {
+    filter: brightness(1.2);
+    box-shadow: 0 0 20px rgba(72, 187, 120, 0.5);
+    }
+    100% {
+    filter: brightness(1);
+    box-shadow: 0 0 0px rgba(72, 187, 120, 0);
+    }
+`;
+
+export const slideOutLeft = keyframes`
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(-120px); opacity: 0; }
+`;
+
+export const slideOutRight = keyframes`
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(120px); opacity: 0; }
+`;
+
+export const slideInLeft = keyframes`
+    0% { transform: translateX(-120px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+`;
+
+export const slideInRight = keyframes`
+    0% { transform: translateX(120px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
 `;
 
 export const glowAnimation = (

@@ -34,8 +34,8 @@ export default function PokeBagModal() {
                 <CloseButton 
                     position="absolute" 
                     right="20px"
-                    isDisabled={teamIds.length !== 3 && totalPokemons >= 3}
-                    title={teamIds.length !== 3 ? 'Você precisa de 3 pokemons no time' : 'Fechar'}
+                    isDisabled={!teamFull && totalPokemons >= (session?.teamLength || 6)}
+                    title={!teamFull ? `Você precisa de ${session?.teamLength || 6} pokemons no time` : 'Fechar'}
                     onClick={() => {
                         emit('player-update-bag', { newTeamIds: teamIds })
                     }} 

@@ -1,11 +1,6 @@
 import { Center, Flex, Text, useColorMode } from "@chakra-ui/react";
 
-import Accuracy from '@assets/svgs/stats/accuracy'
-import Attack from '@assets/svgs/stats/attack'
-import Defense from '@assets/svgs/stats/defense'
-import Evasion from '@assets/svgs/stats/evasion'
-import Critical from '@assets/svgs/stats/critical'
-import Health from '@assets/svgs/stats/health'
+import { Heart, Swords, Shield, Zap, Crosshair, Sparkles } from 'lucide-react'
 
 export default function TeamTitle({ pokeTeam, pokemons }) {
     const { colorMode } = useColorMode()
@@ -39,32 +34,32 @@ export default function TeamTitle({ pokeTeam, pokemons }) {
                 <StatTitle
                     stat="hp"
                     statName="health"
-                    statIcon={<Health/>}
+                    statIcon={<Heart />}
                 />
                 <StatTitle
                     stat="atk"
                     statName="attack"
-                    statIcon={<Attack/>}
+                    statIcon={<Swords />}
                 />
                 <StatTitle
                     stat="def"
                     statName="defense"
-                    statIcon={<Defense/>}
+                    statIcon={<Shield />}
                 />
                 <StatTitle
                     stat="evs"
                     statName="evasion"
-                    statIcon={<Evasion/>}
+                    statIcon={<Zap />}
                 />
                 <StatTitle
                     stat="acc"
                     statName="accuracy"
-                    statIcon={<Accuracy/>}
+                    statIcon={<Crosshair />}
                 />
                 <StatTitle
                     stat="crt"
                     statName="critical"
-                    statIcon={<Critical/>}
+                    statIcon={<Sparkles />}
                 />
             </Flex>
         </Flex>

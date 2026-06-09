@@ -40,7 +40,7 @@ export default function GymPokemonChoice({ availablePokemons, onChoose }) {
                             filter={isDefeated ? "grayscale(80%)" : "none"}
                             _hover={!isDefeated ? { transform: "scale(1.05)" } : {}}
                         >
-                            <Card poke={pokemonForCard} challenge={true} />
+                            <Card poke={pokemonForCard} challenge={true} size="M" />
                             
                             {/* Defeated overlay */}
                             {isDefeated && (

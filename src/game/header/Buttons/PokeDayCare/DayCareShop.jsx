@@ -8,6 +8,9 @@ import dustIcon from '@assets/images/items/dust.png'
 import berryIcon from '@assets/images/berries/berry.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
+import potionIcon from '@assets/images/items/potion.png'
+import superPotionIcon from '@assets/images/items/super-potion.png'
+import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 
 export default function DayCareShop() {
     const { player, emit, setLoading, setPlayer, setBerries, handleToast } = useContext(PlayerContext)
@@ -29,6 +32,9 @@ export default function DayCareShop() {
             }
             if (result?.berries) {
                 setBerries(result.berries)
+            }
+            if (result?.potions) {
+                setPlayer(prev => ({ ...prev, potions: result.potions }))
             }
 
             // Mostra toast baseado no item comprado
@@ -71,6 +77,30 @@ export default function DayCareShop() {
                             icon: <Image src={getBerryIcon(result.berry.type)} w={12} />
                         })
                     }
+                    break
+                case 'potion':
+                    handleToast({
+                        ...toastConfig,
+                        title: 'Potion',
+                        description: 'A Potion has been added to your bag',
+                        icon: <Image src={potionIcon} w={12} />
+                    })
+                    break
+                case 'superPotion':
+                    handleToast({
+                        ...toastConfig,
+                        title: 'Super Potion',
+                        description: 'A Super Potion has been added to your bag',
+                        icon: <Image src={superPotionIcon} w={12} />
+                    })
+                    break
+                case 'hyperPotion':
+                    handleToast({
+                        ...toastConfig,
+                        title: 'Hyper Potion',
+                        description: 'A Hyper Potion has been added to your bag',
+                        icon: <Image src={hyperPotionIcon} w={12} />
+                    })
                     break
                 default:
                     break
@@ -152,6 +182,24 @@ export default function DayCareShop() {
                             icon={ultraballIcon}
                             name={'Ultraball'}
                             item={'ultraball'}
+                            price={4}
+                        ></TableItem>
+                        <TableItem
+                            icon={potionIcon}
+                            name={'Potion'}
+                            item={'potion'}
+                            price={1}
+                        ></TableItem>
+                        <TableItem
+                            icon={superPotionIcon}
+                            name={'Super Potion'}
+                            item={'superPotion'}
+                            price={2}
+                        ></TableItem>
+                        <TableItem
+                            icon={hyperPotionIcon}
+                            name={'Hyper Potion'}
+                            item={'hyperPotion'}
                             price={4}
                         ></TableItem>
                         {/* <TableItem

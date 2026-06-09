@@ -8,20 +8,20 @@ describe('gameConfig', () => {
 
   it('has valid badgesToWin range', () => {
     expect(gameConfig.badgesToWin.min).toBe(2)
-    expect(gameConfig.badgesToWin.max).toBe(12)
-    expect(gameConfig.badgesToWin.default).toBe(8)
+    expect(gameConfig.badgesToWin.max).toBe(10)
+    expect(gameConfig.badgesToWin.default).toBe(3)
   })
 
-  it('has valid teamLength range', () => {
-    expect(gameConfig.teamLength.min).toBe(3)
-    expect(gameConfig.teamLength.max).toBe(6)
-    expect(gameConfig.teamLength.default).toBe(6)
+  it('has valid journeyTeamLength range', () => {
+    expect(gameConfig.journeyTeamLength.min).toBe(2)
+    expect(gameConfig.journeyTeamLength.max).toBe(6)
+    expect(gameConfig.journeyTeamLength.default).toBe(3)
   })
 
-  it('has 4 difficulty options', () => {
-    expect(gameConfig.gameDifficulty.options).toHaveLength(4)
-    expect(gameConfig.gameDifficulty.options[0].label).toBe('Trainer')
-    expect(gameConfig.gameDifficulty.options[3].label).toBe('Elite')
+  it('has 4 catch difficulty options', () => {
+    expect(gameConfig.catchDifficulty.options).toHaveLength(4)
+    expect(gameConfig.catchDifficulty.options[0].label).toBe('Trainer')
+    expect(gameConfig.catchDifficulty.options[3].label).toBe('Elite')
   })
 
   it('has valid generation range', () => {
@@ -32,8 +32,8 @@ describe('gameConfig', () => {
   it('defaults have valid values within their ranges', () => {
     expect(gameConfig.badgesToWin.default).toBeGreaterThanOrEqual(gameConfig.badgesToWin.min)
     expect(gameConfig.badgesToWin.default).toBeLessThanOrEqual(gameConfig.badgesToWin.max)
-    expect(gameConfig.teamLength.default).toBeGreaterThanOrEqual(gameConfig.teamLength.min)
-    expect(gameConfig.teamLength.default).toBeLessThanOrEqual(gameConfig.teamLength.max)
+    expect(gameConfig.journeyTeamLength.default).toBeGreaterThanOrEqual(gameConfig.journeyTeamLength.min)
+    expect(gameConfig.journeyTeamLength.default).toBeLessThanOrEqual(gameConfig.journeyTeamLength.max)
     expect(gameConfig.gymStrengthBonus.default).toBeGreaterThanOrEqual(gameConfig.gymStrengthBonus.min)
     expect(gameConfig.gymStrengthBonus.default).toBeLessThanOrEqual(gameConfig.gymStrengthBonus.max)
   })
@@ -43,15 +43,15 @@ describe('getDefaultGameConfig', () => {
   it('returns an object with all default values', () => {
     const defaults = getDefaultGameConfig()
     expect(defaults.trainerName).toBe('')
-    expect(defaults.badgesToWin).toBe(8)
-    expect(defaults.levelUpgradePerTurn).toBe(1)
-    expect(defaults.turnsUntilNextGym).toBe(4)
-    expect(defaults.gymStrengthBonus).toBe(2)
+    expect(defaults.badgesToWin).toBe(3)
+    expect(defaults.stagesPerJourney).toBe(8)
+    expect(defaults.battleFrequency).toBe(3)
+    expect(defaults.gymStrengthBonus).toBe(0)
     expect(defaults.shinyChance).toBe(1)
-    expect(defaults.gameDifficulty).toBe(0)
+    expect(defaults.catchDifficulty).toBe(0)
     expect(defaults.generation).toBe(8)
     expect(defaults.mixedGroups).toBe(true)
-    expect(defaults.teamLength).toBe(6)
+    expect(defaults.journeyTeamLength).toBe(3)
   })
 
   it('returns a new object each time', () => {

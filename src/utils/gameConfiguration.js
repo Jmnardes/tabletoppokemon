@@ -6,31 +6,35 @@ export const gameConfig = {
     },
     
     badgesToWin: {
+        default: 3,
+        min: 2,
+        max: 10,
+        step: 1,
+        tooltip: 'Quantidade de badges necessárias para acabar o jogo.',
+    },
+    
+    stagesPerJourney: {
         default: 8,
-        min: 2,
-        max: 12,
+        min: 5,
+        max: 20,
         step: 1,
+        tooltip: 'Quantos pokémons selvagens estarão presentes a cada jornada antes de avançar para o próximo level.',
     },
     
-    levelUpgradePerTurn: {
-        default: 1,
-        min: 1,
-        max: 2,
-        step: 1,
-    },
-    
-    turnsUntilNextGym: {
-        default: 4,
-        min: 2,
+    battleFrequency: {
+        default: 3,
+        min: 0,
         max: 5,
         step: 1,
+        tooltip: 'A cada quantos turnos terá uma batalha entre players. 0 = sem batalhas.',
     },
     
     gymStrengthBonus: {
-        default: 2,
+        default: 0,
         min: 0,
-        max: 3,
+        max: 2,
         step: 1,
+        tooltip: 'Força extra dos pokémons do líder de ginásio de acordo com o nível.',
     },
     
     shinyChance: {
@@ -38,9 +42,10 @@ export const gameConfig = {
         min: 1,
         max: 3,
         step: 1,
+        tooltip: 'Porcentagem de chance do pokémon selvagem ser um shiny.',
     },
     
-    gameDifficulty: {
+    catchDifficulty: {
         default: 0,
         options: [
             { value: 0, label: 'Trainer' },
@@ -48,6 +53,7 @@ export const gameConfig = {
             { value: 2, label: 'Champion' },
             { value: 3, label: 'Elite' },
         ],
+        tooltip: 'Aumento da dificuldade de capturar o pokémon.',
     },
     
     generation: {
@@ -59,25 +65,27 @@ export const gameConfig = {
     mixedGroups: {
         default: true,
     },
-    
-    teamLength: {
-        default: 6,
-        min: 3,
+
+    journeyTeamLength: {
+        default: 3,
+        min: 2,
         max: 6,
+        step: 1,
+        tooltip: 'Quantidade de pokémons que você pode levar na jornada.',
     },
 };
 
 export const getDefaultGameConfig = () => ({
     trainerName: gameConfig.trainerName.default,
     badgesToWin: gameConfig.badgesToWin.default,
-    levelUpgradePerTurn: gameConfig.levelUpgradePerTurn.default,
-    turnsUntilNextGym: gameConfig.turnsUntilNextGym.default,
+    stagesPerJourney: gameConfig.stagesPerJourney.default,
+    battleFrequency: gameConfig.battleFrequency.default,
     gymStrengthBonus: gameConfig.gymStrengthBonus.default,
     shinyChance: gameConfig.shinyChance.default,
-    gameDifficulty: gameConfig.gameDifficulty.default,
+    catchDifficulty: gameConfig.catchDifficulty.default,
     generation: gameConfig.generation.default,
     mixedGroups: gameConfig.mixedGroups.default,
-    teamLength: gameConfig.teamLength.default,
+    journeyTeamLength: gameConfig.journeyTeamLength.default,
 });
 
 export const validateTrainerName = (name) => {

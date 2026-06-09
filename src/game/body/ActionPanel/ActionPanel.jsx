@@ -2,32 +2,51 @@ import { useContext } from "react";
 import { Button, Flex, Image, useColorMode } from "@chakra-ui/react";
 import PlayerContext from "@context/PlayerContext";
 
-import PokeGym from "@game/header/Buttons/PokeGym/PokeGym";
-import PlayerAugments from "@game/header/Buttons/Augments/PlayerAugments";
-
+import bagIcon from '@assets/images/game/bag.png';
+import gymIcon from '@assets/images/game/battle.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import arrowIcon from '@assets/images/game/arrow.png';
 import fightIcon from '@assets/images/items/fight.png';
+import chipIcon from '@assets/images/game/chip.png';
 
 import { FaArrowRight } from "react-icons/fa";
 
 export default function ActionPanel() {
-    const { updateGame, boxIds, teamIds, emit, setWaitingForPlayers } = useContext(PlayerContext)
+    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const totalPokemons = teamIds.length + boxIds.length
-    const needsFullTeam = totalPokemons >= 3 && teamIds.length < 3
+    const maxTeamSize = 6
+    const needsFullTeam = totalPokemons >= maxTeamSize && teamIds.length < maxTeamSize
+    
+    const nextPhase = turnPhases[currentPhaseIndex + 1] || null
+    
     const isTurnDisabled = needsFullTeam
 
-    const finishTurn = async () => {
-        setWaitingForPlayers(true)
-        if (boxIds.length > 0) {
-            await emit('player-update-bag', { newTeamIds: teamIds })
-        }
-        emit('turn-end')
+    const getButtonLabel = () => {
+        if (!nextPhase) return "End Turn"
+        if (nextPhase === 'journey') return "Start Journey"
+        if (nextPhase === 'freeActions') return "Continue"
+        return "Next"
     }
 
     const buttonSize = "50px"
+
+    const tabButton = (tab, icon, title, extraProps = {}) => (
+        <Button
+            onClick={() => setActiveTab(tab)}
+            variant={activeTab === tab ? "solid" : "outline"}
+            colorScheme={activeTab === tab ? "blue" : "gray"}
+            isDisabled={activeTab === tab}
+            {...extraProps}
+        >
+            <Image
+                src={icon}
+                title={title}
+                w="26px"
+            />
+        </Button>
+    )
 
     return (
         <Flex
@@ -47,43 +66,22 @@ export default function ActionPanel() {
             }}
         >
             <Flex flexDir="column" gap="0.5rem">
-                <Button onClick={() => updateGame({ openPokeUpgradeModal: true })}>
-                    <Image
-                        src={arrowIcon}
-                        title={'Poke Upgrade'}
-                        w="26px"
-                    />
-                </Button>
+                {tabButton('bag', bagIcon, 'Bag')}
+                {tabButton('upgrade', arrowIcon, 'Poke Upgrade')}
+                {tabButton('daycare', dayCareIcon, 'Poke Day Care')}
+                {tabButton('training', fightIcon, 'Training Camp', { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
 
-                <Button
-                    onClick={() => updateGame({ openDayCareModal: true })}
-                >
-                    <Image
-                        src={dayCareIcon}
-                        title={'Poke Day Care'}
-                        w="28px"
-                    />
-                </Button>
-
-                <Button colorScheme="blue" onClick={() => updateGame({ openTrainingCampModal: true })}>
-                    <Image
-                        src={fightIcon}
-                        title={'Training Camp'}
-                        w="28px"
-                    />
-                </Button>
-
-                <PlayerAugments />
+                {player.augments?.length > 0 && tabButton('augments', chipIcon, 'Augments')}
             </Flex>
 
             <Flex flexDir="column" gap="0.5rem">
-                <PokeGym />
+                {tabButton('gym', gymIcon, 'Gym', { colorScheme: activeTab === 'gym' ? 'blue' : (gym ? 'green' : 'gray') })}
 
                 <Button
                     colorScheme="green"
-                    onClick={finishTurn}
+                    onClick={advancePhase}
                     isDisabled={isTurnDisabled}
-                    title={isTurnDisabled ? "Você precisa de 3 pokémons no time" : "Finish your turn"}
+                    title={needsFullTeam ? "Você precisa de 3 pokémons no time" : getButtonLabel()}
                 >
                     <FaArrowRight size="20px" color="white" />
                 </Button>

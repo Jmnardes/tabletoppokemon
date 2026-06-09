@@ -26,8 +26,6 @@ export default function AugmentData({ augment }) {
             jsx = <DustMini dusts={augment.amount} absolute={false} />
             break
         case 'pokeballBonus':
-        case 'challengeBonus':
-        case 'challengeRank':
         case 'battleRank':
         case 'onDuty':
             jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount}</Badge>

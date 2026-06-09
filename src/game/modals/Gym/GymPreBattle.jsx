@@ -49,6 +49,24 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                 </Text>
             </Flex>
 
+            {/* Rewards Preview */}
+            <Flex
+                w="100%"
+                bg={bgColor}
+                p={3}
+                borderRadius={8}
+                justify="space-around"
+                align="center"
+            >
+                <Text fontSize="sm" fontWeight="bold">Victory Rewards:</Text>
+                <HStack spacing={4}>
+                    <Text fontSize="xs" color="yellow.400">🏅 Badge</Text>
+                    <Text fontSize="xs" color="green.400">+{gym.reward?.amount || 15} Ranking</Text>
+                    <Text fontSize="xs" color="cyan.400">+1 EXP/pokémon</Text>
+                    <Text fontSize="xs" color="pink.400">+3 Berries</Text>
+                </HStack>
+            </Flex>
+
             {/* Instructions */}
             <VStack spacing={2}>
                 <Text fontSize="md" fontWeight="bold" textAlign="center">

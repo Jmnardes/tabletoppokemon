@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 
 import PlayerContext from "@context/PlayerContext";
@@ -9,7 +9,109 @@ import { catchDifficulty } from "@utils/pokemonFunctions";
 import { FaStar } from "react-icons/fa"
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
 
+const elementLabels = {
+    grass: { label: 'Grass', color: '#78C850' },
+    fire: { label: 'Fire', color: '#F08030' },
+    water: { label: 'Water', color: '#6890F0' },
+}
+
+function StarterEncounter({ encounter, emit, setLoading }) {
+    const [selected, setSelected] = useState({ grass: null, fire: null, water: null })
+    const allSelected = selected.grass && selected.fire && selected.water
+
+    const handleSelect = (element, poke) => {
+        setSelected(prev => ({
+            ...prev,
+            [element]: prev[element]?.id === poke.id ? null : poke
+        }))
+    }
+
+    const handleConfirm = () => {
+        const capturedIds = [selected.grass.id, selected.fire.id, selected.water.id]
+        emit('player-capture-starters', { capturedIds })
+        setLoading({ loading: true, text: "Choosing starters..." })
+    }
+
+    const StarterCard = ({ poke, element }) => {
+        const isSelected = selected[element]?.id === poke.id
+        const colorByType = typeColor(poke.types)
+
+        const pulseAnimation = keyframes`
+            0% { transform: scale(0.99); box-shadow: 0 0 0 0 ${colorByType}; }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
+            100% { transform: scale(0.99); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }`
+
+        return (
+            <Flex px={2} py={2}>
+                <Button
+                    background=""
+                    borderRadius={4}
+                    h={28} p={1}
+                    border={isSelected ? '3px solid white' : '3px solid transparent'}
+                    opacity={isSelected ? 1 : 0.7}
+                    _hover={{ 'cursor': 'pointer', 'opacity': 1 }}
+                    onClick={() => handleSelect(element, poke)}
+                >
+                    <>
+                        <Center position="absolute" mb={20}>
+                            <Text fontSize={"2xs"}>1</Text>
+                        </Center>
+                        <Image
+                            h="100%" w="100%"
+                            borderRadius={16}
+                            title={poke.name}
+                            backgroundColor={colorByType}
+                            src={poke.sprite}
+                            _hover={{ 'animation': `${pulseAnimation} 1.5s infinite` }}
+                            boxShadow={isSelected ? `0 0 8px 3px white` : `0 0 4px 1px ${colorByType}`}
+                        />
+                    </>
+                </Button>
+            </Flex>
+        )
+    }
+
+    return (
+        <Center flexDir="column" gap={2}>
+            {['grass', 'fire', 'water'].map(element => (
+                <Box key={element} w="100%">
+                    <Text
+                        fontSize="sm" fontWeight="bold" textAlign="center"
+                        color={elementLabels[element].color} mb={1}
+                    >
+                        {elementLabels[element].label}
+                    </Text>
+                    <Flex justify="center">
+                        {encounter[element].map(poke => (
+                            <StarterCard key={poke.id} poke={poke} element={element} />
+                        ))}
+                    </Flex>
+                </Box>
+            ))}
+            <Button
+                mt={4} h={12} w="80%"
+                isDisabled={!allSelected}
+                colorScheme="green"
+                onClick={handleConfirm}
+            >
+                Confirm Starters
+            </Button>
+        </Center>
+    )
+}
+
 export default function Encounter({ augments }) {
+    const { session, encounter, emit, setLoading } = useContext(PlayerContext)
+    const isStarter = session.turns === 1
+
+    if (isStarter) {
+        return <StarterEncounter encounter={encounter} emit={emit} setLoading={setLoading} />
+    }
+
+    return <NormalEncounter augments={augments} />
+}
+
+function NormalEncounter({ augments }) {
     const { session, encounter, emit, setLoading, updateGame, player, handleToast, teamIds, pokemonData } = useContext(PlayerContext)
     const [catchRoll, setCatchRoll] = useState(0)
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)

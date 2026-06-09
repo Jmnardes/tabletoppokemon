@@ -199,10 +199,6 @@ export default function GameEnd() {
                             <Text fontSize="sm" fontWeight="bold">{stats.encounterLevel}</Text>
                         </HStack>
                         <HStack spacing={2}>
-                            <Text fontSize="sm">Challenge Bonus:</Text>
-                            <Text fontSize="sm" fontWeight="bold">{stats.challengeBonus}</Text>
-                        </HStack>
-                        <HStack spacing={2}>
                             <Text fontSize="sm">Level:</Text>
                             <Text fontSize="sm" fontWeight="bold">{stats.level}</Text>
                         </HStack>

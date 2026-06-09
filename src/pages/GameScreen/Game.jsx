@@ -1,4 +1,3 @@
-import React from "react"
 import GameHeader from "@game/header/GameHeader";
 import GameContent from "@game/body/GameContent";
 import ModalController from "@game/modals/ModalController";

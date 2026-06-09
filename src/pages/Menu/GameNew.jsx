@@ -1,4 +1,4 @@
-import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text } from "@chakra-ui/react";
+import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, Tooltip } from "@chakra-ui/react";
 import { useState } from "react";
 import socket from "@client";
 import { gameConfig, validateTrainerName } from "@utils/gameConfiguration";
@@ -6,15 +6,15 @@ import { gameConfig, validateTrainerName } from "@utils/gameConfiguration";
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
     const [badgesToWin, setBadgesToWin] = useState(gameConfig.badgesToWin.default)
-    const [levelUpgradePerTurn, setLevelUpgradePerTurn] = useState(gameConfig.levelUpgradePerTurn.default)
-    const [turnsUntilNextGym, setTurnsUntilNextGym] = useState(gameConfig.turnsUntilNextGym.default)
+    const [stagesPerJourney, setStagesPerJourney] = useState(gameConfig.stagesPerJourney.default)
+    const [battleFrequency, setBattleFrequency] = useState(gameConfig.battleFrequency.default)
     const [gymStrengthBonus, setGymStrengthBonus] = useState(gameConfig.gymStrengthBonus.default)
     const [shinyChance, setShinyChance] = useState(gameConfig.shinyChance.default)
-    const [gameDifficulty, setGameDifficulty] = useState(gameConfig.gameDifficulty.default + 1) // Display 1-4, store 0-3
+    const [catchDifficulty, setCatchDifficulty] = useState(gameConfig.catchDifficulty.default + 1) // Display 1-4, store 0-3
+    const [journeyTeamLength, setJourneyTeamLength] = useState(gameConfig.journeyTeamLength.default)
     const [formInvalid, setFormInvalid] = useState(true)
     const generation = gameConfig.generation.default;
     const mixedGroups = gameConfig.mixedGroups.default;
-    const teamLength = gameConfig.teamLength.default;
 
     const handleTrainerName = (e) => {
         let name = e.target.value
@@ -39,7 +39,9 @@ export default function GameNew() {
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Badges to Win</Text>
+                    <Tooltip label={gameConfig.badgesToWin.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Badges to Win</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
                         step={gameConfig.badgesToWin.step} 
@@ -57,15 +59,17 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Level Up/Turn</Text>
+                    <Tooltip label={gameConfig.stagesPerJourney.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Stages/Journey</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
-                        step={gameConfig.levelUpgradePerTurn.step} 
-                        defaultValue={gameConfig.levelUpgradePerTurn.default} 
-                        min={gameConfig.levelUpgradePerTurn.min} 
-                        max={gameConfig.levelUpgradePerTurn.max} 
+                        step={gameConfig.stagesPerJourney.step} 
+                        defaultValue={gameConfig.stagesPerJourney.default} 
+                        min={gameConfig.stagesPerJourney.min} 
+                        max={gameConfig.stagesPerJourney.max} 
                         allowMouseWheel 
-                        onChange={(e) => {setLevelUpgradePerTurn(Number(e))}}
+                        onChange={(e) => {setStagesPerJourney(Number(e))}}
                     >
                         <NumberInputField disabled />
                         <NumberInputStepper>
@@ -78,15 +82,17 @@ export default function GameNew() {
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Turns Until Gym</Text>
+                    <Tooltip label={gameConfig.battleFrequency.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Battle Frequency</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
-                        step={gameConfig.turnsUntilNextGym.step} 
-                        defaultValue={gameConfig.turnsUntilNextGym.default} 
-                        min={gameConfig.turnsUntilNextGym.min} 
-                        max={gameConfig.turnsUntilNextGym.max} 
+                        step={gameConfig.battleFrequency.step} 
+                        defaultValue={gameConfig.battleFrequency.default} 
+                        min={gameConfig.battleFrequency.min} 
+                        max={gameConfig.battleFrequency.max} 
                         allowMouseWheel 
-                        onChange={(e) => {setTurnsUntilNextGym(Number(e))}}
+                        onChange={(e) => {setBattleFrequency(Number(e))}}
                     >
                         <NumberInputField disabled />
                         <NumberInputStepper>
@@ -96,7 +102,9 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Gym Strength</Text>
+                    <Tooltip label={gameConfig.gymStrengthBonus.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Gym Strength</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
                         step={gameConfig.gymStrengthBonus.step} 
@@ -117,7 +125,9 @@ export default function GameNew() {
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Shiny Chance %</Text>
+                    <Tooltip label={gameConfig.shinyChance.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Shiny Chance %</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
                         step={gameConfig.shinyChance.step} 
@@ -135,15 +145,40 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xs">Difficulty</Text>
+                    <Tooltip label={gameConfig.catchDifficulty.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Catch Difficulty</Text>
+                    </Tooltip>
                     <NumberInput 
                         w={20} 
                         step={1} 
-                        defaultValue={gameConfig.gameDifficulty.default + 1} 
+                        defaultValue={gameConfig.catchDifficulty.default + 1} 
                         min={1} 
                         max={4} 
                         allowMouseWheel 
-                        onChange={(e) => {setGameDifficulty(Number(e))}}
+                        onChange={(e) => {setCatchDifficulty(Number(e))}}
+                    >
+                        <NumberInputField disabled />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                </Flex>
+            </Flex>
+
+            <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
+                <Flex flex={1} justifyContent="space-between" alignItems="center">
+                    <Tooltip label={gameConfig.journeyTeamLength.tooltip} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">Journey Team Size</Text>
+                    </Tooltip>
+                    <NumberInput 
+                        w={20} 
+                        step={gameConfig.journeyTeamLength.step} 
+                        defaultValue={gameConfig.journeyTeamLength.default} 
+                        min={gameConfig.journeyTeamLength.min} 
+                        max={gameConfig.journeyTeamLength.max} 
+                        allowMouseWheel 
+                        onChange={(e) => {setJourneyTeamLength(Number(e))}}
                     >
                         <NumberInputField disabled />
                         <NumberInputStepper>
@@ -159,14 +194,14 @@ export default function GameNew() {
                 socket.emit('session-new', ({
                     trainerName,
                     badgesToWin,
-                    levelUpgradePerTurn,
-                    turnsUntilNextGym,
+                    stagesPerJourney,
+                    battleFrequency,
                     gymStrengthBonus,
                     shinyChance,
-                    gameDifficulty: gameDifficulty - 1,
+                    gameDifficulty: catchDifficulty - 1,
                     generation,
                     mixedGroups,
-                    teamLength
+                    journeyTeamLength
                 }))
 
             }}>Create room</Button>

@@ -1,43 +1,17 @@
 import { useContext, useEffect, useState } from "react"
+import { Flex, Text } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import BattleContent from "../Battle/BattleContent"
 import socket from "@client"
-import GenericModal from "@components/Modal/GenericModal"
 
-export default function BattleModal({ battleId, participants, event }) {
-    const { player, setLoading } = useContext(PlayerContext)
-    const [opponent, setOpponent] = useState()
+export default function BattleScreen() {
+    const { player, setLoading, game, advancePhase } = useContext(PlayerContext)
+    const battleData = game.battleData
+    const battleId = battleData?.battle?.id
+    const participants = battleData?.battle?.participants
     const [opponentTrainer, setOpponentTrainer] = useState()
-    const [isPokemonBattling, setIsPokemonBattling] = useState(false)
-    const [battleLog, setBattleLog] = useState([])
-    const [turnWinner, setTurnWinner] = useState()
-    
-    const battleTurnUpdate = (res) => {
-        const players = res.players
-        const log = res.result?.log
-        const winner = res.result?.winner.pokemonId
-        
-        setBattleLog(log)
-        setTurnWinner(winner)
-
-        players.forEach(battlingPlayer => {
-            if(battlingPlayer.player !== player.id && battlingPlayer.pokemon) {
-                // setOpponents(old => [...old, {...battlingPlayer.pokemon, hp: battlingPlayer.hp}])
-                
-                battlingPlayer.pokemon && setOpponent({
-                    ...battlingPlayer.pokemon,
-                    hp: battlingPlayer.hp
-                })
-            }
-
-            if(battlingPlayer.player === player.id) {
-                if(battlingPlayer.pokemon) {
-                    setLoading({ loading: false })
-                    setIsPokemonBattling(true)
-                }
-            }
-        })
-    }
+    const [battlePhase, setBattlePhase] = useState('select') // select | waiting | battle | result
+    const [battleResult, setBattleResult] = useState(null)
 
     useEffect(() => {
         if (participants) {
@@ -47,25 +21,49 @@ export default function BattleModal({ battleId, participants, event }) {
     }, [participants, player]);
 
     useEffect(() => {
-        socket.on('battle-update', res => battleTurnUpdate(res))
+        socket.on('battle-team-selected', (res) => {
+            // O outro jogador selecionou, continuo esperando
+            if (res.playerId !== player.id && battlePhase === 'waiting') {
+                // Nada a fazer, ainda esperando
+            }
+        })
+
+        socket.on('battle-result', (res) => {
+            setLoading({ loading: false })
+            setBattleResult(res)
+            setBattlePhase('battle')
+        })
 
         return () => {
-            socket.off('battle-update', battleTurnUpdate)
+            socket.off('battle-team-selected')
+            socket.off('battle-result')
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [battlePhase])
+
+    // Auto-advance if no battle data for this turn
+    useEffect(() => {
+        if (!battleData) {
+            advancePhase()
+        }
+    }, [battleData, advancePhase])
+
+    if (!battleData) {
+        return null
+    }
 
     return (
-        <GenericModal title={"Poke Battle"}>
+        <Flex flex="1" flexDir="column" p={4}>
+            <Text fontSize="xl" fontWeight="bold" mb={4} textAlign="center">Poke Battle</Text>
             <BattleContent
                 battleId={battleId}
                 opponentTrainer={opponentTrainer}
-                opponent={opponent}
-                isPokemonBattling={isPokemonBattling}
-                battleLog={battleLog}
-                turnWinner={turnWinner}
-                event={event}
+                battlePhase={battlePhase}
+                setBattlePhase={setBattlePhase}
+                battleResult={battleResult}
+                event={battleData}
+                onBattleComplete={advancePhase}
             />
-        </GenericModal>
+        </Flex>
     )
 }

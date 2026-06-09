@@ -4,18 +4,11 @@ import { Image } from "@chakra-ui/react";
 import socket from "@client";
 import PlayerContext from "@context/PlayerContext";
 
-import BattleModal from "./EventModals/BattleModal";
-import ChallengeModal from "./Challenge/ChallengeModal";
 import EncounterModal from "./EventModals/EncounterModal";
-import WalkModal from "./EventModals/WalkModal";
-import PokeUpgradeModal from "../header/Buttons/PokeUpgrade/PokeUpgradeModal";
-import BerriesModal from "../header/Buttons/PokeBerries/BerriesModal";
 import CaptureModal from "./Capture/CaptureModal";
 import NewTasksModal from "./NewTasks/NewTasks";
 import AugmentsModal from "./Augments/AugmentsModal";
-import DayCareModal from "../header/Buttons/PokeDayCare/DayCareModal";
 import GymModal from "./Gym/GymModal";
-import TrainingCamp from "../header/Buttons/TrainingCamp";
 
 export default function ModalController() {
     const { 
@@ -26,19 +19,19 @@ export default function ModalController() {
         setWaitingForPlayers, 
         updateGame, 
         updatePokemon,
-        setEncounter,
         handleToast,
         tasks,
         setTasks,
-        setNextEvent,
         setGym,
         setNextGym,
         gym,
         nextGym,
-        updateTrainedCamp
+        updateTrainedCamp,
+        setActiveTab,
+        setLoading,
+        setTurnPhases,
+        setCurrentPhaseIndex,
     } = useContext(PlayerContext)
-    const [event, setEvent] = useState({})
-    const [battle, setBattle] = useState({})
     const [augments, setAugments] = useState({ type: '', list: []})
     const [lastTurnModalTaskShown, setLastTurnModalTaskShown] = useState(0)
     const [capturedPokemon, setCapturedPokemon] = useState({})
@@ -56,10 +49,11 @@ export default function ModalController() {
 
             callback(true)
 
+            setActiveTab('bag')
             setSession(old => ({...old, turns: res.turn, level: res.level}))
             updateOpponents(false, 'turnReady')
             
-            // Atualizar gym e nextGym se vierem no response
+            // Update gym and nextGym from response
             if (res.gym !== undefined) {
                 setGym(res.gym)
             }
@@ -87,40 +81,22 @@ export default function ModalController() {
             }
 
             setAugments(res.augments)
+            setTasks([...res.tasks])
 
-            setEvent({
-                title: res.event.title,
-                label: res.event.label,
-                type: res.event.type,
-                prizes: res.event.prizes,
-                advantage: res.event.advantage,
-                disadvantage: res.event.disadvantage,
-                dice: res.event.dice
+            // Set turn phases from server
+            const phases = res.phases || ['freeActions']
+            setTurnPhases(phases)
+            setCurrentPhaseIndex(0)
+
+            // Store battle and journey data on game state for phase routing
+            updateGame({ 
+                battleData: res.battleData || null,
+                journeyWildPreview: res.journeyWildPreview || [],
+                journeyProgress: res.journeyProgress || 0,
+                isPokemonRollDisabled: false,
             })
 
-            setNextEvent(res.nextEventType)
-            
-            setEncounter([...res.encounter])
-
-            setTasks([...res.tasks])
-            
-            switch (res.event.type) {
-                case 'challenge':
-                    updateGame({ openChallengeModal: true })
-                    break
-                case 'walk':
-                    updateGame({ openWalkModal: true })
-                    break
-                case 'battle':
-                    updateGame({ openBattleModal: true })
-                    setBattle(res.event.battle)
-                    break
-                default:
-                    break
-            }
-
             setWaitingForPlayers(false)
-            updateGame({ isPokemonRollDisabled: false })
         })
 
         socket.on('player-capture-pokemon', res => {
@@ -128,10 +104,16 @@ export default function ModalController() {
             updateGame({ openEncounterModal: false, openPokemonCaptureModal: true })
         })
 
+        socket.on('player-capture-starters', () => {
+            updateGame({ openEncounterModal: false })
+            setLoading({ loading: false })
+        })
+
         return () => {
             console.log('disconnect turn-start socket')
             socket.off('turn-start')
             socket.off('player-capture-pokemon')
+            socket.off('player-capture-starters')
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -154,7 +136,7 @@ export default function ModalController() {
             handleToast({
                 id: `next-gym-${nextGym.id}`,
                 title: "🗺️ Next Gym Route Decided!",
-                description: `The path to ${nextGym.name} has been set. Available on turn ${nextGym.turnStart}.`,
+                description: `The path to ${nextGym.name} has been set. Available at level ${nextGym.gymLevel}.`,
                 status: 'info',
                 duration: 6000,
                 position: 'top-right'
@@ -165,9 +147,7 @@ export default function ModalController() {
 
     // Toast quando gym fica disponível
     useEffect(() => {
-        const currentTurn = session?.turns || 0
-        
-        if (gym && gym.id !== lastGymAvailableNotified && gym.turnStart <= currentTurn) {
+        if (gym && gym.id !== lastGymAvailableNotified) {
             setLastGymAvailableNotified(gym.id)
             
             handleToast({
@@ -184,19 +164,11 @@ export default function ModalController() {
 
     return(
         <>
-            {game.openChallengeModal && <ChallengeModal event={event} />}
-            {game.openWalkModal && <WalkModal event={event} />}
             {game.openGymModal && <GymModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
-            {/* {game.openSelectScreenModal && <SelectScreenModal />} */}
-            {game.openDayCareModal && <DayCareModal />}
-            {game.openPokeUpgradeModal && <PokeUpgradeModal />}
-            {game.openBerriesModal && <BerriesModal />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
             {game.openNewTasksModal && <NewTasksModal />}
-            {game.openTrainingCampModal && <TrainingCamp />}
             {game.openAugmentsModal && <AugmentsModal augments={augments} />}
-            {game.openBattleModal && <BattleModal battleId={battle.id} participants={battle.participants} event={event}/>}
         </>
     )
 }

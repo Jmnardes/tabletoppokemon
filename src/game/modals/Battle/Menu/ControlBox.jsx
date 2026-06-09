@@ -17,7 +17,7 @@ export default function ControlBox({
     event,
     battleEnded
 }) {
-    const { updateGame, updateStatus, setLoading, playerWinPrize } = useContext(PlayerContext)
+    const { updateStatus, setLoading, playerWinPrize, advancePhase } = useContext(PlayerContext)
     const [refreshResults, setRefreshResults] = useState(false)
     const refreshButtonTimer = 30000
     const prize = event.prizes[2]
@@ -56,7 +56,7 @@ export default function ControlBox({
                     await updateStatus('loses')
                 }
 
-                updateGame({ openBattleModal: false, openEncounterModal: true })
+                advancePhase()
             }}>
                 <FaDoorOpen size="24px"/>
             </Button>

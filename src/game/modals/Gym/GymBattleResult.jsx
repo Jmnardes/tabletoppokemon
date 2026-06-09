@@ -3,7 +3,7 @@ import { useContext } from "react"
 import PlayerContext from "@context/PlayerContext"
 import PrizeIcon from "@features/prizes/PrizeIcon"
 
-export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true }) {
+export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true, leveledUpPokemons = [], newBerries = [] }) {
     const { colorMode } = useColorMode()
     const { setLoading, playerWinPrize } = useContext(PlayerContext)
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
@@ -62,7 +62,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     {reward && (
                         <VStack spacing={2} pt={2}>
                             <Text fontSize="md" fontWeight="bold">
-                                Victory Reward
+                                Victory Rewards
                             </Text>
                             <HStack>
                                 <Text fontSize="xl" fontWeight="bold" color="green.400">
@@ -70,6 +70,28 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                                 </Text>
                                 <PrizeIcon type={reward.name} size="28px" />
                             </HStack>
+                            <Text fontSize="sm" color="cyan.400">+1 EXP per battle pokémon</Text>
+                            {leveledUpPokemons.length > 0 && (
+                                <VStack spacing={1}>
+                                    {leveledUpPokemons.map((p) => (
+                                        <Text key={p.id} fontSize="sm" color="yellow.400" fontWeight="bold">
+                                            ⬆ {p.name} leveled up to Lv.{p.level}!
+                                        </Text>
+                                    ))}
+                                </VStack>
+                            )}
+                            {newBerries.length > 0 && (
+                                <VStack spacing={1}>
+                                    <Text fontSize="sm" color="pink.400" fontWeight="bold">Berries earned:</Text>
+                                    <HStack spacing={2} flexWrap="wrap" justify="center">
+                                        {newBerries.map((berry, i) => (
+                                            <Text key={i} fontSize="sm">
+                                                🫐 {berry.name} x{berry.amount}
+                                            </Text>
+                                        ))}
+                                    </HStack>
+                                </VStack>
+                            )}
                         </VStack>
                     )}
                 </Flex>

@@ -4,15 +4,16 @@ import PlayerContext from "@context/PlayerContext";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
 import Settings from './Buttons/Settings/Settings'
-import NextEvent from "./NextEvent/NextEvent";
 import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionModal";
 import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
 import ObjectivesTooltip from "./Trainer/ObjectivesTooltip";
 import { FaExclamationCircle, FaTrophy } from "react-icons/fa";
 import crownIcon from '@assets/images/game/crown.png';
+import clockIcon from '@assets/images/game/clock.png';
+import starIcon from '@assets/images/game/star.png';
 
 export default function GameHeader() {
-    const { player, nextEvent, game, session } = useContext(PlayerContext)
+    const { player, game, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
@@ -33,24 +34,30 @@ export default function GameHeader() {
                 >
                     {player.status.trainerName}
                 </Badge>
-                <TrainerBar />
-            </Center>
-            <Center>
-                <NextEvent nextEvent={nextEvent} />
-            </Center>
-            <Center flex="1" justifyContent={"end"}>
                 {!game.hasEnded && (
-                    <Tooltip label={<BadgeCollectionTooltip />} p={0} borderRadius={8} background="none">
-                        <Flex alignItems="center" mx={2} cursor="pointer">
-                            <Image src={crownIcon} title={'Badges'} w="24px" />
-                            <Text ml={1} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
-                        </Flex>
-                    </Tooltip>
+                    <Flex alignItems="center" mx={2}>
+                        <Image src={clockIcon} title={'Turn'} w="20px" />
+                        <Text ml={1} fontSize="2xs">{session.turns || 0}</Text>
+                    </Flex>
+                )}
+                {!game.hasEnded && (
+                    <Flex alignItems="center" mx={2}>
+                        <Image src={starIcon} title={'Ranking Points'} w="20px" />
+                        <Text ml={1} fontSize="2xs">{player.status.ranking || 0}</Text>
+                    </Flex>
                 )}
                 {!game.hasEnded && (
                     <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">
                         <Flex alignItems="center" mx={2} cursor="pointer">
                             <FaExclamationCircle size={20} color="orange" />
+                        </Flex>
+                    </Tooltip>
+                )}
+                {!game.hasEnded && (
+                    <Tooltip label={<BadgeCollectionTooltip />} p={0} borderRadius={8} background="none">
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <Image src={crownIcon} title={'Badges'} w="24px" />
+                            <Text ml={1} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
                         </Flex>
                     </Tooltip>
                 )}
@@ -61,6 +68,9 @@ export default function GameHeader() {
                         </Flex>
                     </Tooltip>
                 )}
+            </Center>
+            <Center flex="1" justifyContent={"end"}>
+                <TrainerBar />
                 <PokeballStats />
                 <Settings />
             </Center>

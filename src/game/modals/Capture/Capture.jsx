@@ -6,12 +6,12 @@ import ChooseAttack from "./ChooseAttack"
 import NewPokemon from "./NewPokemon"
 
 export default function Capture({ capturedPokemon, setCapturedPokemon, augments }) {
-    const { updateGame, teamIds, pokemonData, emit, setLoading} = useContext(PlayerContext)
+    const { updateGame, teamIds, pokemonData, emit, setLoading, session} = useContext(PlayerContext)
     const [chooseAttackType, setChooseAttackType] = useState(capturedPokemon.types.length > 1)
     const [attackType, setAttackType] = useState(capturedPokemon.types[0])
     const [specialType, setSpecialType] = useState(capturedPokemon.types[0])
     const [selectedToRemove, setSelectedToRemove] = useState(null)
-    const isTeamFull = teamIds.length > 2
+    const isTeamFull = teamIds.length >= (session?.teamLength || 6)
 
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
 

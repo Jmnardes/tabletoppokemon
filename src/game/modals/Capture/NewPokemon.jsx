@@ -34,7 +34,7 @@ export default function NewPokemon({
 
     return (
         <>
-            <Card poke={capturedPokemon} isCaptured />
+            <Card poke={capturedPokemon} size="M" />
 
             <Center gap={4}>
                 <ButtonComponent
@@ -60,7 +60,7 @@ export default function NewPokemon({
                         <Text fontSize={"xx-small"}>The selected pokemon goes to your bag</Text>
                     </Center>
 
-                    <Center flex flexDir={"row"} gap={4} mt={4}>
+                    <Center flexDir="row" gap={3} mt={4} flexWrap="wrap" maxW="650px" justifyContent="center">
                         {team?.map((poke) => {
                             return (
                                 <Box
@@ -71,10 +71,11 @@ export default function NewPokemon({
                                     boxShadow={selectedToRemove === poke.id ? "0 0 10px 6px rgba(255, 255, 255, 0.7)" : "none"}
                                     borderRadius={8}
                                     onClick={() => setSelectedToRemove(poke.id)}
+                                    w="30%"
                                 >
                                     <Card
                                         poke={poke}
-                                        isCaptured
+                                        size="M"
                                     />
                                 </Box>
                             )

@@ -52,23 +52,22 @@ export default function DayCarePanel() {
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
             <Text fontSize="lg" fontWeight="bold" textAlign="center">Poke Day Care</Text>
-            <Text fontSize="small" textAlign="center" mt={2}>Select a pokémon to leave in Daycare dependencies</Text>
-            {boxPokemons.length < 1 ? (
-                <Text h={28} textAlign="center" mt={20} color="red.400">
-                    You don't have Pókemons to leave on Daycare
-                </Text>
-            ) : (
-                <PokeList
-                    pokemons={boxPokemons}
-                    onSelect={handleTrade}
-                    size="xs"
-                    confirmAction={(poke) => ({
-                        title: "Leave on Day Care",
-                        text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
-                    })}
-                />
-            )}
-            <DayCareShop />
+            <Text fontSize="small" textAlign="center" mt={2}>You can leave pokémons at the daycare to gain tokens and buy some items.</Text>
+            <Flex flex="1" mt={4}>
+                <Flex flexDir="column" mr={4} overflowY="auto" minW="80px">
+                    <PokeList
+                        pokemons={boxPokemons}
+                        onSelect={handleTrade}
+                        size="xs"
+                        layout="wrap"
+                        confirmAction={(poke) => ({
+                            title: "Leave on Day Care",
+                            text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
+                        })}
+                    />
+                </Flex>
+                <DayCareShop />
+            </Flex>
         </Flex>
     )
 }

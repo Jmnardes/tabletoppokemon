@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Image, Text } from "@chakra-ui/react"
+import { Flex, Image, Text } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import PokeList from "@features/pokemon/PokeList"
 import GenericModal from "@components/Modal/GenericModal"
@@ -56,23 +56,22 @@ export default function DayCareModal() {
             closeButton={true}
             onModalClose={() => updateGame({ openDayCareModal: false })}
         >
-            <Text fontSize={"small"} textAlign={"center"}>Select a pokémon to leave in Daycare dependencies</Text>
-            {boxPokemons.length < 1 ? (
-                <Text h={28} textAlign={"center"} mt={20} color={"red.400"}>
-                    You don't have Pókemons to leave on Daycare
-                </Text>
-            ) : (
-                <PokeList
-                    pokemons={boxPokemons}
-                    onSelect={handleTrade}
-                    size="xs"
-                    confirmAction={(poke) => ({
-                        title: "Leave on Day Care",
-                        text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
-                    })}
-                />
-            )}
-            <DayCareShop />
+            <Text fontSize={"small"} textAlign={"center"}>You can leave pokémons at the daycare to gain tokens and buy some items.</Text>
+            <Flex flex="1" mt={4}>
+                <Flex flexDir="column" mr={4} overflowY="auto" minW="80px">
+                    <PokeList
+                        pokemons={boxPokemons}
+                        onSelect={handleTrade}
+                        size="xs"
+                        layout="wrap"
+                        confirmAction={(poke) => ({
+                            title: "Leave on Day Care",
+                            text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
+                        })}
+                    />
+                </Flex>
+                <DayCareShop />
+            </Flex>
         </GenericModal>
     )
 }

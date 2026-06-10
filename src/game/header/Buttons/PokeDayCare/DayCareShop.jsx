@@ -1,11 +1,9 @@
 import { useContext } from "react";
 import { Center, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import PlayerContext from "@context/PlayerContext";
-import { getBerryIcon } from "@utils/berryIcon";
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
-import berryIcon from '@assets/images/berries/berry.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import potionIcon from '@assets/images/items/potion.png'
@@ -13,7 +11,7 @@ import superPotionIcon from '@assets/images/items/super-potion.png'
 import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 
 export default function DayCareShop() {
-    const { player, emit, setLoading, setPlayer, setBerries, handleToast } = useContext(PlayerContext)
+    const { player, emit, setLoading, setPlayer, handleToast } = useContext(PlayerContext)
 
     const handleBuyItem = async (item, price) => {
         setLoading({ loading: true, text: `Buying ${item}...` })
@@ -29,9 +27,6 @@ export default function DayCareShop() {
             }
             if (result?.daycare) {
                 setPlayer(prev => ({ ...prev, daycare: result.daycare }))
-            }
-            if (result?.berries) {
-                setBerries(result.berries)
             }
             if (result?.potions) {
                 setPlayer(prev => ({ ...prev, potions: result.potions }))
@@ -67,16 +62,6 @@ export default function DayCareShop() {
                         description: 'A new Dust has been added to your bag',
                         icon: <Image src={dustIcon} w={12} />
                     })
-                    break
-                case 'berry':
-                    if (result.berry) {
-                        handleToast({
-                            ...toastConfig,
-                            title: result.berry.name || 'Berry',
-                            description: 'A new Berry has been added to your bag',
-                            icon: <Image src={getBerryIcon(result.berry.type)} w={12} />
-                        })
-                    }
                     break
                 case 'potion':
                     handleToast({
@@ -124,25 +109,26 @@ export default function DayCareShop() {
         return (
             <Tr>
                 <Td>
-                    <Image src={icon} alt={name} boxSize={8} />
+                    <Image src={icon} alt={name} boxSize={6} />
                 </Td>
-                <Td fontSize={"2xl"} textAlign={"center"}>{price}x</Td>
                 <Td>
-                    <Image 
-                        src={tokenIcon} alt={"Daycare Token"}
+                    <Center
+                        gap={1}
                         _hover={{ cursor: 'pointer', opacity: 0.5 }}
                         opacity={price > player.daycare.token ? 0.3 : 1}
                         pointerEvents={price > player.daycare.token ? 'none' : 'auto'}
                         onClick={() => handleBuyItem(item, price)}
-                    />
+                    >
+                        <Text fontSize="lg">{price}</Text>
+                        <Image src={tokenIcon} alt={"Daycare Token"} boxSize={6} />
+                    </Center>
                 </Td>
             </Tr>
         )
     }
 
     return (
-        <Center flexDirection="column">
-            <Text fontSize="2xl" mb={4}>Daycare Shop</Text>
+        <Center flexDirection="column" flex="1">
             <Center flex justifyContent={"space-around"} w={"full"} p={4}>
                 <Center flex flexDir={"column"}>
                     <Text fontSize={"2xl"} mb={4}>Daycare Tokens</Text>
@@ -155,8 +141,7 @@ export default function DayCareShop() {
                     <Thead>
                         <Tr>
                             <Th>Item</Th>
-                            <Th>Cost</Th>
-                            <Th>Buy</Th>
+                            <Th>Price</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
@@ -171,12 +156,6 @@ export default function DayCareShop() {
                             name={'Greatball'}
                             item={'greatball'}
                             price={2}
-                        ></TableItem>
-                        <TableItem
-                            icon={berryIcon}
-                            name={'Berry'}
-                            item={'berry'}
-                            price={3}
                         ></TableItem>
                         <TableItem
                             icon={ultraballIcon}

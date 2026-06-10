@@ -11,7 +11,7 @@ export default function GameNew() {
     const [gymStrengthBonus, setGymStrengthBonus] = useState(gameConfig.gymStrengthBonus.default)
     const [shinyChance, setShinyChance] = useState(gameConfig.shinyChance.default)
     const [catchDifficulty, setCatchDifficulty] = useState(gameConfig.catchDifficulty.default + 1) // Display 1-4, store 0-3
-    const [journeyTeamLength, setJourneyTeamLength] = useState(gameConfig.journeyTeamLength.default)
+    const [journeyTeamLength] = useState(gameConfig.journeyTeamLength.default)
     const [formInvalid, setFormInvalid] = useState(true)
     const generation = gameConfig.generation.default;
     const mixedGroups = gameConfig.mixedGroups.default;
@@ -156,29 +156,6 @@ export default function GameNew() {
                         max={4} 
                         allowMouseWheel 
                         onChange={(e) => {setCatchDifficulty(Number(e))}}
-                    >
-                        <NumberInputField disabled />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                </Flex>
-            </Flex>
-
-            <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
-                <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.journeyTeamLength.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Journey Team Size</Text>
-                    </Tooltip>
-                    <NumberInput 
-                        w={20} 
-                        step={gameConfig.journeyTeamLength.step} 
-                        defaultValue={gameConfig.journeyTeamLength.default} 
-                        min={gameConfig.journeyTeamLength.min} 
-                        max={gameConfig.journeyTeamLength.max} 
-                        allowMouseWheel 
-                        onChange={(e) => {setJourneyTeamLength(Number(e))}}
                     >
                         <NumberInputField disabled />
                         <NumberInputStepper>

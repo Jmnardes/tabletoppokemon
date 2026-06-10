@@ -31,10 +31,10 @@ const TARGET_CY = FIELD_TOP_H / 2
 // greatball: pokeball +5% perfect, +5% good
 // ultraball: greatball +5% perfect, +5% good
 const BALL_ZONES = {
-  pokeball:   { perfectPct: 0.005, goodPct: 0.075, badPct: 0.09 },
-  greatball:  { perfectPct: 0.010, goodPct: 0.100, badPct: 0.08 },
-  ultraball:  { perfectPct: 0.015, goodPct: 0.125, badPct: 0.07 },
-  masterball: { perfectPct: 0.500, goodPct: 0.500, badPct: 0.000 },
+  pokeball:   { perfectPct: 0.005, goodPct: 0.075, badPct: 0.175 },
+  greatball:  { perfectPct: 0.010, goodPct: 0.100, badPct: 0.150 },
+  ultraball:  { perfectPct: 0.015, goodPct: 0.125, badPct: 0.125 },
+  masterball: { perfectPct: 0.500, goodPct: 0.000, badPct: 0.000 },
 }
 
 const BALL_IMAGES = {
@@ -185,7 +185,7 @@ export default function ThrowGame({ onFinish, externalBall, targetSprite }) {
       } else {
         const dy = Math.abs(y - TARGET_CY)
 
-        let b = 0
+        let b = -1
         let r = "bad"
         if (dy <= perfectH) {
           b = 4
@@ -194,6 +194,7 @@ export default function ThrowGame({ onFinish, externalBall, targetSprite }) {
           b = 2
           r = "good"
         } else if (dy <= okBoundary) {
+          b = 0
           r = "ok"
         }
 
@@ -376,20 +377,20 @@ export default function ThrowGame({ onFinish, externalBall, targetSprite }) {
       const resultTexts = { perfect: "Perfect throw!", good: "Good throw!", ok: "Ok throw!", bad: "Bad throw!" }
 
       ctx.fillStyle = resultColors[result]
-      ctx.font = "bold 28px sans-serif"
+      ctx.font = "16px 'Press Start 2P'"
       ctx.fillText(resultTexts[result], CANVAS_W / 2, textCenterY - 10)
 
       ctx.fillStyle = textColor
-      ctx.font = "14px sans-serif"
+      ctx.font = "8px 'Press Start 2P'"
       ctx.fillText("Click to continue", CANVAS_W / 2, textCenterY + 22)
     } else if (phase === PHASES.IDLE) {
       ctx.fillStyle = textColor
-      ctx.font = "16px sans-serif"
+      ctx.font = "10px 'Press Start 2P'"
       const idleText = externalBall === null ? "Select a ball" : "Click to start"
       ctx.fillText(idleText, CANVAS_W / 2, textCenterY)
     } else if (phase === PHASES.POWER) {
       ctx.fillStyle = textColor
-      ctx.font = "16px sans-serif"
+      ctx.font = "10px 'Press Start 2P'"
       ctx.fillText("Click to throw!", CANVAS_W / 2, textCenterY)
     }
   }, [phase, power, ballPos, result, colorMode, imgsLoaded, selectedBall, PERFECT_H, GOOD_H, BAD_H, OK_BOUNDARY, externalBall])
@@ -427,7 +428,7 @@ export default function ThrowGame({ onFinish, externalBall, targetSprite }) {
       )}
       {phase === PHASES.RESULT && (
         <Text fontSize="lg" fontWeight="bold" color={result === "perfect" ? "green.400" : result === "good" ? "yellow.400" : result === "ok" ? "gray.400" : "red.400"}>
-          Catch Bonus: +{bonus}
+          Catch Bonus: {bonus >= 0 ? '+' : ''}{bonus}
         </Text>
       )}
     </Flex>

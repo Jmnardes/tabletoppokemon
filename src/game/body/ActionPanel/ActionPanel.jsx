@@ -5,15 +5,15 @@ import PlayerContext from "@context/PlayerContext";
 import bagIcon from '@assets/images/game/bag.png';
 import gymIcon from '@assets/images/game/battle.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
-import arrowIcon from '@assets/images/game/arrow.png';
 import fightIcon from '@assets/images/items/fight.png';
 import chipIcon from '@assets/images/game/chip.png';
 import farmIcon from '@assets/images/berries/berry.png';
+import craftIcon from '@assets/images/game/pokedex.png';
 
 import { FaArrowRight } from "react-icons/fa";
 
 export default function ActionPanel() {
-    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, bagDirty } = useContext(PlayerContext)
+    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft, bagDirty } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
 
     const totalPokemons = teamIds.length + boxIds.length
@@ -68,10 +68,10 @@ export default function ActionPanel() {
         >
             <Flex flexDir="column" gap="0.5rem">
                 {tabButton('bag', bagIcon, 'Bag')}
-                {tabButton('upgrade', arrowIcon, 'Poke Upgrade')}
                 {tabButton('daycare', dayCareIcon, 'Poke Day Care')}
                 {tabButton('training', fightIcon, 'Training Camp', { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
                 {farm && tabButton('farm', farmIcon, 'Berry Farm')}
+                {craft && tabButton('craft', craftIcon, 'Craft')}
 
                 {player.augments?.length > 0 && tabButton('augments', chipIcon, 'Augments')}
             </Flex>

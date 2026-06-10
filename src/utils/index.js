@@ -232,8 +232,8 @@ export const augmentColor = (dif) => {
     return '#8a8a8a'
 }
 
-export const pokemonHasChallengeBerry = (pokemon) => {
-    if (pokemon.effects.includes('boost_challenge')) {
+export const pokemonHasShieldBerry = (pokemon) => {
+    if (pokemon.effects.includes('boost_shield')) {
         return true
     }
 

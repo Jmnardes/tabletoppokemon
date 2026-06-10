@@ -6,7 +6,7 @@ import { stringToUpperCase } from "@utils";
 import PokeTeam from "./PokeTeam";
 import Card from "@features/pokemon/Card";
 
-import bagIcon from '@assets/images/game/bag.png'
+// bag icon removed — using text label instead
 
 const scrollbarCSS = {
   "&::-webkit-scrollbar": { width: "4px" },
@@ -33,7 +33,7 @@ export default function TeamContainer() {
                     gap={2}
                     backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}
                 >
-                    <Image src={bagIcon} w={6} title="Bag" />
+                    <Text fontSize="2xs" fontWeight="bold">Pokes</Text>
                     <Box
                         flex="1"
                         overflowY="auto"

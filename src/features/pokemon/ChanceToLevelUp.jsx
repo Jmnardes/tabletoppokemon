@@ -1,12 +1,10 @@
 import { Box, Progress, Text, Tooltip } from "@chakra-ui/react"
 
 const EXP_TO_LEVEL = 5
-const EXP_TO_LEVEL_BERRY = 4
 
 export default function ExpBar({ selectedPokemon }) {
     const exp = selectedPokemon?.exp ?? 0
-    const hasBerry = selectedPokemon?.effects?.includes('boost_level')
-    const maxExp = hasBerry ? EXP_TO_LEVEL_BERRY : EXP_TO_LEVEL
+    const maxExp = EXP_TO_LEVEL
 
     return (
         <Tooltip label={`EXP: ${exp}/${maxExp} — Derrote pokémons selvagens para ganhar EXP`} p={4} borderRadius={6}>

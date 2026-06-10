@@ -7,7 +7,7 @@ import {
   parseNumberMultToNatural,
   rarityName,
   augmentColor,
-  pokemonHasChallengeBerry,
+  pokemonHasShieldBerry,
   berryExistsInBerries,
   joinArr,
   options,
@@ -134,20 +134,20 @@ describe('augmentColor', () => {
   })
 })
 
-describe('pokemonHasChallengeBerry', () => {
-  it('returns true when pokemon has boost_challenge effect', () => {
-    const pokemon = { effects: ['boost_challenge', 'other'] }
-    expect(pokemonHasChallengeBerry(pokemon)).toBe(true)
+describe('pokemonHasShieldBerry', () => {
+  it('returns true when pokemon has boost_shield effect', () => {
+    const pokemon = { effects: ['boost_shield', 'other'] }
+    expect(pokemonHasShieldBerry(pokemon)).toBe(true)
   })
 
-  it('returns false when pokemon has no boost_challenge', () => {
+  it('returns false when pokemon has no boost_shield', () => {
     const pokemon = { effects: ['other_effect'] }
-    expect(pokemonHasChallengeBerry(pokemon)).toBe(false)
+    expect(pokemonHasShieldBerry(pokemon)).toBe(false)
   })
 
   it('returns false when effects is empty', () => {
     const pokemon = { effects: [] }
-    expect(pokemonHasChallengeBerry(pokemon)).toBe(false)
+    expect(pokemonHasShieldBerry(pokemon)).toBe(false)
   })
 })
 

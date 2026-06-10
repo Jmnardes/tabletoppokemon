@@ -5,7 +5,7 @@ import PrizeIcon from "@features/prizes/PrizeIcon"
 import Types from "@features/elements/Types"
 
 export default function OpponentPoke({ opponent, prizes }) {
-    const prize = prizes[2]
+    const prize = prizes?.[prizes.length - 1]
 
     const PokemonTooltip = ({ poke }) => {
         return (
@@ -22,8 +22,10 @@ export default function OpponentPoke({ opponent, prizes }) {
                         <Text my={1}>{opponent.status.trainerName}</Text>
                     </Center>
                     <Box display={"flex"} position={"absolute"} ml={5} top={0} left={0}>
-                        <Text mt={2} fontSize={"sm"}>Prize: {prize.amount}</Text>
-                        <PrizeIcon type={prize.name} size={6} />
+                        {prize && <>
+                            <Text mt={2} fontSize={"sm"}>Prize: {prize.amount}</Text>
+                            <PrizeIcon type={prize.name} size={6} />
+                        </>}
                     </Box>
                     {opponent.pokeTeam?.filter(Boolean).map(poke => {
                         // Proteção adicional contra pokémons inválidos

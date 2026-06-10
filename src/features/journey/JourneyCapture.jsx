@@ -168,7 +168,7 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
                                             borderRadius="md"
                                         />
                                         <Text fontSize="2xs" color="gray.400">
-                                            {ball.key === 'pokeball' ? '(∞)' : `(${count})`}
+                                            {`(${count})`}
                                         </Text>
                                     </VStack>
                                 )

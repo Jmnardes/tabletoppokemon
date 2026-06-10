@@ -40,7 +40,7 @@ export default function SelectedToUpgrade({ selectedPokemon, setSelectedPokemon 
         return (
             <Tooltip label={
                 <Center flex flexDir={"column"} gap={4}>
-                    <Text>The amount of Dusts increase the chance of the pokemon to level up</Text>
+                    <Text>Grants +1 EXP at the end of each turn. Only 1 dust is consumed per turn. Can be stacked up to 5.</Text>
                 </Center>
             } p={4} borderRadius={8}>
                 <Center p={4} borderRadius={8} backgroundColor={"gray.500"} minH={16} minW={16}>

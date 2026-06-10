@@ -26,6 +26,7 @@ export function PlayerProvider({children}) {
     const [achievements, setAchievements] = useState([])
     const [berries, setBerries] = useState([])
     const [farm, setFarm] = useState(null)
+    const [craft, setCraft] = useState(null)
     const [gym, setGym] = useState(null)
     const [nextGym, setNextGym] = useState(null)
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
@@ -48,6 +49,7 @@ export function PlayerProvider({children}) {
         openPokeItemModal: false,
         openPokemonCaptureModal: false,
         openAugmentsModal: false,
+        openStarterKitModal: false,
         openJourneySelection: false,
         isInJourney: false,
         journeyBagLocked: false,
@@ -150,6 +152,7 @@ export function PlayerProvider({children}) {
                 setPlayer(snapshot.player)
                 setBerries(snapshot.player.berries || [])
                 if (snapshot.player.farm) setFarm(snapshot.player.farm)
+                if (snapshot.player.craft) setCraft(snapshot.player.craft)
                 if (snapshot.player.trainingCamp) setTrainingCamp(snapshot.player.trainingCamp)
                 
                 // Sync Pokemon data
@@ -506,6 +509,7 @@ export function PlayerProvider({children}) {
             setVersion(res.version)
             setBerries(res.player.berries)
             if (res.player.farm) setFarm(res.player.farm)
+            if (res.player.craft) setCraft(res.player.craft)
             if (res.player.trainingCamp) setTrainingCamp(res.player.trainingCamp)
             
             // Apenas como fallback se vier no session-join
@@ -598,27 +602,6 @@ export function PlayerProvider({children}) {
                 })
             }
             setPlayer(prev => ({ ...prev, status: { ...prev.status, ranking: prev.status.ranking + res.ranking } }))
-        })
-
-        socket.on('player-use-berry', ({ berry, pokemon }) => {
-            setBerries(prevBerries => {
-                const usedBerryIndex = prevBerries.findIndex(prevBerry => prevBerry.type === berry.type);
-    
-                if (usedBerryIndex !== -1) {
-                    if (prevBerries[usedBerryIndex].amount > 1) {
-                        prevBerries[usedBerryIndex].amount--
-                    } else {
-                        prevBerries.splice(usedBerryIndex, 1)
-                    }
-                }
-    
-                return [...prevBerries]
-            })
-
-            if (pokemon?.id) {
-                updatePokemon(pokemon.id, pokemon)
-            }
-            setLoading({ loading: false })
         })
 
 
@@ -815,6 +798,9 @@ export function PlayerProvider({children}) {
 
             farm,
             setFarm,
+
+            craft,
+            setCraft,
 
             gym,
             setGym,

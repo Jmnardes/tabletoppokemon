@@ -3,12 +3,26 @@ import { Heart, Swords, Shield, Zap, Crosshair, Sparkles, Star, ArrowBigUp, Arro
 import { pokemonNature } from "@utils";
 
 function PokeStats({ poke, isMini }) {
+    const effectToStat = {
+        boost_attack: 'atk',
+        boost_defense: 'def',
+        boost_health: 'hp',
+        boost_accuracy: 'acc',
+        boost_evasion: 'evs',
+        boost_critical: 'crt',
+    }
+
+    const boostedStats = (poke.effects || [])
+        .filter(e => effectToStat[e])
+        .map(e => effectToStat[e])
+
     const StatInventary = ({ stat, statKey, statName, nature, statIcon }) => {
         const natureIncreaseStat = pokemonNature[nature].increase
         const natureDecreaseStat = pokemonNature[nature].decrease
         const hasRarityBuff = poke.rarity.stats.includes(statKey)
         const hasNatureBuff = natureIncreaseStat === statKey && natureDecreaseStat !== statKey
         const hasNatureDebuff = natureDecreaseStat === statKey && natureIncreaseStat !== statKey
+        const hasBerryBuff = boostedStats.includes(statKey)
 
         return (
             <Flex
@@ -24,7 +38,7 @@ function PokeStats({ poke, isMini }) {
                 <Flex alignItems="center" gap={1}>
                     {statIcon}
                     <Text fontSize="8px" opacity={0.2} mx="2px">|</Text>
-                    <Text fontSize="2xs" fontWeight="bold">{stat}</Text>
+                    <Text fontSize="2xs" fontWeight="bold" color={hasBerryBuff ? "#facc15" : undefined}>{stat}</Text>
                 </Flex>
                 <Flex alignItems="center" gap={0.5}>
                     {hasRarityBuff && (

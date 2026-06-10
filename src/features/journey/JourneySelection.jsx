@@ -1,8 +1,10 @@
 import { useContext, useState } from "react"
-import { Flex, Text, Image, Button, SimpleGrid, Box, Badge, useColorMode } from "@chakra-ui/react"
+import { Flex, Text, Image, Button, SimpleGrid, Box, Badge, useColorMode, Center } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
+
+import { Heart, Swords, Shield, Zap, Crosshair, Sparkles } from 'lucide-react'
 
 const EXP_TO_LEVEL = 5
 
@@ -27,26 +29,6 @@ export default function JourneySelection() {
             }
             if (prev.length >= maxSelectable) return prev
             return [...prev, pokeId]
-        })
-    }
-
-    const moveUp = (pokeId) => {
-        setSelectedIds(prev => {
-            const idx = prev.indexOf(pokeId)
-            if (idx <= 0) return prev
-            const next = [...prev]
-            ;[next[idx - 1], next[idx]] = [next[idx], next[idx - 1]]
-            return next
-        })
-    }
-
-    const moveDown = (pokeId) => {
-        setSelectedIds(prev => {
-            const idx = prev.indexOf(pokeId)
-            if (idx === -1 || idx >= prev.length - 1) return prev
-            const next = [...prev]
-            ;[next[idx], next[idx + 1]] = [next[idx + 1], next[idx]]
-            return next
         })
     }
 
@@ -127,42 +109,12 @@ export default function JourneySelection() {
                 </Box>
             )}
 
-            {/* Selected order */}
-            {selectedIds.length > 0 && (
-                <Flex mb={4} gap={2} flexWrap="wrap" justifyContent="center">
-                    {selectedIds.map((id, idx) => {
-                        const poke = pokemonData[id]
-                        if (!poke) return null
-                        return (
-                            <Flex
-                                key={id}
-                                direction="column"
-                                align="center"
-                                bg={bgSelected}
-                                border="2px solid"
-                                borderColor={borderSelected}
-                                borderRadius={8}
-                                p={2}
-                                w="80px"
-                            >
-                                <Badge colorScheme="green" mb={1}>{idx + 1}</Badge>
-                                <Image src={poke.sprites?.front || poke.sprites?.main} w="32px" h="32px" />
-                                <Text fontSize="2xs" noOfLines={1}>{poke.name}</Text>
-                                <Flex gap={1} mt={1}>
-                                    <Button size="xs" variant="ghost" onClick={() => moveUp(id)} isDisabled={idx === 0}>↑</Button>
-                                    <Button size="xs" variant="ghost" onClick={() => moveDown(id)} isDisabled={idx === selectedIds.length - 1}>↓</Button>
-                                </Flex>
-                            </Flex>
-                        )
-                    })}
-                </Flex>
-            )}
-
             {/* Available pokemon grid */}
             <SimpleGrid columns={[3, 4, 5, 6]} spacing={3} w="100%" maxW="900px">
                 {allPokemon.map(poke => {
                     const isSelected = selectedIds.includes(poke.id)
                     const orderIdx = selectedIds.indexOf(poke.id)
+                    const stats = poke.stats || {}
 
                     return (
                         <Flex
@@ -195,6 +147,34 @@ export default function JourneySelection() {
                             </Flex>
                             <Text fontSize="2xs" color="gray.400">Lv.{poke.level}</Text>
                             <Text fontSize="2xs" color="cyan.400">EXP: {poke.exp ?? 0}/{EXP_TO_LEVEL}</Text>
+
+                            {/* Stats */}
+                            <SimpleGrid columns={3} spacing={0} mt={2} w="100%">
+                                <Center flexDir="column" title="HP">
+                                    <Heart size={10} />
+                                    <Text fontSize="3xs">{stats.hp ?? 0}</Text>
+                                </Center>
+                                <Center flexDir="column" title="ATK">
+                                    <Swords size={10} />
+                                    <Text fontSize="3xs">{stats.atk ?? 0}</Text>
+                                </Center>
+                                <Center flexDir="column" title="DEF">
+                                    <Shield size={10} />
+                                    <Text fontSize="3xs">{stats.def ?? 0}</Text>
+                                </Center>
+                                <Center flexDir="column" title="EVS">
+                                    <Zap size={10} />
+                                    <Text fontSize="3xs">{stats.evs ?? 0}</Text>
+                                </Center>
+                                <Center flexDir="column" title="ACC">
+                                    <Crosshair size={10} />
+                                    <Text fontSize="3xs">{stats.acc ?? 0}</Text>
+                                </Center>
+                                <Center flexDir="column" title="CRT">
+                                    <Sparkles size={10} />
+                                    <Text fontSize="3xs">{stats.crt ?? 0}</Text>
+                                </Center>
+                            </SimpleGrid>
                         </Flex>
                     )
                 })}
@@ -205,7 +185,7 @@ export default function JourneySelection() {
                 mt={6}
                 colorScheme="green"
                 size="lg"
-                isDisabled={selectedIds.length === 0}
+                isDisabled={selectedIds.length < maxSelectable}
                 isLoading={loading}
                 onClick={startJourney}
             >

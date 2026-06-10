@@ -8,6 +8,7 @@ import EncounterModal from "./EventModals/EncounterModal";
 import CaptureModal from "./Capture/CaptureModal";
 import AugmentsModal from "./Augments/AugmentsModal";
 import GymModal from "./Gym/GymModal";
+import StarterKitModal from "./StarterKit/StarterKitModal";
 
 export default function ModalController() {
     const { 
@@ -26,10 +27,11 @@ export default function ModalController() {
         nextGym,
         setTrainingCamp,
         setActiveTab,
-        setLoading,
         setTurnPhases,
         setCurrentPhaseIndex,
         setFarm,
+        setCraft,
+        setPlayer,
     } = useContext(PlayerContext)
     const [augments, setAugments] = useState({ type: '', list: []})
     const [capturedPokemon, setCapturedPokemon] = useState({})
@@ -82,6 +84,59 @@ export default function ModalController() {
             // Update farm state from turn tick
             if (res.farm) setFarm(res.farm)
 
+            // Update craft state from turn tick
+            if (res.craft) setCraft(res.craft)
+
+            // Update balls (craft may have produced pokeballs)
+            if (res.balls) setPlayer(prev => ({ ...prev, balls: res.balls }))
+
+            // Farm notifications
+            if (res.farmNotifications?.length) {
+                res.farmNotifications.forEach(n => {
+                    if (n.type === 'ready') {
+                        handleToast({
+                            id: `farm-ready-${n.plotId}`,
+                            title: 'Berry ready!',
+                            description: 'A berry is ready to harvest on your farm!',
+                            duration: 5000,
+                            position: 'bottom-left',
+                            status: 'info',
+                        })
+                    }
+                })
+            }
+
+            // Craft notifications
+            if (res.craftNotifications?.length) {
+                res.craftNotifications.forEach(n => {
+                    if (n.type === 'broken') {
+                        handleToast({
+                            id: `craft-broken-${n.machineId}`,
+                            title: 'Machine broke!',
+                            description: 'A craft machine broke down! Repair it for 1 token.',
+                            duration: 5000,
+                            position: 'bottom-left',
+                            status: 'warning',
+                        })
+                    }
+                })
+            }
+            if (res.craftProduced?.length) {
+                const summary = {}
+                res.craftProduced.forEach(p => {
+                    summary[p.type] = (summary[p.type] || 0) + 1
+                })
+                const desc = Object.entries(summary).map(([type, count]) => `${count}x ${type}`).join(', ')
+                handleToast({
+                    id: `craft-produced-${res.turn}`,
+                    title: 'Craft produced!',
+                    description: desc,
+                    duration: 5000,
+                    position: 'bottom-left',
+                    status: 'success',
+                })
+            }
+
             // Set turn phases from server
             const phases = res.phases || ['freeActions']
             setTurnPhases(phases)
@@ -104,8 +159,7 @@ export default function ModalController() {
         })
 
         socket.on('player-capture-starters', () => {
-            updateGame({ openEncounterModal: false })
-            setLoading({ loading: false })
+            updateGame({ openEncounterModal: false, openStarterKitModal: true })
         })
 
         return () => {
@@ -157,6 +211,7 @@ export default function ModalController() {
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
             {game.openAugmentsModal && <AugmentsModal augments={augments} />}
+            {game.openStarterKitModal && <StarterKitModal />}
         </>
     )
 }

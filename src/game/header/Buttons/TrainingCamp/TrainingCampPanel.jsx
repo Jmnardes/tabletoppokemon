@@ -6,7 +6,7 @@ import coinIcon from "@assets/images/game/coin.png";
 import PokeList from "@features/pokemon/PokeList";
 
 const MAX_SLOTS = 3;
-const getSlotCost = (currentSlots) => currentSlots * 3;
+const getSlotCost = (currentSlots) => 3;
 
 function ActiveSlot({ entry, onRemove }) {
     const { pokemon, status } = entry;

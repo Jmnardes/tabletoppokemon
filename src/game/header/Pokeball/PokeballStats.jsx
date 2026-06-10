@@ -12,8 +12,6 @@ import potionIcon from '@assets/images/items/potion.png'
 import superPotionIcon from '@assets/images/items/super-potion.png'
 import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 
-import { FaInfinity } from "react-icons/fa"
-
 export default function PokeballStats() {
     const { player } = useContext(PlayerContext)
 
@@ -32,7 +30,7 @@ export default function PokeballStats() {
                 <Image src={hyperPotionIcon} title={'Hyper Potion'} w="24px" />
             </Center>
             <Center mx={1} ml={3}>
-                <FaInfinity size={18} />
+                <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.pokeball}x</Text>
                 <Image
                     src={greatballIcon} 
                     title={'+0'}

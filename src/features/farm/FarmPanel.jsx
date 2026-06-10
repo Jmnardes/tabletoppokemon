@@ -1,24 +1,31 @@
-import { useContext } from "react"
-import { Button, Flex, IconButton, Image, SimpleGrid, Text, Tooltip } from "@chakra-ui/react"
+import { useContext, useState } from "react"
+import {
+    Button, Center, Flex, IconButton, Image, Modal, ModalBody,
+    ModalContent, ModalCloseButton, ModalHeader, ModalOverlay,
+    SimpleGrid, Text, Tooltip
+} from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
+import { getBerryIcon } from "@utils/berryIcon"
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
+import groundImg from '@assets/images/farm/ground.png'
 import seedImg from '@assets/images/farm/seed.png'
 import sproutImg from '@assets/images/farm/sprout.png'
 import budImg from '@assets/images/farm/bud.png'
 import rottenImg from '@assets/images/farm/rotten.png'
+import berryIcon from '@assets/images/berries/berry.png'
 
 const MAX_SLOTS = 6
 
-const getSlotCost = (slotIndex) => 2 * (slotIndex - 1)
+const getSlotCost = (slotIndex) => 5
 
 const getPlotImage = (plot) => {
     if (plot.status === 'rotted') return rottenImg
-    if (plot.status === 'ready') return budImg
+    if (plot.status === 'ready') return sproutImg
     if (plot.turnsLeft >= 3) return seedImg
-    if (plot.turnsLeft >= 2) return sproutImg
-    return budImg
+    if (plot.turnsLeft >= 1) return budImg
+    return seedImg
 }
 
 function PlotCard({ plot, onHarvest, onFertilize, onRevive, dust, tokens }) {
@@ -93,12 +100,10 @@ function LockedSlot({ slotIndex, isNext, tokens, onBuy }) {
             justifyContent="center"
             textAlign="center"
             minH="120px"
-            borderWidth="2px"
-            borderStyle="dashed"
-            borderColor={isNext ? 'blue.400' : 'whiteAlpha.200'}
             borderRadius="lg"
             opacity={isNext ? 1 : 0.3}
         >
+            <Image src={groundImg} w="100px" opacity={0.4} />
             {isNext ? (
                 <Button
                     size="sm"
@@ -120,6 +125,7 @@ function LockedSlot({ slotIndex, isNext, tokens, onBuy }) {
 
 export default function FarmPanel() {
     const { farm, setFarm, player, setPlayer, setBerries, emit, setLoading, handleToast } = useContext(PlayerContext)
+    const [harvestedBerry, setHarvestedBerry] = useState(null)
 
     if (!farm) {
         return (
@@ -139,12 +145,7 @@ export default function FarmPanel() {
             if (result?.farm) setFarm(result.farm)
             if (result?.berries) setBerries(result.berries)
             if (result?.harvestedBerry) {
-                handleToast({
-                    title: result.harvestedBerry.name || 'Berry',
-                    description: 'You harvested a berry!',
-                    status: 'success',
-                    duration: 4000,
-                })
+                setHarvestedBerry(result.harvestedBerry)
             }
         } catch (error) {
             handleToast({ title: 'Error', description: error.message, status: 'error' })
@@ -229,6 +230,31 @@ export default function FarmPanel() {
                     )
                 })}
             </SimpleGrid>
+
+            {harvestedBerry && (
+                <Modal isOpen onClose={() => setHarvestedBerry(null)} isCentered size="sm">
+                    <ModalOverlay bg="blackAlpha.600" />
+                    <ModalContent>
+                        <ModalHeader textAlign="center">Berry Harvested!</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody pb={6}>
+                            <Center flexDir="column" gap={3}>
+                                <Image
+                                    src={getBerryIcon(harvestedBerry.type)}
+                                    fallbackSrc={berryIcon}
+                                    w="64px"
+                                />
+                                <Text fontSize="lg" fontWeight="bold">
+                                    {harvestedBerry.name} Berry
+                                </Text>
+                                <Text fontSize="sm" color="gray.300" textAlign="center">
+                                    {harvestedBerry.effect?.description}
+                                </Text>
+                            </Center>
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
+            )}
         </Flex>
     )
 }

@@ -74,7 +74,7 @@ export default function PokeUpgrade({ selectedPokemon, setSelectedPokemon }) {
     const UpgradeSlot = ({ item, isDust }) => {
         const modalTitle = `Use ${isDust ? 'dust' : (item.name + ' berry')}?`
         const description = isDust
-            ? "By using a Dust in your pokemon, you will increase the chance for him to level up on the next turn, but it will only apply the next turn. The more Dusts you use higher are the chances."
+            ? "Grants +1 EXP at the end of each turn. Only 1 dust is consumed per turn. Can be stacked up to 5."
             : (item.effect.description + `The berry has ${item.turns} turns duration.`)
         const isDisabled = isDust 
             ? item.amount === 0 || !selectedPokemon 

@@ -128,19 +128,19 @@ export default function GameLobby() {
                     name1={'Badges to win'}
                     data1={session.badgesToWin}
                     name2={'Team length'}
-                    data2={session.teamLength}
+                    data2={6}
                 />
                 <ConfigurationSlot 
                     name1={'Stages/journey'}
                     data1={session.stagesPerJourney}
-                    name2={'Battle frequency'}
-                    data2={session.battleFrequency}
+                    name2={'Journey team'}
+                    data2={session.journeyTeamLength}
                 />
                 <ConfigurationSlot 
                     name1={'Gym strength'}
                     data1={session.gymStrengthBonus}
-                    name2={'Generation'}
-                    data2={session.generation}
+                    name2={'Battle frequency'}
+                    data2={session.battleFrequency}
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>

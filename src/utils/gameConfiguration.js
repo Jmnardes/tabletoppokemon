@@ -14,7 +14,7 @@ export const gameConfig = {
     },
     
     stagesPerJourney: {
-        default: 8,
+        default: 10,
         min: 5,
         max: 20,
         step: 1,

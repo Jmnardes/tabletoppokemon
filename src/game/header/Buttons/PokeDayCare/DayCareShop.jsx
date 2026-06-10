@@ -4,6 +4,7 @@ import PlayerContext from "@context/PlayerContext";
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
+import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import potionIcon from '@assets/images/items/potion.png'
@@ -39,6 +40,14 @@ export default function DayCareShop() {
             }
 
             switch (result.item) {
+                case 'pokeball':
+                    handleToast({
+                        ...toastConfig,
+                        title: 'Pokeball',
+                        description: 'A new Pokeball has been added to your bag',
+                        icon: <Image src={pokeballIcon} w={12} />
+                    })
+                    break
                 case 'greatball':
                     handleToast({
                         ...toastConfig,
@@ -145,6 +154,12 @@ export default function DayCareShop() {
                         </Tr>
                     </Thead>
                     <Tbody>
+                        <TableItem
+                            icon={pokeballIcon}
+                            name={'Pokeball'}
+                            item={'pokeball'}
+                            price={1}
+                        ></TableItem>
                         <TableItem
                             icon={dustIcon}
                             name={'Dust'}

@@ -834,6 +834,7 @@ export function PlayerProvider({children}) {
             pokemonData,
             teamIds,
             boxIds,
+            setBoxIds,
             setPokemon,
             setPokemons,
             updatePokemon,

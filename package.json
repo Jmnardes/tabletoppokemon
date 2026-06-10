@@ -27,7 +27,7 @@
     "eject": "react-app-rewired eject",
     "dev": "set PORT=3078 && react-app-rewired start",
     "lint": "eslint src/",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "eslintConfig": {
     "extends": [

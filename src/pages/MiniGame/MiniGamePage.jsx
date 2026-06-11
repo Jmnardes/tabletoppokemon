@@ -3,22 +3,18 @@ import { Button, Flex, Heading, Image, Text, useColorMode } from "@chakra-ui/rea
 import { FaArrowLeft } from "react-icons/fa"
 
 import pokeballIcon from "@assets/images/pokeballs/pokeball.png"
-import ThrowGame from "./ThrowGame"
+import ThrowCatchGame from "./ThrowCatchGame"
 
 export default function MiniGamePage({ setMiniGame }) {
   const { colorMode } = useColorMode()
-  const [selectedGame, setSelectedGame] = useState(null)
+  const [playing, setPlaying] = useState(false)
 
   const bgColor = colorMode === "light" ? "gray.400" : "gray.700"
-
-  const handleFinish = (bonus) => {
-    console.log("Throw result bonus:", bonus)
-  }
 
   return (
     <Flex direction="column" align="center" h="full" w="full">
       <Flex w="full" p={4}>
-        <Button h={12} onClick={() => selectedGame ? setSelectedGame(null) : setMiniGame(false)}>
+        <Button h={12} onClick={() => playing ? setPlaying(false) : setMiniGame(false)}>
           <FaArrowLeft size="16px" />
         </Button>
       </Flex>
@@ -31,7 +27,7 @@ export default function MiniGamePage({ setMiniGame }) {
         w="full"
         maxW="600px"
       >
-        {!selectedGame ? (
+        {!playing ? (
           <>
             <Heading size="lg" mb={8}>Mini Games</Heading>
             <Flex
@@ -46,17 +42,17 @@ export default function MiniGamePage({ setMiniGame }) {
               <Button
                 w="100%"
                 h={16}
-                onClick={() => setSelectedGame("throw")}
+                onClick={() => setPlaying(true)}
                 leftIcon={<Image src={pokeballIcon} w={5} h={5} />}
               >
-                <Text>Throw</Text>
+                <Text>Catch</Text>
               </Button>
             </Flex>
           </>
         ) : (
           <>
-            <Heading size="md" mb={4}>Throw</Heading>
-            <ThrowGame onFinish={handleFinish} />
+            <Heading size="md" mb={4}>Catch</Heading>
+            <ThrowCatchGame onFinish={(result) => console.log("Catch result:", result)} />
           </>
         )}
       </Flex>

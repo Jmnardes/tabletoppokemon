@@ -5,10 +5,10 @@ import PlayerContext from "@context/PlayerContext";
 import bagIcon from '@assets/images/game/bag.png';
 import gymIcon from '@assets/images/game/battle.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
-import fightIcon from '@assets/images/items/fight.png';
+import fightIcon from '@assets/images/training/dummy.png';
 import chipIcon from '@assets/images/game/chip.png';
-import farmIcon from '@assets/images/berries/berry.png';
-import craftIcon from '@assets/images/game/pokedex.png';
+import farmIcon from '@assets/images/farm/sprout.png';
+import craftIcon from '@assets/images/craft/machine-on.png';
 
 import { FaArrowRight } from "react-icons/fa";
 

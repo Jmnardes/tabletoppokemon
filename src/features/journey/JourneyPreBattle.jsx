@@ -1,5 +1,5 @@
-import { useContext, useState } from "react"
-import { Flex, Text, Image, Button, Box, Badge, VStack, HStack, Progress, useColorMode, IconButton, Tooltip } from "@chakra-ui/react"
+import { useContext, useState, useEffect } from "react"
+import { Flex, Text, Image, Button, Box, Badge, VStack, HStack, Progress, useColorMode, IconButton, Tooltip, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
@@ -27,6 +27,23 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
         const status = journeyState.playerTeamStatus || journeyState.playerTeam
         return status.filter(p => !p.defeated && p.currentHp !== 0).map(p => p.id)
     })
+
+    // Remove newly defeated pokémon from playerOrder when status updates
+    useEffect(() => {
+        const status = journeyState.playerTeamStatus
+        if (!status) return
+        setPlayerOrder(prev => prev.filter(id => {
+            const p = status.find(s => s.id === id)
+            return p && !p.defeated && p.currentHp !== 0
+        }))
+    }, [journeyState.playerTeamStatus])
+
+    // Derive defeated pokémon list from current status
+    const defeatedPokes = (() => {
+        const status = journeyState.playerTeamStatus || journeyState.playerTeam
+        if (!status) return []
+        return status.filter(p => p.defeated || p.currentHp === 0).map(p => p.id)
+    })()
 
     const wildIndex = journeyState.currentWildIndex || 0
     const currentWild = journeyState.wildTeam?.[wildIndex]
@@ -225,6 +242,58 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                             )
                         })}
                     </VStack>
+
+                    {/* Defeated Pokémon Section */}
+                    {defeatedPokes.length > 0 && (
+                        <>
+                            <Divider my={3} borderColor="red.400" opacity={0.5} />
+                            <Text fontSize="xs" fontWeight="bold" color="red.400" mb={2}>
+                                Defeated ({defeatedPokes.length})
+                            </Text>
+                            <VStack spacing={2} w="100%" maxW="400px">
+                                {defeatedPokes.map((pokeId) => {
+                                    const poke = getPlayerPokemonData(pokeId)
+                                    if (!poke) return null
+                                    const maxHp = poke.maxHp ?? poke.stats?.hp ?? 1
+
+                                    return (
+                                        <HStack
+                                            key={pokeId}
+                                            w="100%"
+                                            bg="gray.600"
+                                            border="1px solid"
+                                            borderColor="gray.500"
+                                            borderRadius={8}
+                                            p={2}
+                                            spacing={3}
+                                            opacity={0.5}
+                                        >
+                                            <Badge colorScheme="red">✗</Badge>
+                                            <Image
+                                                src={poke.sprites?.front || poke.sprites?.main}
+                                                w="32px" h="32px"
+                                                filter="grayscale(1)"
+                                                fallback={<Text fontSize="xl" w="32px" h="32px" textAlign="center">?</Text>}
+                                            />
+                                            <VStack align="start" spacing={0} flex="1">
+                                                <Text fontSize="xs" fontWeight="bold">{poke.level} - {poke.name}</Text>
+                                                <HStack spacing={1} w="100%">
+                                                    <Text fontSize="2xs" color="red.400">HP</Text>
+                                                    <Progress
+                                                        value={0} max={maxHp}
+                                                        size="xs" flex="1"
+                                                        colorScheme="red"
+                                                        borderRadius="full"
+                                                    />
+                                                    <Text fontSize="2xs" color="red.400">0/{maxHp}</Text>
+                                                </HStack>
+                                            </VStack>
+                                        </HStack>
+                                    )
+                                })}
+                            </VStack>
+                        </>
+                    )}
                 </Flex>
 
                 {/* Wild Pokemon - RIGHT */}

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import {
-    Button, Center, Flex, IconButton, Image, Modal, ModalBody,
+    Badge, Box, Button, Center, Divider, Flex, HStack, IconButton, Image, Modal, ModalBody,
     ModalContent, ModalCloseButton, ModalHeader, ModalOverlay,
     SimpleGrid, Text, Tooltip
 } from "@chakra-ui/react"
@@ -17,6 +17,14 @@ import rottenImg from '@assets/images/farm/rotten.png'
 import berryIcon from '@assets/images/berries/berry.png'
 
 const MAX_SLOTS = 6
+const SEED_UPGRADE_COST = 5
+const MAX_SEED_LEVEL = 3
+
+const SEED_LEVELS = {
+    1: { common: 80, uncommon: 14, rare: 6 },
+    2: { common: 70, uncommon: 20, rare: 10 },
+    3: { common: 60, uncommon: 26, rare: 14 },
+}
 
 const getSlotCost = (slotIndex) => 5
 
@@ -126,6 +134,7 @@ function LockedSlot({ slotIndex, isNext, tokens, onBuy }) {
 export default function FarmPanel() {
     const { farm, setFarm, player, setPlayer, setBerries, emit, setLoading, handleToast } = useContext(PlayerContext)
     const [harvestedBerry, setHarvestedBerry] = useState(null)
+    const [showNextLevel, setShowNextLevel] = useState(false)
 
     if (!farm) {
         return (
@@ -137,6 +146,10 @@ export default function FarmPanel() {
 
     const dust = player?.items?.dust || 0
     const tokens = player?.daycare?.token || 0
+    const seedLevel = farm.seedLevel || 1
+    const rates = SEED_LEVELS[seedLevel] || SEED_LEVELS[1]
+    const nextRates = SEED_LEVELS[seedLevel + 1]
+    const isMaxLevel = seedLevel >= MAX_SEED_LEVEL
 
     const handleHarvest = async (plotId) => {
         setLoading({ loading: true, text: 'Harvesting...' })
@@ -195,14 +208,45 @@ export default function FarmPanel() {
         setLoading({ loading: false })
     }
 
+    const handleUpgrade = async () => {
+        setLoading({ loading: true, text: 'Upgrading seeds...' })
+        try {
+            const result = await emit('farm-upgrade', {})
+            if (result?.farm) setFarm(result.farm)
+            if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }))
+            handleToast({
+                title: 'Seeds Upgraded',
+                description: `Seeds upgraded to Level ${(farm.seedLevel || 1) + 1}!`,
+                status: 'success',
+                duration: 4000,
+            })
+        } catch (error) {
+            handleToast({ title: 'Error', description: error.message, status: 'error' })
+        }
+        setLoading({ loading: false })
+    }
+
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
             <Text fontSize="lg" fontWeight="bold" textAlign="center">Berry Farm</Text>
-            <Text fontSize="small" textAlign="center" mt={1} mb={4}>
+            <Text fontSize="small" textAlign="center" mt={1} mb={2}>
                 Grow berries over time. Harvest them before they rot!
             </Text>
 
-            <SimpleGrid columns={2} spacing={3} mb={4}>
+            {/* Seed Level Badge */}
+            <Flex justify="center" mb={4}>
+                <Badge
+                    colorScheme={isMaxLevel ? 'yellow' : 'green'}
+                    fontSize="sm"
+                    px={3}
+                    py={1}
+                    borderRadius="full"
+                >
+                    Seed Lv. {seedLevel}
+                </Badge>
+            </Flex>
+
+            <SimpleGrid columns={3} spacing={3} mb={4}>
                 {Array.from({ length: MAX_SLOTS }).map((_, i) => {
                     const plot = farm.plots[i]
                     if (plot) {
@@ -230,6 +274,91 @@ export default function FarmPanel() {
                     )
                 })}
             </SimpleGrid>
+
+            {/* Farm Instructions Block */}
+            <Box
+                border="1px solid"
+                borderColor="whiteAlpha.300"
+                borderRadius="lg"
+                bg="gray.800"
+                p={4}
+                mb={4}
+            >
+                <Text fontSize="xs" fontWeight="bold" color="whiteAlpha.800" mb={1}>
+                    🌱 Farm Guide
+                </Text>
+                <Text fontSize="2xs" color="whiteAlpha.600" mb={3}>
+                    Each plot takes 4 turns to grow. Once ready, you have 2 turns to harvest before it rots. Use dust to fertilize and speed up growth by 1 turn.
+                </Text>
+
+                <Divider borderColor="whiteAlpha.200" mb={3} />
+
+                <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" mb={2}>
+                    Berry Chances (Lv. {seedLevel})
+                </Text>
+                <Flex flexDir="column" gap={1}>
+                    <HStack justify="space-between">
+                        <Text fontSize="2xs" color="whiteAlpha.700">Common</Text>
+                        <HStack spacing={1}>
+                            <Text fontSize="2xs" color="whiteAlpha.800" fontWeight="bold">{rates.common}%</Text>
+                            {showNextLevel && nextRates && (
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.common}%</Text>
+                            )}
+                        </HStack>
+                    </HStack>
+                    <HStack justify="space-between">
+                        <Text fontSize="2xs" color="blue.300">Uncommon</Text>
+                        <HStack spacing={1}>
+                            <Text fontSize="2xs" color="blue.300" fontWeight="bold">{rates.uncommon}%</Text>
+                            {showNextLevel && nextRates && (
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.uncommon}%</Text>
+                            )}
+                        </HStack>
+                    </HStack>
+                    <HStack justify="space-between">
+                        <Text fontSize="2xs" color="purple.300">Rare</Text>
+                        <HStack spacing={1}>
+                            <Text fontSize="2xs" color="purple.300" fontWeight="bold">{rates.rare}%</Text>
+                            {showNextLevel && nextRates && (
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.rare}%</Text>
+                            )}
+                        </HStack>
+                    </HStack>
+                </Flex>
+            </Box>
+
+            {/* Upgrade Button */}
+            {!isMaxLevel && (
+                <Flex justify="center" mb={4}>
+                    <Box
+                        onMouseEnter={() => setShowNextLevel(true)}
+                        onMouseLeave={() => setShowNextLevel(false)}
+                    >
+                        <Tooltip
+                            label={tokens < SEED_UPGRADE_COST
+                                ? `Need ${SEED_UPGRADE_COST} tokens (you have ${tokens})`
+                                : `Upgrade seeds to Lv. ${seedLevel + 1}`
+                            }
+                            hasArrow
+                        >
+                            <Button
+                                colorScheme="green"
+                                size="sm"
+                                onClick={handleUpgrade}
+                                isDisabled={tokens < SEED_UPGRADE_COST}
+                            >
+                                Upgrade seeds {SEED_UPGRADE_COST}
+                                <Image src={tokenIcon} w="16px" ml={1} />
+                            </Button>
+                        </Tooltip>
+                    </Box>
+                </Flex>
+            )}
+            {isMaxLevel && (
+                <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mb={4}>
+                    ★ Seeds at max level ★
+                </Text>
+            )}
 
             {harvestedBerry && (
                 <Modal isOpen onClose={() => setHarvestedBerry(null)} isCentered size="sm">

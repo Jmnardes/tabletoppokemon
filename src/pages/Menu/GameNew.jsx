@@ -2,7 +2,7 @@ import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, Nu
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import socket from "@client";
-import { gameConfig, validateTrainerName } from "@utils/gameConfiguration";
+import { gameConfig, validateTrainerName, sanitizeInput } from "@utils/gameConfiguration";
 
 export default function GameNew() {
     const [trainerName, setTrainerName] = useState('')
@@ -19,7 +19,7 @@ export default function GameNew() {
     const { t } = useTranslation()
 
     const handleTrainerName = (e) => {
-        let name = e.target.value
+        let name = sanitizeInput(e.target.value)
 
         if (validateTrainerName(name)) {
             setFormInvalid(false)
@@ -27,7 +27,7 @@ export default function GameNew() {
             setFormInvalid(true)
         }
 
-        setTrainerName(e.target.value)
+        setTrainerName(name)
     }
 
     return (

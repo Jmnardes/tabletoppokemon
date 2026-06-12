@@ -494,11 +494,12 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         socket.on('error', res => {
-            if(Object.keys(res)) {
+            const message = res?.message || (typeof res === 'string' ? res : '')
+            if(message) {
                 handleToast({
                     id: 'error',
-                    title: 'Error',
-                    description: res,
+                    title: t('common.error'),
+                    description: message,
                     status: 'error',
                     position: 'top'
                 })

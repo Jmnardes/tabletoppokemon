@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Badge, Box, Button, Divider, Flex, HStack, Image, Text, Tooltip } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import ConfirmationModal from "@components/Modal/ConfirmationModal";
 import coinIcon from "@assets/images/game/coin.png";
@@ -21,6 +22,7 @@ const EQUIPMENT_LEVELS = {
 function ActiveSlot({ entry, onRemove, onRepair, tokens }) {
     const { pokemon, status, broken } = entry;
     const isSettling = status === "settling";
+    const { t } = useTranslation();
 
     return (
         <Flex
@@ -49,21 +51,21 @@ function ActiveSlot({ entry, onRemove, onRepair, tokens }) {
             <Text fontSize="xs" color="gray.400">Lv.{pokemon.level} • {pokemon.exp ?? 0} exp</Text>
             {broken ? (
                 <>
-                    <Badge colorScheme="red" fontSize="2xs">Broken</Badge>
-                    <Tooltip label={tokens < 1 ? 'Not enough tokens' : 'Repair for 1 token'} hasArrow>
+                    <Badge colorScheme="red" fontSize="2xs">{t('training.broken')}</Badge>
+                    <Tooltip label={tokens < 1 ? t('training.notEnoughTokens') : t('training.repairFor')} hasArrow>
                         <Button colorScheme="red" size="xs" mt={1}
                             onClick={() => onRepair(pokemon.id)} isDisabled={tokens < 1}>
-                            <Image src={coinIcon} w="14px" mr={1} /> Repair (1)
+                            <Image src={coinIcon} w="14px" mr={1} /> {t('training.repair')}
                         </Button>
                     </Tooltip>
                 </>
             ) : isSettling ? (
-                <Badge colorScheme="orange" fontSize="2xs">Settling...</Badge>
+                <Badge colorScheme="orange" fontSize="2xs">{t('training.settling')}</Badge>
             ) : (
                 <>
-                    <Badge colorScheme="green" fontSize="2xs">Training</Badge>
+                    <Badge colorScheme="green" fontSize="2xs">{t('training.title')}</Badge>
                     <Button colorScheme="red" size="xs" variant="ghost" mt={1} onClick={() => onRemove(pokemon.id)}>
-                        Remove
+                        {t('training.remove')}
                     </Button>
                 </>
             )}
@@ -72,6 +74,7 @@ function ActiveSlot({ entry, onRemove, onRepair, tokens }) {
 }
 
 function EmptySlot() {
+    const { t } = useTranslation();
     return (
         <Flex
             flexDir="column"
@@ -88,13 +91,14 @@ function EmptySlot() {
             borderRadius="lg"
         >
             <Image src={dummyIcon} w="48px" h="48px" objectFit="contain" opacity={0.3} mb={1} />
-            <Text fontSize="xs" color="whiteAlpha.500">Select a Pokémon</Text>
+            <Text fontSize="xs" color="whiteAlpha.500">{t('training.selectPokemon')}</Text>
         </Flex>
     );
 }
 
 function LockedSlot({ isNext, tokens, onBuy }) {
     const canAfford = tokens >= SLOT_COST;
+    const { t } = useTranslation();
 
     return (
         <Flex
@@ -112,6 +116,7 @@ function LockedSlot({ isNext, tokens, onBuy }) {
             borderRadius="lg"
             opacity={isNext ? 1 : 0.3}
         >
+            <Image src={dummyIcon} w="48px" h="48px" objectFit="contain" opacity={isNext ? 0.5 : 0.2} mb={1} />
             {isNext ? (
                 <Button
                     size="sm"
@@ -119,13 +124,13 @@ function LockedSlot({ isNext, tokens, onBuy }) {
                     variant="outline"
                     onClick={onBuy}
                     isDisabled={!canAfford}
-                    title={canAfford ? `Buy for ${SLOT_COST} tokens` : `Need ${SLOT_COST} tokens`}
+                    title={t('training.buySlot', { cost: SLOT_COST })}
                 >
                     <Image src={coinIcon} w="16px" mr={1} />
                     {SLOT_COST}
                 </Button>
             ) : (
-                <Text fontSize="xs" color="whiteAlpha.400">Locked</Text>
+                <Text fontSize="xs" color="whiteAlpha.400">{t('training.locked')}</Text>
             )}
         </Flex>
     );
@@ -143,6 +148,7 @@ export default function TrainingCampPanel() {
         getBoxPokemons,
         handleToast,
     } = useContext(PlayerContext);
+    const { t } = useTranslation();
 
     const [confirmRemove, setConfirmRemove] = useState({ open: false, id: null });
     const [showNextLevel, setShowNextLevel] = useState(false);
@@ -157,64 +163,64 @@ export default function TrainingCampPanel() {
     const isMaxLevel = equipmentLevel >= MAX_EQUIPMENT_LEVEL;
 
     const handleSelect = async (pokeId) => {
-        setLoading({ loading: true, text: "Selecting for training..." });
+        setLoading({ loading: true, text: t('training.selecting') });
         try {
             const result = await emit("player-training-select", { pokemonId: pokeId });
             if (result?.trainingCamp) setTrainingCamp(result.trainingCamp);
             if (result?.boxIds) setBoxIds([...result.boxIds]);
         } catch (error) {
-            handleToast({ title: "Error", description: error.message, status: "error" });
+            handleToast({ title: t('common.error'), description: error.message, status: "error" });
         }
         setLoading({ loading: false });
     };
 
     const handleRemove = async (pokeId) => {
-        setLoading({ loading: true, text: "Removing from training..." });
+        setLoading({ loading: true, text: t('training.removing') });
         try {
             const result = await emit("player-training-remove", { pokemonId: pokeId });
             if (result?.trainingCamp) setTrainingCamp(result.trainingCamp);
             if (result?.boxIds) setBoxIds([...result.boxIds]);
         } catch (error) {
-            handleToast({ title: "Error", description: error.message, status: "error" });
+            handleToast({ title: t('common.error'), description: error.message, status: "error" });
         }
         setLoading({ loading: false });
         setConfirmRemove({ open: false, id: null });
     };
 
     const handleBuySlot = async () => {
-        setLoading({ loading: true, text: "Buying slot..." });
+        setLoading({ loading: true, text: t('training.buying') });
         try {
             const result = await emit("training-buy-slot", {});
             if (result?.trainingCamp) setTrainingCamp(result.trainingCamp);
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }));
-            handleToast({ title: "New Slot", description: "Training slot unlocked!", status: "success", duration: 3000 });
+            handleToast({ title: t('training.newSlot'), description: t('training.slotUnlocked'), status: "success", duration: 3000 });
         } catch (error) {
-            handleToast({ title: "Error", description: error.message, status: "error" });
+            handleToast({ title: t('common.error'), description: error.message, status: "error" });
         }
         setLoading({ loading: false });
     };
 
     const handleRepair = async (pokemonId) => {
-        setLoading({ loading: true, text: "Repairing..." });
+        setLoading({ loading: true, text: t('training.repairing') });
         try {
             const result = await emit("training-repair", { pokemonId });
             if (result?.trainingCamp) setTrainingCamp(result.trainingCamp);
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }));
         } catch (error) {
-            handleToast({ title: "Error", description: error.message, status: "error" });
+            handleToast({ title: t('common.error'), description: error.message, status: "error" });
         }
         setLoading({ loading: false });
     };
 
     const handleUpgrade = async () => {
-        setLoading({ loading: true, text: "Upgrading equipment..." });
+        setLoading({ loading: true, text: t('training.upgrading') });
         try {
             const result = await emit("training-upgrade", {});
             if (result?.trainingCamp) setTrainingCamp(result.trainingCamp);
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }));
-            handleToast({ title: "Equipment Upgraded", description: `Equipment upgraded to Level ${equipmentLevel + 1}!`, status: "success", duration: 4000 });
+            handleToast({ title: t('training.upgraded'), description: t('training.upgradedDesc', { level: equipmentLevel + 1 }), status: "success", duration: 4000 });
         } catch (error) {
-            handleToast({ title: "Error", description: error.message, status: "error" });
+            handleToast({ title: t('common.error'), description: error.message, status: "error" });
         }
         setLoading({ loading: false });
     };
@@ -223,9 +229,9 @@ export default function TrainingCampPanel() {
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
-            <Text fontSize="lg" fontWeight="bold" textAlign="center">Training Camp</Text>
+            <Text fontSize="lg" fontWeight="bold" textAlign="center">{t('training.title')}</Text>
             <Text fontSize="small" textAlign="center" mt={1} mb={2}>
-                Place a Pokémon to train. Equipment rolls each turn for EXP.
+                {t('training.subtitle')}
             </Text>
 
             {/* Equipment Level Badge */}
@@ -237,7 +243,7 @@ export default function TrainingCampPanel() {
                     py={1}
                     borderRadius="full"
                 >
-                    Equipment Lv. {equipmentLevel}
+                    {t('training.equipmentLevel', { level: equipmentLevel })}
                 </Badge>
             </Flex>
 
@@ -249,7 +255,7 @@ export default function TrainingCampPanel() {
                 />
             )}
             {boxPokemons.length === 0 && (
-                <Text color="gray.400" textAlign="center" mb={2}>No Pokémon in box</Text>
+                <Text color="gray.400" textAlign="center" mb={2}>{t('training.noBoxPokemon')}</Text>
             )}
 
             <Flex justify="center" gap={4} flexWrap="wrap" mt={3}>
@@ -292,16 +298,16 @@ export default function TrainingCampPanel() {
                 mb={4}
             >
                 <Text fontSize="xs" fontWeight="bold" color="whiteAlpha.800" mb={1}>
-                    ⚙ Equipment Guide
+                    ⚙ {t('training.equipmentGuide')}
                 </Text>
                 <Text fontSize="2xs" color="whiteAlpha.600" mb={3}>
-                    After settling for 1 turn, equipment rolls each turn for EXP. It may break — repair with 1 token.
+                    {t('training.guideDesc')}
                 </Text>
 
                 <Divider borderColor="whiteAlpha.200" mb={3} />
 
                 <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" mb={2}>
-                    Training Rates (Lv. {equipmentLevel})
+                    {t('training.trainingRates', { level: equipmentLevel })}
                 </Text>
                 <Flex flexDir="column" gap={1}>
                     <HStack justify="space-between">
@@ -333,7 +339,7 @@ export default function TrainingCampPanel() {
                     </HStack>
                     <Divider borderColor="whiteAlpha.100" my={1} />
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="whiteAlpha.500">Skip (no output)</Text>
+                        <Text fontSize="2xs" color="whiteAlpha.500">{t('training.skip')}</Text>
                         <HStack spacing={1}>
                             <Text fontSize="2xs" color="whiteAlpha.500">{rates.skip}%</Text>
                             {showNextLevel && nextRates && (
@@ -342,7 +348,7 @@ export default function TrainingCampPanel() {
                         </HStack>
                     </HStack>
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="red.400">Break</Text>
+                        <Text fontSize="2xs" color="red.400">{t('training.break')}</Text>
                         <HStack spacing={1}>
                             <Text fontSize="2xs" color="red.400">{rates.break}%</Text>
                             {showNextLevel && nextRates && (
@@ -362,8 +368,8 @@ export default function TrainingCampPanel() {
                     >
                         <Tooltip
                             label={tokens < UPGRADE_COST
-                                ? `Need ${UPGRADE_COST} tokens (you have ${tokens})`
-                                : `Upgrade equipment to Lv. ${equipmentLevel + 1}`
+                                ? t('training.needTokens', { cost: UPGRADE_COST, current: tokens })
+                                : t('training.upgradeTooltip', { level: equipmentLevel + 1 })
                             }
                             hasArrow
                         >
@@ -373,7 +379,7 @@ export default function TrainingCampPanel() {
                                 onClick={handleUpgrade}
                                 isDisabled={tokens < UPGRADE_COST}
                             >
-                                Upgrade equipment {UPGRADE_COST}
+                                {t('training.upgradeEquipment')} {UPGRADE_COST}
                                 <Image src={coinIcon} w="16px" ml={1} />
                             </Button>
                         </Tooltip>
@@ -382,15 +388,15 @@ export default function TrainingCampPanel() {
             )}
             {isMaxLevel && (
                 <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mb={4}>
-                    ★ Equipment at max level ★
+                    {t('training.maxLevel')}
                 </Text>
             )}
 
             {confirmRemove.open && (
                 <ConfirmationModal
                     event={() => handleRemove(confirmRemove.id)}
-                    modalTitle="Remove from Training Camp?"
-                    modalText="This Pokémon will return to your box."
+                    modalTitle={t('training.removeTitle')}
+                    modalText={t('training.removeDesc')}
                     isDisabled={false}
                     borderRadius={8}
                     flexDir="column"

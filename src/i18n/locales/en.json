@@ -456,5 +456,41 @@
   "taskBoard": {
     "title": "Tasks",
     "progress": "Progress: "
+  },
+
+  "training": {
+    "title": "Training Camp",
+    "subtitle": "Place a Pokémon to train. Equipment rolls each turn for EXP.",
+    "equipmentLevel": "Equipment Lv. {{level}}",
+    "noBoxPokemon": "No Pokémon in box",
+    "selectPokemon": "Select a Pokémon",
+    "locked": "Locked",
+    "buySlot": "Buy for {{cost}} tokens",
+    "needTokens": "Need {{cost}} tokens (you have {{current}})",
+    "settling": "Settling...",
+    "broken": "Broken",
+    "notEnoughTokens": "Not enough tokens",
+    "repairFor": "Repair for 1 token",
+    "repair": "Repair (1)",
+    "remove": "Remove",
+    "selecting": "Selecting for training...",
+    "removing": "Removing from training...",
+    "buying": "Buying slot...",
+    "repairing": "Repairing...",
+    "upgrading": "Upgrading equipment...",
+    "newSlot": "New Slot",
+    "slotUnlocked": "Training slot unlocked!",
+    "upgraded": "Equipment Upgraded",
+    "upgradedDesc": "Equipment upgraded to Level {{level}}!",
+    "upgradeEquipment": "Upgrade equipment",
+    "equipmentGuide": "Equipment Guide",
+    "guideDesc": "After settling for 1 turn, equipment rolls each turn for EXP. It may break — repair with 1 token.",
+    "trainingRates": "Training Rates (Lv. {{level}})",
+    "skip": "Skip (no output)",
+    "break": "Break",
+    "maxLevel": "★ Equipment at max level ★",
+    "removeTitle": "Remove from Training Camp?",
+    "removeDesc": "This Pokémon will return to your box.",
+    "upgradeTooltip": "Upgrade equipment to Lv. {{level}}"
   }
 }

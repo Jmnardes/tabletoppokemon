@@ -92,3 +92,11 @@ export const validateTrainerName = (name) => {
     return name.length >= gameConfig.trainerName.minLength && 
            name.length <= gameConfig.trainerName.maxLength;
 };
+
+export const sanitizeInput = (value) => {
+    return value.replace(/<[^>]*>/g, '').replace(/[^a-zA-Z0-9 _-]/g, '').trim();
+};
+
+export const validateSessionCode = (code) => {
+    return code.length >= 3 && /^[A-Z0-9]+$/i.test(code);
+};

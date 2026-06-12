@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
 import { stringToUpperCase } from "@utils";
-import { winAnimation, hitAnimation, missAnimation, textAnimation, littleBounceAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
+import { winAnimation, hitAnimation, critHitAnimation, defAnimation, missAnimation, textAnimation, littleBounceAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
 import { getAttackSprite } from "@utils/attackSprites";
 
 export default function BattleScreen({
@@ -24,16 +24,24 @@ export default function BattleScreen({
     const [isPlaying, setIsPlaying] = useState(false);
     const [logMessages, setLogMessages] = useState([]);
     const [projectile, setProjectile] = useState(null);
-    const turnsInMilisecondsDuration = 800;
     const animationInSecondsDuration = 0.5;
+
+    const getHitAnim = (hitType) => {
+      switch (hitType) {
+        case 'crit': return `${critHitAnimation} ${animationInSecondsDuration}s ease-in-out`
+        case 'half': return `${defAnimation} ${animationInSecondsDuration}s ease-in-out`
+        case 'miss': return `${missAnimation} ${animationInSecondsDuration}s ease-in-out`
+        default: return `${hitAnimation} ${animationInSecondsDuration}s ease-in-out`
+      }
+    }
     
-    const handleSelfHitAnimation = () => {
-      setSelfHitAnimation(`${hitAnimation} ${animationInSecondsDuration}s ease-in-out`);
+    const handleSelfHitAnimation = (hitType) => {
+      setSelfHitAnimation(getHitAnim(hitType));
       handleDamageTextAnimation();
     };
   
-    const handleOpponentHitAnimation = () => {
-      setOpponentHitAnimation(`${hitAnimation} ${animationInSecondsDuration}s ease-in-out`);
+    const handleOpponentHitAnimation = (hitType) => {
+      setOpponentHitAnimation(getHitAnim(hitType));
       handleDamageTextAnimation();
     };
   
@@ -60,52 +68,62 @@ export default function BattleScreen({
   
       if (isPlaying && currentLogIndex < battleLog.length) {
         const currentLog = battleLog[currentLogIndex];
+        const isMiss = currentLog.hitType === 'miss' || currentLog.damage === 0;
+        const isMyAttacker = currentLog.attacker.id === pokemon?.id;
 
-        if (currentLog.damage > 0) {
-          if (currentLog.defender.id === pokemon?.id) {
-            setMyHp((prevHp) => prevHp - currentLog.damage);
-          } else {
-            setOpponentHp((prevHp) => prevHp - currentLog.damage);
-          }
-  
-          if (currentLog.attacker.id === pokemon?.id) {
-            handleOpponentHitAnimation();
-            if (currentLog.hitType !== 'miss') {
-              setProjectile({ moveType: currentLog.attacker?.moveType, direction: 'right', key: currentLogIndex });
-            }
-          } else {
-            handleSelfHitAnimation();
-            if (currentLog.hitType !== 'miss') {
-              setProjectile({ moveType: currentLog.attacker?.moveType, direction: 'left', key: currentLogIndex });
-            }
-          }
-        } else {
-          if (currentLog.attacker.id === pokemon?.id) {
-            handleOpponentMissAnimation();
-          } else {
-            handleSelfMissAnimation();
-          }
+        // Phase 1: Fire projectile
+        if (!isMiss) {
+          setProjectile({
+            moveType: currentLog.attacker?.moveType,
+            direction: isMyAttacker ? 'right' : 'left',
+            key: currentLogIndex,
+          });
         }
-  
-        setLogMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            myPoke: currentLog.attacker.id === pokemon?.id,
-            hitType: currentLog.hitType,
-            attacker: currentLog.attacker.name,
-            defender: currentLog.defender.name,
-            fainted: currentLog.fainted,
-            message: battleLogMessage(currentLog.hitType, currentLog.attacker.name, currentLog.damage)
-          },
-        ]);
 
-        if (currentLogIndex === battleLog.length - 1) {
-          setBattleEnded(true)
-        }
-  
+        // Phase 2: Impact after projectile
+        const impactDelay = !isMiss ? 650 : 100;
         timer = setTimeout(() => {
-          setCurrentLogIndex((prevIndex) => prevIndex + 1);
-        }, turnsInMilisecondsDuration);
+          if (currentLog.damage > 0) {
+            if (currentLog.defender.id === pokemon?.id) {
+              setMyHp((prevHp) => prevHp - currentLog.damage);
+            } else {
+              setOpponentHp((prevHp) => prevHp - currentLog.damage);
+            }
+
+            if (isMyAttacker) {
+              handleOpponentHitAnimation(currentLog.hitType);
+            } else {
+              handleSelfHitAnimation(currentLog.hitType);
+            }
+          } else {
+            if (isMyAttacker) {
+              handleOpponentMissAnimation();
+            } else {
+              handleSelfMissAnimation();
+            }
+          }
+
+          setLogMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              myPoke: isMyAttacker,
+              hitType: currentLog.hitType,
+              attacker: currentLog.attacker.name,
+              defender: currentLog.defender.name,
+              fainted: currentLog.fainted,
+              message: battleLogMessage(currentLog.hitType, currentLog.attacker.name, currentLog.damage)
+            },
+          ]);
+
+          if (currentLogIndex === battleLog.length - 1) {
+            setBattleEnded(true)
+          }
+
+          // Phase 3: Advance
+          timer = setTimeout(() => {
+            setCurrentLogIndex((prevIndex) => prevIndex + 1);
+          }, 600);
+        }, impactDelay);
       }
   
       return () => clearTimeout(timer);
@@ -226,24 +244,20 @@ export default function BattleScreen({
             </Center>
             {/* Attack projectile */}
             {projectile && (
-              <img
+              <Image
                 key={`proj-${projectile.key}`}
                 src={getAttackSprite(projectile.moveType)}
                 alt="attack"
-                style={{
-                  position: 'absolute',
-                  width: '40px',
-                  height: '40px',
-                  left: projectile.direction === 'right' ? '25%' : '75%',
-                  top: '50%',
-                  marginTop: '-20px',
-                  imageRendering: 'pixelated',
-                  pointerEvents: 'none',
-                  zIndex: 10,
-                }}
-                css={{
-                  animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
-                }}
+                position="absolute"
+                w="40px"
+                h="40px"
+                left={projectile.direction === 'right' ? '25%' : '75%'}
+                top="50%"
+                mt="-20px"
+                sx={{ imageRendering: 'pixelated' }}
+                pointerEvents="none"
+                zIndex={10}
+                animation={`${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.7s ease-out forwards`}
                 onAnimationEnd={() => setProjectile(null)}
               />
             )}

@@ -120,28 +120,60 @@ export const textAnimation = keyframes`
 
 export const lungeRightAnimation = keyframes`
     0% { transform: translateX(0); }
-    20% { transform: translateX(30px); }
+    40% { transform: translateX(10px); }
     100% { transform: translateX(0); }
 `;
 
 export const lungeLeftAnimation = keyframes`
     0% { transform: translateX(0); }
-    20% { transform: translateX(-30px); }
+    40% { transform: translateX(-10px); }
     100% { transform: translateX(0); }
 `;
 
 export const projectileRightAnimation = keyframes`
     0% { transform: translateX(0) scale(0.5); opacity: 0; }
-    10% { transform: translateX(10px) scale(1); opacity: 1; }
-    70% { transform: translateX(120px) scale(1.1); opacity: 1; }
-    100% { transform: translateX(160px) scale(0.6); opacity: 0; }
+    10% { transform: translateX(15px) scale(1); opacity: 1; }
+    70% { transform: translateX(200px) scale(1.1); opacity: 1; }
+    100% { transform: translateX(280px) scale(0.6); opacity: 0; }
 `;
 
 export const projectileLeftAnimation = keyframes`
-    0% { transform: translateX(0) scale(0.5); opacity: 0; }
-    10% { transform: translateX(-10px) scale(1); opacity: 1; }
-    70% { transform: translateX(-120px) scale(1.1); opacity: 1; }
-    100% { transform: translateX(-160px) scale(0.6); opacity: 0; }
+    0% { transform: translateX(0) scale(0.5) scaleX(-1); opacity: 0; }
+    10% { transform: translateX(-15px) scale(1) scaleX(-1); opacity: 1; }
+    70% { transform: translateX(-200px) scale(1.1) scaleX(-1); opacity: 1; }
+    100% { transform: translateX(-280px) scale(0.6) scaleX(-1); opacity: 0; }
+`;
+
+export const journeyCritHitAnimation = keyframes`
+    0% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+    15% { transform: translate(-5px, 3px) scale(0.9); filter: brightness(2); }
+    30% { transform: translate(5px, -3px) scale(1.1); filter: brightness(0.4); }
+    45% { transform: translate(-4px, 2px) scale(0.92); filter: brightness(1.8); }
+    60% { transform: translate(4px, -1px) scale(1.08); filter: brightness(0.5); }
+    75% { transform: translate(-2px, 1px) scale(0.95); filter: brightness(1.4); }
+    100% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+`;
+
+export const journeyDefAnimation = keyframes`
+    0% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+    30% { transform: translate(-2px, 0) scale(0.97); filter: brightness(0.8); }
+    60% { transform: translate(1px, 0) scale(1); filter: brightness(1.1); }
+    100% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+`;
+
+export const critHitAnimation = keyframes`
+    0% { transform: translate(2px, 2px) rotate(4deg) scale(1.05); filter: brightness(1.5); }
+    25% { transform: translate(-3px, -2px) rotate(-4deg) scale(0.95); filter: brightness(0.5); }
+    50% { transform: translate(3px, 1px) rotate(3deg) scale(1.08); filter: brightness(1.6); }
+    75% { transform: translate(-2px, -1px) rotate(-2deg) scale(0.97); filter: brightness(0.6); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1.03); filter: brightness(1.3); }
+`;
+
+export const defAnimation = keyframes`
+    0% { transform: translate(0, 0) scale(1); filter: brightness(1); }
+    30% { transform: translate(-1px, 0) scale(0.98); filter: brightness(0.8); }
+    60% { transform: translate(1px, 0) scale(1); filter: brightness(1.1); }
+    100% { transform: translate(0, 0) scale(1); filter: brightness(1); }
 `;
 
 export const healAnimation = keyframes`

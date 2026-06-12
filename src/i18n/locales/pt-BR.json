@@ -456,5 +456,41 @@
   "taskBoard": {
     "title": "Tarefas",
     "progress": "Progresso: "
+  },
+
+  "training": {
+    "title": "Campo de Treino",
+    "subtitle": "Coloque um Pokémon para treinar. O equipamento rola EXP a cada turno.",
+    "equipmentLevel": "Equipamento Nv. {{level}}",
+    "noBoxPokemon": "Nenhum Pokémon na box",
+    "selectPokemon": "Selecione um Pokémon",
+    "locked": "Bloqueado",
+    "buySlot": "Comprar por {{cost}} tokens",
+    "needTokens": "Precisa de {{cost}} tokens (você tem {{current}})",
+    "settling": "Adaptando...",
+    "broken": "Quebrado",
+    "notEnoughTokens": "Tokens insuficientes",
+    "repairFor": "Reparar por 1 token",
+    "repair": "Reparar (1)",
+    "remove": "Remover",
+    "selecting": "Selecionando para treino...",
+    "removing": "Removendo do treino...",
+    "buying": "Comprando slot...",
+    "repairing": "Reparando...",
+    "upgrading": "Melhorando equipamento...",
+    "newSlot": "Novo Slot",
+    "slotUnlocked": "Slot de treino desbloqueado!",
+    "upgraded": "Equipamento Melhorado",
+    "upgradedDesc": "Equipamento melhorado para Nível {{level}}!",
+    "upgradeEquipment": "Melhorar equipamento",
+    "equipmentGuide": "Guia do Equipamento",
+    "guideDesc": "Após 1 turno de adaptação, o equipamento rola EXP a cada turno. Ele pode quebrar — repare com 1 token.",
+    "trainingRates": "Taxas de Treino (Nv. {{level}})",
+    "skip": "Pular (sem resultado)",
+    "break": "Quebrar",
+    "maxLevel": "★ Equipamento no nível máximo ★",
+    "removeTitle": "Remover do Campo de Treino?",
+    "removeDesc": "Este Pokémon voltará para sua box.",
+    "upgradeTooltip": "Melhorar equipamento para Nv. {{level}}"
   }
 }

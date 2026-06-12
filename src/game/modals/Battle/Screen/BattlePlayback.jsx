@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 
 import { colorByHitType, battleLogMessage } from "@utils/battle";
 import { stringToUpperCase } from "@utils";
-import { hitAnimation, missAnimation, textAnimation, winAnimation, littleBounceAnimation, slideOutLeft, slideOutRight, slideInLeft, slideInRight, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
+import { hitAnimation, critHitAnimation, defAnimation, missAnimation, textAnimation, winAnimation, littleBounceAnimation, slideOutLeft, slideOutRight, slideInLeft, slideInRight, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
 import { getAttackSprite } from "@utils/attackSprites";
 
 export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName, opponentTrainerName, onBattleEnd, onPokemonDefeated }) {
@@ -25,8 +25,16 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
     const [battleFinished, setBattleFinished] = useState(false)
     const timerRef = useRef(null)
 
-    const turnsMs = 800
     const animSecs = 0.5
+
+    const getHitAnim = (hitType) => {
+        switch (hitType) {
+            case 'crit': return `${critHitAnimation} ${animSecs}s ease-in-out`
+            case 'half': return `${defAnimation} ${animSecs}s ease-in-out`
+            case 'miss': return `${missAnimation} ${animSecs}s ease-in-out`
+            default: return `${hitAnimation} ${animSecs}s ease-in-out`
+        }
+    }
 
     const currentFight = fights[currentFightIndex]
     const myPoke = iAmPlayer1 ? currentFight?.player1Pokemon : currentFight?.player2Pokemon
@@ -83,35 +91,40 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
 
         const entry = log[currentLogIndex]
 
-        // Apply damage
+        // Apply damage — sequenced: projectile → impact → advance
         const attackerName = stringToUpperCase(entry.attacker?.name || '')
-        if (entry.damage > 0) {
-            if (entry.defender.id === myPoke?.id) {
+        const isMyDefender = entry.defender.id === myPoke?.id
+        const isMiss = entry.hitType === 'miss' || entry.damage === 0
+
+        setLastLogMessage(battleLogMessage(entry.hitType, attackerName, entry.damage))
+
+        // Phase 1: Fire projectile
+        if (!isMiss) {
+            setProjectile({
+                moveType: entry.attacker?.moveType,
+                direction: isMyDefender ? 'left' : 'right',
+                key: `${currentFightIndex}-${currentLogIndex}`,
+            })
+        }
+
+        // Phase 2: Impact after projectile
+        const impactDelay = !isMiss ? 650 : 100
+        timerRef.current = setTimeout(() => {
+            // Apply HP and defender animation
+            if (isMyDefender) {
                 setMyHp(prev => Math.max(0, prev - entry.damage))
-                setSelfHitAnim(`${hitAnimation} ${animSecs}s ease-in-out`)
-                if (entry.hitType !== 'miss') {
-                    setProjectile({ moveType: entry.attacker?.moveType, direction: 'left', key: `${currentFightIndex}-${currentLogIndex}` })
-                }
+                setSelfHitAnim(getHitAnim(entry.hitType))
             } else {
                 setOpponentHp(prev => Math.max(0, prev - entry.damage))
-                setOpponentHitAnim(`${hitAnimation} ${animSecs}s ease-in-out`)
-                if (entry.hitType !== 'miss') {
-                    setProjectile({ moveType: entry.attacker?.moveType, direction: 'right', key: `${currentFightIndex}-${currentLogIndex}` })
-                }
+                setOpponentHitAnim(getHitAnim(entry.hitType))
             }
-        } else {
-            if (entry.attacker.id === myPoke?.id) {
-                setOpponentHitAnim(`${missAnimation} ${animSecs}s ease-in-out`)
-            } else {
-                setSelfHitAnim(`${missAnimation} ${animSecs}s ease-in-out`)
-            }
-        }
-        setLastLogMessage(battleLogMessage(entry.hitType, attackerName, entry.damage))
-        setDamageTextAnim(`${textAnimation} ${animSecs}s ease-in-out`)
+            setDamageTextAnim(`${textAnimation} ${animSecs}s ease-in-out`)
 
-        timerRef.current = setTimeout(() => {
-            setCurrentLogIndex(prev => prev + 1)
-        }, turnsMs)
+            // Phase 3: Advance
+            timerRef.current = setTimeout(() => {
+                setCurrentLogIndex(prev => prev + 1)
+            }, 600)
+        }, impactDelay)
 
         return () => clearTimeout(timerRef.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -267,24 +280,20 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                 </Center>
                 {/* Attack projectile */}
                 {projectile && (
-                    <img
+                    <Image
                         key={`proj-${projectile.key}`}
                         src={getAttackSprite(projectile.moveType)}
                         alt="attack"
-                        style={{
-                            position: 'absolute',
-                            width: '40px',
-                            height: '40px',
-                            left: projectile.direction === 'right' ? '25%' : '75%',
-                            top: '50%',
-                            marginTop: '-20px',
-                            imageRendering: 'pixelated',
-                            pointerEvents: 'none',
-                            zIndex: 10,
-                        }}
-                        css={{
-                            animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
-                        }}
+                        position="absolute"
+                        w="40px"
+                        h="40px"
+                        left={projectile.direction === 'right' ? '25%' : '75%'}
+                        top="50%"
+                        mt="-20px"
+                        sx={{ imageRendering: 'pixelated' }}
+                        pointerEvents="none"
+                        zIndex={10}
+                        animation={`${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.7s ease-out forwards`}
                         onAnimationEnd={() => setProjectile(null)}
                     />
                 )}

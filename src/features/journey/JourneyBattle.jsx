@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { Flex, Text, Box, Progress, Badge, Center, Button, VStack } from "@chakra-ui/react"
-import { journeyHitAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
+import { Flex, Text, Box, Image, Progress, Badge, Center, Button, VStack } from "@chakra-ui/react"
+import { journeyHitAnimation, journeyCritHitAnimation, journeyDefAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
 import { colorByHitType } from "@utils/battle"
 import { stringToUpperCase } from "@utils"
 import { getAttackSprite } from "@utils/attackSprites"
@@ -37,6 +37,79 @@ const hitTypeColor = (type) => {
     }
 }
 
+const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDamage, setLastDamage }) => {
+    const sprite = isPlayer
+        ? (poke.sprites?.back || poke.sprites?.front || poke.sprites?.main)
+        : (poke.sprites?.front || poke.sprites?.main || poke.sprite)
+
+    const showDamage = lastDamage && lastDamage.defenderId === pokeId
+    const spriteSize = isPlayer ? '160px' : '120px'
+
+    return (
+        <Center
+            flexDir="column"
+            mx={2}
+            position="relative"
+            mt={isPlayer ? 16 : 0}
+            mb={isPlayer ? 0 : 16}
+        >
+            <Text mb={1} fontWeight="bold" fontSize={isPlayer ? 'md' : 'sm'}>{stringToUpperCase(poke.name)}</Text>
+            <Box
+                w={isPlayer ? 40 : 32}
+                h={isPlayer ? 40 : 32}
+                display="flex" alignItems="center" justifyContent="center"
+                animation={anim}
+                onAnimationEnd={() => setAnim('')}
+                position="relative"
+            >
+                <img
+                    src={sprite}
+                    alt={poke.name}
+                    style={{
+                        width: spriteSize,
+                        height: spriteSize,
+                        imageRendering: 'pixelated',
+                    }}
+                />
+                {showDamage && (
+                    <Text
+                        key={`dmg-${lastDamage.index}`}
+                        position="absolute"
+                        fontSize="3xl"
+                        fontWeight="bold"
+                        top={-2}
+                        right={isPlayer ? -8 : undefined}
+                        left={isPlayer ? undefined : -8}
+                        color={colorByHitType(lastDamage.hitType)}
+                        animation={`${textAnimation} 0.6s ease-in-out forwards`}
+                        textShadow="0 0 6px rgba(0,0,0,0.8)"
+                        onAnimationEnd={() => setLastDamage(null)}
+                    >
+                        {lastDamage.damage > 0 ? `-${lastDamage.damage}` : "MISS"}
+                    </Text>
+                )}
+            </Box>
+            <Box mt={2}>
+                <Progress
+                    value={Math.max(0, hp)} max={maxHp}
+                    size="lg" w={isPlayer ? 40 : 32}
+                    colorScheme={hp / maxHp > 0.5 ? "green" : hp / maxHp > 0.2 ? "yellow" : "red"}
+                    borderRadius={4}
+                />
+                <Text
+                    position="relative"
+                    textAlign="center"
+                    w="100%"
+                    bottom={3.5}
+                    fontSize="x-small"
+                >
+                    {Math.max(0, hp)}/{maxHp}
+                </Text>
+            </Box>
+        </Center>
+    )
+}
+
 export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, setJourneyState }) {
     const { t } = useTranslation()
     const [fightIndex, setFightIndex] = useState(0)
@@ -55,16 +128,24 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
     const [showResult, setShowResult] = useState(false)
     const [showFinalResult] = useState(false)
     const [logMessages, setLogMessages] = useState([])
-    const timerRef = useRef(null)
     const logEndRef = useRef(null)
+    const animating = useRef(false)
 
     const fights = fightResult.fights || []
     const currentFight = fights[fightIndex]
     const playerPoke = currentFight ? (currentFight.playerWon ? currentFight.winner : currentFight.loser) : null
     const wildPoke = currentFight ? (currentFight.playerWon ? currentFight.loser : currentFight.winner) : null
 
-    const turnMs = 1400
     const animSecs = 0.8
+
+    const getDefenderAnim = (hitType) => {
+        switch (hitType) {
+            case 'crit': return `${journeyCritHitAnimation} ${animSecs}s ease-in-out`
+            case 'half': return `${journeyDefAnimation} ${animSecs}s ease-in-out`
+            case 'miss': return `${missAnimation} ${animSecs}s ease-in-out`
+            default: return `${journeyHitAnimation} ${animSecs}s ease-in-out`
+        }
+    }
 
     // Initialize HP for current fight
     useEffect(() => {
@@ -98,77 +179,104 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
         setBattleDone(false)
         setShowResult(false)
         setLogMessages([])
+        animating.current = false
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fightIndex, fightResult])
 
-    // Playback loop
+    // Show result after battle ends
     useEffect(() => {
+        if (!battleDone) return
+        const timer = setTimeout(() => setShowResult(true), 500)
+        return () => clearTimeout(timer)
+    }, [battleDone])
+
+    // Playback loop — sequenced: lunge → projectile → impact → advance
+    useEffect(() => {
+        const timers = []
+
         const log = currentFight?.log
         if (battleDone || !log || logIndex >= log.length) {
             if (log && logIndex >= log.length && !battleDone) {
                 setBattleDone(true)
-                setTimeout(() => setShowResult(true), 500)
             }
             return
         }
 
+        // Prevent double-fire from React strict mode or re-renders
+        if (animating.current) return
+        animating.current = true
+
         const entry = log[logIndex]
         const pPoke = currentFight.playerWon ? currentFight.winner : currentFight.loser
-
-        // Apply damage and animation immediately
         const attackerName = stringToUpperCase(entry.attacker?.name || '')
         const isPlayerDefender = entry.defender?.id === pPoke.id
-        if (isPlayerDefender) {
-            setPlayerHp(prev => Math.max(0, prev - entry.damage))
-            if (entry.damage > 0) {
-                setPlayerAnim(`${journeyHitAnimation} ${animSecs}s ease-in-out`)
-            } else {
-                setPlayerAnim(`${missAnimation} ${animSecs}s ease-in-out`)
-            }
-            // Attacker lunge animation (wild lunges left toward player)
-            setWildAnim(`${lungeLeftAnimation} ${animSecs * 0.6}s ease-out`)
-            // Projectile from wild toward player
-            if (entry.hitType !== 'miss') {
-                setProjectile({ moveType: entry.attacker?.moveType, direction: 'left', key: logIndex })
-            }
-        } else {
-            setWildHp(prev => Math.max(0, prev - entry.damage))
-            if (entry.damage > 0) {
-                setWildAnim(`${journeyHitAnimation} ${animSecs}s ease-in-out`)
-            } else {
-                setWildAnim(`${missAnimation} ${animSecs}s ease-in-out`)
-            }
-            // Attacker lunge animation (player lunges right toward wild)
-            setPlayerAnim(`${lungeRightAnimation} ${animSecs * 0.6}s ease-out`)
-            // Projectile from player toward wild
-            if (entry.hitType !== 'miss') {
-                setProjectile({ moveType: entry.attacker?.moveType, direction: 'right', key: logIndex })
-            }
-        }
-        // Accumulate log messages
+        const isMiss = entry.hitType === 'miss'
+
+        // Accumulate log messages immediately
         const isPlayerAttacker = entry.attacker?.id === pPoke.id
         const tag = hitTypeTag(entry.hitType)
         const icon = hitTypeIcon(entry.hitType)
         const compactMsg = isPlayerAttacker
-            ? `${icon} ${attackerName} → ${tag}${entry.hitType !== 'miss' ? ` (${entry.damage})` : ''}`
-            : `${entry.hitType !== 'miss' ? `(${entry.damage}) ` : ''}${tag} ← ${icon} ${attackerName}`
+            ? `${icon} ${attackerName} → ${tag}${!isMiss ? ` (${entry.damage})` : ''}`
+            : `${!isMiss ? `(${entry.damage}) ` : ''}${tag} ← ${icon} ${attackerName}`
 
         setLastLogMessage(compactMsg)
         setLastHitType(entry.hitType)
-        setLastDamage({ damage: entry.damage, hitType: entry.hitType, defenderId: entry.defender?.id, index: logIndex })
-
         setLogMessages(prev => [...prev, {
             message: compactMsg,
             hitType: entry.hitType,
             isPlayer: isPlayerAttacker,
         }])
 
-        // Advance log after the turn delay
-        timerRef.current = setTimeout(() => {
-            setLogIndex(prev => prev + 1)
-        }, turnMs)
+        // Phase 1: Attacker lunge (in timeout so cleanup can cancel)
+        timers.push(setTimeout(() => {
+            if (isPlayerDefender) {
+                setWildAnim(`${lungeLeftAnimation} 0.25s ease-out`)
+            } else {
+                setPlayerAnim(`${lungeRightAnimation} 0.25s ease-out`)
+            }
 
-        return () => clearTimeout(timerRef.current)
+            // Phase 2: Fire projectile after lunge
+            timers.push(setTimeout(() => {
+                setProjectile({
+                    moveType: entry.attacker?.moveType,
+                    direction: isPlayerDefender ? 'left' : 'right',
+                    key: logIndex,
+                })
+
+                // Phase 3: Impact after projectile arrives
+                const impactDelay = 380
+                timers.push(setTimeout(() => {
+                    // Apply HP
+                    if (isPlayerDefender) {
+                        setPlayerHp(prev => Math.max(0, prev - entry.damage))
+                    } else {
+                        setWildHp(prev => Math.max(0, prev - entry.damage))
+                    }
+
+                    // Defender animation based on hit type
+                    if (isPlayerDefender) {
+                        setPlayerAnim(getDefenderAnim(entry.hitType))
+                    } else {
+                        setWildAnim(getDefenderAnim(entry.hitType))
+                    }
+
+                    // Show damage text
+                    setLastDamage({ damage: entry.damage, hitType: entry.hitType, defenderId: entry.defender?.id, index: logIndex })
+
+                    // Phase 4: Advance after damage display
+                    timers.push(setTimeout(() => {
+                        animating.current = false
+                        setLogIndex(prev => prev + 1)
+                    }, 700))
+                }, impactDelay))
+            }, 300))
+        }, 16))
+
+        return () => {
+            timers.forEach(clearTimeout)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [logIndex, battleDone, currentFight])
 
     // After showing fight result, wait for user to click Continue
@@ -187,83 +295,6 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
             <Flex flex="1" direction="column" align="center" justify="center">
                 <Text>{t('journey.loadingBattle')}</Text>
             </Flex>
-        )
-    }
-
-    const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer }) => {
-        const sprite = isPlayer
-            ? (poke.sprites?.back || poke.sprites?.front || poke.sprites?.main)
-            : (poke.sprites?.front || poke.sprites?.main || poke.sprite)
-
-        if (isPlayer) {
-            console.log('[JourneyBattle] Player sprites:', JSON.stringify(poke.sprites), '| Using:', sprite)
-        }
-
-        const pokeId = isPlayer ? playerPoke?.id : wildPoke?.id
-        const showDamage = lastDamage && lastDamage.defenderId === pokeId
-        const spriteSize = isPlayer ? '160px' : '120px'
-
-        return (
-            <Center
-                flexDir="column"
-                mx={2}
-                position="relative"
-                mt={isPlayer ? 16 : 0}
-                mb={isPlayer ? 0 : 16}
-            >
-                <Text mb={1} fontWeight="bold" fontSize={isPlayer ? 'md' : 'sm'}>{stringToUpperCase(poke.name)}</Text>
-                <Box
-                    w={isPlayer ? 40 : 32}
-                    h={isPlayer ? 40 : 32}
-                    display="flex" alignItems="center" justifyContent="center"
-                    animation={anim}
-                    onAnimationEnd={() => setAnim('')}
-                    position="relative"
-                >
-                    <img
-                        src={sprite}
-                        alt={poke.name}
-                        style={{
-                            width: spriteSize,
-                            height: spriteSize,
-                            imageRendering: 'pixelated',
-                        }}
-                    />
-                    {showDamage && (
-                        <Text
-                            key={`dmg-${lastDamage.index}`}
-                            position="absolute"
-                            fontSize="3xl"
-                            fontWeight="bold"
-                            top={-2}
-                            right={isPlayer ? -8 : undefined}
-                            left={isPlayer ? undefined : -8}
-                            color={colorByHitType(lastDamage.hitType)}
-                            animation={`${textAnimation} 0.6s ease-in-out forwards`}
-                            textShadow="0 0 6px rgba(0,0,0,0.8)"
-                        >
-                            {lastDamage.damage > 0 ? `-${lastDamage.damage}` : "MISS"}
-                        </Text>
-                    )}
-                </Box>
-                <Box mt={2}>
-                    <Progress
-                        value={Math.max(0, hp)} max={maxHp}
-                        size="lg" w={isPlayer ? 40 : 32}
-                        colorScheme={hp / maxHp > 0.5 ? "green" : hp / maxHp > 0.2 ? "yellow" : "red"}
-                        borderRadius={4}
-                    />
-                    <Text
-                        position="relative"
-                        textAlign="center"
-                        w="100%"
-                        bottom={3.5}
-                        fontSize="x-small"
-                    >
-                        {Math.max(0, hp)}/{maxHp}
-                    </Text>
-                </Box>
-            </Center>
         )
     }
 
@@ -315,28 +346,27 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                             anim={playerAnim}
                             setAnim={setPlayerAnim}
                             isPlayer={true}
+                            pokeId={playerPoke?.id}
+                            lastDamage={lastDamage}
+                            setLastDamage={setLastDamage}
                         />
                     </Center>
                     {/* Attack projectile */}
                     {projectile && (
-                        <img
+                        <Image
                             key={`proj-${projectile.key}`}
                             src={getAttackSprite(projectile.moveType)}
                             alt="attack"
-                            style={{
-                                position: 'absolute',
-                                width: '40px',
-                                height: '40px',
-                                left: projectile.direction === 'right' ? '30%' : '70%',
-                                top: '50%',
-                                marginTop: '-20px',
-                                imageRendering: 'pixelated',
-                                pointerEvents: 'none',
-                                zIndex: 10,
-                            }}
-                            css={{
-                                animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
-                            }}
+                            position="absolute"
+                            w="40px"
+                            h="40px"
+                            left={projectile.direction === 'right' ? '30%' : '70%'}
+                            top="50%"
+                            mt="-20px"
+                            sx={{ imageRendering: 'pixelated' }}
+                            pointerEvents="none"
+                            zIndex={10}
+                            animation={`${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.4s ease-out forwards`}
                             onAnimationEnd={() => setProjectile(null)}
                         />
                     )}
@@ -348,6 +378,9 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                             anim={wildAnim}
                             setAnim={setWildAnim}
                             isPlayer={false}
+                            pokeId={wildPoke?.id}
+                            lastDamage={lastDamage}
+                            setLastDamage={setLastDamage}
                         />
                     </Center>
                 </Flex>

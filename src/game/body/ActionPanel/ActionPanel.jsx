@@ -41,12 +41,18 @@ export default function ActionPanel() {
             variant={activeTab === tab ? "solid" : "outline"}
             colorScheme={activeTab === tab ? "blue" : "gray"}
             isDisabled={activeTab === tab || (bagDirty && tab !== 'bag')}
+            overflow="visible"
+            transition="all 0.15s ease"
+            _hover={{ transform: 'scale(1.15)', filter: 'brightness(1.3)' }}
             {...extraProps}
         >
             <Image
                 src={icon}
                 title={title}
-                w="26px"
+                w="45px"
+                h="45px"
+                objectFit="contain"
+                pointerEvents="none"
             />
         </Button>
     )

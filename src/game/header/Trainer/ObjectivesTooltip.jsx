@@ -4,10 +4,12 @@ import PlayerContext from "@context/PlayerContext";
 
 import { FaTrophy } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
+import { useTranslation } from "react-i18next"
 
 export default function ObjectivesTooltip() {
     const { achievements } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
     const hiddenColor = colorMode === 'light' ? "gray.400" : "gray.600"
@@ -28,7 +30,7 @@ export default function ObjectivesTooltip() {
                     <Flex alignItems="center" gap={2}>
                         <FaTrophy size={16} color={hiddenColor} />
                         <Text fontSize="sm" color={hiddenColor} fontStyle="italic">
-                            ?????
+                            {t('objectives.hidden')}
                         </Text>
                     </Flex>
                 </Flex>
@@ -48,7 +50,7 @@ export default function ObjectivesTooltip() {
                         </Text>
                         <Flex alignItems="center" gap={1} mt={1}>
                             <Text fontSize="xx-small" color="gray.500">
-                                Reward: +{achievement.reward || 15}
+                                {t('objectives.reward', { amount: achievement.reward || 15 })}
                             </Text>
                             <Image src={starIcon} w={3} h={3} />
                         </Flex>
@@ -66,7 +68,7 @@ export default function ObjectivesTooltip() {
             direction="column"
         >
             <Badge textAlign="center" w="full" py={4}>
-                Objectives
+                {t('objectives.title')}
             </Badge>
 
             <Center flexDir="column" px={4} py={2}>
@@ -76,7 +78,7 @@ export default function ObjectivesTooltip() {
                     ))
                 ) : (
                     <Text fontSize="xs" color="gray.500" textAlign="center">
-                        No objectives available
+                        {t('objectives.noObjectives')}
                     </Text>
                 )}
             </Center>

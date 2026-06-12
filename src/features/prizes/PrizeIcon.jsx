@@ -1,4 +1,5 @@
 import { Image } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 
 import { getBerryIcon } from "@utils/berryIcon"
 import starIcon from '@assets/images/game/star.png'
@@ -8,19 +9,20 @@ import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import masterballIcon from '@assets/images/pokeballs/masterball.png'
 
 export default function PrizeIcon ({ type, size = '20px', ...props }) {
+    const { t } = useTranslation()
     switch (type) {
         case 'dust':
-            return <Image src={dustIcon} w={size} title="Dusts" ml={2} {...props} />
+            return <Image src={dustIcon} w={size} title={t('items.dusts')} ml={2} {...props} />
         case 'stars':
-            return <Image src={starIcon} w={size} title="Ranking Points" ml={2} {...props} />
+            return <Image src={starIcon} w={size} title={t('items.rankingPoints')} ml={2} {...props} />
         case 'ranking':
-            return <Image src={starIcon} w={size} title="Ranking Points" ml={2} {...props} />
+            return <Image src={starIcon} w={size} title={t('items.rankingPoints')} ml={2} {...props} />
         case 'greatball':
-            return <Image src={greatballIcon} w={size} title="Great Balls" ml={2} {...props} />
+            return <Image src={greatballIcon} w={size} title={t('items.greatBalls')} ml={2} {...props} />
         case 'ultraball':
-            return <Image src={ultraballIcon} w={size} title="Ultra Balls" ml={2} {...props} />
+            return <Image src={ultraballIcon} w={size} title={t('items.ultraBalls')} ml={2} {...props} />
         case 'masterball':
-            return <Image src={masterballIcon} w={size} title="Master Balls" ml={2} {...props} />
+            return <Image src={masterballIcon} w={size} title={t('items.masterBalls')} ml={2} {...props} />
         default:
             return <Image src={getBerryIcon(type)} w={size} title={type} ml={2} {...props} />
     }

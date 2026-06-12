@@ -1,6 +1,8 @@
 import { Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import socket from '@client'
+import logger from '@utils/logger'
 
 import starIcon from '@assets/images/game/star.png'
 
@@ -8,6 +10,7 @@ const PlayerContext = createContext();
 
 export function PlayerProvider({children}) {
     const toast = useToast()
+    const { t } = useTranslation()
     const loadingWatchdogRef = useRef(null) // Watchdog timer to prevent infinite loading
     const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
@@ -142,7 +145,7 @@ export function PlayerProvider({children}) {
      * Called automatically on reconnection and can be called manually when state seems inconsistent.
      */
     const resync = useCallback(async () => {
-        console.log('🔄 Requesting session resync...')
+        logger.info('Requesting session resync...')
         try {
             const snapshot = await emit('session-resync', {}, 8000)
             
@@ -171,17 +174,17 @@ export function PlayerProvider({children}) {
             // Clear loading state after successful resync
             setLoading({ loading: false })
             
-            console.log('✅ Resync completed successfully')
+            logger.info('Resync completed successfully')
             return snapshot
         } catch (error) {
-            console.error('❌ Resync failed:', error)
+            logger.error('Resync failed', { error: error?.message, stack: error?.stack })
             
             // Handle session expired
             if (error?.message?.includes('expired') || error?.message?.includes('not found')) {
                 handleToast({
                     id: 'session-expired',
-                    title: 'Session Expired',
-                    description: 'Returning to lobby...',
+                    title: t('toast.sessionExpired'),
+                    description: t('toast.sessionExpiredDesc'),
                     status: 'warning',
                     position: 'top'
                 })
@@ -193,8 +196,8 @@ export function PlayerProvider({children}) {
             } else {
                 handleToast({
                     id: 'resync-error',
-                    title: 'Sync Error',
-                    description: 'Failed to sync with server',
+                    title: t('toast.syncError'),
+                    description: t('toast.syncErrorDesc'),
                     status: 'error',
                     position: 'top'
                 })
@@ -528,7 +531,7 @@ export function PlayerProvider({children}) {
         socket.on('session-join-other', res => {
             handleToast({
                 id: 'opponent-join',
-                title: `${res.status.trainerName} joined the room`,
+                title: t('lobby.playerJoined', { name: res.status.trainerName }),
                 status: 'info',
             })
             newOpponent(res)
@@ -537,7 +540,7 @@ export function PlayerProvider({children}) {
         socket.on('session-leave-other', res => {
             handleToast({
                 id: 'opponent-left',
-                title: `${res.name} left the room`,
+                title: t('lobby.playerLeft', { name: res.name }),
                 status: 'info',
             })
             removeOpponentById(res.id)
@@ -663,9 +666,9 @@ export function PlayerProvider({children}) {
         // Start watchdog timer when loading begins
         if (loading.loading && player?.id && session?.sessionCode) {
             loadingWatchdogRef.current = setTimeout(() => {
-                console.warn('⚠️ Loading timeout detected - triggering resync')
+                logger.warn('Loading timeout detected — triggering resync')
                 resync().catch(err => {
-                    console.error('Watchdog resync failed:', err)
+                    logger.error('Watchdog resync failed', { error: err?.message, stack: err?.stack })
                 })
             }, 8000) // 8 seconds timeout
         }
@@ -681,13 +684,13 @@ export function PlayerProvider({children}) {
 
     useEffect(() => {
         function onConnect() {
-            console.log('✅ Connected to server') 
+            logger.info('Connected to server') 
             setConnected(true)
             
             // Automatically resync on connection if we have session data
             if (player?.id && session?.sessionCode) {
                 resync().catch(err => {
-                    console.error('Connect resync failed:', err)
+                    logger.error('Connect resync failed', { error: err?.message, stack: err?.stack })
                     setLoading({ loading: false })
                 })
             } else {
@@ -696,7 +699,7 @@ export function PlayerProvider({children}) {
         }
 
         function onDisconnect(reason) {
-            console.log('❌ Disconnected:', reason) 
+            logger.warn('Disconnected from server', { reason }) 
             setConnected(false)
             if (reason !== 'io client disconnect') {
                 setLoading({
@@ -707,7 +710,7 @@ export function PlayerProvider({children}) {
         }
 
         function onReconnecting(attempt) {
-            console.log(`🔄 Reconnecting... Attempt ${attempt}`) 
+            logger.info('Reconnecting...', { attempt }) 
             setLoading({
                 loading: true,
                 text: `Reconnecting... (${attempt})`
@@ -715,11 +718,11 @@ export function PlayerProvider({children}) {
         }
 
         function onReconnected(data) {
-            console.log('✅ Reconnected successfully!', data)
+            logger.info('Reconnected successfully')
             
             // Instead of trusting the event data, trigger full resync
             resync().catch(err => {
-                console.error('Reconnect resync failed:', err)
+                logger.error('Reconnect resync failed', { error: err?.message, stack: err?.stack })
                 // Fallback to event data if resync fails
                 if (data?.player) setPlayer(data.player)
                 if (data?.session) setSession(data.session)
@@ -728,7 +731,7 @@ export function PlayerProvider({children}) {
         }
 
         function onSessionExpired() {
-            console.log('⚠️ Session expired') 
+            logger.warn('Session expired') 
             setLoading({ loading: false })
             localStorage.removeItem('playerId') 
             localStorage.removeItem('sessionCode') 

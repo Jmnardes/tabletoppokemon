@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import {
     Button, Flex, Image, SimpleGrid, Text, Tooltip, Box, Badge, Divider, HStack
 } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
 import tokenIcon from '@assets/images/game/coin.png'
@@ -26,6 +27,7 @@ const MACHINE_LEVELS = {
 function MachineCard({ machine, tokens, onRepair }) {
     const isWorking = machine.status === 'working'
     const isBroken = machine.status === 'broken'
+    const { t } = useTranslation()
 
     return (
         <Flex
@@ -47,17 +49,17 @@ function MachineCard({ machine, tokens, onRepair }) {
             />
 
             <Text fontSize="sm" fontWeight="bold" color={isBroken ? 'red.300' : 'green.300'}>
-                {isWorking ? 'Working' : 'Broken'}
+                {isWorking ? t('common.working') : t('common.broken')}
             </Text>
 
             {isWorking && (
                 <Text fontSize="xs" color="whiteAlpha.700">
-                    Producing pokéballs each turn
+                    {t('farm.producingPerTurn')}
                 </Text>
             )}
 
             {isBroken && (
-                <Tooltip label={tokens < 1 ? 'Not enough tokens' : 'Repair for 1 token'} hasArrow>
+                <Tooltip label={tokens < 1 ? t('craft.notEnoughTokens') : t('craft.repairCost')} hasArrow>
                     <Button
                         size="xs"
                         colorScheme="red"
@@ -75,6 +77,7 @@ function MachineCard({ machine, tokens, onRepair }) {
 
 function LockedSlot({ isNext, tokens, onBuy }) {
     const canAfford = tokens >= SLOT_COST
+    const { t } = useTranslation()
 
     return (
         <Flex
@@ -103,13 +106,13 @@ function LockedSlot({ isNext, tokens, onBuy }) {
                     variant="outline"
                     onClick={onBuy}
                     isDisabled={!canAfford}
-                    title={canAfford ? `Buy for ${SLOT_COST} tokens` : `Need ${SLOT_COST} tokens`}
+                    title={canAfford ? t('craft.needTokens', {cost: SLOT_COST, current: tokens}) : t('craft.needTokens', {cost: SLOT_COST, current: tokens})}
                 >
                     <Image src={tokenIcon} w="16px" mr={1} />
                     {SLOT_COST}
                 </Button>
             ) : (
-                <Text fontSize="xs" color="whiteAlpha.400">Locked</Text>
+                <Text fontSize="xs" color="whiteAlpha.400">{t('craft.locked')}</Text>
             )}
         </Flex>
     )
@@ -118,11 +121,12 @@ function LockedSlot({ isNext, tokens, onBuy }) {
 export default function CraftPanel() {
     const { craft, setCraft, player, setPlayer, emit, setLoading, handleToast } = useContext(PlayerContext)
     const [showNextLevel, setShowNextLevel] = useState(false)
+    const { t } = useTranslation()
 
     if (!craft) {
         return (
             <Flex flex="1" align="center" justify="center">
-                <Text>Craft not available</Text>
+                <Text>{t('craft.title')}</Text>
             </Flex>
         )
     }
@@ -134,58 +138,58 @@ export default function CraftPanel() {
     const isMaxLevel = machineLevel >= MAX_MACHINE_LEVEL
 
     const handleRepair = async (machineId) => {
-        setLoading({ loading: true, text: 'Repairing...' })
+        setLoading({ loading: true, text: t('craft.repairing') })
         try {
             const result = await emit('craft-repair', { machineId })
             if (result?.craft) setCraft(result.craft)
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }))
         } catch (error) {
-            handleToast({ title: 'Error', description: error.message, status: 'error' })
+            handleToast({ title: t('common.error'), description: error.message, status: 'error' })
         }
         setLoading({ loading: false })
     }
 
     const handleBuySlot = async () => {
-        setLoading({ loading: true, text: 'Buying machine...' })
+        setLoading({ loading: true, text: t('craft.buyingMachine') })
         try {
             const result = await emit('craft-buy-slot', {})
             if (result?.craft) setCraft(result.craft)
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }))
             handleToast({
-                title: 'New Machine',
-                description: 'A new craft machine has been added!',
+                title: t('toast.newMachine'),
+                description: t('toast.newMachineDesc'),
                 status: 'success',
                 duration: 4000,
             })
         } catch (error) {
-            handleToast({ title: 'Error', description: error.message, status: 'error' })
+            handleToast({ title: t('common.error'), description: error.message, status: 'error' })
         }
         setLoading({ loading: false })
     }
 
     const handleUpgrade = async () => {
-        setLoading({ loading: true, text: 'Upgrading machines...' })
+        setLoading({ loading: true, text: t('craft.upgradingMachines') })
         try {
             const result = await emit('craft-upgrade', {})
             if (result?.craft) setCraft(result.craft)
             if (result?.daycare) setPlayer(prev => ({ ...prev, daycare: result.daycare }))
             handleToast({
-                title: 'Machines Upgraded',
-                description: `Machines upgraded to Level ${(craft.machineLevel || 1) + 1}!`,
+                title: t('toast.machinesUpgraded'),
+                description: t('toast.machinesUpgradedDesc', { level: (craft.machineLevel || 1) + 1 }),
                 status: 'success',
                 duration: 4000,
             })
         } catch (error) {
-            handleToast({ title: 'Error', description: error.message, status: 'error' })
+            handleToast({ title: t('common.error'), description: error.message, status: 'error' })
         }
         setLoading({ loading: false })
     }
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
-            <Text fontSize="lg" fontWeight="bold" textAlign="center">Craft</Text>
+            <Text fontSize="lg" fontWeight="bold" textAlign="center">{t('craft.title')}</Text>
             <Text fontSize="small" textAlign="center" mt={1} mb={2}>
-                Machines produce pokéballs each turn. They may break!
+                {t('craft.subtitle')}
             </Text>
 
             {/* Machine Level Badge */}
@@ -197,7 +201,7 @@ export default function CraftPanel() {
                     py={1}
                     borderRadius="full"
                 >
-                    Machine Lv. {machineLevel}
+                    {t('craft.machineLevel', { level: machineLevel })}
                 </Badge>
             </Flex>
 
@@ -236,16 +240,16 @@ export default function CraftPanel() {
                 mb={4}
             >
                 <Text fontSize="xs" fontWeight="bold" color="whiteAlpha.800" mb={1}>
-                    ⚙ Machine Instructions
+                    {t('craft.machineInstructions')}
                 </Text>
                 <Text fontSize="2xs" color="whiteAlpha.600" mb={3}>
-                    Every turn, each working machine rolls for production. Better levels improve your odds of crafting rare balls and reduce breakdowns.
+                    {t('craft.machineInstructionsText')}
                 </Text>
 
                 <Divider borderColor="whiteAlpha.200" mb={3} />
 
                 <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" mb={2}>
-                    Production Rates (Lv. {machineLevel})
+                    {t('craft.productionRates', { level: machineLevel })}
                 </Text>
                 <Flex flexDir="column" gap={1}>
                     <HStack justify="space-between">
@@ -286,7 +290,7 @@ export default function CraftPanel() {
                     </HStack>
                     <Divider borderColor="whiteAlpha.100" my={1} />
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="whiteAlpha.500">Skip (no output)</Text>
+                        <Text fontSize="2xs" color="whiteAlpha.500">{t('craft.skipNoOutput')}</Text>
                         <HStack spacing={1}>
                             <Text fontSize="2xs" color="whiteAlpha.500">{rates.skip}%</Text>
                             {showNextLevel && nextRates && (
@@ -295,7 +299,7 @@ export default function CraftPanel() {
                         </HStack>
                     </HStack>
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="red.400">Break</Text>
+                        <Text fontSize="2xs" color="red.400">{t('craft.break')}</Text>
                         <HStack spacing={1}>
                             <Text fontSize="2xs" color="red.400">{rates.break}%</Text>
                             {showNextLevel && nextRates && (
@@ -315,8 +319,8 @@ export default function CraftPanel() {
                     >
                         <Tooltip
                             label={tokens < UPGRADE_COST
-                                ? `Need ${UPGRADE_COST} tokens (you have ${tokens})`
-                                : `Upgrade all machines to Lv. ${machineLevel + 1}`
+                                ? t('craft.needTokens', { cost: UPGRADE_COST, current: tokens })
+                                : t('craft.upgradeAll', { level: machineLevel + 1 })
                             }
                             hasArrow
                         >
@@ -335,7 +339,7 @@ export default function CraftPanel() {
             )}
             {isMaxLevel && (
                 <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold">
-                    ★ Machines at max level ★
+                    {t('craft.maxLevel')}
                 </Text>
             )}
         </Flex>

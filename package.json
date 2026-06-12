@@ -8,11 +8,13 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "i18next": "^26.3.1",
     "lucide-react": "^1.17.0",
     "phosphor": "^0.7.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-i18next": "^17.0.8",
     "react-icons": "^4.4.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.3.1",
@@ -21,11 +23,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "set PORT=3090 && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "dev": "set PORT=3078 && react-app-rewired start",
+    "dev": "set PORT=3090 && react-app-rewired start",
     "lint": "eslint src/",
     "prepare": "husky || true"
   },

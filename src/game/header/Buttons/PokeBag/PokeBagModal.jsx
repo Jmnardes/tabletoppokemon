@@ -6,9 +6,11 @@ import socket from "@client"
 import PokeList from "@features/pokemon/PokeList"
 import PokeTeam from "@game/body/Team/PokeTeam"
 import GenericModal from "@components/Modal/GenericModal"
+import { useTranslation } from "react-i18next"
 
 export default function PokeBagModal() {
     const { updateGame, teamIds, boxIds, pokemonData, moveToTeam, session, emit } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     const playerUpdateBag = () => {
         updateGame({ openPokeBoxModal: false, showBagLength: false })
@@ -29,13 +31,13 @@ export default function PokeBagModal() {
 
     return (
         <GenericModal
-            title={"Poke Bag"}
+            title={t('action.pokeBag')}
             rewriteCloseButton={(
                 <CloseButton 
                     position="absolute" 
                     right="20px"
                     isDisabled={!teamFull && totalPokemons >= (session?.teamLength || 6)}
-                    title={!teamFull ? `Você precisa de ${session?.teamLength || 6} pokemons no time` : 'Fechar'}
+                    title={!teamFull ? t('action.needPokemonInTeam', { count: session?.teamLength || 6 }) : t('common.close')}
                     onClick={() => {
                         emit('player-update-bag', { newTeamIds: teamIds })
                     }} 

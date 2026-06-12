@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { VStack, HStack, Flex, Text, Progress, Image, Badge, Box, Button, useColorMode, Tooltip } from "@chakra-ui/react"
 import Element from "@features/elements/Element"
 
@@ -15,6 +16,7 @@ export default function GymBattleScreen({
     onNext
 }) {
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
     const [showContinueButton, setShowContinueButton] = useState(false)
 
     const defeatedBg = colorMode === 'light' ? "red.200" : "red.900"
@@ -113,7 +115,7 @@ export default function GymBattleScreen({
                         color="white"
                         fontWeight="bold"
                     >
-                        CLICK
+                        {t('gym.click')}
                     </Box>
                 )}
             </Flex>
@@ -217,8 +219,8 @@ export default function GymBattleScreen({
                     border="2px solid"
                     borderColor={borderColor}
                 >
-                    <Text fontWeight="bold" mb={2} textAlign="center">Battle Log</Text>
-                    <Text color="gray.500" textAlign="center">Waiting for battle...</Text>
+                    <Text fontWeight="bold" mb={2} textAlign="center">{t('battle.battleLog')}</Text>
+                    <Text color="gray.500" textAlign="center">{t('gym.waitingBattle')}</Text>
                 </Box>
             )
         }
@@ -237,7 +239,7 @@ export default function GymBattleScreen({
                 display="flex"
                 flexDirection="column"
             >
-                <Text fontSize="md" fontWeight="bold" mb={2} textAlign="center">Battle Log</Text>
+                <Text fontSize="md" fontWeight="bold" mb={2} textAlign="center">{t('battle.battleLog')}</Text>
                 <VStack 
                     align="stretch" 
                     spacing={2} 
@@ -277,7 +279,7 @@ export default function GymBattleScreen({
                 >
                 <Text fontSize="x-small" color={hitColor} fontWeight="600">
                     {isPlayerAttacking
-                    ? `${log.attacker?.name} → inimigo`
+                    ? `${log.attacker?.name} ${t('gym.enemy')}`
                     : `${log.defender?.name} ← ${log.attacker?.name}`}
                 </Text>
 
@@ -287,9 +289,9 @@ export default function GymBattleScreen({
                     pl={isPlayerAttacking ? 2 : 0}
                     pr={!isPlayerAttacking ? 2 : 0}
                 >
-                    {log.damage > 0 ? `${log.damage} dmg` : "MISS"}
-                    {log.hitType === "crit" && " • CRIT"}
-                    {log.hitType === "half" && " • Resisted"}
+                    {log.damage > 0 ? `${log.damage} ${t('gym.dmg')}` : "MISS"}
+                    {log.hitType === "crit" && ` • ${t('gym.crit')}`}
+                    {log.hitType === "half" && ` • ${t('gym.resisted')}`}
                 </Text>
 
                 {log.fainted && (
@@ -300,7 +302,7 @@ export default function GymBattleScreen({
                     pl={isPlayerAttacking ? 2 : 0}
                     pr={!isPlayerAttacking ? 2 : 0}
                     >
-                    {log.defender?.name} fainted!
+                    {log.defender?.name} {t('gym.fainted')}
                     </Text>
                 )}
             </Box>
@@ -378,7 +380,7 @@ export default function GymBattleScreen({
                 {needsChoice && (
                     <Box bg="yellow.500" px={4} py={2} borderRadius={8} textAlign="center" w="fit-content">
                         <Text fontSize="sm" fontWeight="bold" color="black" whiteSpace="nowrap">
-                            ☝️ Choose your next Pokémon! ☝️
+                            {t('gym.chooseNextTop')}
                         </Text>
                     </Box>
                 )}
@@ -389,7 +391,7 @@ export default function GymBattleScreen({
                         size="lg"
                         onClick={onNext}
                     >
-                        Next Opponent →
+                        {t('gym.nextOpponent')}
                     </Button>
                 )}
 
@@ -404,7 +406,7 @@ export default function GymBattleScreen({
                             }
                         }}
                     >
-                        Continue →
+                        {t('gym.continueBtn')}
                     </Button>
                 )}
             </VStack>

@@ -118,6 +118,18 @@ export const textAnimation = keyframes`
     }
 `;
 
+export const lungeRightAnimation = keyframes`
+    0% { transform: translateX(0); }
+    20% { transform: translateX(30px); }
+    100% { transform: translateX(0); }
+`;
+
+export const lungeLeftAnimation = keyframes`
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-30px); }
+    100% { transform: translateX(0); }
+`;
+
 export const healAnimation = keyframes`
     0% {
     filter: brightness(1);

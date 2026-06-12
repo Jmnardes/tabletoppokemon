@@ -10,9 +10,12 @@ import {
     ModalBody,
     Text,
 } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 
-function ConfirmationModal({ children, event, modalTitle = "Are you sure?", modalText, ...props }) {
+function ConfirmationModal({ children, event, modalTitle, modalText, ...props }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { t } = useTranslation()
+    const title = modalTitle || t('common.areYouSure')
 
     return (
         <>
@@ -23,7 +26,7 @@ function ConfirmationModal({ children, event, modalTitle = "Are you sure?", moda
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader textAlign={"center"}>{modalTitle}</ModalHeader>
+                    <ModalHeader textAlign={"center"}>{title}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody textAlign={"center"}>
                         <Text fontSize={"sm"} my={8}>{modalText}</Text>
@@ -33,9 +36,9 @@ function ConfirmationModal({ children, event, modalTitle = "Are you sure?", moda
                             event()
                             onClose()
                         }} backgroundColor="red.700" mx={2}>
-                        Yes
+                        {t('common.yes')}
                         </Button>
-                        <Button w={24} onClick={onClose}>No</Button>
+                        <Button w={24} onClick={onClose}>{t('common.no')}</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

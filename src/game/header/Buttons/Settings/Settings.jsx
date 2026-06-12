@@ -1,25 +1,29 @@
 import { useContext } from "react";
 import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 import ButtonModal from "@components/Modal/ButtonModal";
 import PlayerContext from "@context/PlayerContext";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch";
 import ElementsList from "@features/elements/ElementsList"
+import LanguageSwitch from "@components/Chakra/LanguageSwitch/LanguageSwitch";
 
 import settingsIcon from '@assets/images/game/settings.png'
 
 export default function Settings() {
     const { setHasGameStarted, setPlayer, setSession, setOpponents } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     return (
-        <ButtonModal title={'Settings'} size={'xl'} button={
+        <ButtonModal title={t('settings.title')} size={'xl'} button={
             <Image
                 src={settingsIcon} 
-                title={'Settings'}
+                title={t('settings.title')}
                 w="28px"
             ></Image>
         }>
-            <Center pb={4}>
+            <Center pb={4} gap={4}>
+                <LanguageSwitch />
                 <ThemeSwitch />
             </Center>
 
@@ -30,13 +34,13 @@ export default function Settings() {
             <Divider />
 
             <Center flexDirection="column" pt={8} mb={4}>
-                <Text fontSize="2xs" color="red" >(All data will be lost)</Text>
+                <Text fontSize="2xs" color="red" >{t('settings.dataLost')}</Text>
                 <Button p={4} w={72} onClick={() => {
                     setHasGameStarted(false)
                     setPlayer({})
                     setSession({})
                     setOpponents({})
-                }}>Restart game!</Button>
+                }}>{t('settings.restartGame')}</Button>
             </Center>
         </ButtonModal>
     )

@@ -1,14 +1,17 @@
 import { useContext, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Flex, Text, Button, Box, Badge, useColorMode } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 
 export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) {
+    const { t } = useTranslation()
     const { player, session, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState(false)
     const [chestOpened, setChestOpened] = useState(false)
     const [reward, setReward] = useState(null)
+    const [rewardJourney, setRewardJourney] = useState(null)
 
     const handleContinue = () => {
         setLoading(true)
@@ -40,10 +43,8 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
                 // Show reward before advancing
                 setReward(result.reward)
                 setChestOpened(true)
-                // Auto-advance after showing reward
-                setTimeout(() => {
-                    onContinue(result.journey)
-                }, 2000)
+                // Store journey data for manual continue
+                setRewardJourney(result.journey)
             }
         })
     }
@@ -53,14 +54,14 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
     return (
         <Flex flex="1" direction="column" align="center" justify="center" w="100%" maxW="500px">
             <Text fontSize="2xl" mb={2}>
-                Checkpoint!
+                {t('journey.checkpoint')}
             </Text>
             <Badge colorScheme="green" fontSize="lg" mb={4} p={2} borderRadius={8}>
-                Round {journeyState.round} Complete
+                {t('journey.roundComplete', { round: journeyState.round })}
             </Badge>
 
             <Text fontSize="sm" color="gray.400" mb={4} textAlign="center">
-                You defeated all 6 wild pokémon!
+                {t('journey.defeatedAll', { count: journeyState.wildTeam?.length || 10 })}
             </Text>
 
             {/* Chest */}
@@ -80,19 +81,19 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
                 {!chestOpened ? (
                     <>
                         <Text fontSize="3xl" mb={2}>🎁</Text>
-                        <Text fontSize="sm" color="yellow.300">Click to open chest!</Text>
+                        <Text fontSize="sm" color="yellow.300">{t('journey.clickToOpen')}</Text>
                     </>
                 ) : (
                     <>
                         <Text fontSize="3xl" mb={2}>✨</Text>
                         <Badge colorScheme="yellow" fontSize="md" p={2} borderRadius={8}>
-                            +{reward?.ranking || 5} Ranking Points!
+                            {t('journey.rankingPointsEarned', { amount: reward?.ranking || 5 })}
                         </Badge>
                         <Badge colorScheme="green" fontSize="sm" p={1} borderRadius={8} mt={2}>
-                            +{reward?.potions || 2} Poções
+                            {t('journey.potions', { amount: reward?.potions || 2 })}
                         </Badge>
                         <Badge colorScheme="blue" fontSize="sm" p={1} borderRadius={8} mt={1}>
-                            +{reward?.superPotions || 1} Super Poção
+                            {t('journey.superPotion', { amount: reward?.superPotions || 1 })}
                         </Badge>
                     </>
                 )}
@@ -105,7 +106,16 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
                     variant="outline"
                     onClick={onExit}
                 >
-                    Exit Journey
+                    {t('journey.exitJourney')}
+                </Button>
+            )}
+            {chestOpened && (
+                <Button
+                    colorScheme="green"
+                    size="lg"
+                    onClick={() => onContinue(rewardJourney)}
+                >
+                    {t('common.continue')}
                 </Button>
             )}
         </Flex>

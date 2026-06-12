@@ -33,4 +33,20 @@ socket.io.on('reconnect_attempt', () => {
   }
 })
 
+// --- Connection error logging for production visibility ---
+socket.on('connect_error', (err) => {
+  console.error('[SOCKET] connect_error:', err.message, {
+    type: err.type,
+    description: err.description,
+  })
+})
+
+socket.io.on('reconnect_error', (err) => {
+  console.error('[SOCKET] reconnect_error:', err.message)
+})
+
+socket.io.on('reconnect_failed', () => {
+  console.error('[SOCKET] reconnect_failed: all reconnection attempts exhausted')
+})
+
 export default socket;

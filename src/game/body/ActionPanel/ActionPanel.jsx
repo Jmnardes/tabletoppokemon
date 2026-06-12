@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Button, Flex, Image, useColorMode } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
 import bagIcon from '@assets/images/game/bag.png';
@@ -15,6 +16,7 @@ import { FaArrowRight } from "react-icons/fa";
 export default function ActionPanel() {
     const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft, bagDirty } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const totalPokemons = teamIds.length + boxIds.length
     const maxTeamSize = 6
@@ -25,10 +27,10 @@ export default function ActionPanel() {
     const isTurnDisabled = needsFullTeam || bagDirty
 
     const getButtonLabel = () => {
-        if (!nextPhase) return "End Turn"
-        if (nextPhase === 'journey') return "Start Journey"
-        if (nextPhase === 'freeActions') return "Continue"
-        return "Next"
+        if (!nextPhase) return t('action.endTurn')
+        if (nextPhase === 'journey') return t('action.startJourney')
+        if (nextPhase === 'freeActions') return t('common.continue')
+        return t('action.next')
     }
 
     const buttonSize = "50px"
@@ -67,23 +69,23 @@ export default function ActionPanel() {
             }}
         >
             <Flex flexDir="column" gap="0.5rem">
-                {tabButton('bag', bagIcon, 'Bag')}
-                {tabButton('daycare', dayCareIcon, 'Poke Day Care')}
-                {tabButton('training', fightIcon, 'Training Camp', { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
-                {farm && tabButton('farm', farmIcon, 'Berry Farm')}
-                {craft && tabButton('craft', craftIcon, 'Craft')}
+                {tabButton('bag', bagIcon, t('action.bag'))}
+                {tabButton('daycare', dayCareIcon, t('action.dayCare'))}
+                {tabButton('training', fightIcon, t('action.trainingCamp'), { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
+                {farm && tabButton('farm', farmIcon, t('action.berryFarm'))}
+                {craft && tabButton('craft', craftIcon, t('action.craft'))}
 
-                {player.augments?.length > 0 && tabButton('augments', chipIcon, 'Augments')}
+                {player.augments?.length > 0 && tabButton('augments', chipIcon, t('action.augments'))}
             </Flex>
 
             <Flex flexDir="column" gap="0.5rem">
-                {tabButton('gym', gymIcon, 'Gym', { colorScheme: activeTab === 'gym' ? 'blue' : (gym ? 'green' : 'gray') })}
+                {tabButton('gym', gymIcon, t('action.gym'), { colorScheme: activeTab === 'gym' ? 'blue' : (gym ? 'green' : 'gray') })}
 
                 <Button
                     colorScheme="green"
                     onClick={advancePhase}
                     isDisabled={isTurnDisabled}
-                    title={needsFullTeam ? "Você precisa de 3 pokémons no time" : bagDirty ? "Confirm your team first" : getButtonLabel()}
+                    title={needsFullTeam ? t('action.needPokemon') : bagDirty ? t('action.confirmTeamFirst') : getButtonLabel()}
                 >
                     <FaArrowRight size="20px" color="white" />
                 </Button>

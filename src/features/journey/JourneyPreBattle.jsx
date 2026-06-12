@@ -1,8 +1,10 @@
 import { useContext, useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Flex, Text, Image, Button, Box, Badge, VStack, HStack, Progress, useColorMode, IconButton, Tooltip, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
+import Card from "@features/pokemon/Card"
 import { healAnimation } from "@utils/animations"
 
 import potionIcon from '@assets/images/items/potion.png'
@@ -12,13 +14,14 @@ import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 const EXP_TO_LEVEL = 5
 
 const POTIONS = [
-    { key: 'potion', label: 'Potion', healText: '25%', icon: potionIcon },
-    { key: 'superPotion', label: 'Super Potion', healText: '50%', icon: superPotionIcon },
-    { key: 'hyperPotion', label: 'Hyper Potion', healText: '80%', icon: hyperPotionIcon },
+    { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '25%', icon: potionIcon },
+    { key: 'superPotion', label: 'Super Potion', tKey: 'journey.superPotionName', healText: '50%', icon: superPotionIcon },
+    { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '80%', icon: hyperPotionIcon },
 ]
 
 export default function JourneyPreBattle({ journeyState, onFightStart, setJourneyState }) {
-    const { player, session, setPlayer } = useContext(PlayerContext)
+    const { t } = useTranslation()
+    const { player, session, setPlayer, pokemonData } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState(false)
     const [healingPoke, setHealingPoke] = useState(null)
@@ -139,18 +142,18 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
     return (
         <Flex flex="1" direction="column" align="center" w="100%" maxW="900px">
             <Text fontSize="xl" mb={1}>
-                Round {journeyState.round} — Fight {wildIndex + 1}/{journeyState.wildTeam?.length || 10}
+                {t('journey.round', { round: journeyState.round, current: wildIndex + 1, total: journeyState.wildTeam?.length || 10 })}
             </Text>
             <Text fontSize="xs" color="gray.400" mb={4}>
-                Level {journeyState.level}
+                {t('journey.levelN', { level: journeyState.level })}
             </Text>
 
             {/* Main layout: Player left, Wild right */}
             <Flex w="100%" direction={{ base: 'column', md: 'row' }} gap={6} mb={4} align="flex-start">
                 {/* Player Team Order - LEFT */}
                 <Flex direction="column" flex="1" align="center">
-                    <Text fontSize="sm" fontWeight="bold" mb={2}>Your Battle Order</Text>
-                    <Text fontSize="2xs" color="gray.400" mb={3}>First pokémon will fight. Reorder before starting.</Text>
+                    <Text fontSize="sm" fontWeight="bold" mb={2}>{t('journey.yourBattleOrder')}</Text>
+                    <Text fontSize="2xs" color="gray.400" mb={3}>{t('journey.reorderBefore')}</Text>
 
                     <VStack spacing={2} w="100%" maxW="400px">
                         {playerOrder.map((pokeId, idx) => {
@@ -177,12 +180,21 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                     animation={isHealing ? `${healAnimation} 1s ease-in-out` : undefined}
                                 >
                                     <Badge colorScheme={isDefeated ? 'red' : (idx === 0 ? 'blue' : 'gray')}>{isDefeated ? '✗' : idx + 1}</Badge>
-                                    <Image
-                                        src={poke.sprites?.front || poke.sprites?.main}
-                                        w="32px" h="32px"
-                                        filter={isDefeated ? 'grayscale(1)' : 'none'}
-                                        fallback={<Text fontSize="xl" w="32px" h="32px" textAlign="center">?</Text>}
-                                    />
+                                    <Tooltip
+                                        label={pokemonData[pokeId] ? <Card poke={pokemonData[pokeId]} tooltip /> : poke.name}
+                                        fontSize="xs"
+                                        placement="right"
+                                        hasArrow={false}
+                                        bg="transparent"
+                                        p={0}
+                                    >
+                                        <Image
+                                            src={poke.sprites?.front || poke.sprites?.main}
+                                            w="32px" h="32px"
+                                            filter={isDefeated ? 'grayscale(1)' : 'none'}
+                                            fallback={<Text fontSize="xl" w="32px" h="32px" textAlign="center">?</Text>}
+                                        />
+                                    </Tooltip>
                                     <VStack align="start" spacing={0} flex="1">
                                         <Text fontSize="xs" fontWeight="bold">{poke.level} - {poke.name}</Text>
                                         {/* HP Bar */}
@@ -216,14 +228,14 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                                 {POTIONS.map(pot => {
                                                     const count = player.potions?.[pot.key] ?? 0
                                                     return (
-                                                        <Tooltip key={pot.key} label={`${pot.label} (${pot.healText} HP) — ${count} left`} fontSize="xs">
+                                                        <Tooltip key={pot.key} label={t('journey.potionTooltip', { label: t(pot.tKey), heal: pot.healText, count })} fontSize="xs">
                                                             <IconButton
                                                                 size="xs"
                                                                 variant="ghost"
                                                                 icon={<Image src={pot.icon} w="18px" h="18px" />}
                                                                 isDisabled={count <= 0}
                                                                 onClick={() => applyPotion(pot.key, pokeId)}
-                                                                aria-label={pot.label}
+                                                                aria-label={t(pot.tKey)}
                                                                 p={0}
                                                                 minW="24px"
                                                                 h="24px"
@@ -248,7 +260,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                         <>
                             <Divider my={3} borderColor="red.400" opacity={0.5} />
                             <Text fontSize="xs" fontWeight="bold" color="red.400" mb={2}>
-                                Defeated ({defeatedPokes.length})
+                                {t('journey.defeated', { count: defeatedPokes.length })}
                             </Text>
                             <VStack spacing={2} w="100%" maxW="400px">
                                 {defeatedPokes.map((pokeId) => {
@@ -310,12 +322,12 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                             mb={4}
                             w="200px"
                         >
-                            <Text fontSize="xs" color="red.300" fontWeight="bold" mb={1}>OPPONENT</Text>
+                            <Text fontSize="xs" color="red.300" fontWeight="bold" mb={1}>{t('journey.opponent')}</Text>
                             <Image src={currentWild.sprite} w="64px" h="64px" />
                             <Text fontWeight="bold" fontSize="sm">{currentWild.name}</Text>
                             <HStack mt={1}>
-                                {currentWild.types?.map(t => (
-                                    <Element key={t} element={t} />
+                                {currentWild.types?.map(el => (
+                                    <Element key={el} element={el} />
                                 ))}
                             </HStack>
                             <Badge mt={1}>Lv. {currentWild.level}</Badge>
@@ -325,18 +337,33 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                     {/* Wild team preview */}
                     <HStack spacing={1}>
                         {journeyState.wildTeam?.map((wild, idx) => (
-                            <Box
+                            <Tooltip
                                 key={wild.id}
-                                w="32px" h="32px"
-                                borderRadius={4}
-                                bg={idx < wildIndex ? 'red.500' : (idx === wildIndex ? 'orange.400' : bgCard)}
-                                opacity={idx < wildIndex ? 0.3 : 1}
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
+                                label={
+                                    <Box p={1} fontSize="2xs">
+                                        <Text fontWeight="bold">{wild.name}</Text>
+                                        <Text>Lv. {wild.level}</Text>
+                                        <HStack spacing={1} mt={1}>
+                                            {wild.types?.map(el => (
+                                                <Element key={el} element={el} />
+                                            ))}
+                                        </HStack>
+                                    </Box>
+                                }
+                                fontSize="xs"
                             >
-                                <Image src={wild.sprite} w="24px" h="24px" filter={idx < wildIndex ? 'grayscale(1)' : 'none'} />
-                            </Box>
+                                <Box
+                                    w="32px" h="32px"
+                                    borderRadius={4}
+                                    bg={idx < wildIndex ? 'red.500' : (idx === wildIndex ? 'orange.400' : bgCard)}
+                                    opacity={idx < wildIndex ? 0.3 : 1}
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                >
+                                    <Image src={wild.sprite} w="24px" h="24px" filter={idx < wildIndex ? 'grayscale(1)' : 'none'} />
+                                </Box>
+                            </Tooltip>
                         ))}
                     </HStack>
                 </Flex>
@@ -348,7 +375,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                 onClick={startFight}
                 isLoading={loading}
             >
-                Fight!
+                {t('journey.fight')}
             </Button>
         </Flex>
     )

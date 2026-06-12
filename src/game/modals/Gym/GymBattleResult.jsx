@@ -1,16 +1,18 @@
 import { VStack, HStack, Text, Button, Flex, Image, useColorMode, Center } from "@chakra-ui/react"
 import { useContext } from "react"
+import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 import PrizeIcon from "@features/prizes/PrizeIcon"
 
 export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true, leveledUpPokemons = [], newBerries = [] }) {
     const { colorMode } = useColorMode()
     const { setLoading, playerWinPrize } = useContext(PlayerContext)
+    const { t } = useTranslation()
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
 
     const handleClose = async () => {
         if (victory && reward) {
-            setLoading({ loading: true, text: "Awarding..." })
+            setLoading({ loading: true, text: t('gym.awarding') })
             // Badge increment is handled by the server on gym-victory event
             // await updateStatus('badges') // REMOVED: This was causing duplicate badge increments
             await playerWinPrize(reward)
@@ -30,10 +32,10 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     flexDirection="column"
                 >
                     <Text fontSize="3xl" fontWeight="bold" color="white" mb={2}>
-                        🏆 VICTORY! 🏆
+                        {t('gym.victory')}
                     </Text>
                     <Text fontSize="lg" color="white">
-                        You defeated {gym.leader}!
+                        {t('gym.youDefeated', { leader: gym.leader })}
                     </Text>
                 </Center>
 
@@ -48,7 +50,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                 >
                     <VStack spacing={3}>
                         <Text fontSize="xl" fontWeight="bold">
-                            Badge Earned!
+                            {t('gym.badgeEarned')}
                         </Text>
                         <Image
                             src={require(`@assets/images/badges/${gym.badge.toLowerCase().replace(/\s+/g, '_')}.png`)}
@@ -62,7 +64,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     {reward && (
                         <VStack spacing={2} pt={2}>
                             <Text fontSize="md" fontWeight="bold">
-                                Victory Rewards
+                                {t('gym.victoryRewards')}
                             </Text>
                             <HStack>
                                 <Text fontSize="xl" fontWeight="bold" color="green.400">
@@ -70,19 +72,19 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                                 </Text>
                                 <PrizeIcon type={reward.name} size="28px" />
                             </HStack>
-                            <Text fontSize="sm" color="cyan.400">+1 EXP per battle pokémon</Text>
+                            <Text fontSize="sm" color="cyan.400">{t('gym.expPerPokemon')}</Text>
                             {leveledUpPokemons.length > 0 && (
                                 <VStack spacing={1}>
                                     {leveledUpPokemons.map((p) => (
                                         <Text key={p.id} fontSize="sm" color="yellow.400" fontWeight="bold">
-                                            ⬆ {p.name} leveled up to Lv.{p.level}!
+                                            {t('gym.leveledUp', { name: p.name, level: p.level })}
                                         </Text>
                                     ))}
                                 </VStack>
                             )}
                             {newBerries.length > 0 && (
                                 <VStack spacing={1}>
-                                    <Text fontSize="sm" color="pink.400" fontWeight="bold">Berries earned:</Text>
+                                    <Text fontSize="sm" color="pink.400" fontWeight="bold">{t('gym.berriesEarned')}</Text>
                                     <HStack spacing={2} flexWrap="wrap" justify="center">
                                         {newBerries.map((berry, i) => (
                                             <Text key={i} fontSize="sm">
@@ -102,7 +104,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     w="100%"
                     onClick={handleClose}
                 >
-                    Continue
+                    {t('common.continue')}
                 </Button>
             </VStack>
         )
@@ -119,10 +121,10 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                 flexDirection="column"
             >
                 <Text fontSize="3xl" fontWeight="bold" color="white" mb={2}>
-                    😔 DEFEAT 😔
+                    {t('gym.defeat')}
                 </Text>
                 <Text fontSize="lg" color="white">
-                    {gym.leader} was too strong...
+                    {t('gym.tooStrong', { leader: gym.leader })}
                 </Text>
             </Center>
 
@@ -136,10 +138,10 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                 w="100%"
             >
                 <Text fontSize="md" textAlign="center" color="gray.400">
-                    Don't give up! Train your Pokémon and try again!
+                    {t('gym.dontGiveUp')}
                 </Text>
                 <Text fontSize="sm" textAlign="center">
-                    "The best battles are the ones you learn from."
+                    {t('gym.bestBattles')}
                 </Text>
             </Flex>
 
@@ -151,7 +153,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     onClick={onRetry}
                     isDisabled={!canRetry}
                 >
-                    {canRetry ? 'Try Again' : 'Already battled this turn'}
+                    {canRetry ? t('gym.tryAgain') : t('gym.alreadyBattled')}
                 </Button>
                 <Button
                     variant="outline"
@@ -159,7 +161,7 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                     w="100%"
                     onClick={onClose}
                 >
-                    Leave Gym
+                    {t('gym.leaveGym')}
                 </Button>
             </VStack>
         </VStack>

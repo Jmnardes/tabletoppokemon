@@ -1,5 +1,6 @@
 import { Box, Button, Center, Flex, Image, Text, Tooltip, useColorMode, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import { stringToUpperCase } from "@utils";
 
@@ -17,6 +18,7 @@ const scrollbarCSS = {
 export default function TeamContainer() {
     const { boxIds, pokemonData, moveToTeam, teamIds, bagDirty, confirmBag } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const boxPokemons = boxIds.map(id => pokemonData[id]).filter(Boolean)
     const teamFull = teamIds?.length >= 6
@@ -33,7 +35,7 @@ export default function TeamContainer() {
                     gap={2}
                     backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}
                 >
-                    <Text fontSize="2xs" fontWeight="bold">Pokes</Text>
+                    <Text fontSize="2xs" fontWeight="bold">{t('team.pokes')}</Text>
                     <Box
                         flex="1"
                         overflowY="auto"
@@ -78,7 +80,7 @@ export default function TeamContainer() {
                             minH={14}
                             borderRadius={8}
                             onClick={confirmBag}
-                            title="Confirm team changes"
+                            title={t('team.confirmChanges')}
                         >
                             ✓
                         </Button>

@@ -1,11 +1,14 @@
 import { VStack, Text, Flex, Box } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import Card from "@features/pokemon/Card"
 
 export default function GymPokemonChoice({ availablePokemons, onChoose }) {
+    const { t } = useTranslation()
+
     return (
         <VStack spacing={4} p={4} w="100%">
             <Text fontSize="lg" fontWeight="bold" color="yellow.400">
-                Choose your next Pokémon!
+                {t('gym.chooseNext')}
             </Text>
 
             <Flex wrap="wrap" justify="center" gap={4} w="100%" maxH="500px" overflowY="auto" p={2}>
@@ -57,7 +60,7 @@ export default function GymPokemonChoice({ availablePokemons, onChoose }) {
                                     pointerEvents="none"
                                 >
                                     <Text fontSize="2xl" color="red.400" fontWeight="bold" textShadow="0 0 10px rgba(0,0,0,0.8)">
-                                        DEFEATED
+                                        {t('gym.defeatedLabel')}
                                     </Text>
                                 </Flex>
                             )}

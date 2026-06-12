@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import Element from "@features/elements/Element"
@@ -26,6 +27,7 @@ const getLeaderIcon = (leaderId) => {
 export default function GymPanel() {
     const { gym, nextGym, updateGame, session, lastGymBattleTurn, teamIds, getCurrentPhase, advancePhase, setActiveTab } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
     const displayGym = gym || nextGym
@@ -46,7 +48,7 @@ export default function GymPanel() {
         }
         return (
             <Flex flex="1" flexDir="column" p={4} align="center" justify="center">
-                <Text color="gray.400">No gym available</Text>
+                <Text color="gray.400">{t('gym.noGymAvailable')}</Text>
             </Flex>
         )
     }
@@ -58,7 +60,7 @@ export default function GymPanel() {
     return (
         <Flex flex="1" flexDir="column" p={4} overflowY="auto">
             <Text fontSize="lg" fontWeight="bold" textAlign="center" mb={2}>
-                {isAvailable ? displayGym.name : `Next Gym: ${displayGym.name}`}
+                {isAvailable ? displayGym.name : t('gym.nextGym', { name: displayGym.name })}
             </Text>
 
             <VStack spacing={3} flex="1">
@@ -86,27 +88,27 @@ export default function GymPanel() {
                         <HStack>
                             <Image src={getBadgeIcon(displayGym.badge)} w="28px" h="28px" />
                             <VStack align="start" spacing={0}>
-                                <Text fontSize="md" fontWeight="bold">Leader: {displayGym.leader}</Text>
-                                <Text fontSize="sm" color="gray.400">Badge: {displayGym.badge}</Text>
+                                <Text fontSize="md" fontWeight="bold">{t('gym.leaderName', { name: displayGym.leader })}</Text>
+                                <Text fontSize="sm" color="gray.400">{t('gym.badgeName', { name: displayGym.badge })}</Text>
                             </VStack>
                             <Element element={displayGym.element} size={24} />
                         </HStack>
                         {displayGym.attempts > 0 && (
                             <HStack justify="center">
-                                <Badge colorScheme="orange" fontSize="xs">Attempts: {displayGym.attempts}</Badge>
+                                <Badge colorScheme="orange" fontSize="xs">{t('gym.attempts', { count: displayGym.attempts })}</Badge>
                             </HStack>
                         )}
                     </Flex>
 
                     {displayGym.reward && (
                         <Flex bg={bgColor} p={3} borderRadius={8} flexDirection="column" alignItems="center" gap={1} flexShrink={0}>
-                            <Text fontSize="sm" fontWeight="bold">Rewards</Text>
+                            <Text fontSize="sm" fontWeight="bold">{t('gym.rewards')}</Text>
                             <HStack>
                                 <Text fontSize="md" fontWeight="bold" color="green.400">+{displayGym.reward.amount}</Text>
                                 <PrizeIcon type={displayGym.reward.name} size="20px" />
                             </HStack>
-                            <Text fontSize="2xs" color="cyan.400">+1 EXP per pokémon</Text>
-                            <Text fontSize="2xs" color="pink.400">+3 berries</Text>
+                            <Text fontSize="2xs" color="cyan.400">{t('gym.expPerPokemonReward')}</Text>
+                            <Text fontSize="2xs" color="pink.400">{t('gym.berries3')}</Text>
                         </Flex>
                     )}
                 </HStack>
@@ -114,7 +116,7 @@ export default function GymPanel() {
                 <Divider />
 
                 <Flex w="100%" flexDirection="column" gap={2}>
-                    <Text fontSize="md" fontWeight="bold" textAlign="center">Leader's Team</Text>
+                    <Text fontSize="md" fontWeight="bold" textAlign="center">{t('gym.leaderTeam')}</Text>
                     <Flex wrap="wrap" justify="center" gap={3}>
                         {displayGym.leaderTeam && displayGym.leaderTeam.length > 0 ? (
                             displayGym.leaderTeam.map((pokemon, index) => (
@@ -125,7 +127,7 @@ export default function GymPanel() {
                                 </Flex>
                             ))
                         ) : (
-                            <Text fontSize="sm" color="gray.400">Team information unavailable</Text>
+                            <Text fontSize="sm" color="gray.400">{t('gym.teamUnavailable')}</Text>
                         )}
                     </Flex>
                 </Flex>
@@ -135,7 +137,7 @@ export default function GymPanel() {
                 <Center flexDirection="column" gap={2} pt={1}>
                     {!isAvailable ? (
                         <Text fontSize="lg" fontWeight="bold" color="yellow.400" textAlign="center">
-                            Ao chegar na etapa {displayGym.turnStart} da jornada, venha me desafiar! A partir desse momento, poderá me desafiar todo turno.
+                            {t('gym.reachStage', { stage: displayGym.turnStart })}
                         </Text>
                     ) : (
                         <>
@@ -146,10 +148,10 @@ export default function GymPanel() {
                                 isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3)}
                             >
                                 {lastGymBattleTurn === session.turns 
-                                    ? 'Already challenged this turn' 
+                                    ? t('gym.alreadyChallenged') 
                                     : (teamIds && teamIds.length < 3)
-                                    ? 'Need at least 3 Pokémon'
-                                    : `Challenge ${displayGym.leader}`}
+                                    ? t('gym.needPokemon')
+                                    : t('gym.challengeLeader', { leader: displayGym.leader })}
                             </Button>
                             <Button
                                 colorScheme="gray"
@@ -157,11 +159,11 @@ export default function GymPanel() {
                                 variant="outline"
                                 onClick={() => setActiveTab('bag')}
                             >
-                                Pular
+                                {t('gym.skip')}
                             </Button>
                             {displayGym.attempts > 0 && (
                                 <Text fontSize="xs" color="gray.400">
-                                    You've challenged this gym {displayGym.attempts} time{displayGym.attempts > 1 ? 's' : ''}
+                                    {t('gym.challengeCount', { count: displayGym.attempts })}
                                 </Text>
                             )}
                         </>

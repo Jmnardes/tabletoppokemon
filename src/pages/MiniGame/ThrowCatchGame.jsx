@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Box, Flex, HStack, Image, Text, useColorMode } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import { keyframes } from "@emotion/react"
 
 import pokeballImg from "@assets/images/pokeballs/pokeball.png"
@@ -96,12 +97,12 @@ const BALL_IMAGES = {
   masterball: masterballImg,
 }
 
-const getThrowResult = (deviation, ballType) => {
+const getThrowResult = (deviation, ballType, t) => {
   const zones = BALL_ZONES[ballType] || BALL_ZONES.pokeball
-  if (deviation <= zones.perfectPct) return { label: "Perfect!", color: "green.400", bonus: 4 }
-  if (deviation <= zones.goodPct)    return { label: "Good!",    color: "yellow.400", bonus: 2 }
-  if (deviation <= (0.5 - zones.badPct)) return { label: "Ok...", color: "gray.400", bonus: 0 }
-  return { label: "Bad!",   color: "red.400",   bonus: -1 }
+  if (deviation <= zones.perfectPct) return { label: t('minigame.perfect'), color: "green.400", bonus: 4 }
+  if (deviation <= zones.goodPct)    return { label: t('minigame.good'),    color: "yellow.400", bonus: 2 }
+  if (deviation <= (0.5 - zones.badPct)) return { label: t('minigame.ok'), color: "gray.400", bonus: 0 }
+  return { label: t('minigame.bad'),   color: "red.400",   bonus: -1 }
 }
 
 const rollCatch = (ballType, throwBonus) => {
@@ -149,6 +150,7 @@ const CATCH_PHASE_ORDER = [
 export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, targetSprite, targetName }) {
   const isJourneyMode = !!onCatchResolve
   const { colorMode } = useColorMode()
+  const { t } = useTranslation()
   const isDark = colorMode === "dark"
 
   const [phase, setPhase] = useState(PHASES.IDLE)
@@ -203,7 +205,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
   // ─── Throw animation ───
   const throwBall = useCallback((lockedPower) => {
     const deviation = Math.abs(lockedPower - 50) / 50
-    const result = getThrowResult(deviation, selectedBall)
+    const result = getThrowResult(deviation, selectedBall, t)
     setThrowResult(result)
 
     const maxOffset = BALL_START_Y - CARD_CENTER_Y
@@ -230,7 +232,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     }
 
     requestAnimationFrame(animate)
-  }, [selectedBall])
+  }, [selectedBall, t])
 
   // ─── Auto-advance catch phases ───
   useEffect(() => {

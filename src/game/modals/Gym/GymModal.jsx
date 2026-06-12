@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react"
+import { useTranslation } from "react-i18next"
 import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import GenericModal from "@components/Modal/GenericModal"
@@ -32,6 +33,7 @@ const getLeaderIcon = (leaderId) => {
 export default function GymModal() {
     const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, getCurrentPhase, advancePhase } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const [battleState, setBattleState] = useState('pre-battle')
     const [playerTeam, setPlayerTeam] = useState([])
@@ -212,7 +214,7 @@ export default function GymModal() {
         
         setLastGymBattleTurn(session.turns)
         setBattleState('battling')
-        setLoading({ loading: true, text: 'Starting gym battle...' })
+        setLoading({ loading: true, text: t('gym.startingBattle') })
 
         if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
         loadingTimeoutRef.current = setTimeout(() => {
@@ -231,7 +233,7 @@ export default function GymModal() {
         }
         
         setNeedsChoice(false)
-        setLoading({ loading: true, text: 'Selecting pokémon...' })
+        setLoading({ loading: true, text: t('gym.selectingPokemon') })
         
         emit('gym-battle-choose', { pokemonIndex })
         
@@ -242,7 +244,7 @@ export default function GymModal() {
     }
 
     const handleNext = () => {
-        setLoading({ loading: true, text: 'Continuing battle...' })
+        setLoading({ loading: true, text: t('gym.continuingBattle') })
         
         emit('gym-battle-next', {})
         
@@ -299,10 +301,10 @@ export default function GymModal() {
     }
 
     const modalTitle = 
-        battleState === 'pre-battle' ? `Select Team - ${displayGym?.name}` :
-        battleState === 'battling' ? `Battle - ${displayGym?.name}` :
-        battleState === 'result' ? (battleResult?.victory ? 'Victory!' : 'Defeat') :
-        isAvailable ? displayGym?.name : `Next Gym: ${displayGym?.name}`
+        battleState === 'pre-battle' ? t('gym.selectTeam', { name: displayGym?.name }) :
+        battleState === 'battling' ? t('gym.battle', { name: displayGym?.name }) :
+        battleState === 'result' ? (battleResult?.victory ? t('gym.victory') : t('gym.defeat')) :
+        isAvailable ? displayGym?.name : t('gym.nextGym', { name: displayGym?.name })
 
     return (
         <GenericModal
@@ -337,7 +339,7 @@ export default function GymModal() {
                                 />
                             ) : (
                                 <Text fontSize="sm" color="gray.500">
-                                    Leader
+                                    {t('gym.leader')}
                                 </Text>
                             )}
                         </Flex>
@@ -359,10 +361,10 @@ export default function GymModal() {
                                 />
                                 <VStack align="start" spacing={0}>
                                     <Text fontSize="lg" fontWeight="bold">
-                                        Leader: {displayGym.leader}
+                                        {t('gym.leaderName', { name: displayGym.leader })}
                                     </Text>
                                     <Text fontSize="md" color="gray.400">
-                                        Badge: {displayGym.badge}
+                                        {t('gym.badgeName', { name: displayGym.badge })}
                                     </Text>
                                 </VStack>
                                 <Element element={displayGym.element} size={24} />
@@ -371,7 +373,7 @@ export default function GymModal() {
                             {displayGym.attempts > 0 && (
                                 <HStack justify="center">
                                     <Badge colorScheme="orange" fontSize="xs">
-                                        Attempts: {displayGym.attempts}
+                                        {t('gym.attempts', { count: displayGym.attempts })}
                                     </Badge>
                                 </HStack>
                             )}
@@ -388,7 +390,7 @@ export default function GymModal() {
                                 gap={2}
                             >
                                 <Text fontSize="md" fontWeight="bold">
-                                    Reward
+                                    {t('common.reward')}
                                 </Text>
                                 <HStack>
                                     <Text fontSize="lg" fontWeight="bold" color="green.400">
@@ -405,7 +407,7 @@ export default function GymModal() {
                     {/* Team Preview */}
                     <Flex w="100%" flexDirection="column" gap={2}>
                         <Text fontSize="md" fontWeight="bold" textAlign="center">
-                            Leader's Team
+                            {t('gym.leaderTeam')}
                         </Text>
                         <Flex wrap="wrap" justify="center" gap={3}>
                             {displayGym.leaderTeam && displayGym.leaderTeam.length > 0 ? (
@@ -435,7 +437,7 @@ export default function GymModal() {
                                 ))
                             ) : (
                                 <Text fontSize="sm" color="gray.400">
-                                    Team information unavailable
+                                    {t('gym.teamUnavailable')}
                                 </Text>
                             )}
                         </Flex>
@@ -448,7 +450,7 @@ export default function GymModal() {
                         {!isAvailable ? (
                             <Center flex={1} w="100%">
                                 <Text fontSize="xl" fontWeight="bold" color="yellow.400" textAlign="center">
-                                    Come back on turn {displayGym.turnStart} to challenge this gym!
+                                    {t('gym.comeBackOnTurn', { turn: displayGym.turnStart })}
                                 </Text>
                             </Center>
                         ) : (
@@ -460,14 +462,14 @@ export default function GymModal() {
                                     isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3)}
                                 >
                                     {lastGymBattleTurn === session.turns 
-                                        ? 'Already challenged this turn' 
+                                        ? t('gym.alreadyChallenged') 
                                         : (teamIds && teamIds.length < 3)
-                                        ? 'Need at least 3 Pokémon'
-                                        : `Challenge ${displayGym.leader}`}
+                                        ? t('gym.needPokemon')
+                                        : t('gym.challengeLeader', { leader: displayGym.leader })}
                                 </Button>
                                 {displayGym.attempts > 0 && (
                                     <Text fontSize="xs" color="gray.400">
-                                        You've challenged this gym {displayGym.attempts} time{displayGym.attempts > 1 ? 's' : ''}
+                                        {t('gym.challengeCount', { count: displayGym.attempts })}
                                     </Text>
                                 )}
                             </>

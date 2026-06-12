@@ -1,8 +1,10 @@
 import { Button, Flex, Heading, useColorMode, Link } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import GameJoin from "./GameJoin";
 import ThemeSwitch from "@components/Chakra/ThemeSwitch/ThemeSwitch"
+import LanguageSwitch from "@components/Chakra/LanguageSwitch/LanguageSwitch";
 import GameLobby from "./GameLobby";
 import PlayerContext from "@context/PlayerContext";
 import GameNew from "./GameNew";
@@ -17,6 +19,7 @@ import { FaArrowLeft, FaDoorOpen, FaInfoCircle, FaGithub } from "react-icons/fa"
 export default function GameMenu() {
     const { player, emit, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
     const [isGameTypeSelected, setIsGameTypeSelected] = useState(false)
     const [isGameTypeJoin, setIsGameTypeJoin] = useState(true)
     const [gameInfoModal, setGameInfoModal] = useState(false)
@@ -72,11 +75,12 @@ export default function GameMenu() {
                         </Link>
                     </Button>
                     
-                    <Button w="100%" h={12} m={4} title="Game Info" onClick={() => setGameInfoModal(true)}>
+                    <Button w="100%" h={12} m={4} title={t('menu.gameInfo')} onClick={() => setGameInfoModal(true)}>
                         <FaInfoCircle/>
                     </Button>
 
                     <Flex>
+                        <LanguageSwitch />
                         <ThemeSwitch />
                     </Flex>
                 </Flex>
@@ -89,7 +93,7 @@ export default function GameMenu() {
             >
                 {!isGameTypeSelected && (
                     <>
-                        <Heading size="2xl">Poké Tactics</Heading>
+                        <Heading size="2xl">{t('menu.title')}</Heading>
                     </>
                 )}
                 <Flex
@@ -107,20 +111,20 @@ export default function GameMenu() {
                             <Button w="100%" h={12} my={4} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(true)
-                            }}>Join Room</Button>
+                            }}>{t('menu.joinRoom')}</Button>
                             <Button w="100%" h={12} my={4} onClick={() => {
                                 setIsGameTypeSelected(true) 
                                 setIsGameTypeJoin(false)
-                            }}>New Room</Button>
+                            }}>{t('menu.newRoom')}</Button>
                             {/* <Button w="100%" h={12} my={4} onClick={
                                 () => setDebug(true)
                             }>Simulator</Button> */}
                             <Button w="100%" h={12} my={4} onClick={
                                 () => setStatistics(true)
-                            }>Statistics</Button>
+                            }>{t('menu.statistics')}</Button>
                             <Button w="100%" h={12} my={4} onClick={
                                 () => setMiniGame(true)
-                            }>Mini Game</Button>
+                            }>{t('menu.miniGame')}</Button>
                         </>
                     ) : (
 

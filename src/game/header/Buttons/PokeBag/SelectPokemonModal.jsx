@@ -18,6 +18,7 @@ import { berryExistsInBerries, stringToUpperCase } from "@utils"
 
 import dustIcon from '@assets/images/items/dust.png'
 import berryIcon from '@assets/images/berries/berry.png'
+import { useTranslation } from "react-i18next"
 
 export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDust }) {
     const {
@@ -28,20 +29,21 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
         updatePokemon,
         setBerries,
     } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     const handleDust = async (pokemon) => {
         if ((pokemon.dust || 0) >= 5) {
             handleToast({
                 id: 'dust-max',
-                title: 'Max dust reached',
-                description: `${stringToUpperCase(pokemon.name)} already has the max of 5 dusts.`,
+                title: t('items.maxDustReached'),
+                description: t('items.maxDustDesc', { name: stringToUpperCase(pokemon.name) }),
                 status: 'warning',
                 position: 'top',
             })
             return
         }
 
-        setLoading({ loading: true, text: "Applying dust..." })
+        setLoading({ loading: true, text: t('items.applyingDust') })
         try {
             const result = await emit('player-use-dust', { pokemon })
             if (result?.pokemon) {
@@ -50,7 +52,7 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
         } catch (err) {
             handleToast({
                 id: 'dust-error',
-                title: 'Failed to use dust',
+                title: t('items.failedUseDust'),
                 description: err.message,
                 status: 'error',
                 position: 'top',
@@ -67,8 +69,8 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
         if (berryExistsInBerries({ berries: pokemon.berries, berryType: berry.type })) {
             handleToast({
                 id: 'berry-exists',
-                title: `${stringToUpperCase(pokemon.name)} denied`,
-                description: `${stringToUpperCase(pokemon.name)} already ate a ${berry.name} berry and its effect is still active!`,
+                title: t('items.berryDenied', { name: stringToUpperCase(pokemon.name) }),
+                description: t('items.berryActiveDesc', { name: stringToUpperCase(pokemon.name), berry: berry.name }),
                 icon: <Image
                     width="32px"
                     src={getBerryIcon(berry.type)}
@@ -84,15 +86,15 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
         if (pokemon.berries.length >= 3) {
             handleToast({
                 id: 'berry-full',
-                title: 'Berry slots full',
-                description: `${stringToUpperCase(pokemon.name)} already has 3 berries applied.`,
+                title: t('items.berrySlotsFull'),
+                description: t('items.berrySlotDesc', { name: stringToUpperCase(pokemon.name) }),
                 status: 'warning',
                 position: 'top',
             })
             return
         }
 
-        setLoading({ loading: true, text: "Applying berry..." })
+        setLoading({ loading: true, text: t('items.applyingBerry') })
         try {
             const result = await emit('player-use-berry', { berry, pokeId: pokemon.id })
             if (result?.pokemon) {
@@ -104,7 +106,7 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
         } catch (err) {
             handleToast({
                 id: 'berry-error',
-                title: 'Failed to use berry',
+                title: t('items.failedUseBerry'),
                 description: err.message,
                 status: 'error',
                 position: 'top',
@@ -126,7 +128,7 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
     const itemName = isDust ? 'Dust' : (selectedItem?.name + ' Berry')
     const itemIcon = isDust ? dustIcon : getBerryIcon(selectedItem?.type)
     const itemDescription = isDust
-        ? "Grants +1 EXP at the end of each turn. Only 1 dust is consumed per turn. Can be stacked up to 5."
+        ? t('items.dustDesc')
         : selectedItem?.effect?.description
 
     return (
@@ -135,14 +137,14 @@ export default function SelectPokemonModal({ isOpen, onClose, selectedItem, isDu
             <ModalContent>
                 <ModalHeader textAlign="center">
                     <Center flexDir="column" gap={2}>
-                        <Text fontSize="md">Use {itemName}</Text>
+                        <Text fontSize="md">{t('items.useItem', { itemName })}</Text>
                         <Image src={itemIcon} fallbackSrc={berryIcon} w={10} />
                         <Text fontSize="xs" fontWeight="normal" color="gray.300">{itemDescription}</Text>
                     </Center>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody pb={6}>
-                    <Text fontSize="sm" textAlign="center" mb={4}>Select a pokémon from your team:</Text>
+                    <Text fontSize="sm" textAlign="center" mb={4}>{t('items.selectPokemon')}</Text>
                     <PokeList
                         pokemons={getTeamPokemons()}
                         onSelect={handleSelect}

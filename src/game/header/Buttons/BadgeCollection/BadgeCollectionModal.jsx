@@ -9,6 +9,7 @@ import {
     Flex,
     useColorMode
 } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
 const ALL_BADGES = [
@@ -33,6 +34,7 @@ const getBadgeIcon = (badgeName) => {
 export default function BadgeCollectionTooltip() {
     const { emit } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
     const [defeatedGyms, setDefeatedGyms] = useState([])
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
@@ -64,11 +66,11 @@ export default function BadgeCollectionTooltip() {
             direction="column"
         >
             <Badge textAlign="center" w="full" py={4}>
-                Badge Collection
+                {t('badges.title')}
             </Badge>
             <Center mb={2} mt={2}>
                 <Text fontSize="xx-small" color="gray.500">
-                    {defeatedGyms.length} / {ALL_BADGES.length} Badges Earned
+                    {t('badges.earned', { count: defeatedGyms.length, total: ALL_BADGES.length })}
                 </Text>
             </Center>
             <Grid templateColumns="repeat(8, 1fr)" gap={1} px={3} pb={3}>

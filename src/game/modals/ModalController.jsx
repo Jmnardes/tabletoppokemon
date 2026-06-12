@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Image } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 import socket from "@client";
 import PlayerContext from "@context/PlayerContext";
@@ -20,6 +21,7 @@ export default function ModalController() {
         updateGame, 
         updatePokemon,
         handleToast,
+        setLoading,
         setTasks,
         setGym,
         setNextGym,
@@ -37,6 +39,7 @@ export default function ModalController() {
     const [capturedPokemon, setCapturedPokemon] = useState({})
     const [lastNextGymNotified, setLastNextGymNotified] = useState(null)
     const [lastGymAvailableNotified, setLastGymAvailableNotified] = useState(null)
+    const { t } = useTranslation()
 
     useEffect(() => {
         socket.on('turn-start', (res, callback) => {
@@ -64,8 +67,8 @@ export default function ModalController() {
                     updatePokemon(pokemon.id, pokemon)
                     handleToast({
                         id: pokemon.id,
-                        title: "Pokémon level up!",
-                        description: `${pokemon.name} has leveled up to ${pokemon.level}!`,
+                        title: t('toast.levelUp'),
+                        description: t('toast.levelUpDesc', { name: pokemon.name, level: pokemon.level }),
                         icon: <Image
                                 width="32px"
                                 src={pokemon.sprites.mini}
@@ -96,8 +99,8 @@ export default function ModalController() {
                     if (n.type === 'ready') {
                         handleToast({
                             id: `farm-ready-${n.plotId}`,
-                            title: 'Berry ready!',
-                            description: 'A berry is ready to harvest on your farm!',
+                            title: t('toast.berryReady'),
+                            description: t('toast.berryReadyDesc'),
                             duration: 5000,
                             position: 'bottom-left',
                             status: 'info',
@@ -112,8 +115,8 @@ export default function ModalController() {
                     if (n.type === 'broken') {
                         handleToast({
                             id: `craft-broken-${n.machineId}`,
-                            title: 'Machine broke!',
-                            description: 'A craft machine broke down! Repair it for 1 token.',
+                            title: t('toast.machineBroke'),
+                            description: t('toast.machineBrokeDesc'),
                             duration: 5000,
                             position: 'bottom-left',
                             status: 'warning',
@@ -129,7 +132,7 @@ export default function ModalController() {
                 const desc = Object.entries(summary).map(([type, count]) => `${count}x ${type}`).join(', ')
                 handleToast({
                     id: `craft-produced-${res.turn}`,
-                    title: 'Craft produced!',
+                    title: t('toast.craftProduced'),
                     description: desc,
                     duration: 5000,
                     position: 'bottom-left',
@@ -159,6 +162,7 @@ export default function ModalController() {
         })
 
         socket.on('player-capture-starters', () => {
+            setLoading({ loading: false })
             updateGame({ openEncounterModal: false, openStarterKitModal: true })
         })
 
@@ -178,8 +182,8 @@ export default function ModalController() {
             
             handleToast({
                 id: `next-gym-${nextGym.id}`,
-                title: "🗺️ Next Gym Route Decided!",
-                description: `The path to ${nextGym.name} has been set. Available at level ${nextGym.gymLevel}.`,
+                title: t('toast.nextGymRoute'),
+                description: t('toast.nextGymRouteDesc', { name: nextGym.name, level: nextGym.gymLevel }),
                 status: 'info',
                 duration: 6000,
                 position: 'top-right'
@@ -195,8 +199,8 @@ export default function ModalController() {
             
             handleToast({
                 id: `gym-available-${gym.id}`,
-                title: "🏆 Gym Challenge Available!",
-                description: `${gym.name} is now open for challenges. Face ${gym.leader} and earn the ${gym.badge}!`,
+                title: t('toast.gymAvailable'),
+                description: t('toast.gymAvailableDesc', { name: gym.name, leader: gym.leader, badge: gym.badge }),
                 status: 'success',
                 duration: 8000,
                 position: 'top-right'

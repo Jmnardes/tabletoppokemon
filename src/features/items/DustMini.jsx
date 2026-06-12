@@ -1,7 +1,9 @@
 import { Center, Image, Text } from "@chakra-ui/react"
 import dustIcon from '@assets/images/items/dust.png'
+import { useTranslation } from "react-i18next"
 
 export default function DustMini({ dusts, absolute=true }) {
+    const { t } = useTranslation()
     return (
         <>
             {dusts > 0 && (
@@ -16,7 +18,7 @@ export default function DustMini({ dusts, absolute=true }) {
                         </Text>
                     )}
                     <Image
-                        title={"Dusts"}
+                        title={t('items.dusts')}
                         src={dustIcon}
                         w={4}
                     />

@@ -1,6 +1,8 @@
 import { Center, CloseButton, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 
 export default function GenericModal({ children, title, closeButton, onModalClose, size, rewriteCloseButton = null }) {
+    const { t } = useTranslation()
     return (
         <Modal isOpen isCentered size={size}>
             <ModalOverlay
@@ -16,7 +18,7 @@ export default function GenericModal({ children, title, closeButton, onModalClos
                             <CloseButton
                                 position="absolute" 
                                 right="20px"
-                                title={'Fechar'}
+                                title={t('common.close')}
                                 onClick={onModalClose}
                             />
                         )}

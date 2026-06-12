@@ -12,6 +12,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
@@ -125,6 +126,7 @@ function ClassCard({ kitKey, data, isSelected, onSelect }) {
 export default function StarterKitModal() {
     const { emit, setPlayer, setBerries, updateGame, setLoading, handleToast, setFarm, setCraft, setTrainingCamp } = useContext(PlayerContext)
     const [selectedKit, setSelectedKit] = useState(null)
+    const { t } = useTranslation()
 
     const handleConfirm = async () => {
         if (!selectedKit) return
@@ -152,8 +154,8 @@ export default function StarterKitModal() {
             setLoading({ loading: false })
 
             handleToast({
-                title: `${classData[selectedKit].name} Kit Applied!`,
-                description: 'Your starting items have been added.',
+                title: t('toast.kitApplied', { name: classData[selectedKit].name }),
+                description: t('toast.kitAppliedDesc'),
                 status: 'success',
                 duration: 4000,
             })
@@ -161,8 +163,8 @@ export default function StarterKitModal() {
             setLoading({ loading: false })
             handleToast({
                 id: 'select-kit-error',
-                title: 'Error selecting kit',
-                description: error.message || 'Connection error. Please try again.',
+                title: t('toast.errorSelectingKit'),
+                description: error.message || t('toast.connectionError'),
                 status: 'error',
                 position: 'top',
             })
@@ -178,12 +180,12 @@ export default function StarterKitModal() {
             />
             <ModalContent p={4}>
                 <ModalHeader fontSize="2xl" textAlign="center" pt={0}>
-                    Choose Your Starter Kit
+                    {t('starterKit.chooseKit')}
                 </ModalHeader>
 
                 <Center flexDir="column" px={4}>
                     <Text fontSize="sm" color="gray.400" mb={2}>
-                        Every trainer receives:
+                        {t('starterKit.everyTrainerReceives')}
                     </Text>
                     <Flex gap={4} mb={4} flexWrap="wrap" justify="center">
                         {defaultItems.map((item, i) => (
@@ -192,7 +194,7 @@ export default function StarterKitModal() {
                     </Flex>
 
                     <Text fontSize="sm" color="gray.400" mb={3}>
-                        Pick a class for bonus items:
+                        {t('starterKit.pickClass')}
                     </Text>
 
                     <Flex gap={3} w="full" mb={4}>

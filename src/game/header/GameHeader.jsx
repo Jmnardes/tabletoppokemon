@@ -1,5 +1,6 @@
 import { Badge, Center, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import TrainerBar from "./Trainer/TrainerBar";
 import PokeballStats from './Pokeball/PokeballStats'
@@ -15,6 +16,7 @@ import starIcon from '@assets/images/game/star.png';
 export default function GameHeader() {
     const { player, game, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
 
@@ -35,16 +37,20 @@ export default function GameHeader() {
                     {player.status.trainerName}
                 </Badge>
                 {!game.hasEnded && (
-                    <Flex alignItems="center" mx={2}>
-                        <Image src={clockIcon} title={'Turn'} w="20px" />
-                        <Text ml={1} fontSize="2xs">{session.turns || 0}</Text>
-                    </Flex>
+                    <Tooltip label={t('header.currentTurn')} fontSize="xs">
+                        <Flex alignItems="center" mx={2}>
+                            <Image src={clockIcon} w="20px" />
+                            <Text ml={1} fontSize="2xs">{session.turns || 0}</Text>
+                        </Flex>
+                    </Tooltip>
                 )}
                 {!game.hasEnded && (
-                    <Flex alignItems="center" mx={2}>
-                        <Image src={starIcon} title={'Ranking Points'} w="20px" />
-                        <Text ml={1} fontSize="2xs">{player.status.ranking || 0}</Text>
-                    </Flex>
+                    <Tooltip label={t('header.rankingPoints')} fontSize="xs">
+                        <Flex alignItems="center" mx={2}>
+                            <Image src={starIcon} w="20px" />
+                            <Text ml={1} fontSize="2xs">{player.status.ranking || 0}</Text>
+                        </Flex>
+                    </Tooltip>
                 )}
                 {!game.hasEnded && (
                     <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">
@@ -56,7 +62,7 @@ export default function GameHeader() {
                 {!game.hasEnded && (
                     <Tooltip label={<BadgeCollectionTooltip />} p={0} borderRadius={8} background="none">
                         <Flex alignItems="center" mx={2} cursor="pointer">
-                            <Image src={crownIcon} title={'Badges'} w="24px" />
+                            <Image src={crownIcon} w="24px" />
                             <Text ml={1} fontSize="2xs">{player.status.badges || 0} / {session.badgesToWin || 8}</Text>
                         </Flex>
                     </Tooltip>

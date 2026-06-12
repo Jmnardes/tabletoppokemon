@@ -1,10 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react"
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import PokeballButton from "@components/AnimatedButton/Pokeball/PokeballButton";
 
 export default function EncounterBalls({ children, handleCatchDiceRoll, isStarter }) {
     const { game, emit, player, setPlayer, updateGame, handleToast } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     const handleBallClick = async (type, bonus, roll) => {
         const ballCatchBonus = player.catchBonus?.balls
@@ -28,8 +30,8 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
             updateGame({ isPokemonRollDisabled: false })
             handleToast({
                 id: 'use-ball-error',
-                title: 'Error using Pokeball',
-                description: error.message || 'Connection error. Please try again.',
+                title: t('toast.errorUsingPokeball'),
+                description: error.message || t('toast.connectionError'),
                 status: 'error',
                 position: 'top'
             })

@@ -1,5 +1,6 @@
 import { Button, CircularProgress, Divider, Flex, Text, Image } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
@@ -9,6 +10,7 @@ import starIcon from '@assets/images/game/star.png'
 export default function GameLobby() {
     const {emit, session, opponents, player, version} = useContext(PlayerContext)
     const [isLoading, setIsLoading] = useState(false)
+    const { t } = useTranslation()
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
         return (
@@ -57,7 +59,7 @@ export default function GameLobby() {
                     _hover={{ 'cursor': 'pointer', 'opacity': 0.9 }}
                     onClick={handleCopyCode}
                 >
-                    <FaRegCopy title="Copy code" size={24} />
+                    <FaRegCopy title={t('lobby.copyCode')} size={24} />
                 </Flex>
             </Flex>
             <Divider my={4} />
@@ -72,7 +74,7 @@ export default function GameLobby() {
                 mb={4}
             >
                 <Text fontSize="sm" fontWeight="bold" mb={3}>
-                    Game Objective
+                    {t('lobby.gameObjective')}
                 </Text>
                 <Flex width="100%" gap={2} justifyContent="space-between">
                     <Flex 
@@ -91,7 +93,7 @@ export default function GameLobby() {
                             mb={1}
                         />
                         <Text fontSize="2xs" textAlign="center">
-                            Win {session.badgesToWin || 8} badges to end the game
+                            {t('lobby.winBadges', { count: session.badgesToWin || 8 })}
                         </Text>
                     </Flex>
                     <Flex 
@@ -110,7 +112,7 @@ export default function GameLobby() {
                             mb={1}
                         />
                         <Text fontSize="2xs" textAlign="center">
-                            Highest ranking wins
+                            {t('lobby.highestRanking')}
                         </Text>
                     </Flex>
                 </Flex>
@@ -119,33 +121,33 @@ export default function GameLobby() {
             <Divider my={4} />
 
                 <ConfigurationSlot 
-                    name1={'Catch difficulty'}
+                    name1={t('lobby.catchDifficulty')}
                     data1={session.gameDifficulty}
-                    name2={'Shiny chance %'}
+                    name2={t('lobby.shinyChance')}
                     data2={session.shinyChance}
                 />
                 <ConfigurationSlot 
-                    name1={'Badges to win'}
+                    name1={t('lobby.badgesToWin')}
                     data1={session.badgesToWin}
-                    name2={'Team length'}
+                    name2={t('lobby.teamLength')}
                     data2={6}
                 />
                 <ConfigurationSlot 
-                    name1={'Stages/journey'}
+                    name1={t('lobby.stagesPerJourney')}
                     data1={session.stagesPerJourney}
-                    name2={'Journey team'}
+                    name2={t('lobby.journeyTeam')}
                     data2={session.journeyTeamLength}
                 />
                 <ConfigurationSlot 
-                    name1={'Gym strength'}
+                    name1={t('lobby.gymStrength')}
                     data1={session.gymStrengthBonus}
-                    name2={'Battle frequency'}
+                    name2={t('lobby.battleFrequency')}
                     data2={session.battleFrequency}
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>
-                <Text fontWeight={"bold"}>Player</Text>
-                <Text fontWeight={"bold"}>Ready</Text>
+                <Text fontWeight={"bold"}>{t('common.player')}</Text>
+                <Text fontWeight={"bold"}>{t('common.ready')}</Text>
             </Flex>
             <Flex width={"100%"} justifyContent={"space-between"} m={2}>
                 <Text>{player.status.trainerName}</Text>
@@ -180,7 +182,7 @@ export default function GameLobby() {
 
                 emit('lobby-ready', !player.ready)
             }}>
-                {player.ready ? "Cancel" : "Ready"}
+                {player.ready ? t('common.cancel') : t('common.ready')}
             </Button>
         </>
     )

@@ -1,9 +1,11 @@
 import { useContext, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Flex, Text, Button, Badge } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 
 export default function JourneyExit({ journeyState, onLeave }) {
+    const { t } = useTranslation()
     const { player, session, setPlayer, syncPokemonsFromServer } = useContext(PlayerContext)
     const [exiting, setExiting] = useState(false)
 
@@ -34,10 +36,10 @@ export default function JourneyExit({ journeyState, onLeave }) {
     return (
         <Flex flex="1" direction="column" align="center" justify="center" p={4} w="100%" maxW="500px">
             <Text fontSize="xl" mb={2}>
-                Journey Complete
+                {t('journey.complete')}
             </Text>
             <Badge colorScheme="blue" fontSize="md" mb={4} p={2} borderRadius={8}>
-                Round {journeyState.round} reached
+                {t('journey.roundReached', { round: journeyState.round })}
             </Badge>
 
             <Button
@@ -46,7 +48,7 @@ export default function JourneyExit({ journeyState, onLeave }) {
                 onClick={handleExit}
                 isLoading={exiting}
             >
-                Leave Journey
+                {t('journey.leaveJourney')}
             </Button>
         </Flex>
     )

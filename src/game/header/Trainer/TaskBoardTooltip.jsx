@@ -4,10 +4,12 @@ import PlayerContext from "@context/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
 import starIcon from '@assets/images/game/star.png'
+import { useTranslation } from "react-i18next"
 
 export default function TaskBoardTooltip() {
     const { tasks } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
 
@@ -40,7 +42,7 @@ export default function TaskBoardTooltip() {
                             - {task.name}
                         </Text>
                         <Flex justifyContent={"space-between"}>
-                            <Text mt={1} fontSize={"xx-small"}>Progress: {
+                            <Text mt={1} fontSize={"xx-small"}>{t('taskBoard.progress')}{
                                 task.condition.status.current}/{task.condition.status.final
                             }</Text>
                             <Flex>
@@ -76,7 +78,7 @@ export default function TaskBoardTooltip() {
             justifyContent={"space-between"}
         >
             <Badge textAlign={"center"} w={"full"} py={4}>
-                Tasks
+                {t('taskBoard.title')}
             </Badge>
             <Center flexDir={"column"} px={4} w="full">
                 {tasks?.map((task, index) => (

@@ -20,7 +20,7 @@ const Loading = ({
                 width='100%'
                 height='100%'
                 bg='black'
-                opacity='70%'
+                opacity='85%'
                 zIndex='1401'
             />
             <Center

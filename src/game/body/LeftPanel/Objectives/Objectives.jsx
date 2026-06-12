@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Badge, Center, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
 import { FaTrophy } from "react-icons/fa";
@@ -8,6 +9,7 @@ import starIcon from '@assets/images/game/star.png'
 export default function Objectives() {
     const { achievements } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
     const hiddenColor = colorMode === 'light' ? "gray.400" : "gray.600"
@@ -66,7 +68,7 @@ export default function Objectives() {
             direction="column"
         >
             <Badge textAlign="center" w="full" py={4}>
-                Objectives
+                {t('objectives.title')}
             </Badge>
             
             <Center flexDir="column" px={4} py={2}>
@@ -76,7 +78,7 @@ export default function Objectives() {
                     ))
                 ) : (
                     <Text fontSize="xs" color="gray.500" textAlign="center">
-                        No objectives available
+                        {t('objectives.noObjectives')}
                     </Text>
                 )}
             </Center>

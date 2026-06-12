@@ -1,4 +1,5 @@
 import { useState, useContext } from "react"
+import { useTranslation } from "react-i18next"
 import { VStack, HStack, Text, Button, Flex, Image, Badge, useColorMode, Tooltip, Box } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import Element from "@features/elements/Element"
@@ -8,6 +9,7 @@ import { PokeRarity } from "@features/pokemon/PokemonRarity"
 export default function GymPreBattle({ gym, onStartBattle }) {
     const { getTeamPokemons, getBoxPokemons } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
     const [selectedPokemons, setSelectedPokemons] = useState([])
 
     const allPokemons = [...getTeamPokemons(), ...getBoxPokemons()]
@@ -58,27 +60,27 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                 justify="space-around"
                 align="center"
             >
-                <Text fontSize="sm" fontWeight="bold">Victory Rewards:</Text>
+                <Text fontSize="sm" fontWeight="bold">{t('gym.victoryRewards')}</Text>
                 <HStack spacing={4}>
-                    <Text fontSize="xs" color="yellow.400">🏅 Badge</Text>
-                    <Text fontSize="xs" color="green.400">+{gym.reward?.amount || 15} Ranking</Text>
-                    <Text fontSize="xs" color="cyan.400">+1 EXP/pokémon</Text>
-                    <Text fontSize="xs" color="pink.400">+3 Berries</Text>
+                    <Text fontSize="xs" color="yellow.400">{t('gym.badgeReward')}</Text>
+                    <Text fontSize="xs" color="green.400">{t('gym.rankingReward', { amount: gym.reward?.amount || 15 })}</Text>
+                    <Text fontSize="xs" color="cyan.400">{t('gym.expReward')}</Text>
+                    <Text fontSize="xs" color="pink.400">{t('gym.berryReward')}</Text>
                 </HStack>
             </Flex>
 
             {/* Instructions */}
             <VStack spacing={2}>
                 <Text fontSize="md" fontWeight="bold" textAlign="center">
-                    Select exactly 3 Pokémon for battle
+                    {t('gym.selectExactly')}
                 </Text>
                 <Text fontSize="sm" color="orange.400" textAlign="center">
-                    ⚠️ The first Pokémon selected will be your STARTER
+                    {t('gym.firstStarter')}
                 </Text>
             </VStack>
             <HStack>
                 <Badge colorScheme={selectedPokemons.length === 3 ? "green" : "orange"}>
-                    Selected: {selectedPokemons.length}/3
+                    {t('gym.selectedCount', { count: selectedPokemons.length })}
                 </Badge>
             </HStack>
 
@@ -159,7 +161,7 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                                         fontWeight="bold"
                                         zIndex={1}
                                     >
-                                        STARTER
+                                        {t('common.starter')}
                                     </Badge>
                                 )}
 
@@ -203,7 +205,7 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                 onClick={handleStartBattle}
                 isDisabled={selectedPokemons.length !== 3}
             >
-                Start Battle
+                {t('gym.startBattle')}
             </Button>
         </VStack>
     )

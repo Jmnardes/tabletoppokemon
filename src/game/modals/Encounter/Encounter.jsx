@@ -1,5 +1,6 @@
 import { Box, Button, Center, Flex, Image, SimpleGrid, Text, keyframes } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import PlayerContext from "@context/PlayerContext";
 import { typeColor } from "@utils";
@@ -18,6 +19,7 @@ const elementLabels = {
 function StarterEncounter({ encounter, emit, setLoading }) {
     const [selected, setSelected] = useState({ grass: null, fire: null, water: null })
     const allSelected = selected.grass && selected.fire && selected.water
+    const { t } = useTranslation()
 
     const handleSelect = (element, poke) => {
         setSelected(prev => ({
@@ -94,7 +96,7 @@ function StarterEncounter({ encounter, emit, setLoading }) {
                 colorScheme="green"
                 onClick={handleConfirm}
             >
-                Confirm Starters
+                {t('encounter.confirmStarters')}
             </Button>
         </Center>
     )
@@ -117,6 +119,7 @@ function NormalEncounter({ augments }) {
     const [catchDiceWasRolled, setCatchDiceWasRolled] = useState(false)
     const [allDisabled, setAllDisabled] = useState(false)
     const divisibleByThree = encounter.length % 3 === 0
+    const { t } = useTranslation()
     
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
     
@@ -128,8 +131,8 @@ function NormalEncounter({ augments }) {
         if (totalBalls < 3) {
             handleToast({
                 id: 'pokeballQuantityIsLow',
-                title: "You need more Pokeballs!",
-                description: `You have only ${totalBalls} in your bag.`,
+                title: t('toast.lowPokeballs'),
+                description: t('toast.lowPokeballsDesc', { count: totalBalls }),
                 icon: <Image 
                         width="32px"
                         src={pokeballIcon}

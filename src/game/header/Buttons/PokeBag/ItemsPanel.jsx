@@ -6,9 +6,11 @@ import { getBerryIcon } from "@utils/berryIcon"
 
 import dustIcon from '@assets/images/items/dust.png'
 import berryIcon from '@assets/images/berries/berry.png'
+import { useTranslation } from "react-i18next"
 
 export default function ItemsPanel({ onSelectItem }) {
     const { player, berries } = useContext(PlayerContext)
+    const { t } = useTranslation()
     const [items, setItems] = useState([{ type: 'dust', amount: player.items.dust }, ...berries])
 
     useEffect(() => {
@@ -16,11 +18,11 @@ export default function ItemsPanel({ onSelectItem }) {
     }, [player.items.dust, berries])
 
     const ItemSlot = ({ item, isDust }) => {
-        const name = isDust ? 'Dust' : item.name
+        const name = isDust ? t('items.dust') : item.name
         const icon = isDust ? dustIcon : getBerryIcon(item.type)
         const description = isDust
-            ? "Grants +1 EXP at the end of each turn. Only 1 dust is consumed per turn. Can be stacked up to 5."
-            : (item.effect.description + ` Duration: ${item.turns} turns.`)
+            ? t('items.dustDesc')
+            : (item.effect.description + ` ${t('items.duration', { turns: item.turns })}`)
         const isDisabled = item.amount === 0
 
         return (
@@ -35,7 +37,7 @@ export default function ItemsPanel({ onSelectItem }) {
                         />
                         <Text fontSize="xs" textAlign="center">{description}</Text>
                         {!isDust && (
-                            <Text fontSize="2xs" color="gray.300">{item.turns} turns</Text>
+                            <Text fontSize="2xs" color="gray.300">{t('items.turnsLeft', { turns: item.turns })}</Text>
                         )}
                     </Center>
                 }
@@ -67,7 +69,7 @@ export default function ItemsPanel({ onSelectItem }) {
 
     return (
         <Box w="100%">
-            <Text fontSize="2xs" fontWeight="bold" textAlign="center" mb={1}>Items</Text>
+            <Text fontSize="2xs" fontWeight="bold" textAlign="center" mb={1}>{t('items.title')}</Text>
             <Flex flexDir="column" gap={1} overflowY="auto" maxH="50vh" alignItems="center">
                 {items.filter(item => item.type !== 'dust' || item.amount > 0).map((item, index) => (
                     <ItemSlot

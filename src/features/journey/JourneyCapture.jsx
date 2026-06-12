@@ -1,10 +1,12 @@
 import { useContext, useCallback } from "react"
+import { useTranslation } from "react-i18next"
 import { Flex, Text, Button } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import ThrowCatchGame from "@pages/MiniGame/ThrowCatchGame"
 
 export default function JourneyCapture({ lastFightResult, journeyState, setJourneyState, onComplete }) {
+    const { t } = useTranslation()
     const { player, session, setPlayer, syncPokemonsFromServer } = useContext(PlayerContext)
 
     const defeatedWild = lastFightResult?.defeatedWild
@@ -49,8 +51,8 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
     if (!defeatedWild) {
         return (
             <Flex flex="1" direction="column" align="center" justify="center">
-                <Text>No pokemon to capture</Text>
-                <Button mt={4} onClick={onComplete}>Continue</Button>
+                <Text>{t('journey.noPokemonToCapture')}</Text>
+                <Button mt={4} onClick={onComplete}>{t('common.continue')}</Button>
             </Flex>
         )
     }

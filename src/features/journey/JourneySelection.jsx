@@ -1,14 +1,15 @@
 import { useContext, useState } from "react"
-import { Flex, Text, Image, Button, SimpleGrid, Box, Badge, useColorMode, Center } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
+import { Flex, Text, Image, Button, SimpleGrid, Box, Badge, useColorMode } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
-
-import { Heart, Swords, Shield, Zap, Crosshair, Sparkles } from 'lucide-react'
+import PokeStats from "@features/pokemon/PokeStats"
 
 const EXP_TO_LEVEL = 5
 
 export default function JourneySelection() {
+    const { t } = useTranslation()
     const { player, teamIds, pokemonData, updateGame, session, game } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [selectedIds, setSelectedIds] = useState([])
@@ -62,19 +63,19 @@ export default function JourneySelection() {
     return (
         <Flex flex="1" flexDirection="column" alignItems="center" p={4} overflowY="auto">
             <Text fontSize="sm" mb={4} textAlign="center" color="gray.400">
-                Select {maxSelectable} Pokémon for your journey. Order matters — first will fight first.
+                {t('journey.selectPokemon', { max: maxSelectable })}
             </Text>
 
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                Journey Level: {session.level ?? 0} — Pokemon {journeyProgress + 1}/10
+                {t('journey.level', { level: session.level ?? 0, current: journeyProgress + 1, total: 10 })}
             </Badge>
 
             {/* Wild pokemon preview */}
             {wildPreview.length > 0 && (
                 <Box mb={4} w="100%" maxW="900px">
                     <Text fontSize="xs" fontWeight="bold" color="red.300" mb={2} textAlign="center">
-                        Wild Pokémon you will face
+                        {t('journey.wildPokemon')}
                     </Text>
                     <Flex gap={2} justifyContent="center" flexWrap="wrap">
                         {wildPreview.map((wild, idx) => {
@@ -97,8 +98,8 @@ export default function JourneySelection() {
                                     <Image src={wild.sprite} w="32px" h="32px" filter={alreadyDefeated ? 'grayscale(1)' : 'none'} />
                                     <Text fontSize="2xs" noOfLines={1}>{wild.name}</Text>
                                     <Flex gap={1} mt={1}>
-                                        {wild.types?.map(t => (
-                                            <Element key={t} element={t} w={3} h={3} />
+                                        {wild.types?.map(el => (
+                                            <Element key={el} element={el} w={3} h={3} />
                                         ))}
                                     </Flex>
                                     <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
@@ -114,7 +115,6 @@ export default function JourneySelection() {
                 {allPokemon.map(poke => {
                     const isSelected = selectedIds.includes(poke.id)
                     const orderIdx = selectedIds.indexOf(poke.id)
-                    const stats = poke.stats || {}
 
                     return (
                         <Flex
@@ -141,40 +141,15 @@ export default function JourneySelection() {
                             <Image src={poke.sprites?.front || poke.sprites?.main} w="40px" h="40px" />
                             <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{poke.name}</Text>
                             <Flex gap={1} mt={1}>
-                                {poke.types?.map(t => (
-                                    <Element key={t} element={t} />
+                                {poke.types?.map(el => (
+                                    <Element key={el} element={el} />
                                 ))}
                             </Flex>
                             <Text fontSize="2xs" color="gray.400">Lv.{poke.level}</Text>
                             <Text fontSize="2xs" color="cyan.400">EXP: {poke.exp ?? 0}/{EXP_TO_LEVEL}</Text>
 
                             {/* Stats */}
-                            <SimpleGrid columns={3} spacing={0} mt={2} w="100%">
-                                <Center flexDir="column" title="HP">
-                                    <Heart size={10} />
-                                    <Text fontSize="3xs">{stats.hp ?? 0}</Text>
-                                </Center>
-                                <Center flexDir="column" title="ATK">
-                                    <Swords size={10} />
-                                    <Text fontSize="3xs">{stats.atk ?? 0}</Text>
-                                </Center>
-                                <Center flexDir="column" title="DEF">
-                                    <Shield size={10} />
-                                    <Text fontSize="3xs">{stats.def ?? 0}</Text>
-                                </Center>
-                                <Center flexDir="column" title="EVS">
-                                    <Zap size={10} />
-                                    <Text fontSize="3xs">{stats.evs ?? 0}</Text>
-                                </Center>
-                                <Center flexDir="column" title="ACC">
-                                    <Crosshair size={10} />
-                                    <Text fontSize="3xs">{stats.acc ?? 0}</Text>
-                                </Center>
-                                <Center flexDir="column" title="CRT">
-                                    <Sparkles size={10} />
-                                    <Text fontSize="3xs">{stats.crt ?? 0}</Text>
-                                </Center>
-                            </SimpleGrid>
+                            <PokeStats poke={poke} isMini hideIndicators />
                         </Flex>
                     )
                 })}
@@ -189,7 +164,7 @@ export default function JourneySelection() {
                 isLoading={loading}
                 onClick={startJourney}
             >
-                Start Journey ({selectedIds.length}/{maxSelectable})
+                {t('journey.startJourney', { selected: selectedIds.length, max: maxSelectable })}
             </Button>
         </Flex>
     )

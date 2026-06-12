@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Heading, VStack, Select, Text, Button } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from "recharts";
 import Element from "@features/elements/Element";
 import { elementCounts, tierResults } from "@utils/groups";
@@ -22,11 +23,12 @@ const CustomTick = ({ x, y, payload }) => {
 
 export default function StatisticsPage({ setStatistics }) {
     const [selectedView, setSelectedView] = useState("elements");
+    const { t } = useTranslation()
 
     return (
         <Box p={5}>
             <Box>
-                <Button mb={8} onClick={() => setStatistics(false)}>Voltar</Button>
+                <Button mb={8} onClick={() => setStatistics(false)}>{t('common.back')}</Button>
             </Box>
             <VStack spacing={8} align="stretch">
                 <Box>

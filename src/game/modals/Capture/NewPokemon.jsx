@@ -1,4 +1,5 @@
 import { Box, Button, Center, Image, Text, Tooltip } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import Card from "@features/pokemon/Card"
 
 import bagIcon from "@assets/images/game/bag.png"
@@ -15,6 +16,7 @@ export default function NewPokemon({
  }) {
     // Aceita tanto teamPokemons (novo) quanto pokeTeam (antigo)
     const team = teamPokemons || pokeTeam
+    const { t } = useTranslation()
     const ButtonComponent = ({ label, icon, selectedToRemove, disable = false }) => {
         return (
             <Tooltip label={label} p={4} borderRadius={6}>
@@ -38,14 +40,14 @@ export default function NewPokemon({
 
             <Center gap={4}>
                 <ButtonComponent
-                    label={"Add to Poke Team"}
+                    label={t('encounter.addToTeam')}
                     icon={ballIcon}
                     selectedToRemove={selectedToRemove}
                     daycare={false}
                     disable={!selectedToRemove && isTeamFull}
                 ></ButtonComponent>
                 <ButtonComponent
-                    label={"Add to Poke Bag"}
+                    label={t('encounter.addToBag')}
                     icon={bagIcon}
                     selectedToRemove={null}
                     daycare={false}
@@ -56,8 +58,8 @@ export default function NewPokemon({
             {isTeamFull && (
                 <>
                     <Center flex flexDir={"column"}>
-                        <Text mt={4}>To use directly on your team you must select another</Text>
-                        <Text fontSize={"xx-small"}>The selected pokemon goes to your bag</Text>
+                        <Text mt={4}>{t('encounter.selectToReplace')}</Text>
+                        <Text fontSize={"xx-small"}>{t('encounter.selectedGoesToBag')}</Text>
                     </Center>
 
                     <Center flexDir="row" gap={3} mt={4} flexWrap="wrap" maxW="650px" justifyContent="center">

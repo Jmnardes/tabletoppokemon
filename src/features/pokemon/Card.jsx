@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react"
-import { Flex, Image, Text, Center, Kbd, useColorMode } from "@chakra-ui/react"
-import { stringToUpperCase, typeColor } from '@utils'
+import { Flex, Image, Text, Center, Kbd, Tooltip, useColorMode } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
+import { stringToUpperCase, typeColor, pokemonNature } from '@utils'
+import { Heart, Swords, Shield, Zap, Crosshair, Sparkles } from 'lucide-react'
 import PlayerContext from "@context/PlayerContext"
 
 import PokeStats from "./PokeStats"
@@ -10,18 +12,22 @@ import CardTitle from "./CardTitle"
 import { PokeRarity } from "./PokemonRarity"
 import AppliedItems from "./AppliedItems"
 import ChanceToLevelUp from "./ChanceToLevelUp"
-import { Star, ArrowBigUp, ArrowBigDown } from 'lucide-react'
 
 function Card({ poke, tooltip, bag, isCaptured, challenge, size }) {
     const { moveToBox } = useContext(PlayerContext)
     const [colorByType, setColorByType] = useState('#000000')
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
 
     const effectiveSize = size || (isCaptured || challenge ? 'M' : (tooltip ? 'S' : 'L'))
     const isCompact = effectiveSize === 'M' || effectiveSize === 'S'
 
     const spriteW = { L: 36, M: 28, S: 20 }[effectiveSize]
     const showExtras = effectiveSize === 'L'
+
+    const statLabels = { hp: t('pokemon.health'), atk: t('pokemon.attack'), def: t('pokemon.defense'), evs: t('pokemon.evasion'), acc: t('pokemon.accuracy'), crt: t('pokemon.critical') }
+    const statIcons = { hp: <Heart size={14} fill="currentColor" />, atk: <Swords size={14} />, def: <Shield size={14} fill="currentColor" />, evs: <Zap size={14} fill="currentColor" />, acc: <Crosshair size={14} />, crt: <Sparkles size={14} fill="currentColor" /> }
+    const natureData = pokemonNature[poke.nature]
 
     const handleBackgroundColor = (poke) => {
         if (poke.shiny) {
@@ -52,18 +58,20 @@ function Card({ poke, tooltip, bag, isCaptured, challenge, size }) {
         <Flex flexDirection="column" position="relative" px={2} w="100%">
             {/* Top row: Level + Name */}
             <Flex alignItems="center" justifyContent="space-between" w="100%" mt={1}>
-                <Flex
-                    h={6}
-                    w={6}
-                    borderRadius={4}
-                    alignItems="center"
-                    justifyContent="center"
-                    fontWeight="bold"
-                    fontSize="xs"
-                    backgroundColor={colorByType}
-                >
-                    {poke.level}
-                </Flex>
+                <Tooltip borderRadius={8} label={t('pokemon.levelDesc')}>
+                    <Flex
+                        h={6}
+                        w={6}
+                        borderRadius={4}
+                        alignItems="center"
+                        justifyContent="center"
+                        fontWeight="bold"
+                        fontSize="xs"
+                        backgroundColor={colorByType}
+                    >
+                        {poke.level}
+                    </Flex>
+                </Tooltip>
                 <CardTitle poke={poke} />
                 <Flex w={6} />
             </Flex>
@@ -81,11 +89,26 @@ function Card({ poke, tooltip, bag, isCaptured, challenge, size }) {
                 </Center>
                 {showExtras && (
                     <Flex flex={1} flexDir="column" gap={1} alignItems="center" justifyContent="center">
-                        <PokeRarity rarity={poke.rarity.rarity} />
-                        <Kbd px={2} py={0.5} fontSize="xs" fontWeight="bold">
-                            {stringToUpperCase(poke.nature)}
-                        </Kbd>
-                        <Types types={poke.types} w={5} h={5} />
+                        <Tooltip borderRadius={8} label={
+                            <Flex flexDir="column" alignItems="center" p={1}>
+                                <Text fontWeight="bold">{t('pokemon.rarity')}</Text>
+                                <Text fontSize="xs">{t('pokemon.rarityDesc')}</Text>
+                            </Flex>
+                        }>
+                            <Flex><PokeRarity rarity={poke.rarity.rarity} /></Flex>
+                        </Tooltip>
+                        <Tooltip borderRadius={8} label={
+                            <Flex flexDir="column" alignItems="center" p={1}>
+                                <Text fontWeight="bold">{t('pokemon.nature')}</Text>
+                                {natureData?.increase && <Flex alignItems="center" gap={1} color="#22c55e">{statIcons[natureData.increase]}<Text fontSize="xs">{statLabels[natureData.increase]}</Text></Flex>}
+                                {natureData?.decrease && <Flex alignItems="center" gap={1} color="#ef4444">{statIcons[natureData.decrease]}<Text fontSize="xs">{statLabels[natureData.decrease]}</Text></Flex>}
+                            </Flex>
+                        }>
+                            <Kbd px={2} py={0.5} fontSize="xs" fontWeight="bold">
+                                {stringToUpperCase(poke.nature)}
+                            </Kbd>
+                        </Tooltip>
+                        <Types types={poke.types} w={5} h={5} elementTable />
                     </Flex>
                 )}
             </Flex>
@@ -99,20 +122,6 @@ function Card({ poke, tooltip, bag, isCaptured, challenge, size }) {
                     <AppliedItems poke={poke} />
 
                     <ChanceToLevelUp selectedPokemon={poke} />
-
-                    {/* Legend */}
-                    <Center gap={3} mt={1} mb={2} opacity={0.6}>
-                        <Center gap={1}>
-                            <Star size={10} fill="#facc15" color="#facc15" />
-                            <Text fontSize="7px">rank</Text>
-                        </Center>
-                        <Center gap={1}>
-                            <ArrowBigUp size={10} fill="#22c55e" color="#22c55e" />
-                            <Text fontSize="7px">/</Text>
-                            <ArrowBigDown size={10} fill="#ef4444" color="#ef4444" />
-                            <Text fontSize="7px">natureza</Text>
-                        </Center>
-                    </Center>
                 </>
             )}
 

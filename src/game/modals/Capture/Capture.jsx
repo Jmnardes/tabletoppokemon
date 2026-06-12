@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { Center } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import socket from '@client'
 import PlayerContext from "@context/PlayerContext"
 import ChooseAttack from "./ChooseAttack"
@@ -7,6 +8,7 @@ import NewPokemon from "./NewPokemon"
 
 export default function Capture({ capturedPokemon, setCapturedPokemon, augments }) {
     const { updateGame, teamIds, pokemonData, emit, setLoading, session} = useContext(PlayerContext)
+    const { t } = useTranslation()
     const [chooseAttackType, setChooseAttackType] = useState(capturedPokemon.types.length > 1)
     const [attackType, setAttackType] = useState(capturedPokemon.types[0])
     const [specialType, setSpecialType] = useState(capturedPokemon.types[0])
@@ -17,7 +19,7 @@ export default function Capture({ capturedPokemon, setCapturedPokemon, augments 
 
     const handleFinishCapture = ({ removedId, dayCare }) => {
         emit('pokemon-handle-capture', { attackType, specialType, removedId, dayCare })
-        setLoading({ loading: true, text: "Capturing pokemon..." })
+        setLoading({ loading: true, text: t('toast.capturingPokemon') })
     }
 
     useEffect(() => {

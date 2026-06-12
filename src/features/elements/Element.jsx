@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import { Center, Image, Text, Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { stringToUpperCase } from "@utils";
 
 import bug from '@assets/images/elements/bug.webp'
@@ -26,6 +27,7 @@ import elements from '@assets/json/elements.json'
 
 export default function Element({ element, elementTable, w = 5, h = 5 }) {
     const [elementsTooltip, setElementsTooltip] = useState('')
+    const { t } = useTranslation()
 
     const ElementComponent = React.forwardRef(({ type, icon }, ref) => {
         return (
@@ -70,7 +72,7 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
             return (
                 <Center w="100%" flexDirection="column">
                     <Text fontWeight="bold">{stringToUpperCase(element)}</Text>
-                    <Text pt={1}>Hits effective</Text>
+                    <Text pt={1}>{t('elements.hitsEffective')}</Text>
                     <Center pb={1} flexDirection="row">
                         {atackEffective.map(t => {
                             if(t) {
@@ -82,7 +84,7 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
                             }
                         })}
                     </Center>
-                    <Text pt={1}>Hits ineffective</Text>
+                    <Text pt={1}>{t('elements.hitsIneffective')}</Text>
                     <Center pb={1} flexDirection="row">
                         {attackIneffective.map(t => {
                             if(t) {
@@ -94,7 +96,7 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
                             }
                         })}
                     </Center>
-                    <Text pt={1}>Receives ineffective</Text>
+                    <Text pt={1}>{t('elements.resistantTo')}</Text>
                     <Center pb={1} flexDirection="row">
                         {defenseEffective.map(t => {
                             if(t) {
@@ -106,7 +108,7 @@ export default function Element({ element, elementTable, w = 5, h = 5 }) {
                             }
                         })}
                     </Center>
-                    <Text pt={1}>Receives effective</Text>
+                    <Text pt={1}>{t('elements.weakTo')}</Text>
                     <Center pb={1} flexDirection="row">
                         {defenseIneffective.map(t => {
                             if(t) {

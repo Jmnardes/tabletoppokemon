@@ -1,4 +1,5 @@
 import { Button, Center, Image, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import Element from "@features/elements/Element";
 import { stringToUpperCase } from "@utils"
 
@@ -10,6 +11,7 @@ export default function ChooseAttack({
     setSpecialType,
     setChooseAttackType
 }) {
+    const { t } = useTranslation()
     const ChooseTypes = ({ title, setter, selectedType, types }) => {
         return (
             <Center flex flexDir={"column"}>
@@ -33,7 +35,7 @@ export default function ChooseAttack({
     return (
         <>
             <Center flex flexDir={"column"}>
-                <Text>You've caught a Pókemon!</Text>
+                <Text>{t('encounter.caughtPokemon')}</Text>
                 <Text mt={4} fontSize={"2xl"}>{stringToUpperCase(capturedPokemon.name)}</Text>
             </Center>
 
@@ -45,7 +47,7 @@ export default function ChooseAttack({
             />
 
             <ChooseTypes
-                title={`Choose ${stringToUpperCase(capturedPokemon.name)}'s attack type:`}
+                title={t('encounter.chooseAttackType', { name: stringToUpperCase(capturedPokemon.name) })}
                 setter={setAttackType}
                 selectedType={attackType}
                 types={capturedPokemon.types}
@@ -57,7 +59,7 @@ export default function ChooseAttack({
                 types={capturedPokemon.types}
             /> */}
 
-            <Button w={"100%"} h={16} mt={2} onClick={() => setChooseAttackType(false)}>Confirm</Button>
+            <Button w={"100%"} h={16} mt={2} onClick={() => setChooseAttackType(false)}>{t('common.confirm')}</Button>
         </>
     )
 }

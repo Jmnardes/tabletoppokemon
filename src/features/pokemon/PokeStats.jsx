@@ -1,8 +1,15 @@
 import { Flex, Grid, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Heart, Swords, Shield, Zap, Crosshair, Sparkles, Star, ArrowBigUp, ArrowBigDown } from 'lucide-react'
 import { pokemonNature } from "@utils";
 
-function PokeStats({ poke, isMini }) {
+function PokeStats({ poke, isMini, hideIndicators }) {
+    const { t } = useTranslation()
+    const iconSize = isMini ? 14 : 16
+    const indicatorSize = isMini ? 10 : 12
+    const statFontSize = isMini ? 'xs' : '2xs'
+    const separatorFontSize = isMini ? '7px' : '8px'
+
     const effectToStat = {
         boost_attack: 'atk',
         boost_defense: 'def',
@@ -37,18 +44,18 @@ function PokeStats({ poke, isMini }) {
             >
                 <Flex alignItems="center" gap={1}>
                     {statIcon}
-                    <Text fontSize="8px" opacity={0.2} mx="2px">|</Text>
-                    <Text fontSize="2xs" fontWeight="bold" color={hasBerryBuff ? "#facc15" : undefined}>{stat}</Text>
+                    <Text fontSize={separatorFontSize} opacity={0.2} mx="2px">|</Text>
+                    <Text fontSize={statFontSize} fontWeight="bold" color={hasBerryBuff ? "#facc15" : undefined}>{stat}</Text>
                 </Flex>
                 <Flex alignItems="center" gap={0.5}>
-                    {hasRarityBuff && (
-                        <Star size={12} fill="#facc15" color="#facc15" title="Rarity buff" />
+                    {!hideIndicators && hasRarityBuff && (
+                        <Star size={indicatorSize} fill="#facc15" color="#facc15" title="Rarity buff" />
                     )}
-                    {hasNatureBuff && (
-                        <ArrowBigUp size={12} fill="#22c55e" color="#22c55e" title="Nature buff" />
+                    {!hideIndicators && hasNatureBuff && (
+                        <ArrowBigUp size={indicatorSize} fill="#22c55e" color="#22c55e" title="Nature buff" />
                     )}
-                    {hasNatureDebuff && (
-                        <ArrowBigDown size={12} fill="#ef4444" color="#ef4444" title="Nature debuff" />
+                    {!hideIndicators && hasNatureDebuff && (
+                        <ArrowBigDown size={indicatorSize} fill="#ef4444" color="#ef4444" title="Nature debuff" />
                     )}
                 </Flex>
             </Flex>
@@ -56,17 +63,19 @@ function PokeStats({ poke, isMini }) {
     }
 
     const stats = [
-        { stat: poke.stats.hp, statKey: "hp", statName: "Health", statIcon: <Heart size={16} fill="currentColor" /> },
-        { stat: poke.stats.atk, statKey: "atk", statName: "Attack", statIcon: <Swords size={16} /> },
-        { stat: poke.stats.def, statKey: "def", statName: "Defense", statIcon: <Shield size={16} fill="currentColor" /> },
-        { stat: poke.stats.evs + poke.tier, statKey: "evs", statName: "Evasion", statIcon: <Zap size={16} fill="currentColor" /> },
-        { stat: poke.stats.acc, statKey: "acc", statName: "Accuracy", statIcon: <Crosshair size={16} /> },
-        { stat: poke.stats.crt + poke.tier, statKey: "crt", statName: "Critical", statIcon: <Sparkles size={16} fill="currentColor" /> },
+        { stat: poke.stats.hp, statKey: "hp", statName: t('pokemon.health'), statIcon: <Heart size={iconSize} fill="currentColor" /> },
+        { stat: poke.stats.atk, statKey: "atk", statName: t('pokemon.attack'), statIcon: <Swords size={iconSize} /> },
+        { stat: poke.stats.def, statKey: "def", statName: t('pokemon.defense'), statIcon: <Shield size={iconSize} fill="currentColor" /> },
+        { stat: poke.stats.evs + poke.tier, statKey: "evs", statName: t('pokemon.evasion'), statIcon: <Zap size={iconSize} fill="currentColor" /> },
+        { stat: poke.stats.acc, statKey: "acc", statName: t('pokemon.accuracy'), statIcon: <Crosshair size={iconSize} /> },
+        { stat: poke.stats.crt + poke.tier, statKey: "crt", statName: t('pokemon.critical'), statIcon: <Sparkles size={iconSize} fill="currentColor" /> },
     ]
+
+    const columns = hideIndicators ? 2 : (isMini ? 3 : 2)
 
     return (
         <Grid
-            templateColumns={isMini ? "repeat(3, 1fr)" : "repeat(2, 1fr)"}
+            templateColumns={`repeat(${columns}, 1fr)`}
             gap={1}
             mt={2}
             w="100%"

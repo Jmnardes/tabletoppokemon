@@ -1,5 +1,6 @@
 import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, Tooltip } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import socket from "@client";
 import { gameConfig, validateTrainerName } from "@utils/gameConfiguration";
 
@@ -15,6 +16,7 @@ export default function GameNew() {
     const [formInvalid, setFormInvalid] = useState(true)
     const generation = gameConfig.generation.default;
     const mixedGroups = gameConfig.mixedGroups.default;
+    const { t } = useTranslation()
 
     const handleTrainerName = (e) => {
         let name = e.target.value
@@ -32,15 +34,15 @@ export default function GameNew() {
         <>
             <Flex justifyContent="space-evenly" alignItems="center" my={6}>
                 <Text m={2}>
-                    Nickname
+                    {t('menu.nickname')}
                 </Text>
                 <Input textAlign="center" w={80} maxLength={gameConfig.trainerName.maxLength} onChange={handleTrainerName} />
             </Flex>
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.badgesToWin.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Badges to Win</Text>
+                    <Tooltip label={t('config.badgesToWinTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.badgesToWin')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -59,8 +61,8 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.stagesPerJourney.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Stages/Journey</Text>
+                    <Tooltip label={t('config.stagesPerJourneyTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.stagesPerJourney')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -82,8 +84,8 @@ export default function GameNew() {
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.battleFrequency.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Battle Frequency</Text>
+                    <Tooltip label={t('config.battleFrequencyTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.battleFrequency')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -102,8 +104,8 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.gymStrengthBonus.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Gym Strength</Text>
+                    <Tooltip label={t('config.gymStrengthBonusTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.gymStrengthBonus')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -125,8 +127,8 @@ export default function GameNew() {
 
             <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.shinyChance.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Shiny Chance %</Text>
+                    <Tooltip label={t('config.shinyChanceTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.shinyChance')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -145,8 +147,8 @@ export default function GameNew() {
                     </NumberInput>
                 </Flex>
                 <Flex flex={1} justifyContent="space-between" alignItems="center">
-                    <Tooltip label={gameConfig.catchDifficulty.tooltip} placement="top" hasArrow>
-                        <Text fontSize="2xs" cursor="help">Catch Difficulty</Text>
+                    <Tooltip label={t('config.catchDifficultyTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.catchDifficulty')}</Text>
                     </Tooltip>
                     <NumberInput 
                         w={20} 
@@ -181,7 +183,7 @@ export default function GameNew() {
                     journeyTeamLength
                 }))
 
-            }}>Create room</Button>
+            }}>{t('menu.createGame')}</Button>
         </>
     )
 }

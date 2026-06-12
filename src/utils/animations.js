@@ -130,6 +130,20 @@ export const lungeLeftAnimation = keyframes`
     100% { transform: translateX(0); }
 `;
 
+export const projectileRightAnimation = keyframes`
+    0% { transform: translateX(0) scale(0.5); opacity: 0; }
+    10% { transform: translateX(10px) scale(1); opacity: 1; }
+    70% { transform: translateX(120px) scale(1.1); opacity: 1; }
+    100% { transform: translateX(160px) scale(0.6); opacity: 0; }
+`;
+
+export const projectileLeftAnimation = keyframes`
+    0% { transform: translateX(0) scale(0.5); opacity: 0; }
+    10% { transform: translateX(-10px) scale(1); opacity: 1; }
+    70% { transform: translateX(-120px) scale(1.1); opacity: 1; }
+    100% { transform: translateX(-160px) scale(0.6); opacity: 0; }
+`;
+
 export const healAnimation = keyframes`
     0% {
     filter: brightness(1);

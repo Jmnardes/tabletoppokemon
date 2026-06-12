@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { Flex, Text, Box, Progress, Badge, Center, Button, VStack } from "@chakra-ui/react"
-import { journeyHitAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation } from "@utils/animations"
+import { journeyHitAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
 import { colorByHitType } from "@utils/battle"
 import { stringToUpperCase } from "@utils"
+import { getAttackSprite } from "@utils/attackSprites"
 import i18n from "../../i18n/i18n"
 
 const hitTypeTag = (type) => {
@@ -49,6 +50,7 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
     const [lastLogMessage, setLastLogMessage] = useState("")
     const [lastHitType, setLastHitType] = useState("")
     const [lastDamage, setLastDamage] = useState(null) // { damage, hitType, defenderId, index }
+    const [projectile, setProjectile] = useState(null) // { moveType, direction, key }
     const [battleDone, setBattleDone] = useState(false)
     const [showResult, setShowResult] = useState(false)
     const [showFinalResult] = useState(false)
@@ -125,6 +127,10 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
             }
             // Attacker lunge animation (wild lunges left toward player)
             setWildAnim(`${lungeLeftAnimation} ${animSecs * 0.6}s ease-out`)
+            // Projectile from wild toward player
+            if (entry.hitType !== 'miss') {
+                setProjectile({ moveType: entry.attacker?.moveType, direction: 'left', key: logIndex })
+            }
         } else {
             setWildHp(prev => Math.max(0, prev - entry.damage))
             if (entry.damage > 0) {
@@ -134,6 +140,10 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
             }
             // Attacker lunge animation (player lunges right toward wild)
             setPlayerAnim(`${lungeRightAnimation} ${animSecs * 0.6}s ease-out`)
+            // Projectile from player toward wild
+            if (entry.hitType !== 'miss') {
+                setProjectile({ moveType: entry.attacker?.moveType, direction: 'right', key: logIndex })
+            }
         }
         // Accumulate log messages
         const isPlayerAttacker = entry.attacker?.id === pPoke.id
@@ -296,7 +306,7 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                 <Text fontSize="lg" mb={2}>{t('journey.battleBtn')}</Text>
 
                 {/* Battle arena — PvP style side-by-side */}
-                <Flex w="100%" h="100%" mx={8} flexDirection="row" align="center" justify="center">
+                <Flex w="100%" h="100%" mx={8} flexDirection="row" align="center" justify="center" position="relative">
                     <Center w="100%" h="100%">
                         <PokemonBox
                             poke={playerPoke}
@@ -307,6 +317,29 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                             isPlayer={true}
                         />
                     </Center>
+                    {/* Attack projectile */}
+                    {projectile && (
+                        <img
+                            key={`proj-${projectile.key}`}
+                            src={getAttackSprite(projectile.moveType)}
+                            alt="attack"
+                            style={{
+                                position: 'absolute',
+                                width: '40px',
+                                height: '40px',
+                                left: projectile.direction === 'right' ? '30%' : '70%',
+                                top: '50%',
+                                marginTop: '-20px',
+                                imageRendering: 'pixelated',
+                                pointerEvents: 'none',
+                                zIndex: 10,
+                            }}
+                            css={{
+                                animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
+                            }}
+                            onAnimationEnd={() => setProjectile(null)}
+                        />
+                    )}
                     <Center w="100%" h="100%">
                         <PokemonBox
                             poke={wildPoke}

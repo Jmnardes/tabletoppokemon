@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
 import { stringToUpperCase } from "@utils";
-import { winAnimation, hitAnimation, missAnimation, textAnimation, littleBounceAnimation } from "@utils/animations";
+import { winAnimation, hitAnimation, missAnimation, textAnimation, littleBounceAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
+import { getAttackSprite } from "@utils/attackSprites";
 
 export default function BattleScreen({
     pokemon,
@@ -22,6 +23,7 @@ export default function BattleScreen({
     const [currentLogIndex, setCurrentLogIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [logMessages, setLogMessages] = useState([]);
+    const [projectile, setProjectile] = useState(null);
     const turnsInMilisecondsDuration = 800;
     const animationInSecondsDuration = 0.5;
     
@@ -68,8 +70,14 @@ export default function BattleScreen({
   
           if (currentLog.attacker.id === pokemon?.id) {
             handleOpponentHitAnimation();
+            if (currentLog.hitType !== 'miss') {
+              setProjectile({ moveType: currentLog.attacker?.moveType, direction: 'right', key: currentLogIndex });
+            }
           } else {
             handleSelfHitAnimation();
+            if (currentLog.hitType !== 'miss') {
+              setProjectile({ moveType: currentLog.attacker?.moveType, direction: 'left', key: currentLogIndex });
+            }
           }
         } else {
           if (currentLog.attacker.id === pokemon?.id) {
@@ -202,7 +210,7 @@ export default function BattleScreen({
     return (
       <Flex flex="1" h="100%" flexDirection="row" overflow="hidden" minH={0}>
         {battleLog && battleLog[currentLogIndex] && !battleEnded && (
-          <Flex w="100%" h="100%" mx={24} flexDirection="row">
+          <Flex w="100%" h="100%" mx={24} flexDirection="row" position="relative">
             <Center w="100%" h="100%">
               {pokemon && (
                 <BattlingPokemonBox
@@ -216,6 +224,29 @@ export default function BattleScreen({
                 />
               )}
             </Center>
+            {/* Attack projectile */}
+            {projectile && (
+              <img
+                key={`proj-${projectile.key}`}
+                src={getAttackSprite(projectile.moveType)}
+                alt="attack"
+                style={{
+                  position: 'absolute',
+                  width: '40px',
+                  height: '40px',
+                  left: projectile.direction === 'right' ? '25%' : '75%',
+                  top: '50%',
+                  marginTop: '-20px',
+                  imageRendering: 'pixelated',
+                  pointerEvents: 'none',
+                  zIndex: 10,
+                }}
+                css={{
+                  animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
+                }}
+                onAnimationEnd={() => setProjectile(null)}
+              />
+            )}
   
             <Center alignItems="start" w="100%" h="100%">
               {opponent && pokemon && (

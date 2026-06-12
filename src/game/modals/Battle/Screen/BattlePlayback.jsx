@@ -3,7 +3,8 @@ import { useEffect, useState, useRef } from "react";
 
 import { colorByHitType, battleLogMessage } from "@utils/battle";
 import { stringToUpperCase } from "@utils";
-import { hitAnimation, missAnimation, textAnimation, winAnimation, littleBounceAnimation, slideOutLeft, slideOutRight, slideInLeft, slideInRight } from "@utils/animations";
+import { hitAnimation, missAnimation, textAnimation, winAnimation, littleBounceAnimation, slideOutLeft, slideOutRight, slideInLeft, slideInRight, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
+import { getAttackSprite } from "@utils/attackSprites";
 
 export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName, opponentTrainerName, onBattleEnd, onPokemonDefeated }) {
     const { fights, winnerId, player1Id } = battleResult
@@ -20,6 +21,7 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
     const [lastLogMessage, setLastLogMessage] = useState("")
     const [fightTransition, setFightTransition] = useState(false)
     const [transitionPhase, setTransitionPhase] = useState(null) // 'slideOut' | 'slideIn' | null
+    const [projectile, setProjectile] = useState(null) // { moveType, direction, key }
     const [battleFinished, setBattleFinished] = useState(false)
     const timerRef = useRef(null)
 
@@ -87,9 +89,15 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
             if (entry.defender.id === myPoke?.id) {
                 setMyHp(prev => Math.max(0, prev - entry.damage))
                 setSelfHitAnim(`${hitAnimation} ${animSecs}s ease-in-out`)
+                if (entry.hitType !== 'miss') {
+                    setProjectile({ moveType: entry.attacker?.moveType, direction: 'left', key: `${currentFightIndex}-${currentLogIndex}` })
+                }
             } else {
                 setOpponentHp(prev => Math.max(0, prev - entry.damage))
                 setOpponentHitAnim(`${hitAnimation} ${animSecs}s ease-in-out`)
+                if (entry.hitType !== 'miss') {
+                    setProjectile({ moveType: entry.attacker?.moveType, direction: 'right', key: `${currentFightIndex}-${currentLogIndex}` })
+                }
             }
         } else {
             if (entry.attacker.id === myPoke?.id) {
@@ -247,7 +255,7 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                 <Text fontSize="sm" fontWeight="bold" color="blue.300">{myTrainerName}</Text>
                 <Text fontSize="sm" fontWeight="bold" color="red.300">{opponentTrainerName}</Text>
             </Flex>
-            <Flex w="100%" h="100%" mx={24} flexDirection="row">
+            <Flex w="100%" h="100%" mx={24} flexDirection="row" position="relative">
                 <Center w="100%" h="100%">
                     <PokemonBox
                         sprite={myPoke?.backSprite || myPoke?.sprite}
@@ -257,6 +265,29 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                         isMe={true}
                     />
                 </Center>
+                {/* Attack projectile */}
+                {projectile && (
+                    <img
+                        key={`proj-${projectile.key}`}
+                        src={getAttackSprite(projectile.moveType)}
+                        alt="attack"
+                        style={{
+                            position: 'absolute',
+                            width: '40px',
+                            height: '40px',
+                            left: projectile.direction === 'right' ? '25%' : '75%',
+                            top: '50%',
+                            marginTop: '-20px',
+                            imageRendering: 'pixelated',
+                            pointerEvents: 'none',
+                            zIndex: 10,
+                        }}
+                        css={{
+                            animation: `${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.5s ease-out forwards`,
+                        }}
+                        onAnimationEnd={() => setProjectile(null)}
+                    />
+                )}
                 <Center alignItems="start" w="100%" h="100%">
                     <PokemonBox
                         sprite={oppPoke?.sprite}

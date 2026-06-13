@@ -1,8 +1,9 @@
 import { useContext, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Flex, Text, Button, Box, Badge, useColorMode } from "@chakra-ui/react"
+import { Flex, Text, Button, Box, Badge, Image, useColorMode } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
+import pokeboxIcon from '@assets/images/box/pokebox-closed.png'
 
 export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) {
     const { t } = useTranslation()
@@ -10,6 +11,7 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState(false)
     const [chestOpened, setChestOpened] = useState(false)
+    // eslint-disable-next-line no-unused-vars
     const [reward, setReward] = useState(null)
     const [rewardJourney, setRewardJourney] = useState(null)
 
@@ -26,18 +28,11 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
             setLoading(false)
             if (res?.success) {
                 const result = res.result
-                // Update player ranking
-                if (result.playerRanking != null) {
+                // Update player boxes
+                if (result.boxes) {
                     setPlayer(prev => ({
                         ...prev,
-                        status: { ...prev.status, ranking: result.playerRanking },
-                    }))
-                }
-                // Update player potions
-                if (result.potions) {
-                    setPlayer(prev => ({
-                        ...prev,
-                        potions: result.potions,
+                        boxes: result.boxes,
                     }))
                 }
                 // Show reward before advancing
@@ -86,15 +81,12 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
                 ) : (
                     <>
                         <Text fontSize="3xl" mb={2}>✨</Text>
-                        <Badge colorScheme="yellow" fontSize="md" p={2} borderRadius={8}>
-                            {t('journey.rankingPointsEarned', { amount: reward?.ranking || 5 })}
-                        </Badge>
-                        <Badge colorScheme="green" fontSize="sm" p={1} borderRadius={8} mt={2}>
-                            {t('journey.potions', { amount: reward?.potions || 2 })}
-                        </Badge>
-                        <Badge colorScheme="blue" fontSize="sm" p={1} borderRadius={8} mt={1}>
-                            {t('journey.superPotion', { amount: reward?.superPotions || 1 })}
-                        </Badge>
+                        <Flex direction="column" align="center" gap={2}>
+                            <Image src={pokeboxIcon} w={12} />
+                            <Badge colorScheme="yellow" fontSize="md" p={2} borderRadius={8}>
+                                {t('journey.boxEarned')}
+                            </Badge>
+                        </Flex>
                     </>
                 )}
             </Box>

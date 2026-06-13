@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react"
-import { Flex, Text } from "@chakra-ui/react"
+import { Button, Center, Flex, Text } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import BattleContent from "../Battle/BattleContent"
 import socket from "@client"
+import { useTranslation } from "react-i18next"
 
 export default function BattleScreen() {
     const { player, setLoading, game, advancePhase } = useContext(PlayerContext)
+    const { t } = useTranslation()
     const battleData = game.battleData
     const battleId = battleData?.battle?.id
     const participants = battleData?.battle?.participants
@@ -41,15 +43,16 @@ export default function BattleScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [battlePhase])
 
-    // Auto-advance if no battle data for this turn
-    useEffect(() => {
-        if (!battleData) {
-            advancePhase()
-        }
-    }, [battleData, advancePhase])
-
     if (!battleData) {
-        return null
+        return (
+            <Flex flex="1" flexDir="column" p={4} align="center" justify="center">
+                <Center flexDir="column" gap={4} bg="gray.700" p={8} borderRadius={12}>
+                    <Text fontSize="xl" fontWeight="bold" textAlign="center">{t('battle.byeTitle')}</Text>
+                    <Text fontSize="md" color="gray.300" textAlign="center">{t('battle.byeMessage')}</Text>
+                    <Button colorScheme="blue" onClick={advancePhase} mt={2}>{t('common.continue')}</Button>
+                </Center>
+            </Flex>
+        )
     }
 
     return (

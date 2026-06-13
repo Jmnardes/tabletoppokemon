@@ -33,7 +33,7 @@ export default function ActionPanel() {
         return t('action.next')
     }
 
-    const buttonSize = "50px"
+    const buttonSize = "56px"
 
     const tabButton = (tab, icon, title, extraProps = {}) => (
         <Button
@@ -49,8 +49,8 @@ export default function ActionPanel() {
             <Image
                 src={icon}
                 title={title}
-                w="45px"
-                h="45px"
+                w="51px"
+                h="51px"
                 objectFit="contain"
                 pointerEvents="none"
             />

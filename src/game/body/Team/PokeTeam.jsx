@@ -18,14 +18,13 @@ export default function PokeTeam({ bag, challenge = false }) {
     }, [teamIds])
 
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
-    const cardWidth = "31%"
 
     return (
-        <Center flexDir="column" flex="1">
-            <Flex justifyContent="center" alignItems="center" flexWrap="wrap" flex="1" maxW="750px">
+        <Center flex="1" overflow="auto">
+            <Flex justifyContent="center" alignItems="center" flex="1" gap={1} px={2}>
                 {teamPokemons.map((poke) => {
                     return (
-                        <Box key={poke.id} m={1} mt={3} w={cardWidth}>
+                        <Box key={poke.id} flex="1" minW={0} maxW="200px">
                             <Card
                                 poke={poke}
                                 bag={bag && teamIds.length > 1}

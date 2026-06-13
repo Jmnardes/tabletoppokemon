@@ -2,9 +2,9 @@ import { VStack, HStack, Text, Button, Flex, Image, useColorMode, Center } from 
 import { useContext } from "react"
 import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
-import PrizeIcon from "@features/prizes/PrizeIcon"
+import ultraboxIcon from '@assets/images/box/ultrabox-closed.png'
 
-export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true, leveledUpPokemons = [], newBerries = [] }) {
+export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true, leveledUpPokemons = [] }) {
     const { colorMode } = useColorMode()
     const { setLoading, playerWinPrize } = useContext(PlayerContext)
     const { t } = useTranslation()
@@ -68,9 +68,9 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                             </Text>
                             <HStack>
                                 <Text fontSize="xl" fontWeight="bold" color="green.400">
-                                    +{reward.amount}
+                                    +1
                                 </Text>
-                                <PrizeIcon type={reward.name} size="28px" />
+                                <Image src={ultraboxIcon} w="28px" />
                             </HStack>
                             <Text fontSize="sm" color="cyan.400">{t('gym.expPerPokemon')}</Text>
                             {leveledUpPokemons.length > 0 && (
@@ -80,18 +80,6 @@ export default function GymBattleResult({ victory, gym, reward, onClose, onRetry
                                             {t('gym.leveledUp', { name: p.name, level: p.level })}
                                         </Text>
                                     ))}
-                                </VStack>
-                            )}
-                            {newBerries.length > 0 && (
-                                <VStack spacing={1}>
-                                    <Text fontSize="sm" color="pink.400" fontWeight="bold">{t('gym.berriesEarned')}</Text>
-                                    <HStack spacing={2} flexWrap="wrap" justify="center">
-                                        {newBerries.map((berry, i) => (
-                                            <Text key={i} fontSize="sm">
-                                                🫐 {berry.name} x{berry.amount}
-                                            </Text>
-                                        ))}
-                                    </HStack>
                                 </VStack>
                             )}
                         </VStack>

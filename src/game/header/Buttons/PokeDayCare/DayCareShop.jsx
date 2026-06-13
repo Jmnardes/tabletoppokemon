@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Center, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Center, Image, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr } from "@chakra-ui/react";
 import PlayerContext from "@context/PlayerContext";
 
 import tokenIcon from '@assets/images/game/coin.png'
@@ -10,9 +10,21 @@ import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import potionIcon from '@assets/images/items/potion.png'
 import superPotionIcon from '@assets/images/items/super-potion.png'
 import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
+import { useTranslation } from "react-i18next"
+
+const ITEM_DESCRIPTIONS = {
+    pokeball: 'daycare.desc.pokeball',
+    dust: 'daycare.desc.dust',
+    greatball: 'daycare.desc.greatball',
+    ultraball: 'daycare.desc.ultraball',
+    potion: 'daycare.desc.potion',
+    superPotion: 'daycare.desc.superPotion',
+    hyperPotion: 'daycare.desc.hyperPotion',
+}
 
 export default function DayCareShop() {
     const { player, emit, setLoading, setPlayer, handleToast } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     const handleBuyItem = async (item, price) => {
         setLoading({ loading: true, text: `Buying ${item}...` })
@@ -116,6 +128,18 @@ export default function DayCareShop() {
 
     const TableItem = ({ icon, name, item, price }) => {
         return (
+            <Tooltip
+                label={
+                    <Center flexDir="column" gap={1} p={2}>
+                        <Image src={icon} w={8} />
+                        <Text fontWeight="bold">{name}</Text>
+                        <Text fontSize="xs" textAlign="center">{t(ITEM_DESCRIPTIONS[item])}</Text>
+                    </Center>
+                }
+                placement="left"
+                borderRadius={8}
+                p={2}
+            >
             <Tr>
                 <Td>
                     <Image src={icon} alt={name} boxSize={6} />
@@ -133,6 +157,7 @@ export default function DayCareShop() {
                     </Center>
                 </Td>
             </Tr>
+            </Tooltip>
         )
     }
 

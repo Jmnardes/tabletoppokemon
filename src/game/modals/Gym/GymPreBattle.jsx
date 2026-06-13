@@ -63,7 +63,7 @@ export default function GymPreBattle({ gym, onStartBattle }) {
                 <Text fontSize="sm" fontWeight="bold">{t('gym.victoryRewards')}</Text>
                 <HStack spacing={4}>
                     <Text fontSize="xs" color="yellow.400">{t('gym.badgeReward')}</Text>
-                    <Text fontSize="xs" color="green.400">{t('gym.rankingReward', { amount: gym.reward?.amount || 15 })}</Text>
+                    <Text fontSize="xs" color="green.400">{t('gym.boxReward')}</Text>
                     <Text fontSize="xs" color="cyan.400">{t('gym.expReward')}</Text>
                     <Text fontSize="xs" color="pink.400">{t('gym.berryReward')}</Text>
                 </HStack>

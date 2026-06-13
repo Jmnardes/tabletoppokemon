@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Center, useColorMode, IconButton } from "@chakra-ui/react";
 import TaskBoard from "./TaskBoard/TaskBoard";
-import Objectives from "./Objectives/Objectives";
 
 import { FaChevronDown } from "react-icons/fa";
 
@@ -51,10 +50,7 @@ export default function LeftPanel() {
                 transition="all 0.3s ease-in-out"
             />
             {!isCollapsed && (
-                <>
-                    <TaskBoard />
-                    <Objectives />
-                </>
+                <TaskBoard />
             )}
         </Center>
     );

@@ -2,8 +2,9 @@ import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
 import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
-import starIcon from '@assets/images/game/star.png'
 import crownIcon from '@assets/images/game/crown.png'
+import pokeballIcon from '@assets/images/game/pokeball.png'
+import stepsIcon from '@assets/images/game/steps.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 
 export default function OpponentCard({ opponent, inFront = false }) {
@@ -44,8 +45,12 @@ export default function OpponentCard({ opponent, inFront = false }) {
                             <Text fontSize="2xs" ml={1}>{opponent.status.badges || 0}</Text>
                         </Flex>
                         <Flex alignItems="center">
-                            <Image src={starIcon} w="14px" />
-                            <Text fontSize="2xs" ml={1}>{opponent.status.ranking}</Text>
+                            <Image src={pokeballIcon} w="14px" />
+                            <Text fontSize="2xs" ml={1}>{opponent.status.catches || 0}</Text>
+                        </Flex>
+                        <Flex alignItems="center">
+                            <Image src={stepsIcon} w="14px" />
+                            <Text fontSize="2xs" ml={1}>{opponent.journeyLevel ?? 0} - {opponent.journeyProgress ?? 0}</Text>
                         </Flex>
                     </Flex>
                 ) : (

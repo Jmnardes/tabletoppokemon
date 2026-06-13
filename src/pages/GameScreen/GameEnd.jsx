@@ -1,9 +1,6 @@
 import { Box, Collapse, Divider, Flex, Grid, Image, Text, useColorMode, VStack, HStack, Tooltip, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@context/PlayerContext";
-import { FaTrophy } from "react-icons/fa";
-
-import starIcon from '@assets/images/game/star.png'
 import crownIcon from '@assets/images/game/crown.png'
 import pokeballIcon from '@assets/images/game/pokeball.png'
 import FirstPlaceIcon from "@components/Icons/places/FirstPlaceIcon";
@@ -121,7 +118,6 @@ export default function GameEnd() {
                         <Divider />
                         
                         <VStack spacing={2} w="100%">
-                            <StatItem icon={starIcon} label="Ranking" value={playerData.ranking} />
                             <StatItem icon={crownIcon} label="Badges" value={playerData.badges} />
                             <StatItem icon={pokeballIcon} label="Catches" value={playerData.catches || 0} />
                         </VStack>
@@ -163,7 +159,6 @@ export default function GameEnd() {
                 
                 <Collapse in={showFullStats} animateOpacity>
                     <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                        <StatItem icon={starIcon} label="Ranking Points" value={stats.ranking} />
                         <StatItem icon={pokeballIcon} label="Total Catches" value={stats.catches} />
                         <StatItem icon={crownIcon} label="Badges Collected" value={stats.badges} />
                         <HStack spacing={2}>
@@ -262,93 +257,6 @@ export default function GameEnd() {
         )
     }
 
-    function AchievementsDisplay() {
-        const achievementsData = results?.achievements || []
-        if (achievementsData.length === 0) return null
-        
-        return (
-            <Box 
-                mb={8}
-                bg={cardBgColor}
-                borderWidth={2}
-                borderColor="gold"
-                borderRadius="xl"
-                p={6}
-                boxShadow="xl"
-                maxW="1200px"
-                w="100%"
-            >
-                <Text fontSize="2xl" fontWeight="bold" mb={6} textAlign="center">
-                    🏆 Achievements Completed
-                </Text>
-                <Grid
-                    templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
-                    gap={4}
-                    w="100%"
-                >
-                    {achievementsData.map((achievement, index) => (
-                        <Tooltip 
-                            key={achievement.id || index}
-                            label={achievement.message} 
-                            placement="top" 
-                            hasArrow
-                        >
-                            <Box 
-                                bg={bgColor}
-                                p={4}
-                                borderRadius="lg"
-                                borderWidth={1}
-                                borderColor={borderColor}
-                                _hover={{ transform: 'translateY(-2px)', transition: '0.2s' }}
-                            >
-                                <VStack spacing={3} align="stretch">
-                                    <HStack spacing={2}>
-                                        <FaTrophy size={20} color="gold" />
-                                        <Text fontSize="md" fontWeight="semibold" noOfLines={2}>
-                                            {achievement.label}
-                                        </Text>
-                                    </HStack>
-                                    
-                                    <Divider />
-                                    
-                                    <HStack spacing={2}>
-                                        <Text fontSize="sm" color="gray.500">
-                                            Reward:
-                                        </Text>
-                                        <Text fontSize="sm" fontWeight="bold" color="gold">
-                                            +{achievement.reward || 15}
-                                        </Text>
-                                        <Image src={starIcon} w={4} h={4} />
-                                    </HStack>
-                                    
-                                    {achievement.winners && achievement.winners.length > 0 && (
-                                        <Box>
-                                            <Text fontSize="xs" fontWeight="medium" color="gold" mb={1}>
-                                                🎉 Winner{achievement.winners.length > 1 ? 's' : ''}:
-                                            </Text>
-                                            <VStack align="stretch" spacing={1}>
-                                                {achievement.winners.map((winner, idx) => (
-                                                    <HStack key={idx} spacing={2}>
-                                                        <Text fontSize="sm" fontWeight="medium">
-                                                            {winner.playerName}
-                                                        </Text>
-                                                        <Text fontSize="xs" color="gray.500">
-                                                            ({winner.score})
-                                                        </Text>
-                                                    </HStack>
-                                                ))}
-                                            </VStack>
-                                        </Box>
-                                    )}
-                                </VStack>
-                            </Box>
-                        </Tooltip>
-                    ))}
-                </Grid>
-            </Box>
-        )
-    }
-
     function renderPlayers() {
         const rankings = results?.ranking || []
         if (rankings.length > 0) {
@@ -379,7 +287,6 @@ export default function GameEnd() {
             <Tabs index={tabIndex} onChange={setTabIndex} variant="soft-rounded" colorScheme="yellow" isFitted w="100%" maxW="1200px">
                 <TabList mb={6}>
                     <Tab>Ranking</Tab>
-                    <Tab>Achievements</Tab>
                     <Tab>Player Info</Tab>
                 </TabList>
                 <TabPanels>
@@ -395,10 +302,6 @@ export default function GameEnd() {
                                 {renderPlayers()}
                             </Flex>
                         </Box>
-                    </TabPanel>
-                    <TabPanel>
-                        {/* Achievements: mostra os 3 separados e quem venceu */}
-                        <AchievementsDisplay />
                     </TabPanel>
                     <TabPanel>
                         {/* Player Info: status, balls, tokens do daycare */}

@@ -41,7 +41,7 @@
   "lobby": {
     "gameObjective": "Objetivo do Jogo",
     "winBadges": "Ganhe {{count}} badges para encerrar o jogo",
-    "highestRanking": "Maior ranking vence",
+    "highestRanking": "Primeiro a conquistar todas as badges vence",
     "copyCode": "Copiar código",
     "catchDifficulty": "Dificuldade de captura",
     "shinyChance": "Chance de shiny %",
@@ -83,7 +83,6 @@
 
   "header": {
     "currentTurn": "Número do turno atual",
-    "rankingPoints": "Pontos de ranking — ganhe vencendo batalhas e completando tarefas",
     "badges": "Badges"
   },
 
@@ -156,7 +155,9 @@
     "hit": "HIT",
     "half": "METADE",
     "miss": "ERROU",
-    "battleLog": "Log de Batalha"
+    "battleLog": "Log de Batalha",
+    "byeTitle": "Sem adversário neste turno",
+    "byeMessage": "Você não foi sorteado para a batalha. Aguarde o próximo turno!"
   },
 
   "farm": {
@@ -273,7 +274,7 @@
     "purpose": "Propósito",
     "purposeText": "Este é um jogo não financeiro feito por um fã da série Pokémon.",
     "objective": "Objetivo",
-    "objectiveText": "O objetivo do jogo é ser o melhor Mestre Pokémon, neste caminho você deve ganhar pontos no Ranking da Liga Pokémon.",
+    "objectiveText": "O objetivo do jogo é ser o melhor Mestre Pokémon, conquistando todas as badges primeiro.",
     "howItWorks": "Como funciona",
     "howItWorksText": "Você joga contra outros para ganhar pontos vencendo batalhas, capturando Pokémons, completando tarefas e muito mais.",
     "inviteFriends": "Convide seus amigos e jogue agora!"
@@ -305,7 +306,6 @@
     "duration": "Duração: {{turns}} turnos.",
     "turnsLeft": "{{turns}} turnos restantes",
     "title": "Itens",
-    "rankingPoints": "Pontos de Ranking",
     "greatBalls": "Great Balls",
     "ultraBalls": "Ultra Balls",
     "masterBalls": "Master Balls",
@@ -332,6 +332,11 @@
     "selectPokemon": "Selecione {{max}} Pokémon para sua jornada. A ordem importa — o primeiro lutará primeiro.",
     "level": "Nível da Jornada: {{level}} — Pokémon {{current}}/{{total}}",
     "wildPokemon": "Pokémon selvagens que você vai enfrentar",
+    "previewTitle": "Pré-visualização da Jornada",
+    "previewDefeated": "Derrotados",
+    "previewRemaining": "Restantes",
+    "previewNext": "Próximo",
+    "noPreview": "Sem pré-visualização disponível",
     "startJourney": "Iniciar Jornada ({{selected}}/{{max}})",
     "round": "Round {{round}} — Luta {{current}}/{{total}}",
     "levelN": "Nível {{level}}",
@@ -348,7 +353,7 @@
     "roundComplete": "Round {{round}} Completo",
     "defeatedAll": "Você derrotou todos os {{count}} pokémon selvagens!",
     "clickToOpen": "Clique para abrir o baú!",
-    "rankingPointsEarned": "+{{amount}} Pontos de Ranking!",
+    "boxEarned": "+1 Pokebox!",
     "potions": "+{{amount}} Poções",
     "superPotion": "+{{amount}} Super Poção",
     "exitJourney": "Sair da Jornada",
@@ -388,7 +393,7 @@
     "noGymAvailable": "Nenhum ginásio disponível",
     "victoryRewards": "Recompensas da Vitória:",
     "badgeReward": "🏅 Badge",
-    "rankingReward": "+{{amount}} Ranking",
+    "boxReward": "📦 Ultrabox",
     "expReward": "+1 EXP/pokémon",
     "berryReward": "+3 Berries",
     "selectExactly": "Selecione exatamente 3 Pokémon para a batalha",
@@ -436,6 +441,7 @@
     "craft": "Craft",
     "augments": "Augmentos",
     "gym": "Ginásio",
+    "journey": "Jornada",
     "needPokemon": "Você precisa de 3 pokémons no time",
     "confirmTeamFirst": "Confirme seu time primeiro",
     "pokeBag": "Poké Bolsa",
@@ -455,7 +461,19 @@
 
   "taskBoard": {
     "title": "Tarefas",
-    "progress": "Progresso: "
+    "progress": "Progresso: ",
+    "taskComplete": "Tarefa completa!",
+    "boxEarned": "Você ganhou uma caixa!"
+  },
+
+  "box": {
+    "pokebox": "Pokebox",
+    "greatbox": "Greatbox",
+    "ultrabox": "Ultrabox",
+    "openTitle": "Abrir Caixa?",
+    "openDesc": "Clique para abrir e receber um item aleatório.",
+    "opening": "Abrindo caixa...",
+    "received": "Item recebido!"
   },
 
   "training": {
@@ -492,5 +510,17 @@
     "removeTitle": "Remover do Campo de Treino?",
     "removeDesc": "Este Pokémon voltará para sua box.",
     "upgradeTooltip": "Melhorar equipamento para Nv. {{level}}"
+  },
+
+  "daycare": {
+    "desc": {
+      "pokeball": "Uma Pokébola básica para capturar pokémon.",
+      "dust": "Usado para dar EXP a um Pokémon.",
+      "greatball": "+3 bônus de captura. Melhor que a Pokébola.",
+      "ultraball": "+6 bônus de captura. Muito eficaz.",
+      "potion": "Cura 25% do HP na Jornada.",
+      "superPotion": "Cura 50% do HP na Jornada.",
+      "hyperPotion": "Cura 80% do HP na Jornada."
+    }
   }
 }

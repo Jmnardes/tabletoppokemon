@@ -194,7 +194,6 @@ export default function GymModal() {
             setNextGym(res.nextGym || null)
             setVictoryRewards({
                 leveledUpPokemons: res.leveledUpPokemons || [],
-                newBerries: res.newBerries || [],
             })
         })
 
@@ -512,7 +511,6 @@ export default function GymModal() {
                     onRetry={handleRetry}
                     canRetry={lastGymBattleTurn !== session.turns}
                     leveledUpPokemons={victoryRewards?.leveledUpPokemons}
-                    newBerries={victoryRewards?.newBerries}
                 />
             )}
         </GenericModal>

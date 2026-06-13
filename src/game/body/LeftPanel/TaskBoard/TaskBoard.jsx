@@ -4,7 +4,16 @@ import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
 import { FaRegCircle, FaCheckCircle } from "react-icons/fa";
-import starIcon from '@assets/images/game/star.png'
+
+import pokeboxIcon from '@assets/images/box/pokebox-closed.png'
+import greatboxIcon from '@assets/images/box/greatbox-closed.png'
+import ultraboxIcon from '@assets/images/box/ultrabox-closed.png'
+
+const BOX_IMAGES = {
+    pokebox: pokeboxIcon,
+    greatbox: greatboxIcon,
+    ultrabox: ultraboxIcon,
+}
 
 export default function TaskBoard() {
     const { tasks } = useContext(PlayerContext)
@@ -38,24 +47,15 @@ export default function TaskBoard() {
                 </Center>
                 <Center justifyContent={"space-between"} w={"full"} gap={4}>
                     <Flex direction="column" gap={1} w={"full"}>
-                        <Text fontSize={"x-small"}>
+                        <Text fontSize={"x-small"} color={colorMode === 'dark' ? 'white' : undefined}>
                             - {task.name}
                         </Text>
                         <Flex justifyContent={"space-between"}>
-                            <Text mt={1} fontSize={"xx-small"}>{t('taskBoard.progress')}{
+                            <Text mt={1} fontSize={"xx-small"} color={colorMode === 'dark' ? 'white' : undefined}>{t('taskBoard.progress')}{
                                 task.condition.status.current}/{task.condition.status.final
                             }</Text>
-                            <Flex>
-                                <Text 
-                                    mt={1} 
-                                    fontSize={"xx-small"}
-                                >{task.rank}</Text>
-                                <Image
-                                    ml={2}
-                                    src={starIcon}
-                                    title={'Ranking Points'}
-                                    w={4}
-                                ></Image>
+                            <Flex alignItems="center" gap={1}>
+                                <Image src={BOX_IMAGES[task.box]} w="16px" />
                             </Flex>
                         </Flex>
                     </Flex>

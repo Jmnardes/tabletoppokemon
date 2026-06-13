@@ -5,7 +5,6 @@ import PlayerContext from "@context/PlayerContext";
 import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
 
 import crownIcon from '@assets/images/game/crown.png'
-import starIcon from '@assets/images/game/star.png'
 
 export default function GameLobby() {
     const {emit, session, opponents, player, version} = useContext(PlayerContext)
@@ -106,8 +105,8 @@ export default function GameLobby() {
                         p={2}
                     >
                         <Image
-                            src={starIcon}
-                            title={'Ranking Points'}
+                            src={crownIcon}
+                            title={'Badges'}
                             w="28px"
                             mb={1}
                         />

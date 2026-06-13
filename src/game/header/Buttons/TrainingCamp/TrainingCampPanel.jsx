@@ -7,6 +7,7 @@ import coinIcon from "@assets/images/game/coin.png";
 import dummyIcon from "@assets/images/training/dummy.png";
 import dummyBrokenIcon from "@assets/images/training/dummy-broken.png";
 import PokeList from "@features/pokemon/PokeList";
+import { FaArrowUp } from "react-icons/fa";
 
 const MAX_SLOTS = 3;
 const SLOT_COST = 5;
@@ -36,13 +37,13 @@ function ActiveSlot({ entry, onRemove, onRepair, tokens }) {
         >
             <Image
                 src={broken ? dummyBrokenIcon : dummyIcon}
-                w="48px" h="48px"
+                w="36px" h="36px"
                 objectFit="contain"
                 mb={1}
             />
             <Image
                 src={pokemon.sprites?.main}
-                w="64px"
+                w="48px"
                 borderRadius={8}
                 opacity={isSettling || broken ? 0.6 : 1}
                 filter={broken ? "grayscale(80%)" : isSettling ? "grayscale(40%)" : "none"}
@@ -81,7 +82,7 @@ function EmptySlot() {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            minH="140px"
+            minH="100px"
             flex="1"
             minW="120px"
             maxW="160px"
@@ -90,7 +91,7 @@ function EmptySlot() {
             borderColor="whiteAlpha.300"
             borderRadius="lg"
         >
-            <Image src={dummyIcon} w="48px" h="48px" objectFit="contain" opacity={0.3} mb={1} />
+            <Image src={dummyIcon} w="36px" h="36px" objectFit="contain" opacity={0.3} mb={1} />
             <Text fontSize="xs" color="whiteAlpha.500">{t('training.selectPokemon')}</Text>
         </Flex>
     );
@@ -106,7 +107,7 @@ function LockedSlot({ isNext, tokens, onBuy }) {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            minH="140px"
+            minH="100px"
             flex="1"
             minW="120px"
             maxW="160px"
@@ -116,7 +117,7 @@ function LockedSlot({ isNext, tokens, onBuy }) {
             borderRadius="lg"
             opacity={isNext ? 1 : 0.3}
         >
-            <Image src={dummyIcon} w="48px" h="48px" objectFit="contain" opacity={isNext ? 0.5 : 0.2} mb={1} />
+            <Image src={dummyIcon} w="36px" h="36px" objectFit="contain" opacity={isNext ? 0.5 : 0.2} mb={1} />
             {isNext ? (
                 <Button
                     size="sm"
@@ -357,40 +358,40 @@ export default function TrainingCampPanel() {
                         </HStack>
                     </HStack>
                 </Flex>
-            </Box>
 
-            {/* Upgrade Button */}
-            {!isMaxLevel && (
-                <Flex justify="center" mb={4}>
-                    <Box
-                        onMouseEnter={() => setShowNextLevel(true)}
-                        onMouseLeave={() => setShowNextLevel(false)}
-                    >
-                        <Tooltip
-                            label={tokens < UPGRADE_COST
-                                ? t('training.needTokens', { cost: UPGRADE_COST, current: tokens })
-                                : t('training.upgradeTooltip', { level: equipmentLevel + 1 })
-                            }
-                            hasArrow
+                {/* Upgrade Button */}
+                {!isMaxLevel ? (
+                    <Flex justify="center" mt={3}>
+                        <Box
+                            onMouseEnter={() => setShowNextLevel(true)}
+                            onMouseLeave={() => setShowNextLevel(false)}
                         >
-                            <Button
-                                colorScheme="blue"
-                                size="sm"
-                                onClick={handleUpgrade}
-                                isDisabled={tokens < UPGRADE_COST}
+                            <Tooltip
+                                label={tokens < UPGRADE_COST
+                                    ? t('training.needTokens', { cost: UPGRADE_COST, current: tokens })
+                                    : t('training.upgradeTooltip', { level: equipmentLevel + 1 })
+                                }
+                                hasArrow
                             >
-                                {t('training.upgradeEquipment')} {UPGRADE_COST}
-                                <Image src={coinIcon} w="16px" ml={1} />
-                            </Button>
-                        </Tooltip>
-                    </Box>
-                </Flex>
-            )}
-            {isMaxLevel && (
-                <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mb={4}>
-                    {t('training.maxLevel')}
-                </Text>
-            )}
+                                <Button
+                                    colorScheme="blue"
+                                    size="sm"
+                                    onClick={handleUpgrade}
+                                    isDisabled={tokens < UPGRADE_COST}
+                                >
+                                    <FaArrowUp style={{ marginRight: 4 }} />
+                                    Upgrade {UPGRADE_COST}
+                                    <Image src={coinIcon} w="16px" ml={1} />
+                                </Button>
+                            </Tooltip>
+                        </Box>
+                    </Flex>
+                ) : (
+                    <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mt={3}>
+                        {t('training.maxLevel')}
+                    </Text>
+                )}
+            </Box>
 
             {confirmRemove.open && (
                 <ConfirmationModal

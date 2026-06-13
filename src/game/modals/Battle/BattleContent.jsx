@@ -121,7 +121,6 @@ export default function BattleContent({
                         <BattleResultPanel
                             battleResult={battleResult}
                             myPlayerId={player.id}
-                            event={event}
                         />
                     )}
                 </Center>

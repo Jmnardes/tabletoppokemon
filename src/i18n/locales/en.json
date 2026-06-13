@@ -41,7 +41,7 @@
   "lobby": {
     "gameObjective": "Game Objective",
     "winBadges": "Win {{count}} badges to end the game",
-    "highestRanking": "Highest ranking wins",
+    "highestRanking": "First to collect all badges wins",
     "copyCode": "Copy code",
     "catchDifficulty": "Catch difficulty",
     "shinyChance": "Shiny chance %",
@@ -83,7 +83,6 @@
 
   "header": {
     "currentTurn": "Current turn number",
-    "rankingPoints": "Ranking points — earn by winning battles and completing tasks",
     "badges": "Badges"
   },
 
@@ -156,7 +155,9 @@
     "hit": "HIT",
     "half": "HALF",
     "miss": "MISS",
-    "battleLog": "Battle Log"
+    "battleLog": "Battle Log",
+    "byeTitle": "No opponent this turn",
+    "byeMessage": "You were not selected for battle. Wait for the next turn!"
   },
 
   "farm": {
@@ -273,7 +274,7 @@
     "purpose": "Purpose",
     "purposeText": "This is a non-financial game made by a fan of the Pokémon series.",
     "objective": "Objective",
-    "objectiveText": "The objective of the game is to be the best Pokémon Master, in this path you must earn points in the Pokémon League Ranking.",
+    "objectiveText": "The objective of the game is to be the best Pokémon Master, collecting all badges first to win.",
     "howItWorks": "How it works",
     "howItWorksText": "You play against others to earn points by winning battles, catching Pokémons, completing tasks and more.",
     "inviteFriends": "Invite your friends and play now!"
@@ -305,7 +306,6 @@
     "duration": "Duration: {{turns}} turns.",
     "turnsLeft": "{{turns}} turns left",
     "title": "Items",
-    "rankingPoints": "Ranking Points",
     "greatBalls": "Great Balls",
     "ultraBalls": "Ultra Balls",
     "masterBalls": "Master Balls",
@@ -332,6 +332,11 @@
     "selectPokemon": "Select {{max}} Pokémon for your journey. Order matters — first will fight first.",
     "level": "Journey Level: {{level}} — Pokémon {{current}}/{{total}}",
     "wildPokemon": "Wild Pokémon you will face",
+    "previewTitle": "Journey Preview",
+    "previewDefeated": "Defeated",
+    "previewRemaining": "Remaining",
+    "previewNext": "Next",
+    "noPreview": "No journey preview available",
     "startJourney": "Start Journey ({{selected}}/{{max}})",
     "round": "Round {{round}} — Fight {{current}}/{{total}}",
     "levelN": "Level {{level}}",
@@ -348,7 +353,7 @@
     "roundComplete": "Round {{round}} Complete",
     "defeatedAll": "You defeated all {{count}} wild pokémon!",
     "clickToOpen": "Click to open chest!",
-    "rankingPointsEarned": "+{{amount}} Ranking Points!",
+    "boxEarned": "+1 Pokebox!",
     "potions": "+{{amount}} Potions",
     "superPotion": "+{{amount}} Super Potion",
     "exitJourney": "Exit Journey",
@@ -388,7 +393,7 @@
     "noGymAvailable": "No gym available",
     "victoryRewards": "Victory Rewards:",
     "badgeReward": "🏅 Badge",
-    "rankingReward": "+{{amount}} Ranking",
+    "boxReward": "📦 Ultrabox",
     "expReward": "+1 EXP/pokémon",
     "berryReward": "+3 Berries",
     "selectExactly": "Select exactly 3 Pokémon for battle",
@@ -436,6 +441,7 @@
     "craft": "Craft",
     "augments": "Augments",
     "gym": "Gym",
+    "journey": "Journey",
     "needPokemon": "You need 3 pokémon in your team",
     "confirmTeamFirst": "Confirm your team first",
     "pokeBag": "Poke Bag",
@@ -455,7 +461,19 @@
 
   "taskBoard": {
     "title": "Tasks",
-    "progress": "Progress: "
+    "progress": "Progress: ",
+    "taskComplete": "Task complete!",
+    "boxEarned": "You earned a box!"
+  },
+
+  "box": {
+    "pokebox": "Pokebox",
+    "greatbox": "Greatbox",
+    "ultrabox": "Ultrabox",
+    "openTitle": "Open Box?",
+    "openDesc": "Click to open and receive a random item.",
+    "opening": "Opening box...",
+    "received": "Item received!"
   },
 
   "training": {
@@ -492,5 +510,17 @@
     "removeTitle": "Remove from Training Camp?",
     "removeDesc": "This Pokémon will return to your box.",
     "upgradeTooltip": "Upgrade equipment to Lv. {{level}}"
+  },
+
+  "daycare": {
+    "desc": {
+      "pokeball": "A basic Pokéball to catch pokémon.",
+      "dust": "Used to give EXP to a Pokémon.",
+      "greatball": "+3 catch bonus. Better than a Pokéball.",
+      "ultraball": "+6 catch bonus. Very effective.",
+      "potion": "Heals 25% HP during Journey.",
+      "superPotion": "Heals 50% HP during Journey.",
+      "hyperPotion": "Heals 80% HP during Journey."
+    }
   }
 }

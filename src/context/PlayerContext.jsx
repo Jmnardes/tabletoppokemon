@@ -1,10 +1,8 @@
-import { Flex, Image, Text, useToast } from "@chakra-ui/react";
+import { Flex, Text, useToast } from "@chakra-ui/react";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import socket from '@client'
 import logger from '@utils/logger'
-
-import starIcon from '@assets/images/game/star.png'
 
 const PlayerContext = createContext();
 
@@ -26,7 +24,6 @@ export function PlayerProvider({children}) {
     const [daycarePokes, setDaycarePokes] = useState([])
     const [trainingCamp, setTrainingCamp] = useState([])
     const [tasks, setTasks] = useState([])
-    const [achievements, setAchievements] = useState([])
     const [berries, setBerries] = useState([])
     const [farm, setFarm] = useState(null)
     const [craft, setCraft] = useState(null)
@@ -443,9 +440,6 @@ export function PlayerProvider({children}) {
         if (result?.augments) {
             setPlayer(prev => ({ ...prev, augments: result.augments }))
         }
-        if (result?.rankBonus) {
-            setPlayer(prev => ({ ...prev, rankBonus: result.rankBonus }))
-        }
         return result
     }
     const updateStatusAmount = async (amount, type) => {
@@ -460,9 +454,6 @@ export function PlayerProvider({children}) {
 
         if (result?.augments) {
             setPlayer(prev => ({ ...prev, augments: result.augments }))
-        }
-        if (result?.rankBonus) {
-            setPlayer(prev => ({ ...prev, rankBonus: result.rankBonus }))
         }
         return result
     }
@@ -558,10 +549,6 @@ export function PlayerProvider({children}) {
         socket.on('lobby-start', (res) => {
             setEncounter(res.starters)
             setTasks([...res.initialTasks])
-            if (res.achievements) {
-                console.log('🎯 Achievements received:', res.achievements)
-                setAchievements([...res.achievements])
-            }
             setHasGameStarted(true)
             updateGame({ openEncounterModal: true })
         })
@@ -591,21 +578,18 @@ export function PlayerProvider({children}) {
 
         socket.on('player-update-task', res => {
             setTasks([...res.tasks])
-            if (res.ranking > 0) {
+            if (res.boxesEarned && Object.keys(res.boxesEarned).length > 0) {
                 handleToast({
                     id: 'task-done',
-                    title: "You've completed a task",
-                    description: `You gained ${res.ranking} ranking points for this task!`,
-                    icon: <Image 
-                            width="32px"
-                            src={starIcon} 
-                            fallbackSrc={starIcon}
-                        ></Image>,
+                    title: t('taskBoard.taskComplete'),
+                    description: t('taskBoard.boxEarned'),
                     position: 'top',
                     status: 'success',
                 })
             }
-            setPlayer(prev => ({ ...prev, status: { ...prev.status, ranking: prev.status.ranking + res.ranking } }))
+            if (res.boxes) {
+                setPlayer(prev => ({ ...prev, boxes: res.boxes }))
+            }
         })
 
 
@@ -793,9 +777,6 @@ export function PlayerProvider({children}) {
 
             tasks,
             setTasks,
-
-            achievements,
-            setAchievements,
 
             berries,
             setBerries,

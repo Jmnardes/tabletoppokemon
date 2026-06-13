@@ -7,6 +7,7 @@ import {
 import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 import { getBerryIcon } from "@utils/berryIcon"
+import { FaArrowUp } from "react-icons/fa"
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
@@ -17,7 +18,7 @@ import budImg from '@assets/images/farm/bud.png'
 import rottenImg from '@assets/images/farm/rotten.png'
 import berryIcon from '@assets/images/berries/berry.png'
 
-const MAX_SLOTS = 6
+const MAX_SLOTS = 4
 const SEED_UPGRADE_COST = 5
 const MAX_SEED_LEVEL = 3
 
@@ -46,7 +47,7 @@ function PlotCard({ plot, onHarvest, onFertilize, onRevive, dust, tokens }) {
             textAlign="center"
             gap={1}
         >
-            <Image src={getPlotImage(plot)} w="100px" />
+            <Image src={getPlotImage(plot)} w="80px" />
 
             {plot.status === 'growing' && (
                 <>
@@ -110,11 +111,11 @@ function LockedSlot({ slotIndex, isNext, tokens, onBuy }) {
             alignItems="center"
             justifyContent="center"
             textAlign="center"
-            minH="120px"
+            minH="100px"
             borderRadius="lg"
             opacity={isNext ? 1 : 0.3}
         >
-            <Image src={groundImg} w="100px" opacity={0.4} />
+            <Image src={groundImg} w="80px" opacity={0.4} />
             {isNext ? (
                 <Button
                     size="sm"
@@ -250,7 +251,7 @@ export default function FarmPanel() {
                 </Badge>
             </Flex>
 
-            <SimpleGrid columns={3} spacing={3} mb={4}>
+            <SimpleGrid columns={4} spacing={3} mb={4}>
                 {Array.from({ length: MAX_SLOTS }).map((_, i) => {
                     const plot = farm.plots[i]
                     if (plot) {
@@ -329,40 +330,40 @@ export default function FarmPanel() {
                         </HStack>
                     </HStack>
                 </Flex>
-            </Box>
 
-            {/* Upgrade Button */}
-            {!isMaxLevel && (
-                <Flex justify="center" mb={4}>
-                    <Box
-                        onMouseEnter={() => setShowNextLevel(true)}
-                        onMouseLeave={() => setShowNextLevel(false)}
-                    >
-                        <Tooltip
-                            label={tokens < SEED_UPGRADE_COST
-                                ? t('farm.needTokens', { cost: SEED_UPGRADE_COST, current: tokens })
-                                : t('farm.upgradeSeeds', { level: seedLevel + 1 })
-                            }
-                            hasArrow
+                {/* Upgrade Button */}
+                {!isMaxLevel ? (
+                    <Flex justify="center" mt={3}>
+                        <Box
+                            onMouseEnter={() => setShowNextLevel(true)}
+                            onMouseLeave={() => setShowNextLevel(false)}
                         >
-                            <Button
-                                colorScheme="green"
-                                size="sm"
-                                onClick={handleUpgrade}
-                                isDisabled={tokens < SEED_UPGRADE_COST}
+                            <Tooltip
+                                label={tokens < SEED_UPGRADE_COST
+                                    ? t('farm.needTokens', { cost: SEED_UPGRADE_COST, current: tokens })
+                                    : t('farm.upgradeSeeds', { level: seedLevel + 1 })
+                                }
+                                hasArrow
                             >
-                                Upgrade seeds {SEED_UPGRADE_COST}
-                                <Image src={tokenIcon} w="16px" ml={1} />
-                            </Button>
-                        </Tooltip>
-                    </Box>
-                </Flex>
-            )}
-            {isMaxLevel && (
-                <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mb={4}>
-                    {t('farm.maxLevel')}
-                </Text>
-            )}
+                                <Button
+                                    colorScheme="green"
+                                    size="sm"
+                                    onClick={handleUpgrade}
+                                    isDisabled={tokens < SEED_UPGRADE_COST}
+                                >
+                                    <FaArrowUp style={{ marginRight: 4 }} />
+                                    Upgrade {SEED_UPGRADE_COST}
+                                    <Image src={tokenIcon} w="16px" ml={1} />
+                                </Button>
+                            </Tooltip>
+                        </Box>
+                    </Flex>
+                ) : (
+                    <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mt={3}>
+                        {t('farm.maxLevel')}
+                    </Text>
+                )}
+            </Box>
 
             {harvestedBerry && (
                 <Modal isOpen onClose={() => setHarvestedBerry(null)} isCentered size="sm">

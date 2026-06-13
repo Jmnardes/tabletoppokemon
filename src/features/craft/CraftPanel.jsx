@@ -5,6 +5,7 @@ import {
 import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
+import { FaArrowUp } from "react-icons/fa"
 import tokenIcon from '@assets/images/game/coin.png'
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
@@ -308,40 +309,40 @@ export default function CraftPanel() {
                         </HStack>
                     </HStack>
                 </Flex>
-            </Box>
 
-            {/* Upgrade Button */}
-            {!isMaxLevel && (
-                <Flex justify="center">
-                    <Box
-                        onMouseEnter={() => setShowNextLevel(true)}
-                        onMouseLeave={() => setShowNextLevel(false)}
-                    >
-                        <Tooltip
-                            label={tokens < UPGRADE_COST
-                                ? t('craft.needTokens', { cost: UPGRADE_COST, current: tokens })
-                                : t('craft.upgradeAll', { level: machineLevel + 1 })
-                            }
-                            hasArrow
+                {/* Upgrade Button */}
+                {!isMaxLevel ? (
+                    <Flex justify="center" mt={3}>
+                        <Box
+                            onMouseEnter={() => setShowNextLevel(true)}
+                            onMouseLeave={() => setShowNextLevel(false)}
                         >
-                            <Button
-                                colorScheme="blue"
-                                size="sm"
-                                onClick={handleUpgrade}
-                                isDisabled={tokens < UPGRADE_COST}
+                            <Tooltip
+                                label={tokens < UPGRADE_COST
+                                    ? t('craft.needTokens', { cost: UPGRADE_COST, current: tokens })
+                                    : t('craft.upgradeAll', { level: machineLevel + 1 })
+                                }
+                                hasArrow
                             >
-                                Upgrade machines {UPGRADE_COST}
-                                <Image src={tokenIcon} w="16px" ml={1} />
-                            </Button>
-                        </Tooltip>
-                    </Box>
-                </Flex>
-            )}
-            {isMaxLevel && (
-                <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold">
-                    {t('craft.maxLevel')}
-                </Text>
-            )}
+                                <Button
+                                    colorScheme="blue"
+                                    size="sm"
+                                    onClick={handleUpgrade}
+                                    isDisabled={tokens < UPGRADE_COST}
+                                >
+                                    <FaArrowUp style={{ marginRight: 4 }} />
+                                    Upgrade {UPGRADE_COST}
+                                    <Image src={tokenIcon} w="16px" ml={1} />
+                                </Button>
+                            </Tooltip>
+                        </Box>
+                    </Flex>
+                ) : (
+                    <Text fontSize="xs" color="yellow.400" textAlign="center" fontWeight="bold" mt={3}>
+                        {t('craft.maxLevel')}
+                    </Text>
+                )}
+            </Box>
         </Flex>
     )
 }

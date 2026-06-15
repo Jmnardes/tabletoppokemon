@@ -118,13 +118,12 @@ function PhaseConnector({ isPast }) {
 }
 
 function BottomBar() {
-    const { advancePhase, boxIds, teamIds, bagDirty, turnPhases, currentPhaseIndex, session } = useContext(PlayerContext)
+    const { advancePhase, teamIds, bagDirty, turnPhases, currentPhaseIndex, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
-    const totalPokemons = teamIds.length + boxIds.length
-    const maxTeamSize = 6
-    const needsFullTeam = totalPokemons >= maxTeamSize && teamIds.length < maxTeamSize
+    const minTeamSize = 3
+    const needsFullTeam = teamIds.length < minTeamSize
     const isTurnDisabled = needsFullTeam || bagDirty
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
     const nextTurnPhases = getNextTurnPhases(session.turns, session.battleFrequency)

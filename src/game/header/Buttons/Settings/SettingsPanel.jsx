@@ -27,7 +27,6 @@ export default function SettingsPanel() {
             <Divider my={4} />
 
             <Center flexDirection="column" pt={4} mb={4}>
-                <Text fontSize="2xs" color="red">{t('settings.dataLost')}</Text>
                 <Button p={4} w={72} onClick={() => {
                     setHasGameStarted(false)
                     setPlayer({})

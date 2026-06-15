@@ -1,17 +1,19 @@
 import { useContext, useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Flex, Text, Image, Button, Box, Badge, VStack, HStack, Progress, useColorMode, IconButton, Tooltip, Divider } from "@chakra-ui/react"
+import { Flex, Text, Image, Button, Badge, Tag, VStack, HStack, Progress, useColorMode, IconButton, Tooltip, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
 import Card from "@features/pokemon/Card"
+import PokeStats from "@features/pokemon/PokeStats"
+import AppliedItems from "@features/pokemon/AppliedItems"
 import { healAnimation } from "@utils/animations"
 
 import potionIcon from '@assets/images/items/potion.png'
 import superPotionIcon from '@assets/images/items/super-potion.png'
 import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 
-const EXP_TO_LEVEL = 5
+const EXP_TO_LEVEL = 10
 
 const POTIONS = [
     { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '25%', icon: potionIcon },
@@ -48,8 +50,13 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
         return status.filter(p => p.defeated || p.currentHp === 0).map(p => p.id)
     })()
 
-    const wildIndex = journeyState.currentWildIndex || 0
-    const currentWild = journeyState.wildTeam?.[wildIndex]
+    const wildIndex = 0
+    const stagesToWin = journeyState.stagesToWin || 5
+    const visibleCount = 3
+    const wildDefeatedCount = journeyState.wildDefeatedCount || 0
+    const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? true)
+    const [sendingBack, setSendingBack] = useState(false)
+    const [selectedWildIndex, setSelectedWildIndex] = useState(null)
 
     const bgCard = colorMode === 'light' ? 'gray.100' : 'gray.700'
     const bgActive = colorMode === 'light' ? 'blue.100' : 'blue.800'
@@ -112,29 +119,61 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
     }
 
     const startFight = () => {
+        if (selectedWildIndex == null) return
         setLoading(true)
 
         const request = {
             id: player.id,
             sessionCode: session.sessionCode,
-            data: { playerOrder: playerOrder.filter(id => !isPokeDefeated(id)) },
+            data: {
+                playerOrder: playerOrder.filter(id => !isPokeDefeated(id)),
+                targetWildIndex: selectedWildIndex,
+            },
         }
 
         socket.emit('journey-fight', request, (res) => {
             setLoading(false)
             if (res?.success) {
                 const result = res.result
-                // Update journey state with team status
+                // Update journey state with team status and new wild team data
                 if (result.playerTeamStatus) {
                     setJourneyState(prev => ({
                         ...prev,
                         playerTeamStatus: result.playerTeamStatus,
-                        currentWildIndex: result.allWildDefeated
-                            ? prev.wildTeam.length
-                            : (prev.currentWildIndex || 0) + (result.playerWon ? 1 : 0),
+                        currentWildIndex: 0,
+                        wildTeam: result.wildTeam || prev.wildTeam,
+                        canSendBack: result.canSendBack ?? prev.canSendBack,
+                        wildDefeatedCount: result.wildDefeatedCount ?? prev.wildDefeatedCount,
                     }))
                 }
+                if (result.canSendBack != null) setCanSendBack(result.canSendBack)
+                setSelectedWildIndex(null)
                 onFightStart(result)
+            }
+        })
+    }
+
+    const sendToBack = (targetIndex) => {
+        setSendingBack(true)
+
+        const request = {
+            id: player.id,
+            sessionCode: session.sessionCode,
+            data: { wildIndex: targetIndex },
+        }
+
+        socket.emit('journey-send-back', request, (res) => {
+            setSendingBack(false)
+            if (res?.success) {
+                const result = res.result
+                setJourneyState(prev => ({
+                    ...prev,
+                    wildTeam: result.wildTeam,
+                    canSendBack: result.canSendBack,
+                    currentWildIndex: result.currentWildIndex,
+                }))
+                setCanSendBack(result.canSendBack)
+                setSelectedWildIndex(null)
             }
         })
     }
@@ -142,7 +181,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
     return (
         <Flex flex="1" direction="column" align="center" w="100%" maxW="900px">
             <Text fontSize="xl" mb={1}>
-                {t('journey.round', { round: journeyState.round, current: wildIndex + 1, total: journeyState.wildTeam?.length || 10 })}
+                {t('journey.round', { round: journeyState.round, current: wildDefeatedCount + 1, total: stagesToWin })}
             </Text>
             <Text fontSize="xs" color="gray.400" mb={4}>
                 {t('journey.levelN', { level: journeyState.level })}
@@ -155,7 +194,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                     <Text fontSize="sm" fontWeight="bold" mb={2}>{t('journey.yourBattleOrder')}</Text>
                     <Text fontSize="2xs" color="gray.400" mb={3}>{t('journey.reorderBefore')}</Text>
 
-                    <VStack spacing={2} w="100%" maxW="400px">
+                    <VStack spacing={1} w="100%" maxW="420px">
                         {playerOrder.map((pokeId, idx) => {
                             const poke = getPlayerPokemonData(pokeId)
                             if (!poke) return null
@@ -175,26 +214,39 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                     borderColor={isDefeated ? 'gray.500' : (idx === 0 ? 'blue.400' : 'transparent')}
                                     borderRadius={8}
                                     p={2}
-                                    spacing={3}
+                                    spacing={2}
                                     opacity={isDefeated ? 0.5 : 1}
                                     animation={isHealing ? `${healAnimation} 1s ease-in-out` : undefined}
+                                    align="flex-start"
                                 >
-                                    <Badge colorScheme={isDefeated ? 'red' : (idx === 0 ? 'blue' : 'gray')}>{isDefeated ? '✗' : idx + 1}</Badge>
-                                    <Tooltip
-                                        label={pokemonData[pokeId] ? <Card poke={pokemonData[pokeId]} tooltip /> : poke.name}
-                                        fontSize="xs"
-                                        placement="right"
-                                        hasArrow={false}
-                                        bg="transparent"
-                                        p={0}
-                                    >
-                                        <Image
-                                            src={poke.sprites?.front || poke.sprites?.main}
-                                            w="32px" h="32px"
-                                            filter={isDefeated ? 'grayscale(1)' : 'none'}
-                                            fallback={<Text fontSize="xl" w="32px" h="32px" textAlign="center">?</Text>}
-                                        />
-                                    </Tooltip>
+                                    {/* Left column: badge + sprite */}
+                                    <VStack spacing={1} align="center" minW="44px">
+                                        <Badge
+                                            colorScheme={isDefeated ? 'red' : (idx === 0 ? 'blue' : 'gray')}
+                                            fontSize="sm"
+                                            px={2}
+                                            py={0.5}
+                                            borderRadius={6}
+                                        >
+                                            {isDefeated ? '✗' : idx + 1}
+                                        </Badge>
+                                        <Tooltip
+                                            label={pokemonData[pokeId] ? <Card poke={pokemonData[pokeId]} tooltip /> : poke.name}
+                                            fontSize="xs"
+                                            placement="right"
+                                            hasArrow={false}
+                                            bg="transparent"
+                                            p={0}
+                                        >
+                                            <Image
+                                                src={poke.sprites?.front || poke.sprites?.main}
+                                                w="36px" h="36px"
+                                                filter={isDefeated ? 'grayscale(1)' : 'none'}
+                                                fallback={<Text fontSize="xl" w="36px" h="36px" textAlign="center">?</Text>}
+                                            />
+                                        </Tooltip>
+                                    </VStack>
+                                    {/* Center: content */}
                                     <VStack align="start" spacing={0} flex="1">
                                         <Text fontSize="xs" fontWeight="bold">{poke.level} - {poke.name}</Text>
                                         {/* HP Bar */}
@@ -245,11 +297,20 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                                 })}
                                             </HStack>
                                         )}
+                        {/* Stats */}
+                                        {idx === 0 && !isDefeated && pokemonData[pokeId] && (
+                                            <PokeStats poke={pokemonData[pokeId]} isMini hideIndicators columns={3} />
+                                        )}
+                                        {/* Applied Items */}
+                                        {idx === 0 && !isDefeated && pokemonData[pokeId] && (
+                                            <AppliedItems poke={pokemonData[pokeId]} />
+                                        )}
                                     </VStack>
-                                    <HStack spacing={1}>
-                                        <Button size="xs" variant="ghost" onClick={() => moveUp(pokeId)} isDisabled={isDefeated || idx === 0}>↑</Button>
-                                        <Button size="xs" variant="ghost" onClick={() => moveDown(pokeId)} isDisabled={isDefeated || idx === playerOrder.length - 1}>↓</Button>
-                                    </HStack>
+                                    {/* Right: arrows */}
+                                    <VStack spacing={1} align="center" pt={2}>
+                                        <IconButton size="xs" variant="ghost" icon={<Text>↑</Text>} onClick={() => moveUp(pokeId)} isDisabled={isDefeated || idx === 0} aria-label="Move up" />
+                                        <IconButton size="xs" variant="ghost" icon={<Text>↓</Text>} onClick={() => moveDown(pokeId)} isDisabled={isDefeated || idx === playerOrder.length - 1} aria-label="Move down" />
+                                    </VStack>
                                 </HStack>
                             )
                         })}
@@ -262,7 +323,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                             <Text fontSize="xs" fontWeight="bold" color="red.400" mb={2}>
                                 {t('journey.defeated', { count: defeatedPokes.length })}
                             </Text>
-                            <VStack spacing={2} w="100%" maxW="400px">
+                            <VStack spacing={1} w="100%" maxW="420px">
                                 {defeatedPokes.map((pokeId) => {
                                     const poke = getPlayerPokemonData(pokeId)
                                     if (!poke) return null
@@ -310,62 +371,109 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
 
                 {/* Wild Pokemon - RIGHT */}
                 <Flex direction="column" align="center" minW="220px">
-                    {currentWild && (
-                        <Flex
-                            direction="column"
-                            align="center"
-                            bg={bgWild}
-                            border="2px solid"
-                            borderColor="red.400"
-                            borderRadius={12}
-                            p={4}
-                            mb={4}
-                            w="200px"
+                    <Text fontSize="sm" fontWeight="bold" mb={1}>{t('journey.opponent')}</Text>
+                    <Tooltip label={t('journey.sendToBackExplain')} fontSize="xs" placement="top" hasArrow>
+                        <Tag
+                            size="sm"
+                            colorScheme={canSendBack ? 'green' : 'red'}
+                            variant="subtle"
+                            mb={2}
+                            cursor="help"
                         >
-                            <Text fontSize="xs" color="red.300" fontWeight="bold" mb={1}>{t('journey.opponent')}</Text>
-                            <Image src={currentWild.sprite} w="64px" h="64px" />
-                            <Text fontWeight="bold" fontSize="sm">{currentWild.name}</Text>
-                            <HStack mt={1}>
-                                {currentWild.types?.map(el => (
-                                    <Element key={el} element={el} />
-                                ))}
-                            </HStack>
-                            <Badge mt={1}>Lv. {currentWild.level}</Badge>
-                        </Flex>
-                    )}
+                            Reorder {canSendBack ? 1 : 0}/1
+                        </Tag>
+                    </Tooltip>
+                    <Text fontSize="2xs" color="gray.400" mb={3}>
+                        {t('journey.selectOpponent')}
+                    </Text>
 
-                    {/* Wild team preview */}
-                    <HStack spacing={1}>
-                        {journeyState.wildTeam?.map((wild, idx) => (
-                            <Tooltip
-                                key={wild.id}
-                                label={
-                                    <Box p={1} fontSize="2xs">
-                                        <Text fontWeight="bold">{wild.name}</Text>
-                                        <Text>Lv. {wild.level}</Text>
-                                        <HStack spacing={1} mt={1}>
-                                            {wild.types?.map(el => (
-                                                <Element key={el} element={el} />
-                                            ))}
-                                        </HStack>
-                                    </Box>
-                                }
-                                fontSize="xs"
-                            >
-                                <Box
-                                    w="32px" h="32px"
-                                    borderRadius={4}
-                                    bg={idx < wildIndex ? 'red.500' : (idx === wildIndex ? 'orange.400' : bgCard)}
-                                    opacity={idx < wildIndex ? 0.3 : 1}
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                >
-                                    <Image src={wild.sprite} w="24px" h="24px" filter={idx < wildIndex ? 'grayscale(1)' : 'none'} />
-                                </Box>
-                            </Tooltip>
-                        ))}
-                    </HStack>
+                    <Flex gap={3} align="flex-start">
+                        {/* Visible wild pokemon — vertical column */}
+                        <VStack spacing={2}>
+                            {(() => {
+                                const wildTeam = journeyState.wildTeam || []
+                                const allVisible = wildTeam.slice(wildIndex, wildIndex + visibleCount).filter(w => !w.hidden)
+                                return allVisible.map((wild, idx) => {
+                                    const realIdx = wildIndex + idx
+                                    const isSelected = selectedWildIndex === realIdx
+                                    return (
+                                        <Flex
+                                            key={wild.id}
+                                            direction="column"
+                                            align="center"
+                                            bg={bgWild}
+                                            border={isSelected ? '2px solid' : '1px solid'}
+                                            borderColor={isSelected ? 'orange.400' : 'red.400'}
+                                            borderRadius={8}
+                                            p={2}
+                                            w="110px"
+                                            cursor="pointer"
+                                            onClick={() => setSelectedWildIndex(realIdx)}
+                                            _hover={{ borderColor: 'orange.300', transform: 'scale(1.03)' }}
+                                            transition="all 0.15s"
+                                            opacity={selectedWildIndex != null && !isSelected ? 0.5 : 1}
+                                        >
+                                            <Image src={wild.sprite} w={isSelected ? '48px' : '36px'} h={isSelected ? '48px' : '36px'} transition="all 0.15s" />
+                                            <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{wild.name}</Text>
+                                            <Flex gap={1} mt={1}>
+                                                {wild.types?.map(el => (
+                                                    <Element key={el} element={el} w={3} h={3} />
+                                                ))}
+                                            </Flex>
+                                            <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
+                                            {canSendBack && !sendingBack && (
+                                                <Tooltip label={t('journey.sendToBackTooltip')} fontSize="xs" placement="top" hasArrow>
+                                                    <IconButton
+                                                        size="xs"
+                                                        variant="ghost"
+                                                        icon={<Text fontSize="sm" fontWeight="bold" color="red.400">✕</Text>}
+                                                        mt={1}
+                                                        minW="24px"
+                                                        h="24px"
+                                                        onClick={(e) => { e.stopPropagation(); sendToBack(realIdx) }}
+                                                        aria-label={t('journey.sendToBack')}
+                                                    />
+                                                </Tooltip>
+                                            )}
+                                        </Flex>
+                                    )
+                                })
+                            })()}
+                        </VStack>
+
+                        {/* Hidden wild pokemon — vertical column */}
+                        {(() => {
+                            const wildTeam = journeyState.wildTeam || []
+                            const allVisible = wildTeam.slice(wildIndex, wildIndex + visibleCount).filter(w => !w.hidden)
+                            const totalHidden = wildTeam.length - wildIndex - allVisible.length
+                            if (totalHidden <= 0) return null
+                            return (
+                                <VStack spacing={1}>
+                                    {Array.from({ length: totalHidden }).map((_, idx) => (
+                                        <Flex
+                                            key={`hidden-${idx}`}
+                                            align="center"
+                                            justify="center"
+                                            bg="gray.700"
+                                            border="1px solid"
+                                            borderColor="whiteAlpha.200"
+                                            borderRadius={4}
+                                            w="28px"
+                                            h="28px"
+                                        >
+                                            <Text fontSize="xs" color="whiteAlpha.400">?</Text>
+                                        </Flex>
+                                    ))}
+                                </VStack>
+                            )
+                        })()}
+                    </Flex>
+
+                    {/* Defeated counter */}
+                    <Badge colorScheme="green" fontSize="2xs" mt={3}>
+                        {t('journey.previewDefeated')}: {wildDefeatedCount}/{stagesToWin}
+                    </Badge>
+
                 </Flex>
             </Flex>
 
@@ -374,8 +482,9 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                 size="lg"
                 onClick={startFight}
                 isLoading={loading}
+                isDisabled={selectedWildIndex == null}
             >
-                {t('journey.fight')}
+                {t('journey.startFight')}
             </Button>
         </Flex>
     )

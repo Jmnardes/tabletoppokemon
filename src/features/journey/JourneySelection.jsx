@@ -6,7 +6,7 @@ import socket from "@client"
 import Element from "@features/elements/Element"
 import PokeStats from "@features/pokemon/PokeStats"
 
-const EXP_TO_LEVEL = 5
+const EXP_TO_LEVEL = 10
 
 export default function JourneySelection() {
     const { t } = useTranslation()
@@ -22,6 +22,8 @@ export default function JourneySelection() {
     const maxSelectable = Math.min(session?.journeyTeamLength || 3, allPokemon.length)
     const wildPreview = game.journeyWildPreview || []
     const journeyProgress = game.journeyProgress || 0
+    const stagesToWin = session?.stagesPerJourney || 5
+    const visibleCount = 3
 
     const toggleSelect = (pokeId) => {
         setSelectedIds(prev => {
@@ -68,50 +70,81 @@ export default function JourneySelection() {
 
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                {t('journey.level', { level: session.level ?? 0, current: journeyProgress + 1, total: 10 })}
+                {t('journey.level', { level: session.level ?? 0, current: journeyProgress + 1, total: stagesToWin })}
             </Badge>
 
             {/* Wild pokemon preview */}
-            {wildPreview.length > 0 && (
-                <Box mb={4} w="100%" maxW="900px">
-                    <Text fontSize="xs" fontWeight="bold" color="red.300" mb={2} textAlign="center">
-                        {t('journey.wildPokemon')}
-                    </Text>
-                    <Flex gap={2} justifyContent="center" flexWrap="wrap">
-                        {wildPreview.map((wild, idx) => {
-                            const alreadyDefeated = idx < journeyProgress
-                            const isCurrent = idx === journeyProgress
-                            return (
-                                <Flex
-                                    key={wild.id}
-                                    direction="column"
-                                    align="center"
-                                    bg={alreadyDefeated ? 'gray.700' : (colorMode === 'light' ? 'red.50' : 'red.900')}
-                                    border={isCurrent ? '2px solid' : '1px solid'}
-                                    borderColor={alreadyDefeated ? 'gray.500' : (isCurrent ? 'orange.400' : 'red.400')}
-                                    borderRadius={8}
-                                    p={2}
-                                    w="80px"
-                                    opacity={alreadyDefeated ? 0.4 : 0.9}
-                                >
-                                    <Badge colorScheme={alreadyDefeated ? 'gray' : (isCurrent ? 'orange' : 'red')} fontSize="2xs" mb={1}>{idx + 1}</Badge>
-                                    <Image src={wild.sprite} w="32px" h="32px" filter={alreadyDefeated ? 'grayscale(1)' : 'none'} />
-                                    <Text fontSize="2xs" noOfLines={1}>{wild.name}</Text>
-                                    <Flex gap={1} mt={1}>
-                                        {wild.types?.map(el => (
-                                            <Element key={el} element={el} w={3} h={3} />
-                                        ))}
+            {wildPreview.length > 0 && (() => {
+                const visibleWild = wildPreview.slice(journeyProgress, journeyProgress + visibleCount)
+                const hiddenCount = wildPreview.length - journeyProgress - visibleWild.length
+
+                return (
+                    <Box mb={4} w="100%" maxW="900px">
+                        <Text fontSize="xs" fontWeight="bold" color="red.300" mb={2} textAlign="center">
+                            {t('journey.wildPokemon')}
+                        </Text>
+
+                        {/* Visible wild pokemon */}
+                        <Flex gap={2} justifyContent="center" flexWrap="wrap" mb={2}>
+                            {visibleWild.map((wild) => {
+                                return (
+                                    <Flex
+                                        key={wild.id}
+                                        direction="column"
+                                        align="center"
+                                        bg={colorMode === 'light' ? 'red.50' : 'red.900'}
+                                        border={'1px solid'}
+                                        borderColor={'red.400'}
+                                        borderRadius={8}
+                                        p={2}
+                                        w="100px"
+                                    >
+                                        <Image src={wild.sprite} w="64px" h="64px" />
+                                        <Text fontSize="2xs" noOfLines={1}>{wild.name}</Text>
+                                        <Flex gap={1} mt={1}>
+                                            {wild.types?.map(el => (
+                                                <Element key={el} element={el} w={3} h={3} />
+                                            ))}
+                                        </Flex>
+                                        <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
                                     </Flex>
-                                    <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
-                                </Flex>
-                            )
-                        })}
-                    </Flex>
-                </Box>
-            )}
+                                )
+                            })}
+                        </Flex>
+
+                        {/* Hidden wild pokemon */}
+                        {hiddenCount > 0 && (
+                            <Flex gap={1} justifyContent="center" flexWrap="wrap">
+                                {Array.from({ length: hiddenCount }).map((_, idx) => (
+                                    <Flex
+                                        key={`hidden-${idx}`}
+                                        align="center"
+                                        justify="center"
+                                        bg="gray.700"
+                                        border="1px solid"
+                                        borderColor="whiteAlpha.200"
+                                        borderRadius={6}
+                                        w="32px"
+                                        h="32px"
+                                    >
+                                        <Text fontSize="sm" color="whiteAlpha.400">?</Text>
+                                    </Flex>
+                                ))}
+                            </Flex>
+                        )}
+
+                        {/* Defeated count */}
+                        {journeyProgress > 0 && (
+                            <Text fontSize="2xs" color="green.400" textAlign="center" mt={2}>
+                                {t('journey.previewDefeated')}: {journeyProgress}/{stagesToWin}
+                            </Text>
+                        )}
+                    </Box>
+                )
+            })()}
 
             {/* Available pokemon grid */}
-            <SimpleGrid columns={[3, 4, 5, 6]} spacing={3} w="100%" maxW="900px">
+            <SimpleGrid columns={[2, 3, 4, 5]} spacing={3} w="100%" maxW="900px">
                 {allPokemon.map(poke => {
                     const isSelected = selectedIds.includes(poke.id)
                     const orderIdx = selectedIds.indexOf(poke.id)

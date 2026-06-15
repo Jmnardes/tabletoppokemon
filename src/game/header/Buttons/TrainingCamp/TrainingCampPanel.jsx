@@ -15,9 +15,9 @@ const UPGRADE_COST = 5;
 const MAX_EQUIPMENT_LEVEL = 3;
 
 const EQUIPMENT_LEVELS = {
-    1: { break: 8, skip: 14, exp1: 50, exp2: 24, exp3: 4 },
-    2: { break: 6, skip: 11, exp1: 48, exp2: 29, exp3: 6 },
-    3: { break: 5, skip: 8, exp1: 49, exp2: 30, exp3: 8 },
+    1: { break: 8, exp5: 34, exp6: 42, exp7: 16 },
+    2: { break: 6, exp5: 33, exp6: 44, exp7: 17 },
+    3: { break: 5, exp5: 33, exp6: 44, exp7: 18 },
 };
 
 function ActiveSlot({ entry, onRemove, onRepair, tokens }) {
@@ -293,7 +293,7 @@ export default function TrainingCampPanel() {
                 border="1px solid"
                 borderColor="whiteAlpha.300"
                 borderRadius="lg"
-                bg="gray.800"
+                bg="gray.700"
                 p={4}
                 mt={4}
                 mb={4}
@@ -312,44 +312,35 @@ export default function TrainingCampPanel() {
                 </Text>
                 <Flex flexDir="column" gap={1}>
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="cyan.300">+1 EXP</Text>
+                        <Text fontSize="2xs" color="purple.300">+7 EXP</Text>
                         <HStack spacing={1}>
-                            <Text fontSize="2xs" color="cyan.300" fontWeight="bold">{rates.exp1}%</Text>
+                            <Text fontSize="2xs" color="purple.300" fontWeight="bold">{rates.exp7}%</Text>
                             {showNextLevel && nextRates && (
-                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp1}%</Text>
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp7}%</Text>
                             )}
                         </HStack>
                     </HStack>
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="blue.300">+2 EXP</Text>
+                        <Text fontSize="2xs" color="blue.300">+6 EXP</Text>
                         <HStack spacing={1}>
-                            <Text fontSize="2xs" color="blue.300" fontWeight="bold">{rates.exp2}%</Text>
+                            <Text fontSize="2xs" color="blue.300" fontWeight="bold">{rates.exp6}%</Text>
                             {showNextLevel && nextRates && (
-                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp2}%</Text>
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp6}%</Text>
                             )}
                         </HStack>
                     </HStack>
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="purple.300">+3 EXP</Text>
+                        <Text fontSize="2xs" color="cyan.300">+5 EXP</Text>
                         <HStack spacing={1}>
-                            <Text fontSize="2xs" color="purple.300" fontWeight="bold">{rates.exp3}%</Text>
+                            <Text fontSize="2xs" color="cyan.300" fontWeight="bold">{rates.exp5}%</Text>
                             {showNextLevel && nextRates && (
-                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp3}%</Text>
+                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.exp5}%</Text>
                             )}
                         </HStack>
                     </HStack>
                     <Divider borderColor="whiteAlpha.100" my={1} />
                     <HStack justify="space-between">
-                        <Text fontSize="2xs" color="whiteAlpha.500">{t('training.skip')}</Text>
-                        <HStack spacing={1}>
-                            <Text fontSize="2xs" color="whiteAlpha.500">{rates.skip}%</Text>
-                            {showNextLevel && nextRates && (
-                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.skip}%</Text>
-                            )}
-                        </HStack>
-                    </HStack>
-                    <HStack justify="space-between">
-                        <Text fontSize="2xs" color="red.400">{t('training.break')}</Text>
+                        <Text fontSize="2xs" color="red.400">{t('training.breakWithExp')}</Text>
                         <HStack spacing={1}>
                             <Text fontSize="2xs" color="red.400">{rates.break}%</Text>
                             {showNextLevel && nextRates && (
@@ -374,8 +365,12 @@ export default function TrainingCampPanel() {
                                 hasArrow
                             >
                                 <Button
-                                    colorScheme="blue"
+                                    colorScheme="green"
                                     size="sm"
+                                    h="40px"
+                                    px={6}
+                                    fontSize="sm"
+                                    fontWeight="bold"
                                     onClick={handleUpgrade}
                                     isDisabled={tokens < UPGRADE_COST}
                                 >

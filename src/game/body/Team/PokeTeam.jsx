@@ -24,7 +24,7 @@ export default function PokeTeam({ bag, challenge = false }) {
             <Flex justifyContent="center" alignItems="center" flex="1" gap={1} px={2}>
                 {teamPokemons.map((poke) => {
                     return (
-                        <Box key={poke.id} flex="1" minW={0} maxW="200px">
+                        <Box key={poke.id} flex="1" minW={0} maxW="215px">
                             <Card
                                 poke={poke}
                                 bag={bag && teamIds.length > 1}

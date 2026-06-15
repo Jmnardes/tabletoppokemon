@@ -180,7 +180,7 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                         e.target.style.opacity = 0
                     }}
                 >
-                    {currentLog.damage > 0 ? `-${currentLog.damage}` : "MISS"}
+                    {currentLog.damage > 0 ? `${currentLog.damage}` : "MISS"}
                 </Text>
             )}
         </Center>

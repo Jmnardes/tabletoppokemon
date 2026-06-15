@@ -44,7 +44,7 @@ describe('getDefaultGameConfig', () => {
     const defaults = getDefaultGameConfig()
     expect(defaults.trainerName).toBe('')
     expect(defaults.badgesToWin).toBe(3)
-    expect(defaults.stagesPerJourney).toBe(10)
+    expect(defaults.stagesPerJourney).toBe(5)
     expect(defaults.battleFrequency).toBe(3)
     expect(defaults.gymStrengthBonus).toBe(0)
     expect(defaults.shinyChance).toBe(1)

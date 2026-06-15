@@ -4,13 +4,16 @@ import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 import Element from "@features/elements/Element"
 
+const VISIBLE_COUNT = 3
+
 export default function JourneyPreviewPanel() {
-    const { game } = useContext(PlayerContext)
+    const { game, session } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
     const wildPreview = game.journeyWildPreview || []
     const journeyProgress = game.journeyProgress || 0
+    const stagesToWin = session?.stagesPerJourney || 5
 
     if (wildPreview.length === 0) {
         return (
@@ -20,8 +23,10 @@ export default function JourneyPreviewPanel() {
         )
     }
 
-    const defeated = wildPreview.filter((_, i) => i < journeyProgress).length
-    const remaining = wildPreview.length - defeated
+    const defeated = journeyProgress
+    const remaining = stagesToWin - defeated
+    const visibleWild = wildPreview.slice(journeyProgress, journeyProgress + VISIBLE_COUNT)
+    const hiddenCount = wildPreview.length - journeyProgress - visibleWild.length
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center">
@@ -36,36 +41,35 @@ export default function JourneyPreviewPanel() {
                 </Badge>
             </Flex>
 
-            <Flex gap={2} justifyContent="center" flexWrap="wrap" maxW="900px">
-                {wildPreview.map((wild, idx) => {
-                    const alreadyDefeated = idx < journeyProgress
-                    const isCurrent = idx === journeyProgress
+            {/* Visible wild pokemon */}
+            <Flex gap={2} justifyContent="center" flexWrap="wrap" maxW="900px" mb={2}>
+                {visibleWild.map((wild, idx) => {
+                    const realIdx = journeyProgress + idx
+                    const isCurrent = realIdx === journeyProgress
 
                     return (
                         <Flex
                             key={wild.id}
                             direction="column"
                             align="center"
-                            bg={alreadyDefeated ? 'gray.700' : (colorMode === 'light' ? 'red.50' : 'red.900')}
+                            bg={colorMode === 'light' ? 'red.50' : 'red.900'}
                             border={isCurrent ? '2px solid' : '1px solid'}
-                            borderColor={alreadyDefeated ? 'gray.500' : (isCurrent ? 'orange.400' : 'red.400')}
+                            borderColor={isCurrent ? 'orange.400' : 'red.400'}
                             borderRadius={8}
                             p={2}
                             w="80px"
-                            opacity={alreadyDefeated ? 0.4 : 1}
                             transition="all 0.15s"
                         >
                             <Badge
-                                colorScheme={alreadyDefeated ? 'gray' : (isCurrent ? 'orange' : 'red')}
+                                colorScheme={isCurrent ? 'orange' : 'red'}
                                 fontSize="2xs"
                                 mb={1}
                             >
-                                {idx + 1}
+                                {realIdx + 1}
                             </Badge>
                             <Image
                                 src={wild.sprite}
                                 w="40px" h="40px"
-                                filter={alreadyDefeated ? 'grayscale(1)' : 'none'}
                             />
                             <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{wild.name}</Text>
                             <Flex gap={1} mt={1}>
@@ -74,9 +78,6 @@ export default function JourneyPreviewPanel() {
                                 ))}
                             </Flex>
                             <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
-                            {alreadyDefeated && (
-                                <Text fontSize="2xs" color="green.400" fontWeight="bold">✓</Text>
-                            )}
                             {isCurrent && (
                                 <Text fontSize="2xs" color="orange.300" fontWeight="bold">{t('journey.previewNext')}</Text>
                             )}
@@ -84,6 +85,27 @@ export default function JourneyPreviewPanel() {
                     )
                 })}
             </Flex>
+
+            {/* Hidden wild pokemon */}
+            {hiddenCount > 0 && (
+                <Flex gap={1} justifyContent="center" flexWrap="wrap" maxW="900px">
+                    {Array.from({ length: hiddenCount }).map((_, idx) => (
+                        <Flex
+                            key={`hidden-${idx}`}
+                            align="center"
+                            justify="center"
+                            bg="gray.700"
+                            border="1px solid"
+                            borderColor="whiteAlpha.200"
+                            borderRadius={6}
+                            w="32px"
+                            h="32px"
+                        >
+                            <Text fontSize="sm" color="whiteAlpha.400">?</Text>
+                        </Flex>
+                    ))}
+                </Flex>
+            )}
         </Flex>
     )
 }

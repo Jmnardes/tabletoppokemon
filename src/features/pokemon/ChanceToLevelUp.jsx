@@ -1,7 +1,7 @@
 import { Box, Progress, Text, Tooltip } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 
-const EXP_TO_LEVEL = 5
+const EXP_TO_LEVEL = 10
 
 export default function ExpBar({ selectedPokemon }) {
     const exp = selectedPokemon?.exp ?? 0

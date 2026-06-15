@@ -14,13 +14,12 @@ import craftIcon from '@assets/images/craft/machine-on.png';
 import { FaArrowRight } from "react-icons/fa";
 
 export default function ActionPanel() {
-    const { activeTab, setActiveTab, boxIds, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft, bagDirty } = useContext(PlayerContext)
+    const { activeTab, setActiveTab, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft, bagDirty } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
-    const totalPokemons = teamIds.length + boxIds.length
-    const maxTeamSize = 6
-    const needsFullTeam = totalPokemons >= maxTeamSize && teamIds.length < maxTeamSize
+    const minTeamSize = 3
+    const needsFullTeam = teamIds.length < minTeamSize
     
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
     

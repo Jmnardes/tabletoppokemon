@@ -6,7 +6,7 @@ export default function AppliedItems({ poke }) {
     const berrySlots = [0, 1, 2]
 
     return (
-        <Grid templateColumns="repeat(4, 1fr)" gap={1} mt={2} w="100%">
+        <Grid templateColumns="repeat(4, 1fr)" gap={1} mt={1} w="100%">
             {/* Dust slot */}
             <Center
                 flexDir="column"
@@ -14,7 +14,7 @@ export default function AppliedItems({ poke }) {
                 borderColor="whiteAlpha.300"
                 borderRadius={6}
                 py={1}
-                minH={10}
+                minH={8}
             >
                 {poke.dust > 0 ? (
                     <>

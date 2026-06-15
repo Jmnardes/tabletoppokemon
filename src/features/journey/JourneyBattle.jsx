@@ -85,7 +85,7 @@ const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDama
                         textShadow="0 0 6px rgba(0,0,0,0.8)"
                         onAnimationEnd={() => setLastDamage(null)}
                     >
-                        {lastDamage.damage > 0 ? `-${lastDamage.damage}` : "MISS"}
+                        {lastDamage.damage > 0 ? `${lastDamage.damage}` : "MISS"}
                     </Text>
                 )}
             </Box>
@@ -391,11 +391,11 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                         bg="blackAlpha.600"
                         borderRadius={8}
                         px={4}
-                        py={3}
+                        py={5}
                         mt={1}
                         mx={4}
                         w="90%"
-                        minH="100px"
+                        minH="200px"
                         display="flex"
                         flexDirection="column"
                         alignItems="center"
@@ -412,10 +412,16 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                         </Badge>
                         <Text fontSize="xs" color="gray.400">
                             {currentFight.playerWon
-                                ? t('battle.victoryDesc', { name: stringToUpperCase(playerPoke.name) })
+                                ? t('battle.victoryDesc', { name: stringToUpperCase(playerPoke.name), exp: currentFight.expGain ?? 1 })
                                 : t('battle.defeatedDesc', { name: stringToUpperCase(playerPoke.name), next: fightIndex < fights.length - 1 ? t('battle.nextIncoming') : '' })
                             }
                         </Text>
+                        {/* Show EXP for assisters (pokemon that fought but didn't defeat) */}
+                        {currentFight.playerWon && fightResult.expPreview?.filter(e => !e.defeater).map(e => (
+                            <Text key={e.id} fontSize="xs" color="yellow.300" mt={1}>
+                                {stringToUpperCase(e.name)} (+{e.exp} EXP)
+                            </Text>
+                        ))}
                         {currentFight.playerWon && currentFight.leveledUp && (
                             <Badge colorScheme="yellow" fontSize="sm" p={1} borderRadius={6} mt={1}>
                                 {t('battle.leveledUp', { name: stringToUpperCase(playerPoke.name), level: currentFight.newLevel })}
@@ -423,8 +429,8 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                         )}
                         <Button
                             colorScheme={currentFight.playerWon ? 'green' : 'blue'}
-                            size="sm"
-                            mt={3}
+                            size="lg"
+                            mt={4}
                             onClick={() => {
                                 if (fightIndex < fights.length - 1) {
                                     setFightIndex(prev => prev + 1)

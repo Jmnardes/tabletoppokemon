@@ -1,76 +1,145 @@
-import { useContext } from "react"
-import { Flex, Image, Text } from "@chakra-ui/react"
+import { useContext, useState, useCallback } from "react"
+import { Badge, Button, Center, Flex, Image, Text } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
-import PokeList from "@features/pokemon/PokeList"
 import GenericModal from "@components/Modal/GenericModal"
 
 import DayCareShop from "./DayCareShop"
 import tokenIcon from '@assets/images/game/coin.png'
 
 export default function DayCareModal() {
-    const { updateGame, getBoxPokemons, setLoading, emit, syncBoxFromServer, setPlayer, setDaycarePokes, handleToast } = useContext(PlayerContext)
+    const { t } = useTranslation()
+    const { updateGame, getBoxPokemons, setLoading, emit, syncBoxFromServer, setPlayer, setDaycarePokes, handleToast, player } = useContext(PlayerContext)
+    const [selectedIds, setSelectedIds] = useState([])
 
     const boxPokemons = getBoxPokemons()
 
-    const handleTrade = async (pokemon) => {
-        setLoading({ loading: true, text: `Releasing pokémon...` })
-        
+    const toggleSelect = useCallback((poke) => {
+        setSelectedIds(prev =>
+            prev.includes(poke.id) ? prev.filter(id => id !== poke.id) : [...prev, poke.id]
+        )
+    }, [])
+
+    const totalTokens = selectedIds.reduce((sum, id) => {
+        const poke = boxPokemons.find(p => p.id === id)
+        return sum + ((poke?.rarity?.rarity ?? 0) + 1)
+    }, 0)
+
+    const handleBatchRelease = async () => {
+        if (selectedIds.length === 0) return
+        setLoading({ loading: true, text: t('daycare.releasing') })
+
         try {
-            const result = await emit('daycare-pokemon-release', { pokeId: pokemon.id, rarity: pokemon.rarity.rarity })
-            
+            const result = await emit('daycare-pokemon-release', { pokeIds: selectedIds })
+
             if (result) {
                 syncBoxFromServer(result.pokeBox)
-                
                 if (result.daycare) {
                     setPlayer(prev => ({ ...prev, daycare: result.daycare }))
                 }
-                
-                setDaycarePokes(prevPokes => [...prevPokes, pokemon])
-                
+                const releasedPokes = boxPokemons.filter(p => selectedIds.includes(p.id))
+                setDaycarePokes(prev => [...prev, ...releasedPokes])
+
                 handleToast({
-                    title: 'Daycare Token',
-                    description: `Your ${pokemon.name} will be treated with kindness`,
+                    title: t('daycare.tokenTitle'),
+                    description: t('daycare.releaseSuccess', { count: result.count, tokens: result.totalTokens }),
                     status: 'info',
                     duration: 6000,
                     icon: <Image src={tokenIcon} w={12} />
                 })
             }
-            
+            setSelectedIds([])
             setLoading({ loading: false })
         } catch (error) {
             setLoading({ loading: false })
             handleToast({
                 id: 'release-pokemon-error',
-                title: 'Error releasing pokémon',
-                description: error.message || 'Connection error. Please try again.',
+                title: t('daycare.releaseError'),
+                description: error.message || t('daycare.connectionError'),
                 status: 'error',
                 position: 'top'
             })
-            console.error('Error releasing pokemon to daycare:', error)
         }
-    };
+    }
 
     return (
         <GenericModal
-            title={"Poke Day Care"}
+            title={t('daycare.title')}
             closeButton={true}
             onModalClose={() => updateGame({ openDayCareModal: false })}
         >
-            <Text fontSize={"small"} textAlign={"center"}>You can leave pokémons at the daycare to gain tokens and buy some items.</Text>
-            <Flex flex="1" mt={4}>
-                <Flex flexDir="column" mr={4} overflowY="auto" minW="80px">
-                    <PokeList
-                        pokemons={boxPokemons}
-                        onSelect={handleTrade}
-                        size="xs"
-                        layout="wrap"
-                        confirmAction={(poke) => ({
-                            title: "Leave on Day Care",
-                            text: `You will receive ${poke.rarity.rarity + 1} Daycare Tokens for him.`,
-                        })}
-                    />
+            <Flex flex="1" direction="row" h="100%" overflow="hidden">
+                {/* Left side — description, pokemon selection */}
+                <Flex flex="1" flexDir="column" p={4} overflowY="auto" minW="200px">
+                    <Text fontSize="small" textAlign="center" color="gray.400">{t('daycare.subtitle')}</Text>
+
+                    {/* Tokens display */}
+                    <Center mt={4} gap={2}>
+                        <Text fontSize="xl" fontWeight="bold">{player.daycare?.token ?? 0}x</Text>
+                        <Image src={tokenIcon} alt="Daycare Token" w={10} />
+                    </Center>
+
+                    {boxPokemons.length === 0 ? (
+                        <Center flex="1" mt={6}>
+                            <Badge colorScheme="yellow" fontSize="sm" p={3} borderRadius={8} textAlign="center">
+                                {t('daycare.noPokemon')}
+                            </Badge>
+                        </Center>
+                    ) : (
+                        <>
+                            <Text fontSize="xs" color="gray.400" textAlign="center" mt={4}>{t('daycare.selectToRelease')}</Text>
+                            <Flex gap={2} flexWrap="wrap" justify="center" mt={2} flex="1" overflowY="auto">
+                                {boxPokemons.map(poke => {
+                                    const isSelected = selectedIds.includes(poke.id)
+                                    const tokens = (poke.rarity?.rarity ?? 0) + 1
+                                    return (
+                                        <Center
+                                            key={poke.id}
+                                            flexDir="column"
+                                            w={16}
+                                            minW={16}
+                                            bg={isSelected ? "green.700" : "gray.600"}
+                                            border="2px solid"
+                                            borderColor={isSelected ? "green.400" : "transparent"}
+                                            borderRadius={8}
+                                            overflow="hidden"
+                                            cursor="pointer"
+                                            _hover={{ opacity: 0.8 }}
+                                            onClick={() => toggleSelect(poke)}
+                                            transition="all 0.15s"
+                                        >
+                                            <Image
+                                                w={16}
+                                                h={12}
+                                                src={poke.sprites?.mini || poke.sprites?.front}
+                                                draggable={false}
+                                            />
+                                            <Badge fontSize="2xs" colorScheme={isSelected ? "green" : "gray"}>
+                                                +{tokens} <Image src={tokenIcon} w={3} display="inline" />
+                                            </Badge>
+                                        </Center>
+                                    )
+                                })}
+                            </Flex>
+
+                            {selectedIds.length > 0 && (
+                                <Center mt={3} flexDir="column" gap={1}>
+                                    <Text fontSize="xs" color="green.300">
+                                        {t('daycare.selectedCount', { count: selectedIds.length, tokens: totalTokens })}
+                                    </Text>
+                                    <Button colorScheme="green" size="md" onClick={handleBatchRelease}>
+                                        {t('daycare.releaseBtn')}
+                                    </Button>
+                                </Center>
+                            )}
+                        </>
+                    )}
                 </Flex>
-                <DayCareShop />
+
+                {/* Right side — Shop (full height) */}
+                <Flex flexDir="column" overflowY="auto" minW="280px" borderLeft="1px solid" borderColor="whiteAlpha.200">
+                    <DayCareShop />
+                </Flex>
             </Flex>
         </GenericModal>
     )

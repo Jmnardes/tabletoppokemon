@@ -38,9 +38,9 @@ function MachineCard({ machine, tokens, onRepair }) {
             gap={2}
             p={3}
             borderRadius="lg"
-            border="1px solid"
-            borderColor={isBroken ? 'red.400' : 'green.400'}
-            bg={isBroken ? 'red.900' : 'green.900'}
+            borderWidth="2px"
+            borderStyle="dashed"
+            borderColor={isBroken ? 'red.400' : 'whiteAlpha.300'}
             opacity={isBroken ? 0.8 : 1}
         >
             <Image
@@ -90,8 +90,9 @@ function LockedSlot({ isNext, tokens, onBuy }) {
             p={3}
             minH="100px"
             borderRadius="lg"
-            border="1px dashed"
-            borderColor="whiteAlpha.300"
+            borderWidth="2px"
+            borderStyle="dashed"
+            borderColor={isNext ? 'blue.400' : 'whiteAlpha.200'}
             opacity={isNext ? 1 : 0.3}
         >
             <Image
@@ -236,7 +237,7 @@ export default function CraftPanel() {
                 border="1px solid"
                 borderColor="whiteAlpha.300"
                 borderRadius="lg"
-                bg="gray.800"
+                bg="gray.700"
                 p={4}
                 mb={4}
             >
@@ -325,8 +326,12 @@ export default function CraftPanel() {
                                 hasArrow
                             >
                                 <Button
-                                    colorScheme="blue"
+                                    colorScheme="green"
                                     size="sm"
+                                    h="40px"
+                                    px={6}
+                                    fontSize="sm"
+                                    fontWeight="bold"
                                     onClick={handleUpgrade}
                                     isDisabled={tokens < UPGRADE_COST}
                                 >

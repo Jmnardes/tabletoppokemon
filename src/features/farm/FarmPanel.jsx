@@ -113,6 +113,9 @@ function LockedSlot({ slotIndex, isNext, tokens, onBuy }) {
             textAlign="center"
             minH="100px"
             borderRadius="lg"
+            borderWidth="2px"
+            borderStyle="dashed"
+            borderColor={isNext ? 'blue.400' : 'whiteAlpha.200'}
             opacity={isNext ? 1 : 0.3}
         >
             <Image src={groundImg} w="80px" opacity={0.4} />
@@ -285,7 +288,7 @@ export default function FarmPanel() {
                 border="1px solid"
                 borderColor="whiteAlpha.300"
                 borderRadius="lg"
-                bg="gray.800"
+                bg="gray.700"
                 p={4}
                 mb={4}
             >
@@ -348,6 +351,10 @@ export default function FarmPanel() {
                                 <Button
                                     colorScheme="green"
                                     size="sm"
+                                    h="40px"
+                                    px={6}
+                                    fontSize="sm"
+                                    fontWeight="bold"
                                     onClick={handleUpgrade}
                                     isDisabled={tokens < SEED_UPGRADE_COST}
                                 >

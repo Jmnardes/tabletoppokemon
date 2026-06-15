@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Center, Divider, Image, Text } from "@chakra-ui/react";
+import { Button, Center, Divider, Image } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
 import ButtonModal from "@components/Modal/ButtonModal";
@@ -34,7 +34,6 @@ export default function Settings() {
             <Divider />
 
             <Center flexDirection="column" pt={8} mb={4}>
-                <Text fontSize="2xs" color="red" >{t('settings.dataLost')}</Text>
                 <Button p={4} w={72} onClick={() => {
                     setHasGameStarted(false)
                     setPlayer({})

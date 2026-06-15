@@ -61,7 +61,7 @@
     "badgesToWin": "Badges to Win",
     "badgesToWinTooltip": "Number of badges needed to end the game.",
     "stagesPerJourney": "Stages/Journey",
-    "stagesPerJourneyTooltip": "How many wild pokémon will be present each journey before advancing to the next level.",
+    "stagesPerJourneyTooltip": "How many wild pokémon you need to defeat to complete each journey. Total wild pokémon will be double.",
     "battleFrequency": "Battle Frequency",
     "battleFrequencyTooltip": "Every how many turns there will be a battle between players. 0 = no battles.",
     "gymStrengthBonus": "Gym Strength",
@@ -77,8 +77,7 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "restartGame": "Restart game!",
-    "dataLost": "(All data will be lost)"
+    "restartGame": "Leave game!"
   },
 
   "header": {
@@ -146,7 +145,7 @@
     "prize": "Prize",
     "victory": "🎉 Victory!",
     "defeated": "💀 Defeated!",
-    "victoryDesc": "{{name}} wins! (+1 EXP)",
+    "victoryDesc": "{{name}} wins! (+{{exp}} EXP)",
     "defeatedDesc": "{{name}} was defeated{{next}}",
     "nextIncoming": " — next incoming!",
     "leveledUp": "⬆️ {{name}} leveled up to Lv.{{level}}!",
@@ -347,6 +346,7 @@
     "opponent": "OPPONENT",
     "fight": "Fight!",
     "complete": "Journey Complete",
+    "expSummaryTitle": "Experience Summary",
     "roundReached": "Round {{round}} reached",
     "leaveJourney": "Leave Journey",
     "checkpoint": "Checkpoint!",
@@ -365,7 +365,15 @@
     "battleLog": "Battle Log",
     "potion": "Potion",
     "superPotionName": "Super Potion",
-    "hyperPotion": "Hyper Potion"
+    "hyperPotion": "Hyper Potion",
+    "sendToBack": "Send to back",
+    "sendToBackUsed": "Already used this round",
+    "sendToBackTooltip": "Send this pokémon to the back of the queue.",
+    "sendToBackExplain": "You can send pokémon to the back of the queue at the start or after each defeat.",
+    "sendToBackUsedExplain": "Defeat a pokémon to unlock again.",
+    "hiddenPokemon": "Unknown Pokémon",
+    "selectOpponent": "Select opponent",
+    "startFight": "Start fight!"
   },
 
   "gym": {
@@ -414,7 +422,7 @@
     "continueBtn": "Continue →",
     "youDefeated": "You defeated {{leader}}!",
     "badgeEarned": "Badge Earned!",
-    "expPerPokemon": "+1 EXP per battle pokémon",
+    "expPerPokemon": "+5 EXP per battle pokémon",
     "leveledUp": "⬆ {{name}} leveled up to Lv.{{level}}!",
     "berriesEarned": "Berries earned:",
     "tooStrong": "{{leader}} was too strong...",
@@ -426,7 +434,7 @@
     "awarding": "Awarding...",
     "skip": "Skip",
     "reachStage": "Upon reaching stage {{stage}} of the journey, come challenge me! From that moment on, you can challenge me every turn.",
-    "expPerPokemonReward": "+1 EXP per pokémon",
+    "expPerPokemonReward": "+5 EXP per pokémon",
     "berries3": "+3 berries"
   },
 
@@ -435,6 +443,7 @@
     "startJourney": "Start Journey",
     "next": "Next",
     "bag": "Bag",
+    "items": "Items",
     "dayCare": "Poké Day Care",
     "trainingCamp": "Training Camp",
     "berryFarm": "Berry Farm",
@@ -457,6 +466,13 @@
 
   "chat": {
     "title": "Chat"
+  },
+
+  "bag": {
+    "pokemonHint": "You can swap pokémon from the bag to your team to face the journey",
+    "itemsHint": "You can apply items to your pokémon to improve their stats",
+    "yourTeam": "Your Team",
+    "teamTooltip": "Your main team, you must have at least 3 pokémon and at most 6. During journeys, battles and gyms you can only use 3 pokémon, but you can choose the 3 from your team of 6."
   },
 
   "taskBoard": {
@@ -506,6 +522,7 @@
     "trainingRates": "Training Rates (Lv. {{level}})",
     "skip": "Skip (no output)",
     "break": "Break",
+    "breakWithExp": "+5 EXP & Break",
     "maxLevel": "★ Equipment at max level ★",
     "removeTitle": "Remove from Training Camp?",
     "removeDesc": "This Pokémon will return to your box.",
@@ -513,6 +530,17 @@
   },
 
   "daycare": {
+    "title": "Poke Day Care",
+    "subtitle": "Leave pokémons at the daycare to earn tokens and buy items.",
+    "noPokemon": "You have no available pokémons in your bag to leave at the daycare.",
+    "selectToRelease": "Select pokémons to leave at the daycare",
+    "selectedCount": "{{count}} selected — +{{tokens}} tokens",
+    "releaseBtn": "Leave at Day Care",
+    "releasing": "Releasing pokémons...",
+    "tokenTitle": "Daycare Token",
+    "releaseSuccess": "{{count}} pokémon(s) left — +{{tokens}} tokens received!",
+    "releaseError": "Error releasing pokémon",
+    "connectionError": "Connection error. Please try again.",
     "desc": {
       "pokeball": "A basic Pokéball to catch pokémon.",
       "dust": "Used to give EXP to a Pokémon.",

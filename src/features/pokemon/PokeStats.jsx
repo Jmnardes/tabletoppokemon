@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Heart, Swords, Shield, Zap, Crosshair, Sparkles, Star, ArrowBigUp, ArrowBigDown } from 'lucide-react'
 import { pokemonNature } from "@utils";
 
-function PokeStats({ poke, isMini, hideIndicators }) {
+function PokeStats({ poke, isMini, hideIndicators, columns: columnsProp }) {
     const { t } = useTranslation()
     const iconSize = isMini ? 14 : 16
     const indicatorSize = isMini ? 10 : 12
-    const statFontSize = isMini ? 'xs' : '2xs'
+    const statFontSize = isMini ? '2xs' : '9px'
     const separatorFontSize = isMini ? '7px' : '8px'
 
     const effectToStat = {
@@ -36,7 +36,7 @@ function PokeStats({ poke, isMini, hideIndicators }) {
                 alignItems="center"
                 justifyContent="space-between"
                 px={2}
-                py={1}
+                py={0.5}
                 title={statName}
                 borderWidth="1px"
                 borderColor="whiteAlpha.300"
@@ -46,8 +46,6 @@ function PokeStats({ poke, isMini, hideIndicators }) {
                     {statIcon}
                     <Text fontSize={separatorFontSize} opacity={0.2} mx="2px">|</Text>
                     <Text fontSize={statFontSize} fontWeight="bold" color={hasBerryBuff ? "#facc15" : undefined}>{stat}</Text>
-                </Flex>
-                <Flex alignItems="center" gap={0.5}>
                     {!hideIndicators && hasRarityBuff && (
                         <Star size={indicatorSize} fill="#facc15" color="#facc15" title="Rarity buff" />
                     )}
@@ -71,13 +69,13 @@ function PokeStats({ poke, isMini, hideIndicators }) {
         { stat: poke.stats.crt + poke.tier, statKey: "crt", statName: t('pokemon.critical'), statIcon: <Sparkles size={iconSize} fill="currentColor" /> },
     ]
 
-    const columns = hideIndicators ? 2 : (isMini ? 3 : 2)
+    const columns = columnsProp ?? (isMini ? 2 : 2)
 
     return (
         <Grid
             templateColumns={`repeat(${columns}, 1fr)`}
             gap={1}
-            mt={2}
+            mt={1}
             w="100%"
         >
             {stats.map(s => (

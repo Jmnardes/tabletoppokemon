@@ -8,17 +8,17 @@ export const gameConfig = {
     badgesToWin: {
         default: 3,
         min: 2,
-        max: 10,
+        max: 7,
         step: 1,
         tooltip: 'Quantidade de badges necessárias para acabar o jogo.',
     },
     
     stagesPerJourney: {
-        default: 10,
-        min: 5,
-        max: 20,
+        default: 5,
+        min: 4,
+        max: 6,
         step: 1,
-        tooltip: 'Quantos pokémons selvagens estarão presentes a cada jornada antes de avançar para o próximo level.',
+        tooltip: 'Quantos pokémons selvagens você precisa derrotar para completar cada jornada. O total será o dobro.',
     },
     
     battleFrequency: {

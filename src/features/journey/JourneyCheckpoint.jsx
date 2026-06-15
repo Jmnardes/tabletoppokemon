@@ -56,7 +56,7 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
             </Badge>
 
             <Text fontSize="sm" color="gray.400" mb={4} textAlign="center">
-                {t('journey.defeatedAll', { count: journeyState.wildTeam?.length || 10 })}
+                {t('journey.defeatedAll', { count: journeyState.stagesToWin || 5 })}
             </Text>
 
             {/* Chest */}

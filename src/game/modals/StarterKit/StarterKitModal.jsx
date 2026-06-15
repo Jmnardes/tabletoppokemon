@@ -17,24 +17,16 @@ import PlayerContext from "@context/PlayerContext"
 
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
 import greatballIcon from '@assets/images/pokeballs/greatball.png'
-import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import potionIcon from '@assets/images/items/potion.png'
-import superPotionIcon from '@assets/images/items/super-potion.png'
+import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 import dustIcon from '@assets/images/items/dust.png'
 import lureIcon from '@assets/images/items/lure.png'
 import tokenIcon from '@assets/images/game/coin.png'
-import oranBerryIcon from '@assets/images/berries/oran_berry.png'
-import sproutImg from '@assets/images/farm/sprout.png'
-import machineOnIcon from '@assets/images/craft/machine-on.png'
-import dummyIcon from '@assets/images/training/dummy.png'
 
 const defaultItems = [
-    { icon: pokeballIcon, label: '15 Pokéballs' },
-    { icon: greatballIcon, label: '1 Greatball' },
-    { icon: potionIcon, label: '1 Potion' },
-    { icon: dustIcon, label: '1 Dust' },
-    { icon: oranBerryIcon, label: '1 Berry' },
+    { icon: pokeballIcon, label: '10 Pokéballs' },
     { icon: lureIcon, label: '1 Incense' },
+    { icon: tokenIcon, label: '5 Tokens' },
 ]
 
 const classData = {
@@ -43,20 +35,17 @@ const classData = {
         emoji: '⚔️',
         color: 'blue.400',
         items: [
-            { icon: pokeballIcon, label: '+10 Pokéballs' },
-            { icon: greatballIcon, label: '+3 Greatballs' },
-            { icon: potionIcon, label: '+5 Potions' },
-            { icon: superPotionIcon, label: '+2 Super Potions' },
+            { icon: potionIcon, label: '+3 Potions' },
+            { icon: hyperPotionIcon, label: '+1 Hyper Potion' },
         ],
     },
-    farmer: {
-        name: 'Farmer',
-        emoji: '🌱',
+    catcher: {
+        name: 'Catcher',
+        emoji: '🎯',
         color: 'green.400',
         items: [
-            { icon: oranBerryIcon, label: '+5 Berries' },
-            { icon: sproutImg, label: '+1 Farm Plot' },
-            { icon: tokenIcon, label: '+2 Tokens' },
+            { icon: pokeballIcon, label: '+5 Pokéballs' },
+            { icon: greatballIcon, label: '+1 Greatball' },
         ],
     },
     trainer: {
@@ -64,22 +53,7 @@ const classData = {
         emoji: '🏋️',
         color: 'yellow.400',
         items: [
-            { icon: pokeballIcon, label: '+5 Pokéballs' },
-            { icon: dustIcon, label: '+5 Dust' },
-            { icon: dummyIcon, label: '+1 Training Slot' },
-            { icon: tokenIcon, label: '+5 Tokens' },
-        ],
-    },
-    engineer: {
-        name: 'Engineer',
-        emoji: '⚙️',
-        color: 'purple.400',
-        items: [
-            { icon: pokeballIcon, label: '+5 Pokéballs' },
-            { icon: greatballIcon, label: '+2 Greatballs' },
-            { icon: ultraballIcon, label: '+1 Ultraball' },
-            { icon: machineOnIcon, label: '+1 Machine Slot' },
-            { icon: tokenIcon, label: '+2 Tokens' },
+            { icon: dustIcon, label: '+7 Dust' },
         ],
     },
 }

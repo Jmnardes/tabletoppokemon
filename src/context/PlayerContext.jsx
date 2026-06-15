@@ -570,6 +570,11 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.data, 'status')
         })
 
+        socket.on('journey-update-other', res => {
+            updateOpponent(res.id, res.journeyProgress, 'journeyProgress')
+            updateOpponent(res.id, res.journeyLevel, 'journeyLevel')
+        })
+
         socket.on('player-update-status', res => {
             if (res?.status) {
                 setPlayer(prev => ({ ...prev, status: res.status }))
@@ -626,6 +631,7 @@ export function PlayerProvider({children}) {
             socket.off('turn-end-other-return')
             socket.off('game-end')
             socket.off('player-update-status-other')
+            socket.off('journey-update-other')
             socket.off('player-update-status')
             socket.off('player-update-task')
             socket.off('player-use-berry')

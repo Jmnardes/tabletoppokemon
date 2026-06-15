@@ -67,16 +67,14 @@ export default function GameHeader() {
                 w={buttonSize}
                 h={buttonSize}
                 borderRadius={isActive ? "8px 8px 0 0" : "8px"}
-                bg={isActive ? (colorMode === 'light' ? "gray.100" : "gray.800") : "transparent"}
-                border="2px solid"
-                borderColor={isActive ? "gray.500" : "transparent"}
-                borderBottom={isActive ? "none" : "2px solid transparent"}
+                bg={isActive ? (colorMode === 'light' ? "gray.200" : "gray.650") : "transparent"}
+                border="none"
                 mb={isActive ? "-2px" : "0"}
                 pb={isActive ? "2px" : "0"}
                 opacity={(isActive || (bagDirty && tab !== 'bag')) ? (isActive ? 1 : 0.4) : 0.75}
                 cursor={isActive ? "default" : "pointer"}
                 transition="all 0.15s ease"
-                _hover={!isActive ? { opacity: 1, bg: colorMode === 'light' ? 'gray.300' : 'gray.600' } : {}}
+                _hover={!isActive ? { opacity: 1 } : {}}
                 position="relative"
                 zIndex={isActive ? 2 : 1}
                 {...extraProps}
@@ -153,7 +151,7 @@ export default function GameHeader() {
                     <StatItem icon={masterballIcon} title="Masterball" value={player.balls.masterball} />
                 </Flex>
             )}
-            <Flex alignItems="end" gap="0.65rem" borderBottom="2px solid" borderColor="gray.500" pb={0} pr={2}>
+            <Flex flex="1" alignItems="end" justifyContent="end" gap="0.65rem" pb={0} pr={2}>
                 {tabButton('bag', bagIcon, t('action.bag'))}
                 {tabButton('daycare', dayCareIcon, t('action.dayCare'))}
                 {tabButton('training', fightIcon, t('action.trainingCamp'))}

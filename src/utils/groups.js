@@ -1,146 +1,215 @@
 export const elementCounts = [
-    { element: 'water', count: 141 },   { element: 'normal', count: 115 },
-    { element: 'grass', count: 107 },   { element: 'flying', count: 102 },
-    { element: 'psychic', count: 90 },  { element: 'bug', count: 84 },
-    { element: 'fire', count: 71 },     { element: 'poison', count: 69 },
-    { element: 'ground', count: 67 },   { element: 'rock', count: 65 },
-    { element: 'fighting', count: 61 }, { element: 'electric', count: 57 },
-    { element: 'dragon', count: 56 },   { element: 'dark', count: 55 },
-    { element: 'fairy', count: 54 },    { element: 'steel', count: 54 },
-    { element: 'ghost', count: 51 },    { element: 'ice', count: 41 }
+    {
+        "element": "water",
+        "count": 154
+    },
+    {
+        "element": "normal",
+        "count": 131
+    },
+    {
+        "element": "grass",
+        "count": 127
+    },
+    {
+        "element": "flying",
+        "count": 109
+    },
+    {
+        "element": "psychic",
+        "count": 102
+    },
+    {
+        "element": "bug",
+        "count": 92
+    },
+    {
+        "element": "poison",
+        "count": 83
+    },
+    {
+        "element": "fire",
+        "count": 81
+    },
+    {
+        "element": "ground",
+        "count": 75
+    },
+    {
+        "element": "rock",
+        "count": 74
+    },
+    {
+        "element": "fighting",
+        "count": 73
+    },
+    {
+        "element": "dragon",
+        "count": 70
+    },
+    {
+        "element": "electric",
+        "count": 69
+    },
+    {
+        "element": "dark",
+        "count": 69
+    },
+    {
+        "element": "steel",
+        "count": 65
+    },
+    {
+        "element": "ghost",
+        "count": 65
+    },
+    {
+        "element": "fairy",
+        "count": 64
+    },
+    {
+        "element": "ice",
+        "count": 48
+    }
 ]
 
 export const tierResults = {
-    '0': [
-      'normal: 29',  'bug: 24',
-      'grass: 17',   'water: 16',
-      'flying: 15',  'fairy: 12',
-      'poison: 11',  'psychic: 11',
-      'electric: 9', 'ground: 7',
-      'dark: 6',     'ghost: 5',
-      'fighting: 4', 'rock: 4',
-      'fire: 3',     'ice: 3',
-      'dragon: 3'
+    "1": [
+        "bug: 18",
+        "normal: 8",
+        "water: 7",
+        "flying: 5",
+        "fairy: 5",
+        "poison: 4",
+        "grass: 4",
+        "electric: 3",
+        "fighting: 2",
+        "dark: 2",
+        "psychic: 2",
+        "ground: 1",
+        "ghost: 1",
+        "dragon: 1",
+        "rock: 1",
+        "ice: 1"
     ],
-    '1': [
-      'normal: 29',  'bug: 24',
-      'grass: 17',   'water: 16',
-      'flying: 15',  'fairy: 12',
-      'poison: 11',  'psychic: 11',
-      'electric: 9', 'ground: 7',
-      'dark: 6',     'ghost: 5',
-      'fighting: 4', 'rock: 4',
-      'fire: 3',     'ice: 3',
-      'dragon: 3'
+    "2": [
+        "grass: 30",
+        "water: 29",
+        "normal: 29",
+        "bug: 17",
+        "psychic: 17",
+        "poison: 16",
+        "fire: 16",
+        "flying: 14",
+        "ground: 14",
+        "fairy: 13",
+        "ghost: 13",
+        "electric: 10",
+        "dragon: 8",
+        "fighting: 7",
+        "rock: 7",
+        "ice: 7",
+        "steel: 7",
+        "dark: 6"
     ],
-    '2': [
-      'water: 35',   'grass: 22',
-      'poison: 16',  'ground: 15',
-      'psychic: 15', 'fire: 14',
-      'bug: 11',     'flying: 10',
-      'steel: 10',   'normal: 9',
-      'ghost: 9',    'dragon: 8',
-      'fairy: 7',    'fighting: 7',
-      'ice: 7',      'dark: 7',
-      'rock: 6',     'electric: 5'
+    "3": [
+        "water: 23",
+        "flying: 20",
+        "normal: 20",
+        "rock: 18",
+        "poison: 17",
+        "grass: 17",
+        "bug: 14",
+        "ground: 13",
+        "psychic: 12",
+        "dark: 11",
+        "fire: 9",
+        "electric: 8",
+        "steel: 8",
+        "fairy: 7",
+        "ghost: 7",
+        "fighting: 7",
+        "ice: 6",
+        "dragon: 4"
     ],
-    '3': [
-      'normal: 21',   'flying: 18',
-      'rock: 18',     'water: 16',
-      'bug: 15',      'grass: 14',
-      'fire: 14',     'poison: 11',
-      'fighting: 10', 'electric: 8',
-      'ground: 8',    'psychic: 8',
-      'dark: 6',      'fairy: 5',
-      'ghost: 5',     'dragon: 4',
-      'ice: 3',       'steel: 2'
+    "4": [
+        "water: 38",
+        "normal: 34",
+        "flying: 29",
+        "grass: 26",
+        "bug: 20",
+        "psychic: 19",
+        "fighting: 17",
+        "electric: 16",
+        "poison: 15",
+        "fire: 15",
+        "ground: 15",
+        "dark: 13",
+        "fairy: 12",
+        "rock: 12",
+        "steel: 10",
+        "dragon: 10",
+        "ice: 9",
+        "ghost: 9"
     ],
-    '4': [
-      'normal: 21',   'flying: 18',
-      'rock: 18',     'water: 16',
-      'bug: 15',      'grass: 14',
-      'fire: 14',     'poison: 11',
-      'fighting: 10', 'electric: 8',
-      'ground: 8',    'psychic: 8',
-      'dark: 6',      'fairy: 5',
-      'ghost: 5',     'dragon: 4',
-      'ice: 3',       'steel: 2'
+    "5": [
+        "water: 45",
+        "grass: 39",
+        "normal: 32",
+        "fire: 27",
+        "psychic: 27",
+        "rock: 27",
+        "ghost: 25",
+        "fighting: 24",
+        "poison: 23",
+        "flying: 23",
+        "ground: 23",
+        "dark: 22",
+        "steel: 22",
+        "electric: 18",
+        "ice: 18",
+        "bug: 18",
+        "dragon: 15",
+        "fairy: 12"
     ],
-    '5': [
-      'water: 18',  'normal: 16',
-      'grass: 14',  'flying: 13',
-      'fire: 11',   'electric: 11',
-      'bug: 8',     'ground: 8',
-      'rock: 8',    'fighting: 7',
-      'dragon: 7',  'poison: 6',
-      'psychic: 6', 'fairy: 5',
-      'steel: 5',   'dark: 5',
-      'ghost: 4',   'ice: 2'
+    "6": [
+        "fighting: 12",
+        "flying: 11",
+        "electric: 11",
+        "fairy: 11",
+        "dragon: 10",
+        "psychic: 10",
+        "dark: 10",
+        "fire: 9",
+        "steel: 9",
+        "water: 8",
+        "grass: 8",
+        "rock: 7",
+        "poison: 6",
+        "ice: 5",
+        "ground: 5",
+        "normal: 4",
+        "bug: 4",
+        "ghost: 4"
     ],
-    '6': [
-      'normal: 18',  'flying: 16',
-      'grass: 13',   'water: 13',
-      'bug: 10',     'psychic: 9',
-      'steel: 9',    'poison: 8',
-      'electric: 8', 'ground: 8',
-      'fighting: 8', 'dark: 8',
-      'fairy: 7',    'rock: 5',
-      'ghost: 5',    'dragon: 5',
-      'fire: 4',     'ice: 3'
-    ],
-    '7': [
-      'water: 21',   'normal: 21',
-      'grass: 14',   'psychic: 14',
-      'flying: 13',  'ghost: 9',
-      'poison: 8',   'electric: 8',
-      'dark: 8',     'ground: 7',
-      'fighting: 7', 'fire: 6',
-      'bug: 6',      'fairy: 6',
-      'rock: 6',     'ice: 6',
-      'dragon: 6',   'steel: 4'
-    ],
-    '8': [
-      'water: 16',   'rock: 14',
-      'bug: 12',     'flying: 11',
-      'ground: 11',  'poison: 10',
-      'fighting: 9', 'steel: 9',
-      'grass: 8',    'fire: 8',
-      'dark: 8',     'normal: 7',
-      'electric: 7', 'ice: 7',
-      'ghost: 7',    'psychic: 6',
-      'fairy: 4',    'dragon: 3'
-    ],
-    '9': [
-      'water: 14',   'grass: 13',
-      'fire: 11',    'ice: 8',
-      'ground: 7',   'psychic: 7',
-      'steel: 7',    'fighting: 6',
-      'rock: 5',     'dark: 5',
-      'ghost: 4',    'dragon: 4',
-      'flying: 3',   'normal: 3',
-      'electric: 3', 'fairy: 3',
-      'poison: 2',   'bug: 2'
-    ],
-    '10': [
-      'water: 17',   'fire: 14',
-      'grass: 13',   'ice: 8',
-      'ground: 7',   'fighting: 7',
-      'psychic: 7',  'steel: 7',
-      'dragon: 7',   'dark: 6',
-      'flying: 5',   'normal: 5',
-      'fairy: 5',    'rock: 5',
-      'electric: 4', 'ghost: 4',
-      'poison: 3',   'bug: 3'
-    ],
-    '11': [
-      'psychic: 20', 'dragon: 20',
-      'flying: 14',  'steel: 13',
-      'fighting: 9', 'fire: 8',
-      'electric: 8', 'fairy: 8',
-      'water: 7',    'rock: 7',
-      'ghost: 7',    'grass: 6',
-      'dark: 6',     'normal: 5',
-      'ground: 4',   'ice: 4',
-      'bug: 3',      'poison: 2'
+    "7": [
+        "dragon: 22",
+        "psychic: 15",
+        "steel: 9",
+        "flying: 7",
+        "ghost: 6",
+        "dark: 5",
+        "fire: 5",
+        "normal: 4",
+        "water: 4",
+        "ground: 4",
+        "fairy: 4",
+        "fighting: 4",
+        "grass: 3",
+        "electric: 3",
+        "rock: 2",
+        "ice: 2",
+        "poison: 2",
+        "bug: 1"
     ]
 }

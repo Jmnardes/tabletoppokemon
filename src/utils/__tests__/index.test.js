@@ -184,14 +184,14 @@ describe('joinArr', () => {
 })
 
 describe('constants', () => {
-  it('options has 11 tier entries (0-10)', () => {
-    expect(options).toHaveLength(11)
-    expect(options[0].value).toBe('0')
-    expect(options[10].value).toBe('10')
+  it('options has 7 tier entries (1-7)', () => {
+    expect(options).toHaveLength(7)
+    expect(options[0].value).toBe('1')
+    expect(options[6].value).toBe('7')
   })
 
-  it('baseHpArray has 12 entries', () => {
-    expect(baseHpArray).toHaveLength(12)
+  it('baseHpArray has 8 entries', () => {
+    expect(baseHpArray).toHaveLength(8)
     expect(baseHpArray[0]).toBe(5)
   })
 

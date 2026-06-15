@@ -2,17 +2,13 @@ import { mixColors } from "./colorMix"
 
 // tier options 
 export const options = [
-    { value: '0', label: '0' },
     { value: '1', label: '1' },
     { value: '2', label: '2' },
     { value: '3', label: '3' },
     { value: '4', label: '4' },
     { value: '5', label: '5' },
     { value: '6', label: '6' },
-    { value: '7', label: '7' },
-    { value: '8', label: '8' },
-    { value: '9', label: '9' },
-    { value: '10', label: '10' }
+    { value: '7', label: '7' }
 ]
 
 // pokemon characteristics
@@ -83,7 +79,7 @@ export const natureOptions = [
 ]
 
 // pokemon base hp array
-export const baseHpArray = [5,7,8,12,15,18,22,26,30,34,39,45]
+export const baseHpArray = [5,6,7,9,11,14,17,21]
 
 // string to upper case
 export const stringToUpperCase = (str) => {

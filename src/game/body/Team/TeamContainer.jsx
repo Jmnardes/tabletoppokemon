@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, HStack, Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Tooltip, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, HStack, Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Tooltip } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { keyframes } from "@emotion/react";
@@ -41,7 +41,6 @@ const fadeIn = keyframes`
 
 export default function TeamContainer() {
     const { boxIds, pokemonData, moveToTeam, teamIds, bagDirty, confirmBag, emit, handleToast, setPlayer, setBerries } = useContext(PlayerContext)
-    const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
     const boxPokemons = boxIds.map(id => pokemonData[id]).filter(Boolean)
@@ -113,24 +112,37 @@ export default function TeamContainer() {
         setLootResult(null)
     }
 
-    const bgBar = colorMode === 'light' ? "gray.300" : "gray.600"
-
     return (
         <Flex flex="1" flexDir="column" overflow="hidden">
             {/* Bar: box pokémon + usable items */}
             <Flex
                 px={3}
-                py={1}
-                alignItems="center"
-                backgroundColor={bgBar}
+                py={2}
+                alignItems="stretch"
                 justifyContent="center"
-                gap={2}
+                gap={3}
                 flexWrap="wrap"
             >
-                {/* Box pokémon */}
-                {hasBox && (
-                    <HStack spacing={1}>
-                        {boxPokemons.map(poke => {
+                {/* Box pokémon block */}
+                <Box
+                    border="1px solid"
+                    borderColor="whiteAlpha.300"
+                    borderRadius="lg"
+                    bg="gray.700"
+                    p={3}
+                    flex="1"
+                    minW="200px"
+                >
+                    <HStack spacing={2} mb={2} alignItems="baseline">
+                        <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700">
+                            Pokémon
+                        </Text>
+                        <Text fontSize="3xs" color="whiteAlpha.500">
+                            ({t('bag.pokemonHint')})
+                        </Text>
+                    </HStack>
+                    <HStack spacing={1} flexWrap="wrap">
+                        {hasBox ? boxPokemons.map(poke => {
                             const disabled = teamFull
                             return (
                                 <Tooltip key={poke.id} label={<Card poke={poke} tooltip />} background="none" placement="bottom">
@@ -155,7 +167,9 @@ export default function TeamContainer() {
                                     </Center>
                                 </Tooltip>
                             )
-                        })}
+                        }) : (
+                            <Text fontSize="2xs" color="whiteAlpha.400">—</Text>
+                        )}
                         {bagDirty && (
                             <Button
                                 colorScheme="yellow"
@@ -171,15 +185,44 @@ export default function TeamContainer() {
                             </Button>
                         )}
                     </HStack>
-                )}
+                </Box>
 
-                {(hasBox && true) && <Box w="1px" h="28px" bg="gray.500" mx={1} />}
-
-                {/* Usable items (boxes + berries/dust) */}
-                <ItemsPanel onSelectItem={handleSelectItem} />
+                {/* Usable items block */}
+                <Box
+                    border="1px solid"
+                    borderColor="whiteAlpha.300"
+                    borderRadius="lg"
+                    bg="gray.700"
+                    p={3}
+                    flex="1"
+                    minW="200px"
+                >
+                    <HStack spacing={2} mb={2} alignItems="baseline">
+                        <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700">
+                            {t('action.items')}
+                        </Text>
+                        <Text fontSize="3xs" color="whiteAlpha.500">
+                            ({t('bag.itemsHint')})
+                        </Text>
+                    </HStack>
+                    <ItemsPanel onSelectItem={handleSelectItem} />
+                </Box>
             </Flex>
 
             {/* Pokémon team cards */}
+            <Tooltip
+                label={t('bag.teamTooltip')}
+                fontSize="2xs"
+                p={3}
+                borderRadius={8}
+                maxW="300px"
+                placement="bottom"
+                hasArrow
+            >
+                <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" px={4} pt={2}>
+                    {t('bag.yourTeam')}
+                </Text>
+            </Tooltip>
             <Flex flex="1" overflow="auto">
                 <PokeTeam bag={hasBox} />
             </Flex>

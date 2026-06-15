@@ -61,7 +61,7 @@
     "badgesToWin": "Badges para Vencer",
     "badgesToWinTooltip": "Quantidade de badges necessárias para acabar o jogo.",
     "stagesPerJourney": "Estágios/Jornada",
-    "stagesPerJourneyTooltip": "Quantos pokémons selvagens estarão presentes a cada jornada antes de avançar para o próximo level.",
+    "stagesPerJourneyTooltip": "Quantos pokémons selvagens você precisa derrotar para completar cada jornada. O total de pokémons na jornada será o dobro.",
     "battleFrequency": "Frequência de Batalha",
     "battleFrequencyTooltip": "A cada quantos turnos terá uma batalha entre players. 0 = sem batalhas.",
     "gymStrengthBonus": "Força do Ginásio",
@@ -77,8 +77,7 @@
   "settings": {
     "title": "Configurações",
     "language": "Idioma",
-    "restartGame": "Reiniciar jogo!",
-    "dataLost": "(Todos os dados serão perdidos)"
+    "restartGame": "Sair do jogo!"
   },
 
   "header": {
@@ -146,7 +145,7 @@
     "prize": "Prêmio",
     "victory": "🎉 Vitória!",
     "defeated": "💀 Derrotado!",
-    "victoryDesc": "{{name}} venceu! (+1 EXP)",
+    "victoryDesc": "{{name}} venceu! (+{{exp}} EXP)",
     "defeatedDesc": "{{name}} foi derrotado{{next}}",
     "nextIncoming": " — próximo chegando!",
     "leveledUp": "⬆️ {{name}} subiu para o Nv.{{level}}!",
@@ -347,6 +346,7 @@
     "opponent": "OPONENTE",
     "fight": "Lutar!",
     "complete": "Jornada Completa",
+    "expSummaryTitle": "Resumo de Experiência",
     "roundReached": "Round {{round}} alcançado",
     "leaveJourney": "Sair da Jornada",
     "checkpoint": "Checkpoint!",
@@ -365,7 +365,15 @@
     "battleLog": "Log de Batalha",
     "potion": "Poção",
     "superPotionName": "Super Poção",
-    "hyperPotion": "Hiper Poção"
+    "hyperPotion": "Hiper Poção",
+    "sendToBack": "Enviar p/ final",
+    "sendToBackUsed": "Já usado nesta rodada",
+    "sendToBackTooltip": "Envia o pokémon para o final da fila e puxa o próximo.",
+    "sendToBackExplain": "Você pode enviar pokémons para o final da fila no início da jornada ou a cada pokémon que derrotar.",
+    "sendToBackUsedExplain": "Derrote um pokémon para liberar novamente.",
+    "hiddenPokemon": "Pokémon desconhecido",
+    "selectOpponent": "Selecione o oponente",
+    "startFight": "Começar luta!"
   },
 
   "gym": {
@@ -414,7 +422,7 @@
     "continueBtn": "Continuar →",
     "youDefeated": "Você derrotou {{leader}}!",
     "badgeEarned": "Badge Conquistada!",
-    "expPerPokemon": "+1 EXP por pokémon da batalha",
+    "expPerPokemon": "+5 EXP por pokémon da batalha",
     "leveledUp": "⬆ {{name}} subiu para o Nv.{{level}}!",
     "berriesEarned": "Berries ganhas:",
     "tooStrong": "{{leader}} foi muito forte...",
@@ -426,7 +434,7 @@
     "awarding": "Premiando...",
     "skip": "Pular",
     "reachStage": "Ao chegar na etapa {{stage}} da jornada, venha me desafiar! A partir desse momento, poderá me desafiar todo turno.",
-    "expPerPokemonReward": "+1 EXP por pokémon",
+    "expPerPokemonReward": "+5 EXP por pokémon",
     "berries3": "+3 berries"
   },
 
@@ -435,6 +443,7 @@
     "startJourney": "Iniciar Jornada",
     "next": "Próximo",
     "bag": "Bolsa",
+    "items": "Itens",
     "dayCare": "Poké Creche",
     "trainingCamp": "Campo de Treino",
     "berryFarm": "Fazenda de Berry",
@@ -457,6 +466,13 @@
 
   "chat": {
     "title": "Chat"
+  },
+
+  "bag": {
+    "pokemonHint": "Você pode trocar os pokémons da bag para o time para enfrentar a jornada",
+    "itemsHint": "Você pode aplicar os itens nos pokémons para melhorar suas estatísticas",
+    "yourTeam": "Seu Time",
+    "teamTooltip": "Seu time principal, você deve ter no mínimo 3 pokémons e no máximo 6. Durante a jornada, batalhas e ginásios você só poderá usar 3 pokémons, mas poderá escolher os 3 dentre os 6 do seu time."
   },
 
   "taskBoard": {
@@ -506,6 +522,7 @@
     "trainingRates": "Taxas de Treino (Nv. {{level}})",
     "skip": "Pular (sem resultado)",
     "break": "Quebrar",
+    "breakWithExp": "+5 EXP e Quebra",
     "maxLevel": "★ Equipamento no nível máximo ★",
     "removeTitle": "Remover do Campo de Treino?",
     "removeDesc": "Este Pokémon voltará para sua box.",
@@ -513,6 +530,17 @@
   },
 
   "daycare": {
+    "title": "Poké Creche",
+    "subtitle": "Deixe pokémons na creche para ganhar tokens e comprar itens.",
+    "noPokemon": "Você não tem pokémons disponíveis na bag para deixar na creche.",
+    "selectToRelease": "Selecione os pokémons para deixar na creche",
+    "selectedCount": "{{count}} selecionado(s) — +{{tokens}} tokens",
+    "releaseBtn": "Deixar na Creche",
+    "releasing": "Enviando pokémons...",
+    "tokenTitle": "Daycare Token",
+    "releaseSuccess": "{{count}} pokémon(s) deixado(s) — +{{tokens}} tokens recebidos!",
+    "releaseError": "Erro ao enviar pokémon",
+    "connectionError": "Erro de conexão. Tente novamente.",
     "desc": {
       "pokeball": "Uma Pokébola básica para capturar pokémon.",
       "dust": "Usado para dar EXP a um Pokémon.",

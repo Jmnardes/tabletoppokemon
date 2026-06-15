@@ -155,7 +155,7 @@ export default function BattleScreen({
               e.target.style.opacity = 0
             }}
           >
-            {battleLog[currentLogIndex].damage > 0 ? `-${battleLog[currentLogIndex].damage}` : "MISS"}
+            {battleLog[currentLogIndex].damage > 0 ? `${battleLog[currentLogIndex].damage}` : "MISS"}
           </Text>
         )}
 
@@ -208,7 +208,7 @@ export default function BattleScreen({
               e.target.style.opacity = 0
             }}
           >
-            {battleLog[currentLogIndex].damage > 0 ? `-${battleLog[currentLogIndex].damage}` : "MISS"}
+            {battleLog[currentLogIndex].damage > 0 ? `${battleLog[currentLogIndex].damage}` : "MISS"}
           </Text>
         )}
       </Center>

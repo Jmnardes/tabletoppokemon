@@ -8,7 +8,6 @@ import PlayerContext from "@context/PlayerContext";
 import EncounterModal from "./EventModals/EncounterModal";
 import CaptureModal from "./Capture/CaptureModal";
 import AugmentsModal from "./Augments/AugmentsModal";
-import GymModal from "./Gym/GymModal";
 import StarterKitModal from "./StarterKit/StarterKitModal";
 
 export default function ModalController() {
@@ -25,6 +24,7 @@ export default function ModalController() {
         setTasks,
         setGym,
         setNextGym,
+        setGymRoute,
         gym,
         nextGym,
         setTrainingCamp,
@@ -61,6 +61,9 @@ export default function ModalController() {
             if (res.nextGym !== undefined) {
                 setNextGym(res.nextGym)
             }
+            if (res.gymRoute) {
+                setGymRoute(res.gymRoute)
+            }
             
             if (trainedPokemons.length) {
                 trainedPokemons.forEach(pokemon => {
@@ -71,7 +74,7 @@ export default function ModalController() {
                         description: t('toast.levelUpDesc', { name: pokemon.name, level: pokemon.level }),
                         icon: <Image
                                 width="32px"
-                                src={pokemon.sprites.mini}
+                                src={pokemon.sprites?.front}
                                 fallbackSrc={pokemon.sprites.front}
                             ></Image>,
                         duration: 5000,
@@ -92,6 +95,9 @@ export default function ModalController() {
 
             // Update balls (craft may have produced pokeballs)
             if (res.balls) setPlayer(prev => ({ ...prev, balls: res.balls }))
+
+            // Update items (incense may have been consumed)
+            if (res.items) setPlayer(prev => ({ ...prev, items: res.items }))
 
             // Farm notifications
             if (res.farmNotifications?.length) {
@@ -150,6 +156,8 @@ export default function ModalController() {
                 battleData: res.battleData || null,
                 journeyWildPreview: res.journeyWildPreview || [],
                 journeyProgress: res.journeyProgress || 0,
+                journeyWildDefeatedCount: res.journeyWildDefeatedCount || 0,
+                journeyLevel: res.level ?? 0,
                 isPokemonRollDisabled: false,
             })
 
@@ -211,7 +219,6 @@ export default function ModalController() {
 
     return(
         <>
-            {game.openGymModal && <GymModal />}
             {game.openEncounterModal && <EncounterModal augments={augments} />}
             {game.openPokemonCaptureModal && <CaptureModal capturedPokemon={capturedPokemon} setCapturedPokemon={setCapturedPokemon} augments={augments} />}
             {game.openAugmentsModal && <AugmentsModal augments={augments} />}

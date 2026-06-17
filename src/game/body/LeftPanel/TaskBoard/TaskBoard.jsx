@@ -60,9 +60,9 @@ export default function TaskBoard() {
                         </Flex>
                     </Flex>
                     {task.condition.status.current === task.condition.status.final ? (
-                        <FaCheckCircle size={20} color={bgColor} />
+                        <FaCheckCircle size={20} color="white" />
                     ) : (
-                        <FaRegCircle size={20} color={bgColor} />
+                        <FaRegCircle size={20} color="white" />
                     )}
                 </Center>
             </Flex>

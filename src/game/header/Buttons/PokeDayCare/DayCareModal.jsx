@@ -88,7 +88,7 @@ export default function DayCareModal() {
                     ) : (
                         <>
                             <Text fontSize="xs" color="gray.400" textAlign="center" mt={4}>{t('daycare.selectToRelease')}</Text>
-                            <Flex gap={2} flexWrap="wrap" justify="center" mt={2} flex="1" overflowY="auto">
+                            <Flex gap={2} flexWrap="wrap" justify="center" mt={2} overflowY="auto" alignContent="flex-start">
                                 {boxPokemons.map(poke => {
                                     const isSelected = selectedIds.includes(poke.id)
                                     const tokens = (poke.rarity?.rarity ?? 0) + 1
@@ -97,6 +97,7 @@ export default function DayCareModal() {
                                             key={poke.id}
                                             flexDir="column"
                                             w={16}
+                                            h={16}
                                             minW={16}
                                             bg={isSelected ? "green.700" : "gray.600"}
                                             border="2px solid"
@@ -109,9 +110,10 @@ export default function DayCareModal() {
                                             transition="all 0.15s"
                                         >
                                             <Image
-                                                w={16}
-                                                h={12}
-                                                src={poke.sprites?.mini || poke.sprites?.front}
+                                                w={10}
+                                                h={10}
+                                                objectFit="contain"
+                                                src={poke.sprites?.front}
                                                 draggable={false}
                                             />
                                             <Badge fontSize="2xs" colorScheme={isSelected ? "green" : "gray"}>

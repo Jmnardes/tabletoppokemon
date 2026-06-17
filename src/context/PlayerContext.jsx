@@ -29,6 +29,7 @@ export function PlayerProvider({children}) {
     const [craft, setCraft] = useState(null)
     const [gym, setGym] = useState(null)
     const [nextGym, setNextGym] = useState(null)
+    const [gymRoute, setGymRoute] = useState([])
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
     const [activeTab, setActiveTab] = useState('bag')
@@ -167,6 +168,11 @@ export function PlayerProvider({children}) {
             if (snapshot?.version !== undefined) setVersion(snapshot.version)
             if (snapshot?.gym !== undefined) setGym(snapshot.gym)
             if (snapshot?.nextGym !== undefined) setNextGym(snapshot.nextGym)
+            if (snapshot?.gymRoute) setGymRoute(snapshot.gymRoute)
+            // Also try from player object (resync sends gym data inside player)
+            if (snapshot?.player?.currentGym !== undefined) setGym(snapshot.player.currentGym)
+            if (snapshot?.player?.nextGym !== undefined) setNextGym(snapshot.player.nextGym)
+            if (snapshot?.player?.gymRoute) setGymRoute(snapshot.player.gymRoute)
             
             // Clear loading state after successful resync
             setLoading({ loading: false })
@@ -797,6 +803,8 @@ export function PlayerProvider({children}) {
             setGym,
             nextGym,
             setNextGym,
+            gymRoute,
+            setGymRoute,
             lastGymBattleTurn,
             setLastGymBattleTurn,
 

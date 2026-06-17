@@ -140,9 +140,9 @@ export default function DayCareShop() {
                 borderRadius={8}
                 p={2}
             >
-            <Tr>
+            <Tr borderBottom="none" sx={{ '& td': { borderBottom: 'none' } }}>
                 <Td>
-                    <Image src={icon} alt={name} boxSize={6} />
+                    <Image src={icon} alt={name} w="22px" h="22px" />
                 </Td>
                 <Td>
                     <Center
@@ -152,8 +152,8 @@ export default function DayCareShop() {
                         pointerEvents={price > player.daycare.token ? 'none' : 'auto'}
                         onClick={() => handleBuyItem(item, price)}
                     >
-                        <Text fontSize="lg">{price}</Text>
-                        <Image src={tokenIcon} alt={"Daycare Token"} boxSize={6} />
+                        <Text fontSize="md">{price}</Text>
+                        <Image src={tokenIcon} alt={"Daycare Token"} w="20px" h="20px" />
                     </Center>
                 </Td>
             </Tr>
@@ -199,19 +199,19 @@ export default function DayCareShop() {
                             icon={potionIcon}
                             name={'Potion'}
                             item={'potion'}
-                            price={1}
+                            price={3}
                         ></TableItem>
                         <TableItem
                             icon={superPotionIcon}
                             name={'Super Potion'}
                             item={'superPotion'}
-                            price={2}
+                            price={5}
                         ></TableItem>
                         <TableItem
                             icon={hyperPotionIcon}
                             name={'Hyper Potion'}
                             item={'hyperPotion'}
-                            price={4}
+                            price={8}
                         ></TableItem>
                         {/* <TableItem
                             icon={eggIcon}

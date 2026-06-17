@@ -1,9 +1,10 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { useTranslation } from "react-i18next"
-import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
+import { Text, Center, Flex, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import Element from "@features/elements/Element"
 import PrizeIcon from "@features/prizes/PrizeIcon"
+import GymRouteTimeline from "./GymRouteTimeline"
 
 const getBadgeIcon = (badgeName) => {
     if (!badgeName) return null
@@ -25,7 +26,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymPanel() {
-    const { gym, nextGym, updateGame, session, lastGymBattleTurn, teamIds, getCurrentPhase, advancePhase, setActiveTab } = useContext(PlayerContext)
+    const { gym, nextGym } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
@@ -33,32 +34,23 @@ export default function GymPanel() {
     const displayGym = gym || nextGym
     const isAvailable = !!gym
 
-    const isInGymPhase = getCurrentPhase() === 'gym'
-
-    // If in gym phase with no gym available, auto-advance
-    useEffect(() => {
-        if (!displayGym && isInGymPhase) {
-            advancePhase()
-        }
-    }, [displayGym, isInGymPhase, advancePhase])
-
     if (!displayGym) {
-        if (isInGymPhase) {
-            return null
-        }
         return (
             <Flex flex="1" flexDir="column" p={4} align="center" justify="center">
-                <Text color="gray.400">{t('gym.noGymAvailable')}</Text>
+                <GymRouteTimeline />
+                <Text color="gray.400" mt={4}>{t('gym.noGymAvailable')}</Text>
             </Flex>
         )
     }
 
-    const handleChallenge = () => {
-        updateGame({ openGymModal: true })
-    }
-
     return (
         <Flex flex="1" flexDir="column" p={4} overflowY="auto">
+            {/* Gym Route Timeline */}
+            <GymRouteTimeline />
+
+            <Divider my={3} />
+
+            {/* Next Gym Detail */}
             <Text fontSize="lg" fontWeight="bold" textAlign="center" mb={2}>
                 {isAvailable ? displayGym.name : t('gym.nextGym', { name: displayGym.name })}
             </Text>
@@ -135,38 +127,15 @@ export default function GymPanel() {
                 <Divider />
 
                 <Center flexDirection="column" gap={2} pt={1}>
-                    {!isAvailable ? (
+                    {!isAvailable && (
                         <Text fontSize="lg" fontWeight="bold" color="yellow.400" textAlign="center">
                             {t('gym.reachStage', { stage: displayGym.turnStart })}
                         </Text>
-                    ) : (
-                        <>
-                            <Button
-                                colorScheme="green"
-                                size="lg"
-                                onClick={handleChallenge}
-                                isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3)}
-                            >
-                                {lastGymBattleTurn === session.turns 
-                                    ? t('gym.alreadyChallenged') 
-                                    : (teamIds && teamIds.length < 3)
-                                    ? t('gym.needPokemon')
-                                    : t('gym.challengeLeader', { leader: displayGym.leader })}
-                            </Button>
-                            <Button
-                                colorScheme="gray"
-                                size="md"
-                                variant="outline"
-                                onClick={() => setActiveTab('bag')}
-                            >
-                                {t('gym.skip')}
-                            </Button>
-                            {displayGym.attempts > 0 && (
-                                <Text fontSize="xs" color="gray.400">
-                                    {t('gym.challengeCount', { count: displayGym.attempts })}
-                                </Text>
-                            )}
-                        </>
+                    )}
+                    {displayGym.attempts > 0 && (
+                        <Text fontSize="xs" color="gray.400">
+                            {t('gym.challengeCount', { count: displayGym.attempts })}
+                        </Text>
                     )}
                 </Center>
             </VStack>

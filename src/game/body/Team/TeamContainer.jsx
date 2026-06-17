@@ -17,6 +17,18 @@ import greatboxOpen from '@assets/images/box/greatbox-open.png'
 import ultraboxClosed from '@assets/images/box/ultrabox-closed.png'
 import ultraboxOpen from '@assets/images/box/ultrabox-open.png'
 
+import dustIcon from '@assets/images/items/dust.png'
+import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
+import potionIcon from '@assets/images/items/potion.png'
+import superPotionIcon from '@assets/images/items/super-potion.png'
+import tokenIcon from '@assets/images/game/coin.png'
+
+const LOOT_ICONS = {
+    dust: dustIcon, pokeball: pokeballIcon, greatball: greatballIcon,
+    potion: potionIcon, superPotion: superPotionIcon, token: tokenIcon,
+}
+
 const BOX_NAMES = {
     pokebox: 'box.pokebox',
     greatbox: 'box.greatbox',
@@ -87,7 +99,8 @@ export default function TeamContainer() {
                 const lootText = loot.type === 'berry'
                     ? `${loot.berry.name} berry`
                     : `${loot.amount}x ${loot.key || loot.type}`
-                setLootResult(lootText)
+                const lootIcon = LOOT_ICONS[loot.type] || null
+                setLootResult({ text: lootText, icon: lootIcon })
             }
         } catch (err) {
             handleToast({
@@ -159,7 +172,7 @@ export default function TeamContainer() {
                                         <Image
                                             w={8}
                                             h={7}
-                                            src={poke.sprites?.mini || poke.sprites?.front}
+                                            src={poke.sprites?.front}
                                             title={stringToUpperCase(poke.name)}
                                             draggable={false}
                                             fallback={<Text fontSize="md" w={8} h={7} textAlign="center">?</Text>}
@@ -219,12 +232,12 @@ export default function TeamContainer() {
                 placement="bottom"
                 hasArrow
             >
-                <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" px={4} pt={2}>
+                <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700" px={4} pt={2} textAlign="center" w="100%">
                     {t('bag.yourTeam')}
                 </Text>
             </Tooltip>
             <Flex flex="1" overflow="auto">
-                <PokeTeam bag={hasBox} />
+                <PokeTeam bag={true} />
             </Flex>
 
             {/* Select Pokémon modal for item use */}
@@ -250,13 +263,21 @@ export default function TeamContainer() {
                                             w="120px"
                                             animation={`${fadeIn} 0.5s ease-out`}
                                         />
+                                        {lootResult?.icon && (
+                                            <Image
+                                                src={lootResult.icon}
+                                                w="48px" h="48px"
+                                                objectFit="contain"
+                                                animation={`${fadeIn} 0.5s ease-out 0.1s both`}
+                                            />
+                                        )}
                                         <Text
                                             fontSize="lg"
                                             fontWeight="bold"
                                             color="gold"
                                             animation={`${fadeIn} 0.5s ease-out 0.2s both`}
                                         >
-                                            {lootResult}
+                                            {lootResult?.text}
                                         </Text>
                                         <Text fontSize="sm" color="gray.400">{t('box.received')}</Text>
                                     </>

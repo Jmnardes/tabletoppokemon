@@ -20,7 +20,7 @@ function PokePage({ game }) {
 const GameComponents = () => {
     const { getCurrentPhase } = useContext(PlayerContext)
     const currentPhase = getCurrentPhase()
-    const hideHeader = currentPhase === 'battle' || currentPhase === 'journey'
+    const hideHeader = currentPhase === 'battle' || currentPhase === 'journey' || currentPhase === 'gym'
 
     return (
         <>

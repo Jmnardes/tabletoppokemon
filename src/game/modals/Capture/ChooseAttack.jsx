@@ -43,7 +43,7 @@ export default function ChooseAttack({
                 h={52} w={52} mb={8}
                 title={stringToUpperCase(capturedPokemon.name)} 
                 src={capturedPokemon.sprites.front}
-                fallbackSrc={capturedPokemon.sprites.mini}
+                fallbackSrc={capturedPokemon.sprites?.front}
             />
 
             <ChooseTypes

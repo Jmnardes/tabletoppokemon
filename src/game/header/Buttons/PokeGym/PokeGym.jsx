@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { Button, Image, Badge } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 
-import gymIcon from '@assets/images/game/battle.png'
+import gymIcon from '@assets/images/game/crown.png'
 
 // Helper para converter "Fog Badge" -> "fog_badge"
 const getBadgeIcon = (badgeName) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react"
-import { Box, Flex, HStack, Image, Text, useColorMode } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 import { keyframes } from "@emotion/react"
 
@@ -159,6 +159,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
   const [ballY, setBallY] = useState(BALL_START_Y)
   const [throwResult, setThrowResult] = useState(null)
   const [caught, setCaught] = useState(false)
+  const [fled, setFled] = useState(false)
   const [selectedBall, setSelectedBall] = useState("pokeball")
   const [waitingServer, setWaitingServer] = useState(false)
 
@@ -172,6 +173,14 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
 
   const displaySprite = targetSprite || pikachuImg
   const displayName = targetName || "Pikachu"
+
+  const totalBalls = balls ? (balls.pokeball || 0) + (balls.greatball || 0) + (balls.ultraball || 0) + (balls.masterball || 0) : 0
+  const hasNoBalls = balls && totalBalls <= 0
+
+  const handleSkip = useCallback((e) => {
+    e.stopPropagation()
+    if (onFinish) onFinish({ caught: false, bonus: 0, ballType: selectedBall, skipped: true })
+  }, [onFinish, selectedBall])
 
   // ─── Power bar oscillation ───
   useEffect(() => {
@@ -248,8 +257,9 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
         // Journey mode: ask server to resolve capture after wobble animation
         timerRef.current = setTimeout(() => {
           setWaitingServer(true)
-          onCatchResolve({ ballType: selectedBall, throwBonus: throwResult?.bonus ?? 0 }, (serverCaught) => {
-            setCaught(serverCaught)
+          onCatchResolve({ ballType: selectedBall, throwBonus: throwResult?.bonus ?? 0 }, (result) => {
+            setCaught(result.captured)
+            setFled(result.fled || false)
             setWaitingServer(false)
             setPhase(PHASES.RESULT)
           })
@@ -284,18 +294,33 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     } else if (phase === PHASES.POWER) {
       setPhase(PHASES.THROWN)
       throwBall(powerRef.current)
-    } else if (phase === PHASES.RESULT) {
+    }
+  }, [phase, throwBall, selectedBall, balls, waitingServer])
+
+  const handleResultAction = useCallback((e) => {
+    e.stopPropagation()
+    if (caught || fled || !isJourneyMode) {
       if (onFinish) onFinish({ caught, bonus: throwResult?.bonus ?? 0, ballType: selectedBall })
       if (!isJourneyMode) {
         clearTimeout(timerRef.current)
         setCaught(false)
+        setFled(false)
         setThrowResult(null)
         setBallY(BALL_START_Y)
         setPower(0)
         setPhase(PHASES.IDLE)
       }
+    } else {
+      // Pokemon stayed — reset for retry
+      clearTimeout(timerRef.current)
+      setCaught(false)
+      setFled(false)
+      setThrowResult(null)
+      setBallY(BALL_START_Y)
+      setPower(0)
+      setPhase(PHASES.IDLE)
     }
-  }, [phase, caught, throwResult, onFinish, throwBall, isJourneyMode, selectedBall, balls, waitingServer])
+  }, [caught, fled, throwResult, onFinish, isJourneyMode, selectedBall])
 
   // ─── Derived states ───
   const isBeforeThrow = phase === PHASES.IDLE || phase === PHASES.POWER
@@ -341,18 +366,19 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     if (phase === PHASES.THROWN && throwResult) return throwResult.label
     if (waitingServer) return "..."
     if (isWobbling) return `${"● ".repeat(wobbleCount)}${"○ ".repeat(3 - wobbleCount)}`
-    if (phase === PHASES.RESULT && caught) return "Caught!"
-    if (phase === PHASES.RESULT && !caught) return "Oh no! It broke free!"
+    if (phase === PHASES.RESULT && caught) return t('minigame.caught')
+    if (phase === PHASES.RESULT && !caught && fled) return t('minigame.fled')
+    if (phase === PHASES.RESULT && !caught && !fled) return t('minigame.stayed')
     return ""
   }
 
   const getTextColor = () => {
     if (phase === PHASES.THROWN && throwResult) return throwResult.color
-    if (phase === PHASES.RESULT) return caught ? "green.400" : "red.400"
+    if (phase === PHASES.RESULT) return caught ? "green.400" : fled ? "red.400" : "yellow.400"
     return isDark ? "gray.300" : "gray.600"
   }
 
-  const isClickable = (phase === PHASES.IDLE || phase === PHASES.POWER || phase === PHASES.RESULT) && !waitingServer
+  const isClickable = (phase === PHASES.IDLE || phase === PHASES.POWER) && !waitingServer
   const canSelectBall = phase === PHASES.IDLE || phase === PHASES.RESULT
 
   // Zone boundaries for power bar (as % of bar width)
@@ -524,17 +550,52 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
         })}
       </HStack>
 
-      {/* ─── Text ─── */}
-      <Flex direction="column" align="center" minH="50px" justify="center">
-        <Text fontSize="xl" fontWeight="bold" color={getTextColor()} textAlign="center">
-          {getText()}
-        </Text>
-        {phase === PHASES.RESULT && (
-          <Text fontSize="sm" color={isDark ? "gray.500" : "gray.400"} mt={1}>
-            {isJourneyMode ? "Click to continue" : "Click to replay"}
+      {/* ─── Text + Action Buttons ─── */}
+      <Flex direction="column" align="center" minH="50px" justify="center" gap={3}>
+        <Tooltip label={
+          phase === PHASES.RESULT && !caught && fled ? t('minigame.fledDesc') :
+          phase === PHASES.RESULT && !caught && !fled ? t('minigame.stayedDesc') :
+          undefined
+        } hasArrow>
+          <Text fontSize="xl" fontWeight="bold" color={getTextColor()} textAlign="center">
+            {getText()}
           </Text>
+        </Tooltip>
+
+        {phase === PHASES.RESULT && (
+          <HStack spacing={3}>
+            {isJourneyMode ? (
+              caught || fled ? (
+                <Button size="sm" colorScheme="blue" onClick={handleResultAction}>
+                  {t('minigame.continue')}
+                </Button>
+              ) : (
+                <Button size="sm" colorScheme="blue" onClick={handleResultAction}>
+                  {t('minigame.retry')}
+                </Button>
+              )
+            ) : (
+              <Button size="sm" colorScheme="blue" onClick={handleResultAction}>
+                {t('minigame.replay')}
+              </Button>
+            )}
+          </HStack>
         )}
       </Flex>
+
+      {/* ─── Skip button ─── */}
+      {isJourneyMode && (phase === PHASES.IDLE || (phase === PHASES.RESULT && !caught && !fled) || hasNoBalls) && (
+        <Tooltip label={t('minigame.skipCaptureDesc')} hasArrow>
+          <Button
+            size="sm"
+            variant="outline"
+            colorScheme="red"
+            onClick={handleSkip}
+          >
+            {t('minigame.skipCapture')}
+          </Button>
+        </Tooltip>
+      )}
     </Flex>
   )
 }

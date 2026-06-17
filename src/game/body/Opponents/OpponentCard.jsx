@@ -4,7 +4,7 @@ import { Image } from "@chakra-ui/image"
 import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
 import crownIcon from '@assets/images/game/crown.png'
 import pokeballIcon from '@assets/images/game/pokeball.png'
-import stepsIcon from '@assets/images/game/steps.png'
+import stepsIcon from '@assets/images/game/direction.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 
 export default function OpponentCard({ opponent, inFront = false }) {

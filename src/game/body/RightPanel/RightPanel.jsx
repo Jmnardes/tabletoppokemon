@@ -13,6 +13,18 @@ import greatboxOpen from '@assets/images/box/greatbox-open.png'
 import ultraboxClosed from '@assets/images/box/ultrabox-closed.png'
 import ultraboxOpen from '@assets/images/box/ultrabox-open.png'
 
+import dustIcon from '@assets/images/items/dust.png'
+import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
+import potionIcon from '@assets/images/items/potion.png'
+import superPotionIcon from '@assets/images/items/super-potion.png'
+import tokenIcon from '@assets/images/game/coin.png'
+
+const LOOT_ICONS = {
+    dust: dustIcon, pokeball: pokeballIcon, greatball: greatballIcon,
+    potion: potionIcon, superPotion: superPotionIcon, token: tokenIcon,
+}
+
 const BOX_NAMES = {
     pokebox: 'box.pokebox',
     greatbox: 'box.greatbox',
@@ -78,7 +90,8 @@ export default function RightPanel() {
                 const lootText = loot.type === 'berry'
                     ? `${loot.berry.name} berry`
                     : `${loot.amount}x ${loot.key || loot.type}`
-                setLootResult(lootText)
+                const lootIcon = LOOT_ICONS[loot.type] || null
+                setLootResult({ text: lootText, icon: lootIcon })
             }
         } catch (err) {
             handleToast({
@@ -145,13 +158,21 @@ export default function RightPanel() {
                                             w="120px"
                                             animation={`${fadeIn} 0.5s ease-out`}
                                         />
+                                        {lootResult?.icon && (
+                                            <Image
+                                                src={lootResult.icon}
+                                                w="48px" h="48px"
+                                                objectFit="contain"
+                                                animation={`${fadeIn} 0.5s ease-out 0.1s both`}
+                                            />
+                                        )}
                                         <Text
                                             fontSize="lg"
                                             fontWeight="bold"
                                             color="gold"
                                             animation={`${fadeIn} 0.5s ease-out 0.2s both`}
                                         >
-                                            {lootResult}
+                                            {lootResult?.text}
                                         </Text>
                                         <Text fontSize="sm" color="gray.400">{t('box.received')}</Text>
                                     </>

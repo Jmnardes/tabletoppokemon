@@ -40,17 +40,17 @@
 
   "lobby": {
     "gameObjective": "Game Objective",
-    "winBadges": "Win {{count}} badges to end the game",
-    "highestRanking": "First to collect all badges wins",
+    "firstToWin": "First to collect {{count}} badges wins the game",
     "copyCode": "Copy code",
     "catchDifficulty": "Catch difficulty",
     "shinyChance": "Shiny chance %",
     "badgesToWin": "Badges to win",
     "teamLength": "Team length",
-    "stagesPerJourney": "Stages/journey",
-    "journeyTeam": "Journey team",
+    "stagesPerJourney": "Stages/route",
+    "journeyTeam": "Route team",
     "gymStrength": "Gym strength",
     "battleFrequency": "Battle frequency",
+    "gymRegion": "Region",
     "startGame": "Start Game",
     "waitingPlayers": "Waiting for other players...",
     "playerJoined": "{{name}} joined the room",
@@ -60,8 +60,8 @@
   "config": {
     "badgesToWin": "Badges to Win",
     "badgesToWinTooltip": "Number of badges needed to end the game.",
-    "stagesPerJourney": "Stages/Journey",
-    "stagesPerJourneyTooltip": "How many wild pokémon you need to defeat to complete each journey. Total wild pokémon will be double.",
+    "stagesPerJourney": "Stages/Route",
+    "stagesPerJourneyTooltip": "How many wild pokémon you need to defeat to complete each route. Total wild pokémon will be double.",
     "battleFrequency": "Battle Frequency",
     "battleFrequencyTooltip": "Every how many turns there will be a battle between players. 0 = no battles.",
     "gymStrengthBonus": "Gym Strength",
@@ -70,8 +70,16 @@
     "shinyChanceTooltip": "Percentage chance of a wild pokémon being shiny.",
     "catchDifficulty": "Catch Difficulty",
     "catchDifficultyTooltip": "Increase in difficulty to catch pokémon.",
-    "journeyTeamLength": "Journey Team",
-    "journeyTeamLengthTooltip": "Number of pokémon you can take on a journey."
+    "journeyTeamLength": "Route Team",
+    "journeyTeamLengthTooltip": "Number of pokémon you can take on a route.",
+    "gymRegion": "Region",
+    "gymRegionTooltip": "Gyms only",
+    "region_kanto": "Kanto",
+    "region_johto": "Johto",
+    "region_hoenn": "Hoenn",
+    "region_sinnoh": "Sinnoh",
+    "region_randomRegion": "Random Region",
+    "region_totalRandom": "Total Random"
   },
 
   "settings": {
@@ -271,11 +279,11 @@
   "gameInfo": {
     "title": "Game Info",
     "purpose": "Purpose",
-    "purposeText": "This is a non-financial game made by a fan of the Pokémon series.",
+    "purposeText": "PokéTactics is a non-financial game, made by a fan of the Pokémon series. No ads, no purchases — just fun.",
     "objective": "Objective",
-    "objectiveText": "The objective of the game is to be the best Pokémon Master, collecting all badges first to win.",
-    "howItWorks": "How it works",
-    "howItWorksText": "You play against others to earn points by winning battles, catching Pokémons, completing tasks and more.",
+    "objectiveText": "Be the first to collect all gym badges! Explore routes to find wild Pokémon, catch them, train your team and challenge the gym leaders.",
+    "howItWorks": "How It Works",
+    "howItWorksText": "Each turn you can explore routes, fight wild Pokémon, capture new allies, apply items, train at the academy, plant berries and craft. When a gym is available, challenge the leader to earn a badge. Everything happens in real time against other players — strategy and timing make the difference!",
     "inviteFriends": "Invite your friends and play now!"
   },
 
@@ -283,7 +291,17 @@
     "perfect": "Perfect!",
     "good": "Good!",
     "ok": "Ok...",
-    "bad": "Bad!"
+    "bad": "Bad!",
+    "caught": "Caught!",
+    "fled": "It fled!",
+    "fledDesc": "The pokémon fled from battle!",
+    "stayed": "Broke free!",
+    "stayedDesc": "Broke free from the pokéball! Try again.",
+    "retry": "Retry",
+    "continue": "Continue",
+    "replay": "Replay",
+    "skipCapture": "Skip capture",
+    "skipCaptureDesc": "Skip capture and move on. This action cannot be undone."
   },
 
   "elements": {
@@ -321,42 +339,43 @@
     "useItem": "Use {{itemName}}",
     "selectPokemon": "Select a pokémon from your team:",
     "daycareTokens": "Daycare Tokens",
-    "shinyIncense": "Shiny incense",
-    "shinyChance": "Shiny chance {{chance}}%"
+    "incense": "Incense",
+    "incenseDesc": "Increases the chance of encountering higher level Pokémon on your next route"
   },
 
   "confirmTeam": "Confirm team changes",
 
   "journey": {
-    "selectPokemon": "Select {{max}} Pokémon for your journey. Order matters — first will fight first.",
-    "level": "Journey Level: {{level}} — Pokémon {{current}}/{{total}}",
+    "selectPokemon": "Select {{max}} Pokémon for your route. Order matters — first will fight first.",
+    "level": "Route Level: {{level}} — Pokémon {{current}}/{{total}}",
     "wildPokemon": "Wild Pokémon you will face",
-    "previewTitle": "Journey Preview",
+    "previewTitle": "Route Preview",
     "previewDefeated": "Defeated",
     "previewRemaining": "Remaining",
     "previewNext": "Next",
-    "noPreview": "No journey preview available",
-    "startJourney": "Start Journey ({{selected}}/{{max}})",
-    "round": "Round {{round}} — Fight {{current}}/{{total}}",
+    "noPreview": "No route preview available",
+    "startJourney": "Start Route ({{selected}}/{{max}})",
+    "round": "Route {{round}} — Fight {{current}}/{{total}}",
     "levelN": "Level {{level}}",
+    "routeN": "Route {{route}}",
     "yourBattleOrder": "Your Battle Order",
     "reorderBefore": "First pokémon will fight. Reorder before starting.",
     "potionTooltip": "{{label}} ({{heal}} HP) — {{count}} left",
     "defeated": "Defeated ({{count}})",
     "opponent": "OPPONENT",
     "fight": "Fight!",
-    "complete": "Journey Complete",
+    "complete": "Route Complete",
     "expSummaryTitle": "Experience Summary",
-    "roundReached": "Round {{round}} reached",
-    "leaveJourney": "Leave Journey",
+    "roundReached": "Route {{round}} reached",
+    "leaveJourney": "Leave Route",
     "checkpoint": "Checkpoint!",
-    "roundComplete": "Round {{round}} Complete",
+    "roundComplete": "Route {{round}} Complete",
     "defeatedAll": "You defeated all {{count}} wild pokémon!",
     "clickToOpen": "Click to open chest!",
     "boxEarned": "+1 Pokebox!",
     "potions": "+{{amount}} Potions",
     "superPotion": "+{{amount}} Super Potion",
-    "exitJourney": "Exit Journey",
+    "exitJourney": "Exit Route",
     "noPokemonToCapture": "No pokémon to capture",
     "loadingBattle": "Loading battle...",
     "wildDefeated": "🎉 Wild Pokémon Defeated!",
@@ -367,7 +386,7 @@
     "superPotionName": "Super Potion",
     "hyperPotion": "Hyper Potion",
     "sendToBack": "Send to back",
-    "sendToBackUsed": "Already used this round",
+    "sendToBackUsed": "Already used this route",
     "sendToBackTooltip": "Send this pokémon to the back of the queue.",
     "sendToBackExplain": "You can send pokémon to the back of the queue at the start or after each defeat.",
     "sendToBackUsedExplain": "Defeat a pokémon to unlock again.",
@@ -433,14 +452,18 @@
     "leaveGym": "Leave Gym",
     "awarding": "Awarding...",
     "skip": "Skip",
-    "reachStage": "Upon reaching stage {{stage}} of the journey, come challenge me! From that moment on, you can challenge me every turn.",
+    "skipGym": "Don't challenge this turn",
+    "skipGymHint": "No cost to challenge the gym",
+    "reachStage": "Upon reaching stage {{stage}} of the route, come challenge me! From that moment on, you can challenge me every turn.",
     "expPerPokemonReward": "+5 EXP per pokémon",
-    "berries3": "+3 berries"
+    "berries3": "+3 berries",
+    "routeTitle": "Gym Route",
+    "defeated": "Defeated"
   },
 
   "action": {
     "endTurn": "End Turn",
-    "startJourney": "Start Journey",
+    "startJourney": "Start Route",
     "next": "Next",
     "bag": "Bag",
     "items": "Items",
@@ -450,11 +473,12 @@
     "craft": "Craft",
     "augments": "Augments",
     "gym": "Gym",
-    "journey": "Journey",
+    "journey": "Route",
     "needPokemon": "You need 3 pokémon in your team",
     "confirmTeamFirst": "Confirm your team first",
     "pokeBag": "Poke Bag",
-    "needPokemonInTeam": "You need {{count}} pokémon in your team"
+    "needPokemonInTeam": "You need {{count}} pokémon in your team",
+    "challengeGym": "Challenge Gym"
   },
 
   "team": {
@@ -469,10 +493,10 @@
   },
 
   "bag": {
-    "pokemonHint": "You can swap pokémon from the bag to your team to face the journey",
+    "pokemonHint": "You can swap pokémon from the bag to your team to face the route",
     "itemsHint": "You can apply items to your pokémon to improve their stats",
     "yourTeam": "Your Team",
-    "teamTooltip": "Your main team, you must have at least 3 pokémon and at most 6. During journeys, battles and gyms you can only use 3 pokémon, but you can choose the 3 from your team of 6."
+    "teamTooltip": "Your main team, you must have at least 3 pokémon and at most 6. During routes, battles and gyms you can only use 3 pokémon, but you can choose the 3 from your team of 6."
   },
 
   "taskBoard": {
@@ -546,9 +570,10 @@
       "dust": "Used to give EXP to a Pokémon.",
       "greatball": "+3 catch bonus. Better than a Pokéball.",
       "ultraball": "+6 catch bonus. Very effective.",
-      "potion": "Heals 25% HP during Journey.",
-      "superPotion": "Heals 50% HP during Journey.",
-      "hyperPotion": "Heals 80% HP during Journey."
+      "potion": "Heals 25% HP during Route.",
+      "superPotion": "Heals 50% HP during Route.",
+      "hyperPotion": "Heals 80% HP during Route.",
+      "incense": "Increases the chance of encountering higher level Pokémon on your next route."
     }
   }
 }

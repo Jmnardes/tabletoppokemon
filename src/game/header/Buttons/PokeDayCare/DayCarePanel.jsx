@@ -106,7 +106,7 @@ export default function DayCarePanel() {
                                         <Image
                                             w={16}
                                             h={12}
-                                            src={poke.sprites?.mini || poke.sprites?.front}
+                                            src={poke.sprites?.front}
                                             draggable={false}
                                         />
                                         <Badge fontSize="2xs" colorScheme={isSelected ? "green" : "gray"}>

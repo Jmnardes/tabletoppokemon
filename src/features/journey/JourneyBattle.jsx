@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Flex, Text, Box, Image, Progress, Badge, Center, Button, VStack } from "@chakra-ui/react"
 import { journeyHitAnimation, journeyCritHitAnimation, journeyDefAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
 import { colorByHitType } from "@utils/battle"
-import { stringToUpperCase } from "@utils"
+import { stringToUpperCase, fmt } from "@utils"
 import { getAttackSprite } from "@utils/attackSprites"
 import i18n from "../../i18n/i18n"
 
@@ -85,7 +85,7 @@ const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDama
                         textShadow="0 0 6px rgba(0,0,0,0.8)"
                         onAnimationEnd={() => setLastDamage(null)}
                     >
-                        {lastDamage.damage > 0 ? `${lastDamage.damage}` : "MISS"}
+                        {lastDamage.damage > 0 ? `${fmt(lastDamage.damage)}` : "MISS"}
                     </Text>
                 )}
             </Box>
@@ -103,7 +103,7 @@ const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDama
                     bottom={3.5}
                     fontSize="x-small"
                 >
-                    {Math.max(0, hp)}/{maxHp}
+                    {fmt(Math.max(0, hp))}/{fmt(maxHp)}
                 </Text>
             </Box>
         </Center>
@@ -157,6 +157,7 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
 
         const log = currentFight.log
         const pPoke = currentFight.playerWon ? currentFight.winner : currentFight.loser
+        const wPoke = currentFight.playerWon ? currentFight.loser : currentFight.winner
 
         let pHp = 0
         let wHp = 0
@@ -173,8 +174,8 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
 
         setPlayerHp(pHp)
         setWildHp(wHp)
-        setPlayerMaxHp(pHp)
-        setWildMaxHp(wHp)
+        setPlayerMaxHp(pPoke.maxHp || pHp)
+        setWildMaxHp(wPoke.maxHp || wHp)
         setLogIndex(0)
         setBattleDone(false)
         setShowResult(false)
@@ -217,8 +218,8 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
         const tag = hitTypeTag(entry.hitType)
         const icon = hitTypeIcon(entry.hitType)
         const compactMsg = isPlayerAttacker
-            ? `${icon} ${attackerName} → ${tag}${!isMiss ? ` (${entry.damage})` : ''}`
-            : `${!isMiss ? `(${entry.damage}) ` : ''}${tag} ← ${icon} ${attackerName}`
+            ? `${icon} ${attackerName} → ${tag}${!isMiss ? ` (${fmt(entry.damage)})` : ''}`
+            : `${!isMiss ? `(${fmt(entry.damage)}) ` : ''}${tag} ← ${icon} ${attackerName}`
 
         setLastLogMessage(compactMsg)
         setLastHitType(entry.hitType)

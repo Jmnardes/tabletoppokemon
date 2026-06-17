@@ -2,7 +2,7 @@ import { Box, Center, Flex, Image, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState, useRef } from "react";
 
 import { colorByHitType, battleLogMessage } from "@utils/battle";
-import { stringToUpperCase } from "@utils";
+import { stringToUpperCase, fmt } from "@utils";
 import { hitAnimation, critHitAnimation, defAnimation, missAnimation, textAnimation, winAnimation, littleBounceAnimation, slideOutLeft, slideOutRight, slideInLeft, slideInRight, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
 import { getAttackSprite } from "@utils/attackSprites";
 
@@ -160,7 +160,7 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                     bottom={3.5}
                     fontSize="x-small"
                 >
-                    {Math.max(0, hp)}/{maxHp}
+                    {fmt(Math.max(0, hp))}/{fmt(maxHp)}
                 </Text>
             </Box>
 
@@ -180,7 +180,7 @@ export default function BattlePlayback({ battleResult, myPlayerId, myTrainerName
                         e.target.style.opacity = 0
                     }}
                 >
-                    {currentLog.damage > 0 ? `${currentLog.damage}` : "MISS"}
+                    {currentLog.damage > 0 ? `${fmt(currentLog.damage)}` : "MISS"}
                 </Text>
             )}
         </Center>

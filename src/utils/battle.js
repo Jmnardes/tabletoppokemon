@@ -1,35 +1,36 @@
-import { diceRoll } from ".";
+import { diceRoll, fmt } from ".";
 
 export const battleLogMessage = (type, name, damage = 0) => {
     const messageIndex = diceRoll(9);
+    const dmg = fmt(damage);
     let messageArray = [];
     
     switch (type) {
         case "hit":
             messageArray = [
-                `${name} landed a solid hit for ${damage} damage!`,
-                `${name} struck effectively, dealing ${damage} damage!`,
-                `It's a direct hit! ${name} dealt ${damage} damage!`,
-                `${name} landed a powerful blow, causing ${damage} damage!`,
-                `A clean strike! ${name} inflicted ${damage} damage!`,
-                `The attack connected! ${name} dealt ${damage} damage!`,
-                `${name} hit hard, causing ${damage} damage!`,
-                `A well-placed attack from ${name} dealt ${damage} damage!`,
-                `That must've hurt! ${name} inflicted ${damage} damage!`
+                `${name} landed a solid hit for ${dmg} damage!`,
+                `${name} struck effectively, dealing ${dmg} damage!`,
+                `It's a direct hit! ${name} dealt ${dmg} damage!`,
+                `${name} landed a powerful blow, causing ${dmg} damage!`,
+                `A clean strike! ${name} inflicted ${dmg} damage!`,
+                `The attack connected! ${name} dealt ${dmg} damage!`,
+                `${name} hit hard, causing ${dmg} damage!`,
+                `A well-placed attack from ${name} dealt ${dmg} damage!`,
+                `That must've hurt! ${name} inflicted ${dmg} damage!`
             ];
             break;
 
         case "half":
             messageArray = [
-                `${name} landed a weak hit, causing only ${damage} damage...`,
-                `${name}'s attack barely connected, dealing ${damage} damage.`,
-                `It's a glancing blow! ${name} inflicted ${damage} damage.`,
-                `${name} hit, but it wasn't very effective... Only ${damage} damage.`,
-                `The attack was weakened! ${name} dealt just ${damage} damage.`,
-                `${name} managed to hit, but only for ${damage} damage.`,
-                `A weak strike from ${name}, causing ${damage} damage.`,
-                `${name} struggled to land a clean hit, dealing ${damage} damage.`,
-                `${name} attacked, but the impact was minor... Just ${damage} damage.`
+                `${name} landed a weak hit, causing only ${dmg} damage...`,
+                `${name}'s attack barely connected, dealing ${dmg} damage.`,
+                `It's a glancing blow! ${name} inflicted ${dmg} damage.`,
+                `${name} hit, but it wasn't very effective... Only ${dmg} damage.`,
+                `The attack was weakened! ${name} dealt just ${dmg} damage.`,
+                `${name} managed to hit, but only for ${dmg} damage.`,
+                `A weak strike from ${name}, causing ${dmg} damage.`,
+                `${name} struggled to land a clean hit, dealing ${dmg} damage.`,
+                `${name} attacked, but the impact was minor... Just ${dmg} damage.`
             ];
             break;
 
@@ -49,15 +50,15 @@ export const battleLogMessage = (type, name, damage = 0) => {
 
         case "crit":
             messageArray = [
-                `It's a critical hit! ${name} dealt a crushing ${damage} damage!`,
-                `An amazing strike! ${name} landed a critical blow for ${damage} damage!`,
-                `A devastating hit! ${name} unleashed ${damage} damage!`,
-                `Super effective! ${name} struck with incredible force, causing ${damage} damage!`,
-                `A powerful attack! ${name} inflicted ${damage} critical damage!`,
-                `An incredible hit! ${name} delivered ${damage} damage!`,
-                `${name} performed a masterful attack, dealing ${damage} critical damage!`,
-                `That was brutal! ${name} unleashed ${damage} damage!`,
-                `A strike filled with power! ${name} crushed the opponent with ${damage} damage!`
+                `It's a critical hit! ${name} dealt a crushing ${dmg} damage!`,
+                `An amazing strike! ${name} landed a critical blow for ${dmg} damage!`,
+                `A devastating hit! ${name} unleashed ${dmg} damage!`,
+                `Super effective! ${name} struck with incredible force, causing ${dmg} damage!`,
+                `A powerful attack! ${name} inflicted ${dmg} critical damage!`,
+                `An incredible hit! ${name} delivered ${dmg} damage!`,
+                `${name} performed a masterful attack, dealing ${dmg} critical damage!`,
+                `That was brutal! ${name} unleashed ${dmg} damage!`,
+                `A strike filled with power! ${name} crushed the opponent with ${dmg} damage!`
             ];
             break;
 

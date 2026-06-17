@@ -86,6 +86,12 @@ export const stringToUpperCase = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// format number for display: max 1 decimal place, no trailing zero
+export const fmt = (n) => {
+    if (n == null) return '0'
+    return Number.isInteger(n) ? String(n) : parseFloat(n.toFixed(1)).toString()
+}
+
 // which generation you want to roll
 export const generationPokeNumbers = (gen) => {
     gen = Number(gen)

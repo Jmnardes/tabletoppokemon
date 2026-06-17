@@ -16,7 +16,7 @@ export default function GameInfo({ setGameInfoModal }) {
 
     return (
         <>
-            <Modal isOpen size="lg" isCentered onOverlayClick={() => setGameInfoModal(false)}>
+            <Modal isOpen size="xl" isCentered onOverlayClick={() => setGameInfoModal(false)}>
                 <ModalOverlay
                     bg='blackAlpha.300'
                     backdropFilter='blur(2px) hue-rotate(0deg)'

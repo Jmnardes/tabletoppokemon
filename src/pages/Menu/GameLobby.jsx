@@ -70,50 +70,30 @@ export default function GameLobby() {
                 bg="rgba(255, 215, 0, 0.1)" 
                 borderRadius="md" 
                 p={3} 
+                mt={4}
                 mb={4}
             >
                 <Text fontSize="sm" fontWeight="bold" mb={3}>
                     {t('lobby.gameObjective')}
                 </Text>
-                <Flex width="100%" gap={2} justifyContent="space-between">
-                    <Flex 
-                        flex={1}
-                        flexDirection="column" 
-                        alignItems="center" 
-                        justifyContent="center"
-                        bg="rgba(255, 215, 0, 0.15)"
-                        borderRadius="md"
-                        p={2}
-                    >
-                        <Image
-                            src={crownIcon} 
-                            title={'Badges'}
-                            w="28px"
-                            mb={1}
-                        />
-                        <Text fontSize="2xs" textAlign="center">
-                            {t('lobby.winBadges', { count: session.badgesToWin || 8 })}
-                        </Text>
-                    </Flex>
-                    <Flex 
-                        flex={1}
-                        flexDirection="column" 
-                        alignItems="center" 
-                        justifyContent="center"
-                        bg="rgba(255, 215, 0, 0.15)"
-                        borderRadius="md"
-                        p={2}
-                    >
-                        <Image
-                            src={crownIcon}
-                            title={'Badges'}
-                            w="28px"
-                            mb={1}
-                        />
-                        <Text fontSize="2xs" textAlign="center">
-                            {t('lobby.highestRanking')}
-                        </Text>
-                    </Flex>
+                <Flex 
+                    width="100%"
+                    flexDirection="column" 
+                    alignItems="center" 
+                    justifyContent="center"
+                    bg="rgba(255, 215, 0, 0.15)"
+                    borderRadius="md"
+                    p={3}
+                >
+                    <Image
+                        src={crownIcon} 
+                        title={'Badges'}
+                        w="28px"
+                        mb={1}
+                    />
+                    <Text fontSize="2xs" textAlign="center">
+                        {t('lobby.firstToWin', { count: session.badgesToWin || 8 })}
+                    </Text>
                 </Flex>
             </Flex>
 
@@ -126,22 +106,22 @@ export default function GameLobby() {
                     data2={session.shinyChance}
                 />
                 <ConfigurationSlot 
-                    name1={t('lobby.badgesToWin')}
-                    data1={session.badgesToWin}
-                    name2={t('lobby.teamLength')}
-                    data2={6}
+                    name1={t('lobby.teamLength')}
+                    data1={6}
+                    name2={t('lobby.stagesPerJourney')}
+                    data2={session.stagesPerJourney}
                 />
                 <ConfigurationSlot 
-                    name1={t('lobby.stagesPerJourney')}
-                    data1={session.stagesPerJourney}
-                    name2={t('lobby.journeyTeam')}
-                    data2={session.journeyTeamLength}
+                    name1={t('lobby.journeyTeam')}
+                    data1={session.journeyTeamLength}
+                    name2={t('lobby.battleFrequency')}
+                    data2={session.battleFrequency}
                 />
                 <ConfigurationSlot 
                     name1={t('lobby.gymStrength')}
                     data1={session.gymStrengthBonus}
-                    name2={t('lobby.battleFrequency')}
-                    data2={session.battleFrequency}
+                    name2={t('lobby.gymRegion')}
+                    data2={t(`config.region_${session.gymRegion || 'totalRandom'}`)}
                 />
             <Divider my={4} />
             <Flex width={"100%"} justifyContent={"space-between"} mb={6}>

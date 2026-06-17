@@ -37,9 +37,9 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
                         playerTeamStatus: result.playerTeamStatus,
                     }))
                 }
-                callback(result.captured)
+                callback({ captured: result.captured, fled: result.fled })
             } else {
-                callback(false)
+                callback({ captured: false, fled: true })
             }
         })
     }, [player.id, session.sessionCode, defeatedWild, setPlayer, syncPokemonsFromServer, setJourneyState])

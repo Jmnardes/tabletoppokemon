@@ -16,16 +16,12 @@ import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
-import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import potionIcon from '@assets/images/items/potion.png'
-import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 import dustIcon from '@assets/images/items/dust.png'
-import lureIcon from '@assets/images/items/lure.png'
 import tokenIcon from '@assets/images/game/coin.png'
 
 const defaultItems = [
-    { icon: pokeballIcon, label: '10 Pokéballs' },
-    { icon: lureIcon, label: '1 Incense' },
+    { icon: pokeballIcon, label: '15 Pokéballs' },
     { icon: tokenIcon, label: '5 Tokens' },
 ]
 
@@ -35,8 +31,7 @@ const classData = {
         emoji: '⚔️',
         color: 'blue.400',
         items: [
-            { icon: potionIcon, label: '+3 Potions' },
-            { icon: hyperPotionIcon, label: '+1 Hyper Potion' },
+            { icon: potionIcon, label: '+2 Potions' },
         ],
     },
     catcher: {
@@ -44,8 +39,7 @@ const classData = {
         emoji: '🎯',
         color: 'green.400',
         items: [
-            { icon: pokeballIcon, label: '+5 Pokéballs' },
-            { icon: greatballIcon, label: '+1 Greatball' },
+            { icon: pokeballIcon, label: '+7 Pokéballs' },
         ],
     },
     trainer: {

@@ -33,7 +33,9 @@ export default function JourneyExit({ journeyState, onLeave }) {
                 }
                 updateGame({
                     journeyProgress: result.journeyProgress ?? 0,
+                    journeyWildDefeatedCount: result.journeyWildDefeatedCount ?? 0,
                     journeyWildPreview: result.journeyWildPreview || [],
+                    journeyLevel: result.journeyLevel ?? 0,
                 })
                 setExpSummary(result.expSummary || [])
             }

@@ -1,10 +1,11 @@
 import { useContext, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Flex, Text, Image, Button, SimpleGrid, Box, Badge, useColorMode } from "@chakra-ui/react"
+import { Flex, Text, Image, Button, Box, Badge, useColorMode } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
 import Element from "@features/elements/Element"
 import PokeStats from "@features/pokemon/PokeStats"
+import { PokeRarity } from "@features/pokemon/PokemonRarity"
 
 const EXP_TO_LEVEL = 10
 
@@ -23,6 +24,7 @@ export default function JourneySelection() {
     const wildPreview = game.journeyWildPreview || []
     const journeyProgress = game.journeyProgress || 0
     const stagesToWin = session?.stagesPerJourney || 5
+    const wildDefeatedCount = game.journeyWildDefeatedCount || journeyProgress
     const visibleCount = 3
 
     const toggleSelect = (pokeId) => {
@@ -70,13 +72,14 @@ export default function JourneySelection() {
 
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                {t('journey.level', { level: session.level ?? 0, current: journeyProgress + 1, total: stagesToWin })}
+                {t('journey.level', { level: (session.level ?? 0) + 1, current: wildDefeatedCount + 1, total: stagesToWin })}
             </Badge>
 
             {/* Wild pokemon preview */}
             {wildPreview.length > 0 && (() => {
-                const visibleWild = wildPreview.slice(journeyProgress, journeyProgress + visibleCount)
-                const hiddenCount = wildPreview.length - journeyProgress - visibleWild.length
+                const allRemainingWild = wildPreview.slice(journeyProgress)
+                const visibleWild = allRemainingWild.slice(0, visibleCount)
+                const hiddenCount = allRemainingWild.length - visibleWild.length
 
                 return (
                     <Box mb={4} w="100%" maxW="900px">
@@ -134,9 +137,9 @@ export default function JourneySelection() {
                         )}
 
                         {/* Defeated count */}
-                        {journeyProgress > 0 && (
+                        {wildDefeatedCount > 0 && (
                             <Text fontSize="2xs" color="green.400" textAlign="center" mt={2}>
-                                {t('journey.previewDefeated')}: {journeyProgress}/{stagesToWin}
+                                {t('journey.previewDefeated')}: {wildDefeatedCount}/{stagesToWin}
                             </Text>
                         )}
                     </Box>
@@ -144,7 +147,7 @@ export default function JourneySelection() {
             })()}
 
             {/* Available pokemon grid */}
-            <SimpleGrid columns={[2, 3, 4, 5]} spacing={3} w="100%" maxW="900px">
+            <Flex gap={3} w="100%" maxW="900px" justifyContent="center" flexWrap="nowrap">
                 {allPokemon.map(poke => {
                     const isSelected = selectedIds.includes(poke.id)
                     const orderIdx = selectedIds.indexOf(poke.id)
@@ -181,12 +184,15 @@ export default function JourneySelection() {
                             <Text fontSize="2xs" color="gray.400">Lv.{poke.level}</Text>
                             <Text fontSize="2xs" color="cyan.400">EXP: {poke.exp ?? 0}/{EXP_TO_LEVEL}</Text>
 
+                            {/* Rank */}
+                            <PokeRarity rarity={poke.rarity?.rarity ?? 0} />
+
                             {/* Stats */}
                             <PokeStats poke={poke} isMini hideIndicators />
                         </Flex>
                     )
                 })}
-            </SimpleGrid>
+            </Flex>
 
             {/* Start button */}
             <Button

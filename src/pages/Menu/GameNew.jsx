@@ -1,4 +1,4 @@
-import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Text, Tooltip } from "@chakra-ui/react";
+import { Button, Flex, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Text, Tooltip } from "@chakra-ui/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import socket from "@client";
@@ -13,6 +13,7 @@ export default function GameNew() {
     const [shinyChance, setShinyChance] = useState(gameConfig.shinyChance.default)
     const [catchDifficulty, setCatchDifficulty] = useState(gameConfig.catchDifficulty.default + 1) // Display 1-4, store 0-3
     const [journeyTeamLength] = useState(gameConfig.journeyTeamLength.default)
+    const [gymRegion, setGymRegion] = useState(gameConfig.gymRegion.default)
     const [formInvalid, setFormInvalid] = useState(true)
     const generation = gameConfig.generation.default;
     const mixedGroups = gameConfig.mixedGroups.default;
@@ -168,6 +169,26 @@ export default function GameNew() {
                 </Flex>
             </Flex>
 
+            <Flex justifyContent="space-between" alignItems="center" gap={4} mb={2}>
+                <Flex flex={1} justifyContent="space-between" alignItems="center">
+                    <Tooltip label={t('config.gymRegionTooltip')} placement="top" hasArrow>
+                        <Text fontSize="2xs" cursor="help">{t('config.gymRegion')}</Text>
+                    </Tooltip>
+                    <Select
+                        w={52}
+                        size="sm"
+                        value={gymRegion}
+                        onChange={(e) => setGymRegion(e.target.value)}
+                    >
+                        {gameConfig.gymRegion.options.map(opt => (
+                            <option key={opt.value} value={opt.value}>
+                                {t(`config.region_${opt.value}`)}
+                            </option>
+                        ))}
+                    </Select>
+                </Flex>
+            </Flex>
+
             <Button w="100%" fontSize="2xl" h={12} my={6} isDisabled={formInvalid} onClick={() => {
 
                 socket.emit('session-new', ({
@@ -180,7 +201,8 @@ export default function GameNew() {
                     gameDifficulty: catchDifficulty - 1,
                     generation,
                     mixedGroups,
-                    journeyTeamLength
+                    journeyTeamLength,
+                    gymRegion
                 }))
 
             }}>{t('menu.createGame')}</Button>

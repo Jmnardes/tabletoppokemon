@@ -27,7 +27,7 @@ export default function PokeTeam({ bag, challenge = false }) {
                         <Box key={poke.id} flex="1" minW={0} maxW="215px">
                             <Card
                                 poke={poke}
-                                bag={bag && teamIds.length > 1}
+                                bag={bag && teamIds.length > 3}
                                 challenge={challenge}
                                 size="L"
                             />

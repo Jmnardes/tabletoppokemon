@@ -94,7 +94,7 @@ export default function GymBattleScreen({
                 } : {}}
             >
                 <Image
-                    src={pokemon.sprites?.mini || pokemon.sprites?.front}
+                    src={pokemon.sprites?.front}
                     w="40px"
                     h="40px"
                     filter={isDefeated ? "grayscale(100%)" : "none"}

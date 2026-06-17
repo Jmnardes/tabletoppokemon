@@ -13,14 +13,16 @@ import JourneyPreviewPanel from "@features/journey/JourneyPreviewPanel";
 import JourneyScreen from "@features/journey/JourneyScreen";
 import JourneySelection from "@features/journey/JourneySelection";
 import BattleScreen from "@game/modals/EventModals/BattleModal";
+import GymScreen from "@game/modals/Gym/GymScreen";
 import SettingsPanel from "@game/header/Buttons/Settings/SettingsPanel";
 import { FaArrowRight, FaCheck } from "react-icons/fa";
 
 import battleIcon from '@assets/images/game/battle.png';
-import stepsIcon from '@assets/images/game/steps.png';
+import stepsIcon from '@assets/images/game/direction.png';
 import bagIcon from '@assets/images/game/bag.png';
+import gymIcon from '@assets/images/game/crown.png';
 
-function getNextTurnPhases(turn, battleFrequency = 3) {
+function getNextTurnPhases(turn, battleFrequency = 3, hasGym = false) {
     const nextTurn = (turn || 0) + 1
     if (nextTurn <= 1) return ['journey', 'freeActions']
     const phases = []
@@ -28,6 +30,7 @@ function getNextTurnPhases(turn, battleFrequency = 3) {
     phases.push('freeActions')
     phases.push('journey')
     phases.push('freeActions')
+    if (hasGym) phases.push('gym')
     return phases
 }
 
@@ -47,12 +50,14 @@ const PHASE_ICONS = {
     battle: battleIcon,
     journey: stepsIcon,
     freeActions: bagIcon,
+    gym: gymIcon,
 }
 
 const PHASE_LABELS = {
     battle: 'Battle',
-    journey: 'Journey',
+    journey: 'Route',
     freeActions: 'Free',
+    gym: 'Gym',
 }
 
 function PhaseNode({ phase, state }) {
@@ -118,7 +123,7 @@ function PhaseConnector({ isPast }) {
 }
 
 function BottomBar() {
-    const { advancePhase, teamIds, bagDirty, turnPhases, currentPhaseIndex, session } = useContext(PlayerContext)
+    const { advancePhase, teamIds, bagDirty, turnPhases, currentPhaseIndex, session, gym } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
@@ -126,12 +131,13 @@ function BottomBar() {
     const needsFullTeam = teamIds.length < minTeamSize
     const isTurnDisabled = needsFullTeam || bagDirty
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
-    const nextTurnPhases = getNextTurnPhases(session.turns, session.battleFrequency)
+    const nextTurnPhases = getNextTurnPhases(session.turns, session.battleFrequency, !!gym)
 
     const getButtonLabel = () => {
         if (!nextPhase) return t('action.endTurn')
         if (nextPhase === 'journey') return t('action.startJourney')
         if (nextPhase === 'freeActions') return t('common.continue')
+        if (nextPhase === 'gym') return t('action.challengeGym')
         return t('action.next')
     }
 
@@ -228,6 +234,14 @@ export default function GameContent() {
         return (
             <Flex flex="1">
                 <JourneyScreen />
+            </Flex>
+        )
+    }
+
+    if (currentPhase === 'gym') {
+        return (
+            <Flex flex="1">
+                <GymScreen />
             </Flex>
         )
     }

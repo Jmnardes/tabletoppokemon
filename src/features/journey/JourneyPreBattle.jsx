@@ -8,6 +8,7 @@ import Card from "@features/pokemon/Card"
 import PokeStats from "@features/pokemon/PokeStats"
 import AppliedItems from "@features/pokemon/AppliedItems"
 import { healAnimation } from "@utils/animations"
+import { fmt } from "@utils"
 
 import potionIcon from '@assets/images/items/potion.png'
 import superPotionIcon from '@assets/images/items/super-potion.png'
@@ -181,11 +182,30 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
     return (
         <Flex flex="1" direction="column" align="center" w="100%" maxW="900px">
             <Text fontSize="xl" mb={1}>
-                {t('journey.round', { round: journeyState.round, current: wildDefeatedCount + 1, total: stagesToWin })}
+                {t('journey.round', { round: journeyState.round, current: wildDefeatedCount, total: stagesToWin })}
             </Text>
             <Text fontSize="xs" color="gray.400" mb={4}>
-                {t('journey.levelN', { level: journeyState.level })}
+                {t('journey.levelN', { level: (journeyState.level ?? 0) + 1 })}
             </Text>
+
+            {/* Element type chart - fixed left edge */}
+            <VStack
+                spacing={1}
+                display={{ base: 'none', md: 'flex' }}
+                position="fixed"
+                left="0"
+                top="50%"
+                transform="translateY(-50%)"
+                bg="gray.700"
+                borderRightRadius="lg"
+                py={2}
+                px={1}
+                zIndex={10}
+            >
+                {['bug','dark','dragon','electric','fairy','fighting','fire','flying','ghost','grass','ground','ice','normal','psychic','poison','rock','steel','water'].map(el => (
+                    <Element key={el} element={el} elementTable w={5} h={5} />
+                ))}
+            </VStack>
 
             {/* Main layout: Player left, Wild right */}
             <Flex w="100%" direction={{ base: 'column', md: 'row' }} gap={6} mb={4} align="flex-start">
@@ -259,7 +279,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                                 borderRadius="full"
                                             />
                                             <Text fontSize="2xs" color={hpPercent > 50 ? 'green.400' : (hpPercent > 20 ? 'yellow.400' : 'red.400')}>
-                                                {currentHp}/{maxHp}
+                                                {fmt(currentHp)}/{fmt(maxHp)}
                                             </Text>
                                         </HStack>
                                         {!isDefeated && (
@@ -358,7 +378,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                                                         colorScheme="red"
                                                         borderRadius="full"
                                                     />
-                                                    <Text fontSize="2xs" color="red.400">0/{maxHp}</Text>
+                                                    <Text fontSize="2xs" color="red.400">0/{fmt(maxHp)}</Text>
                                                 </HStack>
                                             </VStack>
                                         </HStack>
@@ -445,24 +465,47 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                         {(() => {
                             const wildTeam = journeyState.wildTeam || []
                             const allVisible = wildTeam.slice(wildIndex, wildIndex + visibleCount).filter(w => !w.hidden)
-                            const totalHidden = wildTeam.length - wildIndex - allVisible.length
-                            if (totalHidden <= 0) return null
+                            const hiddenPokemon = wildTeam.slice(wildIndex + allVisible.length)
+                            if (hiddenPokemon.length <= 0) return null
                             return (
                                 <VStack spacing={1}>
-                                    {Array.from({ length: totalHidden }).map((_, idx) => (
-                                        <Flex
+                                    {hiddenPokemon.map((wild, idx) => (
+                                        <Tooltip
                                             key={`hidden-${idx}`}
-                                            align="center"
-                                            justify="center"
-                                            bg="gray.700"
-                                            border="1px solid"
-                                            borderColor="whiteAlpha.200"
-                                            borderRadius={4}
-                                            w="28px"
-                                            h="28px"
+                                            isDisabled={!wild.revealed}
+                                            label={wild.revealed && (
+                                                <Flex direction="column" align="center" gap={1} p={1}>
+                                                    <Text fontSize="xs" fontWeight="bold">{wild.name}</Text>
+                                                    <Flex gap={1}>
+                                                        {wild.types?.map(el => (
+                                                            <Element key={el} element={el} w={3} h={3} />
+                                                        ))}
+                                                    </Flex>
+                                                    <Text fontSize="2xs">Lv.{wild.level}</Text>
+                                                </Flex>
+                                            )}
+                                            placement="left"
+                                            hasArrow
+                                            bg="gray.800"
+                                            borderRadius={6}
                                         >
-                                            <Text fontSize="xs" color="whiteAlpha.400">?</Text>
-                                        </Flex>
+                                            <Flex
+                                                align="center"
+                                                justify="center"
+                                                bg="gray.700"
+                                                border="1px solid"
+                                                borderColor={wild.revealed ? 'orange.600' : 'whiteAlpha.200'}
+                                                borderRadius={4}
+                                                w="28px"
+                                                h="28px"
+                                            >
+                                                {wild.revealed && wild.sprite ? (
+                                                    <Image src={wild.sprite} w="22px" h="22px" objectFit="contain" />
+                                                ) : (
+                                                    <Text fontSize="xs" color="whiteAlpha.400">?</Text>
+                                                )}
+                                            </Flex>
+                                        </Tooltip>
                                     ))}
                                 </VStack>
                             )

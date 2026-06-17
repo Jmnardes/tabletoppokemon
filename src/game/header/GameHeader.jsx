@@ -9,13 +9,13 @@ import crownIcon from '@assets/images/game/crown.png';
 import clockIcon from '@assets/images/game/clock.png';
 
 import bagIcon from '@assets/images/game/bag.png';
-import gymIconFallback from '@assets/images/game/battle.png';
+import gymIconFallback from '@assets/images/game/crown.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import fightIcon from '@assets/images/training/dummy.png';
 import chipIcon from '@assets/images/game/chip.png';
 import farmIcon from '@assets/images/farm/sprout.png';
 import craftIcon from '@assets/images/craft/machine-on.png';
-import stepsIcon from '@assets/images/game/steps.png';
+import stepsIcon from '@assets/images/game/direction.png';
 import settingsIcon from '@assets/images/game/settings.png';
 
 import tokenIcon from '@assets/images/game/coin.png'
@@ -135,7 +135,7 @@ export default function GameHeader() {
                 <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center">
                     <StatItem icon={tokenIcon} title={t('items.daycareTokens')} value={player.daycare?.token ?? 0} />
                     <StatItem icon={dustIcon} title={t('items.dust')} value={player.items.dust} />
-                    <StatItem icon={lureIcon} title={t('items.shinyIncense')} value={player.items.incense} />
+                    <StatItem icon={lureIcon} title={t('items.incense')} value={player.items.incense} />
 
                     <Box w="1px" h="20px" bg="gray.500" mx={1} />
 

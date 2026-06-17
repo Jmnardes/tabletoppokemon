@@ -7,8 +7,8 @@ export const gameConfig = {
     
     badgesToWin: {
         default: 3,
-        min: 2,
-        max: 7,
+        min: 3,
+        max: 8,
         step: 1,
         tooltip: 'Quantidade de badges necessárias para acabar o jogo.',
     },
@@ -73,6 +73,19 @@ export const gameConfig = {
         step: 1,
         tooltip: 'Quantidade de pokémons que você pode levar na jornada.',
     },
+
+    gymRegion: {
+        default: 'totalRandom',
+        options: [
+            { value: 'kanto', label: 'Kanto' },
+            { value: 'johto', label: 'Johto' },
+            { value: 'hoenn', label: 'Hoenn' },
+            { value: 'sinnoh', label: 'Sinnoh' },
+            { value: 'randomRegion', label: 'Random Region' },
+            { value: 'totalRandom', label: 'Total Random' },
+        ],
+        tooltip: 'Gyms only',
+    },
 };
 
 export const getDefaultGameConfig = () => ({
@@ -86,6 +99,7 @@ export const getDefaultGameConfig = () => ({
     generation: gameConfig.generation.default,
     mixedGroups: gameConfig.mixedGroups.default,
     journeyTeamLength: gameConfig.journeyTeamLength.default,
+    gymRegion: gameConfig.gymRegion.default,
 });
 
 export const validateTrainerName = (name) => {

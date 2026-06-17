@@ -7,12 +7,12 @@ import Card from "@features/pokemon/Card"
 import { PokeRarity } from "@features/pokemon/PokemonRarity"
 
 export default function GymPreBattle({ gym, onStartBattle }) {
-    const { getTeamPokemons, getBoxPokemons } = useContext(PlayerContext)
+    const { getTeamPokemons } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
     const [selectedPokemons, setSelectedPokemons] = useState([])
 
-    const allPokemons = [...getTeamPokemons(), ...getBoxPokemons()]
+    const allPokemons = getTeamPokemons()
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
     const selectedBg = colorMode === 'light' ? "blue.200" : "blue.600"
 
@@ -207,6 +207,35 @@ export default function GymPreBattle({ gym, onStartBattle }) {
             >
                 {t('gym.startBattle')}
             </Button>
+
+            {/* Leader Team Preview */}
+            {gym.leaderTeam && gym.leaderTeam.length > 0 && (
+                <VStack spacing={2} w="100%">
+                    <Text fontSize="sm" fontWeight="bold" color="red.300">{t('gym.leaderTeam')}</Text>
+                    <Flex gap={2} justify="center" flexWrap="wrap">
+                        {gym.leaderTeam.map((pokemon, index) => (
+                            <Flex
+                                key={index}
+                                bg={bgColor}
+                                p={2}
+                                borderRadius={8}
+                                flexDirection="column"
+                                alignItems="center"
+                                minW="80px"
+                            >
+                                <Image src={pokemon.sprites?.front} w="56px" h="56px" fallback={<Text>?</Text>} />
+                                <Text fontSize="2xs" fontWeight="bold" textAlign="center">{pokemon.name}</Text>
+                                <HStack spacing={1} mt={0.5}>
+                                    {pokemon.types?.map((type, idx) => (
+                                        <Element key={idx} element={type} size={12} />
+                                    ))}
+                                </HStack>
+                                <Badge fontSize="2xs" colorScheme="blue">Lv {pokemon.level}</Badge>
+                            </Flex>
+                        ))}
+                    </Flex>
+                </VStack>
+            )}
         </VStack>
     )
 }

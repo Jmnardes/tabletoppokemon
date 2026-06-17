@@ -40,17 +40,17 @@
 
   "lobby": {
     "gameObjective": "Objetivo do Jogo",
-    "winBadges": "Ganhe {{count}} badges para encerrar o jogo",
-    "highestRanking": "Primeiro a conquistar todas as badges vence",
+    "firstToWin": "O primeiro a conquistar {{count}} badges vence o jogo",
     "copyCode": "Copiar código",
     "catchDifficulty": "Dificuldade de captura",
     "shinyChance": "Chance de shiny %",
     "badgesToWin": "Badges para vencer",
     "teamLength": "Tamanho do time",
-    "stagesPerJourney": "Estágios/jornada",
-    "journeyTeam": "Time de jornada",
+    "stagesPerJourney": "Estágios/rota",
+    "journeyTeam": "Time de rota",
     "gymStrength": "Força do ginásio",
     "battleFrequency": "Frequência de batalha",
+    "gymRegion": "Região",
     "startGame": "Iniciar Jogo",
     "waitingPlayers": "Esperando outros jogadores...",
     "playerJoined": "{{name}} entrou na sala",
@@ -60,8 +60,8 @@
   "config": {
     "badgesToWin": "Badges para Vencer",
     "badgesToWinTooltip": "Quantidade de badges necessárias para acabar o jogo.",
-    "stagesPerJourney": "Estágios/Jornada",
-    "stagesPerJourneyTooltip": "Quantos pokémons selvagens você precisa derrotar para completar cada jornada. O total de pokémons na jornada será o dobro.",
+    "stagesPerJourney": "Estágios/Rota",
+    "stagesPerJourneyTooltip": "Quantos pokémons selvagens você precisa derrotar para completar cada rota. O total de pokémons na rota será o dobro.",
     "battleFrequency": "Frequência de Batalha",
     "battleFrequencyTooltip": "A cada quantos turnos terá uma batalha entre players. 0 = sem batalhas.",
     "gymStrengthBonus": "Força do Ginásio",
@@ -70,8 +70,16 @@
     "shinyChanceTooltip": "Porcentagem de chance do pokémon selvagem ser um shiny.",
     "catchDifficulty": "Dificuldade de Captura",
     "catchDifficultyTooltip": "Aumento da dificuldade de capturar o pokémon.",
-    "journeyTeamLength": "Time de Jornada",
-    "journeyTeamLengthTooltip": "Quantidade de pokémons que você pode levar na jornada."
+    "journeyTeamLength": "Time de Rota",
+    "journeyTeamLengthTooltip": "Quantidade de pokémons que você pode levar na rota.",
+    "gymRegion": "Região",
+    "gymRegionTooltip": "Apenas ginásios",
+    "region_kanto": "Kanto",
+    "region_johto": "Johto",
+    "region_hoenn": "Hoenn",
+    "region_sinnoh": "Sinnoh",
+    "region_randomRegion": "Região Aleatória",
+    "region_totalRandom": "Total Aleatório"
   },
 
   "settings": {
@@ -271,11 +279,11 @@
   "gameInfo": {
     "title": "Info do Jogo",
     "purpose": "Propósito",
-    "purposeText": "Este é um jogo não financeiro feito por um fã da série Pokémon.",
+    "purposeText": "PokéTactics é um jogo não financeiro, criado por um fã da série Pokémon. Sem anúncios, sem compras — apenas diversão.",
     "objective": "Objetivo",
-    "objectiveText": "O objetivo do jogo é ser o melhor Mestre Pokémon, conquistando todas as badges primeiro.",
-    "howItWorks": "Como funciona",
-    "howItWorksText": "Você joga contra outros para ganhar pontos vencendo batalhas, capturando Pokémons, completando tarefas e muito mais.",
+    "objectiveText": "Seja o primeiro a conquistar todas as badges do ginásio! Explore rotas para encontrar Pokémon selvagens, capture-os, treine seu time e desafie os líderes de ginásio.",
+    "howItWorks": "Como Funciona",
+    "howItWorksText": "Cada turno você pode explorar rotas, lutar contra Pokémon selvagens, capturar novos aliados, aplicar itens, treinar na academia, plantar berries e craftar. Quando o ginásio estiver disponível, desafie o líder para ganhar uma badge. Tudo acontece em tempo real contra outros jogadores — estratégia e timing fazem a diferença!",
     "inviteFriends": "Convide seus amigos e jogue agora!"
   },
 
@@ -283,7 +291,17 @@
     "perfect": "Perfeito!",
     "good": "Bom!",
     "ok": "Ok...",
-    "bad": "Ruim!"
+    "bad": "Ruim!",
+    "caught": "Capturado!",
+    "fled": "Fugiu!",
+    "fledDesc": "O pokémon fugiu da batalha!",
+    "stayed": "Escapou!",
+    "stayedDesc": "Escapou da pokébola! Tente novamente.",
+    "retry": "Tentar novamente",
+    "continue": "Continuar",
+    "replay": "Repetir",
+    "skipCapture": "Pular captura",
+    "skipCaptureDesc": "Pular a captura e seguir em frente. Essa ação não pode ser desfeita."
   },
 
   "elements": {
@@ -321,42 +339,43 @@
     "useItem": "Usar {{itemName}}",
     "selectPokemon": "Selecione um pokémon do seu time:",
     "daycareTokens": "Tokens do Daycare",
-    "shinyIncense": "Incenso shiny",
-    "shinyChance": "Chance shiny {{chance}}%"
+    "incense": "Incenso",
+    "incenseDesc": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota"
   },
 
   "confirmTeam": "Confirmar mudanças do time",
 
   "journey": {
-    "selectPokemon": "Selecione {{max}} Pokémon para sua jornada. A ordem importa — o primeiro lutará primeiro.",
-    "level": "Nível da Jornada: {{level}} — Pokémon {{current}}/{{total}}",
+    "selectPokemon": "Selecione {{max}} Pokémon para sua rota. A ordem importa — o primeiro lutará primeiro.",
+    "level": "Nível da Rota: {{level}} — Pokémon {{current}}/{{total}}",
     "wildPokemon": "Pokémon selvagens que você vai enfrentar",
-    "previewTitle": "Pré-visualização da Jornada",
+    "previewTitle": "Pré-visualização da Rota",
     "previewDefeated": "Derrotados",
     "previewRemaining": "Restantes",
     "previewNext": "Próximo",
     "noPreview": "Sem pré-visualização disponível",
-    "startJourney": "Iniciar Jornada ({{selected}}/{{max}})",
-    "round": "Round {{round}} — Luta {{current}}/{{total}}",
+    "startJourney": "Iniciar Rota ({{selected}}/{{max}})",
+    "round": "Rota {{round}} — Luta {{current}}/{{total}}",
     "levelN": "Nível {{level}}",
+    "routeN": "Rota {{route}}",
     "yourBattleOrder": "Sua Ordem de Batalha",
     "reorderBefore": "O primeiro pokémon vai lutar. Reordene antes de começar.",
     "potionTooltip": "{{label}} ({{heal}} HP) — {{count}} restante(s)",
     "defeated": "Derrotado ({{count}})",
     "opponent": "OPONENTE",
     "fight": "Lutar!",
-    "complete": "Jornada Completa",
+    "complete": "Rota Completa",
     "expSummaryTitle": "Resumo de Experiência",
-    "roundReached": "Round {{round}} alcançado",
-    "leaveJourney": "Sair da Jornada",
+    "roundReached": "Rota {{round}} alcançada",
+    "leaveJourney": "Sair da Rota",
     "checkpoint": "Checkpoint!",
-    "roundComplete": "Round {{round}} Completo",
+    "roundComplete": "Rota {{round}} Completa",
     "defeatedAll": "Você derrotou todos os {{count}} pokémon selvagens!",
     "clickToOpen": "Clique para abrir o baú!",
     "boxEarned": "+1 Pokebox!",
     "potions": "+{{amount}} Poções",
     "superPotion": "+{{amount}} Super Poção",
-    "exitJourney": "Sair da Jornada",
+    "exitJourney": "Sair da Rota",
     "noPokemonToCapture": "Nenhum pokémon para capturar",
     "loadingBattle": "Carregando batalha...",
     "wildDefeated": "🎉 Pokémon Selvagem Derrotado!",
@@ -369,7 +388,7 @@
     "sendToBack": "Enviar p/ final",
     "sendToBackUsed": "Já usado nesta rodada",
     "sendToBackTooltip": "Envia o pokémon para o final da fila e puxa o próximo.",
-    "sendToBackExplain": "Você pode enviar pokémons para o final da fila no início da jornada ou a cada pokémon que derrotar.",
+    "sendToBackExplain": "Você pode enviar pokémons para o final da fila no início da rota ou a cada pokémon que derrotar.",
     "sendToBackUsedExplain": "Derrote um pokémon para liberar novamente.",
     "hiddenPokemon": "Pokémon desconhecido",
     "selectOpponent": "Selecione o oponente",
@@ -433,14 +452,18 @@
     "leaveGym": "Sair do Ginásio",
     "awarding": "Premiando...",
     "skip": "Pular",
-    "reachStage": "Ao chegar na etapa {{stage}} da jornada, venha me desafiar! A partir desse momento, poderá me desafiar todo turno.",
+    "skipGym": "Não enfrentar esse turno",
+    "skipGymHint": "Não gasta nada enfrentando ginásio",
+    "reachStage": "Ao chegar na etapa {{stage}} da rota, venha me desafiar! A partir desse momento, poderá me desafiar todo turno.",
     "expPerPokemonReward": "+5 EXP por pokémon",
-    "berries3": "+3 berries"
+    "berries3": "+3 berries",
+    "routeTitle": "Rota de Ginásios",
+    "defeated": "Derrotado"
   },
 
   "action": {
     "endTurn": "Finalizar Turno",
-    "startJourney": "Iniciar Jornada",
+    "startJourney": "Iniciar Rota",
     "next": "Próximo",
     "bag": "Bolsa",
     "items": "Itens",
@@ -450,11 +473,12 @@
     "craft": "Craft",
     "augments": "Augmentos",
     "gym": "Ginásio",
-    "journey": "Jornada",
+    "journey": "Rota",
     "needPokemon": "Você precisa de 3 pokémons no time",
     "confirmTeamFirst": "Confirme seu time primeiro",
     "pokeBag": "Poké Bolsa",
-    "needPokemonInTeam": "Você precisa de {{count}} pokémons no time"
+    "needPokemonInTeam": "Você precisa de {{count}} pokémons no time",
+    "challengeGym": "Enfrentar Ginásio"
   },
 
   "team": {
@@ -469,10 +493,10 @@
   },
 
   "bag": {
-    "pokemonHint": "Você pode trocar os pokémons da bag para o time para enfrentar a jornada",
+    "pokemonHint": "Você pode trocar os pokémons da bag para o time para enfrentar a rota",
     "itemsHint": "Você pode aplicar os itens nos pokémons para melhorar suas estatísticas",
     "yourTeam": "Seu Time",
-    "teamTooltip": "Seu time principal, você deve ter no mínimo 3 pokémons e no máximo 6. Durante a jornada, batalhas e ginásios você só poderá usar 3 pokémons, mas poderá escolher os 3 dentre os 6 do seu time."
+    "teamTooltip": "Seu time principal, você deve ter no mínimo 3 pokémons e no máximo 6. Durante a rota, batalhas e ginásios você só poderá usar 3 pokémons, mas poderá escolher os 3 dentre os 6 do seu time."
   },
 
   "taskBoard": {
@@ -546,9 +570,10 @@
       "dust": "Usado para dar EXP a um Pokémon.",
       "greatball": "+3 bônus de captura. Melhor que a Pokébola.",
       "ultraball": "+6 bônus de captura. Muito eficaz.",
-      "potion": "Cura 25% do HP na Jornada.",
-      "superPotion": "Cura 50% do HP na Jornada.",
-      "hyperPotion": "Cura 80% do HP na Jornada."
+      "potion": "Cura 25% do HP na Rota.",
+      "superPotion": "Cura 50% do HP na Rota.",
+      "hyperPotion": "Cura 80% do HP na Rota.",
+      "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota."
     }
   }
 }

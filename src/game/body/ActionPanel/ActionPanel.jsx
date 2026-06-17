@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
 import bagIcon from '@assets/images/game/bag.png';
-import gymIcon from '@assets/images/game/battle.png';
+import gymIcon from '@assets/images/game/crown.png';
 import dayCareIcon from '@assets/images/game/heart_ball.png';
 import fightIcon from '@assets/images/training/dummy.png';
 import chipIcon from '@assets/images/game/chip.png';

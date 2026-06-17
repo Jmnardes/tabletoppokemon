@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import BattleLog from "./BattleLog";
 import { battleLogMessage, colorByHitType } from "@utils/battle";
-import { stringToUpperCase } from "@utils";
+import { stringToUpperCase, fmt } from "@utils";
 import { winAnimation, hitAnimation, critHitAnimation, defAnimation, missAnimation, textAnimation, littleBounceAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations";
 import { getAttackSprite } from "@utils/attackSprites";
 
@@ -155,7 +155,7 @@ export default function BattleScreen({
               e.target.style.opacity = 0
             }}
           >
-            {battleLog[currentLogIndex].damage > 0 ? `${battleLog[currentLogIndex].damage}` : "MISS"}
+            {battleLog[currentLogIndex].damage > 0 ? `${fmt(battleLog[currentLogIndex].damage)}` : "MISS"}
           </Text>
         )}
 
@@ -188,7 +188,7 @@ export default function BattleScreen({
             bottom={3.5}
             fontSize={"x-small"}
           >
-            {hp}/{maxHp}
+            {fmt(hp)}/{fmt(maxHp)}
           </Text>
         </Box>
         
@@ -208,7 +208,7 @@ export default function BattleScreen({
               e.target.style.opacity = 0
             }}
           >
-            {battleLog[currentLogIndex].damage > 0 ? `${battleLog[currentLogIndex].damage}` : "MISS"}
+            {battleLog[currentLogIndex].damage > 0 ? `${fmt(battleLog[currentLogIndex].damage)}` : "MISS"}
           </Text>
         )}
       </Center>

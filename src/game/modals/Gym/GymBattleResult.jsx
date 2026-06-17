@@ -1,23 +1,13 @@
 import { VStack, HStack, Text, Button, Flex, Image, useColorMode, Center } from "@chakra-ui/react"
-import { useContext } from "react"
 import { useTranslation } from "react-i18next"
-import PlayerContext from "@context/PlayerContext"
 import ultraboxIcon from '@assets/images/box/ultrabox-closed.png'
 
 export default function GymBattleResult({ victory, gym, reward, onClose, onRetry, canRetry = true, leveledUpPokemons = [] }) {
     const { colorMode } = useColorMode()
-    const { setLoading, playerWinPrize } = useContext(PlayerContext)
     const { t } = useTranslation()
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
 
-    const handleClose = async () => {
-        if (victory && reward) {
-            setLoading({ loading: true, text: t('gym.awarding') })
-            // Badge increment is handled by the server on gym-victory event
-            // await updateStatus('badges') // REMOVED: This was causing duplicate badge increments
-            await playerWinPrize(reward)
-            setLoading({ loading: false })
-        }
+    const handleClose = () => {
         onClose()
     }
 

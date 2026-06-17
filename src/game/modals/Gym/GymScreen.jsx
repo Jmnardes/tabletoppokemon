@@ -16,6 +16,7 @@ export default function GymScreen() {
         emit,
         setLoading,
         getPokemon,
+        setPlayer,
         lastGymBattleTurn,
         setLastGymBattleTurn,
         setGym,
@@ -173,6 +174,9 @@ export default function GymScreen() {
         socket.on('gym-victory', (res) => {
             setShouldClearGym(true)
             setNextGym(res.nextGym || null)
+            if (res.boxes) {
+                setPlayer(prev => ({ ...prev, boxes: res.boxes }))
+            }
             setVictoryRewards({
                 leveledUpPokemons: res.leveledUpPokemons || [],
             })
@@ -187,7 +191,7 @@ export default function GymScreen() {
                 clearTimeout(loadingTimeoutRef.current)
             }
         }
-    }, [setLoading, getPokemon, setGym, setNextGym])
+    }, [setLoading, getPokemon, setGym, setNextGym, setPlayer])
 
     const handleStartBattle = (pokemonIds) => {
         emit('gym-battle-start', { playerPokemonIds: pokemonIds })

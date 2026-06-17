@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionModal";
 import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
+import PassiveEconomyTooltip from "./Trainer/PassiveEconomyTooltip";
 import { FaExclamationCircle } from "react-icons/fa";
 import crownIcon from '@assets/images/game/crown.png';
 import clockIcon from '@assets/images/game/clock.png';
+import shopIcon from '@assets/images/game/shop.png';
 
 import bagIcon from '@assets/images/game/bag.png';
 import gymIconFallback from '@assets/images/game/crown.png';
@@ -37,7 +39,7 @@ const StatItem = ({ icon, title, value }) => (
 )
 
 export default function GameHeader() {
-    const { player, game, session, activeTab, setActiveTab, farm, craft, gym, nextGym, bagDirty } = useContext(PlayerContext)
+    const { player, game, session, activeTab, setActiveTab, farm, craft, gym, nextGym } = useContext(PlayerContext)
 
     const getBadgeIcon = (badgeName) => {
         if (!badgeName) return null
@@ -63,7 +65,7 @@ export default function GameHeader() {
             <Center
                 as="button"
                 onClick={() => setActiveTab(tab)}
-                disabled={isActive || (bagDirty && tab !== 'bag')}
+                disabled={isActive}
                 w={buttonSize}
                 h={buttonSize}
                 borderRadius={isActive ? "8px 8px 0 0" : "8px"}
@@ -71,7 +73,7 @@ export default function GameHeader() {
                 border="none"
                 mb={isActive ? "-2px" : "0"}
                 pb={isActive ? "2px" : "0"}
-                opacity={(isActive || (bagDirty && tab !== 'bag')) ? (isActive ? 1 : 0.4) : 0.75}
+                opacity={isActive ? 1 : 0.75}
                 cursor={isActive ? "default" : "pointer"}
                 transition="all 0.15s ease"
                 _hover={!isActive ? { opacity: 1 } : {}}
@@ -119,6 +121,13 @@ export default function GameHeader() {
                     <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">
                         <Flex alignItems="center" mx={2} cursor="pointer">
                             <FaExclamationCircle size={20} color="orange" />
+                        </Flex>
+                    </Tooltip>
+                )}
+                {!game.hasEnded && (
+                    <Tooltip label={<PassiveEconomyTooltip />} p={0} borderRadius={8} background="none">
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <Image src={shopIcon} w="20px" />
                         </Flex>
                     </Tooltip>
                 )}

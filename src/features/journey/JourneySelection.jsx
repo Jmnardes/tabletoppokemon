@@ -72,7 +72,7 @@ export default function JourneySelection() {
 
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                {t('journey.level', { level: (session.level ?? 0) + 1, current: wildDefeatedCount + 1, total: stagesToWin })}
+                {t('journey.level', { level: session.level ?? 1, current: wildDefeatedCount + 1, total: stagesToWin })}
             </Badge>
 
             {/* Wild pokemon preview */}

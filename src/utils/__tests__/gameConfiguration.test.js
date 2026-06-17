@@ -7,8 +7,8 @@ describe('gameConfig', () => {
   })
 
   it('has valid badgesToWin range', () => {
-    expect(gameConfig.badgesToWin.min).toBe(2)
-    expect(gameConfig.badgesToWin.max).toBe(10)
+    expect(gameConfig.badgesToWin.min).toBe(3)
+    expect(gameConfig.badgesToWin.max).toBe(8)
     expect(gameConfig.badgesToWin.default).toBe(3)
   })
 

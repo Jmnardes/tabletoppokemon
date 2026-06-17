@@ -14,7 +14,7 @@ import craftIcon from '@assets/images/craft/machine-on.png';
 import { FaArrowRight } from "react-icons/fa";
 
 export default function ActionPanel() {
-    const { activeTab, setActiveTab, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft, bagDirty } = useContext(PlayerContext)
+    const { activeTab, setActiveTab, teamIds, player, gym, advancePhase, turnPhases, currentPhaseIndex, farm, craft } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
@@ -23,7 +23,7 @@ export default function ActionPanel() {
     
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
     
-    const isTurnDisabled = needsFullTeam || bagDirty
+    const isTurnDisabled = needsFullTeam
 
     const getButtonLabel = () => {
         if (!nextPhase) return t('action.endTurn')
@@ -39,7 +39,7 @@ export default function ActionPanel() {
             onClick={() => setActiveTab(tab)}
             variant={activeTab === tab ? "solid" : "outline"}
             colorScheme={activeTab === tab ? "blue" : "gray"}
-            isDisabled={activeTab === tab || (bagDirty && tab !== 'bag')}
+            isDisabled={activeTab === tab}
             overflow="visible"
             transition="all 0.15s ease"
             _hover={{ transform: 'scale(1.15)', filter: 'brightness(1.3)' }}
@@ -90,7 +90,7 @@ export default function ActionPanel() {
                     colorScheme="green"
                     onClick={advancePhase}
                     isDisabled={isTurnDisabled}
-                    title={needsFullTeam ? t('action.needPokemon') : bagDirty ? t('action.confirmTeamFirst') : getButtonLabel()}
+                    title={needsFullTeam ? t('action.needPokemon') : getButtonLabel()}
                 >
                     <FaArrowRight size="20px" color="white" />
                 </Button>

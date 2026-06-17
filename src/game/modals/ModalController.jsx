@@ -99,6 +99,9 @@ export default function ModalController() {
             // Update items (incense may have been consumed)
             if (res.items) setPlayer(prev => ({ ...prev, items: res.items }))
 
+            // Update daycare tokens (passive token generation)
+            if (res.daycare) setPlayer(prev => ({ ...prev, daycare: res.daycare }))
+
             // Farm notifications
             if (res.farmNotifications?.length) {
                 res.farmNotifications.forEach(n => {

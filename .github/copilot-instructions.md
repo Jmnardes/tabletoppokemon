@@ -136,3 +136,13 @@ src/
 - **React Icons / Phosphor** — ícones
 - **Recharts** — gráficos de estatísticas
 - **React Select + chakra-react-select** — selects customizados
+
+## Contract Tests (Front ↔ Back Sync)
+
+- Arquivos de contrato: `*.contract.test.js` dentro de `__tests__/`.
+- Cada contract test define uma constante com os campos/valores esperados do outro lado (ex: `PLAYER_CONTRACT_FIELDS`).
+- A MESMA constante (mesmo nome, mesmos valores) deve existir no teste espelho do repositório `poketactics-server`.
+- Se um contract test for alterado neste repo, o teste correspondente no server DEVE ser atualizado.
+- Contract tests validam: enums (chaves e valores), factory shapes (campos obrigatórios), response shapes.
+- Convenção de nome da constante: `[ENTITY]_CONTRACT_[TYPE]` (ex: `PLAYER_CONTRACT_FIELDS`, `TASK_TYPE_CONTRACT_KEYS`).
+- Nunca remover ou renomear uma constante `_CONTRACT_` sem atualizar o repo espelho.

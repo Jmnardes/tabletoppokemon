@@ -1,1 +1,2 @@
 npx lint-staged
+npx react-app-rewired test --watchAll=false --bail

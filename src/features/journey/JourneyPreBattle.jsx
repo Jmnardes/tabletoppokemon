@@ -22,7 +22,7 @@ const POTIONS = [
     { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '80%', icon: hyperPotionIcon },
 ]
 
-export default function JourneyPreBattle({ journeyState, onFightStart, setJourneyState }) {
+export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRoute, setJourneyState }) {
     const { t } = useTranslation()
     const { player, session, setPlayer, pokemonData } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
@@ -58,6 +58,19 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
     const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? true)
     const [sendingBack, setSendingBack] = useState(false)
     const [selectedWildIndex, setSelectedWildIndex] = useState(null)
+
+    // Threat system
+    const threat = journeyState.threat ?? 0
+    const THREAT_LABELS = [
+        { key: 'threatCalm', color: 'green' },
+        { key: 'threatAnnoyed', color: 'yellow' },
+        { key: 'threatHeated', color: 'orange' },
+        { key: 'threatEnraged', color: 'red' },
+        { key: 'threatFurious', color: 'purple' },
+    ]
+    const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
+    const threatLabel = t(`journey.${threatData.key}`)
+    const threatColor = threatData.color
 
     const bgCard = colorMode === 'light' ? 'gray.100' : 'gray.700'
     const bgActive = colorMode === 'light' ? 'blue.100' : 'blue.800'
@@ -145,6 +158,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                         wildTeam: result.wildTeam || prev.wildTeam,
                         canSendBack: result.canSendBack ?? prev.canSendBack,
                         wildDefeatedCount: result.wildDefeatedCount ?? prev.wildDefeatedCount,
+                        threat: result.threat ?? prev.threat,
                     }))
                 }
                 if (result.canSendBack != null) setCanSendBack(result.canSendBack)
@@ -184,9 +198,24 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
             <Text fontSize="xl" mb={1}>
                 {t('journey.round', { round: journeyState.round, current: wildDefeatedCount, total: stagesToWin })}
             </Text>
-            <Text fontSize="xs" color="gray.400" mb={4}>
-                {t('journey.levelN', { level: (journeyState.level ?? 0) + 1 })}
+            <Text fontSize="xs" color="gray.400" mb={2}>
+                {t('journey.levelN', { level: journeyState.level ?? 1 })}
             </Text>
+
+            {/* Threat Badge */}
+            <Tooltip label={t('journey.threatTooltip')} fontSize="xs" hasArrow>
+                <Badge
+                    colorScheme={threatColor}
+                    fontSize="xs"
+                    px={3}
+                    py={1}
+                    borderRadius="full"
+                    mb={4}
+                    cursor="help"
+                >
+                    {threatLabel}
+                </Badge>
+            </Tooltip>
 
             {/* Element type chart - fixed left edge */}
             <VStack
@@ -520,15 +549,27 @@ export default function JourneyPreBattle({ journeyState, onFightStart, setJourne
                 </Flex>
             </Flex>
 
-            <Button
-                colorScheme="red"
-                size="lg"
-                onClick={startFight}
-                isLoading={loading}
-                isDisabled={selectedWildIndex == null}
-            >
-                {t('journey.startFight')}
-            </Button>
+            <Flex gap={3} align="center">
+                <Tooltip label={t('journey.leaveRouteTooltip')} fontSize="xs" hasArrow>
+                    <Button
+                        colorScheme="gray"
+                        size="lg"
+                        variant="outline"
+                        onClick={onLeaveRoute}
+                    >
+                        {t('journey.leaveRoute')}
+                    </Button>
+                </Tooltip>
+                <Button
+                    colorScheme="red"
+                    size="lg"
+                    onClick={startFight}
+                    isLoading={loading}
+                    isDisabled={selectedWildIndex == null}
+                >
+                    {t('journey.startFight')}
+                </Button>
+            </Flex>
         </Flex>
     )
 }

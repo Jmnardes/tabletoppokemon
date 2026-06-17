@@ -90,7 +90,9 @@
 
   "header": {
     "currentTurn": "Número do turno atual",
-    "badges": "Badges"
+    "badges": "Badges",
+    "passiveEconomy": "Economia passiva",
+    "passiveEconomyDesc": "+1 token a cada 10 níveis, max +5"
   },
 
   "toast": {
@@ -124,7 +126,8 @@
     "errorSelectingKit": "Erro ao selecionar kit",
     "connectionError": "Erro de conexão. Tente novamente.",
     "errorUsingPokeball": "Erro ao usar Pokébola",
-    "capturingPokemon": "Capturando pokémon..."
+    "capturingPokemon": "Capturando pokémon...",
+    "reconnecting": "Tentando recuperar sessão..."
   },
 
   "encounter": {
@@ -392,7 +395,16 @@
     "sendToBackUsedExplain": "Derrote um pokémon para liberar novamente.",
     "hiddenPokemon": "Pokémon desconhecido",
     "selectOpponent": "Selecione o oponente",
-    "startFight": "Começar luta!"
+    "startFight": "Começar luta!",
+    "threatCalm": "Calmo",
+    "threatAnnoyed": "Incomodado",
+    "threatHeated": "Esquentado",
+    "threatEnraged": "Raivoso",
+    "threatFurious": "Enfurecido",
+    "threatTooltip": "Pokémon selvagens ficam mais fortes conforme você derrota mais. Saia da rota para a ameaça diminuir.",
+    "leaveRoute": "Deixar Rota",
+    "leaveRouteTooltip": "Sair sem lutar. Ameaça diminui -2 a cada turno.",
+    "expBonusAlive": "Apenas pokémon vivos recebem +1 EXP bônus ao final."
   },
 
   "gym": {
@@ -566,10 +578,10 @@
     "releaseError": "Erro ao enviar pokémon",
     "connectionError": "Erro de conexão. Tente novamente.",
     "desc": {
-      "pokeball": "Uma Pokébola básica para capturar pokémon.",
+      "pokeball": "Boa para pokémons iniciais, mas inconsistente com pokémons médios.",
       "dust": "Usado para dar EXP a um Pokémon.",
-      "greatball": "+3 bônus de captura. Melhor que a Pokébola.",
-      "ultraball": "+6 bônus de captura. Muito eficaz.",
+      "greatball": "Boa para pokémons médios, mas inconsistente com pokémons fortes.",
+      "ultraball": "Boa para pokémons fortes, porém tem custo elevado.",
       "potion": "Cura 25% do HP na Rota.",
       "superPotion": "Cura 50% do HP na Rota.",
       "hyperPotion": "Cura 80% do HP na Rota.",

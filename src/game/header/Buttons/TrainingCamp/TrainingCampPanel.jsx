@@ -372,7 +372,7 @@ export default function TrainingCampPanel() {
                                     fontSize="sm"
                                     fontWeight="bold"
                                     onClick={handleUpgrade}
-                                    isDisabled={tokens < UPGRADE_COST}
+                                    isDisabled={tokens < UPGRADE_COST || !slots}
                                 >
                                     <FaArrowUp style={{ marginRight: 4 }} />
                                     Upgrade {UPGRADE_COST}

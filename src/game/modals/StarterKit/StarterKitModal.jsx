@@ -39,7 +39,7 @@ const classData = {
         emoji: '🎯',
         color: 'green.400',
         items: [
-            { icon: pokeballIcon, label: '+7 Pokéballs' },
+            { icon: pokeballIcon, label: '+14 Pokéballs' },
         ],
     },
     trainer: {

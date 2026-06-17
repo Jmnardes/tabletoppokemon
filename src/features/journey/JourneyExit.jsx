@@ -53,9 +53,12 @@ export default function JourneyExit({ journeyState, onLeave }) {
                 <Text fontSize="xl" fontWeight="bold" mb={2}>
                     {t('journey.expSummaryTitle')}
                 </Text>
-                <Badge colorScheme="blue" fontSize="md" mb={4} p={2} borderRadius={8}>
+                <Badge colorScheme="blue" fontSize="md" mb={2} p={2} borderRadius={8}>
                     {t('journey.roundReached', { round: journeyState.round })}
                 </Badge>
+                <Text fontSize="2xs" color="gray.400" mb={4}>
+                    {t('journey.expBonusAlive')}
+                </Text>
 
                 <VStack spacing={3} w="100%" mb={4}>
                     {expSummary.map((poke) => (

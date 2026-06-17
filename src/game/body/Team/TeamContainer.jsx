@@ -52,7 +52,7 @@ const fadeIn = keyframes`
 `
 
 export default function TeamContainer() {
-    const { boxIds, pokemonData, moveToTeam, teamIds, bagDirty, confirmBag, emit, handleToast, setPlayer, setBerries } = useContext(PlayerContext)
+    const { boxIds, pokemonData, moveToTeam, teamIds, emit, handleToast, setPlayer, setBerries } = useContext(PlayerContext)
     const { t } = useTranslation()
 
     const boxPokemons = boxIds.map(id => pokemonData[id]).filter(Boolean)
@@ -182,20 +182,6 @@ export default function TeamContainer() {
                             )
                         }) : (
                             <Text fontSize="2xs" color="whiteAlpha.400">—</Text>
-                        )}
-                        {bagDirty && (
-                            <Button
-                                colorScheme="yellow"
-                                size="xs"
-                                w={10}
-                                h={10}
-                                minW={10}
-                                borderRadius={6}
-                                onClick={confirmBag}
-                                title={t('team.confirmChanges')}
-                            >
-                                ✓
-                            </Button>
                         )}
                     </HStack>
                 </Box>

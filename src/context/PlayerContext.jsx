@@ -10,6 +10,7 @@ export function PlayerProvider({children}) {
     const toast = useToast()
     const { t } = useTranslation()
     const loadingWatchdogRef = useRef(null) // Watchdog timer to prevent infinite loading
+    const isReconnectingRef = useRef(false) // Prevent double resync on reconnection
     const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
@@ -33,7 +34,6 @@ export function PlayerProvider({children}) {
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
     const [activeTab, setActiveTab] = useState('bag')
-    const [bagDirty, setBagDirty] = useState(false)
     const [turnPhases, setTurnPhases] = useState([])
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
     // nextEvent removed — no longer shown in header
@@ -138,20 +138,70 @@ export function PlayerProvider({children}) {
     }, [player, session])
 
     /**
+     * Emit that reads credentials from localStorage instead of React state.
+     * Used only during reconnection bootstrap when React state is still empty.
+     */
+    const reconnectEmit = useCallback((name, data, timeout = 8000) => {
+        return new Promise((resolve, reject) => {
+            if (!socket.connected) {
+                reject(new Error('Socket not connected'))
+                return
+            }
+            const playerId = localStorage.getItem('playerId')
+            const sessionCode = localStorage.getItem('sessionCode')
+            if (!playerId || !sessionCode) {
+                reject(new Error('No stored credentials'))
+                return
+            }
+            const request = {
+                id: playerId,
+                sessionCode: sessionCode,
+                data,
+            }
+            const timer = setTimeout(() => {
+                reject(new Error(`Timeout on ${name}`))
+            }, timeout)
+            socket.emit(name, request, (response) => {
+                clearTimeout(timer)
+                if (response?.success) {
+                    resolve(response.result)
+                } else {
+                    reject(new Error(response?.error || 'Unknown error'))
+                }
+            })
+        })
+    }, [])
+
+    /**
      * RESYNC STRATEGY: Request full session snapshot from server
      * This prevents the UI from getting stuck when critical events are lost during disconnection.
      * Called automatically on reconnection and can be called manually when state seems inconsistent.
+     * 
+     * @param {Object} options
+     * @param {boolean} options.useStoredCredentials - When true, uses localStorage credentials 
+     *   instead of React state. Required when reconnecting after tab close (React state is empty).
      */
-    const resync = useCallback(async () => {
-        logger.info('Requesting session resync...')
+    const resync = useCallback(async ({ useStoredCredentials = false } = {}) => {
+        logger.info('Requesting session resync...', { useStoredCredentials })
         try {
-            const snapshot = await emit('session-resync', {}, 8000)
+            const emitFn = useStoredCredentials ? reconnectEmit : emit
+            const snapshot = await emitFn('session-resync', {}, 8000)
             
             // Apply the complete snapshot from server
-            if (snapshot?.session) setSession(snapshot.session)
+            if (snapshot?.session) {
+                setSession(snapshot.session)
+                // If game has already started (session is no longer open), restore game screen
+                if (snapshot.session.open === false) {
+                    setHasGameStarted(true)
+                }
+                if (snapshot.session.gameEnded) {
+                    updateGame({ gameEnded: true })
+                }
+            }
             if (snapshot?.player) {
                 setPlayer(snapshot.player)
                 setBerries(snapshot.player.berries || [])
+                setTasks(snapshot.player.tasks || [])
                 if (snapshot.player.farm) setFarm(snapshot.player.farm)
                 if (snapshot.player.craft) setCraft(snapshot.player.craft)
                 if (snapshot.player.trainingCamp) setTrainingCamp(snapshot.player.trainingCamp)
@@ -163,16 +213,42 @@ export function PlayerProvider({children}) {
                         snapshot.player.pokeBox || []
                     )
                 }
+
+                // Restore encounter (pokemon available for capture this turn)
+                setEncounter(snapshot.player.encounter || [])
+
+                // Restore gym battle turn tracker
+                setLastGymBattleTurn(snapshot.player.lastGymDefeatedTurn ?? null)
+
+                // Restore waiting state based on whether player already ended their turn
+                setWaitingForPlayers(snapshot.player.turnReady === true)
+
+                // Restore journey-related game flags
+                if (snapshot.player.currentJourney) {
+                    updateGame({ isInJourney: true, journeyBagLocked: true })
+                }
             }
             if (snapshot?.opponents) setOpponents(snapshot.opponents)
             if (snapshot?.version !== undefined) setVersion(snapshot.version)
-            if (snapshot?.gym !== undefined) setGym(snapshot.gym)
-            if (snapshot?.nextGym !== undefined) setNextGym(snapshot.nextGym)
-            if (snapshot?.gymRoute) setGymRoute(snapshot.gymRoute)
-            // Also try from player object (resync sends gym data inside player)
+
+            // Restore gym data from player object
             if (snapshot?.player?.currentGym !== undefined) setGym(snapshot.player.currentGym)
             if (snapshot?.player?.nextGym !== undefined) setNextGym(snapshot.player.nextGym)
             if (snapshot?.player?.gymRoute) setGymRoute(snapshot.player.gymRoute)
+
+            // Restore game results if game has ended
+            if (snapshot?.gameResults) {
+                setResults(snapshot.gameResults)
+            }
+
+            // Restore journey mid-state if player was in a journey
+            if (snapshot?.journeySnapshot) {
+                updateGame({
+                    isInJourney: true,
+                    journeyBagLocked: true,
+                    journeyData: snapshot.journeySnapshot,
+                })
+            }
             
             // Clear loading state after successful resync
             setLoading({ loading: false })
@@ -182,8 +258,25 @@ export function PlayerProvider({children}) {
         } catch (error) {
             logger.error('Resync failed', { error: error?.message, stack: error?.stack })
             
-            // Handle session expired
-            if (error?.message?.includes('expired') || error?.message?.includes('not found')) {
+            const msg = error?.message || ''
+            const isStaleSession = 
+                msg.includes('not found') ||
+                msg.includes('Session not found') ||
+                msg.includes('Player not found') ||
+                msg.includes('Sessão inválida') ||
+                msg.includes('Jogador inválido') ||
+                msg.includes('No stored credentials')
+
+            if (isStaleSession) {
+                // Stale localStorage credentials — clean up silently, no scary toast
+                logger.info('Stale session credentials, clearing localStorage')
+                localStorage.removeItem('playerId')
+                localStorage.removeItem('sessionCode')
+                setLoading({ loading: false })
+                return
+            }
+
+            if (msg.includes('expired')) {
                 handleToast({
                     id: 'session-expired',
                     title: t('toast.sessionExpired'),
@@ -210,7 +303,7 @@ export function PlayerProvider({children}) {
         }
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [emit, syncPokemonsFromServer])
+    }, [emit, reconnectEmit, syncPokemonsFromServer])
     
     const handleToast = (args) => {
         let bgColor = "gray.400"
@@ -258,15 +351,11 @@ export function PlayerProvider({children}) {
         if (nextIndex >= turnPhases.length) {
             // All phases done — finish turn
             setWaitingForPlayers(true)
-            if (bagDirty || boxIds.length > 0) {
-                await emit('player-update-bag', { newTeamIds: teamIds })
-                setBagDirty(false)
-            }
             emit('turn-end')
         } else {
             setCurrentPhaseIndex(nextIndex)
         }
-    }, [currentPhaseIndex, turnPhases, boxIds, bagDirty, teamIds, emit, setWaitingForPlayers])
+    }, [currentPhaseIndex, turnPhases, emit, setWaitingForPlayers])
 
     const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
@@ -348,33 +437,49 @@ export function PlayerProvider({children}) {
         })
     }, [setPokemon])
 
-    const moveToBox = useCallback((pokemonId) => {
-        setTeamIds(prev => prev.filter(id => id !== pokemonId))
+    const moveToBox = useCallback(async (pokemonId) => {
+        const newTeamIds = teamIds.filter(id => id !== pokemonId)
+        if (newTeamIds.length < 3) return // min team size
+
+        // Optimistic update
+        setTeamIds(newTeamIds)
         setBoxIds(prev => {
             if (prev.includes(pokemonId)) return prev
             return [...prev, pokemonId]
         })
-        setBagDirty(true)
-    }, [])
 
-    const moveToTeam = useCallback((pokemonId) => {
+        try {
+            await emit('player-update-bag', { newTeamIds })
+        } catch (err) {
+            // Rollback
+            setTeamIds(prev => {
+                if (prev.includes(pokemonId)) return prev
+                return [...prev, pokemonId]
+            })
+            setBoxIds(prev => prev.filter(id => id !== pokemonId))
+        }
+    }, [teamIds, emit])
+
+    const moveToTeam = useCallback(async (pokemonId) => {
+        if (teamIds.length >= 6) return // max team size
+
+        const newTeamIds = [...teamIds, pokemonId]
+
+        // Optimistic update
         setBoxIds(prev => prev.filter(id => id !== pokemonId))
-        setTeamIds(prev => {
-            if (prev.length >= 6) {
-                console.warn('Time já está cheio')
-                return prev
-            }
-            if (prev.includes(pokemonId)) return prev
-            return [...prev, pokemonId]
-        })
-        setBagDirty(true)
-    }, [])
+        setTeamIds(newTeamIds)
 
-    const confirmBag = useCallback(async () => {
-        if (!bagDirty) return
-        await emit('player-update-bag', { newTeamIds: teamIds })
-        setBagDirty(false)
-    }, [bagDirty, teamIds, emit])
+        try {
+            await emit('player-update-bag', { newTeamIds })
+        } catch (err) {
+            // Rollback
+            setTeamIds(prev => prev.filter(id => id !== pokemonId))
+            setBoxIds(prev => {
+                if (prev.includes(pokemonId)) return prev
+                return [...prev, pokemonId]
+            })
+        }
+    }, [teamIds, emit])
 
     const getTeamPokemons = useCallback(() => {
         return teamIds.map(id => pokemonData[id]).filter(Boolean)
@@ -686,12 +791,39 @@ export function PlayerProvider({children}) {
             
             // Automatically resync on connection if we have session data
             if (player?.id && session?.sessionCode) {
-                resync().catch(err => {
-                    logger.error('Connect resync failed', { error: err?.message, stack: err?.stack })
-                    setLoading({ loading: false })
-                })
+                // Normal reconnect (same tab, network drop) — React state is populated
+                if (!isReconnectingRef.current) {
+                    isReconnectingRef.current = true
+                    resync().catch(err => {
+                        logger.error('Connect resync failed', { error: err?.message, stack: err?.stack })
+                        setLoading({ loading: false })
+                    }).finally(() => { isReconnectingRef.current = false })
+                }
             } else {
-                setLoading({ loading: false })
+                // React state is empty — check localStorage for tab-close reconnection
+                const storedPlayerId = localStorage.getItem('playerId')
+                const storedSessionCode = localStorage.getItem('sessionCode')
+                if (storedPlayerId && storedSessionCode && !isReconnectingRef.current) {
+                    logger.info('Attempting reconnection from stored credentials', { storedPlayerId, storedSessionCode })
+                    isReconnectingRef.current = true
+                    setLoading({ loading: true, text: 'Reconnecting...' })
+                    handleToast({
+                        id: 'reconnecting',
+                        title: t('toast.reconnecting'),
+                        status: 'info',
+                        position: 'top',
+                        duration: 3000,
+                    })
+                    resync({ useStoredCredentials: true }).catch(err => {
+                        logger.error('Stored credentials resync failed', { error: err?.message, stack: err?.stack })
+                        // If session no longer exists, clean up localStorage
+                        localStorage.removeItem('playerId')
+                        localStorage.removeItem('sessionCode')
+                        setLoading({ loading: false })
+                    }).finally(() => { isReconnectingRef.current = false })
+                } else {
+                    setLoading({ loading: false })
+                }
             }
         }
 
@@ -717,18 +849,28 @@ export function PlayerProvider({children}) {
         function onReconnected(data) {
             logger.info('Reconnected successfully')
             
-            // Instead of trusting the event data, trigger full resync
-            resync().catch(err => {
+            if (isReconnectingRef.current) {
+                logger.info('Resync already in progress, skipping duplicate from player-session-reconnected')
+                return
+            }
+            isReconnectingRef.current = true
+
+            // Determine which resync strategy to use
+            const hasReactState = !!player?.id && !!session?.sessionCode
+            resync({ useStoredCredentials: !hasReactState }).catch(err => {
                 logger.error('Reconnect resync failed', { error: err?.message, stack: err?.stack })
                 // Fallback to event data if resync fails
                 if (data?.player) setPlayer(data.player)
                 if (data?.session) setSession(data.session)
+                // If game was in progress, restore game screen
+                if (data?.session?.open === false) setHasGameStarted(true)
                 setLoading({ loading: false })
-            })
+            }).finally(() => { isReconnectingRef.current = false })
         }
 
         function onSessionExpired() {
             logger.warn('Session expired') 
+            isReconnectingRef.current = false
             setLoading({ loading: false })
             localStorage.removeItem('playerId') 
             localStorage.removeItem('sessionCode') 
@@ -749,6 +891,7 @@ export function PlayerProvider({children}) {
             socket.off('player-session-reconnected', onReconnected) 
             socket.off('session-expired', onSessionExpired)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player?.id, session?.sessionCode, resync])
 
     useEffect(() => {
@@ -820,8 +963,6 @@ export function PlayerProvider({children}) {
 
             activeTab,
             setActiveTab,
-            bagDirty,
-            confirmBag,
 
             turnPhases,
             setTurnPhases,

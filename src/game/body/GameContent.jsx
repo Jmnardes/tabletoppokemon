@@ -123,13 +123,13 @@ function PhaseConnector({ isPast }) {
 }
 
 function BottomBar() {
-    const { advancePhase, teamIds, bagDirty, turnPhases, currentPhaseIndex, session, gym } = useContext(PlayerContext)
+    const { advancePhase, teamIds, turnPhases, currentPhaseIndex, session, gym } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
     const minTeamSize = 3
     const needsFullTeam = teamIds.length < minTeamSize
-    const isTurnDisabled = needsFullTeam || bagDirty
+    const isTurnDisabled = needsFullTeam
     const nextPhase = turnPhases[currentPhaseIndex + 1] || null
     const nextTurnPhases = getNextTurnPhases(session.turns, session.battleFrequency, !!gym)
 
@@ -187,7 +187,7 @@ function BottomBar() {
                 colorScheme="green"
                 onClick={advancePhase}
                 isDisabled={isTurnDisabled}
-                title={needsFullTeam ? t('action.needPokemon') : bagDirty ? t('action.confirmTeamFirst') : getButtonLabel()}
+                title={needsFullTeam ? t('action.needPokemon') : getButtonLabel()}
                 h="40px"
                 px={6}
                 fontSize="sm"

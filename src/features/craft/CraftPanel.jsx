@@ -333,7 +333,7 @@ export default function CraftPanel() {
                                     fontSize="sm"
                                     fontWeight="bold"
                                     onClick={handleUpgrade}
-                                    isDisabled={tokens < UPGRADE_COST}
+                                    isDisabled={tokens < UPGRADE_COST || !craft.slots}
                                 >
                                     <FaArrowUp style={{ marginRight: 4 }} />
                                     Upgrade {UPGRADE_COST}

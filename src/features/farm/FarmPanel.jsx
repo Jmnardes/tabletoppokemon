@@ -356,7 +356,7 @@ export default function FarmPanel() {
                                     fontSize="sm"
                                     fontWeight="bold"
                                     onClick={handleUpgrade}
-                                    isDisabled={tokens < SEED_UPGRADE_COST}
+                                    isDisabled={tokens < SEED_UPGRADE_COST || !farm.slots}
                                 >
                                     <FaArrowUp style={{ marginRight: 4 }} />
                                     Upgrade {SEED_UPGRADE_COST}

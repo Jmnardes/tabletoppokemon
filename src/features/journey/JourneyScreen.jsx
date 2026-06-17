@@ -16,9 +16,23 @@ const PHASES = {
     EXIT: 'exit',
 }
 
+/**
+ * Infer the initial phase from restored journey data.
+ * Used when reconnecting mid-journey to place the player in the correct screen.
+ */
+function getInitialPhase(journeyData) {
+    if (!journeyData) return PHASES.PRE_BATTLE
+    // Journey is no longer active (all player pokemon defeated)
+    if (journeyData.active === false) return PHASES.EXIT
+    // All required wilds defeated — player should be at checkpoint
+    if (journeyData.wildDefeatedCount >= journeyData.stagesToWin) return PHASES.CHECKPOINT
+    // Default: ready to pick next fight
+    return PHASES.PRE_BATTLE
+}
+
 export default function JourneyScreen() {
     const { game, updateGame, advancePhase } = useContext(PlayerContext)
-    const [phase, setPhase] = useState(PHASES.PRE_BATTLE)
+    const [phase, setPhase] = useState(() => getInitialPhase(game.journeyData))
     const [journeyState, setJourneyState] = useState(game.journeyData)
     const [lastFightResult, setLastFightResult] = useState(null)
 
@@ -68,6 +82,7 @@ export default function JourneyScreen() {
                         setLastFightResult(result)
                         setPhase(PHASES.BATTLE)
                     }}
+                    onLeaveRoute={() => setPhase(PHASES.EXIT)}
                     setJourneyState={setJourneyState}
                 />
             )}

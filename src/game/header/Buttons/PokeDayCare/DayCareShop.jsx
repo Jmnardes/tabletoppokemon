@@ -56,7 +56,7 @@ export default function DayCareShop() {
                     handleToast({
                         ...toastConfig,
                         title: 'Pokeball',
-                        description: 'A new Pokeball has been added to your bag',
+                        description: '2 Pokeballs have been added to your bag',
                         icon: <Image src={pokeballIcon} w={12} />
                     })
                     break
@@ -126,13 +126,13 @@ export default function DayCareShop() {
         }
     }
 
-    const TableItem = ({ icon, name, item, price }) => {
+    const TableItem = ({ icon, name, item, price, quantity = 1 }) => {
         return (
             <Tooltip
                 label={
                     <Center flexDir="column" gap={1} p={2}>
                         <Image src={icon} w={8} />
-                        <Text fontWeight="bold">{name}</Text>
+                        <Text fontWeight="bold">{quantity > 1 ? `${quantity}x ` : ''}{name}</Text>
                         <Text fontSize="xs" textAlign="center">{t(ITEM_DESCRIPTIONS[item])}</Text>
                     </Center>
                 }
@@ -142,7 +142,10 @@ export default function DayCareShop() {
             >
             <Tr borderBottom="none" sx={{ '& td': { borderBottom: 'none' } }}>
                 <Td>
-                    <Image src={icon} alt={name} w="22px" h="22px" />
+                    <Center gap={0.5}>
+                        {quantity > 1 && <Text fontSize="xs" fontWeight="bold">{quantity}x</Text>}
+                        <Image src={icon} alt={name} w="22px" h="22px" />
+                    </Center>
                 </Td>
                 <Td>
                     <Center
@@ -176,6 +179,7 @@ export default function DayCareShop() {
                             name={'Pokeball'}
                             item={'pokeball'}
                             price={1}
+                            quantity={2}
                         ></TableItem>
                         <TableItem
                             icon={dustIcon}

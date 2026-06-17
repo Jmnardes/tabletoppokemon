@@ -9,8 +9,8 @@ describe('catchDifficulty', () => {
   ]
   const basePlayer = { catchBonus: { elements: [] } }
 
-  it('returns 0 on turn 1', () => {
-    const session = { ...baseSession, turns: 1 }
+  it('returns 0 on turn 0 (starters)', () => {
+    const session = { ...baseSession, turns: 0 }
     expect(catchDifficulty(session, basePoke, baseTeam, basePlayer)).toBe(0)
   })
 

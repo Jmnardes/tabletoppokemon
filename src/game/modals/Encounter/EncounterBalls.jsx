@@ -50,7 +50,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
         <>
             {!isStarter && (
                 <Flex flexDirection="column" mr={8}>
-                    <Box my={2} title="Poke Ball">
+                    <Box my={2} title={t('daycare.desc.pokeball')}>
                         <PokeballButton 
                             type={'pb'}
                             isDisabled={player.balls?.pokeball === 0 || game.isPokemonRollDisabled}
@@ -58,7 +58,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                             bonus={ballBonus.pokeball}
                         />
                     </Box>
-                    <Box my={2} title="Great Ball">
+                    <Box my={2} title={t('daycare.desc.greatball')}>
                         <PokeballButton
                             type={'gb'}
                             isDisabled={player.balls?.greatball === 0 || game.isPokemonRollDisabled}
@@ -67,7 +67,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         />
                     </Box>
 
-                    <Box my={2} title="Ultra Ball">
+                    <Box my={2} title={t('daycare.desc.ultraball')}>
                         <PokeballButton 
                             type={'ub'}
                             isDisabled={player.balls?.ultraball === 0 || game.isPokemonRollDisabled}

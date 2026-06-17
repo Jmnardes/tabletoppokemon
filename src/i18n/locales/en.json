@@ -90,7 +90,9 @@
 
   "header": {
     "currentTurn": "Current turn number",
-    "badges": "Badges"
+    "badges": "Badges",
+    "passiveEconomy": "Passive Economy",
+    "passiveEconomyDesc": "+1 token every 10 journey levels, max +5"
   },
 
   "toast": {
@@ -124,7 +126,8 @@
     "errorSelectingKit": "Error selecting kit",
     "connectionError": "Connection error. Please try again.",
     "errorUsingPokeball": "Error using Pokeball",
-    "capturingPokemon": "Capturing pokemon..."
+    "capturingPokemon": "Capturing pokemon...",
+    "reconnecting": "Attempting to recover session..."
   },
 
   "encounter": {
@@ -392,7 +395,16 @@
     "sendToBackUsedExplain": "Defeat a pokémon to unlock again.",
     "hiddenPokemon": "Unknown Pokémon",
     "selectOpponent": "Select opponent",
-    "startFight": "Start fight!"
+    "startFight": "Start fight!",
+    "threatCalm": "Calm",
+    "threatAnnoyed": "Annoyed",
+    "threatHeated": "Heated",
+    "threatEnraged": "Enraged",
+    "threatFurious": "Furious",
+    "threatTooltip": "Wild pokémon get stronger as you defeat more. Leave the route to let threat decay.",
+    "leaveRoute": "Leave Route",
+    "leaveRouteTooltip": "Exit without fighting. Threat decays -2 each turn.",
+    "expBonusAlive": "Only alive pokémon receive +1 bonus EXP at the end."
   },
 
   "gym": {
@@ -566,10 +578,10 @@
     "releaseError": "Error releasing pokémon",
     "connectionError": "Connection error. Please try again.",
     "desc": {
-      "pokeball": "A basic Pokéball to catch pokémon.",
+      "pokeball": "Good for early pokémon, but inconsistent against stronger ones.",
       "dust": "Used to give EXP to a Pokémon.",
-      "greatball": "+3 catch bonus. Better than a Pokéball.",
-      "ultraball": "+6 catch bonus. Very effective.",
+      "greatball": "Good for mid-tier pokémon, but inconsistent against strong ones.",
+      "ultraball": "Good for strong pokémon, but costs more tokens.",
       "potion": "Heals 25% HP during Route.",
       "superPotion": "Heals 50% HP during Route.",
       "hyperPotion": "Heals 80% HP during Route.",

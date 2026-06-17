@@ -28,14 +28,14 @@ export default function JourneyPreviewPanel() {
     const allRemainingWild = wildPreview.slice(journeyProgress)
     const visibleWild = allRemainingWild.slice(0, VISIBLE_COUNT)
     const hiddenCount = allRemainingWild.length - visibleWild.length
-    const journeyLevel = game.journeyLevel ?? 0
+    const journeyLevel = game.journeyLevel || 1
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center">
             <Text fontSize="lg" fontWeight="bold" mb={1}>{t('journey.previewTitle')}</Text>
 
             <Badge colorScheme="purple" fontSize="xs" px={2} py={1} borderRadius="full" mb={2}>
-                {t('journey.routeN', { route: journeyLevel + 1 })}
+                {t('journey.routeN', { route: journeyLevel })}
             </Badge>
 
             <Flex gap={3} mb={4}>

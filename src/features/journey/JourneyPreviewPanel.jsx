@@ -28,7 +28,7 @@ export default function JourneyPreviewPanel() {
     const allRemainingWild = wildPreview.slice(journeyProgress)
     const visibleWild = allRemainingWild.slice(0, VISIBLE_COUNT)
     const hiddenCount = allRemainingWild.length - visibleWild.length
-    const journeyLevel = game.journeyLevel || 1
+    const journeyLevel = (game.journeyLevel ?? 0) + 1
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center">

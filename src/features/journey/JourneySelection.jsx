@@ -72,8 +72,24 @@ export default function JourneySelection() {
 
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                {t('journey.level', { level: session.level ?? 1, current: wildDefeatedCount + 1, total: stagesToWin })}
+                {t('journey.level', { level: (session.level ?? 0) + 1, current: wildDefeatedCount + 1, total: stagesToWin })}
             </Badge>
+
+            {/* Route instructions */}
+            <Box
+                bg={colorMode === 'light' ? 'blue.50' : 'whiteAlpha.50'}
+                border="1px solid"
+                borderColor={colorMode === 'light' ? 'blue.200' : 'whiteAlpha.200'}
+                borderRadius={8}
+                p={3}
+                mb={4}
+                maxW="900px"
+                w="100%"
+            >
+                <Text fontSize="xs" color="gray.400" textAlign="center">
+                    {t('journey.instructions', { total: stagesToWin })}
+                </Text>
+            </Box>
 
             {/* Wild pokemon preview */}
             {wildPreview.length > 0 && (() => {

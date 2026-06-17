@@ -55,7 +55,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
     const stagesToWin = journeyState.stagesToWin || 5
     const visibleCount = 3
     const wildDefeatedCount = journeyState.wildDefeatedCount || 0
-    const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? true)
+    const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? 3)
     const [sendingBack, setSendingBack] = useState(false)
     const [selectedWildIndex, setSelectedWildIndex] = useState(null)
 
@@ -198,24 +198,24 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
             <Text fontSize="xl" mb={1}>
                 {t('journey.round', { round: journeyState.round, current: wildDefeatedCount, total: stagesToWin })}
             </Text>
-            <Text fontSize="xs" color="gray.400" mb={2}>
-                {t('journey.levelN', { level: journeyState.level ?? 1 })}
-            </Text>
-
-            {/* Threat Badge */}
-            <Tooltip label={t('journey.threatTooltip')} fontSize="xs" hasArrow>
-                <Badge
-                    colorScheme={threatColor}
-                    fontSize="xs"
-                    px={3}
-                    py={1}
-                    borderRadius="full"
-                    mb={4}
-                    cursor="help"
-                >
-                    {threatLabel}
+            {/* Level + Threat Badges */}
+            <HStack spacing={2} mb={4}>
+                <Badge colorScheme="blue" fontSize="xs" px={3} py={1} borderRadius="full">
+                    {t('journey.levelN', { level: (journeyState.level ?? 0) + 1 })}
                 </Badge>
-            </Tooltip>
+                <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}</Text><Text fontSize="xs">{t('journey.threatTooltip')}</Text></>} hasArrow>
+                    <Badge
+                        colorScheme={threatColor}
+                        fontSize="xs"
+                        px={3}
+                        py={1}
+                        borderRadius="full"
+                        cursor="help"
+                    >
+                        {threatLabel}
+                    </Badge>
+                </Tooltip>
+            </HStack>
 
             {/* Element type chart - fixed left edge */}
             <VStack
@@ -424,12 +424,12 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                     <Tooltip label={t('journey.sendToBackExplain')} fontSize="xs" placement="top" hasArrow>
                         <Tag
                             size="sm"
-                            colorScheme={canSendBack ? 'green' : 'red'}
+                            colorScheme={canSendBack > 0 ? 'green' : 'red'}
                             variant="subtle"
                             mb={2}
                             cursor="help"
                         >
-                            Reorder {canSendBack ? 1 : 0}/1
+                            Reorder {canSendBack}/3
                         </Tag>
                     </Tooltip>
                     <Text fontSize="2xs" color="gray.400" mb={3}>
@@ -446,45 +446,45 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                                     const realIdx = wildIndex + idx
                                     const isSelected = selectedWildIndex === realIdx
                                     return (
-                                        <Flex
-                                            key={wild.id}
-                                            direction="column"
-                                            align="center"
-                                            bg={bgWild}
-                                            border={isSelected ? '2px solid' : '1px solid'}
-                                            borderColor={isSelected ? 'orange.400' : 'red.400'}
-                                            borderRadius={8}
-                                            p={2}
-                                            w="110px"
-                                            cursor="pointer"
-                                            onClick={() => setSelectedWildIndex(realIdx)}
-                                            _hover={{ borderColor: 'orange.300', transform: 'scale(1.03)' }}
-                                            transition="all 0.15s"
-                                            opacity={selectedWildIndex != null && !isSelected ? 0.5 : 1}
-                                        >
-                                            <Image src={wild.sprite} w={isSelected ? '48px' : '36px'} h={isSelected ? '48px' : '36px'} transition="all 0.15s" />
-                                            <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{wild.name}</Text>
-                                            <Flex gap={1} mt={1}>
-                                                {wild.types?.map(el => (
-                                                    <Element key={el} element={el} w={3} h={3} />
-                                                ))}
-                                            </Flex>
-                                            <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
-                                            {canSendBack && !sendingBack && (
-                                                <Tooltip label={t('journey.sendToBackTooltip')} fontSize="xs" placement="top" hasArrow>
+                                        <HStack key={wild.id} spacing={1}>
+                                            {canSendBack > 0 && !sendingBack && (
+                                                <Tooltip label={t('journey.sendToBackTooltip')} fontSize="xs" placement="left" hasArrow>
                                                     <IconButton
                                                         size="xs"
                                                         variant="ghost"
                                                         icon={<Text fontSize="sm" fontWeight="bold" color="red.400">✕</Text>}
-                                                        mt={1}
                                                         minW="24px"
                                                         h="24px"
-                                                        onClick={(e) => { e.stopPropagation(); sendToBack(realIdx) }}
+                                                        onClick={() => sendToBack(realIdx)}
                                                         aria-label={t('journey.sendToBack')}
                                                     />
                                                 </Tooltip>
                                             )}
-                                        </Flex>
+                                            <Flex
+                                                direction="column"
+                                                align="center"
+                                                bg={bgWild}
+                                                border={isSelected ? '2px solid' : '1px solid'}
+                                                borderColor={isSelected ? 'orange.400' : 'red.400'}
+                                                borderRadius={8}
+                                                p={2}
+                                                w="110px"
+                                                cursor="pointer"
+                                                onClick={() => setSelectedWildIndex(realIdx)}
+                                                _hover={{ borderColor: 'orange.300', transform: 'scale(1.03)' }}
+                                                transition="all 0.15s"
+                                                opacity={selectedWildIndex != null && !isSelected ? 0.5 : 1}
+                                            >
+                                                <Image src={wild.sprite} w={isSelected ? '48px' : '36px'} h={isSelected ? '48px' : '36px'} transition="all 0.15s" />
+                                                <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{wild.name}</Text>
+                                                <Flex gap={1} mt={1}>
+                                                    {wild.types?.map(el => (
+                                                        <Element key={el} element={el} w={3} h={3} />
+                                                    ))}
+                                                </Flex>
+                                                <Text fontSize="2xs" color="gray.400">Lv.{wild.level}</Text>
+                                            </Flex>
+                                        </HStack>
                                     )
                                 })
                             })()}

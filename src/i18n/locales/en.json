@@ -92,7 +92,7 @@
     "currentTurn": "Current turn number",
     "badges": "Badges",
     "passiveEconomy": "Passive Economy",
-    "passiveEconomyDesc": "+1 token every 10 journey levels, max +5"
+    "passiveEconomyDesc": "+1 token every 10 tokens held, max +5"
   },
 
   "toast": {
@@ -351,6 +351,7 @@
   "journey": {
     "selectPokemon": "Select {{max}} Pokémon for your route. Order matters — first will fight first.",
     "level": "Route Level: {{level}} — Pokémon {{current}}/{{total}}",
+    "instructions": "Defeat {{total}} wild Pokémon to complete the route. Each completed route grants rewards and levels you up. During the journey you can capture defeated Pokémon using Pokéballs.",
     "wildPokemon": "Wild Pokémon you will face",
     "previewTitle": "Route Preview",
     "previewDefeated": "Defeated",
@@ -401,6 +402,7 @@
     "threatHeated": "Heated",
     "threatEnraged": "Enraged",
     "threatFurious": "Furious",
+    "threatTitle": "Threat Level",
     "threatTooltip": "Wild pokémon get stronger as you defeat more. Leave the route to let threat decay.",
     "leaveRoute": "Leave Route",
     "leaveRouteTooltip": "Exit without fighting. Threat decays -2 each turn.",

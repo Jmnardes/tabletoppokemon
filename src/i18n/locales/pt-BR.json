@@ -92,7 +92,7 @@
     "currentTurn": "Número do turno atual",
     "badges": "Badges",
     "passiveEconomy": "Economia passiva",
-    "passiveEconomyDesc": "+1 token a cada 10 níveis, max +5"
+    "passiveEconomyDesc": "+1 token a cada 10 tokens, max +5"
   },
 
   "toast": {
@@ -351,6 +351,7 @@
   "journey": {
     "selectPokemon": "Selecione {{max}} Pokémon para sua rota. A ordem importa — o primeiro lutará primeiro.",
     "level": "Nível da Rota: {{level}} — Pokémon {{current}}/{{total}}",
+    "instructions": "Derrote {{total}} Pokémon selvagens para completar a rota. A cada rota completa você ganha prêmios e sobe de nível. Durante a jornada você pode capturar Pokémon derrotados usando Pokéballs.",
     "wildPokemon": "Pokémon selvagens que você vai enfrentar",
     "previewTitle": "Pré-visualização da Rota",
     "previewDefeated": "Derrotados",
@@ -401,6 +402,7 @@
     "threatHeated": "Esquentado",
     "threatEnraged": "Raivoso",
     "threatFurious": "Enfurecido",
+    "threatTitle": "Nível de Ameaça",
     "threatTooltip": "Pokémon selvagens ficam mais fortes conforme você derrota mais. Saia da rota para a ameaça diminuir.",
     "leaveRoute": "Deixar Rota",
     "leaveRouteTooltip": "Sair sem lutar. Ameaça diminui -2 a cada turno.",

@@ -12,7 +12,7 @@ export default function PassiveEconomyTooltip() {
     const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
-    const passiveTokens = Math.min(5, 1 + Math.floor((player.journeyLevel || 0) / 10))
+    const passiveTokens = Math.min(5, 1 + Math.floor((player.daycare?.token || 0) / 10))
 
     return (
         <Flex
@@ -30,11 +30,11 @@ export default function PassiveEconomyTooltip() {
             </Text>
             <Flex direction="column" gap={1} py={3} px={4}>
                 <Center gap={2}>
-                    <Text fontWeight="bold" fontSize="sm">+{passiveTokens}</Text>
+                    <Text fontWeight="bold" fontSize="sm" color="white">+{passiveTokens}</Text>
                     <Image src={tokenIcon} w="18px" />
                 </Center>
                 <Center gap={2}>
-                    <Text fontWeight="bold" fontSize="sm">+2</Text>
+                    <Text fontWeight="bold" fontSize="sm" color="white">+1</Text>
                     <Image src={pokeballIcon} w="18px" />
                 </Center>
             </Flex>

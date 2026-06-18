@@ -39,15 +39,16 @@ const classData = {
         emoji: '🎯',
         color: 'green.400',
         items: [
-            { icon: pokeballIcon, label: '+14 Pokéballs' },
+            { icon: pokeballIcon, label: '+4 Greatballs' },
         ],
     },
-    trainer: {
-        name: 'Trainer',
-        emoji: '🏋️',
+    heir: {
+        name: 'Heir',
+        emoji: '👑',
         color: 'yellow.400',
         items: [
-            { icon: dustIcon, label: '+7 Dust' },
+            { icon: tokenIcon, label: '+5 Tokens' },
+            { icon: dustIcon, label: '+3 Dust' },
         ],
     },
 }

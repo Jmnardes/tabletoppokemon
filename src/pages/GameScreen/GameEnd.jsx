@@ -1,4 +1,4 @@
-import { Box, Collapse, Divider, Flex, Grid, Image, Text, useColorMode, VStack, HStack, Tooltip, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Box, Button, Collapse, Divider, Flex, Grid, Image, Text, useColorMode, VStack, HStack, Tooltip, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import PlayerContext from "@context/PlayerContext";
 import crownIcon from '@assets/images/game/crown.png'
@@ -16,7 +16,7 @@ const getBadgeIcon = (badgeName) => {
 }
 
 export default function GameEnd() {
-    const { results, setWaitingForPlayers, player, emit } = useContext(PlayerContext)
+    const { results, setWaitingForPlayers, player, emit, setHasGameStarted, updateGame } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [showFullStats, setShowFullStats] = useState(false)
     const [playerBadges, setPlayerBadges] = useState([])
@@ -311,6 +311,20 @@ export default function GameEnd() {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
+
+            <Button
+                mt={8}
+                colorScheme="red"
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                    updateGame({ gameEnded: false })
+                    setHasGameStarted(false)
+                    window.location.reload()
+                }}
+            >
+                Sair
+            </Button>
         </Flex>
     )
 }

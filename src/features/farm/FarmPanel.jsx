@@ -33,7 +33,7 @@ const getSlotCost = (slotIndex) => 5
 const getPlotImage = (plot) => {
     if (plot.status === 'rotted') return rottenImg
     if (plot.status === 'ready') return sproutImg
-    if (plot.turnsLeft >= 3) return seedImg
+    if (plot.turnsLeft >= 2) return seedImg
     if (plot.turnsLeft >= 1) return budImg
     return seedImg
 }

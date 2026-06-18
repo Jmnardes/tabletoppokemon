@@ -589,5 +589,27 @@
       "hyperPotion": "Cura 80% do HP na Rota.",
       "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota."
     }
+  },
+
+  "tutorial": {
+    "next": "Próximo",
+    "exit": "Sair do Tutorial",
+    "stepCounter": "{{current}}/{{total}}",
+    "step0": "Bem-vindo à Rota 1! Vamos começar nossa jornada aqui. Você recebeu seus pokémons e deverá enfrentar os ginásios até conquistar todas as badges. No processo, tenho algumas coisas para te ensinar, então preste atenção...",
+    "step1": "Aqui ficam os dados importantes para acompanhar como o jogo está andando: seu nome para identificação, turnos, tasks, economia e badges. As tasks vão se renovando sempre que você completa uma, e pode consultar seu progresso aqui. A economia pode aumentar a cada token que você acumula. As badges são o objetivo do jogo, então derrote os ginásios!",
+    "step2": "Esse é seu guia rápido de consulta dos itens consumíveis e utilizáveis. Aqui você consegue ver rapidamente quantos itens possui.",
+    "step3": "Essas são as telas do jogo. Cada botão ativa uma tela diferente. Elas podem ficar bloqueadas em alguns casos que dependam de uma ação para sair desse estado. A barra superior inteira pode sumir durante alguns eventos como a 'Rota', mas chegaremos lá.",
+    "step4": "Aqui é onde está seu time! Você pode carregar entre 3 a 6 pokémons, sendo obrigatório ter no mínimo 3. Escolha bem para seguir seu caminho.",
+    "step5": "Este é o bloco de pokémons. Aqui ficam seus pokémons guardados que não estão no time. Você pode clicar neles para mover ao time quando tiver espaço.",
+    "step6": "E aqui temos os itens utilizáveis! Você pode usá-los para receber recursos ou aplicar em seus pokémons para melhorar suas estatísticas.",
+    "step7": "Essa aba mostra quais eventos você vai enfrentar a cada turno. Você consegue ver os eventos de até um turno à frente e consultar os passos que deu no turno atual. Também temos o botão de finalizar turno. Ao finalizar, você precisa aguardar os outros treinadores presentes para avançar o turno.",
+    "step8": "Aqui você deixa seus pokémons na creche para ganhar tokens e pode utilizar a loja. Os pokémons deixados aqui não podem ser recuperados, então pense bem!",
+    "step9": "Você pode deixar um pokémon sobrando na sua bag para treinar aqui no campo de treino. Mas para isso você deve comprar um slot. Além disso, pode melhorar o funcionamento do treino comprando um upgrade dos equipamentos.",
+    "step10": "Aqui você pode comprar campos para produzir suas berries. Elas levam alguns turnos para ficar prontas e você então deve colher, caso contrário podem apodrecer. Você também pode comprar melhorias para suas sementes e melhorar a raridade da berry produzida.",
+    "step11": "Você tem acesso às máquinas que produzem pokébolas! Comprando uma, você produz por turno com a chance mostrada abaixo. Elas podem quebrar, então fique atento em consertar caso necessário.",
+    "step12": "Aqui você pode visualizar a rota que está percorrendo, analisando os pokémons que está enfrentando e verificando quantos precisa derrotar até a próxima rota.",
+    "step13": "Você pode verificar os ginásios, seus pokémons e criar seu plano para derrotá-los. Boa sorte, treinador!",
+    "step14": "Aqui ficam as configurações do jogo. Você pode trocar o idioma, alterar o tema e também sair do jogo caso precise.",
+    "step15": "Você está preparado para seguir sua jornada agora! Use tudo que aprendeu e conquiste todas as badges. Boa sorte, treinador!"
   }
 }

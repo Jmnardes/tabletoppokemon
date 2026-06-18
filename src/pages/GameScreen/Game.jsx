@@ -3,6 +3,7 @@ import PlayerContext from "@context/PlayerContext";
 import GameHeader from "@game/header/GameHeader";
 import GameContent from "@game/body/GameContent";
 import ModalController from "@game/modals/ModalController";
+import TutorialOverlay from "@components/Tutorial/TutorialOverlay";
 import GameEnd from "./GameEnd";
 
 function PokePage({ game }) {
@@ -18,7 +19,7 @@ function PokePage({ game }) {
 }
 
 const GameComponents = () => {
-    const { getCurrentPhase } = useContext(PlayerContext)
+    const { getCurrentPhase, game } = useContext(PlayerContext)
     const currentPhase = getCurrentPhase()
     const hideHeader = currentPhase === 'battle' || currentPhase === 'journey' || currentPhase === 'gym'
 
@@ -27,6 +28,7 @@ const GameComponents = () => {
             {!hideHeader && <GameHeader />}
             <GameContent />
             <ModalController />
+            {game.tutorialStep != null && <TutorialOverlay />}
         </>
     )
 };

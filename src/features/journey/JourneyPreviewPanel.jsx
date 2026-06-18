@@ -17,7 +17,7 @@ export default function JourneyPreviewPanel() {
 
     if (wildPreview.length === 0) {
         return (
-            <Flex flex="1" align="center" justify="center" p={4}>
+            <Flex flex="1" align="center" justify="center" p={4} data-tutorial="journey-panel">
                 <Text color="gray.400" fontSize="sm">{t('journey.noPreview')}</Text>
             </Flex>
         )
@@ -31,7 +31,7 @@ export default function JourneyPreviewPanel() {
     const journeyLevel = (game.journeyLevel ?? 0) + 1
 
     return (
-        <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center">
+        <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center" data-tutorial="journey-panel">
             <Text fontSize="lg" fontWeight="bold" mb={1}>{t('journey.previewTitle')}</Text>
 
             <Badge colorScheme="purple" fontSize="xs" px={2} py={1} borderRadius="full" mb={2}>

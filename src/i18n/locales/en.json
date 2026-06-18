@@ -589,5 +589,27 @@
       "hyperPotion": "Heals 80% HP during Route.",
       "incense": "Increases the chance of encountering higher level Pokémon on your next route."
     }
+  },
+
+  "tutorial": {
+    "next": "Next",
+    "exit": "Exit Tutorial",
+    "stepCounter": "{{current}}/{{total}}",
+    "step0": "Welcome to Route 1! Let's begin our journey here. You received your pokémon and must face the gyms until you earn all the badges. Along the way, I have a few things to teach you, so pay attention...",
+    "step1": "Here you'll find the important data to track how the game is going: your name for identification, turns, tasks, economy and badges. Tasks renew whenever you complete one, and you can always check your progress here. Your economy can grow with each token you accumulate. Badges are the goal of the game, so defeat the gyms!",
+    "step2": "This is your quick reference for consumable and usable items. Here you can quickly see how many items you have.",
+    "step3": "These are the game screens. Each button activates a different screen. They may become locked in some cases that require an action to unlock. The entire top bar may disappear during some events like the 'Route', but we'll get to that.",
+    "step4": "This is where your team is! You can carry between 3 and 6 pokémon, with a minimum of 3 required. Choose wisely for your path.",
+    "step5": "This is the pokémon box. Here your stored pokémon that aren't on the team are kept. You can click them to move them to your team when there's space.",
+    "step6": "And here we have the usable items! You can use them to receive resources or apply them to your pokémon to improve their stats.",
+    "step7": "This bar shows which events you'll face each turn. You can see events up to one turn ahead and check the steps you took in the current turn. There's also the end turn button. When you end your turn, you must wait for the other trainers to advance.",
+    "step8": "Here you leave your pokémon at the daycare to earn tokens and can use the shop. Pokémon left here cannot be recovered, so think carefully!",
+    "step9": "You can leave a spare pokémon from your bag to train here at the training camp. But you need to buy a slot first. You can also upgrade the equipment to improve training results.",
+    "step10": "Here you can buy plots to grow your berries. They take a few turns to be ready and you must harvest them, otherwise they may rot. You can also buy seed upgrades to improve the rarity of berries produced.",
+    "step11": "You have access to machines that produce pokéballs! Buy one and it produces each turn with the chances shown below. They can break, so be sure to repair them when needed.",
+    "step12": "Here you can view the route you're traveling, analyzing the pokémon you're facing and checking how many you need to defeat until the next route.",
+    "step13": "You can check the gyms, their pokémon, and plan your strategy to defeat them. Good luck, trainer!",
+    "step14": "Here are the game settings. You can change the language, switch the theme, and also leave the game if needed.",
+    "step15": "You're ready to continue your journey now! Use everything you've learned and earn all the badges. Good luck, trainer!"
   }
 }

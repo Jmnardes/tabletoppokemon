@@ -95,7 +95,7 @@ export default function GameHeader() {
 
     return (
         <Center py={0} pr={0} display="flex" justifyContent="space-between" backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}>
-            <Center flex="1" justifyContent={"start"}>
+            <Center flex="1" justifyContent={"start"} data-tutorial="player-info">
                 <Badge
                     title={player.status.trainerName}
                     maxW={48} p={2} px={4} ml={4}
@@ -141,7 +141,7 @@ export default function GameHeader() {
                 )}
             </Center>
             {!game.hasEnded && (
-                <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center">
+                <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center" data-tutorial="quick-items">
                     <StatItem icon={tokenIcon} title={t('items.daycareTokens')} value={player.daycare?.token ?? 0} />
                     <StatItem icon={dustIcon} title={t('items.dust')} value={player.items.dust} />
                     <StatItem icon={lureIcon} title={t('items.incense')} value={player.items.incense} />
@@ -160,7 +160,7 @@ export default function GameHeader() {
                     <StatItem icon={masterballIcon} title="Masterball" value={player.balls.masterball} />
                 </Flex>
             )}
-            <Flex flex="1" alignItems="end" justifyContent="end" gap="0.65rem" pb={0} pr={2}>
+            <Flex flex="1" alignItems="end" justifyContent="end" gap="0.65rem" pb={0} pr={2} data-tutorial="tab-buttons">
                 {tabButton('bag', bagIcon, t('action.bag'))}
                 {tabButton('daycare', dayCareIcon, t('action.dayCare'))}
                 {tabButton('training', fightIcon, t('action.trainingCamp'))}

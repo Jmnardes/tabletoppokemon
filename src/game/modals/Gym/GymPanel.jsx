@@ -36,7 +36,7 @@ export default function GymPanel() {
 
     if (!displayGym) {
         return (
-            <Flex flex="1" flexDir="column" p={4} align="center" justify="center">
+            <Flex flex="1" flexDir="column" p={4} align="center" justify="center" data-tutorial="gym-panel">
                 <GymRouteTimeline />
                 <Text color="gray.400" mt={4}>{t('gym.noGymAvailable')}</Text>
             </Flex>
@@ -44,7 +44,7 @@ export default function GymPanel() {
     }
 
     return (
-        <Flex flex="1" flexDir="column" p={4} overflowY="auto">
+        <Flex flex="1" flexDir="column" p={4} overflowY="auto" data-tutorial="gym-panel">
             {/* Gym Route Timeline */}
             <GymRouteTimeline />
 

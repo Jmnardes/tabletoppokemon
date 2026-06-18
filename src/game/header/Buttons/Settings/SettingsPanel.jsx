@@ -12,7 +12,7 @@ export default function SettingsPanel() {
     const { t } = useTranslation()
 
     return (
-        <Flex flex="1" flexDir="column" alignItems="center" overflowY="auto" p={6}>
+        <Flex flex="1" flexDir="column" alignItems="center" overflowY="auto" p={6} data-tutorial="settings-panel">
             <Text fontSize="xl" fontWeight="bold" mb={4}>{t('settings.title')}</Text>
 
             <Center pb={4} gap={4}>
@@ -28,10 +28,12 @@ export default function SettingsPanel() {
 
             <Center flexDirection="column" pt={4} mb={4}>
                 <Button p={4} w={72} onClick={() => {
+                    localStorage.clear()
                     setHasGameStarted(false)
                     setPlayer({})
                     setSession({})
                     setOpponents({})
+                    window.location.reload()
                 }}>{t('settings.restartGame')}</Button>
             </Center>
         </Flex>

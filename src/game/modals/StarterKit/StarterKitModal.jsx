@@ -121,6 +121,11 @@ export default function StarterKitModal() {
             updateGame({ openStarterKitModal: false })
             setLoading({ loading: false })
 
+            // Start tutorial for first-time players
+            if (!localStorage.getItem('tutorialCompleted')) {
+                updateGame({ tutorialStep: 0 })
+            }
+
             handleToast({
                 title: t('toast.kitApplied', { name: classData[selectedKit].name }),
                 description: t('toast.kitAppliedDesc'),

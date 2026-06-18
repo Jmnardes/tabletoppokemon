@@ -188,7 +188,7 @@ export default function CraftPanel() {
     }
 
     return (
-        <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
+        <Flex flex="1" flexDir="column" overflowY="auto" p={4} data-tutorial="craft-panel">
             <Text fontSize="lg" fontWeight="bold" textAlign="center">{t('craft.title')}</Text>
             <Text fontSize="small" textAlign="center" mt={1} mb={2}>
                 {t('craft.subtitle')}

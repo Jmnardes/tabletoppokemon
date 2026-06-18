@@ -54,6 +54,7 @@ export function PlayerProvider({children}) {
         openJourneySelection: false,
         isInJourney: false,
         journeyBagLocked: false,
+        tutorialStep: null,
     })
 
     // Pokemon management functions - defined early for use in resync

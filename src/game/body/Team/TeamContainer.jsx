@@ -145,6 +145,7 @@ export default function TeamContainer() {
                     p={3}
                     flex="1"
                     minW="200px"
+                    data-tutorial="box-pokemon"
                 >
                     <HStack spacing={2} mb={2} alignItems="baseline">
                         <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700">
@@ -195,6 +196,7 @@ export default function TeamContainer() {
                     p={3}
                     flex="1"
                     minW="200px"
+                    data-tutorial="bag-items"
                 >
                     <HStack spacing={2} mb={2} alignItems="baseline">
                         <Text fontSize="2xs" fontWeight="bold" color="whiteAlpha.700">
@@ -222,7 +224,7 @@ export default function TeamContainer() {
                     {t('bag.yourTeam')}
                 </Text>
             </Tooltip>
-            <Flex flex="1" overflow="auto">
+            <Flex flex="1" overflow="auto" data-tutorial="team-cards">
                 <PokeTeam bag={true} />
             </Flex>
 

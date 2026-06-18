@@ -149,6 +149,7 @@ function BottomBar() {
             backgroundColor={colorMode === 'light' ? "gray.400" : "gray.700"}
             alignItems="center"
             gap={2}
+            data-tutorial="turn-control"
         >
             {/* Phase Timeline: Current Turn */}
             <Flex alignItems="center" gap={0}>
@@ -249,7 +250,7 @@ export default function GameContent() {
     // freeActions phase (default) — show main UI
     return (
         <Flex flex="1" flexDir="column">
-            <Flex flex="1" overflow="hidden">
+            <Flex flex="1" overflow="hidden" data-tutorial="main-panel">
                 <ActivePanel />
             </Flex>
             <BottomBar />

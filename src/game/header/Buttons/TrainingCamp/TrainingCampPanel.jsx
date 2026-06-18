@@ -229,7 +229,7 @@ export default function TrainingCampPanel() {
     const boxPokemons = getBoxPokemons ? getBoxPokemons() : [];
 
     return (
-        <Flex flex="1" flexDir="column" overflowY="auto" p={4}>
+        <Flex flex="1" flexDir="column" overflowY="auto" p={4} data-tutorial="training-panel">
             <Text fontSize="lg" fontWeight="bold" textAlign="center">{t('training.title')}</Text>
             <Text fontSize="small" textAlign="center" mt={1} mb={2}>
                 {t('training.subtitle')}

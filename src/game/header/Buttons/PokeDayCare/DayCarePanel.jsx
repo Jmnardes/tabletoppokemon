@@ -62,7 +62,7 @@ export default function DayCarePanel() {
     }
 
     return (
-        <Flex flex="1" direction="row" h="100%" overflow="hidden">
+        <Flex flex="1" direction="row" h="100%" overflow="hidden" data-tutorial="daycare-panel">
             {/* Left side — Title, description, pokemon selection */}
             <Flex flex="1" flexDir="column" p={4} overflowY="auto" minW="200px">
                 <Text fontSize="lg" fontWeight="bold" textAlign="center">{t('daycare.title')}</Text>

@@ -149,6 +149,77 @@ export default function ModalController() {
                 })
             }
 
+            // Passive economy notification
+            if (res.passiveTokens) {
+                handleToast({
+                    id: `passive-${res.turn}`,
+                    title: t('toast.passiveEconomy'),
+                    description: t('toast.passiveEconomyDesc', { tokens: res.passiveTokens }),
+                    duration: 4000,
+                    position: 'bottom-left',
+                    status: 'info',
+                })
+            }
+
+            // Dust → EXP notifications
+            if (res.dustNotifications?.length) {
+                const names = res.dustNotifications.map(d => d.name).join(', ')
+                handleToast({
+                    id: `dust-exp-${res.turn}`,
+                    title: t('toast.dustExp'),
+                    description: t('toast.dustExpDesc', { names, count: res.dustNotifications.length }),
+                    duration: 4000,
+                    position: 'bottom-left',
+                    status: 'info',
+                })
+            }
+
+            // Expired berries notifications
+            if (res.expiredBerries?.length) {
+                res.expiredBerries.forEach(b => {
+                    handleToast({
+                        id: `berry-expired-${b.pokemonId}-${res.turn}`,
+                        title: t('toast.berryExpired'),
+                        description: t('toast.berryExpiredDesc', { berry: b.berryName, pokemon: b.pokemonName }),
+                        duration: 5000,
+                        position: 'bottom-left',
+                        status: 'warning',
+                    })
+                })
+            }
+
+            // Training camp notifications (broken equipment)
+            if (res.campNotifications?.length) {
+                res.campNotifications.forEach(n => {
+                    if (n.type === 'broken') {
+                        handleToast({
+                            id: `camp-broken-${n.pokemonId}-${res.turn}`,
+                            title: t('toast.campBroken'),
+                            description: t('toast.campBrokenDesc', { name: n.name }),
+                            duration: 5000,
+                            position: 'bottom-left',
+                            status: 'warning',
+                        })
+                    }
+                })
+            }
+
+            // Farm rotted notification
+            if (res.farmNotifications?.length) {
+                res.farmNotifications.forEach(n => {
+                    if (n.type === 'rotted') {
+                        handleToast({
+                            id: `farm-rotted-${n.plotId}`,
+                            title: t('toast.berryRotted'),
+                            description: t('toast.berryRottedDesc'),
+                            duration: 5000,
+                            position: 'bottom-left',
+                            status: 'error',
+                        })
+                    }
+                })
+            }
+
             // Set turn phases from server
             const phases = res.phases || ['freeActions']
             setTurnPhases(phases)
@@ -160,7 +231,7 @@ export default function ModalController() {
                 journeyWildPreview: res.journeyWildPreview || [],
                 journeyProgress: res.journeyProgress || 0,
                 journeyWildDefeatedCount: res.journeyWildDefeatedCount || 0,
-                journeyLevel: res.level ?? 0,
+                journeyLevel: res.level ?? 1,
                 isPokemonRollDisabled: false,
             })
 

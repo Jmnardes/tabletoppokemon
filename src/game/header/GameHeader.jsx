@@ -1,11 +1,12 @@
-import { Badge, Box, Center, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react";
+import { Badge, Box, Center, Flex, Image, Text, Tooltip, Popover, PopoverTrigger, PopoverContent, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionModal";
 import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
 import PassiveEconomyTooltip from "./Trainer/PassiveEconomyTooltip";
-import { FaExclamationCircle } from "react-icons/fa";
+import NotificationPanel from "./Trainer/NotificationPanel";
+import { FaExclamationCircle, FaBell } from "react-icons/fa";
 import crownIcon from '@assets/images/game/crown.png';
 import clockIcon from '@assets/images/game/clock.png';
 import shopIcon from '@assets/images/game/shop.png';
@@ -39,7 +40,7 @@ const StatItem = ({ icon, title, value }) => (
 )
 
 export default function GameHeader() {
-    const { player, game, session, activeTab, setActiveTab, farm, craft, gym, nextGym } = useContext(PlayerContext)
+    const { player, game, session, activeTab, setActiveTab, farm, craft, gym, nextGym, unreadCount, markNotificationsRead } = useContext(PlayerContext)
 
     const getBadgeIcon = (badgeName) => {
         if (!badgeName) return null
@@ -116,6 +117,28 @@ export default function GameHeader() {
                             <Text ml={1} fontSize="2xs">{session.turns || 0}</Text>
                         </Flex>
                     </Tooltip>
+                )}
+                {!game.hasEnded && (
+                    <Popover trigger="hover" placement="bottom-start" onOpen={markNotificationsRead}>
+                        <PopoverTrigger>
+                            <Flex alignItems="center" mx={2} cursor="pointer" position="relative">
+                                <FaBell size={18} color="#ECC94B" />
+                                {unreadCount > 0 && (
+                                    <Badge
+                                        position="absolute" top="-6px" right="-8px"
+                                        colorScheme="red" borderRadius="full"
+                                        fontSize="2xs" minW="16px" h="16px"
+                                        display="flex" alignItems="center" justifyContent="center"
+                                    >
+                                        {unreadCount > 9 ? '9+' : unreadCount}
+                                    </Badge>
+                                )}
+                            </Flex>
+                        </PopoverTrigger>
+                        <PopoverContent w="auto" border="none" bg="transparent" boxShadow="lg">
+                            <NotificationPanel />
+                        </PopoverContent>
+                    </Popover>
                 )}
                 {!game.hasEnded && (
                     <Tooltip label={<TaskBoardTooltip />} p={0} borderRadius={8} background="none">

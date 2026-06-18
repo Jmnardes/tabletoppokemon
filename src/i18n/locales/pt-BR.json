@@ -95,6 +95,13 @@
     "passiveEconomyDesc": "+1 token a cada 10 tokens, max +5"
   },
 
+  "notifications": {
+    "title": "Notificações",
+    "empty": "Nenhuma notificação",
+    "justNow": "agora",
+    "minutesAgo": "{{count}} min atrás"
+  },
+
   "toast": {
     "levelUp": "Pokémon subiu de nível!",
     "levelUpDesc": "{{name}} subiu para o nível {{level}}!",
@@ -127,7 +134,17 @@
     "connectionError": "Erro de conexão. Tente novamente.",
     "errorUsingPokeball": "Erro ao usar Pokébola",
     "capturingPokemon": "Capturando pokémon...",
-    "reconnecting": "Tentando recuperar sessão..."
+    "reconnecting": "Tentando recuperar sessão...",
+    "passiveEconomy": "Economia Passiva",
+    "passiveEconomyDesc": "+{{tokens}} tokens, +1 pokeball",
+    "dustExp": "Dust → EXP",
+    "dustExpDesc": "{{names}} recebeu +2 EXP (dust)",
+    "berryExpired": "Berry expirou",
+    "berryExpiredDesc": "{{berry}} expirou em {{pokemon}}",
+    "campBroken": "Equipamento quebrou!",
+    "campBrokenDesc": "O equipamento de {{name}} quebrou no treino!",
+    "berryRotted": "Berry apodreceu!",
+    "berryRottedDesc": "Uma berry apodreceu na fazenda! Recupere o terreno."
   },
 
   "encounter": {
@@ -402,11 +419,22 @@
     "threatHeated": "Esquentado",
     "threatEnraged": "Raivoso",
     "threatFurious": "Enfurecido",
+    "threatDescCalm": "Os pokémon selvagens estão tranquilos.",
+    "threatDescAnnoyed": "Os pokémon selvagens estão levemente irritados. +1 stat buffado.",
+    "threatDescHeated": "Os pokémon selvagens estão mais agressivos. +2 stats buffados.",
+    "threatDescEnraged": "Os pokémon selvagens estão furiosos! +3 stats buffados.",
+    "threatDescFurious": "Os pokémon selvagens estão no limite! Todos os stats buffados.",
     "threatTitle": "Nível de Ameaça",
-    "threatTooltip": "Pokémon selvagens ficam mais fortes conforme você derrota mais. Saia da rota para a ameaça diminuir.",
+    "threatTooltip": "Pokémon selvagens ficam mais fortes a cada pokémon derrotado na rota. O nível de ameaça diminui ao passar os turnos, então tenha cuidado ao avançar demais.",
     "leaveRoute": "Deixar Rota",
     "leaveRouteTooltip": "Sair sem lutar. Ameaça diminui -2 a cada turno.",
-    "expBonusAlive": "Apenas pokémon vivos recebem +1 EXP bônus ao final."
+    "expBonusAlive": "Apenas pokémon vivos recebem +1 EXP bônus ao final.",
+    "summaryDefeated": "Pokémon derrotados: {{count}}/{{total}}",
+    "summaryThreat": "Ameaça",
+    "summaryBalls": "Pokéballs utilizadas: {{count}}",
+    "summaryCaptured": "Capturados",
+    "roundReachedFull": "Rota {{round}} — {{defeated}}/{{total}}",
+    "defeatedNoBonus": "Pokémon derrotado, não ganha EXP extra"
   },
 
   "gym": {

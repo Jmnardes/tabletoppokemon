@@ -33,6 +33,8 @@ export function PlayerProvider({children}) {
     const [gymRoute, setGymRoute] = useState([])
     const [lastGymBattleTurn, setLastGymBattleTurn] = useState(null)
     const [results, setResults] = useState({})
+    const [notifications, setNotifications] = useState([])
+    const [unreadCount, setUnreadCount] = useState(0)
     const [activeTab, setActiveTab] = useState('bag')
     const [turnPhases, setTurnPhases] = useState([])
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
@@ -306,6 +308,8 @@ export function PlayerProvider({children}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [emit, reconnectEmit, syncPokemonsFromServer])
     
+    const MAX_NOTIFICATIONS = 20
+
     const handleToast = (args) => {
         let bgColor = "gray.400"
 
@@ -313,6 +317,14 @@ export function PlayerProvider({children}) {
         if(args.status === 'warning') bgColor = 'orange.400'
         if(args.status === 'success') bgColor = 'green.400'
         if(args.status === 'info') bgColor = 'blue.400'
+
+        // Push to notification history
+        setNotifications(prev => {
+            const entry = { title: args.title, description: args.description, status: args.status, timestamp: Date.now() }
+            const next = [entry, ...prev]
+            return next.length > MAX_NOTIFICATIONS ? next.slice(0, MAX_NOTIFICATIONS) : next
+        })
+        setUnreadCount(prev => prev + 1)
 
         if (!toast.isActive(args.id)) {
             toast({
@@ -330,6 +342,8 @@ export function PlayerProvider({children}) {
             })
         }
     }
+
+    const markNotificationsRead = () => setUnreadCount(0)
 
     /* TOAST PROPS
         id,
@@ -1015,6 +1029,10 @@ export function PlayerProvider({children}) {
             playerWinPrize,
 
             results,
+
+            notifications,
+            unreadCount,
+            markNotificationsRead,
         }}>
             {children}
         </PlayerContext.Provider>

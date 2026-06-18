@@ -95,6 +95,13 @@
     "passiveEconomyDesc": "+1 token every 10 tokens held, max +5"
   },
 
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "justNow": "just now",
+    "minutesAgo": "{{count}} min ago"
+  },
+
   "toast": {
     "levelUp": "Pokémon level up!",
     "levelUpDesc": "{{name}} has leveled up to {{level}}!",
@@ -127,7 +134,17 @@
     "connectionError": "Connection error. Please try again.",
     "errorUsingPokeball": "Error using Pokeball",
     "capturingPokemon": "Capturing pokemon...",
-    "reconnecting": "Attempting to recover session..."
+    "reconnecting": "Attempting to recover session...",
+    "passiveEconomy": "Passive Economy",
+    "passiveEconomyDesc": "+{{tokens}} tokens, +1 pokeball",
+    "dustExp": "Dust → EXP",
+    "dustExpDesc": "{{names}} received +2 EXP (dust)",
+    "berryExpired": "Berry expired",
+    "berryExpiredDesc": "{{berry}} expired on {{pokemon}}",
+    "campBroken": "Equipment broke!",
+    "campBrokenDesc": "{{name}}'s equipment broke during training!",
+    "berryRotted": "Berry rotted!",
+    "berryRottedDesc": "A berry rotted on your farm! Recover the plot."
   },
 
   "encounter": {
@@ -402,11 +419,22 @@
     "threatHeated": "Heated",
     "threatEnraged": "Enraged",
     "threatFurious": "Furious",
+    "threatDescCalm": "Wild pokémon are calm.",
+    "threatDescAnnoyed": "Wild pokémon are slightly irritated. +1 stat buffed.",
+    "threatDescHeated": "Wild pokémon are more aggressive. +2 stats buffed.",
+    "threatDescEnraged": "Wild pokémon are furious! +3 stats buffed.",
+    "threatDescFurious": "Wild pokémon are at their limit! All stats buffed.",
     "threatTitle": "Threat Level",
-    "threatTooltip": "Wild pokémon get stronger as you defeat more. Leave the route to let threat decay.",
+    "threatTooltip": "Wild pokémon get stronger with each pokémon defeated on the route. Threat level decreases over turns, so be careful not to push too far.",
     "leaveRoute": "Leave Route",
     "leaveRouteTooltip": "Exit without fighting. Threat decays -2 each turn.",
-    "expBonusAlive": "Only alive pokémon receive +1 bonus EXP at the end."
+    "expBonusAlive": "Only alive pokémon receive +1 bonus EXP at the end.",
+    "summaryDefeated": "Pokémon defeated: {{count}}/{{total}}",
+    "summaryThreat": "Threat",
+    "summaryBalls": "Pokéballs used: {{count}}",
+    "summaryCaptured": "Captured",
+    "roundReachedFull": "Route {{round}} — {{defeated}}/{{total}}",
+    "defeatedNoBonus": "Defeated pokémon, no bonus EXP"
   },
 
   "gym": {

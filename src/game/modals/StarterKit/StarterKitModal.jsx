@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 
 import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
 import potionIcon from '@assets/images/items/potion.png'
 import dustIcon from '@assets/images/items/dust.png'
 import tokenIcon from '@assets/images/game/coin.png'
@@ -39,7 +40,7 @@ const classData = {
         emoji: '🎯',
         color: 'green.400',
         items: [
-            { icon: pokeballIcon, label: '+4 Greatballs' },
+            { icon: greatballIcon, label: '+4 Greatballs' },
         ],
     },
     heir: {

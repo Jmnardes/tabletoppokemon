@@ -612,9 +612,9 @@
       "dust": "Usado para dar EXP a um Pokémon.",
       "greatball": "Boa para pokémons médios, mas inconsistente com pokémons fortes.",
       "ultraball": "Boa para pokémons fortes, porém tem custo elevado.",
-      "potion": "Cura 25% do HP na Rota.",
-      "superPotion": "Cura 50% do HP na Rota.",
-      "hyperPotion": "Cura 80% do HP na Rota.",
+      "potion": "Cura 8 de HP na Rota.",
+      "superPotion": "Cura 15 de HP na Rota.",
+      "hyperPotion": "Cura 25 de HP na Rota.",
       "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota."
     }
   },

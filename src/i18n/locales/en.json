@@ -612,9 +612,9 @@
       "dust": "Used to give EXP to a Pokémon.",
       "greatball": "Good for mid-tier pokémon, but inconsistent against strong ones.",
       "ultraball": "Good for strong pokémon, but costs more tokens.",
-      "potion": "Heals 25% HP during Route.",
-      "superPotion": "Heals 50% HP during Route.",
-      "hyperPotion": "Heals 80% HP during Route.",
+      "potion": "Heals 8 HP during Route.",
+      "superPotion": "Heals 15 HP during Route.",
+      "hyperPotion": "Heals 25 HP during Route.",
       "incense": "Increases the chance of encountering higher level Pokémon on your next route."
     }
   },

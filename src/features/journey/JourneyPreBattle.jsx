@@ -17,9 +17,9 @@ import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 const EXP_TO_LEVEL = 10
 
 const POTIONS = [
-    { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '25%', icon: potionIcon },
-    { key: 'superPotion', label: 'Super Potion', tKey: 'journey.superPotionName', healText: '50%', icon: superPotionIcon },
-    { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '80%', icon: hyperPotionIcon },
+    { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '8', icon: potionIcon },
+    { key: 'superPotion', label: 'Super Potion', tKey: 'journey.superPotionName', healText: '15', icon: superPotionIcon },
+    { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '25', icon: hyperPotionIcon },
 ]
 
 export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRoute, setJourneyState }) {

@@ -66,13 +66,9 @@ export default function JourneySelection() {
 
     return (
         <Flex flex="1" flexDirection="column" alignItems="center" p={4} overflowY="auto">
-            <Text fontSize="sm" mb={4} textAlign="center" color="gray.400">
-                {t('journey.selectPokemon', { max: maxSelectable })}
-            </Text>
-
             {/* Journey level */}
             <Badge colorScheme="purple" fontSize="sm" mb={3} p={2} borderRadius={8}>
-                {t('journey.level', { level: (session.level ?? 0) + 1, current: wildDefeatedCount + 1, total: stagesToWin })}
+                {t('journey.level', { level: session.level ?? 1, current: wildDefeatedCount + 1, total: stagesToWin })}
             </Badge>
 
             {/* Route instructions */}

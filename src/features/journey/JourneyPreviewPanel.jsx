@@ -1,10 +1,18 @@
 import { useContext } from "react"
-import { Badge, Flex, Image, Text, useColorMode } from "@chakra-ui/react"
+import { Badge, Flex, Image, Text, Tooltip, useColorMode } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 import Element from "@features/elements/Element"
 
 const VISIBLE_COUNT = 3
+
+const THREAT_LABELS = [
+    { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+    { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
+    { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
+    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
+    { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
+]
 
 export default function JourneyPreviewPanel() {
     const { game, session } = useContext(PlayerContext)
@@ -28,7 +36,12 @@ export default function JourneyPreviewPanel() {
     const allRemainingWild = wildPreview.slice(journeyProgress)
     const visibleWild = allRemainingWild.slice(0, VISIBLE_COUNT)
     const hiddenCount = allRemainingWild.length - visibleWild.length
-    const journeyLevel = (game.journeyLevel ?? 0) + 1
+    const journeyLevel = game.journeyLevel ?? 1
+
+    const threat = game.journeyData?.threat ?? 0
+    const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
+    const threatLabel = t(`journey.${threatData.key}`)
+    const threatColor = threatData.color
 
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center" data-tutorial="journey-panel">
@@ -38,7 +51,7 @@ export default function JourneyPreviewPanel() {
                 {t('journey.routeN', { route: journeyLevel })}
             </Badge>
 
-            <Flex gap={3} mb={4}>
+            <Flex gap={3} mb={2}>
                 <Badge colorScheme="green" fontSize="xs" px={2} py={1} borderRadius="full">
                     {t('journey.previewDefeated')}: {defeated}
                 </Badge>
@@ -46,6 +59,12 @@ export default function JourneyPreviewPanel() {
                     {t('journey.previewRemaining')}: {remaining}
                 </Badge>
             </Flex>
+
+            <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}: {threatLabel}</Text><Text fontSize="xs" mt={1}>{t(`journey.${threatData.descKey}`)}</Text><Text fontSize="2xs" mt={1} color="gray.300">{t('journey.threatTooltip')}</Text></>} hasArrow>
+                <Badge colorScheme={threatColor} fontSize="xs" px={2} py={1} borderRadius="full" mb={4} cursor="help">
+                    {t('journey.threatTitle')}: {threatLabel}
+                </Badge>
+            </Tooltip>
 
             {/* Visible wild pokemon */}
             <Flex gap={2} justifyContent="center" flexWrap="wrap" maxW="900px" mb={2}>

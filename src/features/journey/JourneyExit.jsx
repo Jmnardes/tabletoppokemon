@@ -1,16 +1,37 @@
 import { useContext, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Flex, Text, Button, Badge, Box, Image, Progress, HStack, VStack } from "@chakra-ui/react"
+import { Flex, Text, Button, Badge, Box, Image, Progress, HStack, VStack, Tooltip } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import socket from "@client"
+import Card from "@features/pokemon/Card"
+import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
+import greatballIcon from '@assets/images/pokeballs/greatball.png'
+import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
+import masterballIcon from '@assets/images/pokeballs/masterball.png'
 
 const EXP_TO_LEVEL = 10
+
+const THREAT_LABELS = [
+    { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+    { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
+    { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
+    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
+    { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
+]
+
+const BALL_ICONS = { pokeball: pokeballIcon, greatball: greatballIcon, ultraball: ultraballIcon, masterball: masterballIcon }
 
 export default function JourneyExit({ journeyState, onLeave }) {
     const { t } = useTranslation()
     const { player, session, setPlayer, syncPokemonsFromServer, updateGame } = useContext(PlayerContext)
     const [exiting, setExiting] = useState(false)
     const [expSummary, setExpSummary] = useState(null)
+    const [summary, setSummary] = useState(null)
+
+    const threat = journeyState?.threat ?? 0
+    const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
+    const threatLabel = t(`journey.${threatData.key}`)
+    const threatColor = threatData.color
 
     const handleExit = () => {
         setExiting(true)
@@ -35,8 +56,9 @@ export default function JourneyExit({ journeyState, onLeave }) {
                     journeyProgress: result.journeyProgress ?? 0,
                     journeyWildDefeatedCount: result.journeyWildDefeatedCount ?? 0,
                     journeyWildPreview: result.journeyWildPreview || [],
-                    journeyLevel: result.journeyLevel ?? 0,
+                    journeyLevel: result.journeyLevel ?? 1,
                 })
+                setSummary(result.summary || {})
                 setExpSummary(result.expSummary || [])
             }
         })
@@ -48,13 +70,16 @@ export default function JourneyExit({ journeyState, onLeave }) {
 
     // After EXP summary is loaded, show summary screen
     if (expSummary) {
+        const defeatedCount = summary?.totalWildDefeated ?? journeyState?.wildDefeatedCount ?? 0
+        const stagesToWin = summary?.stagesToWin ?? journeyState?.stagesToWin ?? 5
+
         return (
             <Flex flex="1" direction="column" align="center" p={4} w="100%" maxW="500px" overflowY="auto">
                 <Text fontSize="xl" fontWeight="bold" mb={2}>
                     {t('journey.expSummaryTitle')}
                 </Text>
                 <Badge colorScheme="blue" fontSize="md" mb={2} p={2} borderRadius={8}>
-                    {t('journey.roundReached', { round: journeyState.round })}
+                    {t('journey.roundReachedFull', { round: journeyState.round, defeated: defeatedCount, total: stagesToWin })}
                 </Badge>
                 <Text fontSize="2xs" color="gray.400" mb={4}>
                     {t('journey.expBonusAlive')}
@@ -83,6 +108,11 @@ export default function JourneyExit({ journeyState, onLeave }) {
                                     <Text fontSize="sm" fontWeight="bold" isTruncated>
                                         {poke.name}
                                     </Text>
+                                    {poke.defeated && (
+                                        <Tooltip label={t('journey.defeatedNoBonus')}>
+                                            <Text cursor="help">💀</Text>
+                                        </Tooltip>
+                                    )}
                                     <Badge colorScheme="green" fontSize="xs">
                                         +{poke.expGained} EXP
                                     </Badge>
@@ -127,13 +157,68 @@ export default function JourneyExit({ journeyState, onLeave }) {
     }
 
     return (
-        <Flex flex="1" direction="column" align="center" justify="center" p={4} w="100%" maxW="500px">
+        <Flex flex="1" direction="column" align="center" justify="center" p={4} w="100%" maxW="600px">
             <Text fontSize="xl" mb={2}>
                 {t('journey.complete')}
             </Text>
-            <Badge colorScheme="blue" fontSize="md" mb={4} p={2} borderRadius={8}>
+            <Badge colorScheme="blue" fontSize="md" mb={3} p={2} borderRadius={8}>
                 {t('journey.roundReached', { round: journeyState.round })}
             </Badge>
+
+            <VStack spacing={2} mb={3} w="100%" align="center">
+                <HStack spacing={2}>
+                    <Text>⚔️</Text>
+                    <Text fontSize="sm">{t('journey.summaryDefeated', { count: journeyState?.wildDefeatedCount || 0, total: journeyState?.stagesToWin || 5 })}</Text>
+                </HStack>
+                <HStack spacing={2}>
+                    <Text>🎯</Text>
+                    <Text fontSize="sm">{t('journey.summaryThreat')}:</Text>
+                    <Badge colorScheme={threatColor}>{threatLabel}</Badge>
+                </HStack>
+                {journeyState?.ballsUsedMap && Object.keys(journeyState.ballsUsedMap).length > 0 && (
+                    <HStack spacing={3}>
+                        {Object.entries(journeyState.ballsUsedMap).map(([type, count]) => (
+                            <HStack key={type} spacing={1}>
+                                <Image src={BALL_ICONS[type]} w="20px" h="20px" />
+                                <Text fontSize="sm" fontWeight="bold">x{count}</Text>
+                            </HStack>
+                        ))}
+                    </HStack>
+                )}
+                {journeyState?.capturedPokemonList?.length > 0 && (
+                    <VStack spacing={2} w="100%">
+                        <Text fontSize="sm" fontWeight="bold">{t('journey.summaryCaptured')}:</Text>
+                        {journeyState.capturedPokemonList.length <= 5 ? (
+                            <Flex gap={2} flexWrap="nowrap" justifyContent="center">
+                                {journeyState.capturedPokemonList.map((poke) => (
+                                    <Card key={poke.id} poke={poke} size="M" />
+                                ))}
+                            </Flex>
+                        ) : (
+                            <Flex gap={2} flexWrap="wrap" justifyContent="center" maxW="400px">
+                                {journeyState.capturedPokemonList.map((poke) => (
+                                    <Tooltip key={poke.id} label={<Card poke={poke} tooltip />} placement="top" hasArrow>
+                                        <Flex
+                                            direction="column"
+                                            align="center"
+                                            bg="whiteAlpha.100"
+                                            border="1px solid"
+                                            borderColor="whiteAlpha.300"
+                                            borderRadius={8}
+                                            p={1}
+                                            cursor="pointer"
+                                            _hover={{ bg: "whiteAlpha.200" }}
+                                        >
+                                            <Image src={poke.sprites?.front || poke.sprites?.main} w="40px" h="40px" />
+                                            <Text fontSize="2xs" noOfLines={1}>{poke.name}</Text>
+                                        </Flex>
+                                    </Tooltip>
+                                ))}
+                            </Flex>
+                        )}
+                    </VStack>
+                )}
+            </VStack>
 
             <Button
                 colorScheme="blue"

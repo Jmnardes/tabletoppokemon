@@ -62,11 +62,11 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
     // Threat system
     const threat = journeyState.threat ?? 0
     const THREAT_LABELS = [
-        { key: 'threatCalm', color: 'green' },
-        { key: 'threatAnnoyed', color: 'yellow' },
-        { key: 'threatHeated', color: 'orange' },
-        { key: 'threatEnraged', color: 'red' },
-        { key: 'threatFurious', color: 'purple' },
+        { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+        { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
+        { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
+        { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
+        { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
     ]
     const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
     const threatLabel = t(`journey.${threatData.key}`)
@@ -201,9 +201,9 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
             {/* Level + Threat Badges */}
             <HStack spacing={2} mb={4}>
                 <Badge colorScheme="blue" fontSize="xs" px={3} py={1} borderRadius="full">
-                    {t('journey.levelN', { level: (journeyState.level ?? 0) + 1 })}
+                    {t('journey.levelN', { level: journeyState.level ?? 1 })}
                 </Badge>
-                <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}</Text><Text fontSize="xs">{t('journey.threatTooltip')}</Text></>} hasArrow>
+                <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}: {threatLabel}</Text><Text fontSize="xs" mt={1}>{t(`journey.${threatData.descKey}`)}</Text><Text fontSize="2xs" mt={1} color="gray.300">{t('journey.threatTooltip')}</Text></>} hasArrow>
                     <Badge
                         colorScheme={threatColor}
                         fontSize="xs"

@@ -50,7 +50,7 @@ export default function OpponentCard({ opponent, inFront = false }) {
                         </Flex>
                         <Flex alignItems="center">
                             <Image src={stepsIcon} w="14px" />
-                            <Text fontSize="2xs" ml={1}>{opponent.journeyLevel ?? 0} - {opponent.journeyProgress ?? 0}</Text>
+                            <Text fontSize="2xs" ml={1}>{opponent.journeyLevel ?? 1} - {opponent.journeyProgress ?? 0}</Text>
                         </Flex>
                     </Flex>
                 ) : (

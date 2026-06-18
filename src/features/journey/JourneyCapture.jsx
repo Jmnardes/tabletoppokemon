@@ -35,6 +35,14 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
                     setJourneyState(prev => ({
                         ...prev,
                         playerTeamStatus: result.playerTeamStatus,
+                        ballsUsedMap: { ...(prev.ballsUsedMap || {}), [ballType]: ((prev.ballsUsedMap || {})[ballType] || 0) + 1 },
+                        capturedPokemonList: [...(prev.capturedPokemonList || []), result.pokemon],
+                    }))
+                } else {
+                    // Ball used but capture failed
+                    setJourneyState(prev => ({
+                        ...prev,
+                        ballsUsedMap: { ...(prev.ballsUsedMap || {}), [ballType]: ((prev.ballsUsedMap || {})[ballType] || 0) + 1 },
                     }))
                 }
                 callback({ captured: result.captured, fled: result.fled })

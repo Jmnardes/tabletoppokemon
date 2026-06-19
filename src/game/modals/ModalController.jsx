@@ -102,6 +102,9 @@ export default function ModalController() {
             // Update daycare tokens (passive token generation)
             if (res.daycare) setPlayer(prev => ({ ...prev, daycare: res.daycare }))
 
+            // Update threat (decay applied by server each turn)
+            if (res.threat != null) setPlayer(prev => ({ ...prev, threat: res.threat }))
+
             // Farm notifications
             if (res.farmNotifications?.length) {
                 res.farmNotifications.forEach(n => {

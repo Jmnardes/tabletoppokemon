@@ -289,7 +289,11 @@ export default function GymBattleScreen({
                     pl={isPlayerAttacking ? 2 : 0}
                     pr={!isPlayerAttacking ? 2 : 0}
                 >
-                    {log.damage > 0 ? `${log.damage} ${t('gym.dmg')}` : "MISS"}
+                    {log.damage > 0
+                        ? (log.hpBefore != null
+                            ? `${log.hpBefore}-${log.damage}=${log.hpAfter}`
+                            : `${log.damage} ${t('gym.dmg')}`)
+                        : "MISS"}
                     {log.hitType === "crit" && ` • ${t('gym.crit')}`}
                     {log.hitType === "half" && ` • ${t('gym.resisted')}`}
                 </Text>

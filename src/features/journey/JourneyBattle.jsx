@@ -217,9 +217,12 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
         const isPlayerAttacker = entry.attacker?.id === pPoke.id
         const tag = hitTypeTag(entry.hitType)
         const icon = hitTypeIcon(entry.hitType)
+        const hpInfo = !isMiss && entry.hpBefore != null
+            ? `${fmt(entry.hpBefore)}-${fmt(entry.damage)}=${fmt(entry.hpAfter)}`
+            : (!isMiss ? `(${fmt(entry.damage)})` : '')
         const compactMsg = isPlayerAttacker
-            ? `${icon} ${attackerName} → ${tag}${!isMiss ? ` (${fmt(entry.damage)})` : ''}`
-            : `${!isMiss ? `(${fmt(entry.damage)}) ` : ''}${tag} ← ${icon} ${attackerName}`
+            ? `${icon} ${attackerName} → ${tag}${!isMiss ? ` ${hpInfo}` : ''}`
+            : `${!isMiss ? `${hpInfo} ` : ''}${tag} ← ${icon} ${attackerName}`
 
         setLastLogMessage(compactMsg)
         setLastHitType(entry.hitType)

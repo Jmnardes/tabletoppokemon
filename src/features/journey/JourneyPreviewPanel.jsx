@@ -15,7 +15,7 @@ const THREAT_LABELS = [
 ]
 
 export default function JourneyPreviewPanel() {
-    const { game, session } = useContext(PlayerContext)
+    const { game, session, player } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
@@ -38,7 +38,7 @@ export default function JourneyPreviewPanel() {
     const hiddenCount = allRemainingWild.length - visibleWild.length
     const journeyLevel = game.journeyLevel ?? 1
 
-    const threat = game.journeyData?.threat ?? 0
+    const threat = player.threat ?? 0
     const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
     const threatLabel = t(`journey.${threatData.key}`)
     const threatColor = threatData.color

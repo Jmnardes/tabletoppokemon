@@ -28,7 +28,7 @@ export default function JourneyExit({ journeyState, onLeave }) {
     const [expSummary, setExpSummary] = useState(null)
     const [summary, setSummary] = useState(null)
 
-    const threat = journeyState?.threat ?? 0
+    const threat = player.threat ?? 0
     const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
     const threatLabel = t(`journey.${threatData.key}`)
     const threatColor = threatData.color

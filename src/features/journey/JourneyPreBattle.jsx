@@ -60,7 +60,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
     const [selectedWildIndex, setSelectedWildIndex] = useState(null)
 
     // Threat system
-    const threat = journeyState.threat ?? 0
+    const threat = player.threat ?? 0
     const THREAT_LABELS = [
         { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
         { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
@@ -158,9 +158,9 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                         wildTeam: result.wildTeam || prev.wildTeam,
                         canSendBack: result.canSendBack ?? prev.canSendBack,
                         wildDefeatedCount: result.wildDefeatedCount ?? prev.wildDefeatedCount,
-                        threat: result.threat ?? prev.threat,
                     }))
                 }
+                if (result.threat != null) setPlayer(prev => ({ ...prev, threat: result.threat }))
                 if (result.canSendBack != null) setCanSendBack(result.canSendBack)
                 setSelectedWildIndex(null)
                 onFightStart(result)

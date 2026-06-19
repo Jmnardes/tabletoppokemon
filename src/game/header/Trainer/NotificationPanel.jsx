@@ -10,13 +10,6 @@ const STATUS_COLORS = {
     info: 'blue.400',
 }
 
-function timeAgo(timestamp, t) {
-    const seconds = Math.floor((Date.now() - timestamp) / 1000)
-    if (seconds < 60) return t('notifications.justNow')
-    const minutes = Math.floor(seconds / 60)
-    return t('notifications.minutesAgo', { count: minutes })
-}
-
 export default function NotificationPanel() {
     const { notifications } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
@@ -64,9 +57,6 @@ export default function NotificationPanel() {
                             <Flex justifyContent="space-between" alignItems="center">
                                 <Text fontSize="xs" fontWeight="bold" color={colorMode === 'dark' ? 'white' : undefined} isTruncated>
                                     {n.title}
-                                </Text>
-                                <Text fontSize="2xs" color="gray.500" flexShrink={0} ml={2}>
-                                    {timeAgo(n.timestamp, t)}
                                 </Text>
                             </Flex>
                             {n.description && (

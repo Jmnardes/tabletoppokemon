@@ -43,7 +43,7 @@ export default function AugmentsModal({ augments }) {
                     Augments type: {augments.type}
                 </Text>
                 <Center h="100%" pb={4}>
-                    <SimpleGrid columns={2} spacing={4} mx={4}>
+                    <SimpleGrid columns={3} spacing={4} mx={4}>
                         {augments.list?.map((augment, index) => (
                             <AugmentContainer 
                                 key={index} 

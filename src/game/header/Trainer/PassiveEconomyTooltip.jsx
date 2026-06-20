@@ -12,7 +12,7 @@ export default function PassiveEconomyTooltip() {
     const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
-    const passiveTokens = Math.min(5, 1 + Math.floor((player.daycare?.token || 0) / 10))
+    const passiveTokens = 1 + Math.min(5, Math.floor((player.daycare?.token || 0) / 10)) * 2
 
     return (
         <Flex

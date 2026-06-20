@@ -10,6 +10,7 @@ import ultraballIcon from '@assets/images/pokeballs/ultraball.png'
 import potionIcon from '@assets/images/items/potion.png'
 import superPotionIcon from '@assets/images/items/super-potion.png'
 import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
+import gymTicketIcon from '@assets/images/game/gym-ticket.png'
 import { useTranslation } from "react-i18next"
 
 const ITEM_DESCRIPTIONS = {
@@ -20,6 +21,7 @@ const ITEM_DESCRIPTIONS = {
     potion: 'daycare.desc.potion',
     superPotion: 'daycare.desc.superPotion',
     hyperPotion: 'daycare.desc.hyperPotion',
+    gymTicket: 'daycare.desc.gymTicket',
 }
 
 export default function DayCareShop() {
@@ -43,6 +45,9 @@ export default function DayCareShop() {
             }
             if (result?.potions) {
                 setPlayer(prev => ({ ...prev, potions: result.potions }))
+            }
+            if (result?.gymTickets != null) {
+                setPlayer(prev => ({ ...prev, gymTickets: result.gymTickets }))
             }
 
             // Mostra toast baseado no item comprado
@@ -108,6 +113,14 @@ export default function DayCareShop() {
                         icon: <Image src={hyperPotionIcon} w={12} />
                     })
                     break
+                case 'gymTicket':
+                    handleToast({
+                        ...toastConfig,
+                        title: 'Gym Ticket',
+                        description: 'A Gym Ticket has been added',
+                        icon: <Image src={gymTicketIcon} w={12} />
+                    })
+                    break
                 default:
                     break
             }
@@ -126,7 +139,8 @@ export default function DayCareShop() {
         }
     }
 
-    const TableItem = ({ icon, name, item, price, quantity = 1 }) => {
+    const TableItem = ({ icon, name, item, price, quantity = 1, disabled = false }) => {
+        const isUnavailable = price > player.daycare.token || disabled
         return (
             <Tooltip
                 label={
@@ -151,8 +165,8 @@ export default function DayCareShop() {
                     <Center
                         gap={1}
                         _hover={{ cursor: 'pointer', opacity: 0.5 }}
-                        opacity={price > player.daycare.token ? 0.3 : 1}
-                        pointerEvents={price > player.daycare.token ? 'none' : 'auto'}
+                        opacity={isUnavailable ? 0.3 : 1}
+                        pointerEvents={isUnavailable ? 'none' : 'auto'}
                         onClick={() => handleBuyItem(item, price)}
                     >
                         <Text fontSize="md">{price}</Text>
@@ -216,6 +230,13 @@ export default function DayCareShop() {
                             name={'Hyper Potion'}
                             item={'hyperPotion'}
                             price={8}
+                        ></TableItem>
+                        <TableItem
+                            icon={gymTicketIcon}
+                            name={'Gym Ticket'}
+                            item={'gymTicket'}
+                            price={2}
+                            disabled={(player.gymTickets || 0) >= 2}
                         ></TableItem>
                         {/* <TableItem
                             icon={eggIcon}

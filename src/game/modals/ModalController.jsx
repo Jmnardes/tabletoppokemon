@@ -85,6 +85,9 @@ export default function ModalController() {
             }
 
             setAugments(res.augments)
+            if (res.augments?.list?.length > 0) {
+                updateGame({ openAugmentsModal: true })
+            }
             setTasks([...res.tasks])
 
             // Update farm state from turn tick
@@ -104,6 +107,9 @@ export default function ModalController() {
 
             // Update threat (decay applied by server each turn)
             if (res.threat != null) setPlayer(prev => ({ ...prev, threat: res.threat }))
+
+            // Update gym tickets (passive generation each 2 turns)
+            if (res.gymTickets != null) setPlayer(prev => ({ ...prev, gymTickets: res.gymTickets }))
 
             // Farm notifications
             if (res.farmNotifications?.length) {

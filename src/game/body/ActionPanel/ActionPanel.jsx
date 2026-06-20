@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Flex, Image, useColorMode } from "@chakra-ui/react";
+import { Badge, Box, Button, Flex, Image, useColorMode } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
@@ -77,7 +77,22 @@ export default function ActionPanel() {
                 {tabButton('bag', bagIcon, t('action.bag'))}
                 {tabButton('daycare', dayCareIcon, t('action.dayCare'))}
                 {tabButton('training', fightIcon, t('action.trainingCamp'), { colorScheme: activeTab === 'training' ? 'blue' : 'gray' })}
-                {farm && tabButton('farm', farmIcon, t('action.berryFarm'))}
+                {farm && (
+                    <Box position="relative">
+                        {tabButton('farm', farmIcon, t('action.berryFarm'))}
+                        {farm.plots?.filter(p => p.status === 'ready').length > 0 && (
+                            <Badge
+                                position="absolute" top="-4px" right="-4px"
+                                colorScheme="red" borderRadius="full"
+                                fontSize="2xs" minW="16px" h="16px"
+                                display="flex" alignItems="center" justifyContent="center"
+                                zIndex={3}
+                            >
+                                {farm.plots.filter(p => p.status === 'ready').length}
+                            </Badge>
+                        )}
+                    </Box>
+                )}
                 {craft && tabButton('craft', craftIcon, t('action.craft'))}
 
                 {player.augments?.length > 0 && tabButton('augments', chipIcon, t('action.augments'))}

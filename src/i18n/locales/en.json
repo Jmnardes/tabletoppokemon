@@ -92,7 +92,7 @@
     "currentTurn": "Current turn number",
     "badges": "Badges",
     "passiveEconomy": "Passive Economy",
-    "passiveEconomyDesc": "+1 token every 10 tokens held, max +5"
+    "passiveEconomyDesc": "+2 tokens every 10 tokens held, max +10"
   },
 
   "notifications": {
@@ -207,7 +207,7 @@
     "producingPerTurn": "Producing pokéballs each turn",
     "seedLevel": "Seed Lv. {{level}}",
     "farmGuide": "🌱 Farm Guide",
-    "farmGuideText": "Each plot takes 4 turns to grow. Once ready, you have 2 turns to harvest before it rots. Use dust to fertilize and speed up growth by 1 turn.",
+    "farmGuideText": "Each plot takes 3 turns to grow. Once ready, you have 2 turns to harvest before it rots. Use dust to fertilize and improve berry quality.",
     "berryChances": "Berry Chances (Lv. {{level}})",
     "common": "Common",
     "uncommon": "Uncommon",
@@ -457,6 +457,7 @@
     "comeBackOnTurn": "Come back on turn {{turn}} to challenge this gym!",
     "alreadyChallenged": "Already challenged this turn",
     "needPokemon": "Need at least 3 Pokémon",
+    "needTicket": "You need a ticket to challenge the gym",
     "challengeLeader": "Challenge {{leader}}",
     "challengeCount": "You've challenged this gym {{count}} time(s)",
     "noGymAvailable": "No gym available",
@@ -615,7 +616,8 @@
       "potion": "Heals 8 HP during Route.",
       "superPotion": "Heals 15 HP during Route.",
       "hyperPotion": "Heals 25 HP during Route.",
-      "incense": "Increases the chance of encountering higher level Pokémon on your next route."
+      "incense": "Increases the chance of encountering higher level Pokémon on your next route.",
+      "gymTicket": "Required to challenge the gym. Max 2."
     }
   },
 

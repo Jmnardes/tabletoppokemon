@@ -5,6 +5,7 @@ import PlayerContext from "@context/PlayerContext";
 import TeamContainer from "./Team/TeamContainer";
 import DayCarePanel from "@game/header/Buttons/PokeDayCare/DayCarePanel";
 import TrainingCampPanel from "@game/header/Buttons/TrainingCamp/TrainingCampPanel";
+import { TRAINING_CAMP_ENABLED } from '@utils/gameConfiguration';
 import PlayerAugmentsPanel from "@game/header/Buttons/Augments/PlayerAugmentsPanel";
 import GymPanel from "@game/modals/Gym/GymPanel";
 import FarmPanel from "@features/farm/FarmPanel";
@@ -37,7 +38,7 @@ function getNextTurnPhases(turn, battleFrequency = 3, hasGym = false) {
 const panels = {
     bag: TeamContainer,
     daycare: DayCarePanel,
-    training: TrainingCampPanel,
+    ...(TRAINING_CAMP_ENABLED && { training: TrainingCampPanel }),
     augments: PlayerAugmentsPanel,
     gym: GymPanel,
     farm: FarmPanel,

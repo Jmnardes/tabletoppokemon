@@ -20,6 +20,7 @@ import farmIcon from '@assets/images/farm/sprout.png';
 import craftIcon from '@assets/images/craft/machine-on.png';
 import stepsIcon from '@assets/images/game/direction.png';
 import settingsIcon from '@assets/images/game/settings.png';
+import { TRAINING_CAMP_ENABLED } from '@utils/gameConfiguration';
 
 import tokenIcon from '@assets/images/game/coin.png'
 import dustIcon from '@assets/images/items/dust.png'
@@ -162,6 +163,29 @@ export default function GameHeader() {
                         </Flex>
                     </Tooltip>
                 )}
+                {!game.hasEnded && player.augments?.length > 0 && (
+                    <Tooltip
+                        label={
+                            <Flex w={260} bg={bgColor} borderRadius={8} direction="column" p={3} gap={2}>
+                                <Badge textAlign="center" w="full" py={2}>Augments</Badge>
+                                {player.augments.map((augment, i) => (
+                                    <Flex key={i} align="center" gap={2} p={1} borderRadius={4} bg="whiteAlpha.100">
+                                        <Badge colorScheme={augment.rarity === 'rare' ? 'purple' : augment.rarity === 'uncommon' ? 'blue' : 'green'} fontSize="2xs">
+                                            {augment.rarity}
+                                        </Badge>
+                                        <Text fontSize="xs" fontWeight="bold">{augment.name}</Text>
+                                    </Flex>
+                                ))}
+                            </Flex>
+                        }
+                        p={0} borderRadius={8} background="none"
+                    >
+                        <Flex alignItems="center" mx={2} cursor="pointer">
+                            <Image src={chipIcon} w="22px" />
+                            <Text ml={1} fontSize="2xs">{player.augments.length}</Text>
+                        </Flex>
+                    </Tooltip>
+                )}
             </Center>
             {!game.hasEnded && (
                 <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center" data-tutorial="quick-items">
@@ -186,8 +210,23 @@ export default function GameHeader() {
             <Flex flex="1" alignItems="end" justifyContent="end" gap="0.65rem" pb={0} pr={2} data-tutorial="tab-buttons">
                 {tabButton('bag', bagIcon, t('action.bag'))}
                 {tabButton('daycare', dayCareIcon, t('action.dayCare'))}
-                {tabButton('training', fightIcon, t('action.trainingCamp'))}
-                {farm && tabButton('farm', farmIcon, t('action.berryFarm'))}
+                {TRAINING_CAMP_ENABLED && tabButton('training', fightIcon, t('action.trainingCamp'))}
+                {farm && (
+                    <Box position="relative">
+                        {tabButton('farm', farmIcon, t('action.berryFarm'))}
+                        {farm.plots?.filter(p => p.status === 'ready').length > 0 && (
+                            <Badge
+                                position="absolute" top="-4px" right="-4px"
+                                colorScheme="red" borderRadius="full"
+                                fontSize="2xs" minW="16px" h="16px"
+                                display="flex" alignItems="center" justifyContent="center"
+                                zIndex={3}
+                            >
+                                {farm.plots.filter(p => p.status === 'ready').length}
+                            </Badge>
+                        )}
+                    </Box>
+                )}
                 {craft && tabButton('craft', craftIcon, t('action.craft'))}
                 {player.augments?.length > 0 && tabButton('augments', chipIcon, t('action.augments'))}
                 {tabButton('journey', stepsIcon, t('action.journey'))}

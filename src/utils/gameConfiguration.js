@@ -1,3 +1,5 @@
+export const TRAINING_CAMP_ENABLED = false;
+
 export const gameConfig = {
     trainerName: {
         default: '',
@@ -14,15 +16,15 @@ export const gameConfig = {
     },
     
     stagesPerJourney: {
-        default: 5,
-        min: 4,
-        max: 6,
+        default: 6,
+        min: 5,
+        max: 7,
         step: 1,
         tooltip: 'Quantos pokémons selvagens você precisa derrotar para completar cada jornada. O total será o dobro.',
     },
     
     battleFrequency: {
-        default: 3,
+        default: 2,
         min: 0,
         max: 5,
         step: 1,

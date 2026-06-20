@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider } from "@chakra-ui/react"
+import { Text, Center, Flex, Button, Badge, Image, useColorMode, VStack, HStack, Divider, Tooltip } from "@chakra-ui/react"
 import PlayerContext from "@context/PlayerContext"
 import GenericModal from "@components/Modal/GenericModal"
 import Element from "@features/elements/Element"
@@ -10,6 +10,8 @@ import socket from "@client"
 import GymPreBattle from "./GymPreBattle"
 import GymBattleScreen from "./GymBattleScreen"
 import GymBattleResult from "./GymBattleResult"
+
+import gymTicketIcon from '@assets/images/game/gym-ticket.png'
 
 const getBadgeIcon = (badgeName) => {
     if (!badgeName) return null
@@ -31,7 +33,7 @@ const getLeaderIcon = (leaderId) => {
 }
 
 export default function GymModal() {
-    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, getCurrentPhase, advancePhase } = useContext(PlayerContext)
+    const { gym, nextGym, updateGame, session, emit, setLoading, getPokemon, lastGymBattleTurn, setLastGymBattleTurn, setGym, setNextGym, teamIds, getCurrentPhase, advancePhase, player, setPlayer } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const { t } = useTranslation()
 
@@ -80,6 +82,9 @@ export default function GymModal() {
             }
 
             setBattleLog(log)
+
+            // Update gym tickets from response
+            if (res.gymTickets != null) setPlayer(prev => ({ ...prev, gymTickets: res.gymTickets }))
 
             if (currentPlayerPokemon) {
                 setCurrentPlayerPokemon(currentPlayerPokemon)
@@ -177,6 +182,8 @@ export default function GymModal() {
             }
             
             setBattleResult(res)
+            // Update gym tickets from response
+            if (res.gymTickets != null) setPlayer(prev => ({ ...prev, gymTickets: res.gymTickets }))
             setLoading({ loading: false })
         })
 
@@ -206,7 +213,7 @@ export default function GymModal() {
                 clearTimeout(loadingTimeoutRef.current)
             }
         }
-    }, [setLoading, getPokemon, setGym, setNextGym])
+    }, [setLoading, getPokemon, setGym, setNextGym, setPlayer])
 
     const handleStartBattle = (pokemonIds) => {
         emit('gym-battle-start', { playerPokemonIds: pokemonIds })
@@ -454,18 +461,38 @@ export default function GymModal() {
                             </Center>
                         ) : (
                             <>
-                                <Button
-                                    colorScheme="green"
-                                    size="lg"
-                                    onClick={handleChallenge}
-                                    isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3)}
+                                <Tooltip
+                                    label={
+                                        !(player.gymTickets > 0)
+                                            ? t('gym.needTicket')
+                                            : lastGymBattleTurn === session.turns
+                                            ? t('gym.alreadyChallenged')
+                                            : ''
+                                    }
+                                    isDisabled={player.gymTickets > 0 && lastGymBattleTurn !== session.turns}
+                                    placement="top"
                                 >
-                                    {lastGymBattleTurn === session.turns 
-                                        ? t('gym.alreadyChallenged') 
-                                        : (teamIds && teamIds.length < 3)
-                                        ? t('gym.needPokemon')
-                                        : t('gym.challengeLeader', { leader: displayGym.leader })}
-                                </Button>
+                                    <Button
+                                        colorScheme="green"
+                                        size="lg"
+                                        onClick={handleChallenge}
+                                        isDisabled={lastGymBattleTurn === session.turns || (teamIds && teamIds.length < 3) || !(player.gymTickets > 0)}
+                                    >
+                                        {lastGymBattleTurn === session.turns 
+                                            ? t('gym.alreadyChallenged') 
+                                            : (teamIds && teamIds.length < 3)
+                                            ? t('gym.needPokemon')
+                                            : !(player.gymTickets > 0)
+                                            ? t('gym.needTicket')
+                                            : t('gym.challengeLeader', { leader: displayGym.leader })}
+                                    </Button>
+                                </Tooltip>
+                                <HStack spacing={1}>
+                                    <Image src={gymTicketIcon} w="20px" h="20px" />
+                                    <Text fontSize="sm" fontWeight="bold">
+                                        {player.gymTickets || 0} / 2
+                                    </Text>
+                                </HStack>
                                 {displayGym.attempts > 0 && (
                                     <Text fontSize="xs" color="gray.400">
                                         {t('gym.challengeCount', { count: displayGym.attempts })}

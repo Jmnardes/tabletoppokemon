@@ -38,6 +38,8 @@ const PLAYER_CONTRACT_FIELDS = [
   'challengeReady',
   'trainingCamp',
   'berries',
+  'gymTickets',
+  'lastGymTicketTurn',
 ]
 
 const PLAYER_STATUS_CONTRACT_FIELDS = [

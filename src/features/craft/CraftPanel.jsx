@@ -20,9 +20,9 @@ const UPGRADE_COST = 5
 const MAX_MACHINE_LEVEL = 3
 
 const MACHINE_LEVELS = {
-    1: { break: 15, skip: 20, pokeball: 55, greatball: 8, ultraball: 2 },
-    2: { break: 12, skip: 16, pokeball: 58, greatball: 10, ultraball: 4 },
-    3: { break: 9, skip: 13, pokeball: 60, greatball: 12, ultraball: 6 },
+    1: { break: 20, pokeball: 80, greatball: 14, ultraball: 6 },
+    2: { break: 16, pokeball: 70, greatball: 20, ultraball: 10 },
+    3: { break: 12, pokeball: 60, greatball: 26, ultraball: 14 },
 }
 
 function MachineCard({ machine, tokens, onRepair }) {
@@ -291,15 +291,6 @@ export default function CraftPanel() {
                         </HStack>
                     </HStack>
                     <Divider borderColor="whiteAlpha.100" my={1} />
-                    <HStack justify="space-between">
-                        <Text fontSize="2xs" color="whiteAlpha.500">{t('craft.skipNoOutput')}</Text>
-                        <HStack spacing={1}>
-                            <Text fontSize="2xs" color="whiteAlpha.500">{rates.skip}%</Text>
-                            {showNextLevel && nextRates && (
-                                <Text fontSize="2xs" color="green.300" fontWeight="bold">→ {nextRates.skip}%</Text>
-                            )}
-                        </HStack>
-                    </HStack>
                     <HStack justify="space-between">
                         <Text fontSize="2xs" color="red.400">{t('craft.break')}</Text>
                         <HStack spacing={1}>

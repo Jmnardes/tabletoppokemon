@@ -92,7 +92,7 @@
     "currentTurn": "Número do turno atual",
     "badges": "Badges",
     "passiveEconomy": "Economia passiva",
-    "passiveEconomyDesc": "+1 token a cada 10 tokens, max +5"
+    "passiveEconomyDesc": "+2 tokens a cada 10 tokens, max +10"
   },
 
   "notifications": {
@@ -207,7 +207,7 @@
     "producingPerTurn": "Produzindo pokébolas a cada turno",
     "seedLevel": "Semente Nv. {{level}}",
     "farmGuide": "🌱 Guia da Fazenda",
-    "farmGuideText": "Cada terreno leva 4 turnos para crescer. Quando pronto, você tem 2 turnos para colher antes que apodreça. Use dust para fertilizar e acelerar o crescimento em 1 turno.",
+    "farmGuideText": "Cada terreno leva 3 turnos para crescer. Quando pronto, você tem 2 turnos para colher antes que apodreça. Use dust para fertilizar e melhorar a qualidade da berry.",
     "berryChances": "Chances de Berry (Nv. {{level}})",
     "common": "Comum",
     "uncommon": "Incomum",
@@ -457,6 +457,7 @@
     "comeBackOnTurn": "Volte no turno {{turn}} para desafiar este ginásio!",
     "alreadyChallenged": "Já desafiou neste turno",
     "needPokemon": "Precisa de pelo menos 3 Pokémon",
+    "needTicket": "Você precisa de um ticket para desafiar o ginásio",
     "challengeLeader": "Desafiar {{leader}}",
     "challengeCount": "Você desafiou este ginásio {{count}} vez(es)",
     "noGymAvailable": "Nenhum ginásio disponível",
@@ -615,7 +616,8 @@
       "potion": "Cura 8 de HP na Rota.",
       "superPotion": "Cura 15 de HP na Rota.",
       "hyperPotion": "Cura 25 de HP na Rota.",
-      "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota."
+      "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota.",
+      "gymTicket": "Necessário para desafiar o ginásio. Máximo 2."
     }
   },
 

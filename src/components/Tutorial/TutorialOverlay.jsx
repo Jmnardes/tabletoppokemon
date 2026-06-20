@@ -3,6 +3,7 @@ import { Box, Button, Flex, Image, Text } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 import PlayerContext from "@context/PlayerContext"
 import ashIcon from "@assets/images/game/ash.png"
+import { TRAINING_CAMP_ENABLED } from '@utils/gameConfiguration'
 
 const TUTORIAL_STEPS = [
     { target: null, tab: null, i18nKey: "tutorial.step0" },
@@ -14,7 +15,7 @@ const TUTORIAL_STEPS = [
     { target: "bag-items", tab: "bag", i18nKey: "tutorial.step6" },
     { target: "turn-control", tab: null, i18nKey: "tutorial.step7" },
     { target: "daycare-panel", tab: "daycare", i18nKey: "tutorial.step8" },
-    { target: "training-panel", tab: "training", i18nKey: "tutorial.step9" },
+    ...(TRAINING_CAMP_ENABLED ? [{ target: "training-panel", tab: "training", i18nKey: "tutorial.step9" }] : []),
     { target: "farm-panel", tab: "farm", i18nKey: "tutorial.step10" },
     { target: "craft-panel", tab: "craft", i18nKey: "tutorial.step11" },
     { target: "journey-panel", tab: "journey", i18nKey: "tutorial.step12" },

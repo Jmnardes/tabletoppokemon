@@ -73,6 +73,8 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
                 balls={player.balls}
                 targetSprite={defeatedWild.sprite}
                 targetName={defeatedWild.name}
+                berryBonuses={lastFightResult?.berryBonuses}
+                minigameBonus={player.status?.minigameBonus || 0}
             />
         </Flex>
     )

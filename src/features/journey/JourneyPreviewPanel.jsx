@@ -8,10 +8,11 @@ const VISIBLE_COUNT = 3
 
 const THREAT_LABELS = [
     { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+    { key: 'threatAlert', color: 'yellow', descKey: 'threatDescAlert', opacity: 0.7 },
     { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
-    { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
-    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
-    { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
+    { key: 'threatHeated', color: 'red', descKey: 'threatDescHeated' },
+    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged', variant: 'solid' },
+    { key: 'threatAggro', color: 'gray', descKey: 'threatDescAggro' },
 ]
 
 export default function JourneyPreviewPanel() {
@@ -43,6 +44,14 @@ export default function JourneyPreviewPanel() {
     const threatLabel = t(`journey.${threatData.key}`)
     const threatColor = threatData.color
 
+    const THREAT_BG_MAP = {
+        light: ['green.50', 'yellow.50', 'yellow.100', 'red.50', 'red.100', 'gray.200'],
+        dark: ['green.900', 'yellow.900', 'yellow.800', 'red.900', 'red.800', 'gray.800'],
+    }
+    const bgWild = THREAT_BG_MAP[colorMode]?.[threat] ?? (colorMode === 'light' ? 'red.50' : 'red.900')
+    const THREAT_BORDER_MAP = ['green.400', 'yellow.300', 'yellow.500', 'red.400', 'red.600', 'gray.500']
+    const borderWild = THREAT_BORDER_MAP[threat] ?? 'red.400'
+
     return (
         <Flex flex="1" flexDir="column" overflowY="auto" p={4} alignItems="center" data-tutorial="journey-panel">
             <Text fontSize="lg" fontWeight="bold" mb={1}>{t('journey.previewTitle')}</Text>
@@ -61,7 +70,7 @@ export default function JourneyPreviewPanel() {
             </Flex>
 
             <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}: {threatLabel}</Text><Text fontSize="xs" mt={1}>{t(`journey.${threatData.descKey}`)}</Text><Text fontSize="2xs" mt={1} color="gray.300">{t('journey.threatTooltip')}</Text></>} hasArrow>
-                <Badge colorScheme={threatColor} fontSize="xs" px={2} py={1} borderRadius="full" mb={4} cursor="help">
+                <Badge colorScheme={threatColor} fontSize="xs" px={2} py={1} borderRadius="full" mb={4} cursor="help" opacity={threatData.opacity ?? 1}>
                     {t('journey.threatTitle')}: {threatLabel}
                 </Badge>
             </Tooltip>
@@ -77,9 +86,9 @@ export default function JourneyPreviewPanel() {
                             key={wild.id}
                             direction="column"
                             align="center"
-                            bg={colorMode === 'light' ? 'red.50' : 'red.900'}
+                            bg={bgWild}
                             border={isCurrent ? '2px solid' : '1px solid'}
-                            borderColor={isCurrent ? 'orange.400' : 'red.400'}
+                            borderColor={isCurrent ? 'orange.400' : borderWild}
                             borderRadius={8}
                             p={2}
                             w="80px"

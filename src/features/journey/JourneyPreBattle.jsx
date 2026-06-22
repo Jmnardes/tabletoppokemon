@@ -17,9 +17,9 @@ import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 const EXP_TO_LEVEL = 10
 
 const POTIONS = [
-    { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '8', icon: potionIcon },
-    { key: 'superPotion', label: 'Super Potion', tKey: 'journey.superPotionName', healText: '15', icon: superPotionIcon },
-    { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '25', icon: hyperPotionIcon },
+    { key: 'potion', label: 'Potion', tKey: 'journey.potion', healText: '6', icon: potionIcon },
+    { key: 'superPotion', label: 'Super Potion', tKey: 'journey.superPotionName', healText: '13', icon: superPotionIcon },
+    { key: 'hyperPotion', label: 'Hyper Potion', tKey: 'journey.hyperPotion', healText: '23', icon: hyperPotionIcon },
 ]
 
 export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRoute, setJourneyState }) {
@@ -55,7 +55,8 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
     const stagesToWin = journeyState.stagesToWin || 5
     const visibleCount = 3
     const wildDefeatedCount = journeyState.wildDefeatedCount || 0
-    const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? 3)
+    const [canSendBack, setCanSendBack] = useState(journeyState.canSendBack ?? 2)
+    const maxSendBack = journeyState.maxSendBack ?? 2
     const [sendingBack, setSendingBack] = useState(false)
     const [selectedWildIndex, setSelectedWildIndex] = useState(null)
 
@@ -63,10 +64,11 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
     const threat = player.threat ?? 0
     const THREAT_LABELS = [
         { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+        { key: 'threatAlert', color: 'yellow', descKey: 'threatDescAlert', opacity: 0.7 },
         { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
-        { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
-        { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
-        { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
+        { key: 'threatHeated', color: 'red', descKey: 'threatDescHeated' },
+        { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged', variant: 'solid' },
+        { key: 'threatAggro', color: 'gray', descKey: 'threatDescAggro' },
     ]
     const threatData = THREAT_LABELS[threat] || THREAT_LABELS[0]
     const threatLabel = t(`journey.${threatData.key}`)
@@ -74,7 +76,15 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
 
     const bgCard = colorMode === 'light' ? 'gray.100' : 'gray.700'
     const bgActive = colorMode === 'light' ? 'blue.100' : 'blue.800'
-    const bgWild = colorMode === 'light' ? 'red.50' : 'red.900'
+
+    const THREAT_BG_MAP = {
+        light: ['green.50', 'yellow.50', 'yellow.100', 'red.50', 'red.100', 'gray.200'],
+        dark: ['green.900', 'yellow.900', 'yellow.800', 'red.900', 'red.800', 'gray.800'],
+    }
+    const bgWild = THREAT_BG_MAP[colorMode]?.[threat] ?? (colorMode === 'light' ? 'red.50' : 'red.900')
+
+    const THREAT_BORDER_MAP = ['green.400', 'yellow.300', 'yellow.500', 'red.400', 'red.600', 'gray.500']
+    const borderWild = THREAT_BORDER_MAP[threat] ?? 'red.400'
 
     const getPlayerPokemonData = (pokeId) => {
         const fromTeam = journeyState.playerTeam?.find(p => p.id === pokeId)
@@ -198,23 +208,11 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
             <Text fontSize="xl" mb={1}>
                 {t('journey.round', { round: journeyState.round, current: wildDefeatedCount, total: stagesToWin })}
             </Text>
-            {/* Level + Threat Badges */}
+            {/* Level Badge */}
             <HStack spacing={2} mb={4}>
                 <Badge colorScheme="blue" fontSize="xs" px={3} py={1} borderRadius="full">
                     {t('journey.levelN', { level: journeyState.level ?? 1 })}
                 </Badge>
-                <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}: {threatLabel}</Text><Text fontSize="xs" mt={1}>{t(`journey.${threatData.descKey}`)}</Text><Text fontSize="2xs" mt={1} color="gray.300">{t('journey.threatTooltip')}</Text></>} hasArrow>
-                    <Badge
-                        colorScheme={threatColor}
-                        fontSize="xs"
-                        px={3}
-                        py={1}
-                        borderRadius="full"
-                        cursor="help"
-                    >
-                        {threatLabel}
-                    </Badge>
-                </Tooltip>
             </HStack>
 
             {/* Element type chart - fixed left edge */}
@@ -421,6 +419,20 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                 {/* Wild Pokemon - RIGHT */}
                 <Flex direction="column" align="center" minW="220px">
                     <Text fontSize="sm" fontWeight="bold" mb={1}>{t('journey.opponent')}</Text>
+                    <Tooltip label={<><Text fontWeight="bold" fontSize="xs">{t('journey.threatTitle')}: {threatLabel}</Text><Text fontSize="xs" mt={1}>{t(`journey.${threatData.descKey}`)}</Text><Text fontSize="2xs" mt={1} color="gray.300">{t('journey.threatTooltip')}</Text></>} hasArrow>
+                        <Badge
+                            colorScheme={threatColor}
+                            fontSize="xs"
+                            px={3}
+                            py={1}
+                            borderRadius="full"
+                            cursor="help"
+                            mb={2}
+                            opacity={threatData.opacity ?? 1}
+                        >
+                            {t('journey.threatTitle')}: {threatLabel}
+                        </Badge>
+                    </Tooltip>
                     <Tooltip label={t('journey.sendToBackExplain')} fontSize="xs" placement="top" hasArrow>
                         <Tag
                             size="sm"
@@ -429,7 +441,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                             mb={2}
                             cursor="help"
                         >
-                            Reorder {canSendBack}/3
+                            Reorder {canSendBack}/{maxSendBack}
                         </Tag>
                     </Tooltip>
                     <Text fontSize="2xs" color="gray.400" mb={3}>
@@ -465,7 +477,7 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                                                 align="center"
                                                 bg={bgWild}
                                                 border={isSelected ? '2px solid' : '1px solid'}
-                                                borderColor={isSelected ? 'orange.400' : 'red.400'}
+                                                borderColor={isSelected ? 'orange.400' : borderWild}
                                                 borderRadius={8}
                                                 p={2}
                                                 w="110px"

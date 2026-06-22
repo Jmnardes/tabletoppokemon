@@ -50,7 +50,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
         <>
             {!isStarter && (
                 <Flex flexDirection="column" mr={8}>
-                    <Box my={2} title={t('daycare.desc.pokeball')}>
+                    <Box my={2} title={t('consulta.itemPokeball')}>
                         <PokeballButton 
                             type={'pb'}
                             isDisabled={player.balls?.pokeball === 0 || game.isPokemonRollDisabled}
@@ -58,7 +58,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                             bonus={ballBonus.pokeball}
                         />
                     </Box>
-                    <Box my={2} title={t('daycare.desc.greatball')}>
+                    <Box my={2} title={t('consulta.itemGreatball')}>
                         <PokeballButton
                             type={'gb'}
                             isDisabled={player.balls?.greatball === 0 || game.isPokemonRollDisabled}
@@ -67,7 +67,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         />
                     </Box>
 
-                    <Box my={2} title={t('daycare.desc.ultraball')}>
+                    <Box my={2} title={t('consulta.itemUltraball')}>
                         <PokeballButton 
                             type={'ub'}
                             isDisabled={player.balls?.ultraball === 0 || game.isPokemonRollDisabled}
@@ -76,7 +76,7 @@ export default function EncounterBalls({ children, handleCatchDiceRoll, isStarte
                         />
                     </Box>
 
-                    <Box my={2} title="Master Ball">
+                    <Box my={2} title={t('consulta.itemMasterball')}>
                         <PokeballButton 
                             type={'mb'}
                             isDisabled={player.balls?.masterball === 0 || game.isPokemonRollDisabled}

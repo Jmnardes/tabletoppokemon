@@ -13,10 +13,11 @@ const EXP_TO_LEVEL = 10
 
 const THREAT_LABELS = [
     { key: 'threatCalm', color: 'green', descKey: 'threatDescCalm' },
+    { key: 'threatAlert', color: 'yellow', descKey: 'threatDescAlert', opacity: 0.7 },
     { key: 'threatAnnoyed', color: 'yellow', descKey: 'threatDescAnnoyed' },
-    { key: 'threatHeated', color: 'orange', descKey: 'threatDescHeated' },
-    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged' },
-    { key: 'threatFurious', color: 'purple', descKey: 'threatDescFurious' },
+    { key: 'threatHeated', color: 'red', descKey: 'threatDescHeated' },
+    { key: 'threatEnraged', color: 'red', descKey: 'threatDescEnraged', variant: 'solid' },
+    { key: 'threatAggro', color: 'gray', descKey: 'threatDescAggro' },
 ]
 
 const BALL_ICONS = { pokeball: pokeballIcon, greatball: greatballIcon, ultraball: ultraballIcon, masterball: masterballIcon }

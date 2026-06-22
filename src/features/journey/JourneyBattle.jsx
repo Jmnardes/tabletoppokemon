@@ -7,6 +7,15 @@ import { stringToUpperCase, fmt } from "@utils"
 import { getAttackSprite } from "@utils/attackSprites"
 import i18n from "../../i18n/i18n"
 
+const THREAT_LABELS = [
+    { key: 'threatCalm', color: 'green' },
+    { key: 'threatAlert', color: 'yellow' },
+    { key: 'threatAnnoyed', color: 'yellow' },
+    { key: 'threatHeated', color: 'red' },
+    { key: 'threatEnraged', color: 'red' },
+    { key: 'threatAggro', color: 'gray' },
+]
+
 const hitTypeTag = (type) => {
     switch (type) {
         case 'crit': return i18n.t('battle.crit')
@@ -159,18 +168,14 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
         const pPoke = currentFight.playerWon ? currentFight.winner : currentFight.loser
         const wPoke = currentFight.playerWon ? currentFight.loser : currentFight.winner
 
-        let pHp = 0
-        let wHp = 0
+        // Use hpBefore from the first log entry where each pokemon is the defender
+        // to get the exact starting HP. This avoids overkill damage inflating the
+        // reconstructed HP above maxHp (e.g. showing 17/12).
+        const firstPlayerHit = log.find(e => e.defender?.id === pPoke.id)
+        const firstWildHit = log.find(e => e.defender?.id === wPoke.id)
 
-        for (const entry of log) {
-            if (entry.defender?.id === pPoke.id) {
-                pHp += entry.damage
-            } else {
-                wHp += entry.damage
-            }
-        }
-        pHp += (currentFight.playerWon ? currentFight.winner.currentHp : 0)
-        wHp += (currentFight.playerWon ? 0 : currentFight.winner.currentHp)
+        const pHp = firstPlayerHit?.hpBefore ?? pPoke.maxHp
+        const wHp = firstWildHit?.hpBefore ?? wPoke.maxHp
 
         setPlayerHp(pHp)
         setWildHp(wHp)
@@ -430,6 +435,11 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                             <Badge colorScheme="yellow" fontSize="sm" p={1} borderRadius={6} mt={1}>
                                 {t('battle.leveledUp', { name: stringToUpperCase(playerPoke.name), level: currentFight.newLevel })}
                             </Badge>
+                        )}
+                        {currentFight.playerWon && fightResult.threat > 0 && fightIndex === fights.length - 1 && (
+                            <Text fontSize="xs" color="orange.300" mt={2}>
+                                {t('journey.threatTitle')}: {t(`journey.${THREAT_LABELS[fightResult.threat - 1]?.key || 'threatCalm'}`)} → {t(`journey.${THREAT_LABELS[fightResult.threat]?.key || 'threatAggro'}`)}
+                            </Text>
                         )}
                         <Button
                             colorScheme={currentFight.playerWon ? 'green' : 'blue'}

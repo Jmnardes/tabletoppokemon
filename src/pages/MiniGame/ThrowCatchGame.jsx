@@ -97,11 +97,14 @@ const BALL_IMAGES = {
   masterball: masterballImg,
 }
 
-const getThrowResult = (deviation, ballType, t) => {
+const getThrowResult = (deviation, ballType, t, berryBonuses, minigameBonus = 0) => {
   const zones = BALL_ZONES[ballType] || BALL_ZONES.pokeball
-  if (deviation <= zones.perfectPct) return { label: t('minigame.perfect'), color: "green.400", bonus: 4 }
-  if (deviation <= zones.goodPct)    return { label: t('minigame.good'),    color: "yellow.400", bonus: 2 }
-  if (deviation <= (0.5 - zones.badPct)) return { label: t('minigame.ok'), color: "gray.400", bonus: 0 }
+  const perfectPct = zones.perfectPct + (berryBonuses?.perfectZoneBoost || 0) + (minigameBonus * 0.01)
+  const goodPct = zones.goodPct + (berryBonuses?.goodZoneBoost || 0) + (minigameBonus * 0.02)
+  const badPct = Math.max(0, zones.badPct - (minigameBonus * 0.03))
+  if (deviation <= perfectPct) return { label: t('minigame.perfect'), color: "green.400", bonus: 4 }
+  if (deviation <= goodPct)    return { label: t('minigame.good'),    color: "yellow.400", bonus: 2 }
+  if (deviation <= (0.5 - badPct)) return { label: t('minigame.ok'), color: "gray.400", bonus: 0 }
   return { label: t('minigame.bad'),   color: "red.400",   bonus: -1 }
 }
 
@@ -129,12 +132,12 @@ const PHASES = {
 const CENTER_Y = STAGE_H / 2 - 26
 
 const CATCH_PHASE_DURATIONS = {
-  [PHASES.CENTERING]: 450,
-  [PHASES.ABSORBING]: 500,
-  [PHASES.DROPPING]: 400,
-  [PHASES.WOBBLE_1]: 600,
-  [PHASES.WOBBLE_2]: 600,
-  [PHASES.WOBBLE_3]: 600,
+  [PHASES.CENTERING]: 350,
+  [PHASES.ABSORBING]: 400,
+  [PHASES.DROPPING]: 300,
+  [PHASES.WOBBLE_1]: 400,
+  [PHASES.WOBBLE_2]: 400,
+  [PHASES.WOBBLE_3]: 400,
 }
 
 const CATCH_PHASE_ORDER = [
@@ -147,7 +150,7 @@ const CATCH_PHASE_ORDER = [
   PHASES.RESULT,
 ]
 
-export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, targetSprite, targetName }) {
+export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, targetSprite, targetName, berryBonuses, minigameBonus = 0 }) {
   const isJourneyMode = !!onCatchResolve
   const { colorMode } = useColorMode()
   const { t } = useTranslation()
@@ -155,7 +158,6 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
 
   const [phase, setPhase] = useState(PHASES.IDLE)
   const [power, setPower] = useState(0)
-  const [, setPowerDir] = useState(1)
   const [ballY, setBallY] = useState(BALL_START_Y)
   const [throwResult, setThrowResult] = useState(null)
   const [caught, setCaught] = useState(false)
@@ -182,24 +184,28 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     if (onFinish) onFinish({ caught: false, bonus: 0, ballType: selectedBall, skipped: true })
   }, [onFinish, selectedBall])
 
-  // ─── Power bar oscillation ───
+  // ─── Power bar oscillation (RAF-synced for visual accuracy) ───
   useEffect(() => {
     if (phase !== PHASES.POWER) return
-    const interval = setInterval(() => {
+    let rafId
+    let lastTime = performance.now()
+
+    const tick = (now) => {
+      const dt = now - lastTime
+      lastTime = now
+
       setPower(prev => {
         let dir = powerDirRef.current
         let speed = speedRef.current
-        let next = prev + dir * speed
+        let next = prev + dir * speed * (dt / 16)
         if (next >= 100) {
           next = 100
-          setPowerDir(-1)
           powerDirRef.current = -1
           bounceRef.current += 1
           if (bounceRef.current % 2 === 0) speedRef.current = Math.min(speed + 0.08, POWER_SPEED_MAX)
         }
         if (next <= 0) {
           next = 0
-          setPowerDir(1)
           powerDirRef.current = 1
           bounceRef.current += 1
           if (bounceRef.current % 2 === 0) speedRef.current = Math.min(speed + 0.08, POWER_SPEED_MAX)
@@ -207,14 +213,18 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
         powerRef.current = next
         return next
       })
-    }, 16)
-    return () => clearInterval(interval)
+
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
   }, [phase])
 
   // ─── Throw animation ───
   const throwBall = useCallback((lockedPower) => {
     const deviation = Math.abs(lockedPower - 50) / 50
-    const result = getThrowResult(deviation, selectedBall, t)
+    const result = getThrowResult(deviation, selectedBall, t, berryBonuses, minigameBonus)
     setThrowResult(result)
 
     const maxOffset = BALL_START_Y - CARD_CENTER_Y
@@ -241,7 +251,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     }
 
     requestAnimationFrame(animate)
-  }, [selectedBall, t])
+  }, [selectedBall, t, berryBonuses, minigameBonus])
 
   // ─── Auto-advance catch phases ───
   useEffect(() => {
@@ -286,16 +296,15 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
       const startDir = Math.random() < 0.5 ? 1 : -1
       setPower(startPower)
       powerRef.current = startPower
-      setPowerDir(startDir)
       powerDirRef.current = startDir
       bounceRef.current = 0
       speedRef.current = POWER_SPEED
       setPhase(PHASES.POWER)
     } else if (phase === PHASES.POWER) {
       setPhase(PHASES.THROWN)
-      throwBall(powerRef.current)
+      throwBall(power)
     }
-  }, [phase, throwBall, selectedBall, balls, waitingServer])
+  }, [phase, power, throwBall, selectedBall, balls, waitingServer])
 
   const handleResultAction = useCallback((e) => {
     e.stopPropagation()
@@ -365,7 +374,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     if (phase === PHASES.POWER) return "Click to throw!"
     if (phase === PHASES.THROWN && throwResult) return throwResult.label
     if (waitingServer) return "..."
-    if (isWobbling) return `${"● ".repeat(wobbleCount)}${"○ ".repeat(3 - wobbleCount)}`
+    if (isWobbling) return ""
     if (phase === PHASES.RESULT && caught) return t('minigame.caught')
     if (phase === PHASES.RESULT && !caught && fled) return t('minigame.fled')
     if (phase === PHASES.RESULT && !caught && !fled) return t('minigame.stayed')
@@ -378,13 +387,12 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
     return isDark ? "gray.300" : "gray.600"
   }
 
-  const isClickable = (phase === PHASES.IDLE || phase === PHASES.POWER) && !waitingServer
   const canSelectBall = phase === PHASES.IDLE || phase === PHASES.RESULT
 
   // Zone boundaries for power bar (as % of bar width)
-  const perfectHalf = zones.perfectPct * 100
-  const goodHalf = zones.goodPct * 100
-  const badHalf = zones.badPct * 100
+  const perfectHalf = (zones.perfectPct + (berryBonuses?.perfectZoneBoost || 0) + (minigameBonus * 0.01)) * 100
+  const goodHalf = (zones.goodPct + (berryBonuses?.goodZoneBoost || 0) + (minigameBonus * 0.02)) * 100
+  const badHalf = Math.max(0, zones.badPct - (minigameBonus * 0.03)) * 100
   const okLeft = badHalf
   const okRight = 100 - badHalf
 
@@ -396,8 +404,6 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
       gap={4}
       w="full"
       maxW="440px"
-      cursor={isClickable ? "pointer" : "default"}
-      onClick={handleClick}
       userSelect="none"
     >
       {/* ─── Stage ─── */}
@@ -487,8 +493,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
       </Flex>
 
       {/* ─── Power bar ─── */}
-      {(phase === PHASES.IDLE || phase === PHASES.POWER) && (
-        <Box w="300px" h="28px" position="relative" borderRadius="md" overflow="hidden" border="2px solid" borderColor={isDark ? "gray.600" : "gray.400"}>
+      <Box w="300px" h="28px" position="relative" borderRadius="md" overflow="hidden" border="2px solid" borderColor={isDark ? "gray.600" : "gray.400"} opacity={isBeforeThrow ? 1 : 0.6}>
           {/* Bad — full background */}
           <Box position="absolute" inset={0} bg={isDark ? "rgba(229,62,62,0.35)" : "rgba(229,62,62,0.25)"} />
           {/* Ok — between bad edges */}
@@ -505,7 +510,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
           )}
 
           {/* Cursor line */}
-          {phase === PHASES.POWER && (
+          {phase !== PHASES.IDLE && (
             <Box
               position="absolute"
               left={`${power}%`}
@@ -519,7 +524,6 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
             />
           )}
         </Box>
-      )}
 
       {/* ─── Ball selector ─── */}
       <HStack spacing={4}>
@@ -552,15 +556,27 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
 
       {/* ─── Text + Action Buttons ─── */}
       <Flex direction="column" align="center" minH="50px" justify="center" gap={3}>
-        <Tooltip label={
-          phase === PHASES.RESULT && !caught && fled ? t('minigame.fledDesc') :
-          phase === PHASES.RESULT && !caught && !fled ? t('minigame.stayedDesc') :
-          undefined
-        } hasArrow>
-          <Text fontSize="xl" fontWeight="bold" color={getTextColor()} textAlign="center">
-            {getText()}
-          </Text>
-        </Tooltip>
+        {phase === PHASES.IDLE && (
+          <Button size="md" colorScheme="blue" onClick={handleClick}>
+            {t('minigame.clickToStart', 'Click to start!')}
+          </Button>
+        )}
+        {phase === PHASES.POWER && (
+          <Button size="md" colorScheme="green" onClick={handleClick}>
+            {t('minigame.clickToThrow', 'Click to throw!')}
+          </Button>
+        )}
+        {phase !== PHASES.IDLE && phase !== PHASES.POWER && (
+          <Tooltip label={
+            phase === PHASES.RESULT && !caught && fled ? t('minigame.fledDesc') :
+            phase === PHASES.RESULT && !caught && !fled ? t('minigame.stayedDesc') :
+            undefined
+          } hasArrow>
+            <Text fontSize="xl" fontWeight="bold" color={getTextColor()} textAlign="center">
+              {getText()}
+            </Text>
+          </Tooltip>
+        )}
 
         {phase === PHASES.RESULT && (
           <HStack spacing={3}>

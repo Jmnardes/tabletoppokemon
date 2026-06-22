@@ -44,6 +44,12 @@ import occaBerryIcon from '@assets/images/berries/occa_berry.png';
 import chopleBerryIcon from '@assets/images/berries/chople_berry.png';
 import passhoBerryIcon from '@assets/images/berries/passho_berry.png';
 import rindoBerryIcon from '@assets/images/berries/rindo_berry.png';
+import razzBerryIcon from '@assets/images/berries/razz_berry.png';
+import nanabBerryIcon from '@assets/images/berries/nanab_berry.png';
+import pinapBerryIcon from '@assets/images/berries/pinap_berry.png';
+import pomegBerryIcon from '@assets/images/berries/pomeg_berry.png';
+import grepaBerryIcon from '@assets/images/berries/grepa_berry.png';
+import kelpsyBerryIcon from '@assets/images/berries/kelpsy_berry.png';
 
 const berryIcons = {
     aguav_berry: aguavBerryIcon,
@@ -91,7 +97,13 @@ const berryIcons = {
     occa_berry: occaBerryIcon,
     chople_berry: chopleBerryIcon,
     passho_berry: passhoBerryIcon,
-    rindo_berry: rindoBerryIcon
+    rindo_berry: rindoBerryIcon,
+    razz_berry: razzBerryIcon,
+    nanab_berry: nanabBerryIcon,
+    pinap_berry: pinapBerryIcon,
+    pomeg_berry: pomegBerryIcon,
+    grepa_berry: grepaBerryIcon,
+    kelpsy_berry: kelpsyBerryIcon
 };
 
 export function getBerryIcon(berryType) {

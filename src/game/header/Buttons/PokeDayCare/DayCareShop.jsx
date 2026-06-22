@@ -14,14 +14,14 @@ import gymTicketIcon from '@assets/images/game/gym-ticket.png'
 import { useTranslation } from "react-i18next"
 
 const ITEM_DESCRIPTIONS = {
-    pokeball: 'daycare.desc.pokeball',
-    dust: 'daycare.desc.dust',
-    greatball: 'daycare.desc.greatball',
-    ultraball: 'daycare.desc.ultraball',
-    potion: 'daycare.desc.potion',
-    superPotion: 'daycare.desc.superPotion',
-    hyperPotion: 'daycare.desc.hyperPotion',
-    gymTicket: 'daycare.desc.gymTicket',
+    pokeball: 'consulta.itemPokeball',
+    dust: 'consulta.itemDust',
+    greatball: 'consulta.itemGreatball',
+    ultraball: 'consulta.itemUltraball',
+    potion: 'consulta.itemPotion',
+    superPotion: 'consulta.itemSuperPotion',
+    hyperPotion: 'consulta.itemHyperPotion',
+    gymTicket: 'consulta.itemGymTicket',
 }
 
 export default function DayCareShop() {

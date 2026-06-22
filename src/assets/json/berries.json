@@ -1,0 +1,275 @@
+[
+  {
+    "name": "Occa",
+    "type": "occa_berry",
+    "effect": "Provides defensive bonus to Fire-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Passho",
+    "type": "passho_berry",
+    "effect": "Provides defensive bonus to Water-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Wacan",
+    "type": "wacan_berry",
+    "effect": "Provides defensive bonus to Electric-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Rindo",
+    "type": "rindo_berry",
+    "effect": "Provides defensive bonus to Grass-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Yache",
+    "type": "yache_berry",
+    "effect": "Provides defensive bonus to Ice-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Chople",
+    "type": "chople_berry",
+    "effect": "Provides defensive bonus to Fighting-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Kebia",
+    "type": "kebia_berry",
+    "effect": "Provides defensive bonus to Poison-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Shuca",
+    "type": "shuca_berry",
+    "effect": "Provides defensive bonus to Ground-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Coba",
+    "type": "coba_berry",
+    "effect": "Provides defensive bonus to Flying-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Payapa",
+    "type": "payapa_berry",
+    "effect": "Provides defensive bonus to Psychic-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Tanga",
+    "type": "tanga_berry",
+    "effect": "Provides defensive bonus to Bug-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Charti",
+    "type": "charti_berry",
+    "effect": "Provides defensive bonus to Rock-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Kasib",
+    "type": "kasib_berry",
+    "effect": "Provides defensive bonus to Ghost-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Haban",
+    "type": "haban_berry",
+    "effect": "Provides defensive bonus to Dragon-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Colbur",
+    "type": "colbur_berry",
+    "effect": "Provides defensive bonus to Dark-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Babiri",
+    "type": "babiri_berry",
+    "effect": "Provides defensive bonus to Steel-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Chilan",
+    "type": "chilan_berry",
+    "effect": "Provides defensive bonus to Normal-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Roseli",
+    "type": "roseli_berry",
+    "effect": "Provides defensive bonus to Fairy-type moves.",
+    "category": "common",
+    "turns": 6
+  },
+  {
+    "name": "Ganlon",
+    "type": "ganlon_berry",
+    "effect": "Boosts defense stat.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Oran",
+    "type": "oran_berry",
+    "effect": "Boosts health stat.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Micle",
+    "type": "micle_berry",
+    "effect": "Boosts accuracy stat.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Durin",
+    "type": "durin_berry",
+    "effect": "The pokémon receives a defensive shield reducing the first hit of each battle to half damage.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Belue",
+    "type": "belue_berry",
+    "effect": "Gains +1 EXP per pokémon defeated in journey. Only counts individual defeats, not journey completion EXP.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Liechi",
+    "type": "liechi_berry",
+    "effect": "Boosts attack stat.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Salac",
+    "type": "salac_berry",
+    "effect": "Boosts evasion stat.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Lansat",
+    "type": "lansat_berry",
+    "effect": "Boosts critical stat.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Razz",
+    "type": "razz_berry",
+    "effect": "+1 bonus on catch roll when the equipped pokémon defeats a wild.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Nanab",
+    "type": "nanab_berry",
+    "effect": "-2 on flee chance when the equipped pokémon defeats a wild.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Sitrus",
+    "type": "sitrus_berry",
+    "effect": "Heals 15% of max HP after each battle the pokémon participates in (min 1).",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Pinap",
+    "type": "pinap_berry",
+    "effect": "+5% good zone margin in the throw minigame.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Leppa",
+    "type": "leppa_berry",
+    "effect": "25% chance to gain +1 dust when the equipped pokémon defeats a wild.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Pomeg",
+    "type": "pomeg_berry",
+    "effect": "+1 token per turn while the equipped pokémon is in the team.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Grepa",
+    "type": "grepa_berry",
+    "effect": "+1 dust per turn on the equipped pokémon while in the team.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Kelpsy",
+    "type": "kelpsy_berry",
+    "effect": "Doubles the nature stat bonus on the equipped pokémon.",
+    "category": "uncommon",
+    "turns": 4
+  },
+  {
+    "name": "Lum",
+    "type": "lum_berry",
+    "effect": "Heals 30% of max HP after each battle the pokémon participates in (min 1).",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Apicot",
+    "type": "apicot_berry",
+    "effect": "+2% perfect zone margin in the throw minigame.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Starf",
+    "type": "starf_berry",
+    "effect": "50% chance to gain +1 dust when the equipped pokémon defeats a wild.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Persim",
+    "type": "persim_berry",
+    "effect": "Does not increase threat when defeating wild pokémon.",
+    "category": "rare",
+    "turns": 3
+  },
+  {
+    "name": "Enigma",
+    "type": "enigma_berry",
+    "effect": "Doubles the rarity stat bonus on the equipped pokémon.",
+    "category": "rare",
+    "turns": 3
+  }
+]

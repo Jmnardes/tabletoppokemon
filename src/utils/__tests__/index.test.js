@@ -126,7 +126,7 @@ describe('augmentColor', () => {
   it('returns correct colors for difficulties', () => {
     expect(augmentColor('common')).toBe('#8a8a8a')
     expect(augmentColor('uncommon')).toBe('#6b91bf')
-    expect(augmentColor('rare')).toBe('#ad900e')
+    expect(augmentColor('rare')).toBe('#b8860b')
   })
 
   it('returns default gray for unknown difficulty', () => {

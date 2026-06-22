@@ -456,8 +456,8 @@ export default function GymBattleScreen({
                 >
                     {log.damage > 0
                         ? (log.hpBefore != null
-                            ? `${log.hpBefore}-${log.damage}=${log.hpAfter}`
-                            : `${log.damage} ${t('gym.dmg')}`)
+                            ? `${fmt(log.hpBefore)}-${fmt(log.damage)}=${fmt(log.hpAfter)}`
+                            : `${fmt(log.damage)} ${t('gym.dmg')}`)
                         : "MISS"}
                     {log.hitType === "crit" && ` • ${t('gym.crit')}`}
                     {log.hitType === "half" && ` • ${t('gym.resisted')}`}

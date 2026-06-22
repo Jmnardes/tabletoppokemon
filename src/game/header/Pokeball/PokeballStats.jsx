@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Center, Image, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 import PlayerContext from "@context/PlayerContext";
 
@@ -14,26 +15,27 @@ import hyperPotionIcon from '@assets/images/items/hyper-potion.png'
 
 export default function PokeballStats() {
     const { player } = useContext(PlayerContext)
+    const { t } = useTranslation()
 
     return (
         <Center mx={2}>
             <Center mx={1}>
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.potions?.potion ?? 0}x</Text>
-                <Image src={potionIcon} title={'Potion'} w="24px" />
+                <Image src={potionIcon} title={t('consulta.itemPotion')} w="24px" />
             </Center>
             <Center mx={1}>
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.potions?.superPotion ?? 0}x</Text>
-                <Image src={superPotionIcon} title={'Super Potion'} w="24px" />
+                <Image src={superPotionIcon} title={t('consulta.itemSuperPotion')} w="24px" />
             </Center>
             <Center mx={1}>
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.potions?.hyperPotion ?? 0}x</Text>
-                <Image src={hyperPotionIcon} title={'Hyper Potion'} w="24px" />
+                <Image src={hyperPotionIcon} title={t('consulta.itemHyperPotion')} w="24px" />
             </Center>
             <Center mx={1} ml={3}>
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.pokeball}x</Text>
                 <Image
                     src={greatballIcon} 
-                    title={'+0'}
+                    title={t('consulta.itemPokeball')}
                     w="24px"
                     ml={1}
                 ></Image>
@@ -42,7 +44,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.greatball}x</Text>
                 <Image
                     src={superballIcon} 
-                    title={'+3'}
+                    title={t('consulta.itemGreatball')}
                     w="24px"
                 ></Image>
             </Center>
@@ -50,7 +52,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.ultraball}x</Text>
                 <Image
                     src={ultraballIcon} 
-                    title={'+6'}
+                    title={t('consulta.itemUltraball')}
                     w="24px"
                 ></Image>
             </Center>
@@ -58,7 +60,7 @@ export default function PokeballStats() {
                 <Text alignSelf="end" fontSize={"3xs"} mr={0.5}>{player.balls.masterball}x</Text>
                 <Image
                     src={masterballIcon} 
-                    title={'+10'}
+                    title={t('consulta.itemMasterball')}
                     w="24px"
                 ></Image>
             </Center>

@@ -5,6 +5,7 @@ import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
 import crownIcon from '@assets/images/game/crown.png'
 import pokeballIcon from '@assets/images/game/pokeball.png'
 import stepsIcon from '@assets/images/game/direction.png'
+import tokenIcon from '@assets/images/game/coin.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 
 export default function OpponentCard({ opponent, inFront = false }) {
@@ -19,7 +20,9 @@ export default function OpponentCard({ opponent, inFront = false }) {
     }
 
     const bgColor = getBackgroundColor()
-    const borderStyle = opponent.online ? undefined : "4px solid red"
+    const borderStyle = opponent.isPlayer
+        ? light ? "2px solid #3182ce" : "2px solid #63b3ed"
+        : opponent.online ? undefined : "4px solid red"
 
     const shortName = opponent.status.trainerName?.slice(0, 3) || '???'
 
@@ -51,6 +54,10 @@ export default function OpponentCard({ opponent, inFront = false }) {
                         <Flex alignItems="center">
                             <Image src={stepsIcon} w="14px" />
                             <Text fontSize="2xs" ml={1}>{opponent.journeyLevel ?? 1} - {opponent.journeyProgress ?? 0}</Text>
+                        </Flex>
+                        <Flex alignItems="center">
+                            <Image src={tokenIcon} w="14px" />
+                            <Text fontSize="2xs" ml={1}>{opponent.daycareToken ?? 0}</Text>
                         </Flex>
                     </Flex>
                 ) : (

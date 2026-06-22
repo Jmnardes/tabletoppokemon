@@ -12,7 +12,7 @@ import day from "@assets/images/background/day.jpg"
 import night from "@assets/images/background/night.jpg"
 
 const App = () => {
-  const { hasGameStarted, waitingForPlayers, setWaitingForPlayers, loading, game, emit, opponents } = useContext(PlayerContext)
+  const { hasGameStarted, waitingForPlayers, setWaitingForPlayers, loading, game, emit, waitingSnapshot } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
 
   return (
@@ -22,7 +22,7 @@ const App = () => {
           waitingForPlayers={waitingForPlayers}
           loading={loading.loading}
           loadingText={loading.text}
-          opponents={opponents}
+          opponents={waitingSnapshot}
           onCancel={() => {
             emit('turn-cancel')
             setWaitingForPlayers(false)

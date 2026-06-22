@@ -30,6 +30,7 @@
     "joinRoom": "Entrar na Sala",
     "newRoom": "Nova Sala",
     "statistics": "Estatísticas",
+    "consulta": "Consulta",
     "miniGame": "Mini Game",
     "gameInfo": "Info do Jogo",
     "chooseName": "Escolha seu nome",
@@ -53,6 +54,7 @@
     "gymRegion": "Região",
     "startGame": "Iniciar Jogo",
     "waitingPlayers": "Esperando outros jogadores...",
+    "everyoneWaiting": "Todos estão te esperando!",
     "playerJoined": "{{name}} entrou na sala",
     "playerLeft": "{{name}} saiu da sala"
   },
@@ -242,6 +244,33 @@
     "maxLevel": "★ Máquinas no nível máximo ★"
   },
 
+  "berryTrade": {
+    "speech": "Olá treinador! Posso trocar berries com você. Minhas ofertas mudam a cada turno!",
+    "alreadyTraded": "Já trocamos por hoje! Volte no próximo turno.",
+    "shopTitle": "Berries do Ash",
+    "yourBerries": "Suas Berries",
+    "noBerries": "Você não tem berries para trocar.",
+    "tradeButton": "Trocar",
+    "trading": "Trocando...",
+    "tradeSuccess": "Troca feita!",
+    "tradeSuccessDesc": "Berry trocada com sucesso.",
+    "modeSwap": "Trocar 1:1",
+    "modeUncommon": "2 → Incomum",
+    "modeRare": "3 → Rara",
+    "upgradeUncommonInfo": "Troque 2 berries para receber uma berry incomum aleatória.",
+    "upgradeRareInfo": "Troque 3 berries para receber uma berry rara aleatória.",
+    "selectCount": "Selecione {{count}} berries",
+    "selected": "Selecionadas",
+    "saleTitle": "Berry à Venda",
+    "price": "Preço",
+    "yourTokens": "Seus tokens",
+    "buyButton": "Comprar",
+    "alreadyPurchased": "Esgotado",
+    "purchasing": "Comprando...",
+    "purchaseSuccess": "Compra feita!",
+    "purchaseSuccessDesc": "Berry comprada com sucesso."
+  },
+
   "pokemon": {
     "health": "Vida",
     "attack": "Ataque",
@@ -415,15 +444,17 @@
     "selectOpponent": "Selecione o oponente",
     "startFight": "Começar luta!",
     "threatCalm": "Calmo",
+    "threatAlert": "Atento",
     "threatAnnoyed": "Incomodado",
     "threatHeated": "Esquentado",
     "threatEnraged": "Raivoso",
-    "threatFurious": "Enfurecido",
+    "threatAggro": "Agressivo",
     "threatDescCalm": "Os pokémon selvagens estão tranquilos.",
-    "threatDescAnnoyed": "Os pokémon selvagens estão levemente irritados. +1 stat buffado.",
-    "threatDescHeated": "Os pokémon selvagens estão mais agressivos. +2 stats buffados.",
-    "threatDescEnraged": "Os pokémon selvagens estão furiosos! +3 stats buffados.",
-    "threatDescFurious": "Os pokémon selvagens estão no limite! Todos os stats buffados.",
+    "threatDescAlert": "Os pokémon selvagens estão atentos. +1 stat buffado.",
+    "threatDescAnnoyed": "Os pokémon selvagens estão irritados. +2 stats buffados.",
+    "threatDescHeated": "Os pokémon selvagens estão agressivos! +3 stats buffados.",
+    "threatDescEnraged": "Os pokémon selvagens estão furiosos! +4 stats buffados.",
+    "threatDescAggro": "Os pokémon selvagens estão no limite! Todos os stats buffados.",
     "threatTitle": "Nível de Ameaça",
     "threatTooltip": "Pokémon selvagens ficam mais fortes a cada pokémon derrotado na rota. O nível de ameaça diminui ao passar os turnos, então tenha cuidado ao avançar demais.",
     "leaveRoute": "Deixar Rota",
@@ -521,7 +552,8 @@
     "confirmTeamFirst": "Confirme seu time primeiro",
     "pokeBag": "Poké Bolsa",
     "needPokemonInTeam": "Você precisa de {{count}} pokémons no time",
-    "challengeGym": "Enfrentar Ginásio"
+    "challengeGym": "Enfrentar Ginásio",
+    "berryTrade": "Troca de Berries"
   },
 
   "team": {
@@ -607,18 +639,7 @@
     "tokenTitle": "Daycare Token",
     "releaseSuccess": "{{count}} pokémon(s) deixado(s) — +{{tokens}} tokens recebidos!",
     "releaseError": "Erro ao enviar pokémon",
-    "connectionError": "Erro de conexão. Tente novamente.",
-    "desc": {
-      "pokeball": "Boa para pokémons iniciais, mas inconsistente com pokémons médios.",
-      "dust": "Usado para dar EXP a um Pokémon.",
-      "greatball": "Boa para pokémons médios, mas inconsistente com pokémons fortes.",
-      "ultraball": "Boa para pokémons fortes, porém tem custo elevado.",
-      "potion": "Cura 8 de HP na Rota.",
-      "superPotion": "Cura 15 de HP na Rota.",
-      "hyperPotion": "Cura 25 de HP na Rota.",
-      "incense": "Aumenta as chances de encontrar Pokémon de nível mais alto durante a próxima rota.",
-      "gymTicket": "Necessário para desafiar o ginásio. Máximo 2."
-    }
+    "connectionError": "Erro de conexão. Tente novamente."
   },
 
   "tutorial": {
@@ -641,5 +662,202 @@
     "step13": "Você pode verificar os ginásios, seus pokémons e criar seu plano para derrotá-los. Boa sorte, treinador!",
     "step14": "Aqui ficam as configurações do jogo. Você pode trocar o idioma, alterar o tema e também sair do jogo caso precise.",
     "step15": "Você está preparado para seguir sua jornada agora! Use tudo que aprendeu e conquiste todas as badges. Boa sorte, treinador!"
+  },
+
+  "consulta": {
+    "title": "Consulta",
+    "elementos": "Elementos",
+    "berries": "Berries",
+    "natures": "Naturezas",
+    "threat": "Ameaça",
+    "gyms": "Ginásios",
+    "stats": "Stats",
+    "items": "Itens",
+    "augments": "Augmentos",
+    "berryTurns": "({{turns}} turnos)",
+    "natureName": "Natureza",
+    "threatExplanation": "O Threat é uma mecânica de escalada de dificuldade. Quanto mais selvagens você derrota na rota, mais fortes ficam os próximos.",
+    "threatIncrement": "+1 por selvagem derrotado na rota",
+    "threatDecay": "-2 por turno (decai automaticamente)",
+    "threatCapture": "Afeta a taxa de fuga na captura (quanto maior, mais difícil capturar)",
+    "escapeRate": "Taxa de fuga",
+    "noBuffs": "Nenhum buff",
+    "gymLeader": "Líder",
+    "gymBadge": "Badge",
+    "gymTeam": "Time do Líder",
+    "statSystem": "Sistema de Stats",
+    "statBudget": "Cada pokémon tem um orçamento fixo de 18 pontos distribuídos entre os 6 stats, proporcional aos base stats da PokeAPI.",
+    "statRange": "Range base: 1–6 por stat (cap máximo: 6). Com effort: até 8.",
+    "statEffort": "Effort (0–2) é somado após o cap, permitindo stats maiores que 6.",
+    "sixStats": "Os 6 Stats",
+    "statDescription": "Descrição",
+    "statHp": "Vida total do pokémon",
+    "statAtk": "Dano base dos ataques",
+    "statDef": "Defesa = DEF + 10. Atacante precisa superar para dar hit completo",
+    "statAcc": "Soma ao d20 do atacante para acertar",
+    "statEvs": "Se d20 ≤ EVS → miss. Também define quem ataca primeiro",
+    "statCrt": "Se d20 ≥ (21 - CRT) → critical hit",
+    "tierSystem": "Sistema de Tiers",
+    "tierWeight": "Chance",
+    "tierRarity": "Raridade",
+    "combatFormula": "Fórmula de Combate",
+    "damage": "dano",
+    "otherwise": "Senão",
+    "pokeballs": "Pokébolas",
+    "specialItems": "Itens Especiais",
+    "itemPokeball": "Pokébola padrão. Sem bônus na captura.",
+    "itemGreatball": "Adiciona +15% na chance de captura.",
+    "itemUltraball": "Adiciona +30% na chance de captura.",
+    "itemMasterball": "100% de chance de captura.",
+    "itemIncense": "Aumenta a chance de encontrar pokémon de tier mais alto na próxima rota.",
+    "itemDust": "+2 EXP por turno para o pokémon que possui (max 5 por pokémon).",
+    "itemPotion": "Cura 6 de HP durante a rota.",
+    "itemSuperPotion": "Cura 13 de HP durante a rota.",
+    "itemHyperPotion": "Cura 23 de HP durante a rota.",
+    "itemGymTicket": "Necessário para desafiar o ginásio. Máximo 2.",
+    "combat": "Combate",
+    "combatTitle": "Sistema de Combate",
+    "combatIntro": "Cada ataque rola um d20 (1–20) e resolve na seguinte prioridade:",
+    "combatPriority": "Prioridade: EVS → CRT → ACC vs DEF",
+    "combatResults": "Tipos de Resultado",
+    "combatMiss": "Roll ≤ (EVS + bônus) → 0 dano",
+    "combatCrit": "Roll ≥ (21 - CRT - bônus) → ATK × 1.5",
+    "combatHit": "Roll + ACC + bônus > DEF + 10 + bônus → ATK",
+    "combatHalf": "Senão → ATK / 1.5 (mínimo 1)",
+    "effectiveAtk": "ATK Efetivo",
+    "effectiveAtkDesc": "O dano efetivo é suavizado pela fórmula: baseAtk + (rawAtk - baseAtk) × 0.8, onde baseAtk = nível + 2.",
+    "effectiveDef": "Defesa Efetiva",
+    "effectiveDefDesc": "Defesa = DEF + 10. O atacante precisa que roll + ACC supere esse valor para dar hit completo.",
+    "elementalAdvantage": "Vantagem Elemental",
+    "elementalDesc": "A vantagem é calculada por: tipos efetivos - tipos inefetivos contra o defensor.",
+    "attackOrder": "Ordem de Ataque",
+    "attackOrderDesc": "1º Maior EVS → 2º Maior Tier → 3º 50/50 aleatório",
+    "shieldTitle": "Escudo",
+    "shieldDesc": "Reduz o primeiro hit para dano half. Se for miss, o escudo não é consumido.",
+    "resistanceDesc": "Se o defensor possui resistência ao elemento: +5 DEF adicional.",
+    "superEffective": "Super efetivo",
+    "effective": "Efetivo",
+    "neutral": "Neutro",
+    "ineffective": "Inefetivo",
+    "superIneffective": "Super inefetivo"
+  },
+
+  "augments": {
+    "title": "Augmentos",
+    "common": "Comum",
+    "uncommon": "Incomum",
+    "rare": "Raro",
+    "typeKnowledge": {
+      "name": "Conhecimento de Tipo",
+      "description": "Reduz a dificuldade de captura para 5 elementos diferentes."
+    },
+    "typeSpecialist": {
+      "name": "Especialista de Tipo",
+      "description": "Reduz a dificuldade de captura para 1 elemento específico."
+    },
+    "pokeBelt": {
+      "name": "Cinto de Pokébolas",
+      "description": "Receba um conjunto de pokébolas."
+    },
+    "harvest": {
+      "name": "Colheita",
+      "description": "Receba berries extras."
+    },
+    "dustBoost": {
+      "name": "Impulso de Dust",
+      "description": "Cada dust consumido dá EXP extra. Também concede dust imediatamente."
+    },
+    "shinyCharm": {
+      "name": "Shiny Charm",
+      "description": "Aumenta sua chance de encontrar Pokémon shiny."
+    },
+    "trainer": {
+      "name": "Treinador",
+      "description": "Cada pokémon vivo ganha EXP bônus ao final de uma rota."
+    },
+    "tracker": {
+      "name": "Rastreador",
+      "description": "Receba cargas extras de reordenação por rota."
+    },
+    "potionMaster": {
+      "name": "Mestre de Poções",
+      "description": "Suas poções curam HP extra."
+    },
+    "tokenEconomy": {
+      "name": "Economia de Tokens",
+      "description": "Receba tokens extras de daycare por turno."
+    },
+    "pokeballEconomy": {
+      "name": "Economia de Pokébolas",
+      "description": "Receba pokébolas extras por turno."
+    },
+    "rareEncounter": {
+      "name": "Encontro Raro",
+      "description": "Aumenta a chance de encontrar um Pokémon raro. (não Shiny)"
+    },
+    "levelEncounter": {
+      "name": "Encontro de Nível",
+      "description": "Aumenta a chance de encontrar Pokémon de nível mais alto."
+    },
+    "seedImprovement": {
+      "name": "Melhoria de Semente",
+      "description": "Melhora a qualidade das berries dos seus canteiros."
+    },
+    "greenHouse": {
+      "name": "Estufa",
+      "description": "Receba um canteiro de fazenda grátis."
+    },
+    "newPieces": {
+      "name": "Peças Novas",
+      "description": "Melhora a qualidade das pokébolas produzidas pelas máquinas."
+    },
+    "oldJunk": {
+      "name": "Sucata",
+      "description": "Receba uma máquina de craft grátis."
+    },
+    "pokeballSpecialist": {
+      "name": "Especialista em Pokébola",
+      "description": "Bônus em capturas com Pokébola."
+    },
+    "threatControl": {
+      "name": "Controle de Ameaça",
+      "description": "Aumenta a redução de threat por turno."
+    },
+    "gymPass": {
+      "name": "Passe de Ginásio",
+      "description": "Tickets de ginásio geram mais rápido."
+    },
+    "greatballEconomy": {
+      "name": "Economia de Great Ball",
+      "description": "Receba uma great ball por turno."
+    },
+    "ultraballEconomy": {
+      "name": "Economia de Ultra Ball",
+      "description": "Receba uma ultra ball por turno."
+    },
+    "greenThumb": {
+      "name": "Mão Verde",
+      "description": "Canteiros crescem 1 turno mais rápido."
+    },
+    "overgrow": {
+      "name": "Supercrescimento",
+      "description": "Colha 2 berries por canteiro, mas a qualidade é reduzida."
+    },
+    "fireUp": {
+      "name": "Aceleração",
+      "description": "Máquinas produzem 2 pokébolas por turno, mas a qualidade é reduzida."
+    },
+    "minigame": {
+      "name": "Minigame",
+      "description": "Aumenta as zonas do minigame de captura."
+    },
+    "tasking": {
+      "name": "Missões",
+      "description": "Receba uma pokebox extra ao completar uma missão."
+    },
+    "potentializer": {
+      "name": "Potencializador",
+      "description": "Aumenta a duração dos efeitos de berry."
+    }
   }
 }

@@ -6,7 +6,9 @@ import BadgeCollectionTooltip from "./Buttons/BadgeCollection/BadgeCollectionMod
 import TaskBoardTooltip from "./Trainer/TaskBoardTooltip";
 import PassiveEconomyTooltip from "./Trainer/PassiveEconomyTooltip";
 import NotificationPanel from "./Trainer/NotificationPanel";
+import AugmentData from "@game/modals/Augments/AugmentData";
 import { FaExclamationCircle, FaBell } from "react-icons/fa";
+import { augmentColor } from "@utils";
 import crownIcon from '@assets/images/game/crown.png';
 import clockIcon from '@assets/images/game/clock.png';
 import shopIcon from '@assets/images/game/shop.png';
@@ -18,6 +20,7 @@ import fightIcon from '@assets/images/training/dummy.png';
 import chipIcon from '@assets/images/game/chip.png';
 import farmIcon from '@assets/images/farm/sprout.png';
 import craftIcon from '@assets/images/craft/machine-on.png';
+import berryTradeIcon from '@assets/images/berries/berry.png';
 import stepsIcon from '@assets/images/game/direction.png';
 import settingsIcon from '@assets/images/game/settings.png';
 import { TRAINING_CAMP_ENABLED } from '@utils/gameConfiguration';
@@ -41,7 +44,7 @@ const StatItem = ({ icon, title, value }) => (
 )
 
 export default function GameHeader() {
-    const { player, game, session, activeTab, setActiveTab, farm, craft, gym, nextGym, unreadCount, markNotificationsRead } = useContext(PlayerContext)
+    const { player, game, session, activeTab, setActiveTab, farm, craft, berryShop, gym, nextGym, unreadCount, markNotificationsRead } = useContext(PlayerContext)
 
     const getBadgeIcon = (badgeName) => {
         if (!badgeName) return null
@@ -166,14 +169,19 @@ export default function GameHeader() {
                 {!game.hasEnded && player.augments?.length > 0 && (
                     <Tooltip
                         label={
-                            <Flex w={260} bg={bgColor} borderRadius={8} direction="column" p={3} gap={2}>
+                            <Flex w={300} bg={bgColor} borderRadius={8} direction="column" p={3} gap={3}>
                                 <Badge textAlign="center" w="full" py={2}>Augments</Badge>
                                 {player.augments.map((augment, i) => (
-                                    <Flex key={i} align="center" gap={2} p={1} borderRadius={4} bg="whiteAlpha.100">
-                                        <Badge colorScheme={augment.rarity === 'rare' ? 'purple' : augment.rarity === 'uncommon' ? 'blue' : 'green'} fontSize="2xs">
-                                            {augment.rarity}
+                                    <Flex key={i} direction="column" gap={1} p={2} borderRadius={6} backgroundColor={augmentColor(augment.rarity)}>
+                                        <Badge p={1} borderRadius={4} textAlign="center" fontSize="2xs">
+                                            {augment.name}
                                         </Badge>
-                                        <Text fontSize="xs" fontWeight="bold">{augment.name}</Text>
+                                        <Text fontSize="2xs" textAlign="center" color="white">
+                                            {augment.description}
+                                        </Text>
+                                        <Center>
+                                            <AugmentData augment={augment} />
+                                        </Center>
                                     </Flex>
                                 ))}
                             </Flex>
@@ -190,21 +198,21 @@ export default function GameHeader() {
             {!game.hasEnded && (
                 <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center" data-tutorial="quick-items">
                     <StatItem icon={tokenIcon} title={t('items.daycareTokens')} value={player.daycare?.token ?? 0} />
-                    <StatItem icon={dustIcon} title={t('items.dust')} value={player.items.dust} />
-                    <StatItem icon={lureIcon} title={t('items.incense')} value={player.items.incense} />
+                    <StatItem icon={dustIcon} title={t('consulta.itemDust')} value={player.items.dust} />
+                    <StatItem icon={lureIcon} title={t('consulta.itemIncense')} value={player.items.incense} />
 
                     <Box w="1px" h="20px" bg="gray.500" mx={1} />
 
-                    <StatItem icon={potionIcon} title="Potion" value={player.potions?.potion ?? 0} />
-                    <StatItem icon={superPotionIcon} title="Super Potion" value={player.potions?.superPotion ?? 0} />
-                    <StatItem icon={hyperPotionIcon} title="Hyper Potion" value={player.potions?.hyperPotion ?? 0} />
+                    <StatItem icon={potionIcon} title={t('consulta.itemPotion')} value={player.potions?.potion ?? 0} />
+                    <StatItem icon={superPotionIcon} title={t('consulta.itemSuperPotion')} value={player.potions?.superPotion ?? 0} />
+                    <StatItem icon={hyperPotionIcon} title={t('consulta.itemHyperPotion')} value={player.potions?.hyperPotion ?? 0} />
 
                     <Box w="1px" h="20px" bg="gray.500" mx={1} />
 
-                    <StatItem icon={pokeballIcon} title="Pokeball" value={player.balls.pokeball} />
-                    <StatItem icon={greatballIcon} title="Greatball" value={player.balls.greatball} />
-                    <StatItem icon={ultraballIcon} title="Ultraball" value={player.balls.ultraball} />
-                    <StatItem icon={masterballIcon} title="Masterball" value={player.balls.masterball} />
+                    <StatItem icon={pokeballIcon} title={t('consulta.itemPokeball')} value={player.balls.pokeball} />
+                    <StatItem icon={greatballIcon} title={t('consulta.itemGreatball')} value={player.balls.greatball} />
+                    <StatItem icon={ultraballIcon} title={t('consulta.itemUltraball')} value={player.balls.ultraball} />
+                    <StatItem icon={masterballIcon} title={t('consulta.itemMasterball')} value={player.balls.masterball} />
                 </Flex>
             )}
             <Flex flex="1" alignItems="end" justifyContent="end" gap="0.65rem" pb={0} pr={2} data-tutorial="tab-buttons">
@@ -228,7 +236,7 @@ export default function GameHeader() {
                     </Box>
                 )}
                 {craft && tabButton('craft', craftIcon, t('action.craft'))}
-                {player.augments?.length > 0 && tabButton('augments', chipIcon, t('action.augments'))}
+                {berryShop?.commonOffers?.length > 0 && tabButton('berryTrade', berryTradeIcon, t('action.berryTrade'))}
                 {tabButton('journey', stepsIcon, t('action.journey'))}
                 {tabButton('gym', gymIcon, displayGym ? displayGym.badge : t('action.gym'))}
                 {tabButton('settings', settingsIcon, t('settings.title'))}

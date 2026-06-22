@@ -16,17 +16,17 @@ export default function PrizeIcon ({ type, size = '20px', ...props }) {
     const { t } = useTranslation()
     switch (type) {
         case 'dust':
-            return <Image src={dustIcon} w={size} title={t('items.dusts')} ml={2} {...props} />
+            return <Image src={dustIcon} w={size} title={t('consulta.itemDust')} ml={2} {...props} />
         case 'pokebox':
         case 'greatbox':
         case 'ultrabox':
             return <Image src={BOX_ICONS[type]} w={size} title={t(`box.${type}`)} ml={2} {...props} />
         case 'greatball':
-            return <Image src={greatballIcon} w={size} title={t('items.greatBalls')} ml={2} {...props} />
+            return <Image src={greatballIcon} w={size} title={t('consulta.itemGreatball')} ml={2} {...props} />
         case 'ultraball':
-            return <Image src={ultraballIcon} w={size} title={t('items.ultraBalls')} ml={2} {...props} />
+            return <Image src={ultraballIcon} w={size} title={t('consulta.itemUltraball')} ml={2} {...props} />
         case 'masterball':
-            return <Image src={masterballIcon} w={size} title={t('items.masterBalls')} ml={2} {...props} />
+            return <Image src={masterballIcon} w={size} title={t('consulta.itemMasterball')} ml={2} {...props} />
         default:
             return <Image src={getBerryIcon(type)} w={size} title={type} ml={2} {...props} />
     }

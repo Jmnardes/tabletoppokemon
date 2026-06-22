@@ -30,6 +30,7 @@
     "joinRoom": "Join Room",
     "newRoom": "New Room",
     "statistics": "Statistics",
+    "consulta": "Reference Guide",
     "miniGame": "Mini Game",
     "gameInfo": "Game Info",
     "chooseName": "Choose your name",
@@ -53,6 +54,7 @@
     "gymRegion": "Region",
     "startGame": "Start Game",
     "waitingPlayers": "Waiting for other players...",
+    "everyoneWaiting": "Everyone is waiting for you!",
     "playerJoined": "{{name}} joined the room",
     "playerLeft": "{{name}} left the room"
   },
@@ -242,6 +244,33 @@
     "maxLevel": "★ Machines at max level ★"
   },
 
+  "berryTrade": {
+    "speech": "Hey trainer! I can trade berries with you. My offers change every turn!",
+    "alreadyTraded": "We already traded today! Come back next turn.",
+    "shopTitle": "Ash's Berries",
+    "yourBerries": "Your Berries",
+    "noBerries": "You don't have any berries to trade.",
+    "tradeButton": "Trade",
+    "trading": "Trading...",
+    "tradeSuccess": "Trade complete!",
+    "tradeSuccessDesc": "Berry traded successfully.",
+    "modeSwap": "Swap 1:1",
+    "modeUncommon": "2 → Uncommon",
+    "modeRare": "3 → Rare",
+    "upgradeUncommonInfo": "Trade 2 berries to receive a random uncommon berry.",
+    "upgradeRareInfo": "Trade 3 berries to receive a random rare berry.",
+    "selectCount": "Select {{count}} berries",
+    "selected": "Selected",
+    "saleTitle": "Berry for Sale",
+    "price": "Price",
+    "yourTokens": "Your tokens",
+    "buyButton": "Buy",
+    "alreadyPurchased": "Sold out",
+    "purchasing": "Purchasing...",
+    "purchaseSuccess": "Purchase complete!",
+    "purchaseSuccessDesc": "Berry purchased successfully."
+  },
+
   "pokemon": {
     "health": "Health",
     "attack": "Attack",
@@ -415,15 +444,17 @@
     "selectOpponent": "Select opponent",
     "startFight": "Start fight!",
     "threatCalm": "Calm",
+    "threatAlert": "Alert",
     "threatAnnoyed": "Annoyed",
     "threatHeated": "Heated",
     "threatEnraged": "Enraged",
-    "threatFurious": "Furious",
+    "threatAggro": "Aggressive",
     "threatDescCalm": "Wild pokémon are calm.",
-    "threatDescAnnoyed": "Wild pokémon are slightly irritated. +1 stat buffed.",
-    "threatDescHeated": "Wild pokémon are more aggressive. +2 stats buffed.",
-    "threatDescEnraged": "Wild pokémon are furious! +3 stats buffed.",
-    "threatDescFurious": "Wild pokémon are at their limit! All stats buffed.",
+    "threatDescAlert": "Wild pokémon are alert. +1 stat buffed.",
+    "threatDescAnnoyed": "Wild pokémon are annoyed. +2 stats buffed.",
+    "threatDescHeated": "Wild pokémon are heated! +3 stats buffed.",
+    "threatDescEnraged": "Wild pokémon are enraged! +4 stats buffed.",
+    "threatDescAggro": "Wild pokémon are at their limit! All stats buffed.",
     "threatTitle": "Threat Level",
     "threatTooltip": "Wild pokémon get stronger with each pokémon defeated on the route. Threat level decreases over turns, so be careful not to push too far.",
     "leaveRoute": "Leave Route",
@@ -521,7 +552,8 @@
     "confirmTeamFirst": "Confirm your team first",
     "pokeBag": "Poke Bag",
     "needPokemonInTeam": "You need {{count}} pokémon in your team",
-    "challengeGym": "Challenge Gym"
+    "challengeGym": "Challenge Gym",
+    "berryTrade": "Berry Trade"
   },
 
   "team": {
@@ -607,18 +639,7 @@
     "tokenTitle": "Daycare Token",
     "releaseSuccess": "{{count}} pokémon(s) left — +{{tokens}} tokens received!",
     "releaseError": "Error releasing pokémon",
-    "connectionError": "Connection error. Please try again.",
-    "desc": {
-      "pokeball": "Good for early pokémon, but inconsistent against stronger ones.",
-      "dust": "Used to give EXP to a Pokémon.",
-      "greatball": "Good for mid-tier pokémon, but inconsistent against strong ones.",
-      "ultraball": "Good for strong pokémon, but costs more tokens.",
-      "potion": "Heals 8 HP during Route.",
-      "superPotion": "Heals 15 HP during Route.",
-      "hyperPotion": "Heals 25 HP during Route.",
-      "incense": "Increases the chance of encountering higher level Pokémon on your next route.",
-      "gymTicket": "Required to challenge the gym. Max 2."
-    }
+    "connectionError": "Connection error. Please try again."
   },
 
   "tutorial": {
@@ -641,5 +662,202 @@
     "step13": "You can check the gyms, their pokémon, and plan your strategy to defeat them. Good luck, trainer!",
     "step14": "Here are the game settings. You can change the language, switch the theme, and also leave the game if needed.",
     "step15": "You're ready to continue your journey now! Use everything you've learned and earn all the badges. Good luck, trainer!"
+  },
+
+  "consulta": {
+    "title": "Reference Guide",
+    "elementos": "Elements",
+    "berries": "Berries",
+    "natures": "Natures",
+    "threat": "Threat",
+    "gyms": "Gyms",
+    "stats": "Stats",
+    "items": "Items",
+    "augments": "Augments",
+    "berryTurns": "({{turns}} turns)",
+    "natureName": "Nature",
+    "threatExplanation": "Threat is a difficulty scaling mechanic. The more wild pokémon you defeat on a route, the stronger the next ones become.",
+    "threatIncrement": "+1 per wild pokémon defeated on route",
+    "threatDecay": "-2 per turn (decays automatically)",
+    "threatCapture": "Affects escape rate on capture (higher threat = harder to catch)",
+    "escapeRate": "Escape rate",
+    "noBuffs": "No buffs",
+    "gymLeader": "Leader",
+    "gymBadge": "Badge",
+    "gymTeam": "Leader's Team",
+    "statSystem": "Stat System",
+    "statBudget": "Each pokémon has a fixed budget of 18 points distributed among 6 stats, proportional to PokeAPI base stats.",
+    "statRange": "Base range: 1–6 per stat (max cap: 6). With effort: up to 8.",
+    "statEffort": "Effort (0–2) is added after the cap, allowing stats higher than 6.",
+    "sixStats": "The 6 Stats",
+    "statDescription": "Description",
+    "statHp": "Pokémon's total health",
+    "statAtk": "Base attack damage",
+    "statDef": "Defense = DEF + 10. Attacker must overcome for full hit",
+    "statAcc": "Added to attacker's d20 roll to hit",
+    "statEvs": "If d20 ≤ EVS → miss. Also determines who attacks first",
+    "statCrt": "If d20 ≥ (21 - CRT) → critical hit",
+    "tierSystem": "Tier System",
+    "tierWeight": "Chance",
+    "tierRarity": "Rarity",
+    "combatFormula": "Combat Formula",
+    "damage": "damage",
+    "otherwise": "Otherwise",
+    "pokeballs": "Pokéballs",
+    "specialItems": "Special Items",
+    "itemPokeball": "Standard pokéball. No capture bonus.",
+    "itemGreatball": "Adds +15% capture chance.",
+    "itemUltraball": "Adds +30% capture chance.",
+    "itemMasterball": "100% capture chance.",
+    "itemIncense": "Increases the chance of encountering higher tier pokémon on your next route.",
+    "itemDust": "+2 EXP per turn for the pokémon holding it (max 5 per pokémon).",
+    "itemPotion": "Heals 6 HP during route.",
+    "itemSuperPotion": "Heals 13 HP during route.",
+    "itemHyperPotion": "Heals 23 HP during route.",
+    "itemGymTicket": "Required to challenge the gym. Max 2.",
+    "combat": "Combat",
+    "combatTitle": "Combat System",
+    "combatIntro": "Each attack rolls a d20 (1–20) and resolves in the following priority:",
+    "combatPriority": "Priority: EVS → CRT → ACC vs DEF",
+    "combatResults": "Result Types",
+    "combatMiss": "Roll ≤ (EVS + bonus) → 0 damage",
+    "combatCrit": "Roll ≥ (21 - CRT - bonus) → ATK × 1.5",
+    "combatHit": "Roll + ACC + bonus > DEF + 10 + bonus → ATK",
+    "combatHalf": "Otherwise → ATK / 1.5 (minimum 1)",
+    "effectiveAtk": "Effective ATK",
+    "effectiveAtkDesc": "Effective damage is smoothed by: baseAtk + (rawAtk - baseAtk) × 0.8, where baseAtk = level + 2.",
+    "effectiveDef": "Effective Defense",
+    "effectiveDefDesc": "Defense = DEF + 10. Attacker needs roll + ACC to overcome this value for a full hit.",
+    "elementalAdvantage": "Elemental Advantage",
+    "elementalDesc": "Advantage is calculated by: effective types - ineffective types against the defender.",
+    "attackOrder": "Attack Order",
+    "attackOrderDesc": "1st Higher EVS → 2nd Higher Tier → 3rd 50/50 random",
+    "shieldTitle": "Shield",
+    "shieldDesc": "Reduces the first hit to half damage. If it's a miss, the shield is not consumed.",
+    "resistanceDesc": "If the defender has resistance to the element: +5 DEF additional.",
+    "superEffective": "Super effective",
+    "effective": "Effective",
+    "neutral": "Neutral",
+    "ineffective": "Ineffective",
+    "superIneffective": "Super ineffective"
+  },
+
+  "augments": {
+    "title": "Augments",
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "typeKnowledge": {
+      "name": "Type Knowledge",
+      "description": "Lower the difficulty to catch for 5 different elements."
+    },
+    "typeSpecialist": {
+      "name": "Type Specialist",
+      "description": "Lower the difficulty to catch for 1 specific element."
+    },
+    "pokeBelt": {
+      "name": "Poke Belt",
+      "description": "Gain a set amount of Pokeballs."
+    },
+    "harvest": {
+      "name": "Harvest",
+      "description": "Gain extra berries."
+    },
+    "dustBoost": {
+      "name": "Dust Boost",
+      "description": "Each dust consumed gives extra EXP. Also grants dust immediately."
+    },
+    "shinyCharm": {
+      "name": "Shiny Charm",
+      "description": "You increase your chance in finding shiny Pokémon."
+    },
+    "trainer": {
+      "name": "Trainer",
+      "description": "Each alive pokémon gains bonus EXP at the end of a journey route."
+    },
+    "tracker": {
+      "name": "Tracker",
+      "description": "Gain extra reorder charges per journey route."
+    },
+    "potionMaster": {
+      "name": "Potion Master",
+      "description": "Your potions heal for extra HP."
+    },
+    "tokenEconomy": {
+      "name": "Token Economy",
+      "description": "Gain extra daycare tokens per turn."
+    },
+    "pokeballEconomy": {
+      "name": "Pokeball Economy",
+      "description": "Gain extra pokeballs per turn."
+    },
+    "rareEncounter": {
+      "name": "Rare Encounter",
+      "description": "You increase the chance to finding a rare Pokémon. (not Shiny)"
+    },
+    "levelEncounter": {
+      "name": "Level Encounter",
+      "description": "You increase the chance to finding a higher level Pokémon on encounters."
+    },
+    "seedImprovement": {
+      "name": "Seed Improvement",
+      "description": "Improve the quality of berries from your farm plots."
+    },
+    "greenHouse": {
+      "name": "Green House",
+      "description": "Gain a free farm plot."
+    },
+    "newPieces": {
+      "name": "New Pieces",
+      "description": "Improve the quality of balls produced by your machines."
+    },
+    "oldJunk": {
+      "name": "Old Junk",
+      "description": "Gain a free craft machine."
+    },
+    "pokeballSpecialist": {
+      "name": "Pokeball Specialist",
+      "description": "Bonus on catches with Pokeball."
+    },
+    "threatControl": {
+      "name": "Threat Control",
+      "description": "Increases threat decay per turn."
+    },
+    "gymPass": {
+      "name": "Gym Pass",
+      "description": "Gym tickets generate faster."
+    },
+    "greatballEconomy": {
+      "name": "Greatball Economy",
+      "description": "Gain a greatball per turn."
+    },
+    "ultraballEconomy": {
+      "name": "Ultraball Economy",
+      "description": "Gain an ultraball per turn."
+    },
+    "greenThumb": {
+      "name": "Green Thumb",
+      "description": "Farm plots grow 1 turn faster."
+    },
+    "overgrow": {
+      "name": "Overgrow",
+      "description": "Harvest 2 berries per plot, but berry quality is reduced."
+    },
+    "fireUp": {
+      "name": "Fire Up",
+      "description": "Machines produce 2 balls per turn, but ball quality is reduced."
+    },
+    "minigame": {
+      "name": "Minigame",
+      "description": "Increases the zones on the catch minigame."
+    },
+    "tasking": {
+      "name": "Tasking",
+      "description": "Gain an extra pokebox when completing a task."
+    },
+    "potentializer": {
+      "name": "Potentializer",
+      "description": "Increases the duration of berry effects."
+    }
   }
 }

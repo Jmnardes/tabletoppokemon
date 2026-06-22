@@ -230,7 +230,7 @@ export const rarityName = (rarity) => {
 export const augmentColor = (dif) => {
     if(dif === 'common') return '#8a8a8a'
     if(dif === 'uncommon') return '#6b91bf'
-    if(dif === 'rare') return '#ad900e'
+    if(dif === 'rare') return '#b8860b'
     return '#8a8a8a'
 }
 

@@ -34,6 +34,9 @@ export default function ModalController() {
         setFarm,
         setCraft,
         setPlayer,
+        setBerryShop,
+        setBerryTradeUsed,
+        setBerryPurchaseUsed,
     } = useContext(PlayerContext)
     const [augments, setAugments] = useState({ type: '', list: []})
     const [capturedPokemon, setCapturedPokemon] = useState({})
@@ -110,6 +113,11 @@ export default function ModalController() {
 
             // Update gym tickets (passive generation each 2 turns)
             if (res.gymTickets != null) setPlayer(prev => ({ ...prev, gymTickets: res.gymTickets }))
+
+            // Update berry shop for trade NPC
+            if (res.berryShop) setBerryShop(res.berryShop)
+            setBerryTradeUsed(false)
+            setBerryPurchaseUsed(false)
 
             // Farm notifications
             if (res.farmNotifications?.length) {

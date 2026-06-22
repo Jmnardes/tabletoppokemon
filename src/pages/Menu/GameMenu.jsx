@@ -10,7 +10,7 @@ import PlayerContext from "@context/PlayerContext";
 import GameNew from "./GameNew";
 import ConfirmationModal from "@components/Modal/ConfirmationModal"
 import DebugPage from "@pages/Debug/debugPage";
-import StatisticsPage from "@pages/Statistics/StatisticsPage";
+import ConsultaPage from "@pages/Consulta/ConsultaPage";
 import MiniGamePage from "@pages/MiniGame/MiniGamePage";
 import GameInfo from "./GameInfo";
 
@@ -25,7 +25,7 @@ export default function GameMenu() {
     const [gameInfoModal, setGameInfoModal] = useState(false)
 
     const [debug, setDebug] = useState(false)
-    const [statistics, setStatistics] = useState(false)
+    const [consulta, setConsulta] = useState(false)
     const [miniGame, setMiniGame] = useState(false)
 
     const goBack = () => {
@@ -44,8 +44,8 @@ export default function GameMenu() {
       return <DebugPage setDebug={setDebug} />
     }
 
-    if (statistics) {
-      return <StatisticsPage setStatistics={setStatistics} />
+    if (consulta) {
+      return <ConsultaPage setConsulta={setConsulta} />
     }
 
     if (miniGame) {
@@ -120,8 +120,8 @@ export default function GameMenu() {
                                 () => setDebug(true)
                             }>Simulator</Button> */}
                             <Button w="100%" h={12} my={4} onClick={
-                                () => setStatistics(true)
-                            }>{t('menu.statistics')}</Button>
+                                () => setConsulta(true)
+                            }>{t('menu.consulta')}</Button>
                             <Button w="100%" h={12} my={4} onClick={
                                 () => setMiniGame(true)
                             }>{t('menu.miniGame')}</Button>

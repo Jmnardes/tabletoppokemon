@@ -14,6 +14,9 @@ export function PlayerProvider({children}) {
     const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
+    const waitingForPlayersRef = useRef(false)
+    useEffect(() => { waitingForPlayersRef.current = waitingForPlayers }, [waitingForPlayers])
+    const [waitingSnapshot, setWaitingSnapshot] = useState(null)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -26,6 +29,9 @@ export function PlayerProvider({children}) {
     const [trainingCamp, setTrainingCamp] = useState([])
     const [tasks, setTasks] = useState([])
     const [berries, setBerries] = useState([])
+    const [berryShop, setBerryShop] = useState(null)
+    const [berryTradeUsed, setBerryTradeUsed] = useState(false)
+    const [berryPurchaseUsed, setBerryPurchaseUsed] = useState(false)
     const [farm, setFarm] = useState(null)
     const [craft, setCraft] = useState(null)
     const [gym, setGym] = useState(null)
@@ -205,6 +211,9 @@ export function PlayerProvider({children}) {
                 setPlayer(snapshot.player)
                 setBerries(snapshot.player.berries || [])
                 setTasks(snapshot.player.tasks || [])
+                if (snapshot.player.berryShop) setBerryShop(snapshot.player.berryShop)
+                setBerryTradeUsed(snapshot.player.berryTradeUsed || false)
+                setBerryPurchaseUsed(snapshot.player.berryPurchaseUsed || false)
                 if (snapshot.player.farm) setFarm(snapshot.player.farm)
                 if (snapshot.player.craft) setCraft(snapshot.player.craft)
                 if (snapshot.player.trainingCamp) setTrainingCamp(snapshot.player.trainingCamp)
@@ -225,6 +234,32 @@ export function PlayerProvider({children}) {
 
                 // Restore waiting state based on whether player already ended their turn
                 setWaitingForPlayers(snapshot.player.turnReady === true)
+                if (snapshot.player.turnReady && snapshot.opponents) {
+                    const playerCard = {
+                        id: snapshot.player.id,
+                        status: snapshot.player.status,
+                        online: true,
+                        turnReady: true,
+                        journeyLevel: snapshot.player.journeyLevel ?? 1,
+                        journeyProgress: snapshot.player.journeyProgress ?? 0,
+                        daycareToken: snapshot.player.daycare?.token ?? 0,
+                        isPlayer: true,
+                    }
+                    setWaitingSnapshot([playerCard, ...snapshot.opponents.map(o => ({ ...o }))])
+                }
+
+                // Restore mid-turn state: phases, battle data, and journey preview
+                if (!snapshot.player.turnReady && snapshot.session?.open === false && !snapshot.session?.gameEnded) {
+                    const restoredPhases = snapshot.player.turnPhases?.length > 0
+                        ? snapshot.player.turnPhases
+                        : ['freeActions']
+                    setTurnPhases(restoredPhases)
+                    setCurrentPhaseIndex(0)
+                    updateGame({
+                        battleData: snapshot.player.battleData || null,
+                        journeyWildPreview: snapshot.player.journeyWildPreview || [],
+                    })
+                }
 
                 // Restore journey-related game flags
                 if (snapshot.player.currentJourney) {
@@ -361,16 +396,48 @@ export function PlayerProvider({children}) {
         return turnPhases[currentPhaseIndex] || null
     }, [turnPhases, currentPhaseIndex])
 
+    const buildPlayerCard = useCallback(() => ({
+        id: player.id,
+        status: player.status,
+        online: true,
+        turnReady: true,
+        journeyLevel: game.journeyLevel ?? 1,
+        journeyProgress: game.journeyProgress ?? 0,
+        daycareToken: player.daycare?.token ?? 0,
+        isPlayer: true,
+    }), [player.id, player.status, player.daycare, game.journeyLevel, game.journeyProgress])
+
     const advancePhase = useCallback(async () => {
         const nextIndex = currentPhaseIndex + 1
         if (nextIndex >= turnPhases.length) {
             // All phases done — finish turn
+            setWaitingSnapshot([buildPlayerCard(), ...opponents.map(o => ({ ...o }))])
             setWaitingForPlayers(true)
             emit('turn-end')
         } else {
             setCurrentPhaseIndex(nextIndex)
         }
-    }, [currentPhaseIndex, turnPhases, emit, setWaitingForPlayers])
+    }, [currentPhaseIndex, turnPhases, emit, setWaitingForPlayers, buildPlayerCard, opponents])
+
+    // Merge only turnReady into the frozen snapshot so card colors update live
+    useEffect(() => {
+        setWaitingSnapshot(prev => {
+            if (!prev) return prev
+            return prev.map(card => {
+                if (card.isPlayer) return card
+                const live = opponents.find(o => o.id === card.id)
+                if (live && live.turnReady !== card.turnReady) {
+                    return { ...card, turnReady: live.turnReady }
+                }
+                return card
+            })
+        })
+    }, [opponents])
+
+    // Clear snapshot when waiting ends
+    useEffect(() => {
+        if (!waitingForPlayers) setWaitingSnapshot(null)
+    }, [waitingForPlayers])
 
     const updatePlayer = useCallback((amount, key, type) => {
         if(type) {
@@ -675,12 +742,24 @@ export function PlayerProvider({children}) {
         socket.on('lobby-start', (res) => {
             setEncounter(res.starters)
             setTasks([...res.initialTasks])
+            if (res.berryShop) setBerryShop(res.berryShop)
             setHasGameStarted(true)
             updateGame({ openEncounterModal: true })
         })
 
         socket.on('turn-end-other', res => {
             updateOpponent(res, true, 'turnReady')
+            setOpponents(prev => {
+                const allReady = prev.every(op => op.id === res ? true : op.turnReady)
+                if (allReady && !waitingForPlayersRef.current) {
+                    handleToast({
+                        id: 'everyone-waiting',
+                        title: t('lobby.everyoneWaiting'),
+                        status: 'info',
+                    })
+                }
+                return prev
+            })
         })
 
         socket.on('turn-end-other-return', res => {
@@ -951,6 +1030,13 @@ export function PlayerProvider({children}) {
             berries,
             setBerries,
 
+            berryShop,
+            setBerryShop,
+            berryTradeUsed,
+            setBerryTradeUsed,
+            berryPurchaseUsed,
+            setBerryPurchaseUsed,
+
             farm,
             setFarm,
 
@@ -971,6 +1057,7 @@ export function PlayerProvider({children}) {
 
             waitingForPlayers,
             setWaitingForPlayers,
+            waitingSnapshot,
 
             game,
             updateGame,

@@ -10,6 +10,7 @@ import PlayerAugmentsPanel from "@game/header/Buttons/Augments/PlayerAugmentsPan
 import GymPanel from "@game/modals/Gym/GymPanel";
 import FarmPanel from "@features/farm/FarmPanel";
 import CraftPanel from "@features/craft/CraftPanel";
+import BerryTradePanel from "@features/berryTrade/BerryTradePanel";
 import JourneyPreviewPanel from "@features/journey/JourneyPreviewPanel";
 import JourneyScreen from "@features/journey/JourneyScreen";
 import JourneySelection from "@features/journey/JourneySelection";
@@ -43,6 +44,7 @@ const panels = {
     gym: GymPanel,
     farm: FarmPanel,
     craft: CraftPanel,
+    berryTrade: BerryTradePanel,
     journey: JourneyPreviewPanel,
     settings: SettingsPanel,
 }

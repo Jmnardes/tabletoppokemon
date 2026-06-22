@@ -1,0 +1,8 @@
+[
+  { "level": 0, "label": "Calmo", "labelEn": "Calm", "buffs": [], "escapeRate": 30 },
+  { "level": 1, "label": "Atento", "labelEn": "Alert", "buffs": ["acc +1"], "escapeRate": 40 },
+  { "level": 2, "label": "Incomodado", "labelEn": "Bothered", "buffs": ["acc +1", "def +1"], "escapeRate": 50 },
+  { "level": 3, "label": "Esquentado", "labelEn": "Heated", "buffs": ["acc +1", "def +1", "atk +1"], "escapeRate": 60 },
+  { "level": 4, "label": "Raivoso", "labelEn": "Furious", "buffs": ["acc +2", "def +2", "atk +1"], "escapeRate": 70 },
+  { "level": 5, "label": "Agressivo", "labelEn": "Aggressive", "buffs": ["acc +2", "def +2", "atk +2"], "escapeRate": 80 }
+]

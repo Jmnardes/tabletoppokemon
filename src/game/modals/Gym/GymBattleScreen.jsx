@@ -1,7 +1,22 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { VStack, HStack, Flex, Text, Progress, Image, Badge, Box, Button, useColorMode, Tooltip } from "@chakra-ui/react"
 import Element from "@features/elements/Element"
+import { journeyHitAnimation, journeyCritHitAnimation, journeyDefAnimation, missAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
+import { getAttackSprite } from "@utils/attackSprites"
+import { colorByHitType } from "@utils/battle"
+import { fmt } from "@utils"
+
+const animSecs = 0.8
+
+const getDefenderAnim = (hitType) => {
+    switch (hitType) {
+        case 'crit': return `${journeyCritHitAnimation} ${animSecs}s ease-in-out`
+        case 'half': return `${journeyDefAnimation} ${animSecs}s ease-in-out`
+        case 'miss': return `${missAnimation} ${animSecs}s ease-in-out`
+        default: return `${journeyHitAnimation} ${animSecs}s ease-in-out`
+    }
+}
 
 export default function GymBattleScreen({ 
     playerTeam, 
@@ -19,20 +34,138 @@ export default function GymBattleScreen({
     const { t } = useTranslation()
     const [showContinueButton, setShowContinueButton] = useState(false)
 
+    // Animation state
+    const [playerAnim, setPlayerAnim] = useState("")
+    const [leaderAnim, setLeaderAnim] = useState("")
+    const [lastDamage, setLastDamage] = useState(null)
+    const [projectile, setProjectile] = useState(null)
+    const [logIndex, setLogIndex] = useState(0)
+    const [playbackDone, setPlaybackDone] = useState(false)
+    const [displayedLogs, setDisplayedLogs] = useState([])
+    const [playerHp, setPlayerHp] = useState(null)
+    const [leaderHp, setLeaderHp] = useState(null)
+    const animating = useRef(false)
+    const logEndRef = useRef(null)
+
     const defeatedBg = colorMode === 'light' ? "red.200" : "red.900"
     const activeBg = colorMode === 'light' ? "blue.500" : "blue.600"
     const slotBg = colorMode === 'light' ? "gray.100" : "gray.700"
     const borderColor = colorMode === 'light' ? "gray.200" : "gray.600"
     const logBg = colorMode === 'light' ? "white" : "gray.900"
 
-    // Mostrar botão continue quando há resultado de batalha
+    // Initialize HP when battle log arrives (compute starting HP from log)
     useEffect(() => {
-        if (hasBattleResult && battleLog?.length > 0) {
+        if (!battleLog || battleLog.length === 0 || !currentPlayerPokemon || !currentLeaderPokemon) return
+
+        let pDmgTaken = 0
+        let lDmgTaken = 0
+        for (const entry of battleLog) {
+            if (entry.defender?.id === currentPlayerPokemon.id) {
+                pDmgTaken += entry.damage
+            } else {
+                lDmgTaken += entry.damage
+            }
+        }
+
+        const pFinalHp = currentPlayerPokemon.currentHp !== undefined ? currentPlayerPokemon.currentHp : (currentPlayerPokemon.hp || currentPlayerPokemon.stats?.hp || 1)
+        const lFinalHp = currentLeaderPokemon.currentHp !== undefined ? currentLeaderPokemon.currentHp : (currentLeaderPokemon.hp || currentLeaderPokemon.stats?.hp || 1)
+
+        setPlayerHp(Math.max(0, pFinalHp) + pDmgTaken)
+        setLeaderHp(Math.max(0, lFinalHp) + lDmgTaken)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [battleLog])
+
+    // Reset playback when new battleLog arrives
+    useEffect(() => {
+        setLogIndex(0)
+        setPlaybackDone(false)
+        setDisplayedLogs([])
+        animating.current = false
+        setLastDamage(null)
+        setProjectile(null)
+        setPlayerAnim("")
+        setLeaderAnim("")
+    }, [battleLog])
+
+    // Playback loop — sequenced: lunge → projectile → impact → advance
+    useEffect(() => {
+        const timers = []
+
+        if (playbackDone || !battleLog || battleLog.length === 0 || logIndex >= battleLog.length) {
+            if (battleLog && battleLog.length > 0 && logIndex >= battleLog.length && !playbackDone) {
+                setPlaybackDone(true)
+            }
+            return
+        }
+
+        if (animating.current) return
+        animating.current = true
+
+        const entry = battleLog[logIndex]
+        const isPlayerDefender = entry.defender?.id === currentPlayerPokemon?.id
+
+        // Phase 1: Attacker lunge
+        timers.push(setTimeout(() => {
+            if (isPlayerDefender) {
+                setLeaderAnim(`${lungeLeftAnimation} 0.25s ease-out`)
+            } else {
+                setPlayerAnim(`${lungeRightAnimation} 0.25s ease-out`)
+            }
+
+            // Phase 2: Fire projectile
+            timers.push(setTimeout(() => {
+                setProjectile({
+                    moveType: entry.attacker?.moveType,
+                    direction: isPlayerDefender ? 'left' : 'right',
+                    key: logIndex,
+                })
+
+                // Phase 3: Impact
+                const impactDelay = 380
+                timers.push(setTimeout(() => {
+                    // Apply HP
+                    if (isPlayerDefender) {
+                        setPlayerHp(prev => Math.max(0, prev - entry.damage))
+                        setPlayerAnim(getDefenderAnim(entry.hitType))
+                    } else {
+                        setLeaderHp(prev => Math.max(0, prev - entry.damage))
+                        setLeaderAnim(getDefenderAnim(entry.hitType))
+                    }
+
+                    // Show damage text
+                    setLastDamage({ damage: entry.damage, hitType: entry.hitType, defenderId: entry.defender?.id, index: logIndex })
+
+                    // Add to displayed logs
+                    setDisplayedLogs(prev => [...prev, entry])
+
+                    // Phase 4: Advance
+                    timers.push(setTimeout(() => {
+                        animating.current = false
+                        setLogIndex(prev => prev + 1)
+                    }, 700))
+                }, impactDelay))
+            }, 300))
+        }, 16))
+
+        return () => {
+            timers.forEach(clearTimeout)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [logIndex, playbackDone, battleLog])
+
+    // Auto-scroll log
+    useEffect(() => {
+        logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [displayedLogs])
+
+    // Show continue button only after playback is done
+    useEffect(() => {
+        if (hasBattleResult && playbackDone && battleLog?.length > 0) {
             setShowContinueButton(true)
         }
-    }, [hasBattleResult, battleLog])
+    }, [hasBattleResult, playbackDone, battleLog])
 
-    // Reset ao receber novo battle log (mas não se for resultado final)
+    // Reset continue button on non-final logs
     useEffect(() => {
         if (!hasBattleResult) {
             setShowContinueButton(false)
@@ -152,18 +285,19 @@ export default function GymBattleScreen({
         return slotContent
     }
 
-    const ActivePokemonDisplay = ({ pokemon, isPlayer, team }) => {
+    const ActivePokemonDisplay = ({ pokemon, isPlayer, anim, setAnim, hp, maxHp }) => {
         if (!pokemon) {
             return null
         }
 
-        const maxHp = pokemon.hp || pokemon.stats?.hp || 1
-        const currentHp = pokemon.currentHp !== undefined ? pokemon.currentHp : maxHp
-        const hpPercentage = maxHp > 0 ? (currentHp / maxHp) * 100 : 0
+        const finalMaxHp = maxHp || pokemon.hp || pokemon.stats?.hp || 1
+        const currentHp = hp !== null && hp !== undefined ? hp : (pokemon.currentHp !== undefined ? pokemon.currentHp : finalMaxHp)
+        const hpPercentage = finalMaxHp > 0 ? (currentHp / finalMaxHp) * 100 : 0
+        const pokeId = pokemon.id
+        const showDamage = lastDamage && lastDamage.defenderId === pokeId
 
         return (
             <VStack spacing={3}>
-                {/* Pokemon sprite and name */}
                 <VStack spacing={1}>
                     <HStack spacing={2}>
                         <Text fontSize="lg" fontWeight="bold" textTransform="uppercase">
@@ -172,12 +306,41 @@ export default function GymBattleScreen({
                         <Badge colorScheme="yellow" bgColor="GrayText" fontSize="xs">Lv {pokemon.level}</Badge>
                     </HStack>
                     
-                    <Image
-                        src={isPlayer ? pokemon.sprites?.back : pokemon.sprites?.front}
+                    <Box
+                        position="relative"
                         w="180px"
                         h="180px"
-                        objectFit="contain"
-                    />
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        animation={anim || undefined}
+                        onAnimationEnd={() => setAnim && setAnim("")}
+                    >
+                        <Image
+                            src={isPlayer ? pokemon.sprites?.back : pokemon.sprites?.front}
+                            w="180px"
+                            h="180px"
+                            objectFit="contain"
+                            sx={{ imageRendering: 'pixelated' }}
+                        />
+                        {showDamage && (
+                            <Text
+                                key={`dmg-${lastDamage.index}`}
+                                position="absolute"
+                                fontSize="2xl"
+                                fontWeight="bold"
+                                top={-1}
+                                right={isPlayer ? -6 : undefined}
+                                left={isPlayer ? undefined : -6}
+                                color={colorByHitType(lastDamage.hitType)}
+                                animation={`${textAnimation} 0.6s ease-in-out forwards`}
+                                textShadow="0 0 6px rgba(0,0,0,0.8)"
+                                onAnimationEnd={() => setLastDamage(null)}
+                            >
+                                {lastDamage.damage > 0 ? `${fmt(lastDamage.damage)}` : "MISS"}
+                            </Text>
+                        )}
+                    </Box>
 
                     {/* HP Bar */}
                     <VStack spacing={0} w="180px">
@@ -188,7 +351,7 @@ export default function GymBattleScreen({
                                 ))}
                             </HStack>
                             <Text fontSize="xs" fontWeight="bold">
-                                {Math.max(0, Math.floor(currentHp))} / {maxHp} HP
+                                {Math.max(0, Math.floor(currentHp))} / {finalMaxHp} HP
                             </Text>
                         </HStack>
                         
@@ -198,6 +361,7 @@ export default function GymBattleScreen({
                             size="sm"
                             w="full"
                             borderRadius={4}
+                            transition="value 0.3s ease"
                         />
                     </VStack>
                 </VStack>
@@ -252,7 +416,7 @@ export default function GymBattleScreen({
                         '&::-webkit-scrollbar-thumb': { bg: borderColor, borderRadius: '4px' }
                     }}
                 >
-                    {battleLog.map((log, idx) => {
+                    {displayedLogs.map((log, idx) => {
                         const hitColor = 
                             log.hitType === 'crit' ? 'red.400' :
                             log.hitType === 'miss' ? 'gray.400' :
@@ -261,6 +425,7 @@ export default function GymBattleScreen({
 
                         return <TextLogDisplay key={idx} log={log} idx={idx} hitColor={hitColor} />
                     })}
+                    <div ref={logEndRef} />
                 </VStack>
             </Box>
         )
@@ -317,10 +482,10 @@ export default function GymBattleScreen({
         <VStack w="100%" h="100%" p={4} spacing={4} overflow="hidden">
             {/* Battle Arena - Pokemon Display and Battle Log in same row */}
             <Flex gap={4} align="center" justify="center" flex="1" w="100%">
-                {/* Player Side (em cima - mais perto) */}
+                {/* Player Side */}
                 <Flex direction="column" align="center" gap={3}>
                     
-                    {/* Player mini team (em cima) */}
+                    {/* Player mini team */}
                     <HStack spacing={2}>
                         {playerTeam?.map((poke, idx) => (
                             <PokemonSlot
@@ -328,8 +493,8 @@ export default function GymBattleScreen({
                                 pokemon={poke}
                                 isActive={currentPlayerPokemon?.id === poke?.id}
                                 isDefeated={poke?.defeated}
-                                onClick={() => needsChoice && onChoosePokemon && onChoosePokemon(idx)}
-                                isClickable={needsChoice}
+                                onClick={() => needsChoice && playbackDone && onChoosePokemon && onChoosePokemon(idx)}
+                                isClickable={needsChoice && playbackDone}
                                 side="player"
                             />
                         ))}
@@ -339,26 +504,51 @@ export default function GymBattleScreen({
                     <ActivePokemonDisplay 
                         pokemon={currentPlayerPokemon} 
                         isPlayer={true} 
-                        team={[]}
+                        anim={playerAnim}
+                        setAnim={setPlayerAnim}
+                        hp={playerHp}
+                        maxHp={currentPlayerPokemon?.hp || currentPlayerPokemon?.stats?.hp}
                     />
                 </Flex>
 
-                {/* VS Section */}
-                <Flex align="center" justify="center">
+                {/* VS Section with Projectile */}
+                <Flex align="center" justify="center" position="relative" minW="80px">
                     <Text fontSize="4xl" fontWeight="bold" opacity={0.4}>VS</Text>
+                    {projectile && (
+                        <Image
+                            key={`proj-${projectile.key}`}
+                            src={getAttackSprite(projectile.moveType)}
+                            alt="attack"
+                            position="absolute"
+                            w="36px"
+                            h="36px"
+                            top="50%"
+                            left="50%"
+                            mt="-18px"
+                            ml="-18px"
+                            sx={{ imageRendering: 'pixelated' }}
+                            pointerEvents="none"
+                            zIndex={10}
+                            animation={`${projectile.direction === 'right' ? projectileRightAnimation : projectileLeftAnimation} 0.4s ease-out forwards`}
+                            onAnimationEnd={() => setProjectile(null)}
+                        />
+                    )}
                 </Flex>
 
-                {/* Leader Side (em baixo - mais longe) */}
+                {/* Leader Side */}
                 <Flex direction="column" align="center" gap={3}>
                     
                     {/* Active Leader Pokemon */}
                     <ActivePokemonDisplay 
                         pokemon={currentLeaderPokemon} 
                         isPlayer={false} 
-                        team={[]}
+                        anim={leaderAnim}
+                        setAnim={setLeaderAnim}
+                        hp={leaderHp}
+                        maxHp={currentLeaderPokemon?.hp || currentLeaderPokemon?.stats?.hp}
                     />
 
-                    {/* Leader mini team (em baixo) */}
+                    {/* Leader mini team */}
                     <HStack spacing={2}>
                         {leaderTeam?.map((poke, idx) => (
                             <PokemonSlot
@@ -379,9 +569,9 @@ export default function GymBattleScreen({
                 </Flex>
             </Flex>
 
-            {/* Action buttons */}
+            {/* Action buttons — only show after playback completes */}
             <VStack spacing={2}>
-                {needsChoice && (
+                {needsChoice && playbackDone && (
                     <Box bg="yellow.500" px={4} py={2} borderRadius={8} textAlign="center" w="fit-content">
                         <Text fontSize="sm" fontWeight="bold" color="black" whiteSpace="nowrap">
                             {t('gym.chooseNextTop')}
@@ -389,7 +579,7 @@ export default function GymBattleScreen({
                     </Box>
                 )}
 
-                {!needsChoice && !hasBattleResult && battleLog?.length > 0 && onNext && (
+                {!needsChoice && !hasBattleResult && playbackDone && battleLog?.length > 0 && onNext && (
                     <Button
                         colorScheme="blue"
                         size="lg"

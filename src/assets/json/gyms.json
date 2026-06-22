@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1, "name": "Pewter City Gym", "leader": "Brock", "badge": "Boulder Badge", "element": "rock", "region": "Kanto",
+    "pokemons": [{"name": "geodude", "level": 0}, {"name": "graveler", "level": 0}, {"name": "rhyhorn", "level": 0}, {"name": "golem", "level": 1}, {"name": "kabutops", "level": 1}, {"name": "onix", "level": 2}]
+  },
+  {
+    "id": 2, "name": "Cerulean City Gym", "leader": "Misty", "badge": "Cascade Badge", "element": "water", "region": "Kanto",
+    "pokemons": [{"name": "psyduck", "level": 0}, {"name": "goldeen", "level": 0}, {"name": "horsea", "level": 0}, {"name": "seadra", "level": 1}, {"name": "seaking", "level": 1}, {"name": "starmie", "level": 2}]
+  },
+  {
+    "id": 3, "name": "Vermilion City Gym", "leader": "Lt. Surge", "badge": "Thunder Badge", "element": "electric", "region": "Kanto",
+    "pokemons": [{"name": "voltorb", "level": 0}, {"name": "magnemite", "level": 0}, {"name": "pikachu", "level": 0}, {"name": "electrode", "level": 1}, {"name": "magneton", "level": 1}, {"name": "raichu", "level": 2}]
+  },
+  {
+    "id": 4, "name": "Celadon City Gym", "leader": "Erika", "badge": "Rainbow Badge", "element": "grass", "region": "Kanto",
+    "pokemons": [{"name": "oddish", "level": 0}, {"name": "bellsprout", "level": 0}, {"name": "tangela", "level": 0}, {"name": "weepinbell", "level": 1}, {"name": "gloom", "level": 1}, {"name": "vileplume", "level": 2}]
+  },
+  {
+    "id": 5, "name": "Fuchsia City Gym", "leader": "Koga", "badge": "Soul Badge", "element": "poison", "region": "Kanto",
+    "pokemons": [{"name": "koffing", "level": 0}, {"name": "grimer", "level": 0}, {"name": "venonat", "level": 0}, {"name": "venomoth", "level": 1}, {"name": "muk", "level": 1}, {"name": "weezing", "level": 2}]
+  },
+  {
+    "id": 6, "name": "Saffron City Gym", "leader": "Sabrina", "badge": "Marsh Badge", "element": "psychic", "region": "Kanto",
+    "pokemons": [{"name": "abra", "level": 0}, {"name": "kadabra", "level": 0}, {"name": "mr-mime", "level": 0}, {"name": "jynx", "level": 1}, {"name": "espeon", "level": 1}, {"name": "alakazam", "level": 2}]
+  },
+  {
+    "id": 7, "name": "Cinnabar Island Gym", "leader": "Blaine", "badge": "Volcano Badge", "element": "fire", "region": "Kanto",
+    "pokemons": [{"name": "vulpix", "level": 0}, {"name": "growlithe", "level": 0}, {"name": "ponyta", "level": 0}, {"name": "rapidash", "level": 1}, {"name": "ninetales", "level": 1}, {"name": "arcanine", "level": 2}]
+  },
+  {
+    "id": 8, "name": "Viridian City Gym", "leader": "Giovanni", "badge": "Earth Badge", "element": "ground", "region": "Kanto",
+    "pokemons": [{"name": "sandshrew", "level": 0}, {"name": "diglett", "level": 0}, {"name": "cubone", "level": 0}, {"name": "dugtrio", "level": 1}, {"name": "marowak", "level": 1}, {"name": "rhydon", "level": 2}]
+  },
+  {
+    "id": 9, "name": "Violet City Gym", "leader": "Falkner", "badge": "Zephyr Badge", "element": "flying", "region": "Johto",
+    "pokemons": [{"name": "spearow", "level": 0}, {"name": "hoothoot", "level": 0}, {"name": "farfetchd", "level": 0}, {"name": "fearow", "level": 1}, {"name": "noctowl", "level": 1}, {"name": "pidgeot", "level": 2}]
+  },
+  {
+    "id": 10, "name": "Azalea Town Gym", "leader": "Bugsy", "badge": "Hive Badge", "element": "bug", "region": "Johto",
+    "pokemons": [{"name": "caterpie", "level": 0}, {"name": "weedle", "level": 0}, {"name": "ledyba", "level": 0}, {"name": "butterfree", "level": 1}, {"name": "beedrill", "level": 1}, {"name": "scyther", "level": 2}]
+  },
+  {
+    "id": 11, "name": "Goldenrod City Gym", "leader": "Whitney", "badge": "Plain Badge", "element": "normal", "region": "Johto",
+    "pokemons": [{"name": "sentret", "level": 0}, {"name": "meowth", "level": 0}, {"name": "jigglypuff", "level": 0}, {"name": "furret", "level": 1}, {"name": "clefable", "level": 1}, {"name": "miltank", "level": 2}]
+  },
+  {
+    "id": 12, "name": "Ecruteak City Gym", "leader": "Morty", "badge": "Fog Badge", "element": "ghost", "region": "Johto",
+    "pokemons": [{"name": "gastly", "level": 0}, {"name": "misdreavus", "level": 0}, {"name": "shuppet", "level": 0}, {"name": "haunter", "level": 1}, {"name": "banette", "level": 1}, {"name": "gengar", "level": 2}]
+  },
+  {
+    "id": 13, "name": "Cianwood City Gym", "leader": "Chuck", "badge": "Storm Badge", "element": "fighting", "region": "Johto",
+    "pokemons": [{"name": "mankey", "level": 0}, {"name": "machop", "level": 0}, {"name": "hitmonlee", "level": 0}, {"name": "primeape", "level": 1}, {"name": "hitmonchan", "level": 1}, {"name": "poliwrath", "level": 2}]
+  },
+  {
+    "id": 14, "name": "Olivine City Gym", "leader": "Jasmine", "badge": "Mineral Badge", "element": "steel", "region": "Johto",
+    "pokemons": [{"name": "magnemite", "level": 0}, {"name": "skarmory", "level": 0}, {"name": "aron", "level": 0}, {"name": "magneton", "level": 1}, {"name": "forretress", "level": 1}, {"name": "steelix", "level": 2}]
+  },
+  {
+    "id": 15, "name": "Mahogany Town Gym", "leader": "Pryce", "badge": "Glacier Badge", "element": "ice", "region": "Johto",
+    "pokemons": [{"name": "seel", "level": 0}, {"name": "swinub", "level": 0}, {"name": "shellder", "level": 0}, {"name": "dewgong", "level": 1}, {"name": "cloyster", "level": 1}, {"name": "piloswine", "level": 2}]
+  },
+  {
+    "id": 16, "name": "Blackthorn City Gym", "leader": "Clair", "badge": "Rising Badge", "element": "dragon", "region": "Johto",
+    "pokemons": [{"name": "dratini", "level": 0}, {"name": "horsea", "level": 0}, {"name": "bagon", "level": 0}, {"name": "dragonair", "level": 1}, {"name": "gyarados", "level": 1}, {"name": "kingdra", "level": 2}]
+  },
+  {
+    "id": 17, "name": "Rustboro City Gym", "leader": "Roxanne", "badge": "Stone Badge", "element": "rock", "region": "Hoenn",
+    "pokemons": [{"name": "geodude", "level": 0}, {"name": "lileep", "level": 0}, {"name": "anorith", "level": 0}, {"name": "graveler", "level": 1}, {"name": "cradily", "level": 1}, {"name": "nosepass", "level": 2}]
+  },
+  {
+    "id": 18, "name": "Dewford Town Gym", "leader": "Brawly", "badge": "Knuckle Badge", "element": "fighting", "region": "Hoenn",
+    "pokemons": [{"name": "machop", "level": 0}, {"name": "meditite", "level": 0}, {"name": "makuhita", "level": 0}, {"name": "machoke", "level": 1}, {"name": "medicham", "level": 1}, {"name": "hariyama", "level": 2}]
+  },
+  {
+    "id": 19, "name": "Mauville City Gym", "leader": "Wattson", "badge": "Dynamo Badge", "element": "electric", "region": "Hoenn",
+    "pokemons": [{"name": "voltorb", "level": 0}, {"name": "electrike", "level": 0}, {"name": "magnemite", "level": 0}, {"name": "electrode", "level": 1}, {"name": "magneton", "level": 1}, {"name": "manectric", "level": 2}]
+  },
+  {
+    "id": 20, "name": "Lavaridge Town Gym", "leader": "Flannery", "badge": "Heat Badge", "element": "fire", "region": "Hoenn",
+    "pokemons": [{"name": "slugma", "level": 0}, {"name": "numel", "level": 0}, {"name": "vulpix", "level": 0}, {"name": "magcargo", "level": 1}, {"name": "camerupt", "level": 1}, {"name": "torkoal", "level": 2}]
+  },
+  {
+    "id": 21, "name": "Petalburg City Gym", "leader": "Norman", "badge": "Balance Badge", "element": "normal", "region": "Hoenn",
+    "pokemons": [{"name": "slakoth", "level": 0}, {"name": "spinda", "level": 0}, {"name": "zigzagoon", "level": 0}, {"name": "vigoroth", "level": 1}, {"name": "linoone", "level": 1}, {"name": "slaking", "level": 2}]
+  },
+  {
+    "id": 22, "name": "Fortree City Gym", "leader": "Winona", "badge": "Feather Badge", "element": "flying", "region": "Hoenn",
+    "pokemons": [{"name": "swablu", "level": 0}, {"name": "wingull", "level": 0}, {"name": "tropius", "level": 0}, {"name": "pelipper", "level": 1}, {"name": "skarmory", "level": 1}, {"name": "altaria", "level": 2}]
+  },
+  {
+    "id": 23, "name": "Mossdeep City Gym", "leader": "Tate & Liza", "badge": "Mind Badge", "element": "psychic", "region": "Hoenn",
+    "pokemons": [{"name": "natu", "level": 0}, {"name": "ralts", "level": 0}, {"name": "spoink", "level": 0}, {"name": "xatu", "level": 1}, {"name": "solrock", "level": 1}, {"name": "lunatone", "level": 2}]
+  },
+  {
+    "id": 24, "name": "Sootopolis City Gym", "leader": "Wallace", "badge": "Rain Badge", "element": "water", "region": "Hoenn",
+    "pokemons": [{"name": "spheal", "level": 0}, {"name": "carvanha", "level": 0}, {"name": "wailmer", "level": 0}, {"name": "sealeo", "level": 1}, {"name": "sharpedo", "level": 1}, {"name": "milotic", "level": 2}]
+  },
+  {
+    "id": 25, "name": "Oreburgh City Gym", "leader": "Roark", "badge": "Coal Badge", "element": "rock", "region": "Sinnoh",
+    "pokemons": [{"name": "geodude", "level": 0}, {"name": "onix", "level": 0}, {"name": "cranidos", "level": 0}, {"name": "graveler", "level": 1}, {"name": "rhyhorn", "level": 1}, {"name": "rampardos", "level": 2}]
+  },
+  {
+    "id": 26, "name": "Eterna City Gym", "leader": "Gardenia", "badge": "Forest Badge", "element": "grass", "region": "Sinnoh",
+    "pokemons": [{"name": "turtwig", "level": 0}, {"name": "cherubi", "level": 0}, {"name": "budew", "level": 0}, {"name": "grotle", "level": 1}, {"name": "cherrim", "level": 1}, {"name": "roserade", "level": 2}]
+  },
+  {
+    "id": 27, "name": "Veilstone City Gym", "leader": "Maylene", "badge": "Cobble Badge", "element": "fighting", "region": "Sinnoh",
+    "pokemons": [{"name": "meditite", "level": 0}, {"name": "machop", "level": 0}, {"name": "riolu", "level": 0}, {"name": "medicham", "level": 1}, {"name": "machoke", "level": 1}, {"name": "lucario", "level": 2}]
+  },
+  {
+    "id": 28, "name": "Pastoria City Gym", "leader": "Crasher Wake", "badge": "Fen Badge", "element": "water", "region": "Sinnoh",
+    "pokemons": [{"name": "buizel", "level": 0}, {"name": "shellos", "level": 0}, {"name": "psyduck", "level": 0}, {"name": "golduck", "level": 1}, {"name": "gastrodon", "level": 1}, {"name": "floatzel", "level": 2}]
+  },
+  {
+    "id": 29, "name": "Hearthome City Gym", "leader": "Fantina", "badge": "Relic Badge", "element": "ghost", "region": "Sinnoh",
+    "pokemons": [{"name": "gastly", "level": 0}, {"name": "duskull", "level": 0}, {"name": "misdreavus", "level": 0}, {"name": "haunter", "level": 1}, {"name": "dusclops", "level": 1}, {"name": "mismagius", "level": 2}]
+  },
+  {
+    "id": 30, "name": "Canalave City Gym", "leader": "Byron", "badge": "Mine Badge", "element": "steel", "region": "Sinnoh",
+    "pokemons": [{"name": "magnemite", "level": 0}, {"name": "bronzor", "level": 0}, {"name": "shieldon", "level": 0}, {"name": "magneton", "level": 1}, {"name": "bronzong", "level": 1}, {"name": "bastiodon", "level": 2}]
+  },
+  {
+    "id": 31, "name": "Snowpoint City Gym", "leader": "Candice", "badge": "Icicle Badge", "element": "ice", "region": "Sinnoh",
+    "pokemons": [{"name": "snover", "level": 0}, {"name": "sneasel", "level": 0}, {"name": "swinub", "level": 0}, {"name": "weavile", "level": 1}, {"name": "mamoswine", "level": 1}, {"name": "abomasnow", "level": 2}]
+  },
+  {
+    "id": 32, "name": "Sunyshore City Gym", "leader": "Volkner", "badge": "Beacon Badge", "element": "electric", "region": "Sinnoh",
+    "pokemons": [{"name": "shinx", "level": 0}, {"name": "pikachu", "level": 0}, {"name": "pachirisu", "level": 0}, {"name": "luxio", "level": 1}, {"name": "raichu", "level": 1}, {"name": "luxray", "level": 2}]
+  }
+]

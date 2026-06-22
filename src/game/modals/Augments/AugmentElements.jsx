@@ -9,7 +9,7 @@ export default function AugmentElements({ augment }) {
                     return <Element key={index} element={element} elementTable={false} h={8} w={8}/>
                 })}
             </Center>
-            <Badge p={2} borderRadius={6} fontSize={"small"}>Bonus +{augment.amount}</Badge>
+            <Badge p={2} borderRadius={6} fontSize={"small"}>{augment.amount * 5}%</Badge>
         </>
     )
 }

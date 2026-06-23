@@ -24,7 +24,7 @@ const POTIONS = [
 
 export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRoute, setJourneyState }) {
     const { t } = useTranslation()
-    const { player, session, setPlayer, pokemonData } = useContext(PlayerContext)
+    const { player, session, setPlayer, pokemonData, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState(false)
     const [healingPoke, setHealingPoke] = useState(null)
@@ -138,6 +138,14 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                 }
                 setHealingPoke(pokemonId)
                 setTimeout(() => setHealingPoke(null), 1000)
+            } else {
+                handleToast({
+                    id: 'journey-potion-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
+                })
             }
         })
     }
@@ -174,6 +182,14 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                 if (result.canSendBack != null) setCanSendBack(result.canSendBack)
                 setSelectedWildIndex(null)
                 onFightStart(result)
+            } else {
+                handleToast({
+                    id: 'journey-fight-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
+                })
             }
         })
     }
@@ -199,6 +215,14 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                 }))
                 setCanSendBack(result.canSendBack)
                 setSelectedWildIndex(null)
+            } else {
+                handleToast({
+                    id: 'journey-sendback-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
+                })
             }
         })
     }

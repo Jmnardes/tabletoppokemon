@@ -1,5 +1,6 @@
 import { Box, Center, Flex, Image, Spinner, Text } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import PlayerContext from "@context/PlayerContext";
 import socket from "@client";
@@ -18,7 +19,8 @@ export default function BattleContent({
     event,
     onBattleComplete
 }) {
-    const { teamIds, pokemonData, updateGame, emit, setLoading, player } = useContext(PlayerContext)
+    const { t } = useTranslation()
+    const { teamIds, pokemonData, updateGame, emit, setLoading, player, handleToast } = useContext(PlayerContext)
 
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
     const [selectedTeamIds, setSelectedTeamIds] = useState([])
@@ -26,7 +28,17 @@ export default function BattleContent({
 
     const handleTeamSelect = (pokemonIds) => {
         setSelectedTeamIds(pokemonIds)
-        emit('battle-select-team', { battleId, pokemonIds })
+        emit('battle-select-team', { battleId, pokemonIds }).catch(() => {
+            setLoading({ loading: false })
+            setBattlePhase('select')
+            handleToast({
+                id: 'battle-select-error',
+                title: t('common.error'),
+                description: t('toast.connectionError'),
+                status: 'error',
+                position: 'top',
+            })
+        })
         setLoading({ loading: true, text: 'Waiting for opponent...' })
         setBattlePhase('waiting')
     }

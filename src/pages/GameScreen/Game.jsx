@@ -4,6 +4,7 @@ import GameHeader from "@game/header/GameHeader";
 import GameContent from "@game/body/GameContent";
 import ModalController from "@game/modals/ModalController";
 import TutorialOverlay from "@components/Tutorial/TutorialOverlay";
+import PauseOverlay from "@components/PauseOverlay";
 import GameEnd from "./GameEnd";
 
 function PokePage({ game }) {
@@ -29,6 +30,7 @@ const GameComponents = () => {
             <GameContent />
             <ModalController />
             {game.tutorialStep != null && <TutorialOverlay />}
+            <PauseOverlay />
         </>
     )
 };

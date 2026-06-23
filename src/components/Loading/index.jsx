@@ -20,27 +20,29 @@ const Loading = ({
                 width='100%'
                 height='100%'
                 bg='black'
-                opacity='85%'
+                opacity='90%'
                 zIndex='1401'
             />
-            <Center
+            <Flex
                 pos='absolute'
                 top='0'
                 left='0'
                 width='100%'
                 height='100%'
+                direction='column'
+                align='center'
+                zIndex='1402'
+                py={4}
             >
-                <Flex flexDirection='column' gap='1rem' zIndex='1402'>
-                    {showSpinner && (
-                        <Center>
-                            <Box as={motion.div} animation={`${rotationKeyframes} 2s linear infinite`}>
-                                <PokeballIcon c='white'/>
-                            </Box>
-                        </Center>
-                    )}
-                    {children}
-                </Flex>
-            </Center>
+                {showSpinner && (
+                    <Center mb={2}>
+                        <Box as={motion.div} animation={`${rotationKeyframes} 2s linear infinite`}>
+                            <PokeballIcon c='white' w={20} h={20} />
+                        </Box>
+                    </Center>
+                )}
+                {children}
+            </Flex>
         </>
     )
 }

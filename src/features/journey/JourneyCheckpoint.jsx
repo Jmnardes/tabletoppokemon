@@ -7,7 +7,7 @@ import pokeboxIcon from '@assets/images/box/pokebox-closed.png'
 
 export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) {
     const { t } = useTranslation()
-    const { player, session, setPlayer } = useContext(PlayerContext)
+    const { player, session, setPlayer, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState(false)
     const [chestOpened, setChestOpened] = useState(false)
@@ -40,6 +40,14 @@ export default function JourneyCheckpoint({ journeyState, onContinue, onExit }) 
                 setChestOpened(true)
                 // Store journey data for manual continue
                 setRewardJourney(result.journey)
+            } else {
+                handleToast({
+                    id: 'journey-continue-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
+                })
             }
         })
     }

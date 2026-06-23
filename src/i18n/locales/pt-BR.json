@@ -55,8 +55,16 @@
     "startGame": "Iniciar Jogo",
     "waitingPlayers": "Esperando outros jogadores...",
     "everyoneWaiting": "Todos estão te esperando!",
+    "speedBonusExplanation": "Jogadores que terminarem o turno primeiro recebem mais tokens por turno!",
     "playerJoined": "{{name}} entrou na sala",
-    "playerLeft": "{{name}} saiu da sala"
+    "playerLeft": "{{name}} saiu da sala",
+    "playerDisconnected": "{{name}} desconectou",
+    "playerReconnected": "{{name}} reconectou",
+    "playerRemoved": "Um jogador foi removido por inatividade",
+    "kick": "Remover jogador",
+    "ready": "Pronto",
+    "playing": "Jogando",
+    "speedBonusTooltip": "Os jogadores mais rápidos recebem um bônus de tokens por turno."
   },
 
   "config": {
@@ -138,7 +146,9 @@
     "capturingPokemon": "Capturando pokémon...",
     "reconnecting": "Tentando recuperar sessão...",
     "passiveEconomy": "Economia Passiva",
-    "passiveEconomyDesc": "+{{tokens}} tokens, +1 pokeball",
+    "passiveEconomyDesc": "+{{tokens}} tokens",
+    "speedBonus": "Bônus de Velocidade",
+    "speedBonusDesc": "+{{tokens}} tokens (bônus de velocidade)",
     "dustExp": "Dust → EXP",
     "dustExpDesc": "{{names}} recebeu +2 EXP (dust)",
     "berryExpired": "Berry expirou",
@@ -859,5 +869,16 @@
       "name": "Potencializador",
       "description": "Aumenta a duração dos efeitos de berry."
     }
+  },
+
+  "pause": {
+    "title": "Jogo Pausado",
+    "playerDisconnected": "{{name}} desconectou",
+    "timeRemaining": "Tempo restante",
+    "voteKick": "Remover {{name}}",
+    "votesCount": "{{current}}/{{total}} votos",
+    "alreadyVoted": "Voto registrado",
+    "extendTimer": "Estender tempo",
+    "extendedMax": "Extensão máxima atingida"
   }
 }

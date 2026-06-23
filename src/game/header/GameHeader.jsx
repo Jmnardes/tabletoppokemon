@@ -9,9 +9,9 @@ import NotificationPanel from "./Trainer/NotificationPanel";
 import AugmentData from "@game/modals/Augments/AugmentData";
 import { FaExclamationCircle, FaBell } from "react-icons/fa";
 import { augmentColor } from "@utils";
+import PLAYER_COLORS from "@constants/playerColors";
 import crownIcon from '@assets/images/game/crown.png';
 import clockIcon from '@assets/images/game/clock.png';
-import shopIcon from '@assets/images/game/shop.png';
 
 import bagIcon from '@assets/images/game/bag.png';
 import gymIconFallback from '@assets/images/game/crown.png';
@@ -104,7 +104,8 @@ export default function GameHeader() {
                 <Badge
                     title={player.status.trainerName}
                     maxW={48} p={2} px={4} ml={4}
-                    backgroundColor={bgColor}
+                    backgroundColor={PLAYER_COLORS[player.colorIndex] || PLAYER_COLORS[0]}
+                    color="white"
                     borderRadius={6}
                     isTruncated
                     fontWeight="bold"
@@ -152,13 +153,6 @@ export default function GameHeader() {
                     </Tooltip>
                 )}
                 {!game.hasEnded && (
-                    <Tooltip label={<PassiveEconomyTooltip />} p={0} borderRadius={8} background="none">
-                        <Flex alignItems="center" mx={2} cursor="pointer">
-                            <Image src={shopIcon} w="20px" />
-                        </Flex>
-                    </Tooltip>
-                )}
-                {!game.hasEnded && (
                     <Tooltip label={<BadgeCollectionTooltip />} p={0} borderRadius={8} background="none">
                         <Flex alignItems="center" mx={2} cursor="pointer">
                             <Image src={crownIcon} w="24px" />
@@ -197,7 +191,11 @@ export default function GameHeader() {
             </Center>
             {!game.hasEnded && (
                 <Flex flex="1" alignItems="center" gap={0} flexWrap="wrap" justifyContent="center" data-tutorial="quick-items">
-                    <StatItem icon={tokenIcon} title={t('items.daycareTokens')} value={player.daycare?.token ?? 0} />
+                    <Tooltip label={<PassiveEconomyTooltip />} p={0} borderRadius={8} background="none">
+                        <Center>
+                            <StatItem icon={tokenIcon} title={t('items.daycareTokens')} value={player.daycare?.token ?? 0} />
+                        </Center>
+                    </Tooltip>
                     <StatItem icon={dustIcon} title={t('consulta.itemDust')} value={player.items.dust} />
                     <StatItem icon={lureIcon} title={t('consulta.itemIncense')} value={player.items.incense} />
 

@@ -178,6 +178,18 @@ export default function ModalController() {
                 })
             }
 
+            // Speed bonus notification
+            if (res.speedBonus) {
+                handleToast({
+                    id: `speed-bonus-${res.turn}`,
+                    title: t('toast.speedBonus'),
+                    description: t('toast.speedBonusDesc', { tokens: res.speedBonus }),
+                    duration: 4000,
+                    position: 'bottom-left',
+                    status: 'success',
+                })
+            }
+
             // Dust → EXP notifications
             if (res.dustNotifications?.length) {
                 const names = res.dustNotifications.map(d => d.name).join(', ')
@@ -252,7 +264,10 @@ export default function ModalController() {
                 isPokemonRollDisabled: false,
             })
 
-            setWaitingForPlayers(false)
+            // Brief delay so the last player has time to see the waiting screen
+            setTimeout(() => {
+                setWaitingForPlayers(false)
+            }, 2000)
         })
 
         socket.on('player-capture-pokemon', res => {

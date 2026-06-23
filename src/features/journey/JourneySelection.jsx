@@ -11,7 +11,7 @@ const EXP_TO_LEVEL = 10
 
 export default function JourneySelection() {
     const { t } = useTranslation()
-    const { player, teamIds, pokemonData, updateGame, session, game } = useContext(PlayerContext)
+    const { player, teamIds, pokemonData, updateGame, session, game, handleToast } = useContext(PlayerContext)
     const { colorMode } = useColorMode()
     const [selectedIds, setSelectedIds] = useState([])
     const [loading, setLoading] = useState(false)
@@ -55,6 +55,14 @@ export default function JourneySelection() {
                     isInJourney: true,
                     journeyBagLocked: true,
                     journeyData: res.result.journey,
+                })
+            } else {
+                handleToast({
+                    id: 'journey-start-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
                 })
             }
         })

@@ -1,18 +1,19 @@
-import { Button, Flex, Heading, Text, useColorMode } from "@chakra-ui/react"
-import { useContext } from "react"
+import { CloseButton, Flex, Heading, Text, useColorMode } from "@chakra-ui/react"
+import { useContext, useState } from "react"
 import { useTranslation } from "react-i18next"
 import Game from "@pages/GameScreen/Game"
 import GameMenu from "@pages/Menu/GameMenu"
 import PlayerContext from "./context/PlayerContext"
 import Loading from "@components/Loading"
 import ErrorBoundary from "@components/ErrorBoundary"
-import OpponentCard from "@game/body/Opponents/OpponentCard"
+import BadgeProgressMap from "@game/body/Opponents/BadgeProgressMap"
+import ExpandedPlayerCard from "@game/body/Opponents/ExpandedPlayerCard"
 
 import day from "@assets/images/background/day.jpg"
 import night from "@assets/images/background/night.jpg"
 
 const App = () => {
-  const { hasGameStarted, waitingForPlayers, setWaitingForPlayers, loading, game, emit, waitingSnapshot } = useContext(PlayerContext)
+  const { hasGameStarted, waitingForPlayers, setWaitingForPlayers, loading, game, emit, waitingSnapshot, session } = useContext(PlayerContext)
   const { colorMode } = useColorMode()
 
   return (
@@ -23,6 +24,7 @@ const App = () => {
           loading={loading.loading}
           loadingText={loading.text}
           opponents={waitingSnapshot}
+          badgesToWin={session?.badgesToWin || 3}
           onCancel={() => {
             emit('turn-cancel')
             setWaitingForPlayers(false)
@@ -40,30 +42,69 @@ const App = () => {
   )
 }
 
-const LoadingScreen = ({ waitingForPlayers, loading, loadingText, opponents, onCancel }) => {
+const LoadingScreen = ({ waitingForPlayers, loading, loadingText, opponents, badgesToWin, onCancel }) => {
   const { t } = useTranslation()
+  const [expandedPlayer, setExpandedPlayer] = useState(null)
+
   if (!waitingForPlayers && !loading) return null;
+
+  const playerCount = opponents?.length || 0
+
+  const handlePlayerClick = (player) => {
+    setExpandedPlayer(prev => prev?.id === player.id ? null : player)
+  }
+
   return (
     <Loading showSpinner>
-      <Heading color='white' fontSize="lg" order={-1}>
+      {/* Cancel button — top right */}
+      {waitingForPlayers && !loading && (
+        <CloseButton
+          position="absolute"
+          top={4}
+          right={4}
+          color="white"
+          size="lg"
+          onClick={onCancel}
+          zIndex={10}
+          _hover={{ bg: 'whiteAlpha.200' }}
+        />
+      )}
+
+      {/* Header section */}
+      <Heading color='whiteAlpha.700' fontSize="sm" fontWeight="normal" mt={2}>
         {loadingText ? loadingText : t('lobby.waitingPlayers')}
       </Heading>
-      {waitingForPlayers && !loading && opponents?.length > 0 && (
-        <>
-          <Text color="white" fontWeight="bold" fontSize="sm" textAlign="center" mt={2}>
-            Players
-          </Text>
-          <Flex gap={3} flexWrap="wrap" justifyContent="center">
-            {opponents.map(opponent => (
-              <OpponentCard key={opponent.id} opponent={opponent} inFront />
-            ))}
-          </Flex>
-        </>
+
+      {waitingForPlayers && !loading && playerCount > 0 && (
+        <Text color="gray.400" fontSize="xs" textAlign="center" mt={1}>
+          {t('lobby.speedBonusExplanation')}
+        </Text>
       )}
-      {waitingForPlayers && !loading && (
-        <Button mt={4} colorScheme="red" variant="outline" onClick={onCancel}>
-          {t('common.cancel')}
-        </Button>
+
+      {/* Expanded card — appears in the middle */}
+      {waitingForPlayers && expandedPlayer && (
+        <Flex flex={1} align="center" justify="center" my={2}>
+          <ExpandedPlayerCard
+            player={expandedPlayer}
+            onClose={() => setExpandedPlayer(null)}
+          />
+        </Flex>
+      )}
+
+      {/* Spacer when no expanded card */}
+      {waitingForPlayers && !expandedPlayer && <Flex flex={1} />}
+
+      {/* Badge progress map with player bubbles — bottom */}
+      {waitingForPlayers && !loading && playerCount > 0 && (
+        <Flex w="100%" justify="center" mb={6} px={4}>
+          <BadgeProgressMap
+            badgesToWin={badgesToWin}
+            players={opponents}
+            expandedId={expandedPlayer?.id}
+            onPlayerClick={handlePlayerClick}
+            playerCount={playerCount}
+          />
+        </Flex>
       )}
     </Loading>
   );

@@ -22,6 +22,7 @@ export default function GymScreen() {
         setGym,
         setNextGym,
         advancePhase,
+        handleToast,
     } = useContext(PlayerContext)
     const { t } = useTranslation()
 
@@ -194,7 +195,18 @@ export default function GymScreen() {
     }, [setLoading, getPokemon, setGym, setNextGym, setPlayer])
 
     const handleStartBattle = (pokemonIds) => {
-        emit('gym-battle-start', { playerPokemonIds: pokemonIds })
+        emit('gym-battle-start', { playerPokemonIds: pokemonIds }).catch(() => {
+            if (loadingTimeoutRef.current) { clearTimeout(loadingTimeoutRef.current); loadingTimeoutRef.current = null }
+            setLoading({ loading: false })
+            setBattleState('pre-battle')
+            handleToast({
+                id: 'gym-start-error',
+                title: t('common.error'),
+                description: t('toast.connectionError'),
+                status: 'error',
+                position: 'top',
+            })
+        })
         setLastGymBattleTurn(session.turns)
         setBattleState('battling')
         setLoading({ loading: true, text: t('gym.startingBattle') })
@@ -214,7 +226,17 @@ export default function GymScreen() {
 
         setNeedsChoice(false)
         setLoading({ loading: true, text: t('gym.selectingPokemon') })
-        emit('gym-battle-choose', { pokemonIndex })
+        emit('gym-battle-choose', { pokemonIndex }).catch(() => {
+            if (loadingTimeoutRef.current) { clearTimeout(loadingTimeoutRef.current); loadingTimeoutRef.current = null }
+            setLoading({ loading: false })
+            handleToast({
+                id: 'gym-choose-error',
+                title: t('common.error'),
+                description: t('toast.connectionError'),
+                status: 'error',
+                position: 'top',
+            })
+        })
 
         if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
         loadingTimeoutRef.current = setTimeout(() => {
@@ -224,7 +246,17 @@ export default function GymScreen() {
 
     const handleNext = () => {
         setLoading({ loading: true, text: t('gym.continuingBattle') })
-        emit('gym-battle-next', {})
+        emit('gym-battle-next', {}).catch(() => {
+            if (loadingTimeoutRef.current) { clearTimeout(loadingTimeoutRef.current); loadingTimeoutRef.current = null }
+            setLoading({ loading: false })
+            handleToast({
+                id: 'gym-next-error',
+                title: t('common.error'),
+                description: t('toast.connectionError'),
+                status: 'error',
+                position: 'top',
+            })
+        })
 
         if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current)
         loadingTimeoutRef.current = setTimeout(() => {

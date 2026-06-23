@@ -1,14 +1,14 @@
 import { Card } from "@chakra-ui/card"
 import { useColorMode } from "@chakra-ui/color-mode"
 import { Image } from "@chakra-ui/image"
-import { Center, Flex, Text, Tooltip } from "@chakra-ui/react"
+import { Badge, Center, Flex, Text, Tooltip } from "@chakra-ui/react"
 import crownIcon from '@assets/images/game/crown.png'
 import pokeballIcon from '@assets/images/game/pokeball.png'
 import stepsIcon from '@assets/images/game/direction.png'
 import tokenIcon from '@assets/images/game/coin.png'
 import DisconnectedIcon from "@components/Icons/DisconnectedIcon"
 
-export default function OpponentCard({ opponent, inFront = false }) {
+export default function OpponentCard({ opponent, inFront = false, playerCount = 0 }) {
     const { colorMode } = useColorMode()
 
     const light = colorMode === 'light'
@@ -25,6 +25,9 @@ export default function OpponentCard({ opponent, inFront = false }) {
         : opponent.online ? undefined : "4px solid red"
 
     const shortName = opponent.status.trainerName?.slice(0, 3) || '???'
+    const speedBonus = opponent.turnReady && opponent.speedPosition && playerCount > 0
+        ? playerCount - opponent.speedPosition + 1
+        : null
 
     return (
         <Tooltip label={opponent.status.trainerName} placement="left" hasArrow>
@@ -37,7 +40,25 @@ export default function OpponentCard({ opponent, inFront = false }) {
                 zIndex={inFront ? '2' : 'auto'}
                 minW={"80px"}
                 align="center"
+                position="relative"
             >
+                {speedBonus && (
+                    <Badge
+                        position="absolute"
+                        top="-10px"
+                        right="-10px"
+                        colorScheme="yellow"
+                        borderRadius="full"
+                        fontSize="xs"
+                        px={2}
+                        display="flex"
+                        alignItems="center"
+                        gap={1}
+                    >
+                        +{speedBonus}
+                        <Image src={tokenIcon} w="12px" />
+                    </Badge>
+                )}
                 <Text fontSize="xs" fontWeight="bold" textAlign="center">
                     {shortName}
                 </Text>

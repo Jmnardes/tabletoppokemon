@@ -255,15 +255,25 @@ export default function BerryTradePanel() {
                 <Box>
                     <Text fontSize="sm" fontWeight="bold" mb={2}>{t('berryTrade.saleTitle')}</Text>
                     <Flex alignItems="center" gap={3} bg="whiteAlpha.100" p={3} borderRadius="md">
-                        <Flex flexDir="column" alignItems="center" gap={1}>
-                            <Image src={getBerryIcon(saleBerry.type)} w="40px" h="40px" />
-                            <Text fontSize="xs" fontWeight="bold">{saleBerry.name}</Text>
-                            <Badge fontSize="2xs" colorScheme={
-                                saleBerry.category === 'rare' ? 'yellow' : saleBerry.category === 'uncommon' ? 'purple' : 'blue'
-                            }>
-                                {saleBerry.category}
-                            </Badge>
-                        </Flex>
+                        <Tooltip hasArrow label={
+                            <Center flexDir="column" gap={1} p={1}>
+                                <Text fontWeight="bold">{saleBerry.name}</Text>
+                                <Badge fontSize="2xs" colorScheme={
+                                    saleBerry.category === 'rare' ? 'yellow' : saleBerry.category === 'uncommon' ? 'purple' : 'blue'
+                                }>{saleBerry.category}</Badge>
+                                <Text fontSize="xs" textAlign="center">{saleBerry.effect.description}</Text>
+                            </Center>
+                        }>
+                            <Flex flexDir="column" alignItems="center" gap={1} cursor="default">
+                                <Image src={getBerryIcon(saleBerry.type)} w="40px" h="40px" />
+                                <Text fontSize="xs" fontWeight="bold">{saleBerry.name}</Text>
+                                <Badge fontSize="2xs" colorScheme={
+                                    saleBerry.category === 'rare' ? 'yellow' : saleBerry.category === 'uncommon' ? 'purple' : 'blue'
+                                }>
+                                    {saleBerry.category}
+                                </Badge>
+                            </Flex>
+                        </Tooltip>
                         <Box flex="1">
                             <Text fontSize="xs" color="whiteAlpha.700">{saleBerry.effect.description}</Text>
                             <Flex fontSize="xs" mt={1} alignItems="center" gap={1}>

@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
 
 import tokenIcon from '@assets/images/game/coin.png'
-import pokeballIcon from '@assets/images/pokeballs/pokeball.png'
 
 export default function PassiveEconomyTooltip() {
     const { player } = useContext(PlayerContext)
@@ -12,7 +11,7 @@ export default function PassiveEconomyTooltip() {
     const { t } = useTranslation()
 
     const bgColor = colorMode === 'light' ? "gray.200" : "gray.650"
-    const passiveTokens = 1 + Math.min(5, Math.floor((player.daycare?.token || 0) / 10)) * 2
+    const passiveTokens = Math.min(5, Math.floor((player.daycare?.token || 0) / 10)) * 2
 
     return (
         <Flex
@@ -32,10 +31,6 @@ export default function PassiveEconomyTooltip() {
                 <Center gap={2}>
                     <Text fontWeight="bold" fontSize="sm" color="white">+{passiveTokens}</Text>
                     <Image src={tokenIcon} w="18px" />
-                </Center>
-                <Center gap={2}>
-                    <Text fontWeight="bold" fontSize="sm" color="white">+1</Text>
-                    <Image src={pokeballIcon} w="18px" />
                 </Center>
             </Flex>
         </Flex>

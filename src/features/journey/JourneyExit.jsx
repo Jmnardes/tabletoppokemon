@@ -24,7 +24,7 @@ const BALL_ICONS = { pokeball: pokeballIcon, greatball: greatballIcon, ultraball
 
 export default function JourneyExit({ journeyState, onLeave }) {
     const { t } = useTranslation()
-    const { player, session, setPlayer, syncPokemonsFromServer, updateGame } = useContext(PlayerContext)
+    const { player, session, setPlayer, syncPokemonsFromServer, updateGame, handleToast } = useContext(PlayerContext)
     const [exiting, setExiting] = useState(false)
     const [expSummary, setExpSummary] = useState(null)
     const [summary, setSummary] = useState(null)
@@ -61,6 +61,14 @@ export default function JourneyExit({ journeyState, onLeave }) {
                 })
                 setSummary(result.summary || {})
                 setExpSummary(result.expSummary || [])
+            } else {
+                handleToast({
+                    id: 'journey-exit-error',
+                    title: t('common.error'),
+                    description: t('toast.connectionError'),
+                    status: 'error',
+                    position: 'top',
+                })
             }
         })
     }

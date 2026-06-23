@@ -55,8 +55,16 @@
     "startGame": "Start Game",
     "waitingPlayers": "Waiting for other players...",
     "everyoneWaiting": "Everyone is waiting for you!",
+    "speedBonusExplanation": "Players who finish their turn first earn more tokens per turn!",
     "playerJoined": "{{name}} joined the room",
-    "playerLeft": "{{name}} left the room"
+    "playerLeft": "{{name}} left the room",
+    "playerDisconnected": "{{name}} disconnected",
+    "playerReconnected": "{{name}} reconnected",
+    "playerRemoved": "A player was removed due to inactivity",
+    "kick": "Kick player",
+    "ready": "Ready",
+    "playing": "Playing",
+    "speedBonusTooltip": "Faster players receive a token bonus each turn."
   },
 
   "config": {
@@ -138,7 +146,9 @@
     "capturingPokemon": "Capturing pokemon...",
     "reconnecting": "Attempting to recover session...",
     "passiveEconomy": "Passive Economy",
-    "passiveEconomyDesc": "+{{tokens}} tokens, +1 pokeball",
+    "passiveEconomyDesc": "+{{tokens}} tokens",
+    "speedBonus": "Speed Bonus",
+    "speedBonusDesc": "+{{tokens}} tokens (speed bonus)",
     "dustExp": "Dust → EXP",
     "dustExpDesc": "{{names}} received +2 EXP (dust)",
     "berryExpired": "Berry expired",
@@ -859,5 +869,16 @@
       "name": "Potentializer",
       "description": "Increases the duration of berry effects."
     }
+  },
+
+  "pause": {
+    "title": "Game Paused",
+    "playerDisconnected": "{{name}} disconnected",
+    "timeRemaining": "Time remaining",
+    "voteKick": "Remove {{name}}",
+    "votesCount": "{{current}}/{{total}} votes",
+    "alreadyVoted": "Vote registered",
+    "extendTimer": "Extend time",
+    "extendedMax": "Maximum extension reached"
   }
 }

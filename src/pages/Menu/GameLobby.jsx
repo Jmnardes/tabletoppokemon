@@ -1,15 +1,18 @@
-import { Button, CircularProgress, Divider, Flex, Text, Image } from "@chakra-ui/react";
+import { Badge, Button, CircularProgress, Divider, Flex, Text, Image, IconButton } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PlayerContext from "@context/PlayerContext";
-import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy } from "react-icons/fa";
+import { FaRegCheckCircle, FaRegTimesCircle, FaRegCopy, FaTimes, FaPlay } from "react-icons/fa";
+import PLAYER_COLORS from "@constants/playerColors";
 
 import crownIcon from '@assets/images/game/crown.png'
 
 export default function GameLobby() {
-    const {emit, session, opponents, player, version} = useContext(PlayerContext)
+    const {emit, session, opponents, player, version, lobbyLocked, lobbyCountdown} = useContext(PlayerContext)
     const [isLoading, setIsLoading] = useState(false)
     const { t } = useTranslation()
+
+    const isAdmin = session.adminId === player.id
 
     const ConfigurationSlot = ({name1, data1, name2, data2}) => {
         return (
@@ -26,15 +29,37 @@ export default function GameLobby() {
         )
     }
 
-    const PlayerSlot = ({trainerName, isReady}) => {
+    const PlayerSlot = ({trainerName, isReady, colorIndex, playerId}) => {
         return (
-            <Flex width={"100%"} justifyContent={"space-between"} m={2}>
-                <Text>{trainerName}</Text>
-                {isReady ? (
-                    <FaRegCheckCircle size={24} color="green" />
-                ) : (
-                    <FaRegTimesCircle size={24} color="red" />
-                )}
+            <Flex width={"100%"} justifyContent={"space-between"} alignItems="center" m={2}>
+                <Flex alignItems="center" gap={2}>
+                    <Badge
+                        bg={PLAYER_COLORS[colorIndex] || PLAYER_COLORS[0]}
+                        color="white"
+                        px={2} py={0.5}
+                        borderRadius={4}
+                        fontSize="xs"
+                    >
+                        {trainerName}
+                    </Badge>
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                    {isReady ? (
+                        <FaRegCheckCircle size={20} color="green" />
+                    ) : (
+                        <FaRegTimesCircle size={20} color="red" />
+                    )}
+                    {isAdmin && playerId && (
+                        <IconButton
+                            icon={<FaTimes />}
+                            size="xs"
+                            variant="ghost"
+                            colorScheme="red"
+                            aria-label={t('lobby.kick')}
+                            onClick={() => emit('lobby-kick', { targetId: playerId })}
+                        />
+                    )}
+                </Flex>
             </Flex>
         )
     }
@@ -128,15 +153,23 @@ export default function GameLobby() {
                 <Text fontWeight={"bold"}>{t('common.player')}</Text>
                 <Text fontWeight={"bold"}>{t('common.ready')}</Text>
             </Flex>
-            <Flex width={"100%"} justifyContent={"space-between"} m={2}>
-                <Text>{player.status.trainerName}</Text>
+            <Flex width={"100%"} justifyContent={"space-between"} alignItems="center" m={2}>
+                <Badge
+                    bg={PLAYER_COLORS[player.colorIndex] || PLAYER_COLORS[0]}
+                    color="white"
+                    px={2} py={0.5}
+                    borderRadius={4}
+                    fontSize="xs"
+                >
+                    {player.status.trainerName}
+                </Badge>
                 {isLoading ? (
                     <CircularProgress isIndeterminate size={6} />
                 ) : (
                     player.ready ? (
-                        <FaRegCheckCircle size={24} color="green" />
+                        <FaRegCheckCircle size={20} color="green" />
                     ) : (
-                        <FaRegTimesCircle size={24} color="red" />
+                        <FaRegTimesCircle size={20} color="red" />
                     )
                 )}
             </Flex>
@@ -146,7 +179,9 @@ export default function GameLobby() {
                         <PlayerSlot
                             key={opponent?.id}
                             trainerName={opponent?.status?.trainerName} 
-                            isReady={opponent?.ready} 
+                            isReady={opponent?.ready}
+                            colorIndex={opponent?.colorIndex}
+                            playerId={opponent?.id}
                         />
                     )
                 })
@@ -156,13 +191,46 @@ export default function GameLobby() {
 
             <Text fontSize={"2xl"} position={"absolute"} bottom={0} left={0}>@Version {Number(version).toFixed(2)}</Text>
 
-            <Button isDisabled={isLoading} mb={4} mt={2} width="100%" onClick={() => {
-                setIsLoading(true)
+            {lobbyCountdown && (
+                <Flex
+                    position="absolute"
+                    top={0} left={0} right={0} bottom={0}
+                    bg="blackAlpha.700"
+                    zIndex={10}
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="md"
+                >
+                    <Text fontSize="8xl" fontWeight="bold" color="white">
+                        {lobbyCountdown}
+                    </Text>
+                </Flex>
+            )}
 
-                emit('lobby-ready', !player.ready)
-            }}>
-                {player.ready ? t('common.cancel') : t('common.ready')}
-            </Button>
+            <Flex direction="column" width="100%" gap={2} mb={4} mt={2}>
+                <Button 
+                    isDisabled={isLoading || lobbyLocked} 
+                    width="100%" 
+                    onClick={() => {
+                        setIsLoading(true)
+                        emit('lobby-ready', !player.ready)
+                    }}
+                >
+                    {player.ready ? t('common.cancel') : t('common.ready')}
+                </Button>
+
+                {isAdmin && (
+                    <Button
+                        colorScheme="green"
+                        width="100%"
+                        isDisabled={!session.allReady || lobbyLocked}
+                        leftIcon={<FaPlay />}
+                        onClick={() => emit('lobby-start-game')}
+                    >
+                        {t('lobby.startGame')}
+                    </Button>
+                )}
+            </Flex>
         </>
     )
 }

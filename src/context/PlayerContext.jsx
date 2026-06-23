@@ -11,12 +11,16 @@ export function PlayerProvider({children}) {
     const { t } = useTranslation()
     const loadingWatchdogRef = useRef(null) // Watchdog timer to prevent infinite loading
     const isReconnectingRef = useRef(false) // Prevent double resync on reconnection
+    const isGameStartingRef = useRef(false) // Prevent double lobby-start countdown
     const [loading, setLoading] = useState({ loading: false, text: 'Loading...' })
     const [hasGameStarted, setHasGameStarted] = useState(false)
     const [waitingForPlayers, setWaitingForPlayers] = useState(false)
     const waitingForPlayersRef = useRef(false)
     useEffect(() => { waitingForPlayersRef.current = waitingForPlayers }, [waitingForPlayers])
     const [waitingSnapshot, setWaitingSnapshot] = useState(null)
+    const [readyPositions, setReadyPositions] = useState({}) // { playerId: position }
+    const [lobbyLocked, setLobbyLocked] = useState(false)
+    const [lobbyCountdown, setLobbyCountdown] = useState(null)
     const [session, setSession] = useState({})
     const [opponents, setOpponents] = useState([])
     const [player, setPlayer] = useState({})
@@ -46,6 +50,8 @@ export function PlayerProvider({children}) {
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0)
     // nextEvent removed — no longer shown in header
     const [version, setVersion] = useState(0)
+    const [gamePaused, setGamePaused] = useState(null) // { pausedPlayers, deadline }
+    const [kickVoteState, setKickVoteState] = useState({}) // { [targetPlayerId]: { voteCount, threshold, voters } }
     const [game, setGame] = useState({
         gameEnded: false,
         isPokemonRollDisabled: false,
@@ -404,8 +410,17 @@ export function PlayerProvider({children}) {
         journeyLevel: game.journeyLevel ?? 1,
         journeyProgress: game.journeyProgress ?? 0,
         daycareToken: player.daycare?.token ?? 0,
+        colorIndex: player.colorIndex ?? 0,
+        augments: player.augments || [],
+        lastTeam: teamIds.map(id => pokemonData[id]).filter(Boolean).map(p => ({
+            name: p.name,
+            sprite: p.sprites?.front,
+            level: p.level,
+            types: p.types,
+            shiny: p.shiny,
+        })),
         isPlayer: true,
-    }), [player.id, player.status, player.daycare, game.journeyLevel, game.journeyProgress])
+    }), [player.id, player.status, player.daycare, player.colorIndex, player.augments, teamIds, pokemonData, game.journeyLevel, game.journeyProgress])
 
     const advancePhase = useCallback(async () => {
         const nextIndex = currentPhaseIndex + 1
@@ -413,30 +428,43 @@ export function PlayerProvider({children}) {
             // All phases done — finish turn
             setWaitingSnapshot([buildPlayerCard(), ...opponents.map(o => ({ ...o }))])
             setWaitingForPlayers(true)
-            emit('turn-end')
+            emit('turn-end').then(res => {
+                if (res?.position) {
+                    setReadyPositions(prev => ({ ...prev, [player.id]: res.position }))
+                }
+            }).catch(() => {})
         } else {
             setCurrentPhaseIndex(nextIndex)
         }
-    }, [currentPhaseIndex, turnPhases, emit, setWaitingForPlayers, buildPlayerCard, opponents])
+    }, [currentPhaseIndex, turnPhases, emit, setWaitingForPlayers, buildPlayerCard, opponents, player.id])
 
-    // Merge only turnReady into the frozen snapshot so card colors update live
+    // Merge turnReady and readyPositions into the frozen snapshot so card colors update live
     useEffect(() => {
         setWaitingSnapshot(prev => {
             if (!prev) return prev
             return prev.map(card => {
-                if (card.isPlayer) return card
+                const position = readyPositions[card.id]
+                if (card.isPlayer) {
+                    if (position !== card.speedPosition) {
+                        return { ...card, speedPosition: position }
+                    }
+                    return card
+                }
                 const live = opponents.find(o => o.id === card.id)
-                if (live && live.turnReady !== card.turnReady) {
-                    return { ...card, turnReady: live.turnReady }
+                if (live && (live.turnReady !== card.turnReady || position !== card.speedPosition)) {
+                    return { ...card, turnReady: live.turnReady, speedPosition: position }
                 }
                 return card
             })
         })
-    }, [opponents])
+    }, [opponents, readyPositions])
 
-    // Clear snapshot when waiting ends
+    // Clear snapshot and positions when waiting ends
     useEffect(() => {
-        if (!waitingForPlayers) setWaitingSnapshot(null)
+        if (!waitingForPlayers) {
+            setWaitingSnapshot(null)
+            setReadyPositions({})
+        }
     }, [waitingForPlayers])
 
     const updatePlayer = useCallback((amount, key, type) => {
@@ -731,6 +759,69 @@ export function PlayerProvider({children}) {
             removeOpponentById(res.id)
         })
 
+        socket.on('player-disconnected', res => {
+            updateOpponent(res.playerId, false, 'online')
+            handleToast({
+                id: `player-dc-${res.playerId}`,
+                title: t('lobby.playerDisconnected', { name: res.trainerName }),
+                status: 'warning',
+                duration: 4000,
+            })
+        })
+
+        socket.on('player-reconnected', res => {
+            updateOpponent(res.playerId, true, 'online')
+            handleToast({
+                id: `player-rc-${res.playerId}`,
+                title: t('lobby.playerReconnected', { name: res.trainerName }),
+                status: 'success',
+                duration: 3000,
+            })
+        })
+
+        socket.on('player-removed', res => {
+            removeOpponentById(res.playerId)
+            setWaitingSnapshot(prev => prev ? prev.filter(card => card.id !== res.playerId) : prev)
+            handleToast({
+                id: `player-rm-${res.playerId}`,
+                title: t('lobby.playerRemoved'),
+                status: 'info',
+                duration: 4000,
+            })
+        })
+
+        socket.on('game-paused', res => {
+            setGamePaused(res)
+            setKickVoteState({})
+        })
+
+        socket.on('game-resumed', () => {
+            setGamePaused(null)
+            setKickVoteState({})
+        })
+
+        socket.on('kick-vote-update', res => {
+            setKickVoteState(prev => ({
+                ...prev,
+                [res.targetPlayerId]: res,
+            }))
+        })
+
+        socket.on('pause-timer-extended', res => {
+            setGamePaused(prev => prev ? { ...prev, deadline: res.deadline } : null)
+        })
+
+        socket.on('player-kicked', res => {
+            removeOpponentById(res.playerId)
+            setWaitingSnapshot(prev => prev ? prev.filter(card => card.id !== res.playerId) : prev)
+            handleToast({
+                id: `player-kick-${res.playerId}`,
+                title: t('lobby.playerRemoved'),
+                status: 'warning',
+                duration: 4000,
+            })
+        })
+
         socket.on('lobby-ready', res => {
             setPlayer(old => ({ ...old, ready: res }))
         })
@@ -739,18 +830,61 @@ export function PlayerProvider({children}) {
             updateOpponent(res.id, res.ready, 'ready')
         })
 
+        socket.on('lobby-all-ready', () => {
+            setSession(prev => ({ ...prev, allReady: true }))
+        })
+
+        socket.on('lobby-not-all-ready', () => {
+            setSession(prev => ({ ...prev, allReady: false }))
+        })
+
+        socket.on('lobby-lock-ready', () => {
+            setLobbyLocked(true)
+        })
+
+        socket.on('lobby-admin-change', ({ adminId }) => {
+            setSession(prev => ({ ...prev, adminId }))
+        })
+
+        socket.on('lobby-kicked', () => {
+            setSession({})
+            setOpponents([])
+            setPlayer({})
+            setHasGameStarted(false)
+            setLobbyLocked(false)
+            setLobbyCountdown(null)
+        })
+
         socket.on('lobby-start', (res) => {
-            setEncounter(res.starters)
-            setTasks([...res.initialTasks])
-            if (res.berryShop) setBerryShop(res.berryShop)
-            setHasGameStarted(true)
-            updateGame({ openEncounterModal: true })
+            if (isGameStartingRef.current) return
+            isGameStartingRef.current = true
+            setLobbyCountdown(3)
+            const countdownInterval = setInterval(() => {
+                setLobbyCountdown(prev => {
+                    if (prev <= 1) {
+                        clearInterval(countdownInterval)
+                        setEncounter(res.starters)
+                        setTasks([...res.initialTasks])
+                        if (res.berryShop) setBerryShop(res.berryShop)
+                        setHasGameStarted(true)
+                        updateGame({ openEncounterModal: true })
+                        setLobbyLocked(false)
+                        setLobbyCountdown(null)
+                        isGameStartingRef.current = false
+                        return null
+                    }
+                    return prev - 1
+                })
+            }, 1000)
         })
 
         socket.on('turn-end-other', res => {
-            updateOpponent(res, true, 'turnReady')
+            const { id: readyId, position, team } = res
+            updateOpponent(readyId, true, 'turnReady')
+            if (team) updateOpponent(readyId, team, 'lastTeam')
+            setReadyPositions(prev => ({ ...prev, [readyId]: position }))
             setOpponents(prev => {
-                const allReady = prev.every(op => op.id === res ? true : op.turnReady)
+                const allReady = prev.every(op => op.id === readyId ? true : op.turnReady)
                 if (allReady && !waitingForPlayersRef.current) {
                     handleToast({
                         id: 'everyone-waiting',
@@ -762,8 +896,24 @@ export function PlayerProvider({children}) {
             })
         })
 
+        socket.on('augment-selected-other', res => {
+            const { id: playerId, augment } = res
+            setOpponents(old => old.map(o =>
+                o.id === playerId ? { ...o, augments: [...(o.augments || []), augment] } : o
+            ))
+        })
+
         socket.on('turn-end-other-return', res => {
             updateOpponent(res, false, 'turnReady')
+            setReadyPositions(prev => {
+                const next = { ...prev }
+                delete next[res]
+                return next
+            })
+        })
+
+        socket.on('ready-positions-update', positions => {
+            setReadyPositions(positions)
         })
 
         socket.on('game-end', res => {
@@ -829,11 +979,26 @@ export function PlayerProvider({children}) {
             socket.off('session-join')
             socket.off('session-join-other')
             socket.off('session-leave-other')
+            socket.off('player-disconnected')
+            socket.off('player-reconnected')
+            socket.off('player-removed')
+            socket.off('game-paused')
+            socket.off('game-resumed')
+            socket.off('kick-vote-update')
+            socket.off('pause-timer-extended')
+            socket.off('player-kicked')
             socket.off('lobby-ready')
             socket.off('lobby-ready-other')
+            socket.off('lobby-all-ready')
+            socket.off('lobby-not-all-ready')
+            socket.off('lobby-lock-ready')
+            socket.off('lobby-admin-change')
+            socket.off('lobby-kicked')
             socket.off('lobby-start')
             socket.off('turn-end-other')
             socket.off('turn-end-other-return')
+            socket.off('ready-positions-update')
+            socket.off('augment-selected-other')
             socket.off('game-end')
             socket.off('player-update-status-other')
             socket.off('journey-update-other')
@@ -1058,6 +1223,9 @@ export function PlayerProvider({children}) {
             waitingForPlayers,
             setWaitingForPlayers,
             waitingSnapshot,
+            readyPositions,
+            lobbyLocked,
+            lobbyCountdown,
 
             game,
             updateGame,
@@ -1120,6 +1288,11 @@ export function PlayerProvider({children}) {
             notifications,
             unreadCount,
             markNotificationsRead,
+
+            gamePaused,
+            kickVoteState,
+            voteKick: (targetPlayerId) => emit('kick-vote', { targetPlayerId }),
+            extendPauseTimer: () => emit('extend-timer', {}),
         }}>
             {children}
         </PlayerContext.Provider>

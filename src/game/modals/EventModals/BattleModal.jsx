@@ -6,7 +6,7 @@ import socket from "@client"
 import { useTranslation } from "react-i18next"
 
 export default function BattleScreen() {
-    const { player, setLoading, game, advancePhase } = useContext(PlayerContext)
+    const { player, game, advancePhase } = useContext(PlayerContext)
     const { t } = useTranslation()
     const battleData = game.battleData
     const battleId = battleData?.battle?.id
@@ -31,7 +31,6 @@ export default function BattleScreen() {
         })
 
         socket.on('battle-result', (res) => {
-            setLoading({ loading: false })
             setBattleResult(res)
             setBattlePhase('battle')
         })

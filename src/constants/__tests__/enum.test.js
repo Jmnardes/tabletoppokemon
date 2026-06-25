@@ -6,7 +6,7 @@ describe('taskTypeEnum', () => {
       'catch', 'defeatWild', 'useDust',
       'gainTokens', 'useBerry',
       'useGreatballs', 'useUltraballs',
-      'farmHarvest', 'farmFertilize', 'trainPokemon', 'levelUp',
+      'farmHarvest', 'farmFertilize', 'levelUp',
       'usePotion', 'defeatGym', 'finishTasks', 'winBattle',
     ]
 
@@ -22,6 +22,6 @@ describe('taskTypeEnum', () => {
   })
 
   it('has exactly 15 task types', () => {
-    expect(Object.keys(taskTypeEnum)).toHaveLength(15)
+    expect(Object.keys(taskTypeEnum)).toHaveLength(14)
   })
 })

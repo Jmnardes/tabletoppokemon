@@ -7,7 +7,7 @@ import Element from "@features/elements/Element"
 import Card from "@features/pokemon/Card"
 import PokeStats from "@features/pokemon/PokeStats"
 import AppliedItems from "@features/pokemon/AppliedItems"
-import { healAnimation } from "@utils/animations"
+import { healAnimation, shinyShimmerAnimation, shinyGlowAnimation } from "@utils/animations"
 import { fmt } from "@utils"
 
 import potionIcon from '@assets/images/items/potion.png'
@@ -499,9 +499,11 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                                             <Flex
                                                 direction="column"
                                                 align="center"
-                                                bg={bgWild}
-                                                border={isSelected ? '2px solid' : '1px solid'}
-                                                borderColor={isSelected ? 'orange.400' : borderWild}
+                                                bg={wild.rarity === 3
+                                                    ? 'linear-gradient(145deg, rgba(255,215,0,0.1) 0%, rgba(255,255,255,0.15) 50%, rgba(255,215,0,0.1) 100%)'
+                                                    : bgWild}
+                                                border={isSelected ? '2px solid' : (wild.rarity === 3 ? '2px solid' : '1px solid')}
+                                                borderColor={isSelected ? 'orange.400' : (wild.rarity === 3 ? 'gold' : borderWild)}
                                                 borderRadius={8}
                                                 p={2}
                                                 w="110px"
@@ -510,6 +512,23 @@ export default function JourneyPreBattle({ journeyState, onFightStart, onLeaveRo
                                                 _hover={{ borderColor: 'orange.300', transform: 'scale(1.03)' }}
                                                 transition="all 0.15s"
                                                 opacity={selectedWildIndex != null && !isSelected ? 0.5 : 1}
+                                                overflow="hidden"
+                                                position="relative"
+                                                animation={wild.rarity === 3 ? `${shinyGlowAnimation} 2s ease-in-out infinite` : undefined}
+                                                _before={wild.rarity === 3 ? {
+                                                    content: '""',
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    background: 'linear-gradient(110deg, transparent 20%, rgba(255,215,0,0.15) 45%, rgba(255,255,255,0.25) 50%, rgba(255,215,0,0.15) 55%, transparent 80%)',
+                                                    backgroundSize: '200% 100%',
+                                                    animation: `${shinyShimmerAnimation} 3s ease-in-out infinite`,
+                                                    borderRadius: 8,
+                                                    pointerEvents: 'none',
+                                                    zIndex: 1,
+                                                } : undefined}
                                             >
                                                 <Image src={wild.sprite} w={isSelected ? '48px' : '36px'} h={isSelected ? '48px' : '36px'} transition="all 0.15s" />
                                                 <Text fontSize="2xs" noOfLines={1} fontWeight="bold">{wild.name}</Text>

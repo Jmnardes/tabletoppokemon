@@ -248,6 +248,24 @@ export const glowAnimation = (
     }
 `;
 
+export const shinyShimmerAnimation = keyframes`
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+`;
+
+export const shinySparkleAnimation = keyframes`
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0.2; }
+    25%  { transform: translate(3px, -6px) scale(1); opacity: 1; }
+    50%  { transform: translate(6px, -2px) scale(0.8); opacity: 0.6; }
+    75%  { transform: translate(2px, -8px) scale(1.1); opacity: 1; }
+    100% { transform: translate(0, 0) scale(0.6); opacity: 0.2; }
+`;
+
+export const shinyGlowAnimation = keyframes`
+    0%, 100% { box-shadow: 0 0 4px 1px rgba(255, 215, 0, 0.25); }
+    50%      { box-shadow: 0 0 10px 3px rgba(255, 215, 0, 0.5); }
+`;
+
 export const pulseAnimation = (color, shiny = false) => keyframes`
     0% {
         transform: scale(0.99);

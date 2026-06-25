@@ -1,12 +1,28 @@
-import { useState } from "react"
-import { VStack, Text, Button, Flex, Image, Badge, useColorMode, Tooltip, Box, HStack } from "@chakra-ui/react"
+import { useState, useEffect } from "react"
+import { VStack, Text, Button, Flex, Image, Badge, useColorMode, Tooltip, Box, HStack, Alert, AlertIcon } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 import Element from "@features/elements/Element"
 import Card from "@features/pokemon/Card"
 import { PokeRarity } from "@features/pokemon/PokemonRarity"
 
 export default function BattleTeamSelect({ team, onConfirm }) {
     const { colorMode } = useColorMode()
+    const { t } = useTranslation()
     const [selectedPokemons, setSelectedPokemons] = useState([])
+    const [timeLeft, setTimeLeft] = useState(90)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    clearInterval(interval)
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [])
 
     const bgColor = colorMode === 'light' ? "gray.100" : "gray.700"
     const selectedBg = colorMode === 'light' ? "blue.200" : "blue.600"
@@ -26,6 +42,12 @@ export default function BattleTeamSelect({ team, onConfirm }) {
 
     return (
         <VStack spacing={4} w="100%">
+            <Alert status={timeLeft <= 15 ? "error" : "warning"} borderRadius={8} variant="left-accent">
+                <AlertIcon />
+                <Text fontSize="sm">
+                    {t('battle.woWarning', { seconds: timeLeft })}
+                </Text>
+            </Alert>
             <VStack spacing={2}>
                 <Text fontSize="lg" fontWeight="bold" textAlign="center">
                     Select 3 Pokémon for battle

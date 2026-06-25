@@ -196,7 +196,13 @@
     "miss": "MISS",
     "battleLog": "Battle Log",
     "byeTitle": "No opponent this turn",
-    "byeMessage": "You were not selected for battle. Wait for the next turn!"
+    "byeMessage": "You were not selected for battle. Wait for the next turn!",
+    "woWarning": "⏱️ You have {{seconds}}s to choose your team. If time runs out, you lose by W.O.",
+    "wonByWo": "🎉 Victory by W.O.!",
+    "lostByWo": "💀 Defeat by W.O.",
+    "wonBattle": "🎉 Victory!",
+    "lostBattle": "💀 Defeat!",
+    "waitingOpponent": "Waiting for opponent to select..."
   },
 
   "farm": {
@@ -315,7 +321,6 @@
     "useUltraballs": "Use Ultraballs",
     "farmHarvest": "Harvest Berries",
     "farmFertilize": "Fertilize Plots",
-    "trainPokemon": "Train Pokémon",
     "levelUp": "Level Up Pokémon",
     "usePotion": "Use Potions",
     "defeatGym": "Defeat a Gym",
@@ -787,7 +792,7 @@
     },
     "tracker": {
       "name": "Tracker",
-      "description": "Gain extra reorder charges per journey route."
+      "description": "Gain extra reorder charges and increased route vision per journey."
     },
     "potionMaster": {
       "name": "Potion Master",

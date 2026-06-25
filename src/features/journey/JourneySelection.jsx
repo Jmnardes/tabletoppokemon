@@ -25,7 +25,7 @@ export default function JourneySelection() {
     const journeyProgress = game.journeyProgress || 0
     const stagesToWin = session?.stagesPerJourney || 5
     const wildDefeatedCount = game.journeyWildDefeatedCount || journeyProgress
-    const visibleCount = 3
+    const visibleCount = 3 + (player.status?.visionBonus || 0)
 
     const toggleSelect = (pokeId) => {
         setSelectedIds(prev => {

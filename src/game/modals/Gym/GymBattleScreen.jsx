@@ -53,25 +53,19 @@ export default function GymBattleScreen({
     const borderColor = colorMode === 'light' ? "gray.200" : "gray.600"
     const logBg = colorMode === 'light' ? "white" : "gray.900"
 
-    // Initialize HP when battle log arrives (compute starting HP from log)
+    // Initialize HP when battle log arrives (use hpBefore from first log entry
+    // to get exact starting HP — avoids overkill damage inflating HP above maxHp)
     useEffect(() => {
         if (!battleLog || battleLog.length === 0 || !currentPlayerPokemon || !currentLeaderPokemon) return
 
-        let pDmgTaken = 0
-        let lDmgTaken = 0
-        for (const entry of battleLog) {
-            if (entry.defender?.id === currentPlayerPokemon.id) {
-                pDmgTaken += entry.damage
-            } else {
-                lDmgTaken += entry.damage
-            }
-        }
+        const firstPlayerHit = battleLog.find(e => e.defender?.id === currentPlayerPokemon.id)
+        const firstLeaderHit = battleLog.find(e => e.defender?.id === currentLeaderPokemon.id)
 
-        const pFinalHp = currentPlayerPokemon.currentHp !== undefined ? currentPlayerPokemon.currentHp : (currentPlayerPokemon.hp || currentPlayerPokemon.stats?.hp || 1)
-        const lFinalHp = currentLeaderPokemon.currentHp !== undefined ? currentLeaderPokemon.currentHp : (currentLeaderPokemon.hp || currentLeaderPokemon.stats?.hp || 1)
+        const pMaxHp = currentPlayerPokemon.hp || currentPlayerPokemon.stats?.hp || 1
+        const lMaxHp = currentLeaderPokemon.hp || currentLeaderPokemon.stats?.hp || 1
 
-        setPlayerHp(Math.max(0, pFinalHp) + pDmgTaken)
-        setLeaderHp(Math.max(0, lFinalHp) + lDmgTaken)
+        setPlayerHp(firstPlayerHit?.hpBefore ?? pMaxHp)
+        setLeaderHp(firstLeaderHit?.hpBefore ?? lMaxHp)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [battleLog])
 

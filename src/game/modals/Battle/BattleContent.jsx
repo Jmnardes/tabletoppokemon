@@ -20,7 +20,7 @@ export default function BattleContent({
     onBattleComplete
 }) {
     const { t } = useTranslation()
-    const { teamIds, pokemonData, updateGame, emit, setLoading, player, handleToast } = useContext(PlayerContext)
+    const { teamIds, pokemonData, updateGame, emit, player, handleToast } = useContext(PlayerContext)
 
     const teamPokemons = teamIds.map(id => pokemonData[id]).filter(Boolean)
     const [selectedTeamIds, setSelectedTeamIds] = useState([])
@@ -29,7 +29,6 @@ export default function BattleContent({
     const handleTeamSelect = (pokemonIds) => {
         setSelectedTeamIds(pokemonIds)
         emit('battle-select-team', { battleId, pokemonIds }).catch(() => {
-            setLoading({ loading: false })
             setBattlePhase('select')
             handleToast({
                 id: 'battle-select-error',
@@ -39,7 +38,6 @@ export default function BattleContent({
                 position: 'top',
             })
         })
-        setLoading({ loading: true, text: 'Waiting for opponent...' })
         setBattlePhase('waiting')
     }
 
@@ -114,11 +112,11 @@ export default function BattleContent({
                     {battlePhase === 'waiting' && (
                         <Center flexDir="column" gap={4}>
                             <Spinner size='xl' />
-                            <Text fontSize="2xl">Waiting for opponent to select...</Text>
+                            <Text fontSize="2xl">{t('battle.waitingOpponent')}</Text>
                         </Center>
                     )}
 
-                    {battlePhase === 'battle' && battleResult && (
+                    {battlePhase === 'battle' && battleResult && !battleResult.wo && (
                         <BattlePlayback
                             battleResult={battleResult}
                             myPlayerId={player.id}
@@ -129,7 +127,7 @@ export default function BattleContent({
                         />
                     )}
 
-                    {battlePhase === 'result' && battleResult && (
+                    {((battlePhase === 'result' && battleResult) || (battlePhase === 'battle' && battleResult?.wo)) && (
                         <BattleResultPanel
                             battleResult={battleResult}
                             myPlayerId={player.id}

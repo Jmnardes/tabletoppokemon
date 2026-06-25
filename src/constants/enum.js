@@ -8,7 +8,6 @@ export const taskTypeEnum = {
     useUltraballs: "useUltraballs",
     farmHarvest: "farmHarvest",
     farmFertilize: "farmFertilize",
-    trainPokemon: "trainPokemon",
     levelUp: "levelUp",
     usePotion: "usePotion",
     defeatGym: "defeatGym",

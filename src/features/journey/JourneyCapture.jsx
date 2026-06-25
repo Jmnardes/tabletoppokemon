@@ -75,6 +75,7 @@ export default function JourneyCapture({ lastFightResult, journeyState, setJourn
                 targetName={defeatedWild.name}
                 berryBonuses={lastFightResult?.berryBonuses}
                 minigameBonus={player.status?.minigameBonus || 0}
+                isShiny={defeatedWild?.rarity === 3}
             />
         </Flex>
     )

@@ -150,7 +150,7 @@ const CATCH_PHASE_ORDER = [
   PHASES.RESULT,
 ]
 
-export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, targetSprite, targetName, berryBonuses, minigameBonus = 0 }) {
+export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, targetSprite, targetName, berryBonuses, minigameBonus = 0, isShiny = false }) {
   const isJourneyMode = !!onCatchResolve
   const { colorMode } = useColorMode()
   const { t } = useTranslation()
@@ -433,11 +433,16 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
             bg={isDark ? "gray.700" : "white"}
             borderRadius="lg"
             border="2px solid"
-            borderColor={isDark ? "gray.500" : "gray.300"}
+            borderColor={isShiny ? 'gold' : (isDark ? "gray.500" : "gray.300")}
             p={4}
-            boxShadow="lg"
+            boxShadow={isShiny ? '0 0 12px 3px rgba(255, 215, 0, 0.4)' : 'lg'}
           >
-            <Image src={displaySprite} w="100px" h="100px" objectFit="contain" />
+            <Image
+              src={displaySprite}
+              w="100px" h="100px"
+              objectFit="contain"
+              filter={isShiny ? 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.5))' : undefined}
+            />
             <Text fontSize="sm" fontWeight="bold" textAlign="center" mt={1} color={isDark ? "gray.200" : "gray.700"}>
               {displayName}
             </Text>
@@ -526,7 +531,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
         </Box>
 
       {/* ─── Ball selector ─── */}
-      <HStack spacing={4}>
+      <HStack spacing={4} bg={isDark ? "blackAlpha.400" : "blackAlpha.200"} borderRadius="md" px={3} py={1}>
         {Object.entries(BALL_IMAGES).map(([key, src]) => {
           const count = balls ? (balls[key] || 0) : null
           const disabled = balls ? count <= 0 : false
@@ -555,7 +560,7 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
       </HStack>
 
       {/* ─── Text + Action Buttons ─── */}
-      <Flex direction="column" align="center" minH="50px" justify="center" gap={3}>
+      <Flex direction="column" align="center" h="56px" justify="center" gap={3}>
         {phase === PHASES.IDLE && (
           <Button size="md" colorScheme="blue" onClick={handleClick}>
             {t('minigame.clickToStart', 'Click to start!')}
@@ -600,13 +605,15 @@ export default function ThrowCatchGame({ onFinish, onCatchResolve, balls, target
       </Flex>
 
       {/* ─── Skip button ─── */}
-      {isJourneyMode && (phase === PHASES.IDLE || (phase === PHASES.RESULT && !caught && !fled) || hasNoBalls) && (
+      {isJourneyMode && (
         <Tooltip label={t('minigame.skipCaptureDesc')} hasArrow>
           <Button
             size="sm"
             variant="outline"
             colorScheme="red"
             onClick={handleSkip}
+            visibility={(phase === PHASES.IDLE || (phase === PHASES.RESULT && !caught && !fled) || hasNoBalls) ? "visible" : "hidden"}
+            pointerEvents={(phase === PHASES.IDLE || (phase === PHASES.RESULT && !caught && !fled) || hasNoBalls) ? "auto" : "none"}
           >
             {t('minigame.skipCapture')}
           </Button>

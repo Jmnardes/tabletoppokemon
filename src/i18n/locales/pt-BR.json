@@ -196,7 +196,13 @@
     "miss": "ERROU",
     "battleLog": "Log de Batalha",
     "byeTitle": "Sem adversário neste turno",
-    "byeMessage": "Você não foi sorteado para a batalha. Aguarde o próximo turno!"
+    "byeMessage": "Você não foi sorteado para a batalha. Aguarde o próximo turno!",
+    "woWarning": "⏱️ Você tem {{seconds}}s para escolher o time. Se o tempo acabar, você perderá por W.O.",
+    "wonByWo": "🎉 Vitória por W.O.!",
+    "lostByWo": "💀 Derrota por W.O.",
+    "wonBattle": "🎉 Vitória!",
+    "lostBattle": "💀 Derrota!",
+    "waitingOpponent": "Esperando oponente escolher..."
   },
 
   "farm": {
@@ -315,7 +321,6 @@
     "useUltraballs": "Usar Ultraballs",
     "farmHarvest": "Colher Berries",
     "farmFertilize": "Fertilizar Terrenos",
-    "trainPokemon": "Treinar Pokémon",
     "levelUp": "Subir de Nível Pokémon",
     "usePotion": "Usar Poções",
     "defeatGym": "Derrotar um Ginásio",
@@ -787,7 +792,7 @@
     },
     "tracker": {
       "name": "Rastreador",
-      "description": "Receba cargas extras de reordenação por rota."
+      "description": "Receba cargas extras de reordenação e visão ampliada da rota por jornada."
     },
     "potionMaster": {
       "name": "Mestre de Poções",

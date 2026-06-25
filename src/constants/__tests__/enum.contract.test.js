@@ -15,7 +15,6 @@ const TASK_TYPE_CONTRACT_KEYS = [
   'useUltraballs',
   'farmHarvest',
   'farmFertilize',
-  'trainPokemon',
   'levelUp',
   'usePotion',
   'defeatGym',

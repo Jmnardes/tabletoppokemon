@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { Flex, Text, Box, Image, Progress, Badge, Center, Button, VStack } from "@chakra-ui/react"
-import { journeyHitAnimation, journeyCritHitAnimation, journeyDefAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation } from "@utils/animations"
+import { journeyHitAnimation, journeyCritHitAnimation, journeyDefAnimation, missAnimation, winAnimation, littleBounceAnimation, textAnimation, lungeRightAnimation, lungeLeftAnimation, projectileRightAnimation, projectileLeftAnimation, shinySparkleAnimation } from "@utils/animations"
 import { colorByHitType } from "@utils/battle"
 import { stringToUpperCase, fmt } from "@utils"
 import { getAttackSprite } from "@utils/attackSprites"
@@ -46,7 +46,13 @@ const hitTypeColor = (type) => {
     }
 }
 
-const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDamage, setLastDamage }) => {
+const SHINY_SPARKLE_POSITIONS = [
+    { top: '8px', right: '6px', delay: '0s' },
+    { top: '40%', left: '2px', delay: '0.8s' },
+    { bottom: '12px', right: '14px', delay: '1.6s' },
+]
+
+const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDamage, setLastDamage, shiny }) => {
     const sprite = isPlayer
         ? (poke.sprites?.back || poke.sprites?.front || poke.sprites?.main)
         : (poke.sprites?.front || poke.sprites?.main || poke.sprite)
@@ -78,8 +84,23 @@ const PokemonBox = ({ poke, hp, maxHp, anim, setAnim, isPlayer, pokeId, lastDama
                         width: spriteSize,
                         height: spriteSize,
                         imageRendering: 'pixelated',
+                        filter: shiny ? 'drop-shadow(0 0 6px rgba(255, 215, 0, 0.5))' : undefined,
                     }}
                 />
+                {shiny && SHINY_SPARKLE_POSITIONS.map((pos, i) => (
+                    <Text
+                        key={`sparkle-${i}`}
+                        position="absolute"
+                        fontSize="xs"
+                        color="gold"
+                        style={pos}
+                        animation={`${shinySparkleAnimation} 2.5s ease-in-out ${pos.delay} infinite`}
+                        pointerEvents="none"
+                        zIndex={2}
+                    >
+                        ✦
+                    </Text>
+                ))}
                 {showDamage && (
                     <Text
                         key={`dmg-${lastDamage.index}`}
@@ -390,6 +411,7 @@ export default function JourneyBattle({ fightResult, journeyState, onBattleEnd, 
                             pokeId={wildPoke?.id}
                             lastDamage={lastDamage}
                             setLastDamage={setLastDamage}
+                            shiny={wildPoke?.shiny}
                         />
                     </Center>
                 </Flex>

@@ -84,7 +84,7 @@ export default function AugmentData({ augment }) {
             jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount} EXP</Badge>
             break
         case 'trackerBonus':
-            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount} charge</Badge>
+            jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount} reorder, +{augment.visionAmount} vision</Badge>
             break
         case 'threatControl':
             jsx = <Badge p={2} borderRadius={6} fontSize={"small"}>+{augment.amount} decay</Badge>

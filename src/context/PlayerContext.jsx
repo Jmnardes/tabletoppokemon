@@ -293,6 +293,14 @@ export function PlayerProvider({children}) {
                     journeyData: snapshot.journeySnapshot,
                 })
             }
+
+            // Restore pause state from snapshot
+            if (snapshot?.pausedPlayers?.length > 0) {
+                setGamePaused({ pausedPlayers: snapshot.pausedPlayers, deadline: snapshot.pauseDeadline })
+            } else {
+                setGamePaused(null)
+            }
+            setKickVoteState({})
             
             // Clear loading state after successful resync
             setLoading({ loading: false })
@@ -451,8 +459,15 @@ export function PlayerProvider({children}) {
                     return card
                 }
                 const live = opponents.find(o => o.id === card.id)
-                if (live && (live.turnReady !== card.turnReady || position !== card.speedPosition)) {
-                    return { ...card, turnReady: live.turnReady, speedPosition: position }
+                if (live) {
+                    const needsUpdate =
+                        live.turnReady !== card.turnReady ||
+                        position !== card.speedPosition ||
+                        live.daycareToken !== card.daycareToken ||
+                        live.status !== card.status
+                    if (needsUpdate) {
+                        return { ...card, turnReady: live.turnReady, speedPosition: position, daycareToken: live.daycareToken, status: live.status }
+                    }
                 }
                 return card
             })
@@ -771,6 +786,17 @@ export function PlayerProvider({children}) {
 
         socket.on('player-reconnected', res => {
             updateOpponent(res.playerId, true, 'online')
+            // Clear reconnected player from pause overlay (defense against stale pause state)
+            setGamePaused(prev => {
+                if (!prev) return null
+                const updated = prev.pausedPlayers.filter(pp => pp.playerId !== res.playerId)
+                return updated.length === 0 ? null : { ...prev, pausedPlayers: updated }
+            })
+            setKickVoteState(prev => {
+                if (!prev[res.playerId]) return prev
+                const { [res.playerId]: _, ...rest } = prev
+                return rest
+            })
             handleToast({
                 id: `player-rc-${res.playerId}`,
                 title: t('lobby.playerReconnected', { name: res.trainerName }),
@@ -966,6 +992,10 @@ export function PlayerProvider({children}) {
             }
         });
 
+        socket.on('player-update-daycare-other', res => {
+            updateOpponent(res.id, res.daycareToken, 'daycareToken')
+        })
+
         socket.on('player-update-team', res => {
             syncTeamFromServer(res.pokeTeam)
         })
@@ -1006,6 +1036,7 @@ export function PlayerProvider({children}) {
             socket.off('player-update-task')
             socket.off('player-use-berry')
             socket.off('player-update-items')
+            socket.off('player-update-daycare-other')
             socket.off('player-update-team')
             socket.off('player-update-box')
         }
